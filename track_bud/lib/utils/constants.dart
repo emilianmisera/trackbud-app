@@ -51,6 +51,13 @@ class CustomTextStyle{
     color: CustomColor.white,
   );
 
+  static TextStyle hintStyleDefault = const TextStyle(
+    fontFamily: fontFamily,
+    fontSize: fontSizeDefault,
+    fontWeight: _fontWeightDefault,
+    color: CustomColor.hintColor,
+  );
+
 
 }
 
