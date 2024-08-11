@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:track_bud/views/at_signup/login.dart';
+import 'package:track_bud/views/at_signup/onboarding.dart';
 import 'package:track_bud/views/nav_pages/overview_page.dart';
 
 class AuthGate extends StatelessWidget {
@@ -19,7 +19,7 @@ class AuthGate extends StatelessWidget {
 
           //user is not logged in
           else {
-            return const SignInScreen();
+            return const OnboardingScreen();
           }
         },
       ),
