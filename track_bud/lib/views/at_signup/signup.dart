@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfield_widget.dart';
+import 'package:track_bud/views/at_signup/login.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -77,7 +78,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   width: CustomPadding.smallSpace,
                 ),
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => SignInScreen()));
+                  },
                   child: Text(
                     AppString.signIn,
                     style: TextStyle(

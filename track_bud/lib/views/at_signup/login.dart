@@ -3,6 +3,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfield_widget.dart';
+import 'package:track_bud/views/at_signup/forgot_password_screen.dart';
+import 'package:track_bud/views/at_signup/signup.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -51,7 +53,9 @@ class _SignInScreenState extends State<SignInScreen> {
             Align(
               alignment: Alignment.centerRight,
               child: GestureDetector( // forgot Password
-                onTap: () {},
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => ForgotPasswordScreen()));
+                },
                 child: Text(
                   AppString.forgotPassword,
                   style: CustomTextStyle.hintStyleMedium,
@@ -138,7 +142,9 @@ class _SignInScreenState extends State<SignInScreen> {
                   width: CustomPadding.smallSpace,
                 ),
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => SignUpScreen()));
+                  },
                   child: Text(
                     AppString.signUp,
                     style: TextStyle(
