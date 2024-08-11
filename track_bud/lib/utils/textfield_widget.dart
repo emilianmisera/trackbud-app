@@ -5,7 +5,7 @@ import 'package:track_bud/utils/constants.dart';
 
 class Textfield extends StatelessWidget {
   final String name;
-  final String hintText; 
+  final String hintText;
   const Textfield({
     Key? key,
     required this.name,
@@ -17,30 +17,49 @@ class Textfield extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(name, style: CustomTextStyle.regularStyleMedium,),
-        SizedBox(height: CustomPadding.mediumSpace,),
-        SimpleShadow(
-          color: CustomColor.black,
-          opacity: 0.084,
-          offset: Offset(0, 0),
-          sigma: 1,
+        Text(
+          name,
+          style: CustomTextStyle.regularStyleMedium,
+        ),
+        SizedBox(
+          height: CustomPadding.mediumSpace,
+        ),
+        Shadow(
           child: TextFormField(
             decoration: InputDecoration(
               hintText: hintText,
-              contentPadding: EdgeInsets.only(left: CustomPadding.defaultSpace, right: CustomPadding.defaultSpace, top: CustomPadding.contentHeightSpace, bottom: CustomPadding.contentHeightSpace),
+              contentPadding: EdgeInsets.only(
+                  left: CustomPadding.defaultSpace,
+                  right: CustomPadding.defaultSpace,
+                  top: CustomPadding.contentHeightSpace,
+                  bottom: CustomPadding.contentHeightSpace),
               hintStyle: CustomTextStyle.hintStyleDefault,
               floatingLabelBehavior: FloatingLabelBehavior.never,
               filled: true,
               fillColor: CustomColor.white,
               border: OutlineInputBorder(
-              borderSide: BorderSide.none,
-              borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide.none,
+                borderRadius: BorderRadius.circular(10),
               ),
-              
             ),
           ),
         )
       ],
     );
+  }
+}
+
+class Shadow extends StatelessWidget {
+  final Widget child;
+  const Shadow({super.key, required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    return SimpleShadow(
+        color: CustomColor.black,
+        opacity: 0.084,
+        offset: Offset(0, 0),
+        sigma: 1,
+        child: child);
   }
 }

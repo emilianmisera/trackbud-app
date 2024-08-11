@@ -10,53 +10,61 @@ class CustomTextStyle{
   static const double fontSizeTitle = 18;
   static const double fontSizeHeading = 24;
 
-  static const FontWeight _fontWeightDefault = FontWeight.w400;
-  static const FontWeight _fontWeightMedium = FontWeight.w500;
-  static const FontWeight _fontWeightSemiBold = FontWeight.w600;
+  static const FontWeight fontWeightDefault = FontWeight.w400;
+  static const FontWeight fontWeightMedium = FontWeight.w500;
+  static const FontWeight fontWeightSemiBold = FontWeight.w600;
   
 
 
   static TextStyle headingStyle = const TextStyle(
     fontFamily: fontFamily,
     fontSize: fontSizeHeading,
-    fontWeight: _fontWeightSemiBold,
+    fontWeight: fontWeightSemiBold,
     color: CustomColor.black
   );
 
   static TextStyle introductionStyle = const TextStyle(
     fontFamily: fontFamily,
     fontSize: fontSizeHeading,
-    fontWeight: _fontWeightMedium,
+    fontWeight: fontWeightMedium,
     color: CustomColor.black
   );
 
   static TextStyle regularStyleDefault = const TextStyle(
     fontFamily: fontFamily,
     fontSize: fontSizeDefault,
-    fontWeight: _fontWeightDefault,
+    fontWeight: fontWeightDefault,
     color: CustomColor.black,
   );
 
   static TextStyle regularStyleMedium = const TextStyle(
     fontFamily: fontFamily,
     fontSize: fontSizeDefault,
-    fontWeight: _fontWeightMedium,
+    fontWeight: fontWeightMedium,
     color: CustomColor.black,
   );
 
   static TextStyle buttonTextStyle = const TextStyle(
     fontFamily: fontFamily,
     fontSize: fontSizeDefault,
-    fontWeight: _fontWeightMedium,
+    fontWeight: fontWeightMedium,
     color: CustomColor.white,
   );
 
   static TextStyle hintStyleDefault = const TextStyle(
     fontFamily: fontFamily,
     fontSize: fontSizeDefault,
-    fontWeight: _fontWeightDefault,
+    fontWeight: fontWeightDefault,
     color: CustomColor.hintColor,
   );
+
+  static TextStyle hintStyleMedium = const TextStyle(
+    fontFamily: fontFamily,
+    fontSize: fontSizeDefault,
+    fontWeight: fontWeightMedium,
+    color: CustomColor.hintColor,
+  );
+
 
 
 }
@@ -67,6 +75,7 @@ class CustomColor{
   static const Color black = Color.fromRGBO(8,7,8,1);
   static const Color backgroundPrimary = Color.fromRGBO(250,250,255,1);
   static const Color white = Color.fromRGBO(255,255,255,1);
+  static const Color grey = Color.fromRGBO(230,232,230,1);
   static const Color hintColor = Color.fromRGBO(114,114,114,1);
   static const Color hintColorNavBar = Color.fromRGBO(103,104,118,1);
   static const Color red = Color.fromRGBO(223,41,53,1);
@@ -91,8 +100,11 @@ class CustomColor{
 class CustomPadding {
 static const EdgeInsets screenWidth = EdgeInsets.only(left:16, right: 16);
 static const EdgeInsets defaultHeightSpace = EdgeInsets.only(top: 8, bottom: 8);
-static const double bottomSpace = 40;
+static const double bottomSpace = 0.05;
+static const double topSpace = 70;
+static const double topSpaceAuth = 0.15;
 static const double contentHeightSpace = 20;
+static const double smallSpace = 4;
 static const double defaultSpace = 16;
 static const double mediumSpace = 8;
 static const double bigSpace = 24;
@@ -101,6 +113,8 @@ static const double bigSpace = 24;
 
 class AssetImport{
   static const String textLogo = "assets/icons/Logo_Text.svg";
+  static const String googleLogo = 'assets/icons/Google_Logo.svg';
+  static const String appleLogo = 'assets/icons/Apple_Logo.svg';
 }
 
 class Constants {

@@ -11,6 +11,10 @@ class AppString{
   static String hintEmail = "Email eingeben";
   static String password = "Passwort";
   static String hintPassword = "Passwort eingeben";
+  static String or = "oder";
+  static String signInWithGoogle = 'mit Google anmelden';
+  static String signInWithApple = 'mit Apple anmelden';
+  static String newHere = 'neu Hier? ';
 
 
 }

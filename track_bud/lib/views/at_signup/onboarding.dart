@@ -11,7 +11,7 @@ class OnboardingScreen extends StatelessWidget {
     return Scaffold(
       body: Padding( //Padding for space between Screen
         padding: EdgeInsets.only(
-            bottom: CustomPadding.bottomSpace,
+            bottom: MediaQuery.sizeOf(context).height * CustomPadding.bottomSpace,
             left: CustomPadding.defaultSpace,
             right: CustomPadding.defaultSpace),
         child: Column(
