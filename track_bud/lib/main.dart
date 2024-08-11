@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:track_bud/services/auth/auth_gate.dart';
 import 'package:track_bud/utils/color_theme.dart';
 import 'package:track_bud/views/at_signup/forgot_password_screen.dart';
 import 'package:track_bud/views/at_signup/login.dart';
@@ -24,7 +25,7 @@ class MainApp extends StatelessWidget {
     return MaterialApp(
     title: 'TrackBud',
     theme: ThemeClass.lightTheme,
-    home: OnboardingScreen(),
+    home: AuthGate(),
 );
 
   }
