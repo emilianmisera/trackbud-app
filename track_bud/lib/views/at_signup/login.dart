@@ -44,8 +44,20 @@ class _SignInScreenState extends State<SignInScreen> {
               height: CustomPadding.defaultSpace,
             ),
             Textfield(
-                name: AppString.password,
-                hintText: AppString.hintPassword), //password
+                name: AppString.password, hintText: AppString.hintPassword),
+            SizedBox(
+              height: CustomPadding.mediumSpace,
+            ),
+            Align(
+              alignment: Alignment.centerRight,
+              child: GestureDetector( // forgot Password
+                onTap: () {},
+                child: Text(
+                  AppString.forgotPassword,
+                  style: CustomTextStyle.hintStyleMedium,
+                ),
+              ),
+            ),
             SizedBox(
               height: CustomPadding.bigSpace,
             ),
@@ -117,7 +129,8 @@ class _SignInScreenState extends State<SignInScreen> {
             SizedBox(
               height: CustomPadding.bigSpace,
             ),
-            Row( // Redirection to sign up page if user doesn't have an account
+            Row(
+              // Redirection to sign up page if user doesn't have an account
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(AppString.newHere, style: CustomTextStyle.hintStyleMedium),

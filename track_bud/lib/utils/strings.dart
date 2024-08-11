@@ -20,6 +20,10 @@ class AppString{
   static String firstName = 'Vorname';
   static String hintFirstName = 'Vorname eingeben';
   static String confirmPassword = "Passwort bestätigen";
+  static String forgotPassword = "Passwort vergessen?";
+  static String resetPassword = "Passwort zurücksetzen";
+  static String resetPasswordDescribtion = "Gebe deine E-Mail an, um dein Passwort zurücksetzen zu können.";
+  static String continueText = "Weiter";
 
 
 }
