@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:track_bud/utils/color_theme.dart';
-import 'package:track_bud/views/at_signup/onboarding.dart';
 import 'package:track_bud/services/auth/auth_gate.dart';
 import 'services/firebase_options.dart';
 
@@ -18,11 +16,6 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-    title: 'TrackBud',
-    theme: ThemeClass.lightTheme,
-    home: AuthGate(),
-);
-
+    return const MaterialApp(home: AuthGate());
   }
 }
