@@ -4,13 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:track_bud/utils/constants.dart';
 
 class ThemeClass {
+  //light theme
   static ThemeData lightTheme = ThemeData(
     useMaterial3: true,
     scaffoldBackgroundColor: CustomColor.backgroundPrimary,
     fontFamily: CustomTextStyle.fontFamily,
     hintColor: CustomColor.hintColor,
     
-    elevatedButtonTheme: ElevatedButtonThemeData(
+    elevatedButtonTheme: ElevatedButtonThemeData( //style for elevated button
       style: ButtonStyle(
         minimumSize: WidgetStateProperty.all(
           const Size(double.infinity, 60),
@@ -30,7 +31,8 @@ class ThemeClass {
               WidgetStateProperty.all<Color>(CustomColor.white) // Text Color
       ),
     ),
-    outlinedButtonTheme: OutlinedButtonThemeData(
+
+    outlinedButtonTheme: OutlinedButtonThemeData( //style for outlinedButton
       style: ButtonStyle(
                 minimumSize: WidgetStateProperty.all(
                   const Size(double.infinity, 60),

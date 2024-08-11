@@ -9,11 +9,14 @@ class OnboardingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: EdgeInsets.only(bottom: CustomPadding.bottomSpace, left: CustomPadding.defaultSpace, right: CustomPadding.defaultSpace),
+      body: Padding( //Padding for space between Screen
+        padding: EdgeInsets.only(
+            bottom: CustomPadding.bottomSpace,
+            left: CustomPadding.defaultSpace,
+            right: CustomPadding.defaultSpace),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.end, //alignment to bottom
+          crossAxisAlignment: CrossAxisAlignment.start, //alignment to left
           children: [
             SvgPicture.asset(AssetImport.textLogo),
             SizedBox(
@@ -33,7 +36,7 @@ class OnboardingScreen extends StatelessWidget {
             SizedBox(
               height: CustomPadding.defaultSpace,
             ),
-            ElevatedButton(
+            ElevatedButton( //sign in button
               onPressed: () {},
               child: Text(
                 AppString.signIn,
@@ -42,8 +45,8 @@ class OnboardingScreen extends StatelessWidget {
             SizedBox(
               height: CustomPadding.mediumSpace,
             ),
-            OutlinedButton(
-              onPressed: () {},
+            OutlinedButton( //sign up button
+              onPressed: () {}, 
               child: Text(
                 AppString.signUp,
               ),
