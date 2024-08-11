@@ -37,31 +37,30 @@ class _SignUpScreenState extends State<SignUpScreen> {
             SizedBox(
               height: CustomPadding.defaultSpace,
             ),
-            Textfield(
-                name: AppString.firstName, hintText: AppString.hintFirstName), //email
+            Textfield( //first name
+                name: AppString.firstName, hintText: AppString.hintFirstName), 
             SizedBox(
               height: CustomPadding.defaultSpace,
             ),
-            Textfield(
+            Textfield( //email
                 name: AppString.email,
                 hintText: AppString.hintEmail),
             SizedBox(
               height: CustomPadding.defaultSpace,
             ),
-            Textfield(
+            Textfield( //password
                 name: AppString.password,
                 hintText: AppString.hintPassword),
             SizedBox(
               height: CustomPadding.defaultSpace,
             ),
-            Textfield(
+            Textfield( //confirm Password
                 name: AppString.confirmPassword,
                 hintText: AppString.confirmPassword), //password
             SizedBox(
               height: CustomPadding.bigSpace,
             ),
-            ElevatedButton(
-              //sign in button
+            ElevatedButton( //sign up button
               onPressed: () {},
               child: Text(
                 AppString.signUp,
@@ -70,7 +69,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             SizedBox(
               height: CustomPadding.bigSpace,
             ),
-            Row( // Redirection to sign up page if user doesn't have an account
+            Row( // Redirection to sign in page if user does have an account
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(AppString.notNew, style: CustomTextStyle.hintStyleMedium),
