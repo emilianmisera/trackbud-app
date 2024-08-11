@@ -6,10 +6,15 @@ import 'package:track_bud/utils/constants.dart';
 class Textfield extends StatelessWidget {
   final String name;
   final String hintText;
+  final TextEditingController controller;
+  final bool obscureText;
+
   const Textfield({
     Key? key,
     required this.name,
     required this.hintText,
+    required this.controller,
+    this.obscureText = false,
   }) : super(key: key);
 
   @override
@@ -26,6 +31,8 @@ class Textfield extends StatelessWidget {
         ),
         Shadow(
           child: TextFormField(
+            controller: controller,
+            obscureText: obscureText,
             decoration: InputDecoration(
               hintText: hintText,
               contentPadding: EdgeInsets.only(
