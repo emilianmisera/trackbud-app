@@ -92,6 +92,7 @@ class CustomPadding {
 static const EdgeInsets screenWidth = EdgeInsets.only(left:16, right: 16);
 static const EdgeInsets defaultHeightSpace = EdgeInsets.only(top: 8, bottom: 8);
 static const double bottomSpace = 40;
+static const double contentHeightSpace = 20;
 static const double defaultSpace = 16;
 static const double mediumSpace = 8;
 }
