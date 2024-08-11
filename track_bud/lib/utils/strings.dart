@@ -7,6 +7,7 @@ class AppString{
   
   //sign in & sign up
   static String signInDescribtion = "Melde dich an, um deine Finanzen im Blick zu behalten.";
+  static String signUpDescribtion = "Beginne jetzt, deine Finanzen mühelos zu verwalten.";
   static String email = "Email";
   static String hintEmail = "Email eingeben";
   static String password = "Passwort";
@@ -15,6 +16,10 @@ class AppString{
   static String signInWithGoogle = 'mit Google anmelden';
   static String signInWithApple = 'mit Apple anmelden';
   static String newHere = 'neu Hier? ';
+  static String notNew = 'bereits einen Account? ';
+  static String firstName = 'Vorname';
+  static String hintFirstName = 'Vorname eingeben';
+  static String confirmPassword = "Passwort bestätigen";
 
 
 }
