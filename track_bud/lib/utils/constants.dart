@@ -16,21 +16,28 @@ class CustomTextStyle{
   
 
 
-  TextStyle headingStyle = const TextStyle(
+  static TextStyle headingStyle = const TextStyle(
     fontFamily: _fontFamily,
     fontSize: fontSizeHeading,
     fontWeight: _fontWeightSemiBold,
     color: CustomColor.black
   );
 
-  TextStyle regularStyleDefault = const TextStyle(
+  static TextStyle introductionStyle = const TextStyle(
+    fontFamily: _fontFamily,
+    fontSize: fontSizeHeading,
+    fontWeight: _fontWeightMedium,
+    color: CustomColor.black
+  );
+
+  static TextStyle regularStyleDefault = const TextStyle(
     fontFamily: _fontFamily,
     fontSize: fontSizeDefault,
     fontWeight: _fontWeightDefault,
     color: CustomColor.black,
   );
 
-  TextStyle regularStyleMedium = const TextStyle(
+  static TextStyle regularStyleMedium = const TextStyle(
     fontFamily: _fontFamily,
     fontSize: fontSizeDefault,
     fontWeight: _fontWeightMedium,
@@ -71,5 +78,8 @@ class CustomPadding {
 static const EdgeInsets screenWidth = EdgeInsets.only(left:16, right: 16);
 static const double betweenMainTiles = 16;
 static const double betweenListTiles = 8;
+}
 
+class AssetImport{
+  static const String textLogo = "assets/icons/Logo_Text.svg";
 }
