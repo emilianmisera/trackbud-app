@@ -15,10 +15,11 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(),
       body: Padding(
         // spacing between content and screen
         padding: EdgeInsets.only(
-            top: MediaQuery.sizeOf(context).height * CustomPadding.topSpaceAuth,
+            top: MediaQuery.sizeOf(context).height * CustomPadding.topSpaceAuth - Constants.defaultAppBarHeight,
             left: CustomPadding.defaultSpace,
             right: CustomPadding.defaultSpace),
         child: Column(

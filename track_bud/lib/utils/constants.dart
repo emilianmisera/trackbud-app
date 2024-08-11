@@ -120,13 +120,13 @@ class AssetImport{
   static const String textLogo = "assets/icons/Logo_Text.svg";
   static const String googleLogo = 'assets/icons/Google_Logo.svg';
   static const String appleLogo = 'assets/icons/Apple_Logo.svg';
+  static const String returnIcon = 'assets/icons/return_icon.svg';
 }
 
 class Constants {
   //Button
   static const double buttonBorderRadius = 10;
 static const Padding screenWidth = Padding(padding: EdgeInsets.only(left:16, right: 16));
-static const double betweenMainTiles = 16;
-static const double betweenListTiles = 8;
+static const double defaultAppBarHeight = 56;
 
 }
