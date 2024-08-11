@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/strings.dart';
+import 'package:track_bud/utils/textfield_widget.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -24,7 +25,12 @@ class _SignInScreenState extends State<SignInScreen> {
           children: [
             Text(AppString.signIn, style: CustomTextStyle.headingStyle,),
             SizedBox(height: CustomPadding.mediumSpace,),
-            Text(AppString.signInDescribtion, style: CustomTextStyle.hintStyleDefault,)
+            Text(AppString.signInDescribtion, style: CustomTextStyle.hintStyleDefault,),
+            SizedBox(height: CustomPadding.defaultSpace,),
+            Textfield(name: AppString.email, hintText: AppString.hintEmail),
+            SizedBox(height: CustomPadding.defaultSpace,),
+            Textfield(name: AppString.password, hintText: AppString.hintPassword),
+            
           ],
         ),
       ),

@@ -95,6 +95,8 @@ static const double bottomSpace = 40;
 static const double contentHeightSpace = 20;
 static const double defaultSpace = 16;
 static const double mediumSpace = 8;
+static const double bigSpace = 24;
+
 }
 
 class AssetImport{
