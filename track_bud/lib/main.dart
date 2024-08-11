@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/views/at_signup/onboarding.dart';
 import 'firebase_options.dart';
 
@@ -16,6 +17,10 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const OnboardingScreen();
+    return MaterialApp(
+    title: 'TrackBud',
+    theme: ThemeData(scaffoldBackgroundColor: CustomColor.backgroundPrimary),
+    home: OnboardingScreen(),
+);
   }
 }

@@ -68,7 +68,7 @@ class CustomColor{
 }
 
 class CustomPadding {
-static const Padding screenWidth = Padding(padding: EdgeInsets.only(left:16, right: 16));
+static const EdgeInsets screenWidth = EdgeInsets.only(left:16, right: 16);
 static const double betweenMainTiles = 16;
 static const double betweenListTiles = 8;
 
