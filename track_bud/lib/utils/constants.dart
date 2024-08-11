@@ -23,6 +23,7 @@ class CustomTextStyle{
     color: CustomColor.black
   );
 
+
   static TextStyle introductionStyle = const TextStyle(
     fontFamily: fontFamily,
     fontSize: fontSizeHeading,
@@ -43,6 +44,7 @@ class CustomTextStyle{
     fontWeight: fontWeightMedium,
     color: CustomColor.black,
   );
+
 
   static TextStyle buttonTextStyle = const TextStyle(
     fontFamily: fontFamily,
@@ -67,6 +69,7 @@ class CustomTextStyle{
 
 
 
+
 }
 
 class CustomColor{
@@ -74,6 +77,7 @@ class CustomColor{
   static const Color bluePrimary = Color.fromRGBO(59,66,232,1);
   static const Color black = Color.fromRGBO(8,7,8,1);
   static const Color backgroundPrimary = Color.fromRGBO(250,250,255,1);
+
   static const Color white = Color.fromRGBO(255,255,255,1);
   static const Color grey = Color.fromRGBO(230,232,230,1);
   static const Color hintColor = Color.fromRGBO(114,114,114,1);
@@ -98,6 +102,7 @@ class CustomColor{
 }
 
 class CustomPadding {
+
 static const EdgeInsets screenWidth = EdgeInsets.only(left:16, right: 16);
 static const EdgeInsets defaultHeightSpace = EdgeInsets.only(top: 8, bottom: 8);
 static const double bottomSpace = 0.05;
@@ -120,4 +125,8 @@ class AssetImport{
 class Constants {
   //Button
   static const double buttonBorderRadius = 10;
+static const Padding screenWidth = Padding(padding: EdgeInsets.only(left:16, right: 16));
+static const double betweenMainTiles = 16;
+static const double betweenListTiles = 8;
+
 }
