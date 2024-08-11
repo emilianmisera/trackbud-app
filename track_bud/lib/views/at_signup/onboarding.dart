@@ -16,10 +16,19 @@ class OnboardingScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.only(bottom: 16),
+            padding: CustomPadding.defaultHeightSpace,
             child: SvgPicture.asset(AssetImport.textLogo),
           ),
-          Text(AppString.onboardingTitle, style: CustomTextStyle.introductionStyle,)
+          Padding(
+            padding: CustomPadding.defaultHeightSpace,
+            child: Text(AppString.onboardingTitle, style: CustomTextStyle.introductionStyle,),
+          ),
+          Padding(
+            padding: EdgeInsets.only(bottom: CustomPadding.mediumSpace),
+            child: Text(AppString.onboardingDescribtion, style: CustomTextStyle.regularStyleDefault,),
+          ),
+          
+
 
         ],
       ),
