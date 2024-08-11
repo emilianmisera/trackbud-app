@@ -30,5 +30,28 @@ class ThemeClass {
               WidgetStateProperty.all<Color>(CustomColor.white) // Text Color
       ),
     ),
+    outlinedButtonTheme: OutlinedButtonThemeData(
+      style: ButtonStyle(
+                minimumSize: WidgetStateProperty.all(
+                  const Size(double.infinity, 60),
+                ),
+                shape: WidgetStateProperty.resolveWith<OutlinedBorder>((_) {
+                  return const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(
+                          Radius.circular(Constants.buttonBorderRadius)));
+                }),
+                foregroundColor:
+                    WidgetStateProperty.all<Color>(CustomColor.black),
+                side: WidgetStateProperty.all(BorderSide(
+                    color: CustomColor.hintColor,
+                    width: 2.0,
+                    style: BorderStyle.solid)),
+                backgroundColor: WidgetStateProperty.resolveWith<Color>(
+                  (states) => CustomColor.backgroundPrimary,
+                ),
+                textStyle: WidgetStateProperty.resolveWith(
+          (states) => (CustomTextStyle.regularStyleMedium),)
+              ),
+    )
   );
 }

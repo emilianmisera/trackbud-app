@@ -15,25 +15,40 @@ class OnboardingScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: CustomPadding.defaultHeightSpace,
-              child: SvgPicture.asset(AssetImport.textLogo),
+            SvgPicture.asset(AssetImport.textLogo),
+            SizedBox(
+              height: CustomPadding.defaultSpace,
             ),
-            Padding(
-              padding: CustomPadding.defaultHeightSpace,
+            Text(
+              AppString.onboardingTitle,
+              style: CustomTextStyle.introductionStyle,
+            ),
+            SizedBox(
+              height: CustomPadding.mediumSpace,
+            ),
+            Text(
+              AppString.onboardingDescribtion,
+              style: CustomTextStyle.regularStyleDefault,
+            ),
+            SizedBox(
+              height: CustomPadding.defaultSpace,
+            ),
+            ElevatedButton(
+              onPressed: () {},
               child: Text(
-                AppString.onboardingTitle,
-                style: CustomTextStyle.introductionStyle,
+                AppString.signIn,
               ),
             ),
-            Padding(
-              padding: EdgeInsets.only(bottom: CustomPadding.mediumSpace),
-              child: Text(
-                AppString.onboardingDescribtion,
-                style: CustomTextStyle.regularStyleDefault,
-              ),
+            SizedBox(
+              height: CustomPadding.mediumSpace,
             ),
-            
+            OutlinedButton(
+              onPressed: () {},
+              child: Text(
+                AppString.signUp,
+              ),
+              
+            ),
           ],
         ),
       ),
