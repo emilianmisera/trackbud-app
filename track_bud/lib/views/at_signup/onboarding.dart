@@ -11,27 +11,31 @@ class OnboardingScreen extends StatelessWidget {
     return Scaffold(
       body: Padding(
         padding: CustomPadding.screenWidth,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: CustomPadding.defaultHeightSpace,
-            child: SvgPicture.asset(AssetImport.textLogo),
-          ),
-          Padding(
-            padding: CustomPadding.defaultHeightSpace,
-            child: Text(AppString.onboardingTitle, style: CustomTextStyle.introductionStyle,),
-          ),
-          Padding(
-            padding: EdgeInsets.only(bottom: CustomPadding.mediumSpace),
-            child: Text(AppString.onboardingDescribtion, style: CustomTextStyle.regularStyleDefault,),
-          ),
-          
-
-
-        ],
-      ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: CustomPadding.defaultHeightSpace,
+              child: SvgPicture.asset(AssetImport.textLogo),
+            ),
+            Padding(
+              padding: CustomPadding.defaultHeightSpace,
+              child: Text(
+                AppString.onboardingTitle,
+                style: CustomTextStyle.introductionStyle,
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(bottom: CustomPadding.mediumSpace),
+              child: Text(
+                AppString.onboardingDescribtion,
+                style: CustomTextStyle.regularStyleDefault,
+              ),
+            ),
+            
+          ],
+        ),
       ),
     );
   }

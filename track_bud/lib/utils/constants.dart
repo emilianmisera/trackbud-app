@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class CustomTextStyle{
 
-  static const String _fontFamily = "Outfit";
+  static const String fontFamily = "Outfit";
 
   static const double fontSizeSegmentControl = 13;
   static const double fontSizeHint = 14;
@@ -17,31 +17,38 @@ class CustomTextStyle{
 
 
   static TextStyle headingStyle = const TextStyle(
-    fontFamily: _fontFamily,
+    fontFamily: fontFamily,
     fontSize: fontSizeHeading,
     fontWeight: _fontWeightSemiBold,
     color: CustomColor.black
   );
 
   static TextStyle introductionStyle = const TextStyle(
-    fontFamily: _fontFamily,
+    fontFamily: fontFamily,
     fontSize: fontSizeHeading,
     fontWeight: _fontWeightMedium,
     color: CustomColor.black
   );
 
   static TextStyle regularStyleDefault = const TextStyle(
-    fontFamily: _fontFamily,
+    fontFamily: fontFamily,
     fontSize: fontSizeDefault,
     fontWeight: _fontWeightDefault,
     color: CustomColor.black,
   );
 
   static TextStyle regularStyleMedium = const TextStyle(
-    fontFamily: _fontFamily,
+    fontFamily: fontFamily,
     fontSize: fontSizeDefault,
     fontWeight: _fontWeightMedium,
     color: CustomColor.black,
+  );
+
+  static TextStyle buttonTextStyle = const TextStyle(
+    fontFamily: fontFamily,
+    fontSize: fontSizeDefault,
+    fontWeight: _fontWeightMedium,
+    color: CustomColor.white,
   );
 
 
@@ -52,7 +59,7 @@ class CustomColor{
   static const Color bluePrimary = Color.fromRGBO(59,66,232,1);
   static const Color black = Color.fromRGBO(8,7,8,1);
   static const Color backgroundPrimary = Color.fromRGBO(250,250,255,1);
-  static const Color backgroundTile = Color.fromRGBO(255,255,255,1);
+  static const Color white = Color.fromRGBO(255,255,255,1);
   static const Color hintColor = Color.fromRGBO(114,114,114,1);
   static const Color hintColorNavBar = Color.fromRGBO(103,104,118,1);
   static const Color red = Color.fromRGBO(223,41,53,1);
@@ -83,4 +90,9 @@ static const double mediumSpace = 8;
 
 class AssetImport{
   static const String textLogo = "assets/icons/Logo_Text.svg";
+}
+
+class Constants {
+  //Button
+  static const double buttonBorderRadius = 10;
 }
