@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/strings.dart';
+import 'package:track_bud/views/at_signup/login.dart';
+import 'package:track_bud/views/at_signup/signup.dart';
 
 class OnboardingScreen extends StatelessWidget {
   const OnboardingScreen({super.key});
@@ -37,7 +39,9 @@ class OnboardingScreen extends StatelessWidget {
               height: CustomPadding.defaultSpace,
             ),
             ElevatedButton( //sign in button
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => SignInScreen()));
+              },
               child: Text(
                 AppString.signIn,
               ),
@@ -46,7 +50,9 @@ class OnboardingScreen extends StatelessWidget {
               height: CustomPadding.mediumSpace,
             ),
             OutlinedButton( //sign up button
-              onPressed: () {}, 
+              onPressed: () {
+                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => SignUpScreen()));
+              }, 
               child: Text(
                 AppString.signUp,
               ),
