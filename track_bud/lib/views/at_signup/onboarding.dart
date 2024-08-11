@@ -10,9 +10,9 @@ class OnboardingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: CustomPadding.screenWidth,
+        padding: EdgeInsets.only(bottom: CustomPadding.bottomSpace, left: CustomPadding.defaultSpace, right: CustomPadding.defaultSpace),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.end,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SvgPicture.asset(AssetImport.textLogo),
@@ -47,7 +47,6 @@ class OnboardingScreen extends StatelessWidget {
               child: Text(
                 AppString.signUp,
               ),
-              
             ),
           ],
         ),
