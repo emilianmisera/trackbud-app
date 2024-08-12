@@ -14,7 +14,7 @@ class AuthService {
           .signInWithEmailAndPassword(email: email, password: password);
       return userCredential; // Return the user credential on success
     } on FirebaseAuthException catch (error) {
-      throw Exception(error.code); // Throw an error if sign in fails
+      throw error; // Throw an error if sign in fails
     }
   }
 
@@ -27,7 +27,7 @@ class AuthService {
           .createUserWithEmailAndPassword(email: email, password: password);
       return userCredential; // Return the user credential on success
     } on FirebaseAuthException catch (error) {
-      throw Exception(error.code); // Throw an error if account creation fails
+      throw error; // Throw an error if account creation fails
     }
   }
 

@@ -24,6 +24,12 @@ class AppString{
   static String resetPassword = "Passwort zurücksetzen";
   static String resetPasswordDescribtion = "Gebe deine E-Mail an, um dein Passwort zurücksetzen zu können.";
   static String continueText = "Weiter";
-
+  static String loginFailedSnackbar = "Anmeldung fehlgeschlagen";
+  static String successfulLogin = "Angemeldet mit";
+  static String emptyLoginInput = "Bitte geben Sie E-Mail und Passwort an.";
+  static String signupEmptyField = "Bitte füllen Sie alle Felder aus.";
+  static String signupPasswordsDontMatch = "Ihre Passwörter unterscheiden sich.";
+  static String signupSucessful = "Account erstellt mit E-Mail";
+  static String signupFailedSnackbar = "Registrierung fehlgeschlagen";
 
 }

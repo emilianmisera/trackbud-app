@@ -37,7 +37,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         confirmPassword.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text("Please fill in all fields."),
+          content: Text(AppString.signupEmptyField),
         ),
       );
       return;
@@ -46,7 +46,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     if (password != confirmPassword) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text("Passwords do not match."),
+          content: Text(AppString.signupPasswordsDontMatch),
         ),
       );
       return;
@@ -60,19 +60,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
       // Handle successful sign-up (navigate to home screen or show success message)
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content:
-              Text("Account created with email: ${userCredential.user?.email}"),
+          content: Text(
+              "${AppString.signupSucessful}: ${userCredential.user?.email}"),
         ),
       );
 
       // navigate to Login Screen
       Navigator.of(context)
           .push(MaterialPageRoute(builder: (context) => LoginScreen()));
-    } on Exception catch (e) {
+    } on FirebaseAuthException catch (e) {
       // Handle sign-up failure (show error message)
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text("Sign-up failed: ${e.toString()}"),
+          content:
+              Text("${AppString.signupFailedSnackbar}: ${e.message ?? e.code}"),
         ),
       );
     }

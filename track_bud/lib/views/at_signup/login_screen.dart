@@ -21,7 +21,6 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _passwordController = TextEditingController();
   final AuthService _authService = AuthService();
 
-
   // Method to handle sign-in
   Future<void> _handleSignIn() async {
     // Retrieve email and password input from the text controllers
@@ -32,8 +31,7 @@ class _LoginScreenState extends State<LoginScreen> {
     if (email.isEmpty || password.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text("Please enter both email and password."),
-          
+          content: Text("${AppString.emptyLoginInput}"),
         ),
       );
       return;
@@ -47,18 +45,20 @@ class _LoginScreenState extends State<LoginScreen> {
       // Handle successful login (navigate to home screen or show success message)
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text("Logged in with ${userCredential.user?.email}"),
+          content: Text(
+              "${AppString.successfulLogin}: ${userCredential.user?.email}"),
         ),
       );
 
       // Navigate to next screen
       Navigator.of(context)
           .push(MaterialPageRoute(builder: (context) => OverviewScreen()));
-    } on Exception catch (e) {
+    } on FirebaseAuthException catch (e) {
       // Handle login failure (show error message)
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text("Login failed: ${e.toString()}"),
+          content:
+              Text("${AppString.loginFailedSnackbar}: ${e.message ?? e.code}"),
         ),
       );
     }
@@ -128,12 +128,12 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: CustomPadding.bigSpace,
               ),
               ElevatedButton(
-                      //sign in button
-                      onPressed: _handleSignIn,
-                      child: Text(
-                        AppString.signIn,
-                      ),
-                    ),
+                //sign in button
+                onPressed: _handleSignIn,
+                child: Text(
+                  AppString.signIn,
+                ),
+              ),
               SizedBox(
                 height: CustomPadding.bigSpace,
               ),
