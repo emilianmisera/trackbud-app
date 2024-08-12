@@ -133,6 +133,9 @@ class AssetImport {
   static const String userEdit = 'assets/icons/user_edit.svg';
   static const String lock = 'assets/icons/lock.svg';
   static const String camera = 'assets/icons/camera.svg';
+  static const String mode = 'assets/icons/mode.svg';
+  static const String target = 'assets/icons/target.svg';
+
 }
 
 class Constants {

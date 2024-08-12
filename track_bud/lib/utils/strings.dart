@@ -63,4 +63,11 @@ class AppString {
   static String newPassword = 'Neues Passwort eingeben';
   static String confirmNewPasswort = 'neues Passwort bestätigen';
   static String save = 'Speichern';
+  //account settings screen
+  static String budget = 'Budget';
+  static String changeBankAcc = 'Kontostand ändern';
+  static String changeBudgetGoal = 'Budgetziel ändern';
+  static String changeCurrency = 'Standardwährung';
+  static String appearance = 'Erscheinungsbild';
+  static String darkMode = 'Dunkles Design';
 }
