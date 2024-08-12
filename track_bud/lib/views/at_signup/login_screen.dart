@@ -21,7 +21,6 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _passwordController = TextEditingController();
   final AuthService _authService = AuthService();
 
-  bool _isLoading = false;
 
   // Method to handle sign-in
   Future<void> _handleSignIn() async {
@@ -34,15 +33,11 @@ class _LoginScreenState extends State<LoginScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text("Please enter both email and password."),
+          
         ),
       );
       return;
     }
-
-    // Set loading state to true while waiting for authentication response
-    setState(() {
-      _isLoading = true;
-    });
 
     try {
       // Attempt to sign in using the AuthService
@@ -66,11 +61,6 @@ class _LoginScreenState extends State<LoginScreen> {
           content: Text("Login failed: ${e.toString()}"),
         ),
       );
-    } finally {
-      // Reset loading state to false
-      setState(() {
-        _isLoading = false;
-      });
     }
   }
 
@@ -137,11 +127,7 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(
                 height: CustomPadding.bigSpace,
               ),
-              _isLoading
-                  ? Center(
-                      child:
-                          CircularProgressIndicator()) //show loading indicator if loading login
-                  : ElevatedButton(
+              ElevatedButton(
                       //sign in button
                       onPressed: _handleSignIn,
                       child: Text(

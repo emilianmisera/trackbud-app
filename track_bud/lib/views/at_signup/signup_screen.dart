@@ -22,8 +22,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   final AuthService _authService = AuthService();
 
-  bool _isLoading = false;
-
   // Method to handle sign-up
   Future<void> _handleSignUp() async {
     // Retrieve user inputs
@@ -54,11 +52,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
       return;
     }
 
-    // Set loading state to true while waiting for authentication response
-    setState(() {
-      _isLoading = true;
-    });
-
     try {
       // Attempt to create a new user using the AuthService
       UserCredential userCredential =
@@ -82,11 +75,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
           content: Text("Sign-up failed: ${e.toString()}"),
         ),
       );
-    } finally {
-      // Reset loading state to false
-      setState(() {
-        _isLoading = false;
-      });
     }
   }
 
@@ -154,17 +142,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
               SizedBox(
                 height: CustomPadding.bigSpace,
               ),
-              _isLoading
-                  ? Center(
-                      child:
-                          CircularProgressIndicator()) //show loading indicator
-                  : ElevatedButton(
-                      //sign up button
-                      onPressed: _handleSignUp,
-                      child: Text(
-                        AppString.signUp,
-                      ),
-                    ),
+              ElevatedButton(
+                //sign up button
+                onPressed: _handleSignUp,
+                child: Text(
+                  AppString.signUp,
+                ),
+              ),
               SizedBox(
                 height: CustomPadding.bigSpace,
               ),
