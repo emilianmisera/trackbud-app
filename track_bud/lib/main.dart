@@ -12,7 +12,8 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-    statusBarColor: Colors.transparent, // transparent StatusBar (android)
+    statusBarColor:
+        CustomColor.backgroundPrimary, // transparent StatusBar (android)
     statusBarIconBrightness: Brightness
         .dark, //shows dark icons in status bar (Allways) -> change for dark mode (android)
     systemNavigationBarColor: CustomColor
