@@ -59,6 +59,12 @@ class CustomTextStyle {
     fontWeight: fontWeightMedium,
     color: CustomColor.hintColor,
   );
+  static TextStyle hintStyleHeading = const TextStyle(
+    fontFamily: fontFamily,
+    fontSize: fontSizeDefault,
+    fontWeight: fontWeightSemiBold,
+    color: CustomColor.hintColor,
+  );
 }
 
 class CustomColor {
