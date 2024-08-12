@@ -1,11 +1,67 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:track_bud/services/auth/auth_service.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfield_widget.dart';
+import 'package:track_bud/views/at_signup/login_screen.dart';
 
-class SettingsScreen extends StatelessWidget {
-  const SettingsScreen({super.key});
+class SettingsScreen extends StatefulWidget {
+  SettingsScreen({super.key});
+
+  @override
+  State<SettingsScreen> createState() => _SettingsScreenState();
+}
+
+class _SettingsScreenState extends State<SettingsScreen> {
+  final AuthService _authService = AuthService();
+
+  // SIGNOUT METHOD
+  Future<void> _signOut() async {
+    try {
+      await _authService.signOut();
+
+      // Open LoginScreen on Signout
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const LoginScreen()),
+      );
+    } catch (e) {
+      // Show error if Signout fails
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Fehler beim Abmelden: ${e.toString()}'),
+        ),
+      );
+    }
+  }
+
+// DELETE USER ACCOUNT (dont delete from firestore DB yet, so friends still see shared costs etc)
+  /*Future<void> _handleAccountDeletion(BuildContext context) async {
+    try {
+      // Get the password entered by the user
+      String password = _passwordController.text;
+
+      // Attempt to delete the user account
+      await _authService.deleteUserAccount(password);
+
+      // Show success message and navigate away or logout the user
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Konto erfolgreich gelöscht.')),
+      );
+
+      // navigate the user to a login or home screen after deletion
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const OnboardingScreen()),
+      ); 
+    } catch (e) {
+      // Show error message if something goes wrong
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Fehler beim Löschen des Kontos: $e')),
+      );
+    }
+  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +78,8 @@ class SettingsScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Center(
-                  child: ClipRRect( // ProfilePicture
+                  child: ClipRRect(
+                    // ProfilePicture
                     borderRadius: BorderRadius.circular(100.0),
                     child: Container(
                       width: Constants.profilePictureSettingPage,
@@ -35,7 +92,8 @@ class SettingsScreen extends StatelessWidget {
                   height: CustomPadding.mediumSpace,
                 ),
                 Center(
-                    child: Text( // FirstName
+                    child: Text(
+                  // FirstName
                   'Placeholder Name',
                   style: CustomTextStyle.titleStyleMedium,
                 )),
@@ -43,7 +101,8 @@ class SettingsScreen extends StatelessWidget {
                   height: CustomPadding.smallSpace,
                 ),
                 Center(
-                    child: Text( //email
+                    child: Text(
+                  //email
                   'PlaceholderMail@gmail.com',
                   style: CustomTextStyle.hintStyleDefault,
                 )),
@@ -57,7 +116,8 @@ class SettingsScreen extends StatelessWidget {
                 SizedBox(
                   height: CustomPadding.defaultSpace,
                 ),
-                CustomShadow( // edit Profile Button
+                CustomShadow(
+                  // edit Profile Button
                   child: TextButton.icon(
                     onPressed: () {},
                     label: Text(
@@ -73,7 +133,8 @@ class SettingsScreen extends StatelessWidget {
                 SizedBox(
                   height: CustomPadding.mediumSpace,
                 ),
-                CustomShadow( // accAdjustment button
+                CustomShadow(
+                  // accAdjustment button
                   child: TextButton.icon(
                     onPressed: () {},
                     label: Text(
@@ -89,7 +150,8 @@ class SettingsScreen extends StatelessWidget {
                 SizedBox(
                   height: CustomPadding.mediumSpace,
                 ),
-                CustomShadow( // notification button
+                CustomShadow(
+                  // notification button
                   child: TextButton.icon(
                     onPressed: () {},
                     label: Text(
@@ -105,7 +167,8 @@ class SettingsScreen extends StatelessWidget {
                 SizedBox(
                   height: CustomPadding.mediumSpace,
                 ),
-                CustomShadow( // aboutTrackbut button
+                CustomShadow(
+                  // aboutTrackbut button
                   child: TextButton.icon(
                     onPressed: () {},
                     label: Text(
@@ -121,9 +184,10 @@ class SettingsScreen extends StatelessWidget {
                 SizedBox(
                   height: CustomPadding.mediumSpace,
                 ),
-                CustomShadow( // Logout Button
+                CustomShadow(
+                  // Logout Button
                   child: TextButton.icon(
-                    onPressed: () {},
+                    onPressed: _signOut,
                     label: Text(
                       AppString.logout,
                       style: CustomTextStyle.regularStyleDefault,
@@ -137,11 +201,12 @@ class SettingsScreen extends StatelessWidget {
                 SizedBox(
                   height: CustomPadding.mediumSpace,
                 ),
-                CustomShadow( // delete Account Button
+                CustomShadow(
+                  // delete Account Button
                   child: TextButton.icon(
-                    onPressed: () {},
+                    onPressed: () {}, //_handleAccountDeletion,
                     label: Text(
-                      AppString.editProfile,
+                      AppString.deleteAcc,
                       style: TextStyle(
                         fontFamily: CustomTextStyle.fontFamily,
                         fontSize: CustomTextStyle.fontSizeDefault,
@@ -152,7 +217,6 @@ class SettingsScreen extends StatelessWidget {
                     icon: SvgPicture.asset(
                       AssetImport.trash,
                       color: CustomColor.red,
-                      
                     ),
                     style: ButtonStyle(
                       alignment: Alignment.centerLeft,
