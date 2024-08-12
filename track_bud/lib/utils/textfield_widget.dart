@@ -33,6 +33,7 @@ class Textfield extends StatelessWidget {
           child: TextFormField(
             controller: controller,
             obscureText: obscureText,
+            cursorColor: CustomColor.bluePrimary,
             decoration: InputDecoration(
               hintText: hintText,
               contentPadding: EdgeInsets.only(
