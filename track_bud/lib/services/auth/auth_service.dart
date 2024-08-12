@@ -81,4 +81,51 @@ class AuthService {
   Future<void> signOut() async {
     return await FirebaseAuth.instance.signOut();
   }
+
+  // Method to delete the user account from Firebase Authentication
+  Future<void> deleteUserAccount(String password) async {
+    User? user = _firebaseAuth.currentUser;
+    if (user != null) {
+      try {
+        // Re-authenticate the user
+        await _reauthenticateUser(user, password);
+
+        // Delete the user from Firebase Authentication
+        await deleteUserFromAuth();
+
+        print('Benutzerkonto erfolgreich gelöscht.');
+      } catch (e) {
+        print('Fehler beim Löschen des Benutzerkontos: $e');
+        // Handle specific error cases like invalid password
+        throw e;
+      }
+    }
+  }
+
+  // Re-authentication method
+  Future<void> _reauthenticateUser(User user, String password) async {
+    try {
+      AuthCredential credential = EmailAuthProvider.credential(
+        email: user.email!,
+        password: password,
+      );
+      await user.reauthenticateWithCredential(credential);
+    } catch (e) {
+      print('Fehler bei der Re-Authentifizierung: $e');
+      throw e;
+    }
+  }
+
+  // Method to delete the current user from Firebase Authentication
+  Future<void> deleteUserFromAuth() async {
+    User? user = _firebaseAuth.currentUser;
+    if (user != null) {
+      try {
+        await user.delete();
+      } catch (e) {
+        print('Fehler beim Löschen des Benutzers: $e');
+        throw e; // Re-throw the error to handle it in the calling function
+      }
+    }
+  }
 }
