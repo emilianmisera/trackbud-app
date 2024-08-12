@@ -38,4 +38,12 @@ class AppString {
       "Deine Passwörter unterscheiden sich.";
   static String signupSucessful = "Account erstellt mit E-Mail";
   static String signupFailedSnackbar = "Registrierung fehlgeschlagen";
+
+  // bank acc info screen & budget goal
+  static String bankAccInfoHeading = "Wieviel befindet sich auf deinem Konto?";
+  static String bankAccInfoDescribtion = "Gib deinen aktuellen Kontostand ein, um einen vollständigen Überblick über deine Finanzen zu erhalten.";
+  static String budgetGoalHeading = "Wie hoch ist dein monatliches Budget?";
+  static String budgetGoalDescribtion = "Definiere deine monatliche Ausgabengrenze, um deine Finanzen besser zu kontrollieren und Sparziele zu erreichen.";
+  static String lines = "--";
 }
+
