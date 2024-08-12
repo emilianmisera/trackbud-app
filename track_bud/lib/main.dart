@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:track_bud/services/auth/auth_gate.dart';
 import 'package:track_bud/utils/color_theme.dart';
 import 'package:track_bud/utils/constants.dart';
+import 'package:track_bud/views/nav_pages/settings_screen.dart';
 import 'services/firebase_options.dart';
 
 void main() async {
@@ -33,7 +34,7 @@ class MainApp extends StatelessWidget {
     return MaterialApp(
       title: 'TrackBud',
       theme: ColorTheme.lightTheme,
-      home: AuthGate(),
+      home: SettingsScreen(),
     );
   }
 }
