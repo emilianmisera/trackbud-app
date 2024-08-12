@@ -31,11 +31,9 @@ class _BudgetGoalScreenState extends State<BudgetGoalScreen> {
             .size
             .width, // Set the button width to match the screen width
         child: ElevatedButton(
-          onPressed:
-              () {},
+          onPressed: () {},
           child: Text(
-            AppString
-                .continueText,
+            AppString.continueText,
           ),
         ),
       ),
@@ -54,8 +52,7 @@ class _BudgetGoalScreenState extends State<BudgetGoalScreen> {
             // Column to organize the content vertically.
             children: [
               Text(
-                AppString
-                    .budgetGoalHeading, // The heading text
+                AppString.budgetGoalHeading, // The heading text
                 style: CustomTextStyle
                     .headingStyle, // The text style for the heading.
               ),
@@ -64,8 +61,7 @@ class _BudgetGoalScreenState extends State<BudgetGoalScreen> {
                     .mediumSpace, // Adds vertical space between the heading and the next element.
               ),
               Text(
-                AppString
-                    .budgetGoalDescribtion, // The description text
+                AppString.budgetGoalDescription, // The description text
                 style: CustomTextStyle
                     .hintStyleDefault, // The text style for the description.
               ),

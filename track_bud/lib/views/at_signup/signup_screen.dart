@@ -54,8 +54,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
     try {
       // Attempt to create a new user using the AuthService
-      UserCredential userCredential =
-          await _authService.createUserWithEmailAndPassword(email, password);
+      UserCredential userCredential = await _authService
+          .createUserWithEmailAndPassword(email, password, name);
 
       // Handle successful sign-up (navigate to home screen or show success message)
       ScaffoldMessenger.of(context).showSnackBar(
@@ -101,7 +101,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 height: CustomPadding.mediumSpace,
               ),
               Text(
-                AppString.signUpDescribtion,
+                AppString.signUpDescription,
                 style: CustomTextStyle.hintStyleDefault,
               ),
               SizedBox(
