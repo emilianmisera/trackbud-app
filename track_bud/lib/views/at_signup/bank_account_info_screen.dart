@@ -31,11 +31,9 @@ class _BankAccountInfoScreenState extends State<BankAccountInfoScreen> {
             .size
             .width, // Set the button width to match the screen width
         child: ElevatedButton(
-          onPressed:
-              () {},
+          onPressed: () {},
           child: Text(
-            AppString
-                .continueText,
+            AppString.continueText,
           ),
         ),
       ),
@@ -54,8 +52,7 @@ class _BankAccountInfoScreenState extends State<BankAccountInfoScreen> {
             // Column to organize the content vertically.
             children: [
               Text(
-                AppString
-                    .bankAccInfoHeading, // The heading text
+                AppString.bankAccInfoHeading, // The heading text
                 style: CustomTextStyle
                     .headingStyle, // The text style for the heading.
               ),
@@ -64,8 +61,7 @@ class _BankAccountInfoScreenState extends State<BankAccountInfoScreen> {
                     .mediumSpace, // Adds vertical space between the heading and the next element.
               ),
               Text(
-                AppString
-                    .bankAccInfoDescribtion, // The description text
+                AppString.bankAccInfoDescription, // The description text
                 style: CustomTextStyle
                     .hintStyleDefault, // The text style for the description.
               ),

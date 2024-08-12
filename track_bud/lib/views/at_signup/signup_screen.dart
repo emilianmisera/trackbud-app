@@ -101,7 +101,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 height: CustomPadding.mediumSpace,
               ),
               Text(
-                AppString.signUpDescribtion,
+                AppString.signUpDescription,
                 style: CustomTextStyle.hintStyleDefault,
               ),
               SizedBox(

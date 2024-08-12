@@ -86,7 +86,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: CustomPadding.mediumSpace,
               ),
               Text(
-                AppString.signInDescribtion,
+                AppString.signInDescription,
                 style: CustomTextStyle.hintStyleDefault,
               ),
               SizedBox(

@@ -14,7 +14,8 @@ class ForgotPasswordScreen extends StatefulWidget {
 
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   final TextEditingController _emailController = TextEditingController();
-  final AuthService _authService = AuthService(); // Create an instance of AuthService
+  final AuthService _authService =
+      AuthService(); // Create an instance of AuthService
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +26,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
           // spacing between content and screen
           padding: EdgeInsets.only(
               top: MediaQuery.sizeOf(context).height *
-                  CustomPadding.topSpaceAuth - Constants.defaultAppBarHeight,
+                      CustomPadding.topSpaceAuth -
+                  Constants.defaultAppBarHeight,
               left: CustomPadding.defaultSpace,
               right: CustomPadding.defaultSpace),
           child: Column(
@@ -39,7 +41,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 height: CustomPadding.mediumSpace,
               ),
               Text(
-                AppString.resetPasswordDescribtion,
+                AppString.resetPasswordDescription,
                 style: CustomTextStyle.hintStyleDefault,
               ),
               SizedBox(
