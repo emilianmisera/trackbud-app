@@ -12,9 +12,22 @@ class AuthService {
       // Attempt to sign in the user with the provided email and password
       UserCredential userCredential = await _firebaseAuth
           .signInWithEmailAndPassword(email: email, password: password);
-      return userCredential; // Return the user credential on success
+
+      // Check if the email is verified
+      if (userCredential.user?.emailVerified ?? false) {
+        // If email is verified, return the user credential
+        return userCredential;
+      } else {
+        // If email is not verified, sign out the user and throw an error
+        await signOut();
+        throw FirebaseAuthException(
+          code: 'email-not-verified',
+          message: 'Please verify your email address before signing in.',
+        );
+      }
     } on FirebaseAuthException catch (error) {
-      throw error; // Throw an error if sign in fails
+      // Re-throw the FirebaseAuthException to handle it elsewhere
+      throw error;
     }
   }
 
@@ -25,6 +38,9 @@ class AuthService {
       // Attempt to create a new user with the provided email and password
       UserCredential userCredential = await _firebaseAuth
           .createUserWithEmailAndPassword(email: email, password: password);
+
+      // Send email verification after account creation
+      await userCredential.user?.sendEmailVerification();
       return userCredential; // Return the user credential on success
     } on FirebaseAuthException catch (error) {
       throw error; // Throw an error if account creation fails
