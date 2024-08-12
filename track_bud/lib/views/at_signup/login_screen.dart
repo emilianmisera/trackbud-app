@@ -7,7 +7,7 @@ import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfield_widget.dart';
 import 'package:track_bud/views/at_signup/forgot_password_screen.dart';
 import 'package:track_bud/views/at_signup/signup_screen.dart';
-import 'package:track_bud/views/nav_pages/overview_screen.dart';
+import 'package:track_bud/views/nav_pages/settings_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -52,7 +52,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
       // Navigate to next screen
       Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => OverviewScreen()));
+          .push(MaterialPageRoute(builder: (context) => SettingsScreen()));
     } on FirebaseAuthException catch (e) {
       // Handle login failure (show error message)
       ScaffoldMessenger.of(context).showSnackBar(
