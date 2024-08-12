@@ -107,7 +107,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               SizedBox(
                 height: CustomPadding.defaultSpace,
               ),
-              Textfield(
+              CustomTextfield(
                 //first name
                 controller: _nameController,
                 name: AppString.firstName,
@@ -116,7 +116,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               SizedBox(
                 height: CustomPadding.defaultSpace,
               ),
-              Textfield(
+              CustomTextfield(
                 //email
                 controller: _emailController,
                 name: AppString.email,
@@ -125,7 +125,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               SizedBox(
                 height: CustomPadding.defaultSpace,
               ),
-              Textfield(
+              CustomTextfield(
                 //password
                 controller: _passwordController,
                 name: AppString.password,
@@ -134,7 +134,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               SizedBox(
                 height: CustomPadding.defaultSpace,
               ),
-              Textfield(
+              CustomTextfield(
                 //confirm Password
                 controller: _confirmationPasswordController,
                 name: AppString.confirmPassword,
