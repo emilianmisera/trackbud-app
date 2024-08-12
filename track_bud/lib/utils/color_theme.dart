@@ -18,13 +18,26 @@ class ColorTheme {
             const Size(double.infinity, 60),
           ),
           backgroundColor: WidgetStateProperty.resolveWith<Color>(
-            (states) => CustomColor.bluePrimary,
+            (states) {
+              return CustomColor.bluePrimary; // when not pressing
+            },
           ),
-          shape: WidgetStateProperty.resolveWith<OutlinedBorder>((_) {
-            return const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(
-                    Radius.circular(Constants.buttonBorderRadius)));
-          }),
+          shape: WidgetStateProperty.resolveWith<OutlinedBorder>(
+            (_) {
+              return const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(
+                      Radius.circular(Constants.buttonBorderRadius)));
+            },
+          ),
+          overlayColor: WidgetStateProperty.resolveWith<Color?>(
+            (states) {
+              if (states.contains(WidgetState.pressed)) {
+                return CustomColor.overlayColor;
+              }
+              return null;
+            },
+          ),
+          animationDuration: Constants.buttonAnimationDuration,
           textStyle: WidgetStateProperty.resolveWith(
             (states) => (CustomTextStyle.buttonTextStyle),
           ),
@@ -35,25 +48,37 @@ class ColorTheme {
     outlinedButtonTheme: OutlinedButtonThemeData(
       //style for outlinedButton
       style: ButtonStyle(
-          minimumSize: WidgetStateProperty.all(
-            const Size(double.infinity, 60),
-          ),
-          shape: WidgetStateProperty.resolveWith<OutlinedBorder>((_) {
-            return const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(
-                    Radius.circular(Constants.buttonBorderRadius)));
-          }),
-          foregroundColor: WidgetStateProperty.all<Color>(CustomColor.black),
-          side: WidgetStateProperty.all(BorderSide(
-              color: CustomColor.hintColor,
-              width: 2.0,
-              style: BorderStyle.solid)),
-          backgroundColor: WidgetStateProperty.resolveWith<Color>(
-            (states) => CustomColor.backgroundPrimary,
-          ),
-          textStyle: WidgetStateProperty.resolveWith(
-            (states) => (CustomTextStyle.regularStyleMedium),
-          )),
+        minimumSize: WidgetStateProperty.all(
+          const Size(double.infinity, 60),
+        ),
+        shape: WidgetStateProperty.resolveWith<OutlinedBorder>((_) {
+          return const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(
+                  Radius.circular(Constants.buttonBorderRadius)));
+        }),
+        foregroundColor: WidgetStateProperty.all<Color>(CustomColor.black),
+        side: WidgetStateProperty.all(BorderSide(
+            color: CustomColor.hintColor,
+            width: 2.0,
+            style: BorderStyle.solid)),
+        backgroundColor: WidgetStateProperty.resolveWith<Color>(
+          (states) {
+            return CustomColor.backgroundPrimary; // when not pressing
+          },
+        ),
+        textStyle: WidgetStateProperty.resolveWith(
+          (states) => (CustomTextStyle.regularStyleMedium),
+        ),
+        overlayColor: WidgetStateProperty.resolveWith<Color?>(
+          (states) {
+            if (states.contains(WidgetState.pressed)) {
+              return CustomColor.overlayColor;
+            }
+            return null;
+          },
+        ),
+        animationDuration: Constants.buttonAnimationDuration,
+      ),
     ),
     textButtonTheme: TextButtonThemeData(
       style: ButtonStyle(
@@ -61,7 +86,9 @@ class ColorTheme {
           (states) => CustomColor.white,
         ),
         foregroundColor: WidgetStateProperty.resolveWith<Color>(
-          (states) => CustomColor.black,
+          (states) {
+            return CustomColor.black;
+          },
         ),
         textStyle: WidgetStateProperty.resolveWith(
           (states) => (CustomTextStyle.regularStyleMedium),
@@ -74,6 +101,15 @@ class ColorTheme {
         minimumSize: WidgetStateProperty.all(
           const Size(double.infinity, 60),
         ),
+        overlayColor: WidgetStateProperty.resolveWith<Color?>(
+          (states) {
+            if (states.contains(WidgetState.pressed)) {
+              return CustomColor.overlayColor;
+            }
+            return null;
+          },
+        ),
+        animationDuration: Constants.buttonAnimationDuration,
       ),
     ),
   );
