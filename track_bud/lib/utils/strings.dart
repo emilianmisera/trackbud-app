@@ -4,13 +4,13 @@ class AppString {
   static String signUp = "Registrieren";
   static String onboardingTitle =
       "Verwalte deine Finanzen einfach und effizient an einem Ort.";
-  static String onboardingDescribtion =
-      "Tracke mühelos deine Ein- und Ausgaben und behalte stets den Überblick über deine Schulden und Rückzahlungen von Freunden.";
+  static String onboardingDescription =
+      "Tracke mühelos deine Ein-/Ausgaben, behalte deine Schulden mit Freunden im Blick und Teile deine Ausgaben in Freundesgruppen.";
 
   //sign in & sign up
-  static String signInDescribtion =
+  static String signInDescription =
       "Melde dich an, um deine Finanzen im Blick zu behalten.";
-  static String signUpDescribtion =
+  static String signUpDescription =
       "Beginne jetzt, deine Finanzen mühelos zu verwalten.";
   static String email = "Email";
   static String hintEmail = "Email eingeben";
@@ -26,7 +26,7 @@ class AppString {
   static String confirmPassword = "Passwort bestätigen";
   static String forgotPassword = "Passwort vergessen?";
   static String resetPassword = "Passwort zurücksetzen";
-  static String resetPasswordDescribtion =
+  static String resetPasswordDescription =
       "Gib deine E-Mail Adresse an, um dein Passwort zurückzusetzen.";
   static String continueText = "Weiter";
   static String loginFailedSnackbar = "Anmeldung fehlgeschlagen";
@@ -41,9 +41,11 @@ class AppString {
 
   // bank acc info screen & budget goal
   static String bankAccInfoHeading = "Wieviel befindet sich auf deinem Konto?";
-  static String bankAccInfoDescribtion = "Gib deinen aktuellen Kontostand ein, um einen vollständigen Überblick über deine Finanzen zu erhalten.";
+  static String bankAccInfoDescription =
+      "Gib deinen aktuellen Kontostand ein, um einen vollständigen Überblick über deine Finanzen zu erhalten.";
   static String budgetGoalHeading = "Wie hoch ist dein monatliches Budget?";
-  static String budgetGoalDescribtion = "Definiere deine monatliche Ausgabengrenze, um deine Finanzen besser zu kontrollieren und Sparziele zu erreichen.";
+  static String budgetGoalDescription =
+      "Definiere deine monatliche Ausgabengrenze, um deine Finanzen besser zu kontrollieren und Sparziele zu erreichen.";
   static String lines = "--";
 
   //settings screen
@@ -56,4 +58,3 @@ class AppString {
   static String logout = "Ausloggen";
   static String deleteAcc = "Konto löschen";
 }
-
