@@ -79,15 +79,13 @@ class CustomColor {
   static const Color bluePrimary = Color.fromRGBO(59, 66, 232, 1);
   static const Color black = Color.fromRGBO(8, 7, 8, 1);
   static const Color backgroundPrimary = Color.fromRGBO(250, 250, 255, 1);
-
   static const Color white = Color.fromRGBO(255, 255, 255, 1);
   static const Color grey = Color.fromRGBO(230, 232, 230, 1);
   static const Color hintColor = Color.fromRGBO(114, 114, 114, 1);
   static const Color hintColorNavBar = Color.fromRGBO(103, 104, 118, 1);
   static const Color red = Color.fromRGBO(223, 41, 53, 1);
   static const Color green = Color.fromRGBO(6, 186, 99, 1);
-  static const Color overlayColor =
-      Color.fromRGBO(150, 150, 150, 0.5); //used for button animation
+  static const Color overlayColor =Color.fromRGBO(114, 114, 114, 0.1); //used for button animation
 
   //categorie colors
   //expenses
