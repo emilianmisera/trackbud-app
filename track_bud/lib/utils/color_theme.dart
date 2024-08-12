@@ -11,6 +11,10 @@ class ColorTheme {
     scaffoldBackgroundColor: CustomColor.backgroundPrimary,
     fontFamily: CustomTextStyle.fontFamily,
     hintColor: CustomColor.hintColor,
+    appBarTheme: AppBarTheme(
+      backgroundColor: CustomColor.backgroundPrimary,
+      surfaceTintColor: CustomColor.backgroundPrimary
+    ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       //style for elevated button
       style: ButtonStyle(

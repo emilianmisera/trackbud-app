@@ -113,7 +113,7 @@ class CustomPadding {
 }
 
 class AssetImport {
-  static const String textLogo = "assets/icons/Logo_Text.svg";
+  static const String textLogo = "assets/icons/logo.svg";
   static const String googleLogo = 'assets/icons/Google_Logo.svg';
   static const String appleLogo = 'assets/icons/Apple_Logo.svg';
   static const String returnIcon = 'assets/icons/return_icon.svg';
