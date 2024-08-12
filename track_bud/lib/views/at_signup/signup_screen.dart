@@ -194,7 +194,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                   )
                 ],
-              )
+              ),
+              SizedBox(height: CustomPadding.smallSpace),
             ],
           ),
         ),
