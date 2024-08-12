@@ -47,4 +47,14 @@ class AppString {
   static String budgetGoalDescription =
       "Definiere deine monatliche Ausgabengrenze, um deine Finanzen besser zu kontrollieren und Sparziele zu erreichen.";
   static String lines = "--";
+
+  //settings screen
+  static String placeholder = "placeholder";
+  static String preferences = "Präferenzen";
+  static String editProfile = "Profil bearbeiten";
+  static String accAdjustments = "Konto Anpassungen";
+  static String notifications = "Benachrichtigungen";
+  static String abouTrackBud = "über TrackBud";
+  static String logout = "Ausloggen";
+  static String deleteAcc = "Konto löschen";
 }

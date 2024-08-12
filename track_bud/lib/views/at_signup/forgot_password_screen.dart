@@ -14,49 +14,24 @@ class ForgotPasswordScreen extends StatefulWidget {
 
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   final TextEditingController _emailController = TextEditingController();
-  final AuthService _authService =
-      AuthService(); // Create an instance of AuthService
+  final AuthService _authService = AuthService(); // Create an instance of AuthService
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: SingleChildScrollView(
-        child: Padding(
-          // spacing between content and screen
-          padding: EdgeInsets.only(
-              top: MediaQuery.sizeOf(context).height *
-                      CustomPadding.topSpaceAuth -
-                  Constants.defaultAppBarHeight,
-              left: CustomPadding.defaultSpace,
-              right: CustomPadding.defaultSpace),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start, //alignment to left
-            children: [
-              Text(
-                AppString.resetPassword,
-                style: CustomTextStyle.headingStyle,
-              ),
-              SizedBox(
-                height: CustomPadding.mediumSpace,
-              ),
-              Text(
-                AppString.resetPasswordDescription,
-                style: CustomTextStyle.hintStyleDefault,
-              ),
-              SizedBox(
-                height: CustomPadding.defaultSpace,
-              ),
-              Textfield(
-                controller: _emailController,
-                name: AppString.email,
-                hintText: AppString.hintEmail,
-                obscureText: false,
-              ), //email
-              SizedBox(
-                height: CustomPadding.bigSpace,
-              ),
-              ElevatedButton(
+      bottomSheet: Container(
+        // Margin is applied to the bottom of the button and the sides for proper spacing.
+        margin: EdgeInsets.only(
+          bottom: MediaQuery.sizeOf(context).height *
+              CustomPadding.bottomSpace, // Bottom margin based on screen height
+          left: CustomPadding.defaultSpace, // Left margin
+          right: CustomPadding.defaultSpace, // Right margin
+        ),
+        width: MediaQuery.of(context)
+            .size
+            .width, // Set the button width to match the screen width
+        child: ElevatedButton(
                 onPressed: () async {
                   // Retrieve email input from the text controller
                   String email = _emailController.text.trim();
@@ -97,6 +72,38 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   AppString.continueText,
                 ),
               ),
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
+          // spacing between content and screen
+          padding: EdgeInsets.only(
+              top: MediaQuery.sizeOf(context).height *
+                  CustomPadding.topSpaceAuth - Constants.defaultAppBarHeight,
+              left: CustomPadding.defaultSpace,
+              right: CustomPadding.defaultSpace),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start, //alignment to left
+            children: [
+              Text(
+                AppString.resetPassword,
+                style: CustomTextStyle.headingStyle,
+              ),
+              SizedBox(
+                height: CustomPadding.mediumSpace,
+              ),
+              Text(
+                AppString.resetPasswordDescribtion,
+                style: CustomTextStyle.hintStyleDefault,
+              ),
+              SizedBox(
+                height: CustomPadding.defaultSpace,
+              ),
+              Textfield(
+                controller: _emailController,
+                name: AppString.email,
+                hintText: AppString.hintEmail,
+                obscureText: false,
+              ), //email
             ],
           ),
         ),

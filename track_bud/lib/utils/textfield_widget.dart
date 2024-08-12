@@ -31,7 +31,7 @@ class Textfield extends StatelessWidget {
         SizedBox(
           height: CustomPadding.mediumSpace,
         ),
-        Shadow(
+        CustomShadow(
           child: TextFormField(
             controller: controller,
             obscureText: obscureText,
@@ -60,9 +60,9 @@ class Textfield extends StatelessWidget {
 }
 
 //Custom Shadow Widget which is used for all TextFields and Tiles
-class Shadow extends StatelessWidget {
+class CustomShadow extends StatelessWidget {
   final Widget child;
-  const Shadow({super.key, required this.child});
+  const CustomShadow({super.key, required this.child});
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +85,7 @@ class TextFieldAmountOfMoney extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Shadow(
+    return CustomShadow(
       child: TextFormField(
         controller: controller,
         style: CustomTextStyle.headingStyle,
