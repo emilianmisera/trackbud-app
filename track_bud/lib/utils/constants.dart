@@ -85,7 +85,7 @@ class CustomColor {
   static const Color hintColorNavBar = Color.fromRGBO(103, 104, 118, 1);
   static const Color red = Color.fromRGBO(223, 41, 53, 1);
   static const Color green = Color.fromRGBO(6, 186, 99, 1);
-  static const Color overlayColor =Color.fromRGBO(114, 114, 114, 0.1); //used for button animation
+  static const Color overlayColor =Color.fromRGBO(114, 114, 114, 0.2); //used for button animation
 
   //categorie colors
   //expenses
@@ -130,6 +130,8 @@ class AssetImport {
   static const String settings = 'assets/icons/settings.svg';
   static const String trash = 'assets/icons/trash.svg';
   static const String userEdit = 'assets/icons/user_edit.svg';
+  static const String mode = 'assets/icons/mode.svg';
+  static const String target = 'assets/icons/target.svg';
 }
 
 class Constants {
