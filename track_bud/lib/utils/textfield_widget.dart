@@ -11,13 +11,14 @@ class CustomTextfield extends StatelessWidget {
   final String hintText;
   final TextEditingController controller;
   final bool obscureText;
+  final bool? autofocus;
 
   const CustomTextfield({
     Key? key,
     required this.name,
     required this.hintText,
     required this.controller,
-    this.obscureText = false,
+    this.obscureText = false, this.autofocus,
   }) : super(key: key);
 
   @override
@@ -37,6 +38,7 @@ class CustomTextfield extends StatelessWidget {
             controller: controller,
             obscureText: obscureText,
             cursorColor: CustomColor.bluePrimary,
+            autofocus: autofocus ?? false,
             decoration: InputDecoration(
               hintText: hintText,
               contentPadding: EdgeInsets.only(
