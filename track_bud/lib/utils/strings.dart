@@ -57,4 +57,12 @@ class AppString {
   static String abouTrackBud = "über TrackBud";
   static String logout = "Ausloggen";
   static String deleteAcc = "Konto löschen";
+
+  //account settings screen
+  static String budget = 'Budget';
+  static String changeBankAcc = 'Kontostand ändern';
+  static String changeBudgetGoal = 'Budgetziel ändern';
+  static String changeCurrency = 'Standardwährung';
+  static String appearance = 'Erscheinungsbild';
+  static String darkMode = 'Dunkles Design';
 }
