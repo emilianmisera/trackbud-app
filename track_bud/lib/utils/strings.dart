@@ -38,4 +38,5 @@ class AppString{
   static String bankAccInfoDescribtion = "Gib deinen aktuellen Kontostand ein, um einen vollständigen Überblick über deine Finanzen zu erhalten.";
   static String budgetGoalHeading = "Wie hoch ist dein monatliches Budget?";
   static String budgetGoalDescribtion = "Definiere deine monatliche Ausgabengrenze, um deine Finanzen besser zu kontrollieren und Sparziele zu erreichen.";
+  static String lines = "--";
 }

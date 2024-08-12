@@ -1,7 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:simple_shadow/simple_shadow.dart';
 import 'package:track_bud/utils/constants.dart';
+import 'package:track_bud/utils/strings.dart';
 
 class Textfield extends StatelessWidget {
   final String name;
@@ -56,6 +58,7 @@ class Textfield extends StatelessWidget {
   }
 }
 
+//Custom Shadow Widget which is used for all TextFields and Tiles
 class Shadow extends StatelessWidget {
   final Widget child;
   const Shadow({super.key, required this.child});
@@ -66,7 +69,51 @@ class Shadow extends StatelessWidget {
         color: CustomColor.black,
         opacity: 0.084,
         offset: Offset(0, 0),
-        sigma: 1,
+        sigma: 2,
         child: child);
+  }
+}
+
+// Custom Textfield for BankAccountInfo Page & BudgetGoalPage
+class TextFieldAmountOfMoney extends StatelessWidget {
+  final TextEditingController controller;
+  const TextFieldAmountOfMoney({
+    Key? key,
+    required this.controller,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Shadow(
+      child: TextFormField(
+        controller: controller,
+        style: CustomTextStyle.headingStyle,
+        keyboardType: TextInputType.numberWithOptions(),
+        textAlign: TextAlign.center,
+        inputFormatters: [
+          FilteringTextInputFormatter.digitsOnly, // textinput has to have only numbers
+        ],
+        decoration: InputDecoration(
+          hintText: AppString.lines,
+          suffix: Text(
+              "€",
+              style: CustomTextStyle.headingStyle,
+            ),
+          contentPadding: EdgeInsets.only(
+              left: CustomPadding.defaultSpace,
+              right: CustomPadding.defaultSpace,
+              top: CustomPadding.contentHeightSpace,
+              bottom: CustomPadding.contentHeightSpace),
+          hintStyle: CustomTextStyle.hintStyleHeading,
+          floatingLabelBehavior: FloatingLabelBehavior.never,
+          filled: true,
+          fillColor: CustomColor.white,
+          border: OutlineInputBorder(
+            borderSide: BorderSide.none,
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ),
+      ),
+    );
   }
 }
