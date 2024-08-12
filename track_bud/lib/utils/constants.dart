@@ -131,6 +131,8 @@ class AssetImport {
   static const String settings = 'assets/icons/settings.svg';
   static const String trash = 'assets/icons/trash.svg';
   static const String userEdit = 'assets/icons/user_edit.svg';
+  static const String lock = 'assets/icons/lock.svg';
+  static const String camera = 'assets/icons/camera.svg';
 }
 
 class Constants {
@@ -141,4 +143,5 @@ class Constants {
   static const double defaultAppBarHeight = 56;
   static const Duration buttonAnimationDuration = Duration(milliseconds: 200);
   static const double profilePictureSettingPage = 65;
+  static const double profilePictureAccountEdit = 115;
 }

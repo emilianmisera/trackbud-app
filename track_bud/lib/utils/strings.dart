@@ -57,4 +57,10 @@ class AppString {
   static String abouTrackBud = "über TrackBud";
   static String logout = "Ausloggen";
   static String deleteAcc = "Konto löschen";
+
+  //profile settings
+  static String changePassword = 'Passwort ändern';
+  static String newPassword = 'Neues Passwort eingeben';
+  static String confirmNewPasswort = 'neues Passwort bestätigen';
+  static String save = 'Speichern';
 }
