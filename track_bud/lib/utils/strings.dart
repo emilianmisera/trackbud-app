@@ -57,6 +57,7 @@ class AppString {
   static String abouTrackBud = "über TrackBud";
   static String logout = "Ausloggen";
   static String deleteAcc = "Konto löschen";
+  static String deleteAccDescribtion = "Gib dein Passwort ein um dein Konto zu löschen.";
 
   //profile settings
   static String changePassword = 'Passwort ändern';
