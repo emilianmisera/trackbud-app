@@ -21,8 +21,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
           // spacing between content and screen
           padding: EdgeInsets.only(
               top: MediaQuery.sizeOf(context).height *
-                      CustomPadding.topSpaceAuth -
-                  Constants.defaultAppBarHeight,
+                  CustomPadding.topSpaceAuth,
               left: CustomPadding.defaultSpace,
               right: CustomPadding.defaultSpace),
           child: Column(
