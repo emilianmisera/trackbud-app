@@ -165,7 +165,7 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(
                 height: CustomPadding.bigSpace,
               ),
-              Shadow(
+              CustomShadow(
                 // Google Sign In
                 child: TextButton.icon(
                   onPressed: () {},
@@ -176,7 +176,7 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(
                 height: CustomPadding.defaultSpace,
               ),
-              Shadow(
+              CustomShadow(
                 // Apple Sign In
                 child: TextButton.icon(
                   onPressed: () {},

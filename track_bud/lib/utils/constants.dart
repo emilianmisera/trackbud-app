@@ -39,6 +39,13 @@ class CustomTextStyle {
     color: CustomColor.black,
   );
 
+  static TextStyle titleStyleMedium = const TextStyle(
+    fontFamily: fontFamily,
+    fontSize: fontSizeTitle,
+    fontWeight: fontWeightMedium,
+    color: CustomColor.black,
+  );
+
   static TextStyle buttonTextStyle = const TextStyle(
     fontFamily: fontFamily,
     fontSize: fontSizeDefault,
@@ -103,6 +110,7 @@ class CustomPadding {
   static const EdgeInsets defaultHeightSpace =
       EdgeInsets.only(top: 8, bottom: 8);
   static const double bottomSpace = 0.05;
+  static const double topSpaceSettingsScreen = 0.11;
   static const double topSpace = 70;
   static const double topSpaceAuth = 0.10;
   static const double contentHeightSpace = 20;
@@ -110,6 +118,7 @@ class CustomPadding {
   static const double defaultSpace = 16;
   static const double mediumSpace = 8;
   static const double bigSpace = 24;
+  static const double bigbigSpace = 48;
 }
 
 class AssetImport {
@@ -117,6 +126,12 @@ class AssetImport {
   static const String googleLogo = 'assets/icons/Google_Logo.svg';
   static const String appleLogo = 'assets/icons/Apple_Logo.svg';
   static const String returnIcon = 'assets/icons/return_icon.svg';
+  static const String bell = 'assets/icons/bell.svg';
+  static const String info = 'assets/icons/info.svg';
+  static const String logout = 'assets/icons/logout.svg';
+  static const String settings = 'assets/icons/settings.svg';
+  static const String trash = 'assets/icons/trash.svg';
+  static const String userEdit = 'assets/icons/user_edit.svg';
 }
 
 class Constants {
@@ -126,4 +141,5 @@ class Constants {
       Padding(padding: EdgeInsets.only(left: 16, right: 16));
   static const double defaultAppBarHeight = 56;
   static const Duration buttonAnimationDuration = Duration(milliseconds: 200);
+  static const double profilePictureSettingPage = 65;
 }
