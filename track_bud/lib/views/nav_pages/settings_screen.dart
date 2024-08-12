@@ -15,6 +15,7 @@ class SettingsScreen extends StatefulWidget {
 
 class _SettingsScreenState extends State<SettingsScreen> {
   final AuthService _authService = AuthService();
+  final TextEditingController _passwordController = TextEditingController();
 
   // SIGNOUT METHOD
   Future<void> _signOut() async {
@@ -62,6 +63,52 @@ class _SettingsScreenState extends State<SettingsScreen> {
       );
     }
   }*/
+
+  Future openPopUp() => showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text(
+            AppString.deleteAcc,
+            style: CustomTextStyle.titleStyleMedium,
+          ),
+          content: Container(
+            width: double.infinity,
+          height: 235,
+            child: Column(
+              children: [
+                Text(AppString.deleteAccDescribtion, style: CustomTextStyle.hintStyleDefault,),
+                SizedBox(height: CustomPadding.defaultSpace,),
+                CustomTextfield(
+                    name: AppString.password,
+                    hintText: AppString.hintPassword,
+                    controller: _passwordController,
+                    autofocus: true,
+                    ),
+               SizedBox(height: CustomPadding.defaultSpace,),
+                ElevatedButton(
+                onPressed: () {
+                  //TODO: Connect with backend
+                  submit();
+                },
+                child: Text(
+                  AppString.continueText,
+                ),
+              )
+                    
+              ],
+            ),
+          ),
+          insetPadding: EdgeInsets.all(CustomPadding.defaultSpace),
+          backgroundColor: CustomColor.backgroundPrimary,
+          surfaceTintColor: CustomColor.backgroundPrimary,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(
+                  Radius.circular(Constants.buttonBorderRadius))),
+        ),
+      );
+  void submit(){ // hide allert dialog when button is pressed
+    Navigator.of(context).pop();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -204,7 +251,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 CustomShadow(
                   // delete Account Button
                   child: TextButton.icon(
-                    onPressed: () {}, //_handleAccountDeletion,
+                    onPressed: () {
+                      openPopUp();
+                    }, //_handleAccountDeletion,
                     label: Text(
                       AppString.deleteAcc,
                       style: TextStyle(
