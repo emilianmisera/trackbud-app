@@ -11,46 +11,55 @@ class ForgotPasswordScreen extends StatefulWidget {
 }
 
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
+  final TextEditingController _emailController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
-      body: Padding(
-        // spacing between content and screen
-        padding: EdgeInsets.only(
-            top: MediaQuery.sizeOf(context).height * CustomPadding.topSpaceAuth - Constants.defaultAppBarHeight,
-            left: CustomPadding.defaultSpace,
-            right: CustomPadding.defaultSpace),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start, //alignment to left
-          children: [
-            Text(
-              AppString.resetPassword,
-              style: CustomTextStyle.headingStyle,
-            ),
-            SizedBox(
-              height: CustomPadding.mediumSpace,
-            ),
-            Text(
-              AppString.resetPasswordDescribtion,
-              style: CustomTextStyle.hintStyleDefault,
-            ),
-            SizedBox(
-              height: CustomPadding.defaultSpace,
-            ),
-            Textfield(
-                name: AppString.email, hintText: AppString.hintEmail), //email
-            SizedBox(
-              height: CustomPadding.bigSpace,
-            ),
-            ElevatedButton(
-              //sign in button
-              onPressed: () {},
-              child: Text(
-                AppString.continueText,
+      body: SingleChildScrollView(
+        child: Padding(
+          // spacing between content and screen
+          padding: EdgeInsets.only(
+              top: MediaQuery.sizeOf(context).height *
+                      CustomPadding.topSpaceAuth -
+                  Constants.defaultAppBarHeight,
+              left: CustomPadding.defaultSpace,
+              right: CustomPadding.defaultSpace),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start, //alignment to left
+            children: [
+              Text(
+                AppString.resetPassword,
+                style: CustomTextStyle.headingStyle,
               ),
-            ),
-          ],
+              SizedBox(
+                height: CustomPadding.mediumSpace,
+              ),
+              Text(
+                AppString.resetPasswordDescribtion,
+                style: CustomTextStyle.hintStyleDefault,
+              ),
+              SizedBox(
+                height: CustomPadding.defaultSpace,
+              ),
+              Textfield(
+                controller: _emailController,
+                name: AppString.email,
+                hintText: AppString.hintEmail,
+                obscureText: false,
+              ), //email
+              SizedBox(
+                height: CustomPadding.bigSpace,
+              ),
+              ElevatedButton(
+                //sign in button
+                onPressed: () {},
+                child: Text(
+                  AppString.continueText,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

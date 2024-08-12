@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/strings.dart';
-import 'package:track_bud/views/at_signup/login.dart';
-import 'package:track_bud/views/at_signup/signup.dart';
+import 'package:track_bud/views/at_signup/login_screen.dart';
+import 'package:track_bud/views/at_signup/signup_screen.dart';
 
 class OnboardingScreen extends StatelessWidget {
   const OnboardingScreen({super.key});
@@ -11,9 +11,11 @@ class OnboardingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding( //Padding for space between Screen
+      body: Padding(
+        //Padding for space between Screen
         padding: EdgeInsets.only(
-            bottom: MediaQuery.sizeOf(context).height * CustomPadding.bottomSpace,
+            bottom:
+                MediaQuery.sizeOf(context).height * CustomPadding.bottomSpace,
             left: CustomPadding.defaultSpace,
             right: CustomPadding.defaultSpace),
         child: Column(
@@ -38,9 +40,11 @@ class OnboardingScreen extends StatelessWidget {
             SizedBox(
               height: CustomPadding.defaultSpace,
             ),
-            ElevatedButton( //sign in button
+            ElevatedButton(
+              //sign in button
               onPressed: () {
-                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => SignInScreen()));
+                Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: (context) => LoginScreen()));
               },
               child: Text(
                 AppString.signIn,
@@ -49,10 +53,12 @@ class OnboardingScreen extends StatelessWidget {
             SizedBox(
               height: CustomPadding.mediumSpace,
             ),
-            OutlinedButton( //sign up button
+            OutlinedButton(
+              //sign up button
               onPressed: () {
-                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => SignUpScreen()));
-              }, 
+                Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: (context) => SignUpScreen()));
+              },
               child: Text(
                 AppString.signUp,
               ),
