@@ -1,17 +1,18 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:simple_shadow/simple_shadow.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/strings.dart';
 
-class Textfield extends StatelessWidget {
+class CustomTextfield extends StatelessWidget {
   final String name;
   final String hintText;
   final TextEditingController controller;
   final bool obscureText;
 
-  const Textfield({
+  const CustomTextfield({
     Key? key,
     required this.name,
     required this.hintText,
@@ -118,3 +119,4 @@ class TextFieldAmountOfMoney extends StatelessWidget {
     );
   }
 }
+

@@ -58,6 +58,11 @@ class AppString {
   static String logout = "Ausloggen";
   static String deleteAcc = "Konto löschen";
 
+  //profile settings
+  static String changePassword = 'Passwort ändern';
+  static String newPassword = 'Neues Passwort eingeben';
+  static String confirmNewPasswort = 'neues Passwort bestätigen';
+  static String save = 'Speichern';
   //account settings screen
   static String budget = 'Budget';
   static String changeBankAcc = 'Kontostand ändern';

@@ -92,7 +92,7 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(
                 height: CustomPadding.defaultSpace,
               ),
-              Textfield(
+              CustomTextfield(
                 controller: _emailController,
                 name: AppString.email,
                 hintText: AppString.hintEmail,
@@ -101,7 +101,7 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(
                 height: CustomPadding.defaultSpace,
               ),
-              Textfield(
+              CustomTextfield(
                 controller: _passwordController,
                 name: AppString.password,
                 hintText: AppString.hintPassword,

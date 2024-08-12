@@ -98,7 +98,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               SizedBox(
                 height: CustomPadding.defaultSpace,
               ),
-              Textfield(
+              CustomTextfield(
                 controller: _emailController,
                 name: AppString.email,
                 hintText: AppString.hintEmail,
