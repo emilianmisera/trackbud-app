@@ -6,6 +6,10 @@ import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfield_widget.dart';
 import 'package:track_bud/views/at_signup/login_screen.dart';
 import 'package:track_bud/views/at_signup/onboarding_screen.dart';
+import 'package:track_bud/views/subpages/about_trackbud_screen.dart';
+import 'package:track_bud/views/subpages/account_settings_screen.dart';
+import 'package:track_bud/views/subpages/notifications_settings_screen.dart';
+import 'package:track_bud/views/subpages/profile_settings_screen.dart';
 
 class SettingsScreen extends StatefulWidget {
   SettingsScreen({super.key});
@@ -183,7 +187,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 CustomShadow(
                   // edit Profile Button
                   child: TextButton.icon(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ProfileSettingsScreen(),
+                        ),
+                      );
+                    },
                     label: Text(
                       AppString.editProfile,
                       style: CustomTextStyle.regularStyleDefault,
@@ -200,7 +211,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 CustomShadow(
                   // accAdjustment button
                   child: TextButton.icon(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => AccountSettingsScreen(),
+                        ),
+                      );
+                    },
                     label: Text(
                       AppString.accAdjustments,
                       style: CustomTextStyle.regularStyleDefault,
@@ -217,7 +235,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 CustomShadow(
                   // notification button
                   child: TextButton.icon(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => NotificationsSettingsScreen(),
+                        ),
+                      );
+                    },
                     label: Text(
                       AppString.notifications,
                       style: CustomTextStyle.regularStyleDefault,
@@ -234,7 +259,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 CustomShadow(
                   // aboutTrackbut button
                   child: TextButton.icon(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => AboutTrackbudScreen(),
+                        ),
+                      );
+                    },
                     label: Text(
                       AppString.abouTrackBud,
                       style: CustomTextStyle.regularStyleDefault,
