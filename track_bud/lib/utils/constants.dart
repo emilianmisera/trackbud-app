@@ -118,6 +118,7 @@ class CustomPadding {
   static const double mediumSpace = 8;
   static const double bigSpace = 24;
   static const double bigbigSpace = 48;
+  static const double navbarButtonwidth = 0.15;
 }
 
 class AssetImport {
