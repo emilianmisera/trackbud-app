@@ -135,7 +135,15 @@ class AssetImport {
   static const String camera = 'assets/icons/camera.svg';
   static const String mode = 'assets/icons/mode.svg';
   static const String target = 'assets/icons/target.svg';
-
+  static const String addButton = 'assets/icons/add_button.svg';
+  static const String overview = 'assets/icons/overview.svg';
+  static const String overviewActive = 'assets/icons/overview_active.svg';
+  static const String debts = 'assets/icons/debts.svg';
+  static const String debtsActive = 'assets/icons/debts_active.svg';
+  static const String analysis = 'assets/icons/analysis.svg';
+  static const String analysisActive = 'assets/icons/analysis_active.svg';
+  static const String user = 'assets/icons/user.svg';
+  static const String userActive = 'assets/icons/user_active.svg';
 }
 
 class Constants {
