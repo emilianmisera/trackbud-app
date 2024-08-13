@@ -81,11 +81,11 @@ class CustomShadow extends StatelessWidget {
 // Custom Textfield for BankAccountInfo Page & BudgetGoalPage
 class TextFieldAmountOfMoney extends StatelessWidget {
   final TextEditingController controller;
-  const TextFieldAmountOfMoney({
+  final String? hintText;
+  TextFieldAmountOfMoney({
     Key? key,
-    required this.controller,
+    required this.controller, this.hintText,
   }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return CustomShadow(
@@ -99,7 +99,7 @@ class TextFieldAmountOfMoney extends StatelessWidget {
               .digitsOnly, // textinput has to have only numbers
         ],
         decoration: InputDecoration(
-          hintText: AppString.lines,
+          hintText: hintText ?? AppString.lines,
           suffix: Text(
             "€",
             style: CustomTextStyle.headingStyle,
