@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:track_bud/controller/user_controller.dart';
 import 'package:track_bud/services/auth/auth_service.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/strings.dart';
@@ -51,8 +52,8 @@ class _LoginScreenState extends State<LoginScreen> {
       );
 
       // Navigate to next screen
-      Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => SettingsScreen()));
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => SettingsScreen()));
     } on FirebaseAuthException catch (e) {
       // Handle login failure (show error message)
       ScaffoldMessenger.of(context).showSnackBar(
@@ -168,7 +169,17 @@ class _LoginScreenState extends State<LoginScreen> {
               CustomShadow(
                 // Google Sign In
                 child: TextButton.icon(
-                  onPressed: () {},
+                  onPressed: () async {
+                    try {
+                      final user = await UserController.loginWithGoogle();
+                      if (user != null && mounted) {
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(
+                            builder: (context) => SettingsScreen()));
+                      }
+                    } on FirebaseAuthException {
+                      //error handling
+                    } catch (e) {}
+                  },
                   label: Text(AppString.signInWithGoogle),
                   icon: SvgPicture.asset(AssetImport.googleLogo),
                 ),
