@@ -1,7 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:simple_shadow/simple_shadow.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/strings.dart';
@@ -18,7 +17,8 @@ class CustomTextfield extends StatelessWidget {
     required this.name,
     required this.hintText,
     required this.controller,
-    this.obscureText = false, this.autofocus,
+    this.obscureText = false,
+    this.autofocus,
   }) : super(key: key);
 
   @override
@@ -95,14 +95,15 @@ class TextFieldAmountOfMoney extends StatelessWidget {
         keyboardType: TextInputType.numberWithOptions(),
         textAlign: TextAlign.center,
         inputFormatters: [
-          FilteringTextInputFormatter.digitsOnly, // textinput has to have only numbers
+          FilteringTextInputFormatter
+              .digitsOnly, // textinput has to have only numbers
         ],
         decoration: InputDecoration(
           hintText: AppString.lines,
           suffix: Text(
-              "€",
-              style: CustomTextStyle.headingStyle,
-            ),
+            "€",
+            style: CustomTextStyle.headingStyle,
+          ),
           contentPadding: EdgeInsets.only(
               left: CustomPadding.defaultSpace,
               right: CustomPadding.defaultSpace,
@@ -121,4 +122,3 @@ class TextFieldAmountOfMoney extends StatelessWidget {
     );
   }
 }
-

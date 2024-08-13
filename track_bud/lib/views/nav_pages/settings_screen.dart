@@ -5,6 +5,7 @@ import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfield_widget.dart';
 import 'package:track_bud/views/at_signup/login_screen.dart';
+import 'package:track_bud/views/at_signup/onboarding_screen.dart';
 
 class SettingsScreen extends StatefulWidget {
   SettingsScreen({super.key});
@@ -38,13 +39,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
 // DELETE USER ACCOUNT (dont delete from firestore DB yet, so friends still see shared costs etc)
-  /*Future<void> _handleAccountDeletion(BuildContext context) async {
+  Future<void> _handleAccountDeletion(BuildContext context) async {
     try {
       // Get the password entered by the user
       String password = _passwordController.text;
 
       // Attempt to delete the user account
       await _authService.deleteUserAccount(password);
+
+      submit();
 
       // Show success message and navigate away or logout the user
       ScaffoldMessenger.of(context).showSnackBar(
@@ -55,14 +58,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const OnboardingScreen()),
-      ); 
+      );
     } catch (e) {
+      submit();
       // Show error message if something goes wrong
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Fehler beim Löschen des Kontos: $e')),
       );
     }
-  }*/
+  }
 
   Future openPopUp() => showDialog(
         context: context,
@@ -73,28 +77,36 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
           content: Container(
             width: double.infinity,
-          height: 235,
+            height: 235,
             child: Column(
               children: [
-                Text(AppString.deleteAccDescribtion, style: CustomTextStyle.hintStyleDefault,),
-                SizedBox(height: CustomPadding.defaultSpace,),
-                CustomTextfield(
-                    name: AppString.password,
-                    hintText: AppString.hintPassword,
-                    controller: _passwordController,
-                    autofocus: true,
-                    ),
-               SizedBox(height: CustomPadding.defaultSpace,),
-                ElevatedButton(
-                onPressed: () {
-                  //TODO: Connect with backend
-                  submit();
-                },
-                child: Text(
-                  AppString.continueText,
+                Text(
+                  AppString.deleteAccDescribtion,
+                  style: CustomTextStyle.hintStyleDefault,
                 ),
-              )
-                    
+                SizedBox(
+                  height: CustomPadding.defaultSpace,
+                ),
+                CustomTextfield(
+                  name: AppString.password,
+                  obscureText: true,
+                  hintText: AppString.hintPassword,
+                  controller: _passwordController,
+                  autofocus: true,
+                ),
+                SizedBox(
+                  height: CustomPadding.defaultSpace,
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    _handleAccountDeletion(context);
+                  },
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: CustomColor.red),
+                  child: Text(
+                    AppString.deleteAcc,
+                  ),
+                )
               ],
             ),
           ),
@@ -102,11 +114,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
           backgroundColor: CustomColor.backgroundPrimary,
           surfaceTintColor: CustomColor.backgroundPrimary,
           shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(
-                  Radius.circular(Constants.buttonBorderRadius))),
+            borderRadius: BorderRadius.all(
+              Radius.circular(Constants.buttonBorderRadius),
+            ),
+          ),
         ),
       );
-  void submit(){ // hide allert dialog when button is pressed
+
+  void submit() {
+    // hide allert dialog when button is pressed
+    _passwordController.clear();
     Navigator.of(context).pop();
   }
 
