@@ -45,5 +45,22 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+
+<!-- Put me in the [my_project]/ios/Runner/Info.plist file -->
+<!-- Google Sign-in Section -->
+<key>CFBundleURLTypes</key>
+<array>
+	<dict>
+		<key>CFBundleTypeRole</key>
+		<string>Editor</string>
+		<key>CFBundleURLSchemes</key>
+		<array>
+			<!-- TODO Replace this value: -->
+			<string>com.googleusercontent.apps.40670581765-jmjv1231p0flj75kbj6gt031hbal960e</string>
+		</array>
+	</dict>
+</array>
+<!-- End of the Google Sign-in Section -->
+
 </dict>
 </plist>
