@@ -28,6 +28,8 @@ flutter_icons:
   ios: true
   android: true
   image_path: "assets/icons/app_logo.png"
+  adaptive_icon_background: "#3B42E8"
+  adaptive_icon_foreground: "assets/icons/android_logo.png"
 
 flutter:
   uses-material-design: true
