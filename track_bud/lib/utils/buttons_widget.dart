@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:track_bud/utils/constants.dart';
-import 'package:track_bud/utils/strings.dart';
 
 class AccAdjustmentButton extends StatelessWidget {
   final String icon;
@@ -70,7 +69,8 @@ class _CustomDropDownState extends State<CustomDropDown> {
         borderRadius: BorderRadius.all(Radius.circular(10)),
       ),
       child: Center(
-        child: DropdownButton<String>( // DropdownButton
+        child: DropdownButton<String>(
+          // DropdownButton
           items: _currencyList.map(buildMenuItem).toList(),
           onChanged: (value) => setState(() {
             this.value = value;

@@ -36,7 +36,8 @@ class AppString {
   static String signupEmptyField = "Bitte fülle alle Felder aus.";
   static String signupPasswordsDontMatch =
       "Deine Passwörter unterscheiden sich.";
-  static String signupSucessful = "Account erstellt mit E-Mail";
+  static String signupSucessful =
+      "Bestätige die gesendete Verifizierungs E-Mail um dich anzumelden.";
   static String signupFailedSnackbar = "Registrierung fehlgeschlagen";
 
   // bank acc info screen & budget goal
@@ -57,13 +58,15 @@ class AppString {
   static String abouTrackBud = "über TrackBud";
   static String logout = "Ausloggen";
   static String deleteAcc = "Konto löschen";
-  static String deleteAccDescribtion = "Gib dein Passwort ein um dein Konto zu löschen.";
+  static String deleteAccDescribtion =
+      "Gib dein Passwort ein um dein Konto zu löschen.";
 
   //profile settings
   static String changePassword = 'Passwort ändern';
   static String newPassword = 'Neues Passwort eingeben';
   static String confirmNewPasswort = 'neues Passwort bestätigen';
   static String save = 'Speichern';
+
   //account settings screen
   static String budget = 'Budget';
   static String changeBankAcc = 'Kontostand ändern';
