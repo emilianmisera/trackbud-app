@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:track_bud/utils/buttons_widget.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/strings.dart';
+import 'package:track_bud/views/nav_pages/settings_screen.dart';
+import 'package:track_bud/views/subpages/change_bankaccount_screen.dart';
+import 'package:track_bud/views/subpages/change_budgetgoal_screen.dart';
 
 class AccountSettingsScreen extends StatefulWidget {
   const AccountSettingsScreen({super.key});
@@ -26,6 +29,15 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
       appBar: AppBar(
         title: Text(AppString.accAdjustments,
             style: CustomTextStyle.regularStyleMedium),
+        leading: IconButton(
+    icon: Icon(Icons.arrow_back),
+    onPressed: () {
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => SettingsScreen()),
+        (Route<dynamic> route) => false,
+      );
+    },
+  ),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -49,15 +61,29 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                   //BankAccount
                   icon: AssetImport.target,
                   name: AppString.changeBankAcc,
-                  onPressed: () {}),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ChangeBankaccountScreen(),
+                        ),
+                      );
+                  }),
               SizedBox(
                 height: CustomPadding.mediumSpace,
               ),
               AccAdjustmentButton(
-                  // Busget Goal
+                  // Budget Goal
                   icon: AssetImport.target,
                   name: AppString.changeBudgetGoal,
-                  onPressed: () {}),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ChangeBudgetGoalScreen(),
+                        ),
+                      );
+                  }),
               SizedBox(
                 height: CustomPadding.mediumSpace,
               ),

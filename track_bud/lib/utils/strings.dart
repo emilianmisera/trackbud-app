@@ -74,4 +74,12 @@ class AppString {
   static String changeCurrency = 'Standardwährung';
   static String appearance = 'Erscheinungsbild';
   static String darkMode = 'Dunkles Design';
+
+  //change bankaccount
+  static String changeBankAccHeading = "Ändere dein Kontostand";
+  static String changeBankAccDescribtion = "Stimmt dein angegebener Kontostand nicht mehr überein? Ändere es, um die alle Funktionen vollständig nutzen zu können!";
+
+  //change budgetgoal
+  static String changeBudgetGoalHeading= "Ändere dein Budget Ziel";
+  static String changeBudgetGoalDescribtion = "Zu sparsam oder doch eher zu optimistisch gewesen? Bearbeite dein Budgetziel.";
 }
