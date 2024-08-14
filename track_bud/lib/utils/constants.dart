@@ -72,6 +72,27 @@ class CustomTextStyle {
     fontWeight: fontWeightSemiBold,
     color: CustomColor.hintColor,
   );
+
+  
+  static TextStyle slidingStyleExpense = const TextStyle(
+    fontFamily: fontFamily,
+    fontSize: fontSizeDefault,
+    fontWeight: fontWeightSemiBold,
+    color: CustomColor.red,
+  );
+  static TextStyle slidingStyleIncome = const TextStyle(
+    fontFamily: fontFamily,
+    fontSize: fontSizeDefault,
+    fontWeight: fontWeightSemiBold,
+    color: CustomColor.green,
+  );
+  static TextStyle slidingStyleDefault = const TextStyle(
+    fontFamily: fontFamily,
+    fontSize: fontSizeDefault,
+    fontWeight: fontWeightDefault,
+    color: CustomColor.hintColor,
+  );
+
 }
 
 class CustomColor {
@@ -156,4 +177,5 @@ class Constants {
   static const Duration buttonAnimationDuration = Duration(milliseconds: 200);
   static const double profilePictureSettingPage = 65;
   static const double profilePictureAccountEdit = 115;
+  static const double segmentedControlHeight = 0.05;
 }
