@@ -144,7 +144,8 @@ class _AccAdjustmentWidgetState extends State<AccAdjustmentWidget> {
 }
 
 class CustomSegmentControl extends StatefulWidget {
-  const CustomSegmentControl({super.key});
+  final Function(int?) onValueChanged; // callback
+  const CustomSegmentControl({super.key, required this.onValueChanged});
 
   @override
   State<CustomSegmentControl> createState() => _CustomSegmentControlState();
@@ -186,13 +187,48 @@ class _CustomSegmentControlState extends State<CustomSegmentControl> {
           },
           groupValue: _sliding, // Current selection
           onValueChanged: (int? newValue) {
-            // Updates the selection when user interacts with the control
             setState(() {
               _sliding = newValue;
             });
+            widget.onValueChanged(newValue); // Call the callback
           },
           backgroundColor: CustomColor.white, // Background color of the control
         ),
+      ),
+    );
+  }
+}
+
+// Widget for individual category items
+class CustomCategory extends StatelessWidget {
+  final Color color;
+  final String icon;
+  final String categoryName;
+
+  const CustomCategory({
+    super.key,
+    required this.color,
+    required this.icon,
+    required this.categoryName,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(
+        horizontal: CustomPadding.categoryWidthSpace,
+        vertical: CustomPadding.categoryHeightSpace,
+      ),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(7),
+        color: color,
+      ),
+      child: Row(
+        children: [
+          SvgPicture.asset(icon), // Display category icon
+          SizedBox(width: CustomPadding.smallSpace),
+          Text(categoryName), // Display category name
+        ],
       ),
     );
   }
@@ -252,36 +288,48 @@ class _CategoriesExpenseState extends State<CategoriesExpense> {
   }
 }
 
-// Widget for individual category items
-class CustomCategory extends StatelessWidget {
-  final Color color;
-  final String icon;
-  final String categoryName;
+class CategoriesIncome extends StatefulWidget {
+  const CategoriesIncome({super.key});
 
-  const CustomCategory({
-    super.key,
-    required this.color,
-    required this.icon,
-    required this.categoryName,
-  });
+  @override
+  State<CategoriesIncome> createState() => _CategoriesIncomeState();
+}
+
+class _CategoriesIncomeState extends State<CategoriesIncome> {
+   // Index of the currently selected category
+  int? selectedIndex;
+
+  // List of categories
+  List<CustomCategory> categories = [
+    CustomCategory(color: CustomColor.unterkunft, icon: AssetImport.info, categoryName: AppString.gehalt),
+    CustomCategory(color: CustomColor.geschenk, icon: AssetImport.info, categoryName: AppString.geschenke),
+    CustomCategory(color: CustomColor.sonstiges, icon: AssetImport.info, categoryName: AppString.sonstiges)
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(
-        horizontal: CustomPadding.categoryWidthSpace,
-        vertical: CustomPadding.categoryHeightSpace,
-      ),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(7),
-        color: color,
-      ),
-      child: Row(
-        children: [
-          SvgPicture.asset(icon), // Display category icon
-          SizedBox(width: CustomPadding.smallSpace),
-          Text(categoryName), // Display category name
-        ],
+      // Set the height of the category list to a fraction of the screen height
+      height: MediaQuery.sizeOf(context).height * Constants.categoryHeight,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal, // Make the list scroll horizontally
+        itemCount: categories.length,
+        itemBuilder: (context, index) => Padding(
+          padding: EdgeInsets.only(right: CustomPadding.mediumSpace), // add Padding between categories
+          child: GestureDetector(
+            onTap: () {
+              setState(() {
+                selectedIndex = index; // Update the selected index
+                //TODO: Connect with backend
+              });
+            },
+            child: Opacity(
+              // Reduce opacity for non-selected categories
+              opacity: selectedIndex == null || selectedIndex == index ? 1.0 : 0.5,
+              child: categories[index],
+            ),
+          ),
+        ),
       ),
     );
   }

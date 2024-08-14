@@ -68,6 +68,7 @@ class AddTransaction extends StatefulWidget {
 }
 
 class _AddTransactionState extends State<AddTransaction> {
+  int _currentSegment = 0; // callback
   Set<String> _selected = {AppString.expense};
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _amountController = TextEditingController();
@@ -93,7 +94,13 @@ class _AddTransactionState extends State<AddTransaction> {
               child: Text(AppString.newTransaction, style: CustomTextStyle.regularStyleMedium,),
             ),
             SizedBox(height: CustomPadding.defaultSpace,),
-            CustomSegmentControl(),
+            CustomSegmentControl(
+              onValueChanged: (int? newValue) {
+                setState(() {
+                  _currentSegment = newValue ?? 0; //change categories
+                });
+              },
+            ),
             SizedBox(height: CustomPadding.bigSpace,),
             CustomTextfield(name: AppString.title, hintText: AppString.hintTitle, controller: _titleController),
             SizedBox(height: CustomPadding.defaultSpace,),
@@ -107,7 +114,7 @@ class _AddTransactionState extends State<AddTransaction> {
             SizedBox(height: CustomPadding.defaultSpace,),
             Text(AppString.categorie, style: CustomTextStyle.regularStyleMedium,),
             SizedBox(height: CustomPadding.mediumSpace,),
-            CategoriesExpense(),
+            _currentSegment == 0 ? CategoriesExpense() : CategoriesIncome(),
             SizedBox(height: CustomPadding.defaultSpace,),
             CustomTextfield(name: AppString.note, hintText: AppString.noteHint, controller: _noteController,isMultiline: true,),
             SizedBox(height: CustomPadding.defaultSpace,),
