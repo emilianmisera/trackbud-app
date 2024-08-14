@@ -11,6 +11,8 @@ class CustomTextfield extends StatelessWidget {
   final TextEditingController controller;
   final bool obscureText;
   final bool? autofocus;
+  final double? width;
+  final Widget? prefix;
 
   const CustomTextfield({
     Key? key,
@@ -18,7 +20,7 @@ class CustomTextfield extends StatelessWidget {
     required this.hintText,
     required this.controller,
     this.obscureText = false,
-    this.autofocus,
+    this.autofocus, this.width, this.prefix,
   }) : super(key: key);
 
   @override
@@ -34,25 +36,29 @@ class CustomTextfield extends StatelessWidget {
           height: CustomPadding.mediumSpace,
         ),
         CustomShadow(
-          child: TextFormField(
-            controller: controller,
-            obscureText: obscureText,
-            cursorColor: CustomColor.bluePrimary,
-            autofocus: autofocus ?? false,
-            decoration: InputDecoration(
-              hintText: hintText,
-              contentPadding: EdgeInsets.only(
-                  left: CustomPadding.defaultSpace,
-                  right: CustomPadding.defaultSpace,
-                  top: CustomPadding.contentHeightSpace,
-                  bottom: CustomPadding.contentHeightSpace),
-              hintStyle: CustomTextStyle.hintStyleDefault,
-              floatingLabelBehavior: FloatingLabelBehavior.never,
-              filled: true,
-              fillColor: CustomColor.white,
-              border: OutlineInputBorder(
-                borderSide: BorderSide.none,
-                borderRadius: BorderRadius.circular(10),
+          child: Container(
+            width: width?? double.infinity,
+            child: TextFormField(
+              controller: controller,
+              obscureText: obscureText,
+              cursorColor: CustomColor.bluePrimary,
+              autofocus: autofocus ?? false,
+              decoration: InputDecoration(
+                prefixIcon: prefix ?? null,
+                hintText: hintText,
+                contentPadding: EdgeInsets.only(
+                    left: CustomPadding.defaultSpace,
+                    right: CustomPadding.defaultSpace,
+                    top: CustomPadding.contentHeightSpace,
+                    bottom: CustomPadding.contentHeightSpace),
+                hintStyle: CustomTextStyle.hintStyleDefault,
+                floatingLabelBehavior: FloatingLabelBehavior.never,
+                filled: true,
+                fillColor: CustomColor.white,
+                border: OutlineInputBorder(
+                  borderSide: BorderSide.none,
+                  borderRadius: BorderRadius.circular(10),
+                ),
               ),
             ),
           ),
