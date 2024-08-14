@@ -170,7 +170,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 // Google Sign In
                 child: TextButton.icon(
                   onPressed: () async {
-                    /*
                     try {
                       final user = await UserController.loginWithGoogle();
                       if (user != null && mounted) {
@@ -180,7 +179,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     } on FirebaseAuthException {
                       //error handling
                     } catch (e) {}
-                    */
                   },
                   label: Text(AppString.signInWithGoogle),
                   icon: SvgPicture.asset(AssetImport.googleLogo),
