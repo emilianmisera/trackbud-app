@@ -140,6 +140,8 @@ class CustomPadding {
   static const double bigSpace = 24;
   static const double bigbigSpace = 48;
   static const double navbarButtonwidth = 0.15;
+  static const double categoryWidthSpace = 16;
+  static const double categoryHeightSpace = 12;
 }
 
 class AssetImport {
@@ -178,4 +180,5 @@ class Constants {
   static const double profilePictureSettingPage = 65;
   static const double profilePictureAccountEdit = 115;
   static const double segmentedControlHeight = 0.05;
+  static const double categoryHeight = 0.05;
 }
