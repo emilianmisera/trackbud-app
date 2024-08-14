@@ -6,6 +6,7 @@ import 'package:track_bud/views/nav_pages/overview_screen.dart';
 import 'package:track_bud/views/nav_pages/settings_screen.dart';
 
 // TrackBud: Main widget for the app, managing navigation between screens
+// ignore: must_be_immutable
 class TrackBud extends StatefulWidget {
   // Current index of the selected navigation item
   int currentIndex;
