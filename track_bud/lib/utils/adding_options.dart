@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:track_bud/utils/constants.dart';
+import 'package:track_bud/utils/strings.dart';
 
 // Reusable DynamicBottomSheet component
 class DynamicBottomSheet extends StatelessWidget {
@@ -57,15 +58,40 @@ class DynamicBottomSheet extends StatelessWidget {
 }
 
 // adding a new Transaction
-class AddTransaction extends StatelessWidget {
-  const AddTransaction({Key? key}) : super(key: key);
+class AddTransaction extends StatefulWidget {
+  AddTransaction({Key? key}) : super(key: key);
+
+  @override
+  State<AddTransaction> createState() => _AddTransactionState();
+}
+
+class _AddTransactionState extends State<AddTransaction> {
+  Set<String> _selected = {AppString.expense};
+
+  void updateSelected(Set<String> newSelection){
+    setState(() {
+      _selected = newSelection;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return DynamicBottomSheet(
       child: Column(
         children: [
+          Center(
+            child: Text(AppString.newTransaction, style: CustomTextStyle.regularStyleMedium,),
+          ),
+          SizedBox(height: CustomPadding.defaultSpace,),
+          SegmentedButton(
+            segments: <ButtonSegment<String>>[
+            ButtonSegment(value: AppString.expense, label: Text(AppString.expense)),
+            ButtonSegment(value: AppString.income, label: Text(AppString.income)),
+          ],
+          selected: _selected,
+          onSelectionChanged: updateSelected,
           
+          ),
         ],
       ),
     );
