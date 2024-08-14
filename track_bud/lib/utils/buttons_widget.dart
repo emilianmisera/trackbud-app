@@ -151,41 +151,49 @@ class CustomSegmentControl extends StatefulWidget {
 }
 
 class _CustomSegmentControlState extends State<CustomSegmentControl> {
+  // _sliding: Tracks the currently selected segment (0 for expense, 1 for income)
   int? _sliding = 0;
 
   @override
   Widget build(BuildContext context) {
     return CustomShadow(
-  child: Container(
-    width: double.infinity,
-    child: CupertinoSlidingSegmentedControl(
-      children: {
-        0: Container(
-          height: MediaQuery.sizeOf(context).height * Constants.segmentedControlHeight,
-          alignment: Alignment.center,
-          child: Text(
-            AppString.expense, 
-            style: _sliding == 0 ? CustomTextStyle.slidingStyleExpense : CustomTextStyle.slidingStyleDefault
-          ),
+      child: Container(
+        width: double.infinity, // Ensures the control spans the full width
+        child: CupertinoSlidingSegmentedControl(
+          children: {
+            // Expense segment
+            0: Container(
+              // Sets the height of the segment relative to screen height
+              height: MediaQuery.sizeOf(context).height *
+                  Constants.segmentedControlHeight,
+              alignment: Alignment.center,
+              child: Text(AppString.expense,
+                  // Applies different styles based on selection state
+                  style: _sliding == 0
+                      ? CustomTextStyle.slidingStyleExpense
+                      : CustomTextStyle.slidingStyleDefault),
+            ),
+            // Income segment
+            1: Container(
+              height: MediaQuery.sizeOf(context).height *
+                  Constants.segmentedControlHeight,
+              alignment: Alignment.center,
+              child: Text(AppString.income,
+                  style: _sliding == 1
+                      ? CustomTextStyle.slidingStyleIncome
+                      : CustomTextStyle.slidingStyleDefault),
+            ),
+          },
+          groupValue: _sliding, // Current selection
+          onValueChanged: (int? newValue) {
+            // Updates the selection when user interacts with the control
+            setState(() {
+              _sliding = newValue;
+            });
+          },
+          backgroundColor: CustomColor.white, // Background color of the control
         ),
-        1: Container(
-          height: MediaQuery.sizeOf(context).height * Constants.segmentedControlHeight,
-          alignment: Alignment.center,
-          child: Text(
-            AppString.income, 
-            style: _sliding == 1 ? CustomTextStyle.slidingStyleIncome : CustomTextStyle.slidingStyleDefault
-          ),
-        ),
-      },
-      groupValue: _sliding,
-      onValueChanged: (int? newValue){
-        setState(() {
-          _sliding = newValue;
-        });
-      },
-      backgroundColor: CustomColor.white,
-    ),
-  ),
-);
+      ),
+    );
   }
 }
