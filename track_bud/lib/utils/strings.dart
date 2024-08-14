@@ -82,4 +82,17 @@ class AppString {
   //change budgetgoal
   static String changeBudgetGoalHeading= "Ändere dein Budget Ziel";
   static String changeBudgetGoalDescribtion = "Zu sparsam oder doch eher zu optimistisch gewesen? Bearbeite dein Budgetziel.";
+
+  //new transaction
+  static String newTransaction = 'Neue Transaktion';
+  static String expense = 'Ausgabe';
+  static String income = 'Eingabe';
+  static String title = 'Titel';
+  static String amount = 'Betrag';
+  static String date = 'Datum';
+  static String categorie = 'Kategorie';
+  static String recurry = 'Wiederkehrende Transaktion';
+  static String note = 'Notiz';
+  static String noteHint = 'Notiz hinzufügen';
+  static String addTransaction = 'Transaktion hinzufügen';
 }
