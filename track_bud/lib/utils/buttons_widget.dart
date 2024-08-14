@@ -198,7 +198,59 @@ class _CustomSegmentControlState extends State<CustomSegmentControl> {
   }
 }
 
+// Widget to display a horizontal list of expense categories
+class CategoriesExpense extends StatefulWidget {
+  CategoriesExpense({super.key});
 
+  @override
+  State<CategoriesExpense> createState() => _CategoriesExpenseState();
+}
+
+class _CategoriesExpenseState extends State<CategoriesExpense> {
+  // Index of the currently selected category
+  int? selectedIndex;
+
+  // List of categories
+  List<CustomCategory> categories = [
+    CustomCategory(color: CustomColor.lebensmittel, icon: AssetImport.info, categoryName: AppString.lebensmittel),
+    CustomCategory(color: CustomColor.drogerie, icon: AssetImport.info, categoryName: AppString.drogerie),
+    CustomCategory(color: CustomColor.restaurant, icon: AssetImport.info, categoryName: AppString.restaurants),
+    CustomCategory(color: CustomColor.mobility, icon: AssetImport.info, categoryName: AppString.mobility),
+    CustomCategory(color: CustomColor.shopping, icon: AssetImport.info, categoryName: AppString.shopping),
+    CustomCategory(color: CustomColor.unterkunft, icon: AssetImport.info, categoryName: AppString.unterkunft),
+    CustomCategory(color: CustomColor.entertainment, icon: AssetImport.info, categoryName: AppString.entertainment),
+    CustomCategory(color: CustomColor.geschenk, icon: AssetImport.info, categoryName: AppString.geschenke),
+    CustomCategory(color: CustomColor.sonstiges, icon: AssetImport.info, categoryName: AppString.sonstiges)
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      // Set the height of the category list to a fraction of the screen height
+      height: MediaQuery.sizeOf(context).height * Constants.categoryHeight,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal, // Make the list scroll horizontally
+        itemCount: categories.length,
+        itemBuilder: (context, index) => Padding(
+          padding: EdgeInsets.only(right: CustomPadding.mediumSpace), // add Padding between categories
+          child: GestureDetector(
+            onTap: () {
+              setState(() {
+                selectedIndex = index; // Update the selected index
+                //TODO: Connect with backend
+              });
+            },
+            child: Opacity(
+              // Reduce opacity for non-selected categories
+              opacity: selectedIndex == null || selectedIndex == index ? 1.0 : 0.5,
+              child: categories[index],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
 
 // Widget for individual category items
 class CustomCategory extends StatelessWidget {
