@@ -88,6 +88,7 @@ class AppString {
   static String expense = 'Ausgabe';
   static String income = 'Eingabe';
   static String title = 'Titel';
+  static String hintTitle = 'Titel eingeben';
   static String amount = 'Betrag';
   static String date = 'Datum';
   static String categorie = 'Kategorie';
@@ -95,4 +96,16 @@ class AppString {
   static String note = 'Notiz';
   static String noteHint = 'Notiz hinzufügen';
   static String addTransaction = 'Transaktion hinzufügen';
+
+  //categories
+  static String lebensmittel = 'Lebensmittel';
+  static String drogerie = 'Drogerie';
+  static String restaurants = 'Restaurant';
+  static String mobility = 'Mobilität';
+  static String shopping = 'Shopping';
+  static String unterkunft = 'Unterkunft';
+  static String entertainment = 'Entertainment';
+  static String geschenke = 'Geschenk';
+  static String sonstiges = 'Sonstiges';
+
 }
