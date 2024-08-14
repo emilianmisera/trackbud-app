@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:track_bud/utils/buttons_widget.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/strings.dart';
+import 'package:track_bud/utils/textfield_widget.dart';
 
 // Reusable DynamicBottomSheet component
 class DynamicBottomSheet extends StatelessWidget {
@@ -31,7 +33,7 @@ class DynamicBottomSheet extends StatelessWidget {
       builder: (context, scrollController) {
         return Container(
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: CustomColor.backgroundPrimary,
             borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
           ),
           child: ListView(
@@ -77,22 +79,19 @@ class _AddTransactionState extends State<AddTransaction> {
   @override
   Widget build(BuildContext context) {
     return DynamicBottomSheet(
-      child: Column(
-        children: [
-          Center(
-            child: Text(AppString.newTransaction, style: CustomTextStyle.regularStyleMedium,),
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: CustomPadding.screenWidth,
+          child: Column(
+            children: [
+              Center(
+                child: Text(AppString.newTransaction, style: CustomTextStyle.regularStyleMedium,),
+              ),
+              SizedBox(height: CustomPadding.defaultSpace,),
+              CustomSegmentControl()
+            ],
           ),
-          SizedBox(height: CustomPadding.defaultSpace,),
-          SegmentedButton(
-            segments: <ButtonSegment<String>>[
-            ButtonSegment(value: AppString.expense, label: Text(AppString.expense)),
-            ButtonSegment(value: AppString.income, label: Text(AppString.income)),
-          ],
-          selected: _selected,
-          onSelectionChanged: updateSelected,
-          
-          ),
-        ],
+        ),
       ),
     );
   }
