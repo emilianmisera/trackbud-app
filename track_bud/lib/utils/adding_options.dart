@@ -48,7 +48,7 @@ class DynamicBottomSheet extends StatelessWidget {
                   color: CustomColor.grabberColor,
                   borderRadius: BorderRadius.all(Radius.circular(100))
                 ),
-              )), // Instruction for user
+              )),
               SizedBox(height: CustomPadding.defaultSpace),
               child, // The main content of the bottom sheet
             ],
@@ -59,7 +59,11 @@ class DynamicBottomSheet extends StatelessWidget {
   }
 }
 
-// adding a new Transaction
+
+//____________________________________________________________________
+
+
+// Widget for adding a new transaction
 class AddTransaction extends StatefulWidget {
   AddTransaction({Key? key}) : super(key: key);
 
@@ -68,12 +72,13 @@ class AddTransaction extends StatefulWidget {
 }
 
 class _AddTransactionState extends State<AddTransaction> {
-  int _currentSegment = 0; // callback
-  Set<String> _selected = {AppString.expense};
+  int _currentSegment = 0; // Tracks the current segment (expense or income)
+  Set<String> _selected = {AppString.expense}; // Selected transaction type
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _amountController = TextEditingController();
   final TextEditingController _noteController = TextEditingController();
 
+  // Updates the selected transaction type
   void updateSelected(Set<String> newSelection){
     setState(() {
       _selected = newSelection;
@@ -84,40 +89,56 @@ class _AddTransactionState extends State<AddTransaction> {
   Widget build(BuildContext context) {
     return DynamicBottomSheet(
       initialChildSize: 0.85,
-      maxChildSize: 0.85,
+      maxChildSize: 0.95,
       child: Padding(
         padding: CustomPadding.screenWidth,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Title of the bottom sheet
             Center(
               child: Text(AppString.newTransaction, style: CustomTextStyle.regularStyleMedium,),
             ),
             SizedBox(height: CustomPadding.defaultSpace,),
+            // Segment control for switching between expense and income
             CustomSegmentControl(
               onValueChanged: (int? newValue) {
                 setState(() {
-                  _currentSegment = newValue ?? 0; //change categories
+                  _currentSegment = newValue ?? 0; // Update current segment
                 });
               },
             ),
             SizedBox(height: CustomPadding.bigSpace,),
+            // Text field for transaction title
             CustomTextfield(name: AppString.title, hintText: AppString.hintTitle, controller: _titleController),
             SizedBox(height: CustomPadding.defaultSpace,),
+            // Row containing amount and date fields
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                // Amount text field
                 CustomTextfield(name: AppString.amount, hintText: AppString.lines, controller: _amountController, width: MediaQuery.sizeOf(context).width / 2 - CustomPadding.bigSpace, prefix: Text('-'),),
+                // Date text field
                 CustomTextfield(name: AppString.date, hintText: 'Placeholder', controller: _amountController, width: MediaQuery.sizeOf(context).width / 2 - CustomPadding.bigSpace,),
               ],
             ),
             SizedBox(height: CustomPadding.defaultSpace,),
+            // Category section
             Text(AppString.categorie, style: CustomTextStyle.regularStyleMedium,),
             SizedBox(height: CustomPadding.mediumSpace,),
+            // Display either expense or income categories based on current segment
             _currentSegment == 0 ? CategoriesExpense() : CategoriesIncome(),
             SizedBox(height: CustomPadding.defaultSpace,),
+            // Recurrence section
+            Text(AppString.recurry, style: CustomTextStyle.regularStyleMedium,),
+            SizedBox(height: CustomPadding.mediumSpace,),
+            // Dropdown for selecting recurrence frequency
+            CustomDropDown(list: ['einmalig', 'täglich', 'wöchentlich' 'zweiwöchentlich', 'halb-monatlich', 'monatlich', 'vierteljährlich', 'halb-jährlich', 'jährlich'],),
+            SizedBox(height: CustomPadding.defaultSpace,),
+            // Note text field
             CustomTextfield(name: AppString.note, hintText: AppString.noteHint, controller: _noteController,isMultiline: true,),
             SizedBox(height: CustomPadding.defaultSpace,),
+            // Button to add the transaction
             ElevatedButton(onPressed: (){}, child: Text(AppString.addTransaction))
           ],
         ),
