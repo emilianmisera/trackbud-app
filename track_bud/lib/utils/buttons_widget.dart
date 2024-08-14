@@ -197,3 +197,40 @@ class _CustomSegmentControlState extends State<CustomSegmentControl> {
     );
   }
 }
+
+
+
+// Widget for individual category items
+class CustomCategory extends StatelessWidget {
+  final Color color;
+  final String icon;
+  final String categoryName;
+
+  const CustomCategory({
+    super.key,
+    required this.color,
+    required this.icon,
+    required this.categoryName,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(
+        horizontal: CustomPadding.categoryWidthSpace,
+        vertical: CustomPadding.categoryHeightSpace,
+      ),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(7),
+        color: color,
+      ),
+      child: Row(
+        children: [
+          SvgPicture.asset(icon), // Display category icon
+          SizedBox(width: CustomPadding.smallSpace),
+          Text(categoryName), // Display category name
+        ],
+      ),
+    );
+  }
+}
