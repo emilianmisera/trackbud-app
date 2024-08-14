@@ -44,45 +44,50 @@ class AccAdjustmentButton extends StatelessWidget {
 }
 
 class CustomDropDown extends StatefulWidget {
-  const CustomDropDown({super.key});
+  final List<String> list;
+  const CustomDropDown({
+    super.key, 
+    required this.list, 
+  });
 
   @override
   State<CustomDropDown> createState() => _CustomDropDownState();
 }
 
 class _CustomDropDownState extends State<CustomDropDown> {
-  final _currencyList = [
-    "€",
-    "\$",
-    "£",
-    "¥",
-  ]; // List of currency Symbols
   String? value;
 
   @override
+  void initState() {
+    super.initState();
+    // Standardmäßig das erste Item auswählen
+    value = widget.list.isNotEmpty ? widget.list.first : null;
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Container(
-      // conatiner decoration
-      width: 50,
-      height: 50,
-      decoration: BoxDecoration(
-        border: Border.all(
-          color: CustomColor.grey,
+    return CustomShadow(
+      child: Container(
+        width: double.infinity,
+        height: 60,
+        decoration: BoxDecoration(
+          color: CustomColor.white,
+          borderRadius: BorderRadius.circular(10),
         ),
-        borderRadius: BorderRadius.all(Radius.circular(10)),
-      ),
-      child: Center(
-        child: DropdownButton<String>(
-          // DropdownButton
-          items: _currencyList.map(buildMenuItem).toList(),
-          onChanged: (value) => setState(() {
-            this.value = value;
-          }),
-          value: value,
-          elevation: 0,
-          style: CustomTextStyle.regularStyleMedium,
-          dropdownColor: CustomColor.white,
-          iconSize: 0.0,
+        padding: EdgeInsets.symmetric(horizontal: 16),
+        child: DropdownButtonHideUnderline(
+          child: DropdownButton<String>(
+            items: widget.list.map(buildMenuItem).toList(),
+            onChanged: (value) => setState(() {
+              this.value = value;
+            }),
+            value: value,
+            elevation: 0,
+            style: CustomTextStyle.regularStyleMedium,
+            dropdownColor: CustomColor.white,
+            icon: Icon(Icons.keyboard_arrow_down_rounded),
+            isExpanded: true,
+          ),
         ),
       ),
     );
@@ -92,7 +97,9 @@ class _CustomDropDownState extends State<CustomDropDown> {
         value: item,
         child: Text(
           item,
-          style: CustomTextStyle.titleStyleMedium,
+          style: CustomTextStyle.regularStyleDefault.copyWith(
+            color: value == item ? CustomColor.bluePrimary : null,
+          ),
         ),
       );
 }
