@@ -1,6 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:track_bud/utils/constants.dart';
+import 'package:track_bud/utils/strings.dart';
+import 'package:track_bud/utils/textfield_widget.dart';
 
 class AccAdjustmentButton extends StatelessWidget {
   final String icon;
@@ -137,5 +140,52 @@ class _AccAdjustmentWidgetState extends State<AccAdjustmentWidget> {
         ],
       ),
     );
+  }
+}
+
+class CustomSegmentControl extends StatefulWidget {
+  const CustomSegmentControl({super.key});
+
+  @override
+  State<CustomSegmentControl> createState() => _CustomSegmentControlState();
+}
+
+class _CustomSegmentControlState extends State<CustomSegmentControl> {
+  int? _sliding = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomShadow(
+  child: Container(
+    width: double.infinity,
+    child: CupertinoSlidingSegmentedControl(
+      children: {
+        0: Container(
+          height: MediaQuery.sizeOf(context).height * Constants.segmentedControlHeight,
+          alignment: Alignment.center,
+          child: Text(
+            AppString.expense, 
+            style: _sliding == 0 ? CustomTextStyle.slidingStyleExpense : CustomTextStyle.slidingStyleDefault
+          ),
+        ),
+        1: Container(
+          height: MediaQuery.sizeOf(context).height * Constants.segmentedControlHeight,
+          alignment: Alignment.center,
+          child: Text(
+            AppString.income, 
+            style: _sliding == 1 ? CustomTextStyle.slidingStyleIncome : CustomTextStyle.slidingStyleDefault
+          ),
+        ),
+      },
+      groupValue: _sliding,
+      onValueChanged: (int? newValue){
+        setState(() {
+          _sliding = newValue;
+        });
+      },
+      backgroundColor: CustomColor.white,
+    ),
+  ),
+);
   }
 }
