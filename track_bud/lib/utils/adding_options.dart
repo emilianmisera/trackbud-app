@@ -71,6 +71,7 @@ class _AddTransactionState extends State<AddTransaction> {
   Set<String> _selected = {AppString.expense};
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _amountController = TextEditingController();
+  final TextEditingController _noteController = TextEditingController();
 
   void updateSelected(Set<String> newSelection){
     setState(() {
@@ -81,33 +82,37 @@ class _AddTransactionState extends State<AddTransaction> {
   @override
   Widget build(BuildContext context) {
     return DynamicBottomSheet(
-      child: SingleChildScrollView(
-        child: Padding(
-          padding: CustomPadding.screenWidth,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Center(
-                child: Text(AppString.newTransaction, style: CustomTextStyle.regularStyleMedium,),
-              ),
-              SizedBox(height: CustomPadding.defaultSpace,),
-              CustomSegmentControl(),
-              SizedBox(height: CustomPadding.bigSpace,),
-              CustomTextfield(name: AppString.title, hintText: AppString.hintTitle, controller: _titleController),
-              SizedBox(height: CustomPadding.defaultSpace,),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  CustomTextfield(name: AppString.amount, hintText: AppString.lines, controller: _amountController, width: MediaQuery.sizeOf(context).width / 2 - CustomPadding.bigSpace, prefix: Text('-'),),
-                  CustomTextfield(name: AppString.date, hintText: 'Placeholder', controller: _amountController, width: MediaQuery.sizeOf(context).width / 2 - CustomPadding.bigSpace,),
-                ],
-              ),
-              SizedBox(height: CustomPadding.defaultSpace,),
-              Text(AppString.categorie, style: CustomTextStyle.regularStyleMedium,),
-              SizedBox(height: CustomPadding.mediumSpace,),
-              CategoriesExpense()
-            ],
-          ),
+      initialChildSize: 0.85,
+      maxChildSize: 0.85,
+      child: Padding(
+        padding: CustomPadding.screenWidth,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Center(
+              child: Text(AppString.newTransaction, style: CustomTextStyle.regularStyleMedium,),
+            ),
+            SizedBox(height: CustomPadding.defaultSpace,),
+            CustomSegmentControl(),
+            SizedBox(height: CustomPadding.bigSpace,),
+            CustomTextfield(name: AppString.title, hintText: AppString.hintTitle, controller: _titleController),
+            SizedBox(height: CustomPadding.defaultSpace,),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                CustomTextfield(name: AppString.amount, hintText: AppString.lines, controller: _amountController, width: MediaQuery.sizeOf(context).width / 2 - CustomPadding.bigSpace, prefix: Text('-'),),
+                CustomTextfield(name: AppString.date, hintText: 'Placeholder', controller: _amountController, width: MediaQuery.sizeOf(context).width / 2 - CustomPadding.bigSpace,),
+              ],
+            ),
+            SizedBox(height: CustomPadding.defaultSpace,),
+            Text(AppString.categorie, style: CustomTextStyle.regularStyleMedium,),
+            SizedBox(height: CustomPadding.mediumSpace,),
+            CategoriesExpense(),
+            SizedBox(height: CustomPadding.defaultSpace,),
+            CustomTextfield(name: AppString.note, hintText: AppString.noteHint, controller: _noteController,isMultiline: true,),
+            SizedBox(height: CustomPadding.defaultSpace,),
+            ElevatedButton(onPressed: (){}, child: Text(AppString.addTransaction))
+          ],
         ),
       ),
     );
