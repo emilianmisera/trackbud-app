@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:track_bud/utils/adding_options.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/textfield_widget.dart';
 
@@ -61,9 +62,14 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
               // Add button (center)
               GestureDetector(
                 onTap: () {
-                // TODO: implement Action-Selections
+                  showModalBottomSheet(
+                    context: context,
+                    isScrollControlled: true,
+                    backgroundColor: Colors.transparent,
+                    builder: (context) => AddTransaction(),
+                  );
                 },
-                child: Container(
+                child: Container( // add Button
                     width: MediaQuery.sizeOf(context).width *
                         CustomPadding.navbarButtonwidth,
                     child: SvgPicture.asset(AssetImport.addButton)),
