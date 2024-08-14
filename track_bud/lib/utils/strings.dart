@@ -30,7 +30,7 @@ class AppString {
       "Gib deine E-Mail Adresse an, um dein Passwort zurückzusetzen.";
   static String continueText = "Weiter";
   static String loginFailedSnackbar = "Anmeldung fehlgeschlagen";
-  static String successfulLogin = "Angemeldet mit";
+  static String successfulLogin = "Erfolgreiche Anmeldung!";
   static String emptyLoginInput =
       "Bitte gib deine E-Mail und dein Passwort an.";
   static String signupEmptyField = "Bitte fülle alle Felder aus.";
@@ -76,10 +76,12 @@ class AppString {
   static String darkMode = 'Dunkles Design';
 
   //change bankaccount
-  static String changeBankAccHeading = "Ändere dein Kontostand";
-  static String changeBankAccDescribtion = "Stimmt dein angegebener Kontostand nicht mehr überein? Ändere es, um die alle Funktionen vollständig nutzen zu können!";
+  static String changeBankAccHeading = "Ändere deinen Kontostand";
+  static String changeBankAccDescribtion =
+      "Stimmt dein angegebener Kontostand nicht mehr? Ändere ihn, um auf Kurs zu bleiben!";
 
   //change budgetgoal
-  static String changeBudgetGoalHeading= "Ändere dein Budget Ziel";
-  static String changeBudgetGoalDescribtion = "Zu sparsam oder doch eher zu optimistisch gewesen? Bearbeite dein Budgetziel.";
+  static String changeBudgetGoalHeading = "Ändere dein Budget Ziel";
+  static String changeBudgetGoalDescribtion =
+      "Zu sparsam oder doch eher zu optimistisch gewesen? Bearbeite dein Budgetziel.";
 }
