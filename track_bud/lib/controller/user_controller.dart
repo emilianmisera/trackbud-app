@@ -1,24 +1,51 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserController {
-  static Future<User?> loginWithGoogle() async {
-    final googleAccount = await GoogleSignIn().signIn();
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-    if (googleAccount == null) {
-      return null;
+  Future<void> updateBankAccountBalance(String userId, double amount) async {
+    try {
+      await _firestore.collection('users').doc(userId).update({
+        'bankAccountBalance': amount,
+      });
+    } catch (e) {
+      throw Exception("Fehler beim Aktualisieren des Bankkontos: $e");
     }
+  }
 
-    final googleAuth = await googleAccount.authentication;
+  Future<void> updateBudgetGoal(String userId, double amount) async {
+    try {
+      await _firestore.collection('users').doc(userId).update({
+        'monthlySpendingGoal': amount,
+      });
+    } catch (e) {
+      throw Exception("Fehler beim Aktualisieren des Budgets: $e");
+    }
+  }
 
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth.accessToken,
-      idToken: googleAuth.idToken,
-    );
+  Future<double> getBankAccountBalance(String userId) async {
+    try {
+      DocumentSnapshot userDoc = await _firestore.collection('users').doc(userId).get();
+      if (userDoc.exists) {
+        return userDoc.get('bankAccountBalance')?.toDouble() ?? 0.0;
+      } else {
+        throw Exception("Benutzerdokument nicht gefunden.");
+      }
+    } catch (e) {
+      throw Exception("Fehler beim Abrufen des Bankkontostands: $e");
+    }
+  }
 
-    final UserCredential =
-        await FirebaseAuth.instance.signInWithCredential(credential);
-
-    return UserCredential.user;
+  Future<double> getBudgetGoal(String userId) async {
+    try {
+      DocumentSnapshot userDoc = await _firestore.collection('users').doc(userId).get();
+      if (userDoc.exists) {
+        return userDoc.get('monthlySpendingGoal')?.toDouble() ?? 0.0;
+      } else {
+        throw Exception("Benutzerdokument nicht gefunden.");
+      }
+    } catch (e) {
+      throw Exception("Fehler beim Abrufen des Budgets: $e");
+    }
   }
 }
