@@ -85,8 +85,8 @@ class CustomColor {
   static const Color hintColorNavBar = Color.fromRGBO(103, 104, 118, 1);
   static const Color red = Color.fromRGBO(223, 41, 53, 1);
   static const Color green = Color.fromRGBO(6, 186, 99, 1);
-  static const Color overlayColor =
-      Color.fromRGBO(128, 128, 128, 0.2); //used for button animation
+  static const Color overlayColor = Color.fromRGBO(128, 128, 128, 0.2); //used for button animation
+  static const Color grabberColor = Color.fromRGBO(60, 60, 67, 0.3); // used for grabber in bottomSheet
 
   //categorie colors
   //expenses
