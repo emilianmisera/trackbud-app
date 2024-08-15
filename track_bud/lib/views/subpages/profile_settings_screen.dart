@@ -18,6 +18,22 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
   // Controllers for text fields
   final TextEditingController _nameController =
       TextEditingController(text: 'PlaceholderName');
+  bool _isProfileChanged = false;
+  String _initialName = 'PlaceholderName';
+  bool _isProfilePictureChanged = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _nameController.addListener(_checkIfProfileChanged);
+  }
+
+  void _checkIfProfileChanged() {
+    setState(() {
+      _isProfileChanged =
+          _nameController.text != _initialName || _isProfilePictureChanged;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,27 +60,34 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                 child: GestureDetector(
                   onTap: () {
                     // TODO: Implement profile picture change functionality
+                    setState(() {
+                      _isProfilePictureChanged = true;
+                      _checkIfProfileChanged();
+                    });
                   },
                   child: Stack(
                     alignment: Alignment.bottomRight,
-                    children:[ 
+                    children: [
                       ClipRRect(
-                      borderRadius: BorderRadius.circular(100.0),
-                      child: Container(
-                        width: Constants.profilePictureAccountEdit,
-                        height: Constants.profilePictureAccountEdit,
-                        color: Colors.red,
+                        borderRadius: BorderRadius.circular(100.0),
+                        child: Container(
+                          width: Constants.profilePictureAccountEdit,
+                          height: Constants.profilePictureAccountEdit,
+                          color: Colors.red,
+                        ),
                       ),
-                    ),
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(100.0),
-                      child: Container(
-                        width: 30,
-                        height: 30,
-                        color: CustomColor.grey,
-                        child: SvgPicture.asset(AssetImport.camera, fit: BoxFit.scaleDown,),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(100.0),
+                        child: Container(
+                          width: 30,
+                          height: 30,
+                          color: CustomColor.grey,
+                          child: SvgPicture.asset(
+                            AssetImport.camera,
+                            fit: BoxFit.scaleDown,
+                          ),
+                        ),
                       ),
-                    ),
                     ],
                   ),
                 ),
@@ -77,30 +100,43 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                   controller: _nameController),
               SizedBox(height: CustomPadding.defaultSpace),
               // Email text field (locked)
-              LockedEmailTextfield(email: 'placeholder@gmail.com'), //TODO: Place User Email here
+              LockedEmailTextfield(
+                  email: 'placeholder@gmail.com'), //TODO: Place User Email here
               SizedBox(height: CustomPadding.defaultSpace),
-              AccAdjustmentButton(icon: AssetImport.userEdit, name: AppString.changeEmail, onPressed: (){
-                Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ChangeEmailScreen(),
-                      ),
-                    );
-              }, padding: EdgeInsets.symmetric(horizontal: CustomPadding.mediumSpace),),
-              AccAdjustmentButton(icon: AssetImport.userEdit, name: AppString.changePassword, onPressed: (){Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ChangePasswordScreen(),
-                      ),
-                    );}, padding: EdgeInsets.symmetric(horizontal: CustomPadding.mediumSpace),),
-
+              AccAdjustmentButton(
+                icon: AssetImport.email,
+                name: AppString.changeEmail,
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ChangeEmailScreen(),
+                    ),
+                  );
+                },
+                padding:
+                    EdgeInsets.symmetric(horizontal: CustomPadding.mediumSpace),
+              ),
+              AccAdjustmentButton(
+                icon: AssetImport.userEdit,
+                name: AppString.changePassword,
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ChangePasswordScreen(),
+                    ),
+                  );
+                },
+                padding:
+                    EdgeInsets.symmetric(horizontal: CustomPadding.mediumSpace),
+              ),
             ],
           ),
         ),
       ),
       // Bottom sheet with Save button
       bottomSheet: Container(
-        // Margin calculations for proper spacing
         margin: EdgeInsets.only(
           bottom: MediaQuery.sizeOf(context).height * CustomPadding.bottomSpace,
           left: CustomPadding.defaultSpace,
@@ -108,9 +144,15 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
         ),
         width: MediaQuery.of(context).size.width,
         child: ElevatedButton(
-          onPressed: () {
-            // TODO: Implement save functionality
-          },
+          onPressed: _isProfileChanged
+              ? () {
+                  // TODO: Implement save functionality
+                }
+              : null,
+          style: ElevatedButton.styleFrom(
+            disabledBackgroundColor: CustomColor.bluePrimary.withOpacity(0.5),
+            backgroundColor: CustomColor.bluePrimary
+          ),
           child: Text(AppString.save),
         ),
       ),
