@@ -16,6 +16,7 @@ dependencies:
   cloud_firestore: ^5.2.1
   google_sign_in: ^6.2.1
   flutter_launcher_icons: ^0.13.1
+  time_picker_spinner_pop_up: ^2.0.0
 
 
 dev_dependencies:
