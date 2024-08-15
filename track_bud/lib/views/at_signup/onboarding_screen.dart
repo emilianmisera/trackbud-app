@@ -47,20 +47,7 @@ class OnboardingScreen extends StatelessWidget {
                     MaterialPageRoute(builder: (context) => LoginScreen()));
               },
               child: Text(
-                AppString.signIn,
-              ),
-            ),
-            SizedBox(
-              height: CustomPadding.mediumSpace,
-            ),
-            OutlinedButton(
-              //sign up button
-              onPressed: () {
-                Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (context) => SignUpScreen()));
-              },
-              child: Text(
-                AppString.signUp,
+                AppString.start,
               ),
             ),
           ],
