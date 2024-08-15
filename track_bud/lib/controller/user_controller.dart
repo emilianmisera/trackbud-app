@@ -25,7 +25,8 @@ class UserController {
 
   Future<double> getBankAccountBalance(String userId) async {
     try {
-      DocumentSnapshot userDoc = await _firestore.collection('users').doc(userId).get();
+      DocumentSnapshot userDoc =
+          await _firestore.collection('users').doc(userId).get();
       if (userDoc.exists) {
         return userDoc.get('bankAccountBalance')?.toDouble() ?? 0.0;
       } else {
@@ -38,7 +39,8 @@ class UserController {
 
   Future<double> getBudgetGoal(String userId) async {
     try {
-      DocumentSnapshot userDoc = await _firestore.collection('users').doc(userId).get();
+      DocumentSnapshot userDoc =
+          await _firestore.collection('users').doc(userId).get();
       if (userDoc.exists) {
         return userDoc.get('monthlySpendingGoal')?.toDouble() ?? 0.0;
       } else {
@@ -46,6 +48,33 @@ class UserController {
       }
     } catch (e) {
       throw Exception("Fehler beim Abrufen des Budgets: $e");
+    }
+  }
+
+  Future<String> getUserName(String userId) async {
+    try {
+      DocumentSnapshot userDoc =
+          await _firestore.collection('users').doc(userId).get();
+      if (userDoc.exists) {
+        return userDoc.get('name') as String;
+      } else {
+        throw Exception("Benutzerdokument nicht gefunden.");
+      }
+    } catch (e) {
+      throw Exception("Fehler beim Abrufen des Namens: $e");
+    }
+  }
+
+  Future<String> getUserEmail(String userId) async {
+    try {
+      DocumentSnapshot userDoc = await _firestore.collection('users').doc(userId).get();
+      if (userDoc.exists) {
+        return userDoc.get('email') as String;
+      } else {
+        throw Exception("Benutzerdokument nicht gefunden.");
+      }
+    } catch (e) {
+      throw Exception("Fehler beim Abrufen der Email: $e");
     }
   }
 }
