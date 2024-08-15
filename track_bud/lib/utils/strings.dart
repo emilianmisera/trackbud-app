@@ -68,7 +68,12 @@ class AppString {
   static String newPassword = 'Neues Passwort eingeben';
   static String confirmNewPasswort = 'neues Passwort bestätigen';
   static String save = 'Speichern';
+  static String currentEmail = 'aktuelle Email';
+  static String currentEmailHint = 'aktuelle Email eingeben';
   static String changeEmail = 'Email ändern';
+  static String newEmail = 'neue Email';
+  static String newEmailHint = 'neue Email eingeben';
+  static String changeEmailDesscribtion = 'Ändere deine Email.';
   static String changePasswordDesscribtion = 'Ändere dein Passwort.';
 
 
