@@ -9,13 +9,14 @@ class AccAdjustmentButton extends StatelessWidget {
   final String icon;
   final String name;
   final void Function() onPressed;
+  final EdgeInsets? padding;
   final Widget? widget;
   const AccAdjustmentButton(
       {super.key,
       required this.icon,
       required this.name,
       required this.onPressed,
-      this.widget});
+      this.widget, this.padding});
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +39,7 @@ class AccAdjustmentButton extends StatelessWidget {
         fixedSize: const Size(double.infinity, 60),
         elevation: 0,
         surfaceTintColor: CustomColor.backgroundPrimary,
+        padding: padding?? EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace)
       ),
     );
   }

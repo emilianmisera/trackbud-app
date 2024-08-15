@@ -168,6 +168,7 @@ class AssetImport {
   static const String analysisActive = 'assets/icons/analysis_active.svg';
   static const String user = 'assets/icons/user.svg';
   static const String userActive = 'assets/icons/user_active.svg';
+  static const String email = 'assets/icons/email.svg';
 }
 
 class Constants {
