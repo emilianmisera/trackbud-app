@@ -4,8 +4,8 @@ class DebtModel {
   String debtorId;
   double amount;
   String description;
-  DateTime date;
-  String status;
+  String date;
+  String status;  // 'pending' or 'paid'
 
   DebtModel({
     required this.debtId,
@@ -24,7 +24,7 @@ class DebtModel {
       debtorId: map['debtorId'],
       amount: map['amount'].toDouble(),
       description: map['description'],
-      date: map['date'].toDate(),
+      date: map['date'],
       status: map['status'],
     );
   }
