@@ -12,6 +12,7 @@ class ChangePasswordScreen extends StatefulWidget {
 }
 
 class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
+  // Controllers for the text fields
   final TextEditingController _currentPasswordController =
       TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -24,7 +25,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
       appBar: AppBar(),
       body: SingleChildScrollView(
         child: Padding(
-          // Padding adds spacing around the content inside the screen.
+          // Padding adds spacing around the content inside the screen
           padding: EdgeInsets.only(
             top: MediaQuery.sizeOf(context).height * CustomPadding.topSpace -
                 Constants
@@ -35,38 +36,36 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // Heading text
               Text(
-                AppString.changePassword, // The heading text
-                style: CustomTextStyle
-                    .headingStyle, // The text style for the heading.
+                AppString.changePassword,
+                style: CustomTextStyle.headingStyle,
               ),
-              SizedBox(
-                height: CustomPadding
-                    .mediumSpace, // Adds vertical space between the heading and the next element.
-              ),
+              SizedBox(height: CustomPadding.mediumSpace),
+
+              // Description text
               Text(
-                AppString.changePasswordDesscribtion, // The description text
-                style: CustomTextStyle
-                    .hintStyleDefault, // The text style for the description.
+                AppString.changePasswordDesscribtion,
+                style: CustomTextStyle.hintStyleDefault,
               ),
-              SizedBox(
-                height: CustomPadding
-                    .bigSpace, // Adds more vertical space before the next element.
-              ),
+              SizedBox(height: CustomPadding.bigSpace),
+
+              // Current password text field
               CustomTextfield(
-                  name: AppString.currentPassword,
-                  hintText: AppString.currentPasswordHint,
-                  controller: _currentPasswordController),
-              SizedBox(
-                height: CustomPadding.mediumSpace,
+                name: AppString.currentPassword,
+                hintText: AppString.currentPasswordHint,
+                controller: _currentPasswordController,
               ),
+              SizedBox(height: CustomPadding.mediumSpace),
+
+              // Forgot password link
               Align(
                 alignment: Alignment.centerRight,
                 child: GestureDetector(
-                  // forgot Password
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => ForgotPasswordScreen()));
+                      builder: (context) => ForgotPasswordScreen(),
+                    ));
                   },
                   child: Text(
                     AppString.forgotPassword,
@@ -75,35 +74,40 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 ),
               ),
               SizedBox(height: CustomPadding.defaultSpace),
+
+              // New password text field
               CustomTextfield(
-                  name: AppString.newPassword,
-                  hintText: AppString.hintPassword,
-                  controller: _passwordController),
+                name: AppString.newPassword,
+                hintText: AppString.hintPassword,
+                controller: _passwordController,
+              ),
               SizedBox(height: CustomPadding.defaultSpace),
-              // Confirm Password text field
+
+              // Confirm new password text field
               CustomTextfield(
-                  name: AppString.confirmPassword,
-                  hintText: AppString.confirmNewPasswort,
-                  controller: _confirmPasswordController),
+                name: AppString.confirmPassword,
+                hintText: AppString.confirmNewPasswort,
+                controller: _confirmPasswordController,
+              ),
             ],
           ),
         ),
       ),
-      bottomSheet: 
-        Container(
-          margin: EdgeInsets.only(
-            bottom: MediaQuery.sizeOf(context).height *
-                CustomPadding
-                    .bottomSpace, // Bottom margin based on screen height
-            left: CustomPadding.defaultSpace, // Left margin
-            right: CustomPadding.defaultSpace, // Right margin
-          ),
-          width: MediaQuery.of(context).size.width,
-          child: ElevatedButton(
-            onPressed: () async {},
-            child: Text(AppString.save),
-          ),
+      // Bottom sheet with Save button
+      bottomSheet: Container(
+        margin: EdgeInsets.only(
+          bottom: MediaQuery.sizeOf(context).height * CustomPadding.bottomSpace,
+          left: CustomPadding.defaultSpace,
+          right: CustomPadding.defaultSpace,
         ),
+        width: MediaQuery.of(context).size.width,
+        child: ElevatedButton(
+          onPressed: () async {
+            // TODO: Implement save functionality
+          },
+          child: Text(AppString.save),
+        ),
+      ),
     );
   }
 }

@@ -7,7 +7,7 @@ import 'package:track_bud/utils/textfield_widget.dart';
 import 'package:track_bud/views/subpages/change_email_screen.dart';
 import 'package:track_bud/views/subpages/change_password_screen.dart';
 
-// Widget for the Profile Settings Screen
+// Profile Settings Screen
 class ProfileSettingsScreen extends StatefulWidget {
   const ProfileSettingsScreen({super.key});
   @override
@@ -15,9 +15,11 @@ class ProfileSettingsScreen extends StatefulWidget {
 }
 
 class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
-  // Controllers for text fields
+  // Controller for the name text field
   final TextEditingController _nameController =
       TextEditingController(text: 'PlaceholderName');
+  
+  // State variables to track changes
   bool _isProfileChanged = false;
   String _initialName = 'PlaceholderName';
   bool _isProfilePictureChanged = false;
@@ -25,9 +27,11 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
   @override
   void initState() {
     super.initState();
+    // Add listener to name controller to detect changes
     _nameController.addListener(_checkIfProfileChanged);
   }
 
+  // Function to check if profile has been modified
   void _checkIfProfileChanged() {
     setState(() {
       _isProfileChanged =
@@ -43,10 +47,9 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
         title: Text(AppString.accAdjustments,
             style: CustomTextStyle.regularStyleMedium),
       ),
-      // Main body of the screen
       body: SingleChildScrollView(
         child: Padding(
-          // Custom padding calculation
+          // add Space
           padding: EdgeInsets.only(
               top: MediaQuery.sizeOf(context).height *
                       CustomPadding.topSpaceAuth -
@@ -55,7 +58,7 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
               right: CustomPadding.defaultSpace),
           child: Column(
             children: [
-              // Profile picture
+              // Profile picture widget
               Center(
                 child: GestureDetector(
                   onTap: () {
@@ -68,6 +71,7 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                   child: Stack(
                     alignment: Alignment.bottomRight,
                     children: [
+                      // Main profile picture
                       ClipRRect(
                         borderRadius: BorderRadius.circular(100.0),
                         child: Container(
@@ -76,6 +80,7 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                           color: Colors.red,
                         ),
                       ),
+                      // Camera icon overlay
                       ClipRRect(
                         borderRadius: BorderRadius.circular(100.0),
                         child: Container(
@@ -103,6 +108,7 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
               LockedEmailTextfield(
                   email: 'placeholder@gmail.com'), //TODO: Place User Email here
               SizedBox(height: CustomPadding.defaultSpace),
+              // Change Email button
               AccAdjustmentButton(
                 icon: AssetImport.email,
                 name: AppString.changeEmail,
@@ -117,6 +123,7 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                 padding:
                     EdgeInsets.symmetric(horizontal: CustomPadding.mediumSpace),
               ),
+              // Change Password button
               AccAdjustmentButton(
                 icon: AssetImport.userEdit,
                 name: AppString.changePassword,
@@ -144,12 +151,14 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
         ),
         width: MediaQuery.of(context).size.width,
         child: ElevatedButton(
+          // Enable button only if profile has changed
           onPressed: _isProfileChanged
               ? () {
                   // TODO: Implement save functionality
                 }
               : null,
           style: ElevatedButton.styleFrom(
+            // Set button color based on whether profile has changed
             disabledBackgroundColor: CustomColor.bluePrimary.withOpacity(0.5),
             backgroundColor: CustomColor.bluePrimary
           ),

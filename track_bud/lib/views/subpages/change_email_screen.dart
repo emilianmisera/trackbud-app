@@ -11,6 +11,7 @@ class ChangeEmailScreen extends StatefulWidget {
 }
 
 class _ChangeEmailScreenState extends State<ChangeEmailScreen> {
+  // Controllers for the text fields
   final TextEditingController _currentEmailController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -31,29 +32,29 @@ class _ChangeEmailScreenState extends State<ChangeEmailScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // The heading text
               Text(
-                AppString.changeEmail, // The heading text
-                style: CustomTextStyle
-                    .headingStyle, // The text style for the heading.
+                AppString.changeEmail,
+                style: CustomTextStyle.headingStyle,
               ),
               SizedBox(
-                height: CustomPadding
-                    .mediumSpace, // Adds vertical space between the heading and the next element.
+                height: CustomPadding.mediumSpace,
               ),
+              // The description text
               Text(
-                AppString.changeEmailDesscribtion, // The description text
-                style: CustomTextStyle
-                    .hintStyleDefault, // The text style for the description.
+                AppString.changeEmailDesscribtion,
+                style: CustomTextStyle.hintStyleDefault,
               ),
               SizedBox(
-                height: CustomPadding
-                    .bigSpace, // Adds more vertical space before the next element.
+                height: CustomPadding.bigSpace,
               ),
+              // Current email text field
               CustomTextfield(
                   name: AppString.currentEmail,
                   hintText: AppString.currentEmailHint,
                   controller: _currentEmailController),
               SizedBox(height: CustomPadding.defaultSpace),
+              // new email text field
               CustomTextfield(
                   name: AppString.newEmail,
                   hintText: AppString.newEmailHint,
@@ -68,21 +69,21 @@ class _ChangeEmailScreenState extends State<ChangeEmailScreen> {
           ),
         ),
       ),
-      bottomSheet: 
-        Container(
-          margin: EdgeInsets.only(
-            bottom: MediaQuery.sizeOf(context).height *
-                CustomPadding
-                    .bottomSpace, // Bottom margin based on screen height
-            left: CustomPadding.defaultSpace, // Left margin
-            right: CustomPadding.defaultSpace, // Right margin
-          ),
-          width: MediaQuery.of(context).size.width,
-          child: ElevatedButton(
-            onPressed: () async {},
-            child: Text(AppString.save),
-          ),
+      // Bottom sheet with Save button
+      bottomSheet: Container(
+        margin: EdgeInsets.only(
+          bottom: MediaQuery.sizeOf(context).height * CustomPadding.bottomSpace,
+          left: CustomPadding.defaultSpace,
+          right: CustomPadding.defaultSpace,
         ),
+        width: MediaQuery.of(context).size.width,
+        child: ElevatedButton(
+          onPressed: () async {
+            // TODO: Implement save functionality
+          },
+          child: Text(AppString.save),
+        ),
+      ),
     );
   }
 }
