@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:track_bud/controller/user_controller.dart';
 import 'package:track_bud/services/auth/auth_service.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/strings.dart';
@@ -21,6 +23,17 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   final AuthService _authService = AuthService();
   final TextEditingController _passwordController = TextEditingController();
+  final UserController _userController = UserController();
+
+  // State variables to hold user info
+  String currentUserName = '';
+  String currentUserEmail = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _loadCurrentUserInfo();
+  }
 
   // SIGNOUT METHOD
   Future<void> _signOut() async {
@@ -131,6 +144,35 @@ class _SettingsScreenState extends State<SettingsScreen> {
     Navigator.of(context).pop();
   }
 
+  Future<void> _loadCurrentUserInfo() async {
+    final String userId = FirebaseAuth.instance.currentUser?.uid ?? '';
+
+    if (userId.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Benutzer nicht angemeldet."),
+        ),
+      );
+      return;
+    }
+
+    try {
+      String userName = await _userController.getUserName(userId);
+      String userEmail = await _userController.getUserEmail(userId);
+
+      setState(() {
+        currentUserName = userName;
+        currentUserEmail = userEmail;
+      });
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Fehler beim Laden der Nutzerdaten: $e"),
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -162,7 +204,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Center(
                     child: Text(
                   // FirstName
-                  'Placeholder Name',
+                  currentUserName,
                   style: CustomTextStyle.titleStyleMedium,
                 )),
                 SizedBox(
@@ -171,7 +213,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Center(
                     child: Text(
                   //email
-                  'PlaceholderMail@gmail.com',
+                  currentUserEmail,
                   style: CustomTextStyle.hintStyleDefault,
                 )),
                 SizedBox(
