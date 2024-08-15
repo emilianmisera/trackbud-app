@@ -62,11 +62,15 @@ class AppString {
       "Gib dein Passwort ein um dein Konto zu löschen.";
 
   //profile settings
+  static String currentPassword = 'aktuelles Passwort';
+  static String currentPasswordHint = 'aktuelles Passwort eingeben';
   static String changePassword = 'Passwort ändern';
   static String newPassword = 'Neues Passwort eingeben';
   static String confirmNewPasswort = 'neues Passwort bestätigen';
   static String save = 'Speichern';
   static String changeEmail = 'Email ändern';
+  static String changePasswordDesscribtion = 'Ändere dein Passwort.';
+
 
   //account settings screen
   static String budget = 'Budget';
