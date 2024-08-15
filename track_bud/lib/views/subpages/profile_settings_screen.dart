@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:track_bud/utils/buttons_widget.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfield_widget.dart';
@@ -15,9 +16,6 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
   // Controllers for text fields
   final TextEditingController _nameController =
       TextEditingController(text: 'PlaceholderName');
-  final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController =
-      TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -77,19 +75,11 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                   controller: _nameController),
               SizedBox(height: CustomPadding.defaultSpace),
               // Email text field (locked)
-              LockedEmailTextfield(email: 'placeholder@gmail.com'),
+              LockedEmailTextfield(email: 'placeholder@gmail.com'), //TODO: Place User Email here
               SizedBox(height: CustomPadding.defaultSpace),
-              // New Password text field
-              CustomTextfield(
-                  name: AppString.newPassword,
-                  hintText: AppString.hintPassword,
-                  controller: _passwordController),
-              SizedBox(height: CustomPadding.defaultSpace),
-              // Confirm Password text field
-              CustomTextfield(
-                  name: AppString.confirmPassword,
-                  hintText: AppString.confirmNewPasswort,
-                  controller: _confirmPasswordController),
+              AccAdjustmentButton(icon: AssetImport.userEdit, name: AppString.changeEmail, onPressed: (){}, padding: EdgeInsets.symmetric(horizontal: CustomPadding.mediumSpace),),
+              AccAdjustmentButton(icon: AssetImport.userEdit, name: AppString.changePassword, onPressed: (){}, padding: EdgeInsets.symmetric(horizontal: CustomPadding.mediumSpace),),
+
             ],
           ),
         ),
