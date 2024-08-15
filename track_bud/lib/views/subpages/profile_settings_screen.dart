@@ -24,7 +24,7 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
     return Scaffold(
       // App bar with title
       appBar: AppBar(
-        title: Text(AppString.accAdjustments,
+        title: Text(AppString.editProfile,
             style: CustomTextStyle.regularStyleMedium),
       ),
       // Main body of the screen
