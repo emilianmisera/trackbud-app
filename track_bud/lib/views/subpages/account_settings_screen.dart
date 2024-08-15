@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:track_bud/utils/buttons_widget.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/strings.dart';
-import 'package:track_bud/views/nav_pages/settings_screen.dart';
 import 'package:track_bud/views/subpages/change_bankaccount_screen.dart';
 import 'package:track_bud/views/subpages/change_budgetgoal_screen.dart';
 
@@ -29,15 +28,6 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
       appBar: AppBar(
         title: Text(AppString.accAdjustments,
             style: CustomTextStyle.regularStyleMedium),
-        leading: IconButton(
-    icon: Icon(Icons.arrow_back),
-    onPressed: () {
-      Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (context) => SettingsScreen()),
-        (Route<dynamic> route) => false,
-      );
-    },
-  ),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -63,11 +53,11 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                   name: AppString.changeBankAcc,
                   onPressed: () {
                     Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ChangeBankaccountScreen(),
-                        ),
-                      );
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ChangeBankaccountScreen(),
+                      ),
+                    );
                   }),
               SizedBox(
                 height: CustomPadding.mediumSpace,
@@ -78,11 +68,11 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                   name: AppString.changeBudgetGoal,
                   onPressed: () {
                     Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ChangeBudgetGoalScreen(),
-                        ),
-                      );
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ChangeBudgetGoalScreen(),
+                      ),
+                    );
                   }),
               SizedBox(
                 height: CustomPadding.mediumSpace,
@@ -105,7 +95,8 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                 // DarkMode
                 icon: AssetImport.mode,
                 name: AppString.darkMode,
-                widget: Switch( // Switch Widget 
+                widget: Switch(
+                  // Switch Widget
                   value: isActive,
                   onChanged: _toggleSwitch,
                   activeColor: CustomColor.bluePrimary,
