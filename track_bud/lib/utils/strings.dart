@@ -1,5 +1,6 @@
 class AppString {
   //onboarding
+  static String start = "Beginnen";
   static String signIn = "Anmelden";
   static String signUp = "Registrieren";
   static String onboardingTitle =
@@ -17,8 +18,8 @@ class AppString {
   static String password = "Passwort";
   static String hintPassword = "Passwort eingeben";
   static String or = "oder";
-  static String signInWithGoogle = 'mit Google anmelden';
-  static String signInWithApple = 'mit Apple anmelden';
+  static String signInWithGoogle = 'mit Google fortfahren';
+  static String signInWithApple = 'mit Apple fortfahren';
   static String newHere = 'neu Hier? ';
   static String notNew = 'bereits einen Account? ';
   static String firstName = 'Vorname';
@@ -81,8 +82,9 @@ class AppString {
       "Stimmt dein angegebener Kontostand nicht mehr? Ändere ihn, um auf Kurs zu bleiben!";
 
   //change budgetgoal
-  static String changeBudgetGoalHeading= "Ändere dein Budget Ziel";
-  static String changeBudgetGoalDescribtion = "Zu sparsam oder doch eher zu optimistisch gewesen? Bearbeite dein Budgetziel.";
+  static String changeBudgetGoalHeading = "Ändere dein Budget Ziel";
+  static String changeBudgetGoalDescribtion =
+      "Zu sparsam oder doch eher zu optimistisch gewesen? Bearbeite dein Budgetziel.";
 
   //new transaction
   static String newTransaction = 'Neue Transaktion';
@@ -109,6 +111,4 @@ class AppString {
   static String geschenke = 'Geschenk';
   static String sonstiges = 'Sonstiges';
   static String gehalt = 'Gehalt';
-
-
 }
