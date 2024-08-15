@@ -6,6 +6,7 @@ import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfield_widget.dart';
 import 'package:track_bud/views/subpages/change_email_screen.dart';
 import 'package:track_bud/views/subpages/change_password_screen.dart';
+import 'dart:math' show min;
 
 // Profile Settings Screen
 class ProfileSettingsScreen extends StatefulWidget {
@@ -55,7 +56,10 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                       CustomPadding.topSpaceAuth -
                   Constants.defaultAppBarHeight,
               left: CustomPadding.defaultSpace,
-              right: CustomPadding.defaultSpace),
+              right: CustomPadding.defaultSpace,
+              bottom: MediaQuery.sizeOf(context).height * CustomPadding.bottomSpace
+              ),
+              
           child: Column(
             children: [
               // Profile picture widget
@@ -143,13 +147,20 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
         ),
       ),
       // Bottom sheet with Save button
-      bottomSheet: Container(
-        margin: EdgeInsets.only(
-          bottom: MediaQuery.sizeOf(context).height * CustomPadding.bottomSpace,
-          left: CustomPadding.defaultSpace,
-          right: CustomPadding.defaultSpace,
-        ),
-        width: MediaQuery.of(context).size.width,
+      bottomSheet: AnimatedContainer(
+  duration: Duration(milliseconds: 100),
+  curve: Curves.easeInOut,
+  margin: EdgeInsets.only(
+    bottom: min(
+      MediaQuery.of(context).viewInsets.bottom > 0
+    ? 0
+    : MediaQuery.of(context).size.height * CustomPadding.bottomSpace,
+    MediaQuery.of(context).size.height * CustomPadding.bottomSpace
+    ),
+    left: CustomPadding.defaultSpace,
+    right: CustomPadding.defaultSpace,
+  ),
+  width: MediaQuery.of(context).size.width,
         child: ElevatedButton(
           // Enable button only if profile has changed
           onPressed: _isProfileChanged
