@@ -45,13 +45,27 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                   onTap: () {
                     // TODO: Implement profile picture change functionality
                   },
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(100.0),
-                    child: Container(
-                      width: Constants.profilePictureAccountEdit,
-                      height: Constants.profilePictureAccountEdit,
-                      color: Colors.red,
+                  child: Stack(
+                    alignment: Alignment.bottomRight,
+                    children:[ 
+                      ClipRRect(
+                      borderRadius: BorderRadius.circular(100.0),
+                      child: Container(
+                        width: Constants.profilePictureAccountEdit,
+                        height: Constants.profilePictureAccountEdit,
+                        color: Colors.red,
+                      ),
                     ),
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(100.0),
+                      child: Container(
+                        width: 30,
+                        height: 30,
+                        color: CustomColor.grey,
+                        child: SvgPicture.asset(AssetImport.camera, fit: BoxFit.scaleDown,),
+                      ),
+                    ),
+                    ],
                   ),
                 ),
               ),
