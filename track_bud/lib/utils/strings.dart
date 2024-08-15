@@ -66,6 +66,7 @@ class AppString {
   static String newPassword = 'Neues Passwort eingeben';
   static String confirmNewPasswort = 'neues Passwort bestätigen';
   static String save = 'Speichern';
+  static String changeEmail = 'Email ändern';
 
   //account settings screen
   static String budget = 'Budget';
