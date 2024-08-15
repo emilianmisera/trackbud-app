@@ -1,130 +1,203 @@
-import "package:firebase_auth/firebase_auth.dart";
-import "package:track_bud/models/user_model.dart";
-import "package:track_bud/services/firestore_service.dart";
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:track_bud/models/user_model.dart';
+import 'package:track_bud/services/firestore_service.dart';
+import 'package:track_bud/trackbud.dart';
+import 'package:track_bud/views/at_signup/bank_account_info_screen.dart';
 
-// for handling authentication with Firebase
 class AuthService {
-  // Create an instance of FirebaseAuth
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final FirestoreService _firestoreService = FirestoreService();
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
 
-  // Method to sign in a user using email and password
-  Future<UserCredential> signInWithEmailAndPassword(
-      String email, String password) async {
+  // Sign in with email and password
+  Future<void> signInWithEmailAndPassword(
+      BuildContext context, String email, String password) async {
     try {
-      // Attempt to sign in the user with the provided email and password
       UserCredential userCredential = await _firebaseAuth
           .signInWithEmailAndPassword(email: email, password: password);
+      await _checkEmailVerification(userCredential);
+      await handlePostLogin(context, userCredential);
+    } on FirebaseAuthException catch (error) {
+      _showErrorSnackBar(context, error.message ?? error.code);
+    }
+  }
 
-      // Check if the email is verified
-      if (userCredential.user?.emailVerified ?? false) {
-        // If email is verified, return the user credential
-        return userCredential;
-      } else {
-        // If email is not verified, sign out the user and throw an error
-        await signOut();
+  // Create a new user with email and password
+  Future<void> createUserWithEmailAndPassword(
+      BuildContext context, String email, String password, String name) async {
+    try {
+      UserCredential userCredential = await _firebaseAuth
+          .createUserWithEmailAndPassword(email: email, password: password);
+      await _sendEmailVerification(userCredential);
+      await _createUserRecord(userCredential, name);
+      // Handle post login actions
+      await handlePostLogin(context, userCredential);
+    } on FirebaseAuthException catch (error) {
+      _showErrorSnackBar(context, error.message ?? error.code);
+    }
+  }
+
+  // Handle sign in with Google
+  Future<void> signInWithGoogle(BuildContext context) async {
+    try {
+      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+      if (googleUser == null) {
         throw FirebaseAuthException(
-          code: 'email-not-verified',
-          message: 'Please verify your email address before signing in.',
+          code: 'ERROR_ABORTED_BY_USER',
+          message: 'Sign in aborted by user',
         );
       }
-    } on FirebaseAuthException catch (error) {
-      // Re-throw the FirebaseAuthException to handle it elsewhere
+
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+
+      UserCredential userCredential =
+          await _firebaseAuth.signInWithCredential(credential);
+      await _handleNewGoogleUser(userCredential);
+      await handlePostLogin(context, userCredential);
+    } catch (error) {
+      print('Error during Google sign in: $error');
+      _showErrorSnackBar(context, error.toString());
+    }
+  }
+
+  // Handle post-login actions
+  Future<void> handlePostLogin(BuildContext context, UserCredential userCredential) async {
+    String userId = userCredential.user!.uid;
+
+    UserModel? userData = await _firestoreService.getUserData(userId);
+
+    if (userData != null) {
+      if (userData.bankAccountBalance == -1 ||
+          userData.monthlySpendingGoal == -1) {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => BankAccountInfoScreen()),
+        );
+      } else {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => TrackBud()),
+        );
+      }
+    } else {
+      _showErrorSnackBar(context, "Benutzerinformationen konnten nicht abgerufen werden.");
+    }
+  }
+
+  // Re-authenticate user
+  Future<void> _reauthenticateUser(User user, String password) async {
+    try {
+      AuthCredential credential =
+          EmailAuthProvider.credential(email: user.email!, password: password);
+      await user.reauthenticateWithCredential(credential);
+    } catch (error) {
+      print('Error during re-authentication: $error');
       throw error;
     }
   }
 
-  // Method to create a new user account using email and password
-  Future<UserCredential> createUserWithEmailAndPassword(
-      String email, String password, String name) async {
+  // Delete user from Firebase Authentication
+  Future<void> _deleteUserFromAuth(User user) async {
     try {
-      // Attempt to create a new user with the provided email and password
-      UserCredential userCredential = await _firebaseAuth
-          .createUserWithEmailAndPassword(email: email, password: password);
+      await user.delete();
+    } catch (error) {
+      print('Error deleting user: $error');
+      throw error;
+    }
+  }
 
-      // Send email verification after account creation
-      await userCredential.user?.sendEmailVerification();
+  // Check if email is verified
+  Future<void> _checkEmailVerification(UserCredential userCredential) async {
+    if (userCredential.user?.emailVerified ?? false) {
+      return;
+    } else {
+      await signOut();
+      throw FirebaseAuthException(
+        code: 'email-not-verified',
+        message: 'Please verify your email address before signing in.',
+      );
+    }
+  }
 
-      // Create a UserModel instance with initial data
+  // Send email verification
+  Future<void> _sendEmailVerification(UserCredential userCredential) async {
+    await userCredential.user?.sendEmailVerification();
+  }
+
+  // Create user record in Firestore
+  Future<void> _createUserRecord(
+      UserCredential userCredential, String name) async {
+    UserModel newUser = UserModel(
+      userId: userCredential.user!.uid,
+      email: userCredential.user!.email!,
+      name: name,
+      profilePictureUrl: '', // Initial value, could be updated later
+      bankAccountBalance: -1,
+      monthlySpendingGoal: -1,
+      settings: {}, // Default settings or get from user input
+      friends: [],
+    );
+
+    await _firestoreService.addUser(newUser);
+  }
+
+  // Handle new Google user
+  Future<void> _handleNewGoogleUser(UserCredential userCredential) async {
+    if (userCredential.additionalUserInfo?.isNewUser ?? false) {
       UserModel newUser = UserModel(
         userId: userCredential.user!.uid,
-        email: email,
-        name: name,
-        profilePictureUrl: '', // Initial value, could be updated later
-        bankAccountBalance: 0.0,
-        monthlySpendingGoal: 0.0,
-        settings: {}, // Default settings or get from user input
+        email: userCredential.user!.email!,
+        name: userCredential.user!.displayName ?? '',
+        profilePictureUrl: userCredential.user!.photoURL ?? '',
+        bankAccountBalance: -1,
+        monthlySpendingGoal: -1,
+        settings: {}, // Default settings
         friends: [],
       );
 
-      // Save the user data to Firestore
       await _firestoreService.addUser(newUser);
-
-      return userCredential; // Return the user credential on success
-    } on FirebaseAuthException catch (error) {
-      throw error; // Throw an error if account creation fails
     }
   }
 
-  // Method to send a password reset email
+  // Show error snackbar
+  void _showErrorSnackBar(BuildContext context, String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+      ),
+    );
+  }
+
+  // Send password reset email
   Future<void> sendPasswordResetEmail(String email) async {
     try {
-      // Send a password reset email
       await _firebaseAuth.sendPasswordResetEmail(email: email);
     } on FirebaseAuthException catch (error) {
-      // Handle errors such as invalid email
       throw error;
     }
   }
 
-  // SignOut
+  // Sign out
   Future<void> signOut() async {
-    return await FirebaseAuth.instance.signOut();
+    return await _firebaseAuth.signOut();
   }
 
-  // Method to delete the user account from Firebase Authentication
+  // Delete user account
   Future<void> deleteUserAccount(String password) async {
     User? user = _firebaseAuth.currentUser;
     if (user != null) {
       try {
-        // Re-authenticate the user
         await _reauthenticateUser(user, password);
-
-        // Delete the user from Firebase Authentication
-        await deleteUserFromAuth();
-
-        print('Benutzerkonto erfolgreich gelöscht.');
-      } catch (e) {
-        print('Fehler beim Löschen des Benutzerkontos: $e');
-        // Handle specific error cases like invalid password
-        throw e;
-      }
-    }
-  }
-
-  // Re-authentication method
-  Future<void> _reauthenticateUser(User user, String password) async {
-    try {
-      AuthCredential credential = EmailAuthProvider.credential(
-        email: user.email!,
-        password: password,
-      );
-      await user.reauthenticateWithCredential(credential);
-    } catch (e) {
-      print('Fehler bei der Re-Authentifizierung: $e');
-      throw e;
-    }
-  }
-
-  // Method to delete the current user from Firebase Authentication
-  Future<void> deleteUserFromAuth() async {
-    User? user = _firebaseAuth.currentUser;
-    if (user != null) {
-      try {
-        await user.delete();
-      } catch (e) {
-        print('Fehler beim Löschen des Benutzers: $e');
-        throw e; // Re-throw the error to handle it in the calling function
+        await _deleteUserFromAuth(user);
+        print('User account deleted successfully.');
+      } catch (error) {
+        print('Error deleting user account: $error');
+        throw error;
       }
     }
   }

@@ -24,6 +24,21 @@ class FirestoreService {
     return UserModel.fromMap(snapshot.data()!);
   }
 
+  // Methode zum Abrufen der Benutzerdaten
+  Future<UserModel?> getUserData(String userId) async {
+    try {
+      DocumentSnapshot doc = await _db.collection('users').doc(userId).get();
+      if (doc.exists) {
+        return UserModel.fromMap(doc.data() as Map<String, dynamic>);
+      } else {
+        return null;
+      }
+    } catch (e) {
+      print('Fehler beim Abrufen der Benutzerdaten: $e');
+      return null;
+    }
+  }
+
   // Fetch Transaction
   Future<TransactionModel> getTransaction(String transactionId) async {
     var snapshot =

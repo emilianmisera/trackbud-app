@@ -22,60 +22,58 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   final AuthService _authService = AuthService();
 
-  // Method to handle sign-up
   Future<void> _handleSignUp() async {
-    // Retrieve user inputs
-    String name = _nameController.text.trim();
-    String email = _emailController.text.trim();
-    String password = _passwordController.text.trim();
-    String confirmPassword = _confirmationPasswordController.text.trim();
+  // Retrieve user inputs
+  String name = _nameController.text.trim();
+  String email = _emailController.text.trim();
+  String password = _passwordController.text.trim();
+  String confirmPassword = _confirmationPasswordController.text.trim();
 
-    // Validate inputs
-    if (name.isEmpty ||
-        email.isEmpty ||
-        password.isEmpty ||
-        confirmPassword.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(AppString.signupEmptyField),
-        ),
-      );
-      return;
-    }
-
-    if (password != confirmPassword) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(AppString.signupPasswordsDontMatch),
-        ),
-      );
-      return;
-    }
-
-    try {
-      // Attempt to create a new user using the AuthService
-      await _authService.createUserWithEmailAndPassword(email, password, name);
-
-      // Handle successful sign-up (navigate to home screen or show success message)
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(AppString.signupSucessful),
-        ),
-      );
-
-      // navigate to Login Screen
-      Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => LoginScreen()));
-    } on FirebaseAuthException catch (e) {
-      // Handle sign-up failure (show error message)
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content:
-              Text("${AppString.signupFailedSnackbar}: ${e.message ?? e.code}"),
-        ),
-      );
-    }
+  // Validate inputs
+  if (name.isEmpty || email.isEmpty || password.isEmpty || confirmPassword.isEmpty) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(AppString.signupEmptyField),
+      ),
+    );
+    return;
   }
+
+  if (password != confirmPassword) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(AppString.signupPasswordsDontMatch),
+      ),
+    );
+    return;
+  }
+
+  try {
+    // Attempt to create a new user using the AuthService
+    await _authService.createUserWithEmailAndPassword(context, email, password, name);
+
+    // Handle successful sign-up
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(AppString.signupSucessful),
+      ),
+    );
+
+    // After successful registration, navigate to the login screen or directly handle post-login
+    // This depends on whether you want to prompt the user to log in again or handle it directly
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(builder: (context) => LoginScreen()), // Adjust if needed
+    );
+
+  } on FirebaseAuthException catch (e) {
+    // Handle sign-up failure (show error message)
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text("${AppString.signupFailedSnackbar}: ${e.message ?? e.code}"),
+      ),
+    );
+  }
+}
 
   @override
   Widget build(BuildContext context) {
