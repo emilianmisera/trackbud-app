@@ -11,6 +11,9 @@ class CustomTextfield extends StatelessWidget {
   final TextEditingController controller;
   final bool obscureText;
   final bool? autofocus;
+  final double? width;
+  final Widget? prefix;
+  final bool isMultiline; // Neuer Parameter
 
   const CustomTextfield({
     Key? key,
@@ -19,6 +22,9 @@ class CustomTextfield extends StatelessWidget {
     required this.controller,
     this.obscureText = false,
     this.autofocus,
+    this.width,
+    this.prefix,
+    this.isMultiline = false, // Standardmäßig false
   }) : super(key: key);
 
   @override
@@ -34,29 +40,34 @@ class CustomTextfield extends StatelessWidget {
           height: CustomPadding.mediumSpace,
         ),
         CustomShadow(
-          child: TextFormField(
-            controller: controller,
-            obscureText: obscureText,
-            cursorColor: CustomColor.bluePrimary,
-            autofocus: autofocus ?? false,
-            decoration: InputDecoration(
-              hintText: hintText,
-              contentPadding: EdgeInsets.only(
-                  left: CustomPadding.defaultSpace,
-                  right: CustomPadding.defaultSpace,
-                  top: CustomPadding.contentHeightSpace,
-                  bottom: CustomPadding.contentHeightSpace),
-              hintStyle: CustomTextStyle.hintStyleDefault,
-              floatingLabelBehavior: FloatingLabelBehavior.never,
-              filled: true,
-              fillColor: CustomColor.white,
-              border: OutlineInputBorder(
-                borderSide: BorderSide.none,
-                borderRadius: BorderRadius.circular(10),
+          child: Container(
+            width: width ?? double.infinity,
+            height: isMultiline ? 120 : 60, // Höhe anpassen basierend auf isMultiline
+            child: TextFormField(
+              controller: controller,
+              obscureText: obscureText,
+              cursorColor: CustomColor.bluePrimary,
+              autofocus: autofocus ?? false,
+              maxLines: isMultiline ? 3 : 1, // Maximal 3 Zeilen, wenn isMultiline true ist
+              decoration: InputDecoration(
+                prefixIcon: prefix,
+                hintText: hintText,
+                contentPadding: EdgeInsets.symmetric(
+                  horizontal: CustomPadding.defaultSpace,
+                  vertical: CustomPadding.contentHeightSpace,
+                ),
+                hintStyle: CustomTextStyle.hintStyleDefault,
+                floatingLabelBehavior: FloatingLabelBehavior.never,
+                filled: true,
+                fillColor: CustomColor.white,
+                border: OutlineInputBorder(
+                  borderSide: BorderSide.none,
+                  borderRadius: BorderRadius.circular(10),
+                ),
               ),
             ),
           ),
-        )
+        ),
       ],
     );
   }

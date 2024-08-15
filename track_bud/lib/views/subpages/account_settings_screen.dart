@@ -91,7 +91,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                 // Currency
                 icon: AssetImport.settings,
                 name: AppString.changeCurrency,
-                widget: CustomDropDown(), // Dropdown for changing currency
+                widget: CurrencyDropdown(), // Dropdown for changing currency
               ),
               SizedBox(height: CustomPadding.defaultSpace),
               Text(
@@ -117,4 +117,59 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
       ),
     );
   }
+}
+
+// Dropdown menu for currency
+class CurrencyDropdown extends StatefulWidget {
+  const CurrencyDropdown({super.key});
+
+  @override
+  State<CurrencyDropdown> createState() => _CurrencyDropdownState();
+}
+
+class _CurrencyDropdownState extends State<CurrencyDropdown> {
+  final _currencyList = [
+    "€",
+    "\$",
+    "£",
+    "¥",
+  ]; // List of currency Symbols
+  String? value;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      // conatiner decoration
+      width: 50,
+      height: 50,
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: CustomColor.grey,
+        ),
+        borderRadius: BorderRadius.all(Radius.circular(10)),
+      ),
+      child: Center(
+        child: DropdownButton<String>(
+          // DropdownButton
+          items: _currencyList.map(buildMenuItem).toList(),
+          onChanged: (value) => setState(() {
+            this.value = value;
+          }),
+          value: value,
+          elevation: 0,
+          style: CustomTextStyle.regularStyleMedium,
+          dropdownColor: CustomColor.white,
+          iconSize: 0.0,
+        ),
+      ),
+    );
+  }
+
+  DropdownMenuItem<String> buildMenuItem(String item) => DropdownMenuItem(
+        value: item,
+        child: Text(
+          item,
+          style: CustomTextStyle.titleStyleMedium,
+        ),
+      );
 }

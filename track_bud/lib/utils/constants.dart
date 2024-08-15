@@ -72,6 +72,27 @@ class CustomTextStyle {
     fontWeight: fontWeightSemiBold,
     color: CustomColor.hintColor,
   );
+
+  
+  static TextStyle slidingStyleExpense = const TextStyle(
+    fontFamily: fontFamily,
+    fontSize: fontSizeDefault,
+    fontWeight: fontWeightSemiBold,
+    color: CustomColor.red,
+  );
+  static TextStyle slidingStyleIncome = const TextStyle(
+    fontFamily: fontFamily,
+    fontSize: fontSizeDefault,
+    fontWeight: fontWeightSemiBold,
+    color: CustomColor.green,
+  );
+  static TextStyle slidingStyleDefault = const TextStyle(
+    fontFamily: fontFamily,
+    fontSize: fontSizeDefault,
+    fontWeight: fontWeightDefault,
+    color: CustomColor.hintColor,
+  );
+
 }
 
 class CustomColor {
@@ -85,8 +106,8 @@ class CustomColor {
   static const Color hintColorNavBar = Color.fromRGBO(103, 104, 118, 1);
   static const Color red = Color.fromRGBO(223, 41, 53, 1);
   static const Color green = Color.fromRGBO(6, 186, 99, 1);
-  static const Color overlayColor =
-      Color.fromRGBO(128, 128, 128, 0.2); //used for button animation
+  static const Color overlayColor = Color.fromRGBO(128, 128, 128, 0.2); //used for button animation
+  static const Color grabberColor = Color.fromRGBO(60, 60, 67, 0.3); // used for grabber in bottomSheet
 
   //categorie colors
   //expenses
@@ -119,6 +140,8 @@ class CustomPadding {
   static const double bigSpace = 24;
   static const double bigbigSpace = 48;
   static const double navbarButtonwidth = 0.15;
+  static const double categoryWidthSpace = 16;
+  static const double categoryHeightSpace = 12;
 }
 
 class AssetImport {
@@ -156,4 +179,6 @@ class Constants {
   static const Duration buttonAnimationDuration = Duration(milliseconds: 200);
   static const double profilePictureSettingPage = 65;
   static const double profilePictureAccountEdit = 115;
+  static const double segmentedControlHeight = 0.05;
+  static const double categoryHeight = 0.05;
 }
