@@ -4,6 +4,7 @@ import 'package:track_bud/utils/buttons_widget.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfield_widget.dart';
+import 'package:track_bud/views/subpages/change_email_screen.dart';
 import 'package:track_bud/views/subpages/change_password_screen.dart';
 
 // Widget for the Profile Settings Screen
@@ -78,7 +79,14 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
               // Email text field (locked)
               LockedEmailTextfield(email: 'placeholder@gmail.com'), //TODO: Place User Email here
               SizedBox(height: CustomPadding.defaultSpace),
-              AccAdjustmentButton(icon: AssetImport.userEdit, name: AppString.changeEmail, onPressed: (){}, padding: EdgeInsets.symmetric(horizontal: CustomPadding.mediumSpace),),
+              AccAdjustmentButton(icon: AssetImport.userEdit, name: AppString.changeEmail, onPressed: (){
+                Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ChangeEmailScreen(),
+                      ),
+                    );
+              }, padding: EdgeInsets.symmetric(horizontal: CustomPadding.mediumSpace),),
               AccAdjustmentButton(icon: AssetImport.userEdit, name: AppString.changePassword, onPressed: (){Navigator.push(
                       context,
                       MaterialPageRoute(
