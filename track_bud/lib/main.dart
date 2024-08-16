@@ -5,6 +5,7 @@ import 'package:track_bud/services/auth/auth_gate.dart';
 import 'package:track_bud/utils/color_theme.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'services/firebase_options.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,6 +33,11 @@ class MainApp extends StatelessWidget {
     return MaterialApp(
       title: 'TrackBud',
       theme: ColorTheme.lightTheme,
+      localizationsDelegates: const [
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+        ],
       home: AuthGate(),
     );
   }
