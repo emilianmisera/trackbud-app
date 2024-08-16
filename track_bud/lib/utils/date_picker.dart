@@ -13,6 +13,21 @@ class DatePicker extends StatefulWidget {
 
 class _DatePickerState extends State<DatePicker> {
   DateTime _dateTime = DateTime.now();
+  
+  String _getDateText(DateTime date) {
+  final now = DateTime.now();
+  final today = DateTime(now.year, now.month, now.day);
+  final yesterday = today.subtract(Duration(days: 1));
+  final selectedDate = DateTime(date.year, date.month, date.day);
+
+  if (selectedDate == today) {
+    return 'heute';
+  } else if (selectedDate == yesterday) {
+    return 'gestern';
+  } else {
+    return '${date.day}.${date.month}.${date.year}';
+  }
+}
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +76,7 @@ class _DatePickerState extends State<DatePicker> {
                       ),
                       child: Center(
                           child: Text(
-                              '${_dateTime.day}.${_dateTime.month}.${_dateTime.year}',
+                              _getDateText(_dateTime),
                               style:
                                   CustomTextStyle.regularStyleDefault.copyWith(
                                 color: CustomColor.bluePrimary,
