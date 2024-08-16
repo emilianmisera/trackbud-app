@@ -15,13 +15,15 @@ class DynamicBottomSheet extends StatelessWidget {
   final double minChildSize;
   // Maximum size the bottom sheet can be expanded to
   final double maxChildSize;
+  // text of the button
+  final String buttonText;
 
   const DynamicBottomSheet({
     Key? key,
     required this.child,
-    this.initialChildSize = 0.8, // Default to 80% of screen height
-    this.minChildSize = 0.2, // Can be dragged down to 20% of screen height
-    this.maxChildSize = 0.90, // Can be expanded up to 90% of screen height
+    this.initialChildSize = 0.8,
+    this.minChildSize = 0.2,
+    this.maxChildSize = 0.90, required this.buttonText,
   }) : super(key: key);
 
   @override
@@ -38,21 +40,33 @@ class DynamicBottomSheet extends StatelessWidget {
             borderRadius: BorderRadius.vertical(
                 top: Radius.circular(Constants.buttonBorderRadius)),
           ),
-          child: ListView(
-            controller: scrollController,
+          child: Column(
             children: [
               SizedBox(height: CustomPadding.mediumSpace),
               Center(
-                  child: Container(
-                //grabber
-                width: 36,
-                height: 5,
-                decoration: BoxDecoration(
+                child: Container(
+                  // grabber
+                  width: 36,
+                  height: 5,
+                  decoration: BoxDecoration(
                     color: CustomColor.grabberColor,
-                    borderRadius: BorderRadius.all(Radius.circular(100))),
-              )),
+                    borderRadius: BorderRadius.all(Radius.circular(100)),
+                  ),
+                ),
+              ),
               SizedBox(height: CustomPadding.defaultSpace),
-              child, // The main content of the bottom sheet
+              Expanded(
+                child: SingleChildScrollView(
+                  controller: scrollController,
+                  child: child, // The main content of the bottom sheet
+                ),
+              ),
+              // Button to add the transaction
+            Padding(
+              padding: EdgeInsets.only(left: CustomPadding.mediumSpace, right: CustomPadding.mediumSpace, bottom: MediaQuery.sizeOf(context).height * CustomPadding.bottomSpace),
+              child: ElevatedButton(
+                  onPressed: () {}, child: Text(buttonText)),
+            )
             ],
           ),
         );
@@ -92,7 +106,8 @@ class _AddTransactionState extends State<AddTransaction> {
   @override
   Widget build(BuildContext context) {
     return DynamicBottomSheet(
-      initialChildSize: 0.85,
+      buttonText: AppString.addTransaction,
+      initialChildSize: 0.80,
       maxChildSize: 0.95,
       child: Padding(
         padding: CustomPadding.screenWidth,
@@ -196,9 +211,7 @@ class _AddTransactionState extends State<AddTransaction> {
               height: CustomPadding.defaultSpace,
             ),
             
-            // Button to add the transaction
-            ElevatedButton(
-                onPressed: () {}, child: Text(AppString.addTransaction))
+            
           ],
         ),
       ),
