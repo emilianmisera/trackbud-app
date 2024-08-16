@@ -85,6 +85,10 @@ class _AddTransactionState extends State<AddTransaction> {
     });
   }
 
+  String _getAmountPrefix() {
+  return _currentSegment == 0 ? '–' : '+';
+}
+
   @override
   Widget build(BuildContext context) {
     return DynamicBottomSheet(
@@ -126,17 +130,17 @@ class _AddTransactionState extends State<AddTransaction> {
             ),
             // Row containing amount and date fields
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 // Amount text field
                 CustomTextfield(
                   name: AppString.amount,
                   hintText: AppString.lines,
                   controller: _amountController,
-                  width: MediaQuery.sizeOf(context).width / 3 -
-                      CustomPadding.bigSpace,
-                  prefix: Text('-'),
+                  width: MediaQuery.sizeOf(context).width / 3,
+                  prefix: Text(_getAmountPrefix(), style: CustomTextStyle.titleStyleMedium.copyWith(fontWeight: CustomTextStyle.fontWeightDefault),),
+                  type: TextInputType.numberWithOptions(),
                 ),
+                SizedBox(width: CustomPadding.defaultSpace,),
                 // Date text field
                 DatePicker()
               ],
