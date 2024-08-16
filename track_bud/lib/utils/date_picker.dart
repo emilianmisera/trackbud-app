@@ -71,7 +71,52 @@ class _DatePickerState extends State<DatePicker> {
                   padding: EdgeInsets.zero,
                   minimumSize: Size(60, 60),
                 ),),
-        
+                SizedBox(width: CustomPadding.mediumSpace,),
+            TextButton(
+                onPressed: () {
+                  showCupertinoModalPopup(
+                      context: context,
+                      builder: (BuildContext context) => Center(
+                            child: Container(
+                              width: MediaQuery.sizeOf(context).width,
+                              height: MediaQuery.sizeOf(context).height / 3,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: CupertinoDatePicker(
+                                onDateTimeChanged: (DateTime newTime) {
+                                  setState(() {
+                                    _dateTime = newTime;
+                                  });
+                                },
+                                backgroundColor: CustomColor.white,
+                                initialDateTime: _dateTime,
+                                use24hFormat: true,
+                                mode: CupertinoDatePickerMode.time,
+                              ),
+                            ),
+                          ));
+                },
+                child: CustomShadow(
+                  child: Container(
+                      height: 60,
+                      padding: EdgeInsets.symmetric(
+                          horizontal: CustomPadding.defaultSpace),
+                      decoration: BoxDecoration(
+                        color: CustomColor.white,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Center(
+                          child: Text('${_dateTime.hour}:${_dateTime.minute}',
+                              style:
+                                  CustomTextStyle.regularStyleDefault.copyWith(
+                                color: CustomColor.bluePrimary,
+                              )))),
+                ),
+                style: TextButton.styleFrom(
+                  padding: EdgeInsets.zero,
+                  minimumSize: Size(60, 60),
+                )),
           ],
         ),
       ],
