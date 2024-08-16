@@ -13,7 +13,8 @@ class CustomTextfield extends StatelessWidget {
   final bool? autofocus;
   final double? width;
   final Widget? prefix;
-  final bool isMultiline; // Neuer Parameter
+  final bool isMultiline;
+  final TextInputType? type;
 
   const CustomTextfield({
     Key? key,
@@ -24,7 +25,8 @@ class CustomTextfield extends StatelessWidget {
     this.autofocus,
     this.width,
     this.prefix,
-    this.isMultiline = false, // Standardmäßig false
+    this.isMultiline = false, 
+    this.type, // default false
   }) : super(key: key);
 
   @override
@@ -42,15 +44,20 @@ class CustomTextfield extends StatelessWidget {
         CustomShadow(
           child: Container(
             width: width ?? double.infinity,
-            height: isMultiline ? 120 : 60, // Höhe anpassen basierend auf isMultiline
+            height: isMultiline ? 120 : 60, // choose height of Textfield Box
             child: TextFormField(
               controller: controller,
               obscureText: obscureText,
               cursorColor: CustomColor.bluePrimary,
               autofocus: autofocus ?? false,
-              maxLines: isMultiline ? 3 : 1, // Maximal 3 Zeilen, wenn isMultiline true ist
+              maxLines: isMultiline ? 3 : 1, // Max 3 Lines if multiline true
+              keyboardType: type ?? TextInputType.text,
               decoration: InputDecoration(
-                prefixIcon: prefix,
+                prefix: Align(
+                  widthFactor: 1.0,
+                  heightFactor: 1.0,
+                  child: prefix,
+                ),
                 hintText: hintText,
                 contentPadding: EdgeInsets.symmetric(
                   horizontal: CustomPadding.defaultSpace,
@@ -95,7 +102,8 @@ class TextFieldAmountOfMoney extends StatelessWidget {
   final String? hintText;
   TextFieldAmountOfMoney({
     Key? key,
-    required this.controller, this.hintText,
+    required this.controller,
+    this.hintText,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
