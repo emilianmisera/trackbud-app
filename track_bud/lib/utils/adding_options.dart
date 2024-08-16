@@ -138,7 +138,7 @@ class _AddTransactionState extends State<AddTransaction> {
                   prefix: Text('-'),
                 ),
                 // Date text field
-                
+                DatePicker()
               ],
             ),
             SizedBox(
