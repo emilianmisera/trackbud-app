@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:track_bud/utils/buttons_widget.dart';
 import 'package:track_bud/utils/constants.dart';
+import 'package:track_bud/utils/date_picker.dart';
 import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfield_widget.dart';
 
@@ -19,8 +20,8 @@ class DynamicBottomSheet extends StatelessWidget {
     Key? key,
     required this.child,
     this.initialChildSize = 0.8, // Default to 80% of screen height
-    this.minChildSize = 0.2,     // Can be dragged down to 20% of screen height
-    this.maxChildSize = 0.90,    // Can be expanded up to 90% of screen height
+    this.minChildSize = 0.2, // Can be dragged down to 20% of screen height
+    this.maxChildSize = 0.90, // Can be expanded up to 90% of screen height
   }) : super(key: key);
 
   @override
@@ -34,20 +35,21 @@ class DynamicBottomSheet extends StatelessWidget {
         return Container(
           decoration: BoxDecoration(
             color: CustomColor.backgroundPrimary,
-            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+            borderRadius: BorderRadius.vertical(
+                top: Radius.circular(Constants.buttonBorderRadius)),
           ),
           child: ListView(
             controller: scrollController,
             children: [
               SizedBox(height: CustomPadding.mediumSpace),
               Center(
-                child: Container( //grabber
+                  child: Container(
+                //grabber
                 width: 36,
                 height: 5,
                 decoration: BoxDecoration(
-                  color: CustomColor.grabberColor,
-                  borderRadius: BorderRadius.all(Radius.circular(100))
-                ),
+                    color: CustomColor.grabberColor,
+                    borderRadius: BorderRadius.all(Radius.circular(100))),
               )),
               SizedBox(height: CustomPadding.defaultSpace),
               child, // The main content of the bottom sheet
@@ -59,9 +61,7 @@ class DynamicBottomSheet extends StatelessWidget {
   }
 }
 
-
 //____________________________________________________________________
-
 
 // Widget for adding a new transaction
 class AddTransaction extends StatefulWidget {
@@ -79,7 +79,7 @@ class _AddTransactionState extends State<AddTransaction> {
   final TextEditingController _noteController = TextEditingController();
 
   // Updates the selected transaction type
-  void updateSelected(Set<String> newSelection){
+  void updateSelected(Set<String> newSelection) {
     setState(() {
       _selected = newSelection;
     });
@@ -97,9 +97,14 @@ class _AddTransactionState extends State<AddTransaction> {
           children: [
             // Title of the bottom sheet
             Center(
-              child: Text(AppString.newTransaction, style: CustomTextStyle.regularStyleMedium,),
+              child: Text(
+                AppString.newTransaction,
+                style: CustomTextStyle.regularStyleMedium,
+              ),
             ),
-            SizedBox(height: CustomPadding.defaultSpace,),
+            SizedBox(
+              height: CustomPadding.defaultSpace,
+            ),
             // Segment control for switching between expense and income
             CustomSegmentControl(
               onValueChanged: (int? newValue) {
@@ -108,38 +113,88 @@ class _AddTransactionState extends State<AddTransaction> {
                 });
               },
             ),
-            SizedBox(height: CustomPadding.bigSpace,),
+            SizedBox(
+              height: CustomPadding.bigSpace,
+            ),
             // Text field for transaction title
-            CustomTextfield(name: AppString.title, hintText: AppString.hintTitle, controller: _titleController),
-            SizedBox(height: CustomPadding.defaultSpace,),
+            CustomTextfield(
+                name: AppString.title,
+                hintText: AppString.hintTitle,
+                controller: _titleController),
+            SizedBox(
+              height: CustomPadding.defaultSpace,
+            ),
             // Row containing amount and date fields
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 // Amount text field
-                CustomTextfield(name: AppString.amount, hintText: AppString.lines, controller: _amountController, width: MediaQuery.sizeOf(context).width / 2 - CustomPadding.bigSpace, prefix: Text('-'),),
+                CustomTextfield(
+                  name: AppString.amount,
+                  hintText: AppString.lines,
+                  controller: _amountController,
+                  width: MediaQuery.sizeOf(context).width / 3 -
+                      CustomPadding.bigSpace,
+                  prefix: Text('-'),
+                ),
                 // Date text field
-                CustomTextfield(name: AppString.date, hintText: 'Placeholder', controller: _amountController, width: MediaQuery.sizeOf(context).width / 2 - CustomPadding.bigSpace,),
+                
               ],
             ),
-            SizedBox(height: CustomPadding.defaultSpace,),
+            SizedBox(
+              height: CustomPadding.defaultSpace,
+            ),
             // Category section
-            Text(AppString.categorie, style: CustomTextStyle.regularStyleMedium,),
-            SizedBox(height: CustomPadding.mediumSpace,),
+            Text(
+              AppString.categorie,
+              style: CustomTextStyle.regularStyleMedium,
+            ),
+            SizedBox(
+              height: CustomPadding.mediumSpace,
+            ),
             // Display either expense or income categories based on current segment
             _currentSegment == 0 ? CategoriesExpense() : CategoriesIncome(),
-            SizedBox(height: CustomPadding.defaultSpace,),
+            SizedBox(
+              height: CustomPadding.defaultSpace,
+            ),
             // Recurrence section
-            Text(AppString.recurry, style: CustomTextStyle.regularStyleMedium,),
-            SizedBox(height: CustomPadding.mediumSpace,),
+            Text(
+              AppString.recurry,
+              style: CustomTextStyle.regularStyleMedium,
+            ),
+            SizedBox(
+              height: CustomPadding.mediumSpace,
+            ),
             // Dropdown for selecting recurrence frequency
-            CustomDropDown(list: ['einmalig', 'täglich', 'wöchentlich' 'zweiwöchentlich', 'halb-monatlich', 'monatlich', 'vierteljährlich', 'halb-jährlich', 'jährlich'],),
-            SizedBox(height: CustomPadding.defaultSpace,),
+            CustomDropDown(
+              list: [
+                'einmalig',
+                'täglich',
+                'wöchentlich' 'zweiwöchentlich',
+                'halb-monatlich',
+                'monatlich',
+                'vierteljährlich',
+                'halb-jährlich',
+                'jährlich'
+              ],
+            ),
+            SizedBox(
+              height: CustomPadding.defaultSpace,
+            ),
             // Note text field
-            CustomTextfield(name: AppString.note, hintText: AppString.noteHint, controller: _noteController,isMultiline: true,),
-            SizedBox(height: CustomPadding.defaultSpace,),
+            CustomTextfield(
+              name: AppString.note,
+              hintText: AppString.noteHint,
+              controller: _noteController,
+              isMultiline: true,
+            ),
+            SizedBox(
+              height: CustomPadding.defaultSpace,
+            ),
+            
             // Button to add the transaction
-            ElevatedButton(onPressed: (){}, child: Text(AppString.addTransaction))
+            ElevatedButton(
+                onPressed: () {}, child: Text(AppString.addTransaction))
           ],
         ),
       ),
