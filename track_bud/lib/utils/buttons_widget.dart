@@ -36,7 +36,7 @@ class AccAdjustmentButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         backgroundColor: CustomColor.backgroundPrimary,
         foregroundColor: CustomColor.black,
-        fixedSize: const Size(double.infinity, 60),
+        fixedSize: const Size(double.infinity, Constants.height),
         elevation: 0,
         surfaceTintColor: CustomColor.backgroundPrimary,
         padding: padding?? EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace)
@@ -71,7 +71,7 @@ class _CustomDropDownState extends State<CustomDropDown> {
     return CustomShadow(
       child: Container(
         width: double.infinity,
-        height: 60,
+        height: Constants.height,
         decoration: BoxDecoration(
           color: CustomColor.white,
           borderRadius: BorderRadius.circular(10),
@@ -122,7 +122,7 @@ class _AccAdjustmentWidgetState extends State<AccAdjustmentWidget> {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: 60,
+      height: Constants.height,
       padding: EdgeInsets.only(
           left: CustomPadding.defaultSpace, right: CustomPadding.defaultSpace),
       decoration: BoxDecoration(

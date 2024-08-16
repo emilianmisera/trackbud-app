@@ -44,7 +44,7 @@ class CustomTextfield extends StatelessWidget {
         CustomShadow(
           child: Container(
             width: width ?? double.infinity,
-            height: isMultiline ? 120 : 60, // choose height of Textfield Box
+            height: isMultiline ? 120 : Constants.height, // choose height of Textfield Box
             child: TextFormField(
               controller: controller,
               obscureText: obscureText,
