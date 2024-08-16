@@ -117,7 +117,7 @@ class _AddTransactionState extends State<AddTransaction> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 // Amount text field
-                CustomTextfield(name: AppString.amount, hintText: AppString.lines, controller: _amountController, width: MediaQuery.sizeOf(context).width / 2 - CustomPadding.bigSpace, prefix: Text('-'),),
+                CustomTextfield(name: AppString.amount, hintText: AppString.lines, controller: _amountController, width: MediaQuery.sizeOf(context).width / 2 - CustomPadding.bigSpace),
                 // Date text field
                 CustomTextfield(name: AppString.date, hintText: 'Placeholder', controller: _amountController, width: MediaQuery.sizeOf(context).width / 2 - CustomPadding.bigSpace,),
               ],
