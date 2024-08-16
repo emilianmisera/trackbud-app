@@ -78,7 +78,7 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
                   ],
                 ),
                 SizedBox(height: CustomPadding.defaultSpace,),
-
+                TransactionTile()
               ],
             ),
         ),

@@ -38,3 +38,29 @@ class InfoTile extends StatelessWidget {
     );
   }
 }
+
+
+class TransactionTile extends StatelessWidget {
+  const TransactionTile({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomShadow(
+      child: Container(
+          width: MediaQuery.sizeOf(context).width,
+          decoration: BoxDecoration(
+            color: CustomColor.white,
+            borderRadius: BorderRadius.circular(Constants.buttonBorderRadius)
+          ),
+        child: ListTile(
+          leading: Icon(Icons.safety_check),
+          title: Text('Kaufland'),
+          trailing: Text('100€'),
+          minVerticalPadding: CustomPadding.defaultSpace,
+          subtitle: Text('data'),
+          onTap: (){},
+        )
+      ),
+    );
+  }
+}
