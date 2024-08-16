@@ -68,7 +68,8 @@ class AuthService {
   }
 
   // Handle post-login actions
-  Future<void> handlePostLogin(BuildContext context, UserCredential userCredential) async {
+  Future<void> handlePostLogin(
+      BuildContext context, UserCredential userCredential) async {
     String userId = userCredential.user!.uid;
 
     UserModel? userData = await _firestoreService.getUserData(userId);
@@ -85,7 +86,8 @@ class AuthService {
         );
       }
     } else {
-      _showErrorSnackBar(context, "Benutzerinformationen konnten nicht abgerufen werden.");
+      _showErrorSnackBar(
+          context, "Benutzerinformationen konnten nicht abgerufen werden.");
     }
   }
 
@@ -143,7 +145,7 @@ class AuthService {
       friends: [],
     );
 
-    await _firestoreService.addUser(newUser);
+    await _firestoreService.addUserIfNotExists(newUser);
   }
 
   // Handle new Google user
@@ -160,7 +162,7 @@ class AuthService {
         friends: [],
       );
 
-      await _firestoreService.addUser(newUser);
+      await _firestoreService.addUserIfNotExists(newUser);
     }
   }
 

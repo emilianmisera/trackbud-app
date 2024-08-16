@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class UserModel {
   String userId;
   String email;
@@ -27,8 +29,8 @@ class UserModel {
       profilePictureUrl: map['profilePictureUrl'],
       bankAccountBalance: map['bankAccountBalance'].toDouble(),
       monthlySpendingGoal: map['monthlySpendingGoal'].toDouble(),
-      settings: map['settings'],
-      friends: List<String>.from(map['friends']),
+      settings: jsonDecode(map['settings']),
+      friends: List<String>.from(jsonDecode(map['friends'])),
     );
   }
 
@@ -40,8 +42,8 @@ class UserModel {
       'profilePictureUrl': profilePictureUrl,
       'bankAccountBalance': bankAccountBalance,
       'monthlySpendingGoal': monthlySpendingGoal,
-      'settings': settings,
-      'friends': friends,
+      'settings': jsonEncode(settings),
+      'friends': jsonEncode(friends),
     };
   }
 }

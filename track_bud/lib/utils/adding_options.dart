@@ -156,6 +156,7 @@ class _AddTransactionState extends State<AddTransaction> {
                   type: TextInputType.numberWithOptions(),
                 ),
                 SizedBox(width: CustomPadding.defaultSpace,),
+
                 // Date text field
                 DatePicker()
               ],

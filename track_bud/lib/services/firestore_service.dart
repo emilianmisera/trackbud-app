@@ -5,6 +5,25 @@ import 'package:track_bud/models/user_model.dart';
 class FirestoreService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
+  Future<void> addUserIfNotExists(UserModel user) async {
+  try {
+    // Suche nach Benutzern mit der gleichen E-Mail-Adresse
+    var existingUsers = await _db
+        .collection('users')
+        .where('email', isEqualTo: user.email)
+        .get();
+
+    if (existingUsers.docs.isEmpty) {
+      // Wenn kein Benutzer mit dieser E-Mail existiert, füge ihn hinzu
+      await addUser(user);
+    } else {
+      print("Benutzer mit dieser E-Mail existiert bereits.");
+    }
+  } catch (e) {
+    print("Fehler beim Hinzufügen des Benutzers: $e");
+  }
+}
+
   // Add User
   Future<void> addUser(UserModel user) {
     return _db.collection('users').doc(user.userId).set(user.toMap());
