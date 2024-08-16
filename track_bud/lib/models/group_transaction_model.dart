@@ -1,17 +1,21 @@
+import 'dart:convert';
+
 class GroupTransactionModel {
-  String expenseId;
+  String transactionId;
   String groupId;
   double amount;
   String description;
+  String type;  // 'expense' or 'income'
   String paidBy;
-  DateTime date;
+  String date;
   List<String> splitBetween;
 
   GroupTransactionModel({
-    required this.expenseId,
+    required this.transactionId,
     required this.groupId,
     required this.amount,
     required this.description,
+    required this.type,
     required this.paidBy,
     required this.date,
     required this.splitBetween,
@@ -19,25 +23,27 @@ class GroupTransactionModel {
 
   factory GroupTransactionModel.fromMap(Map<String, dynamic> map) {
     return GroupTransactionModel(
-      expenseId: map['expenseId'],
+      transactionId: map['transactionId'],
       groupId: map['groupId'],
       amount: map['amount'].toDouble(),
       description: map['description'],
+      type: map['type'],
       paidBy: map['paidBy'],
-      date: map['date'].toDate(),
-      splitBetween: List<String>.from(map['splitBetween']),
+      date: map['date'],
+      splitBetween: List<String>.from(jsonDecode(map['splitBetween'])),
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
-      'expenseId': expenseId,
+      'transactionId': transactionId,
       'groupId': groupId,
       'amount': amount,
       'description': description,
+      'type': type,
       'paidBy': paidBy,
       'date': date,
-      'splitBetween': splitBetween,
+      'splitBetween': jsonEncode(splitBetween),
     };
   }
 }

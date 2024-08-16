@@ -1,10 +1,12 @@
+import 'dart:convert';
+
 class GroupModel {
   String groupId;
   String name;
   String profilePictureUrl;
   List<String> members;
   String createdBy;
-  DateTime createdAt;
+  String createdAt;
 
   GroupModel({
     required this.groupId,
@@ -20,9 +22,9 @@ class GroupModel {
       groupId: map['groupId'],
       name: map['name'],
       profilePictureUrl: map['profilePictureUrl'],
-      members: List<String>.from(map['members']),
+      members: List<String>.from(jsonDecode(map['members'])),
       createdBy: map['createdBy'],
-      createdAt: map['createdAt'].toDate(),
+      createdAt: map['createdAt'],
     );
   }
 
@@ -31,7 +33,7 @@ class GroupModel {
       'groupId': groupId,
       'name': name,
       'profilePictureUrl': profilePictureUrl,
-      'members': members,
+      'members': jsonEncode(members),
       'createdBy': createdBy,
       'createdAt': createdAt,
     };

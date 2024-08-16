@@ -2,13 +2,13 @@ class TransactionModel {
   String transactionId;
   String userId;
   double amount;
-  String type;
+  String type;  // 'expense' or 'income'
   String category;
   String notes;
-  DateTime date;
+  String date;
   String billImageUrl;
   String currency;
-  String recurrenceType;
+  String recurrenceType;  // 'daily', 'weekly', 'monthly', 'one-time'
 
   TransactionModel({
     required this.transactionId,
@@ -31,8 +31,7 @@ class TransactionModel {
       type: map['type'],
       category: map['category'],
       notes: map['notes'],
-      date: map['date']
-          .toDate(), // Assuming date is stored as Timestamp in Firestore
+      date: map['date'],
       billImageUrl: map['billImageUrl'],
       currency: map['currency'],
       recurrenceType: map['recurrenceType'],
@@ -47,7 +46,7 @@ class TransactionModel {
       'type': type,
       'category': category,
       'notes': notes,
-      'date': date, // Convert DateTime to Timestamp if using Firestore
+      'date': date,
       'billImageUrl': billImageUrl,
       'currency': currency,
       'recurrenceType': recurrenceType,
