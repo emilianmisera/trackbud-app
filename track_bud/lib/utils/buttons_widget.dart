@@ -47,9 +47,12 @@ class AccAdjustmentButton extends StatelessWidget {
 
 class CustomDropDown extends StatefulWidget {
   final List<String> list;
+  final double? width;
+  final double? height;
+  final EdgeInsets? padding;
   const CustomDropDown({
     super.key, 
-    required this.list, 
+    required this.list, this.width, this.height, this.padding, 
   });
 
   @override
@@ -70,13 +73,13 @@ class _CustomDropDownState extends State<CustomDropDown> {
   Widget build(BuildContext context) {
     return CustomShadow(
       child: Container(
-        width: double.infinity,
-        height: Constants.height,
+        width: widget.width?? double.infinity,
+        height: widget.height?? Constants.height,
         decoration: BoxDecoration(
           color: CustomColor.white,
           borderRadius: BorderRadius.circular(10),
         ),
-        padding: EdgeInsets.symmetric(horizontal: 16),
+        padding: widget.padding?? EdgeInsets.symmetric(horizontal: 16),
         child: DropdownButtonHideUnderline(
           child: DropdownButton<String>(
             items: widget.list.map(buildMenuItem).toList(),
