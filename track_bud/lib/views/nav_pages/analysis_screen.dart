@@ -4,6 +4,7 @@ import 'package:track_bud/controller/user_controller.dart';
 import 'package:track_bud/utils/buttons_widget.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/information_tiles.dart';
+import 'package:track_bud/utils/strings.dart';
 
 class AnalysisScreen extends StatefulWidget {
   const AnalysisScreen({super.key});
@@ -16,6 +17,11 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
   final UserController _userController = UserController();
   double _currentBalance = 0;
 
+ @override
+  void initState() {
+    super.initState();
+    _loadCurrentBankAccountInfo(); // Load bank account info when screen is initialized
+  }
 
 
   Future<void> _loadCurrentBankAccountInfo() async {
@@ -33,7 +39,9 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
     try {
       double currentBalance =
           await _userController.getBankAccountBalance(userId);
-          _currentBalance = currentBalance;
+          setState(() {
+            _currentBalance = currentBalance;
+          });
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -59,7 +67,7 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                InfoTile(title: 'title', amount: '${_currentBalance
+                InfoTile(title: AppString.balance, amount: '${_currentBalance
           .toStringAsFixed(2)}', color: CustomColor.bluePrimary),
                 SizedBox(height: CustomPadding.mediumSpace,),
                 Row(

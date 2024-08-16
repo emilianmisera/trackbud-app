@@ -29,7 +29,7 @@ class InfoTile extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('$amount €', style: CustomTextStyle.headingStyle.copyWith(color: color),),
+            Text('$amount€', style: CustomTextStyle.headingStyle.copyWith(color: color),),
             SizedBox(height: CustomPadding.mediumSpace,),
             Text(title, style: CustomTextStyle.regularStyleDefault,),
           ],

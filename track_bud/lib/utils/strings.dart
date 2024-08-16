@@ -121,4 +121,7 @@ class AppString {
   static String geschenke = 'Geschenk';
   static String sonstiges = 'Sonstiges';
   static String gehalt = 'Gehalt';
+
+  //analysis page
+  static String balance = 'Kontostand';
 }
