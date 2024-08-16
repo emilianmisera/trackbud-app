@@ -40,8 +40,22 @@ class InfoTile extends StatelessWidget {
 }
 
 
-class TransactionTile extends StatelessWidget {
+class TransactionTile extends StatefulWidget {
   const TransactionTile({super.key});
+
+  @override
+  State<TransactionTile> createState() => _TransactionTileState();
+}
+
+class _TransactionTileState extends State<TransactionTile> {
+
+  Future _openTransaction() => showDialog(
+        context: context, 
+        builder: (context) => AlertDialog(
+          content: EditTransaction()
+        ),
+  );
+
 
   @override
   Widget build(BuildContext context) {
@@ -58,9 +72,32 @@ class TransactionTile extends StatelessWidget {
           trailing: Text('100€'),
           minVerticalPadding: CustomPadding.defaultSpace,
           subtitle: Text('data'),
-          onTap: (){},
+          onTap: (){
+            _openTransaction;
+          },
         )
       ),
     );
   }
 }
+
+class EditTransaction extends StatefulWidget {
+  const EditTransaction({super.key});
+
+  @override
+  State<EditTransaction> createState() => _EditTransactionState();
+}
+
+class _EditTransactionState extends State<EditTransaction> {
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          Text('data')
+        ],
+      ),
+    );
+  }
+}
+

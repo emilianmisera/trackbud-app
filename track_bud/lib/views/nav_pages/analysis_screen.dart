@@ -15,7 +15,7 @@ class AnalysisScreen extends StatefulWidget {
 
 class _AnalysisScreenState extends State<AnalysisScreen> {
   final UserController _userController = UserController();
-  double _currentBalance = 0;
+  double _currentBalance = 0.00;
 
  @override
   void initState() {
