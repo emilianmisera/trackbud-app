@@ -140,7 +140,7 @@ class _DatePickerState extends State<DatePicker> {
                   ),
                   child: Center(
                     child: Text(
-                      '${_dateTime.hour}:${_dateTime.minute}',
+                      '${_dateTime.hour.toString().padLeft(2, '0')}:${_dateTime.minute.toString().padLeft(2, '0')}', // if time is single digit, 0 gets added
                       style: CustomTextStyle.regularStyleDefault.copyWith(
                         color: CustomColor.bluePrimary,
                       ),
