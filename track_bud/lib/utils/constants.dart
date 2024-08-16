@@ -183,4 +183,5 @@ class Constants {
   static const double profilePictureAccountEdit = 115;
   static const double segmentedControlHeight = 0.05;
   static const double categoryHeight = 0.05;
+  static const double infoTileSpace = 20;
 }
