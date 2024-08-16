@@ -84,7 +84,7 @@ class _AddTransactionState extends State<AddTransaction> {
       _selected = newSelection;
     });
   }
-
+// when Expense is selected, prefix is "-", income is "+"
   String _getAmountPrefix() {
   return _currentSegment == 0 ? '–' : '+';
 }
