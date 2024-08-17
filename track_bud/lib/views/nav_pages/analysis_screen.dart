@@ -78,6 +78,8 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
                   ],
                 ),
                 SizedBox(height: CustomPadding.defaultSpace,),
+                Text('Verlauf', style: CustomTextStyle.regularStyleMedium,),
+                SizedBox(height: CustomPadding.mediumSpace,),
                 TransactionTile()
               ],
             ),

@@ -78,18 +78,29 @@ class _TransactionTileState extends State<TransactionTile> {
   Widget build(BuildContext context) {
     return CustomShadow(
       child: Container(
-          width: MediaQuery.sizeOf(context).width,
-          decoration: BoxDecoration(
-              color: CustomColor.white,
-              borderRadius:
-                  BorderRadius.circular(Constants.buttonBorderRadius)),
-          child: ListTile(
-              leading: CategoryIcon(color: CustomColor.lebensmittel, icon: AssetImport.appleLogo),
-              title: Text('Kaufland', style: CustomTextStyle.regularStyleMedium,),
-              subtitle: Text('heute, 11:32', style: CustomTextStyle.hintStyleDefault.copyWith(fontSize: CustomTextStyle.fontSizeHint),),
-              trailing: Text('100€', style: CustomTextStyle.regularStyleMedium,),
-              minVerticalPadding: CustomPadding.defaultSpace,
-              onTap: _openTransaction),),
+        width: MediaQuery.sizeOf(context).width,
+        decoration: BoxDecoration(
+            color: CustomColor.white,
+            borderRadius: BorderRadius.circular(Constants.buttonBorderRadius)),
+        child: ListTile(
+            leading: CategoryIcon(
+                color: CustomColor.lebensmittel, icon: AssetImport.appleLogo),
+            title: Text(
+              'Kaufland',
+              style: CustomTextStyle.regularStyleMedium,
+            ),
+            subtitle: Text(
+              'heute, 11:32',
+              style: CustomTextStyle.hintStyleDefault
+                  .copyWith(fontSize: CustomTextStyle.fontSizeHint),
+            ),
+            trailing: Text(
+              '100€',
+              style: CustomTextStyle.regularStyleMedium,
+            ),
+            minVerticalPadding: CustomPadding.defaultSpace,
+            onTap: _openTransaction),
+      ),
     );
   }
 }
@@ -112,7 +123,7 @@ class _EditTransactionState extends State<EditTransaction> {
             children: [
               IconButton(
                 onPressed: () {},
-                icon:  Icon(Icons.more_horiz_rounded),
+                icon: Icon(Icons.more_horiz_rounded),
               ),
               Expanded(
                 child: Center(
@@ -123,7 +134,11 @@ class _EditTransactionState extends State<EditTransaction> {
                 ),
               ),
               IconButton(
-                  onPressed: () {}, icon: Icon(Icons.close_rounded),),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                icon: Icon(Icons.close_rounded),
+              ),
             ],
           ),
           SizedBox(
