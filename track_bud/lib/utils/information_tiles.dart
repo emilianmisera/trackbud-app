@@ -1,6 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:track_bud/utils/buttons_widget.dart';
 import 'package:track_bud/utils/constants.dart';
+import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfield_widget.dart';
 
 class InfoTile extends StatelessWidget {
@@ -11,8 +13,8 @@ class InfoTile extends StatelessWidget {
   const InfoTile({
     Key? key,
     required this.title,
-    required this.amount, 
-    required this.color, 
+    required this.amount,
+    required this.color,
     this.width,
   }) : super(key: key);
 
@@ -20,25 +22,33 @@ class InfoTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomShadow(
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: CustomPadding.contentHeightSpace, horizontal: CustomPadding.defaultSpace),
+        padding: EdgeInsets.symmetric(
+            vertical: CustomPadding.contentHeightSpace,
+            horizontal: CustomPadding.defaultSpace),
         width: width ?? MediaQuery.sizeOf(context).width,
         decoration: BoxDecoration(
-          color: CustomColor.white,
-          borderRadius: BorderRadius.circular(Constants.buttonBorderRadius)
-        ),
+            color: CustomColor.white,
+            borderRadius: BorderRadius.circular(Constants.buttonBorderRadius)),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('$amount€', style: CustomTextStyle.headingStyle.copyWith(color: color),),
-            SizedBox(height: CustomPadding.mediumSpace,),
-            Text(title, style: CustomTextStyle.regularStyleDefault,),
+            Text(
+              '$amount€',
+              style: CustomTextStyle.headingStyle.copyWith(color: color),
+            ),
+            SizedBox(
+              height: CustomPadding.mediumSpace,
+            ),
+            Text(
+              title,
+              style: CustomTextStyle.regularStyleDefault,
+            ),
           ],
         ),
       ),
     );
   }
 }
-
 
 class TransactionTile extends StatefulWidget {
   const TransactionTile({super.key});
@@ -48,14 +58,21 @@ class TransactionTile extends StatefulWidget {
 }
 
 class _TransactionTileState extends State<TransactionTile> {
-
   Future _openTransaction() => showDialog(
-        context: context, 
+        context: context,
         builder: (context) => AlertDialog(
-          content: EditTransaction()
+          content: EditTransaction(),
+          insetPadding:
+              EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace),
+          backgroundColor: CustomColor.backgroundPrimary,
+          surfaceTintColor: CustomColor.backgroundPrimary,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(Constants.buttonBorderRadius),
+            ),
+          ),
         ),
-  );
-
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -63,20 +80,16 @@ class _TransactionTileState extends State<TransactionTile> {
       child: Container(
           width: MediaQuery.sizeOf(context).width,
           decoration: BoxDecoration(
-            color: CustomColor.white,
-            borderRadius: BorderRadius.circular(Constants.buttonBorderRadius)
-          ),
-        child: ListTile(
-          leading: Icon(Icons.safety_check),
-          title: Text('Kaufland'),
-          trailing: Text('100€'),
-          minVerticalPadding: CustomPadding.defaultSpace,
-          subtitle: Text('data'),
-          onTap: (){
-            _openTransaction;
-          },
-        )
-      ),
+              color: CustomColor.white,
+              borderRadius:
+                  BorderRadius.circular(Constants.buttonBorderRadius)),
+          child: ListTile(
+              leading: Icon(Icons.safety_check),
+              title: Text('Kaufland'),
+              trailing: Text('100€'),
+              minVerticalPadding: CustomPadding.defaultSpace,
+              subtitle: Text('data'),
+              onTap: _openTransaction)),
     );
   }
 }
@@ -93,11 +106,135 @@ class _EditTransactionState extends State<EditTransaction> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('data')
+          Row(
+            children: [
+              IconButton(
+                onPressed: () {},
+                icon:  Icon(Icons.more_horiz_rounded),
+              ),
+              Expanded(
+                child: Center(
+                  child: Text(
+                    AppString.expense,
+                    style: CustomTextStyle.regularStyleMedium,
+                  ),
+                ),
+              ),
+              IconButton(
+                  onPressed: () {}, icon: Icon(Icons.close_rounded),),
+            ],
+          ),
+          SizedBox(
+            height: CustomPadding.defaultSpace,
+          ),
+          Row(
+            children: [
+              CategoryIcon(
+                color: CustomColor.entertainment,
+                icon: AssetImport.appleLogo,
+              ),
+              SizedBox(
+                width: CustomPadding.mediumSpace,
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Kaufland Wocheneinkauf',
+                    style: CustomTextStyle.titleStyleMedium,
+                  ),
+                  SizedBox(
+                    height: CustomPadding.smallSpace,
+                  ),
+                  Text(
+                    'heute, 11:32',
+                    style: CustomTextStyle.hintStyleDefault,
+                  ),
+                ],
+              ),
+            ],
+          ),
+          SizedBox(
+            height: CustomPadding.defaultSpace,
+          ),
+          Text(
+            AppString.amount,
+            style: CustomTextStyle.regularStyleDefault,
+          ),
+          SizedBox(
+            height: CustomPadding.mediumSpace,
+          ),
+          Row(
+            children: [
+              CustomShadow(
+                child: Container(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: CustomPadding.defaultSpace,
+                      vertical: CustomPadding.contentHeightSpace),
+                  decoration: BoxDecoration(
+                    color: CustomColor.white,
+                    borderRadius:
+                        BorderRadius.circular(Constants.buttonBorderRadius),
+                  ),
+                  child: Text(
+                    'data',
+                    style: CustomTextStyle.regularStyleMedium,
+                  ),
+                ),
+              ),
+              SizedBox(
+                width: CustomPadding.defaultSpace,
+              ),
+              CustomShadow(
+                child: Container(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: CustomPadding.defaultSpace,
+                      vertical: CustomPadding.contentHeightSpace),
+                  decoration: BoxDecoration(
+                    color: CustomColor.white,
+                    borderRadius:
+                        BorderRadius.circular(Constants.buttonBorderRadius),
+                  ),
+                  child: Text(
+                    'einmalige Transaktion',
+                    style: CustomTextStyle.regularStyleDefault
+                        .copyWith(color: CustomColor.bluePrimary),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: CustomPadding.defaultSpace,
+          ),
+          Text(
+            AppString.note,
+            style: CustomTextStyle.regularStyleDefault,
+          ),
+          SizedBox(
+            height: CustomPadding.mediumSpace,
+          ),
+          CustomShadow(
+            child: Container(
+              width: double.infinity,
+              padding: EdgeInsets.symmetric(
+                  horizontal: CustomPadding.defaultSpace,
+                  vertical: CustomPadding.contentHeightSpace),
+              decoration: BoxDecoration(
+                color: CustomColor.white,
+                borderRadius:
+                    BorderRadius.circular(Constants.buttonBorderRadius),
+              ),
+              child: Text(
+                'data',
+                style: CustomTextStyle.regularStyleDefault,
+              ),
+            ),
+          ),
         ],
       ),
     );
   }
 }
-

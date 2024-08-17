@@ -142,6 +142,7 @@ class CustomPadding {
   static const double navbarButtonwidth = 0.15;
   static const double categoryWidthSpace = 16;
   static const double categoryHeightSpace = 12;
+  static const double categoryIconSpace = 16;
 }
 
 class AssetImport {
