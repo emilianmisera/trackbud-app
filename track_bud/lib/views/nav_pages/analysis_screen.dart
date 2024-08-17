@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:track_bud/controller/user_controller.dart';
 import 'package:track_bud/utils/buttons_widget.dart';
+import 'package:track_bud/utils/charts.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/information_tiles.dart';
 import 'package:track_bud/utils/strings.dart';
@@ -80,7 +81,9 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
                 SizedBox(height: CustomPadding.defaultSpace,),
                 Text('Verlauf', style: CustomTextStyle.regularStyleMedium,),
                 SizedBox(height: CustomPadding.mediumSpace,),
-                TransactionTile()
+                TransactionTile(),
+                SizedBox(height: CustomPadding.defaultSpace,),
+                
               ],
             ),
         ),
