@@ -29,6 +29,9 @@ class DonutChart extends StatefulWidget {
 }
 
 class _DonutChartState extends State<DonutChart> {
+  // Index of the selected section, null if no section is selected
+  int? selectedIndex;
+
   // List of pie chart sections with their properties
   /*
   value Paramter info:
@@ -89,11 +92,17 @@ class _DonutChartState extends State<DonutChart> {
   // Generate sections for the pie chart
   List<PieChartSectionData> showingSections() {
     return List.generate(sections.length, (i) {
+      if (i >= sections.length) return PieChartSectionData();
+      final isTouched = i == selectedIndex;
+      // Set opacity to 50% for non-selected sections when a section is selected
+      final opacity = selectedIndex == null || isTouched ? 1.0 : 0.5;
+
       return PieChartSectionData(
-        color: sections[i].color,
+        color: sections[i].color.withOpacity(opacity),
         value: sections[i].value,
         showTitle: false,
-        radius: 60,
+        // Increase radius of the selected section
+        radius: isTouched ? 70 : 60,
       );
     });
   }
@@ -111,13 +120,46 @@ class _DonutChartState extends State<DonutChart> {
               sectionsSpace: 0,
               centerSpaceRadius: 80,
               sections: showingSections(),
+              pieTouchData: PieTouchData(
+                // Handle touch events on the pie chart
+                touchCallback: (FlTouchEvent event, pieTouchResponse) {
+                  if (event is FlTapUpEvent) {
+                    // Nur auf das TouchUp-Event reagieren
+                    setState(() {
+                      if (pieTouchResponse == null ||
+                          pieTouchResponse.touchedSection == null) {
+                        return;
+                      }
+                      final touchedIndex =
+                          pieTouchResponse.touchedSection!.touchedSectionIndex;
+                      if (touchedIndex < 0 || touchedIndex >= sections.length) {
+                        return;
+                      }
+                      if (selectedIndex == touchedIndex) {
+                        selectedIndex = null;
+                      } else {
+                        selectedIndex = touchedIndex;
+                      }
+                    });
+                  }
+                },
+              ),
             ),
           ),
         ),
         SizedBox(height: CustomPadding.defaultSpace,),
         // Category names display
         Column(
-          children: // Display all category names if no category is selected
+          children: selectedIndex != null && selectedIndex! < sections.length
+              ? [
+                  // Display only the selected category name if one is selected
+                  CategoryTile(
+                    color: sections[selectedIndex!].color,
+                    title: sections[selectedIndex!].title,
+                    percentage: sections[selectedIndex!].value,
+                  )
+                ]
+              : // Display all category names if no category is selected
               sections
                   .map(
                     (section) => Padding(
