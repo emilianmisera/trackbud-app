@@ -54,6 +54,10 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // change InfoTile Title & Color based on selected DropDown
+    String _infoTileTitle = _selectedOption == 'Ausgaben' ? 'ausgegeben' : 'erhalten';
+    Color _infoTileColor = _selectedOption == 'Ausgaben' ? CustomColor.red : CustomColor.green;
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -75,10 +79,11 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+
                   InfoTile(
-                      title: 'title',
+                      title: _infoTileTitle,
                       amount: 'amount',
-                      color: CustomColor.red,
+                      color: _infoTileColor,
                       width: MediaQuery.sizeOf(context).width / 2 -
                           Constants.infoTileSpace),
                   CustomDropDown(
