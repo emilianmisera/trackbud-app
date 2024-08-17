@@ -84,12 +84,12 @@ class _TransactionTileState extends State<TransactionTile> {
               borderRadius:
                   BorderRadius.circular(Constants.buttonBorderRadius)),
           child: ListTile(
-              leading: Icon(Icons.safety_check),
-              title: Text('Kaufland'),
-              trailing: Text('100€'),
+              leading: CategoryIcon(color: CustomColor.lebensmittel, icon: AssetImport.appleLogo),
+              title: Text('Kaufland', style: CustomTextStyle.regularStyleMedium,),
+              subtitle: Text('heute, 11:32', style: CustomTextStyle.hintStyleDefault.copyWith(fontSize: CustomTextStyle.fontSizeHint),),
+              trailing: Text('100€', style: CustomTextStyle.regularStyleMedium,),
               minVerticalPadding: CustomPadding.defaultSpace,
-              subtitle: Text('data'),
-              onTap: _openTransaction)),
+              onTap: _openTransaction),),
     );
   }
 }
@@ -132,7 +132,7 @@ class _EditTransactionState extends State<EditTransaction> {
           Row(
             children: [
               CategoryIcon(
-                color: CustomColor.entertainment,
+                color: CustomColor.lebensmittel,
                 icon: AssetImport.appleLogo,
               ),
               SizedBox(
@@ -142,7 +142,7 @@ class _EditTransactionState extends State<EditTransaction> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Kaufland Wocheneinkauf',
+                    'Kaufland',
                     style: CustomTextStyle.titleStyleMedium,
                   ),
                   SizedBox(
