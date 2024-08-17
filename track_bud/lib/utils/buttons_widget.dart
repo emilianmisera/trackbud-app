@@ -346,3 +346,27 @@ class _CategoriesIncomeState extends State<CategoriesIncome> {
     );
   }
 }
+
+// Widget for individual category items
+class CategoryIcon extends StatelessWidget {
+  final Color color;
+  final String icon;
+
+  const CategoryIcon({
+    super.key,
+    required this.color,
+    required this.icon,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.all(CustomPadding.categoryIconSpace,),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(7),
+        color: color,
+      ),
+      child:SvgPicture.asset(icon), // Display category icon
+    );
+  }
+}
