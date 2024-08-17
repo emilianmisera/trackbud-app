@@ -114,9 +114,78 @@ class _DonutChartState extends State<DonutChart> {
             ),
           ),
         ),
-        
+        SizedBox(height: CustomPadding.defaultSpace,),
+        // Category names display
+        Column(
+          children: // Display all category names if no category is selected
+              sections
+                  .map(
+                    (section) => Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 4.0),
+                        child: CategoryTile(
+                          color: section.color,
+                          title: section.title,
+                          percentage: section.value,
+                        )),
+                  )
+                  .toList(),
+        ),
       ],
     );
   }
 }
 
+class CategoryTile extends StatelessWidget {
+  final Color color;
+  final String title;
+  final double percentage;
+  const CategoryTile(
+      {super.key,
+      required this.color,
+      required this.title,
+      required this.percentage});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: MediaQuery.sizeOf(context).width,
+      decoration: BoxDecoration(
+          color: CustomColor.white,
+          borderRadius: BorderRadius.circular(Constants.buttonBorderRadius)),
+      child: ListTile(
+        // Icon
+        leading: CategoryIcon(color: color, icon: AssetImport.appleLogo),
+        // Title of Transaction
+        title: Text(
+          title,
+          style: CustomTextStyle.regularStyleMedium,
+        ),
+        // Timestamp
+        subtitle: Text(
+          '$percentage%',
+          style: CustomTextStyle.hintStyleDefault
+              .copyWith(fontSize: CustomTextStyle.fontSizeHint),
+        ),
+        // Amount
+        trailing: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Text(
+              '100€',
+              style: CustomTextStyle.regularStyleMedium,
+            ),
+            SizedBox(
+              height: 8,
+            ),
+            Text(
+              '- Transaktionen',
+              style: CustomTextStyle.hintStyleDefault
+                  .copyWith(fontSize: CustomTextStyle.fontSizeHint),
+            ),
+          ],
+        ),
+        minVerticalPadding: CustomPadding.defaultSpace,
+      ),
+    );
+  }
+}
