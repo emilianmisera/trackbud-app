@@ -5,11 +5,12 @@ import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfield_widget.dart';
 
+// Displaying Amount and Title
 class InfoTile extends StatelessWidget {
-  final String title;
-  final String amount;
-  final Color color;
-  final double? width;
+  final String title; // setup title
+  final String amount; // setup amount
+  final Color color; // setup Color of amount
+  final double? width; // setup width if needed
   const InfoTile({
     Key? key,
     required this.title,
@@ -21,17 +22,24 @@ class InfoTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomShadow(
+      //add Shadow
       child: Container(
+        // add space between border and content
         padding: EdgeInsets.symmetric(
-            vertical: CustomPadding.contentHeightSpace,
-            horizontal: CustomPadding.defaultSpace),
+          vertical: CustomPadding.contentHeightSpace,
+          horizontal: CustomPadding.defaultSpace,
+        ),
+        // deafult width is whole screen
         width: width ?? MediaQuery.sizeOf(context).width,
         decoration: BoxDecoration(
-            color: CustomColor.white,
-            borderRadius: BorderRadius.circular(Constants.buttonBorderRadius)),
+          color: CustomColor.white, // background color of Tile
+          borderRadius: BorderRadius.circular(
+              Constants.buttonBorderRadius), //border Radius
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // amount
             Text(
               '$amount€',
               style: CustomTextStyle.headingStyle.copyWith(color: color),
@@ -39,6 +47,7 @@ class InfoTile extends StatelessWidget {
             SizedBox(
               height: CustomPadding.mediumSpace,
             ),
+            // title
             Text(
               title,
               style: CustomTextStyle.regularStyleDefault,
@@ -50,6 +59,7 @@ class InfoTile extends StatelessWidget {
   }
 }
 
+// Widget that displays all single Transactions
 class TransactionTile extends StatefulWidget {
   const TransactionTile({super.key});
 
@@ -58,6 +68,7 @@ class TransactionTile extends StatefulWidget {
 }
 
 class _TransactionTileState extends State<TransactionTile> {
+  // method to open a PopUp Window for more Transaction Details
   Future _openTransaction() => showDialog(
         context: context,
         builder: (context) => AlertDialog(
@@ -83,28 +94,36 @@ class _TransactionTileState extends State<TransactionTile> {
             color: CustomColor.white,
             borderRadius: BorderRadius.circular(Constants.buttonBorderRadius)),
         child: ListTile(
-            leading: CategoryIcon(
-                color: CustomColor.lebensmittel, icon: AssetImport.appleLogo),
-            title: Text(
-              'Kaufland',
-              style: CustomTextStyle.regularStyleMedium,
-            ),
-            subtitle: Text(
-              'heute, 11:32',
-              style: CustomTextStyle.hintStyleDefault
-                  .copyWith(fontSize: CustomTextStyle.fontSizeHint),
-            ),
-            trailing: Text(
-              '100€',
-              style: CustomTextStyle.regularStyleMedium,
-            ),
-            minVerticalPadding: CustomPadding.defaultSpace,
-            onTap: _openTransaction),
+          // Icon
+          leading: CategoryIcon(
+              color: CustomColor.lebensmittel, icon: AssetImport.appleLogo),
+          // Title of Transaction
+          title: Text(
+            'Kaufland',
+            style: CustomTextStyle.regularStyleMedium,
+          ),
+          // Timestamp
+          subtitle: Text(
+            'heute, 11:32',
+            style: CustomTextStyle.hintStyleDefault
+                .copyWith(fontSize: CustomTextStyle.fontSizeHint),
+          ),
+          // Amount
+          trailing: Text(
+            '100€',
+            style: CustomTextStyle.regularStyleMedium,
+          ),
+          minVerticalPadding: CustomPadding.defaultSpace,
+          // open PopUp Window
+          onTap: _openTransaction,
+        ),
       ),
     );
   }
 }
 
+// show Transaction Details of TransactionTile
+// option to delete or edit Transaction Tile
 class EditTransaction extends StatefulWidget {
   const EditTransaction({super.key});
 

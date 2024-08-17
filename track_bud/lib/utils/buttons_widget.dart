@@ -347,7 +347,7 @@ class _CategoriesIncomeState extends State<CategoriesIncome> {
   }
 }
 
-// Widget for individual category items
+// Widget for individual category icon
 class CategoryIcon extends StatelessWidget {
   final Color color;
   final String icon;
