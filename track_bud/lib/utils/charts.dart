@@ -26,6 +26,10 @@ class ChartTile extends StatelessWidget {
 
 // Donut Chart in Analysis Screen
 class DonutChart extends StatefulWidget {
+  final String selectedOption;
+
+  const DonutChart({super.key, required this.selectedOption});
+
   @override
   _DonutChartState createState() => _DonutChartState();
 }
@@ -40,7 +44,7 @@ class _DonutChartState extends State<DonutChart> {
   depends on sum of all sections,
   each section occupy ([value] / sumValues) * 360 degrees
   */
-  final List<PieChartSectionData> sections = [
+  final List<PieChartSectionData> expenseSections = [
     PieChartSectionData(
       color: CustomColor.lebensmittel,
       value:
@@ -97,8 +101,32 @@ class _DonutChartState extends State<DonutChart> {
     ),
   ];
 
+  final List<PieChartSectionData> incomeSections = [
+    PieChartSectionData(
+      color: CustomColor.gehalt,
+      value:
+          40, //TODO: insert overall Amount of Gehalt category Transaction here
+      title: AppString.unterkunft,
+    ),
+    PieChartSectionData(
+      color: CustomColor.geschenk,
+      value:
+          40, //TODO: insert overall Amount of Geschenk category Transaction here
+      title: AppString.geschenke,
+    ),
+    PieChartSectionData(
+      color: CustomColor.sonstiges,
+      value:
+          40, //TODO: insert overall Amount of Lebensmittel category Transaction here
+      title: AppString.sonstiges,
+    ),
+  ];
+
   // Generate sections for the pie chart
   List<PieChartSectionData> showingSections() {
+    // if Expense Dropdown is selcted, the expenseSection will be displayed,
+    // if Income Dropdown is selected, incomeSection will be displayed
+    final sections = widget.selectedOption == 'Ausgaben' ? expenseSections : incomeSections;
     return List.generate(sections.length, (i) {
       if (i >= sections.length) return PieChartSectionData();
       final isTouched = i == selectedIndex;
@@ -117,6 +145,8 @@ class _DonutChartState extends State<DonutChart> {
 
   @override
   Widget build(BuildContext context) {
+    final sections = widget.selectedOption == 'Ausgaben' ? expenseSections : incomeSections;
+
     return Column(
       children: [
         // Pie chart
@@ -143,7 +173,7 @@ class _DonutChartState extends State<DonutChart> {
                       }
                       final touchedIndex =
                           pieTouchResponse.touchedSection!.touchedSectionIndex;
-                      if (touchedIndex < 0 || touchedIndex >= sections.length) {
+                      if (touchedIndex < 0 || touchedIndex >= expenseSections.length) {
                         return; // Exit if touched index is out of range
                       }
                       if (selectedIndex == touchedIndex) {
@@ -166,21 +196,21 @@ class _DonutChartState extends State<DonutChart> {
         Column(
           children: selectedIndex != null && selectedIndex! < sections.length
               ? [
-                  // Display only the selected category name if one is selected
                   CategoryTile(
                     color: sections[selectedIndex!].color,
                     title: sections[selectedIndex!].title,
                     percentage: sections[selectedIndex!].value,
                   )
                 ]
-              : // Display all category names if no category is selected
-              sections.map((section) => Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 4.0),
-                        child: CategoryTile(
-                          color: section.color,
-                          title: section.title,
-                          percentage: section.value,
-                        ))).toList(),
+                // Display all category names if no category is selected
+              : sections.map((section) => Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 4.0),
+                    child: CategoryTile(
+                      color: section.color,
+                      title: section.title,
+                      percentage: section.value,
+                    )
+                  )).toList(),
         ),
       ],
     );
