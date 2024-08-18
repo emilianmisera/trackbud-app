@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:track_bud/utils/buttons_widget.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/strings.dart';
@@ -237,7 +238,7 @@ class CategoryTile extends StatelessWidget {
           borderRadius: BorderRadius.circular(Constants.buttonBorderRadius)),
       child: ListTile(
         // Icon
-        leading: CategoryIcon(color: color, icon: AssetImport.appleLogo), //TODO: Add Icons
+        leading: CategoryIcon(color: color, iconWidget: SvgPicture.asset(AssetImport.info)), //TODO: Add Icons
         // Title of Transaction
         title: Text(
           title,

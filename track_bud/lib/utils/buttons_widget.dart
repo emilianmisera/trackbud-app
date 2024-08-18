@@ -419,12 +419,12 @@ class _CategoriesIncomeState extends State<CategoriesIncome> {
 // Widget for individual category icon
 class CategoryIcon extends StatelessWidget {
   final Color color;
-  final String icon;
+  final Widget iconWidget;
 
   const CategoryIcon({
     super.key,
     required this.color,
-    required this.icon,
+    required this.iconWidget,
   });
 
   @override
@@ -437,7 +437,7 @@ class CategoryIcon extends StatelessWidget {
         borderRadius: BorderRadius.circular(7),
         color: color,
       ),
-      child: SvgPicture.asset(icon), // Display category icon
+      child: iconWidget, // Display category icon
     );
   }
 }

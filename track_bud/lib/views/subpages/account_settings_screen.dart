@@ -49,7 +49,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
               ),
               AccAdjustmentButton(
                   //BankAccount
-                  icon: AssetImport.target,
+                  icon: AssetImport.changeAmount,
                   name: AppString.changeBankAcc,
                   onPressed: () {
                     Navigator.push(

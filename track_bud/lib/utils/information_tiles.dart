@@ -99,7 +99,7 @@ class _TransactionTileState extends State<TransactionTile> {
         child: ListTile(
           // Icon
           leading: CategoryIcon(
-              color: CustomColor.lebensmittel, icon: AssetImport.appleLogo),
+              color: CustomColor.lebensmittel, iconWidget: SvgPicture.asset(AssetImport.info),),
           // Title of Transaction
           title: Text(
             'Kaufland',
@@ -157,7 +157,7 @@ class _TransactionDetailState extends State<TransactionDetail> {
                       value: 'Bearbeiten',
                       child: Row(
                         children: [
-                          SvgPicture.asset(AssetImport.userEdit),
+                          SvgPicture.asset(AssetImport.edit),
                           SizedBox(width: CustomPadding.mediumSpace,),
                           Text('Bearbeiten', style: CustomTextStyle.regularStyleDefault),
                         ],
@@ -225,7 +225,7 @@ class _TransactionDetailState extends State<TransactionDetail> {
             children: [
               CategoryIcon(
                 color: CustomColor.lebensmittel,
-                icon: AssetImport.appleLogo,
+                iconWidget: SvgPicture.asset(AssetImport.info),
               ),
               SizedBox(
                 width: CustomPadding.mediumSpace,
