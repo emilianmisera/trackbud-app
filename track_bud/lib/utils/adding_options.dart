@@ -200,6 +200,7 @@ class _AddTransactionState extends State<AddTransaction> {
                 'halb-jährlich',
                 'jährlich'
               ],
+              dropdownWidth: MediaQuery.sizeOf(context).width - 32,
             ),
             SizedBox(
               height: CustomPadding.defaultSpace,
