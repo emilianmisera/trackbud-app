@@ -75,7 +75,7 @@ class _TransactionTileState extends State<TransactionTile> {
   Future _openTransaction() => showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          content: EditTransaction(),
+          content: TransactionDetail(),
           insetPadding:
               EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace),
           backgroundColor: CustomColor.backgroundPrimary,
@@ -127,16 +127,16 @@ class _TransactionTileState extends State<TransactionTile> {
 
 // show Transaction Details of TransactionTile
 // option to delete or edit Transaction Tile
-class EditTransaction extends StatefulWidget {
-  const EditTransaction({super.key});
+class TransactionDetail extends StatefulWidget {
+  const TransactionDetail({super.key});
 
   @override
-  State<EditTransaction> createState() => _EditTransactionState();
+  State<TransactionDetail> createState() => _TransactionDetailState();
 }
 
 List options = ['bearbeiten, löschen'];
 
-class _EditTransactionState extends State<EditTransaction> {
+class _TransactionDetailState extends State<TransactionDetail> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
