@@ -124,4 +124,7 @@ class AppString {
 
   //analysis page
   static String balance = 'Kontostand';
+
+  //edit transaction page
+  static String editTransaction = "Transaktion bearbeiten";
 }
