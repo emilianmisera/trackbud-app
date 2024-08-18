@@ -1,9 +1,12 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:track_bud/utils/buttons_widget.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfield_widget.dart';
+import 'package:track_bud/views/subpages/edit_transaction_screen.dart';
 
 // Displaying Amount and Title
 class InfoTile extends StatelessWidget {
@@ -131,6 +134,8 @@ class EditTransaction extends StatefulWidget {
   State<EditTransaction> createState() => _EditTransactionState();
 }
 
+List options = ['bearbeiten, löschen'];
+
 class _EditTransactionState extends State<EditTransaction> {
   @override
   Widget build(BuildContext context) {
@@ -140,9 +145,62 @@ class _EditTransactionState extends State<EditTransaction> {
         children: [
           Row(
             children: [
-              IconButton(
-                onPressed: () {},
-                icon: Icon(Icons.more_horiz_rounded),
+              DropdownButtonHideUnderline(
+                child: DropdownButton2(
+                  customButton: const Icon(
+                    Icons.more_vert_rounded,
+                    size: 25,
+                    color: CustomColor.black,
+                  ),
+                  items: [
+                    DropdownMenuItem<String>(
+                      value: 'Bearbeiten',
+                      child: Row(
+                        children: [
+                          SvgPicture.asset(AssetImport.userEdit),
+                          SizedBox(width: CustomPadding.mediumSpace,),
+                          Text('Bearbeiten', style: CustomTextStyle.regularStyleDefault),
+                        ],
+                      ),
+                    ),
+                    DropdownMenuItem<String>(
+                      value: 'Löschen',
+                      child: Row(
+                        children: [
+                          SvgPicture.asset(AssetImport.trash, color: CustomColor.red,),
+                          SizedBox(width: CustomPadding.mediumSpace,),
+                          Text('Löschen', style: CustomTextStyle.regularStyleDefault.copyWith(color: CustomColor.red),),
+                        ],
+                      ),
+                    ),
+                  ],
+                  onChanged: (value) {
+                    if (value == 'Bearbeiten') {
+                      Navigator.of(context).pop();
+                      // Naviagtion to EditScreen
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => EditTransactionScreen(),
+                        ),
+                      );
+                    } else if (value == 'Löschen') {
+                      //TODO: implement Transaction Deletion
+                    }
+                  },
+                  dropdownStyleData: DropdownStyleData(
+                    width: 160,
+                    padding: const EdgeInsets.symmetric(vertical: 6),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(Constants.buttonBorderRadius),
+                      color: Colors.white,
+                    ),
+                  ),
+                  menuItemStyleData: MenuItemStyleData(
+                    customHeights: [48, 48],
+                    padding: const EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace),
+                  ),
+                ),
               ),
               Expanded(
                 child: Center(
