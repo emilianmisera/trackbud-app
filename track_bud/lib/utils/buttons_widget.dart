@@ -264,7 +264,42 @@ class CustomCategory extends StatelessWidget {
       ),
       child: Row(
         children: [
-          SvgPicture.asset(icon), // Display category icon
+           Image.asset(icon, width: 25, height: 25,fit: BoxFit.scaleDown,), // Display category icon
+          SizedBox(width: CustomPadding.smallSpace),
+          Text(categoryName), // Display category name
+        ],
+      ),
+    );
+  }
+}
+
+// Widget for individual category items
+class OtherCategory extends StatelessWidget {
+  final Color color;
+  final String icon;
+  final String categoryName;
+
+  const OtherCategory({
+    super.key,
+    required this.color,
+    required this.icon,
+    required this.categoryName,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(
+        horizontal: CustomPadding.categoryWidthSpace,
+        vertical: CustomPadding.categoryHeightSpace,
+      ),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(7),
+        color: color,
+      ),
+      child: Row(
+        children: [
+           SvgPicture.asset(icon), // Display category icon
           SizedBox(width: CustomPadding.smallSpace),
           Text(categoryName), // Display category name
         ],
@@ -286,40 +321,40 @@ class _CategoriesExpenseState extends State<CategoriesExpense> {
   int? selectedIndex;
 
   // List of categories
-  List<CustomCategory> categories = [
+  List categories = [
     CustomCategory(
         color: CustomColor.lebensmittel,
-        icon: AssetImport.info,
+        icon: AssetImport.shoppingCart,
         categoryName: AppString.lebensmittel),
     CustomCategory(
         color: CustomColor.drogerie,
-        icon: AssetImport.info,
+        icon: AssetImport.drogerie,
         categoryName: AppString.drogerie),
     CustomCategory(
         color: CustomColor.restaurant,
-        icon: AssetImport.info,
+        icon: AssetImport.restaurant,
         categoryName: AppString.restaurants),
     CustomCategory(
         color: CustomColor.mobility,
-        icon: AssetImport.info,
+        icon: AssetImport.mobility,
         categoryName: AppString.mobility),
     CustomCategory(
         color: CustomColor.shopping,
-        icon: AssetImport.info,
+        icon: AssetImport.shopping,
         categoryName: AppString.shopping),
     CustomCategory(
         color: CustomColor.unterkunft,
-        icon: AssetImport.info,
+        icon: AssetImport.home,
         categoryName: AppString.unterkunft),
     CustomCategory(
         color: CustomColor.entertainment,
-        icon: AssetImport.info,
+        icon: AssetImport.entertainment,
         categoryName: AppString.entertainment),
     CustomCategory(
         color: CustomColor.geschenk,
-        icon: AssetImport.info,
+        icon: AssetImport.gift,
         categoryName: AppString.geschenke),
-    CustomCategory(
+    OtherCategory(
         color: CustomColor.sonstiges,
         icon: AssetImport.info,
         categoryName: AppString.sonstiges)
@@ -369,16 +404,16 @@ class _CategoriesIncomeState extends State<CategoriesIncome> {
   int? selectedIndex;
 
   // List of categories
-  List<CustomCategory> categories = [
+  List categories = [
     CustomCategory(
         color: CustomColor.unterkunft,
-        icon: AssetImport.info,
+        icon: AssetImport.gehalt,
         categoryName: AppString.gehalt),
     CustomCategory(
         color: CustomColor.geschenk,
-        icon: AssetImport.info,
+        icon: AssetImport.gift,
         categoryName: AppString.geschenke),
-    CustomCategory(
+    OtherCategory(
         color: CustomColor.sonstiges,
         icon: AssetImport.info,
         categoryName: AppString.sonstiges)

@@ -172,6 +172,16 @@ class AssetImport {
   static const String email = 'assets/icons/email.svg';
   static const String edit = 'assets/icons/edit.svg';
   static const String changeAmount = 'assets/icons/changeAmount.svg';
+  //categories
+  static const String shoppingCart = 'assets/categories/shoopingCart.png';
+  static const String drogerie = 'assets/categories/shopping.png';
+  static const String mobility = 'assets/categories/car.png';
+  static const String entertainment = 'assets/categories/entertainment.png';
+  static const String gift = 'assets/categories/gift.png';
+  static const String home = 'assets/categories/house.png';
+  static const String gehalt = 'assets/categories/money.png';
+  static const String restaurant = 'assets/categories/restaurant.png';
+  static const String shopping = 'assets/categories/shopping.png';
 }
 
 class Constants {

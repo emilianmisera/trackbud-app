@@ -99,7 +99,7 @@ class _TransactionTileState extends State<TransactionTile> {
         child: ListTile(
           // Icon
           leading: CategoryIcon(
-              color: CustomColor.lebensmittel, iconWidget: SvgPicture.asset(AssetImport.info),),
+              color: CustomColor.lebensmittel, iconWidget: Image.asset(AssetImport.shoppingCart, width: 25, height: 25,fit: BoxFit.scaleDown,),),
           // Title of Transaction
           title: Text(
             'Kaufland',
@@ -225,7 +225,7 @@ class _TransactionDetailState extends State<TransactionDetail> {
             children: [
               CategoryIcon(
                 color: CustomColor.lebensmittel,
-                iconWidget: SvgPicture.asset(AssetImport.info),
+                iconWidget: Image.asset(AssetImport.shoppingCart, width: 25, height: 25,fit: BoxFit.scaleDown,),
               ),
               SizedBox(
                 width: CustomPadding.mediumSpace,

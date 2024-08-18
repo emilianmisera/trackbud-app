@@ -45,89 +45,114 @@ class _DonutChartState extends State<DonutChart> {
   depends on sum of all sections,
   each section occupy ([value] / sumValues) * 360 degrees
   */
-  final List<PieChartSectionData> expenseSections = [
-    PieChartSectionData(
-      color: CustomColor.lebensmittel,
-      value:
-          70, //TODO: insert overall Amount of Lebensmittel category Transaction here
-      title: AppString.lebensmittel,
-    ),
-    PieChartSectionData(
-      color: CustomColor.drogerie,
-      value:
-          40, //TODO: insert overall Amount of Drogerie category Transaction here
-      title: AppString.drogerie,
-    ),
-    PieChartSectionData(
-      color: CustomColor.shopping,
-      value:
-          40, //TODO: insert overall Amount of Lebensmittel category Transaction here
-      title: AppString.shopping,
-    ),
-    PieChartSectionData(
-      color: CustomColor.unterkunft,
-      value:
-          40, //TODO: insert overall Amount of Unterkunft category Transaction here
-      title: AppString.unterkunft,
-    ),
-    PieChartSectionData(
-      color: CustomColor.restaurant,
-      value:
-          40, //TODO: insert overall Amount of Restaurant category Transaction here
-      title: AppString.restaurants,
-    ),
-    PieChartSectionData(
-      color: CustomColor.mobility,
-      value:
-          40, //TODO: insert overall Amount of Mobility category Transaction here
-      title: AppString.mobility,
-    ),
-    PieChartSectionData(
-      color: CustomColor.entertainment,
-      value:
-          40, //TODO: insert overall Amount of Entertainment category Transaction here
-      title: AppString.entertainment,
-    ),
-    PieChartSectionData(
-      color: CustomColor.geschenk,
-      value:
-          40, //TODO: insert overall Amount of Geschenk category Transaction here
-      title: AppString.geschenke,
-    ),
-    PieChartSectionData(
-      color: CustomColor.sonstiges,
-      value:
-          40, //TODO: insert overall Amount of Lebensmittel category Transaction here
-      title: AppString.sonstiges,
-    ),
+  final List<ChartSectionData> expenseSections = [
+    ChartSectionData(
+        sectionData: PieChartSectionData(
+          color: CustomColor.lebensmittel,
+          value:
+              70, //TODO: insert overall Amount of Lebensmittel category Transaction here
+          title: AppString.lebensmittel,
+        ),
+        iconAsset: AssetImport.shoppingCart),
+    ChartSectionData(
+        sectionData: PieChartSectionData(
+          color: CustomColor.drogerie,
+          value:
+              40, //TODO: insert overall Amount of Drogerie category Transaction here
+          title: AppString.drogerie,
+        ),
+        iconAsset: AssetImport.drogerie),
+    ChartSectionData(
+        sectionData: PieChartSectionData(
+          color: CustomColor.shopping,
+          value:
+              70, //TODO: insert overall Amount of Lebensmittel category Transaction here
+          title: AppString.shopping,
+        ),
+        iconAsset: AssetImport.shopping),
+    ChartSectionData(
+        sectionData: PieChartSectionData(
+          color: CustomColor.unterkunft,
+          value:
+              70, //TODO: insert overall Amount of Lebensmittel category Transaction here
+          title: AppString.unterkunft,
+        ),
+        iconAsset: AssetImport.home),
+    ChartSectionData(
+        sectionData: PieChartSectionData(
+          color: CustomColor.restaurant,
+          value:
+              70, //TODO: insert overall Amount of Lebensmittel category Transaction here
+          title: AppString.restaurants,
+        ),
+        iconAsset: AssetImport.restaurant),
+    ChartSectionData(
+        sectionData: PieChartSectionData(
+          color: CustomColor.mobility,
+          value:
+              70, //TODO: insert overall Amount of Lebensmittel category Transaction here
+          title: AppString.mobility,
+        ),
+        iconAsset: AssetImport.mobility),
+    ChartSectionData(
+        sectionData: PieChartSectionData(
+          color: CustomColor.entertainment,
+          value:
+              70, //TODO: insert overall Amount of Lebensmittel category Transaction here
+          title: AppString.entertainment,
+        ),
+        iconAsset: AssetImport.entertainment),
+    ChartSectionData(
+        sectionData: PieChartSectionData(
+          color: CustomColor.geschenk,
+          value:
+              70, //TODO: insert overall Amount of Lebensmittel category Transaction here
+          title: AppString.geschenke,
+        ),
+        iconAsset: AssetImport.gift),
+    ChartSectionData(
+        sectionData: PieChartSectionData(
+          color: CustomColor.sonstiges,
+          value:
+              70, //TODO: insert overall Amount of Lebensmittel category Transaction here
+          title: AppString.sonstiges,
+        ),
+        iconAsset: AssetImport.shoppingCart),
   ];
 
-  final List<PieChartSectionData> incomeSections = [
-    PieChartSectionData(
-      color: CustomColor.gehalt,
-      value:
-          40, //TODO: insert overall Amount of Gehalt category Transaction here
-      title: AppString.unterkunft,
-    ),
-    PieChartSectionData(
-      color: CustomColor.geschenk,
-      value:
-          40, //TODO: insert overall Amount of Geschenk category Transaction here
-      title: AppString.geschenke,
-    ),
-    PieChartSectionData(
-      color: CustomColor.sonstiges,
-      value:
-          40, //TODO: insert overall Amount of Lebensmittel category Transaction here
-      title: AppString.sonstiges,
-    ),
+  final List<ChartSectionData> incomeSections = [
+    ChartSectionData(
+        sectionData: PieChartSectionData(
+          color: CustomColor.gehalt,
+          value:
+              70, //TODO: insert overall Amount of Lebensmittel category Transaction here
+          title: AppString.unterkunft,
+        ),
+        iconAsset: AssetImport.gehalt),
+    ChartSectionData(
+        sectionData: PieChartSectionData(
+          color: CustomColor.geschenk,
+          value:
+              70, //TODO: insert overall Amount of Lebensmittel category Transaction here
+          title: AppString.geschenke,
+        ),
+        iconAsset: AssetImport.gift),
+    ChartSectionData(
+        sectionData: PieChartSectionData(
+          color: CustomColor.sonstiges,
+          value:
+              70, //TODO: insert overall Amount of Lebensmittel category Transaction here
+          title: AppString.sonstiges,
+        ),
+        iconAsset: AssetImport.shoppingCart),
   ];
 
   // Generate sections for the pie chart
   List<PieChartSectionData> showingSections() {
     // if Expense Dropdown is selcted, the expenseSection will be displayed,
     // if Income Dropdown is selected, incomeSection will be displayed
-    final sections = widget.selectedOption == 'Ausgaben' ? expenseSections : incomeSections;
+    final sections =
+        widget.selectedOption == 'Ausgaben' ? expenseSections : incomeSections;
     return List.generate(sections.length, (i) {
       if (i >= sections.length) return PieChartSectionData();
       final isTouched = i == selectedIndex;
@@ -135,8 +160,8 @@ class _DonutChartState extends State<DonutChart> {
       final opacity = selectedIndex == null || isTouched ? 1.0 : 0.5;
 
       return PieChartSectionData(
-        color: sections[i].color.withOpacity(opacity),
-        value: sections[i].value,
+        color: sections[i].sectionData.color.withOpacity(opacity),
+        value: sections[i].sectionData.value,
         showTitle: false,
         // Increase radius of the selected section
         radius: isTouched ? 70 : 60,
@@ -146,12 +171,14 @@ class _DonutChartState extends State<DonutChart> {
 
   @override
   Widget build(BuildContext context) {
-    final sections = widget.selectedOption == 'Ausgaben' ? expenseSections : incomeSections;
+    final sections =
+        widget.selectedOption == 'Ausgaben' ? expenseSections : incomeSections;
 
     return Column(
       children: [
         // Pie chart
-        AspectRatio( // control the shape of the container that holds the pie chart
+        AspectRatio(
+          // control the shape of the container that holds the pie chart
           aspectRatio: 1.3, // Set the aspect ratio of the chart container
           child: PieChart(
             PieChartData(
@@ -160,8 +187,7 @@ class _DonutChartState extends State<DonutChart> {
               sectionsSpace: 0, // No space between pie sections
               centerSpaceRadius:
                   80, // Set the radius of the empty space in the center
-              sections:
-                  showingSections(), // Get the sections data
+              sections: showingSections(), // Get the sections data
               pieTouchData: PieTouchData(
                 // Handle touch events on the pie chart
                 touchCallback: (FlTouchEvent event, pieTouchResponse) {
@@ -174,7 +200,8 @@ class _DonutChartState extends State<DonutChart> {
                       }
                       final touchedIndex =
                           pieTouchResponse.touchedSection!.touchedSectionIndex;
-                      if (touchedIndex < 0 || touchedIndex >= expenseSections.length) {
+                      if (touchedIndex < 0 ||
+                          touchedIndex >= expenseSections.length) {
                         return; // Exit if touched index is out of range
                       }
                       if (selectedIndex == touchedIndex) {
@@ -198,24 +225,41 @@ class _DonutChartState extends State<DonutChart> {
           children: selectedIndex != null && selectedIndex! < sections.length
               ? [
                   CategoryTile(
-                    color: sections[selectedIndex!].color,
-                    title: sections[selectedIndex!].title,
-                    percentage: sections[selectedIndex!].value,
+                    color: sections[selectedIndex!].sectionData.color,
+                    title: sections[selectedIndex!].sectionData.title,
+                    percentage: sections[selectedIndex!].sectionData.value,
+                    icon:
+                        sections[selectedIndex!].iconAsset,
                   )
                 ]
-                // Display all category names if no category is selected
-              : sections.map((section) => Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 4.0),
-                    child: CategoryTile(
-                      color: section.color,
-                      title: section.title,
-                      percentage: section.value,
-                    )
-                  )).toList(),
+              : sections
+                  .map((section) => Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 4.0),
+                      child: CategoryTile(
+                        color: section.sectionData.color,
+                        title: section.sectionData.title,
+                        percentage: section.sectionData.value,
+                        icon: section.iconAsset,
+                      )))
+                  .toList(),
         ),
       ],
     );
   }
+}
+
+class ChartSectionData {
+  final PieChartSectionData sectionData;
+  final String iconAsset;
+
+  ChartSectionData({required this.sectionData, required this.iconAsset});
+
+  Widget get icon => Image.asset(
+        iconAsset,
+        width: 25,
+        height: 25,
+        fit: BoxFit.scaleDown,
+      );
 }
 
 // Widget that displays Information about the chart
@@ -223,11 +267,13 @@ class CategoryTile extends StatelessWidget {
   final Color color;
   final String title;
   final double percentage;
+  final String icon;
   const CategoryTile(
       {super.key,
       required this.color,
       required this.title,
-      required this.percentage});
+      required this.percentage,
+      required this.icon});
 
   @override
   Widget build(BuildContext context) {
@@ -238,7 +284,14 @@ class CategoryTile extends StatelessWidget {
           borderRadius: BorderRadius.circular(Constants.buttonBorderRadius)),
       child: ListTile(
         // Icon
-        leading: CategoryIcon(color: color, iconWidget: SvgPicture.asset(AssetImport.info)), //TODO: Add Icons
+        leading: CategoryIcon(
+            color: color,
+            iconWidget: Image.asset(
+              icon,
+              width: 25,
+              height: 25,
+              fit: BoxFit.scaleDown,
+            )), //TODO: Add Icons
         // Title of Transaction
         title: Text(
           title,
