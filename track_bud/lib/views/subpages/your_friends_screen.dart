@@ -12,6 +12,7 @@ class YourFriendsScreen extends StatefulWidget {
 
 class _YourFriendsScreenState extends State<YourFriendsScreen> {
   final TextEditingController _searchController = TextEditingController();
+  final TextEditingController _emailFriendController = TextEditingController();
   List friendList = [];
 
   void _searchFriend(String query) {
@@ -31,23 +32,31 @@ class _YourFriendsScreenState extends State<YourFriendsScreen> {
                 borderRadius:
                     BorderRadius.circular(Constants.buttonBorderRadius),
               ),
-              child: Column(
-                children: [
-                  SizedBox(height: CustomPadding.mediumSpace),
-                  Center(
-                    child: Container(
-                      // grabber
-                      width: 36,
-                      height: 5,
-                      decoration: BoxDecoration(
-                        color: CustomColor.grabberColor,
-                        borderRadius: BorderRadius.all(Radius.circular(100)),
+              child: Padding(
+                padding: const EdgeInsets.only(left: CustomPadding.defaultSpace, right: CustomPadding.defaultSpace, bottom: 50),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    SizedBox(height: CustomPadding.mediumSpace),
+                    Center(
+                      child: Container(
+                        // grabber
+                        width: 36,
+                        height: 5,
+                        decoration: BoxDecoration(
+                          color: CustomColor.grabberColor,
+                          borderRadius: BorderRadius.all(Radius.circular(100)),
+                        ),
                       ),
                     ),
-                  ),
-                  SizedBox(height: CustomPadding.defaultSpace),
-                  
-                ],
+                    SizedBox(height: CustomPadding.defaultSpace),
+                    Text(AppString.addFriends, style: CustomTextStyle.regularStyleMedium,),
+                    SizedBox(height: CustomPadding.mediumSpace),
+                    CustomTextfield(name: AppString.email, hintText: AppString.hintEmail, controller: _emailFriendController),
+                    Spacer(),
+                    ElevatedButton(onPressed: (){Navigator.pop(context);}, child: Text(AppString.save)),
+                  ],
+                ),
               ),
             ));
   }
