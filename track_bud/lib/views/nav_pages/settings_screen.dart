@@ -1,8 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:track_bud/controller/user_controller.dart';
+import 'package:track_bud/models/user_model.dart';
 import 'package:track_bud/services/auth/auth_service.dart';
+import 'package:track_bud/services/dependency_injector.dart';
+import 'package:track_bud/services/sqlite_service.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfield_widget.dart';
@@ -23,7 +25,6 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   final AuthService _authService = AuthService();
   final TextEditingController _passwordController = TextEditingController();
-  final UserController _userController = UserController();
 
   // State variables to hold user info
   String currentUserName = '';
@@ -157,18 +158,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
     }
 
     try {
-      String userName = await _userController.getUserName(userId);
-      String userEmail = await _userController.getUserEmail(userId);
-
-      setState(() {
-        currentUserName = userName;
-        currentUserEmail = userEmail;
-      });
+      await DependencyInjector.syncService.syncData(userId);
+      UserModel? localUser = await SQLiteService().getUserById(userId);
+      if (localUser != null) {
+        setState(() {
+          currentUserName = localUser.name;
+          currentUserEmail = localUser.email;
+        });
+      }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text("Fehler beim Laden der Nutzerdaten: $e"),
-        ),
+        SnackBar(content: Text("Fehler beim Laden der Nutzerdaten: $e")),
       );
     }
   }
