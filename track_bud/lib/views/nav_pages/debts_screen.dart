@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:track_bud/utils/constants.dart';
+import 'package:track_bud/utils/friends_widget.dart';
 import 'package:track_bud/utils/information_tiles.dart';
 
 class DebtsScreen extends StatefulWidget {
@@ -48,9 +49,12 @@ class _DebtsScreenState extends State<DebtsScreen> {
               children: [
                 Text('Freunde', style: CustomTextStyle.regularStyleMedium,),
                 GestureDetector(onTap: (){}, child: Text('alle Anzeigen', style: CustomTextStyle.regularStyleMedium.copyWith(color: CustomColor.bluePrimary)),),
-                
               ],
-            )
+            ),
+            SizedBox(
+              height: CustomPadding.mediumSpace,
+            ),
+            FriendCard()
           ],
         ),
       ),
