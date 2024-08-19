@@ -1,9 +1,12 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:track_bud/utils/buttons_widget.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfield_widget.dart';
+import 'package:track_bud/views/subpages/edit_transaction_screen.dart';
 
 // Displaying Amount and Title
 class InfoTile extends StatelessWidget {
@@ -72,7 +75,7 @@ class _TransactionTileState extends State<TransactionTile> {
   Future _openTransaction() => showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          content: EditTransaction(),
+          content: TransactionDetail(),
           insetPadding:
               EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace),
           backgroundColor: CustomColor.backgroundPrimary,
@@ -96,7 +99,7 @@ class _TransactionTileState extends State<TransactionTile> {
         child: ListTile(
           // Icon
           leading: CategoryIcon(
-              color: CustomColor.lebensmittel, icon: AssetImport.appleLogo),
+              color: CustomColor.lebensmittel, iconWidget: Image.asset(AssetImport.shoppingCart, width: 25, height: 25,fit: BoxFit.scaleDown,),),
           // Title of Transaction
           title: Text(
             'Kaufland',
@@ -124,14 +127,16 @@ class _TransactionTileState extends State<TransactionTile> {
 
 // show Transaction Details of TransactionTile
 // option to delete or edit Transaction Tile
-class EditTransaction extends StatefulWidget {
-  const EditTransaction({super.key});
+class TransactionDetail extends StatefulWidget {
+  const TransactionDetail({super.key});
 
   @override
-  State<EditTransaction> createState() => _EditTransactionState();
+  State<TransactionDetail> createState() => _TransactionDetailState();
 }
 
-class _EditTransactionState extends State<EditTransaction> {
+List options = ['bearbeiten, löschen'];
+
+class _TransactionDetailState extends State<TransactionDetail> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -140,9 +145,62 @@ class _EditTransactionState extends State<EditTransaction> {
         children: [
           Row(
             children: [
-              IconButton(
-                onPressed: () {},
-                icon: Icon(Icons.more_horiz_rounded),
+              DropdownButtonHideUnderline(
+                child: DropdownButton2(
+                  customButton: const Icon(
+                    Icons.more_vert_rounded,
+                    size: 25,
+                    color: CustomColor.black,
+                  ),
+                  items: [
+                    DropdownMenuItem<String>(
+                      value: 'Bearbeiten',
+                      child: Row(
+                        children: [
+                          SvgPicture.asset(AssetImport.edit),
+                          SizedBox(width: CustomPadding.mediumSpace,),
+                          Text('Bearbeiten', style: CustomTextStyle.regularStyleDefault),
+                        ],
+                      ),
+                    ),
+                    DropdownMenuItem<String>(
+                      value: 'Löschen',
+                      child: Row(
+                        children: [
+                          SvgPicture.asset(AssetImport.trash, color: CustomColor.red,),
+                          SizedBox(width: CustomPadding.mediumSpace,),
+                          Text('Löschen', style: CustomTextStyle.regularStyleDefault.copyWith(color: CustomColor.red),),
+                        ],
+                      ),
+                    ),
+                  ],
+                  onChanged: (value) {
+                    if (value == 'Bearbeiten') {
+                      Navigator.of(context).pop();
+                      // Naviagtion to EditScreen
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => EditTransactionScreen(),
+                        ),
+                      );
+                    } else if (value == 'Löschen') {
+                      //TODO: implement Transaction Deletion
+                    }
+                  },
+                  dropdownStyleData: DropdownStyleData(
+                    width: 160,
+                    padding: const EdgeInsets.symmetric(vertical: 6),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(Constants.buttonBorderRadius),
+                      color: Colors.white,
+                    ),
+                  ),
+                  menuItemStyleData: MenuItemStyleData(
+                    customHeights: [48, 48],
+                    padding: const EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace),
+                  ),
+                ),
               ),
               Expanded(
                 child: Center(
@@ -167,7 +225,7 @@ class _EditTransactionState extends State<EditTransaction> {
             children: [
               CategoryIcon(
                 color: CustomColor.lebensmittel,
-                icon: AssetImport.appleLogo,
+                iconWidget: Image.asset(AssetImport.shoppingCart, width: 25, height: 25,fit: BoxFit.scaleDown,),
               ),
               SizedBox(
                 width: CustomPadding.mediumSpace,
