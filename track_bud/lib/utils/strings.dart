@@ -144,4 +144,8 @@ class AppString {
   static String groupNameHint = 'Gruppenname';
   static String addMembers = 'Mitglieder hinzufügen';
 
+  // friendProfile screen
+  static String sameGroups = 'Gemeinsame Gruppen'; 
+  static String payOffDebts = 'Schulden begleichen';
+
 }
