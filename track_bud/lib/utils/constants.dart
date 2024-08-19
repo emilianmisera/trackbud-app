@@ -200,4 +200,5 @@ class Constants {
   static const double segmentedControlHeight = 0.05;
   static const double categoryHeight = 0.05;
   static const double infoTileSpace = 20;
+  static const double modalBottomSheetHeight = 0.5;
 }
