@@ -142,6 +142,7 @@ class CustomPadding {
   static const double navbarButtonwidth = 0.15;
   static const double categoryWidthSpace = 16;
   static const double categoryHeightSpace = 12;
+  static const double categoryIconSpace = 16;
 }
 
 class AssetImport {
@@ -174,6 +175,7 @@ class AssetImport {
 class Constants {
   //Button
   static const double buttonBorderRadius = 10;
+  static const double height = 60;
   static const Padding screenWidth =
       Padding(padding: EdgeInsets.only(left: 16, right: 16));
   static const double defaultAppBarHeight = 56;
@@ -182,4 +184,5 @@ class Constants {
   static const double profilePictureAccountEdit = 115;
   static const double segmentedControlHeight = 0.05;
   static const double categoryHeight = 0.05;
+  static const double infoTileSpace = 20;
 }

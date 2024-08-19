@@ -36,7 +36,7 @@ class AccAdjustmentButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         backgroundColor: CustomColor.backgroundPrimary,
         foregroundColor: CustomColor.black,
-        fixedSize: const Size(double.infinity, 60),
+        fixedSize: const Size(double.infinity, Constants.height),
         elevation: 0,
         surfaceTintColor: CustomColor.backgroundPrimary,
         padding: padding?? EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace)
@@ -47,9 +47,12 @@ class AccAdjustmentButton extends StatelessWidget {
 
 class CustomDropDown extends StatefulWidget {
   final List<String> list;
+  final double? width;
+  final double? height;
+  final EdgeInsets? padding;
   const CustomDropDown({
     super.key, 
-    required this.list, 
+    required this.list, this.width, this.height, this.padding, 
   });
 
   @override
@@ -70,13 +73,13 @@ class _CustomDropDownState extends State<CustomDropDown> {
   Widget build(BuildContext context) {
     return CustomShadow(
       child: Container(
-        width: double.infinity,
-        height: 60,
+        width: widget.width?? double.infinity,
+        height: widget.height?? Constants.height,
         decoration: BoxDecoration(
           color: CustomColor.white,
           borderRadius: BorderRadius.circular(10),
         ),
-        padding: EdgeInsets.symmetric(horizontal: 16),
+        padding: widget.padding?? EdgeInsets.symmetric(horizontal: 16),
         child: DropdownButtonHideUnderline(
           child: DropdownButton<String>(
             items: widget.list.map(buildMenuItem).toList(),
@@ -122,7 +125,7 @@ class _AccAdjustmentWidgetState extends State<AccAdjustmentWidget> {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: 60,
+      height: Constants.height,
       padding: EdgeInsets.only(
           left: CustomPadding.defaultSpace, right: CustomPadding.defaultSpace),
       decoration: BoxDecoration(
@@ -340,6 +343,30 @@ class _CategoriesIncomeState extends State<CategoriesIncome> {
           ),
         ),
       ),
+    );
+  }
+}
+
+// Widget for individual category icon
+class CategoryIcon extends StatelessWidget {
+  final Color color;
+  final String icon;
+
+  const CategoryIcon({
+    super.key,
+    required this.color,
+    required this.icon,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.all(CustomPadding.categoryIconSpace,),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(7),
+        color: color,
+      ),
+      child:SvgPicture.asset(icon), // Display category icon
     );
   }
 }

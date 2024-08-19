@@ -2,10 +2,10 @@
 
 ### Finanzübersichts-App
 
-- Firebase-Backend: Login, Signup
+- Firebase-Backend: Login, Signup x
   - E-Mail
   - Optional: Login über Google/Apple, etc.
-- Onboarding-Screen
+- Onboarding-Screen x
   - Eigene Ziele, Kontostand, Limits setzen
 - Startscreen
   - Finanzübersicht, eigene Limits
@@ -20,10 +20,10 @@
   - User fügen Schulden hinzu
   - Man ist nah am eigenen Limit
 - Fixkosten, monatliche Kosten
-- Profileinstellungen
-  - Profil löschen
+- Profileinstellungen 
+  - Profil löschen x
   - Name, E-Mail ändern
-  - Eigene Limits setzen
+  - Eigene Limits setzen x
 - Optional: Design-Einstellungen
 - Optional: Verschiedene Sprachen anbieten
 - Optional: OCR-Scanner (sofern Package funktioniert)

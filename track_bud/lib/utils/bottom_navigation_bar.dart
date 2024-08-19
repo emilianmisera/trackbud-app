@@ -78,7 +78,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> w
             child: Container(
               // Increased touch area
               width: MediaQuery.of(context).size.width * CustomPadding.navbarButtonwidth,
-              height: 60,
+              height: Constants.height,
               child: Center(
                 child: SvgPicture.asset(
                   // Change icon based on whether this tab is selected

@@ -74,7 +74,7 @@ class _DatePickerState extends State<DatePicker> {
               },
               child: CustomShadow(
                 child: Container(
-                  height: 60,
+                  height: Constants.height,
                   padding: EdgeInsets.symmetric(
                       horizontal: CustomPadding.defaultSpace),
                   decoration: BoxDecoration(
@@ -93,7 +93,7 @@ class _DatePickerState extends State<DatePicker> {
               ),
               style: TextButton.styleFrom(
                 padding: EdgeInsets.zero,
-                minimumSize: Size(60, 60),
+                minimumSize: Size(Constants.height, Constants.height),
               ),
             ),
             SizedBox(
@@ -131,7 +131,7 @@ class _DatePickerState extends State<DatePicker> {
               },
               child: CustomShadow(
                 child: Container(
-                  height: 60,
+                  height: Constants.height,
                   padding: EdgeInsets.symmetric(
                       horizontal: CustomPadding.defaultSpace),
                   decoration: BoxDecoration(
@@ -150,7 +150,7 @@ class _DatePickerState extends State<DatePicker> {
               ),
               style: TextButton.styleFrom(
                 padding: EdgeInsets.zero,
-                minimumSize: Size(60, 60),
+                minimumSize: Size(Constants.height, Constants.height),
               ),
             ),
           ],

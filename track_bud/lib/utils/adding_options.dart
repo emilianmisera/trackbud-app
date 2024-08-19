@@ -91,6 +91,7 @@ class _AddTransactionState extends State<AddTransaction> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _amountController = TextEditingController();
   final TextEditingController _noteController = TextEditingController();
+  
 
   // Updates the selected transaction type
   void updateSelected(Set<String> newSelection) {
@@ -105,6 +106,8 @@ class _AddTransactionState extends State<AddTransaction> {
 
   @override
   Widget build(BuildContext context) {
+    final keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
+
     return DynamicBottomSheet(
       buttonText: AppString.addTransaction,
       initialChildSize: 0.80,
@@ -211,7 +214,8 @@ class _AddTransactionState extends State<AddTransaction> {
             SizedBox(
               height: CustomPadding.defaultSpace,
             ),
-            
+            if (keyboardHeight > 0) // when you want to tip some text in notice, you can scroll up
+              SizedBox(height: keyboardHeight),
             
           ],
         ),

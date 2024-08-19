@@ -19,7 +19,7 @@ class ColorTheme {
       //style for elevated button
       style: ButtonStyle(
           minimumSize: WidgetStateProperty.all(
-            const Size(double.infinity, 60),
+            const Size(double.infinity, Constants.height),
           ),
           backgroundColor: WidgetStateProperty.resolveWith<Color>(
             (states) {
@@ -53,7 +53,7 @@ class ColorTheme {
       //style for outlinedButton
       style: ButtonStyle(
         minimumSize: WidgetStateProperty.all(
-          const Size(double.infinity, 60),
+          const Size(double.infinity, Constants.height),
         ),
         shape: WidgetStateProperty.resolveWith<OutlinedBorder>((_) {
           return const RoundedRectangleBorder(
@@ -103,7 +103,7 @@ class ColorTheme {
                   Radius.circular(Constants.buttonBorderRadius)));
         }),
         minimumSize: WidgetStateProperty.all(
-          const Size(double.infinity, 60),
+          const Size(double.infinity, Constants.height),
         ),
         overlayColor: WidgetStateProperty.resolveWith<Color?>(
           (states) {
