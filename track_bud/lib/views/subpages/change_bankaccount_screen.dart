@@ -164,9 +164,6 @@ class _ChangeBankaccountScreenState extends State<ChangeBankaccountScreen> {
           left: CustomPadding.defaultSpace, // Left margin
           right: CustomPadding.defaultSpace, // Right margin
         ),
-        width: MediaQuery.of(context)
-            .size
-            .width, // Set the button width to match the screen width
         child: ElevatedButton(
           // Saving Button
           onPressed: () {
