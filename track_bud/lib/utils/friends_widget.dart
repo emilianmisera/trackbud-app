@@ -43,7 +43,7 @@ class FriendCard extends StatelessWidget {
             Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => FriendProfileScreen(),
+                        builder: (context) => FriendProfileScreen(friendName: '**FreundName**',),
                       ),
                     );
           },
