@@ -50,9 +50,10 @@ class CustomDropDown extends StatefulWidget {
   final double? width;
   final double? height;
   final EdgeInsets? padding;
+  final Function(String)? onChanged;
   const CustomDropDown({
     super.key, 
-    required this.list, this.width, this.height, this.padding, 
+    required this.list, this.width, this.height, this.padding, this.onChanged, 
   });
 
   @override
@@ -83,9 +84,15 @@ class _CustomDropDownState extends State<CustomDropDown> {
         child: DropdownButtonHideUnderline(
           child: DropdownButton<String>(
             items: widget.list.map(buildMenuItem).toList(),
-            onChanged: (value) => setState(() {
-              this.value = value;
-            }),
+            onChanged: (value) {
+            if (value != null) {
+              setState(() {
+                this.value = value;
+              });
+              if (widget.onChanged != null) {
+                widget.onChanged!(value);
+              }
+            }},
             value: value,
             elevation: 0,
             style: CustomTextStyle.regularStyleMedium,
