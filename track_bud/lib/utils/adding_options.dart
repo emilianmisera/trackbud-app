@@ -65,7 +65,10 @@ class DynamicBottomSheet extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(left: CustomPadding.mediumSpace, right: CustomPadding.mediumSpace, bottom: MediaQuery.sizeOf(context).height * CustomPadding.bottomSpace),
               child: ElevatedButton(
-                  onPressed: () {}, child: Text(buttonText)),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    //TODO: add Save option
+                  }, child: Text(buttonText)),
             )
             ],
           ),
