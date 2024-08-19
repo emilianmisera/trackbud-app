@@ -147,12 +147,13 @@ class SearchTextfield extends StatelessWidget {
   final String hintText;
   final TextEditingController controller;
   final bool? autofocus;
+  final void Function(String) onChanged;
 
   const SearchTextfield({
     Key? key,
     required this.hintText,
     required this.controller,
-    this.autofocus,
+    this.autofocus, required this.onChanged,
   }) : super(key: key);
 
   @override
@@ -181,6 +182,7 @@ class SearchTextfield extends StatelessWidget {
                   borderRadius: BorderRadius.circular(Constants.buttonBorderRadius),
                 ),
               ),
+              onChanged: onChanged,
             ),
           ),
         );

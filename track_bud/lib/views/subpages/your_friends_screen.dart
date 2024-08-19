@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfield_widget.dart';
@@ -13,6 +12,13 @@ class YourFriendsScreen extends StatefulWidget {
 
 class _YourFriendsScreenState extends State<YourFriendsScreen> {
   final TextEditingController _searchController = TextEditingController();
+  List friendList = [];
+
+  void _searchFriend(String query){
+    //TODO: add search-function
+    // https://youtu.be/ZHdg2kfKmjI?si=ufWetKZ8HdE6OyjQ&t=49
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,8 +41,25 @@ class _YourFriendsScreenState extends State<YourFriendsScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SearchTextfield(hintText: AppString.search, controller: _searchController),
+              //SearchField
+              SearchTextfield(
+                hintText: AppString.search, 
+                controller: _searchController,
+                onChanged: _searchFriend,
+                ),
               SizedBox(height: CustomPadding.defaultSpace,),
+              // List of Friends
+              /*
+              Expanded(
+                child: ListView.builder(
+                  itemCount: friendList.length,
+                  itemBuilder: (context, index){
+                    final friend = friendList[index];
+                    return FriendCard();
+                  },
+                  ),
+              ),
+              */
             ],
           ),
       ),),
