@@ -64,4 +64,12 @@ class FirestoreService {
         await _db.collection('transactions').doc(transactionId).get();
     return TransactionModel.fromMap(snapshot.data()!);
   }
+
+  Future<void> updateUserNameInFirestore(String userId, String newName) async {
+  try {
+    await _db.collection('users').doc(userId).update({'name': newName});
+  } catch (e) {
+    print("Fehler beim Aktualisieren des Nutzernamens in Firestore: $e");
+  }
+}
 }
