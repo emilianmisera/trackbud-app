@@ -3,6 +3,7 @@ import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/friends_widget.dart';
 import 'package:track_bud/utils/information_tiles.dart';
 import 'package:track_bud/utils/strings.dart';
+import 'package:track_bud/views/subpages/your_friends_screen.dart';
 
 class DebtsScreen extends StatefulWidget {
   const DebtsScreen({super.key});
@@ -48,8 +49,23 @@ class _DebtsScreenState extends State<DebtsScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(AppString.friends, style: CustomTextStyle.regularStyleMedium,),
-                GestureDetector(onTap: (){}, child: Text(AppString.showAll, style: CustomTextStyle.regularStyleMedium.copyWith(color: CustomColor.bluePrimary)),),
+                Text(
+                  AppString.friends,
+                  style: CustomTextStyle.regularStyleMedium,
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => YourFriendsScreen(),
+                      ),
+                    );
+                  },
+                  child: Text(AppString.showAll,
+                      style: CustomTextStyle.regularStyleMedium
+                          .copyWith(color: CustomColor.bluePrimary)),
+                ),
               ],
             ),
             SizedBox(
