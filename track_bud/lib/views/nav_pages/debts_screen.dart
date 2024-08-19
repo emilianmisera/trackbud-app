@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/friends_widget.dart';
 import 'package:track_bud/utils/information_tiles.dart';
+import 'package:track_bud/utils/strings.dart';
 
 class DebtsScreen extends StatefulWidget {
   const DebtsScreen({super.key});
@@ -28,13 +29,13 @@ class _DebtsScreenState extends State<DebtsScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 InfoTile(
-                    title: 'Schulden',
+                    title: AppString.debts,
                     amount: 'amount',
                     color: CustomColor.red,
                     width: MediaQuery.sizeOf(context).width / 2 -
                         Constants.infoTileSpace),
                 InfoTile(
-                    title: 'Guthaben',
+                    title: AppString.credits,
                     amount: 'amount',
                     color: CustomColor.green,
                     width: MediaQuery.sizeOf(context).width / 2 -
@@ -47,8 +48,8 @@ class _DebtsScreenState extends State<DebtsScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Freunde', style: CustomTextStyle.regularStyleMedium,),
-                GestureDetector(onTap: (){}, child: Text('alle Anzeigen', style: CustomTextStyle.regularStyleMedium.copyWith(color: CustomColor.bluePrimary)),),
+                Text(AppString.friends, style: CustomTextStyle.regularStyleMedium,),
+                GestureDetector(onTap: (){}, child: Text(AppString.showAll, style: CustomTextStyle.regularStyleMedium.copyWith(color: CustomColor.bluePrimary)),),
               ],
             ),
             SizedBox(

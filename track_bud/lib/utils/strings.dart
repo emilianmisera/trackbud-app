@@ -127,4 +127,15 @@ class AppString {
 
   //edit transaction page
   static String editTransaction = "Transaktion bearbeiten";
+
+  //debts screen
+  static String debts = 'Schulden';
+  static String credits = 'Guthaben';
+  static String showAll = 'alle Anzeigen';
+  static String friends = 'Freunde';
+  static String groups = 'Gruppen';
+
+  //your_friends_screen
+  static String yourFriends = 'Deine Freunde';
+  static String search = 'Suchen';
 }
