@@ -47,7 +47,8 @@ class _DebtsScreenState extends State<DebtsScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text('Freunde', style: CustomTextStyle.regularStyleMedium,),
-                GestureDetector(onTap: (){}, child: Text('alle Anzeigen', style: CustomTextStyle.regularStyleMedium.copyWith(color: CustomColor.bluePrimary)),)
+                GestureDetector(onTap: (){}, child: Text('alle Anzeigen', style: CustomTextStyle.regularStyleMedium.copyWith(color: CustomColor.bluePrimary)),),
+                
               ],
             )
           ],
