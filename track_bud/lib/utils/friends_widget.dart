@@ -14,9 +14,8 @@ class FriendCard extends StatelessWidget {
             color: CustomColor.white,
             borderRadius: BorderRadius.circular(Constants.buttonBorderRadius)),
         child: ListTile(
-          // Icon
+          // ProfilePicture
           leading: ClipRRect(
-                    // ProfilePicture
                     borderRadius: BorderRadius.circular(100.0),
                     child: Container(
                       width: 40,
@@ -24,12 +23,12 @@ class FriendCard extends StatelessWidget {
                       color: Colors.red,
                     ),
                   ),
-          // Title of Transaction
+          // Name of Friend
           title: Text(
             'Name',
             style: CustomTextStyle.regularStyleMedium,
           ),
-          // Timestamp
+          // debts or credit
           subtitle: Text(
             'bekommt insgesamt ...',
             style: CustomTextStyle.hintStyleDefault
@@ -38,7 +37,7 @@ class FriendCard extends StatelessWidget {
           // Amount
           trailing: Icon(Icons.arrow_forward_ios_rounded, color: CustomColor.black,),
           minVerticalPadding: CustomPadding.defaultSpace,
-          // open PopUp Window
+          // Navigate to FriendDetailScreen
           onTap: (){},
         ),
       ),
