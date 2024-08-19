@@ -46,6 +46,7 @@ class SQLiteService {
         monthlySpendingGoal REAL,
         settings TEXT,
         friends TEXT
+        isSynced INTEGER DEFAULT 0 -- 0 means not synced, 1 means synced
       )
     ''');
 
@@ -62,6 +63,7 @@ class SQLiteService {
         billImageUrl TEXT,
         currency TEXT,
         recurrenceType TEXT
+        isSynced INTEGER DEFAULT 0 -- 0 means not synced, 1 means synced
       )
     ''');
 
@@ -96,11 +98,12 @@ class SQLiteService {
         transactionId TEXT PRIMARY KEY,
         groupId TEXT,
         amount REAL,
-        type TEXT,  // 'expense' or 'income'
+        type TEXT,
         description TEXT,
         paidBy TEXT,
         date TEXT,
         splitBetween TEXT
+        isSynced INTEGER DEFAULT 0 -- 0 means not synced, 1 means synced
       )
     ''');
   }
@@ -125,9 +128,37 @@ class SQLiteService {
     await db.update('users', user.toMap(), where: 'userId = ?', whereArgs: [user.userId]);
   }
 
+  Future<void> updateUserName(String userId, String newName) async {
+  final db = await database;
+  await db.update(
+    'users',
+    {'name': newName},
+    where: 'userId = ?',
+    whereArgs: [userId],
+  );
+}
+
   Future<void> deleteUser(String userId) async {
     final db = await database;
     await db.delete('users', where: 'userId = ?', whereArgs: [userId]);
+  }
+
+  // Methode zum Abrufen aller nicht synchronisierten Benutzer
+  Future<List<UserModel>> getUnsyncedUsers() async {
+    final db = await database;
+    final maps = await db.query('users', where: 'isSynced = ?', whereArgs: [0]);
+    return List.generate(maps.length, (i) => UserModel.fromMap(maps[i]));
+  }
+
+  // Methode zum Markieren eines Benutzers als synchronisiert
+  Future<void> markUserAsSynced(String userId) async {
+    final db = await database;
+    await db.update(
+      'users',
+      {'isSynced': 1},  // Setzt isSynced auf 1
+      where: 'userId = ?',
+      whereArgs: [userId],
+    );
   }
 
   // Transaction methods
