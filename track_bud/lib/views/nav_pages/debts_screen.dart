@@ -4,6 +4,7 @@ import 'package:track_bud/utils/friends_widget.dart';
 import 'package:track_bud/utils/information_tiles.dart';
 import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/views/subpages/your_friends_screen.dart';
+import 'package:track_bud/views/subpages/your_groups_screen.dart';
 
 class DebtsScreen extends StatefulWidget {
   const DebtsScreen({super.key});
@@ -71,7 +72,35 @@ class _DebtsScreenState extends State<DebtsScreen> {
             SizedBox(
               height: CustomPadding.mediumSpace,
             ),
-            FriendCard()
+            FriendCard(),
+            SizedBox(
+              height: CustomPadding.defaultSpace,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  AppString.groups,
+                  style: CustomTextStyle.regularStyleMedium,
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => YourGroupsScreen(),
+                      ),
+                    );
+                  },
+                  child: Text(AppString.showAll,
+                      style: CustomTextStyle.regularStyleMedium
+                          .copyWith(color: CustomColor.bluePrimary)),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: CustomPadding.mediumSpace,
+            ),
           ],
         ),
       ),

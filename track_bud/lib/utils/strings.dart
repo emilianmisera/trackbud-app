@@ -135,8 +135,13 @@ class AppString {
   static String friends = 'Freunde';
   static String groups = 'Gruppen';
 
-  //your_friends_screen
+  //your_friends_screen & your_groups_screen
   static String yourFriends = 'Deine Freunde';
   static String search = 'Suchen...';
-  static String addFriends = 'Freund hinzufügen';
+  static String addFriend = 'Freund hinzufügen';
+  static String yourGroups = 'Deine Gruppen';
+  static String addGroup = 'Gruppe erstellen';
+  static String groupNameHint = 'Gruppenname';
+  static String addMembers = 'Mitglieder hinzufügen';
+
 }

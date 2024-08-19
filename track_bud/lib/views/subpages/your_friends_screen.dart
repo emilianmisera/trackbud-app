@@ -50,11 +50,11 @@ class _YourFriendsScreenState extends State<YourFriendsScreen> {
                       ),
                     ),
                     SizedBox(height: CustomPadding.defaultSpace),
-                    Text(AppString.addFriends, style: CustomTextStyle.regularStyleMedium,),
+                    Text(AppString.addFriend, style: CustomTextStyle.regularStyleMedium,),
                     SizedBox(height: CustomPadding.mediumSpace),
                     CustomTextfield(name: AppString.email, hintText: AppString.hintEmail, controller: _emailFriendController),
                     Spacer(),
-                    ElevatedButton(onPressed: (){Navigator.pop(context);}, child: Text(AppString.save)),
+                    ElevatedButton(onPressed: (){Navigator.pop(context);}, child: Text(AppString.addFriend)),
                   ],
                 ),
               ),
@@ -66,7 +66,7 @@ class _YourFriendsScreenState extends State<YourFriendsScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          AppString.accAdjustments,
+          AppString.yourFriends,
           style: CustomTextStyle.regularStyleMedium,
         ),
         actions: [
