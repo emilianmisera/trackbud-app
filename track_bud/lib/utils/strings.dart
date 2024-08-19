@@ -137,5 +137,5 @@ class AppString {
 
   //your_friends_screen
   static String yourFriends = 'Deine Freunde';
-  static String search = 'Suchen';
+  static String search = 'Suchen...';
 }

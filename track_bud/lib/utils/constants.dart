@@ -172,6 +172,9 @@ class AssetImport {
   static const String email = 'assets/icons/email.svg';
   static const String edit = 'assets/icons/edit.svg';
   static const String changeAmount = 'assets/icons/changeAmount.svg';
+  static const String search = 'assets/icons/search.svg';
+
+
   //categories
   static const String shoppingCart = 'assets/categories/shoopingCart.png';
   static const String drogerie = 'assets/categories/shopping.png';
