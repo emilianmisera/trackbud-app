@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/textfield_widget.dart';
+import 'package:track_bud/views/subpages/friend_profile_screen.dart';
 
 class FriendCard extends StatelessWidget {
   const FriendCard({super.key});
@@ -38,7 +39,14 @@ class FriendCard extends StatelessWidget {
           trailing: Icon(Icons.arrow_forward_ios_rounded, color: CustomColor.black,),
           minVerticalPadding: CustomPadding.defaultSpace,
           // Navigate to FriendDetailScreen
-          onTap: (){},
+          onTap: (){
+            Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => FriendProfileScreen(),
+                      ),
+                    );
+          },
         ),
       ),
     );
