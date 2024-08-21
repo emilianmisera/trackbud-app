@@ -1,10 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:track_bud/controller/user_controller.dart';
+import 'package:track_bud/models/user_model.dart';
+import 'package:track_bud/services/dependency_injector.dart';
+import 'package:track_bud/services/sqlite_service.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfield_widget.dart';
-import 'package:track_bud/views/subpages/account_settings_screen.dart';
 
 class ChangeBankaccountScreen extends StatefulWidget {
   const ChangeBankaccountScreen({super.key});
@@ -17,19 +19,11 @@ class ChangeBankaccountScreen extends StatefulWidget {
 class _ChangeBankaccountScreenState extends State<ChangeBankaccountScreen> {
   // Controller to handle the input in the TextField for the amount of money.
   final TextEditingController _moneyController = TextEditingController();
-  final UserController _userController = UserController();
 
   @override
   void initState() {
     super.initState();
     _loadCurrentBankAccountInfo(); // Load bank account info when screen is initialized
-  }
-
-  void _saveChanges() {
-    Navigator.of(context).pushAndRemoveUntil(
-      MaterialPageRoute(builder: (context) => AccountSettingsScreen()),
-      (Route<dynamic> route) => false,
-    );
   }
 
   Future<void> _loadCurrentBankAccountInfo() async {
@@ -45,10 +39,14 @@ class _ChangeBankaccountScreenState extends State<ChangeBankaccountScreen> {
     }
 
     try {
-      double currentBalance =
-          await _userController.getBankAccountBalance(userId);
-      _moneyController.text = currentBalance
-          .toStringAsFixed(2); // Formatierung auf 2 Dezimalstellen
+      UserModel? localUser = await SQLiteService().getUserById(userId);
+      print('Loaded user bankaccount from SQLite: ${localUser?.bankAccountBalance}');
+      await DependencyInjector.syncService.syncData(userId);
+      if (localUser != null) {
+        setState(() {
+          _moneyController.text = localUser.bankAccountBalance.toStringAsFixed(2);
+        });
+      }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -101,6 +99,7 @@ class _ChangeBankaccountScreenState extends State<ChangeBankaccountScreen> {
           content: Text("Bankkonto erfolgreich aktualisiert."),
         ),
       );
+      Navigator.pop(context);
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -171,7 +170,6 @@ class _ChangeBankaccountScreenState extends State<ChangeBankaccountScreen> {
           // Saving Button
           onPressed: () {
             _saveBankAccountInfo();
-            _saveChanges();
           },
           child: Text(
             AppString.save,
