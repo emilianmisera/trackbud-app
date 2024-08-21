@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:track_bud/utils/buttons_widget.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/date_picker.dart';
+import 'package:track_bud/utils/split_widget.dart';
 import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfield_widget.dart';
 
@@ -23,7 +24,8 @@ class DynamicBottomSheet extends StatelessWidget {
     required this.child,
     this.initialChildSize = 0.8,
     this.minChildSize = 0.2,
-    this.maxChildSize = 0.90, required this.buttonText,
+    this.maxChildSize = 0.90,
+    required this.buttonText,
   }) : super(key: key);
 
   @override
@@ -62,14 +64,19 @@ class DynamicBottomSheet extends StatelessWidget {
                 ),
               ),
               // Button to add the transaction
-            Padding(
-              padding: EdgeInsets.only(left: CustomPadding.mediumSpace, right: CustomPadding.mediumSpace, bottom: MediaQuery.sizeOf(context).height * CustomPadding.bottomSpace),
-              child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                    //TODO: add Save option
-                  }, child: Text(buttonText)),
-            )
+              Padding(
+                padding: EdgeInsets.only(
+                    left: CustomPadding.mediumSpace,
+                    right: CustomPadding.mediumSpace,
+                    bottom: MediaQuery.sizeOf(context).height *
+                        CustomPadding.bottomSpace),
+                child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      //TODO: add Save option
+                    },
+                    child: Text(buttonText)),
+              )
             ],
           ),
         );
@@ -94,7 +101,6 @@ class _AddTransactionState extends State<AddTransaction> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _amountController = TextEditingController();
   final TextEditingController _noteController = TextEditingController();
-  
 
   // Updates the selected transaction type
   void updateSelected(Set<String> newSelection) {
@@ -102,10 +108,11 @@ class _AddTransactionState extends State<AddTransaction> {
       _selected = newSelection;
     });
   }
+
 // when Expense is selected, prefix is "-", income is "+"
   String _getAmountPrefix() {
-  return _currentSegment == 0 ? '–' : '+';
-}
+    return _currentSegment == 0 ? '–' : '+';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -158,10 +165,16 @@ class _AddTransactionState extends State<AddTransaction> {
                   hintText: AppString.lines,
                   controller: _amountController,
                   width: MediaQuery.sizeOf(context).width / 3,
-                  prefix: Text(_getAmountPrefix(), style: CustomTextStyle.titleStyleMedium.copyWith(fontWeight: CustomTextStyle.fontWeightDefault),),
+                  prefix: Text(
+                    _getAmountPrefix(),
+                    style: CustomTextStyle.titleStyleMedium.copyWith(
+                        fontWeight: CustomTextStyle.fontWeightDefault),
+                  ),
                   type: TextInputType.numberWithOptions(),
                 ),
-                SizedBox(width: CustomPadding.defaultSpace,),
+                SizedBox(
+                  width: CustomPadding.defaultSpace,
+                ),
 
                 // Date text field
                 DatePicker()
@@ -196,7 +209,8 @@ class _AddTransactionState extends State<AddTransaction> {
               list: [
                 'einmalig',
                 'täglich',
-                'wöchentlich' 'zweiwöchentlich',
+                'wöchentlich',
+                'zweiwöchentlich',
                 'halb-monatlich',
                 'monatlich',
                 'vierteljährlich',
@@ -218,9 +232,102 @@ class _AddTransactionState extends State<AddTransaction> {
             SizedBox(
               height: CustomPadding.defaultSpace,
             ),
-            if (keyboardHeight > 0) // when you want to tip some text in notice, you can scroll up
+            if (keyboardHeight >
+                0) // when you want to tip some text in notice, you can scroll up
               SizedBox(height: keyboardHeight),
-            
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// Widget for adding new split
+class AddSplit extends StatefulWidget {
+  const AddSplit({super.key});
+
+  @override
+  State<AddSplit> createState() => _AddSplitState();
+}
+
+class _AddSplitState extends State<AddSplit> {
+  int _currentSegment = 0; // Tracks the current segment (expense or income)
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _amountController = TextEditingController();
+
+  // when Expense is selected, prefix is "-", income is "+"
+  String _getAmountPrefix() {
+    return _currentSegment == 0 ? '–' : '+';
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return DynamicBottomSheet(
+      buttonText: AppString.addSplit,
+      initialChildSize: 0.80,
+      maxChildSize: 0.95,
+      child: Padding(
+        padding: CustomPadding.screenWidth,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Title of the bottom sheet
+            Center(
+              child: Text(
+                AppString.newSplit,
+                style: CustomTextStyle.regularStyleMedium,
+              ),
+            ),
+            SizedBox(
+              height: CustomPadding.defaultSpace,
+            ),
+            // Segment control for switching between expense and income
+            CustomSegmentControl(
+              onValueChanged: (int? newValue) {
+                setState(() {
+                  _currentSegment = newValue ?? 0; // Update current segment
+                });
+              },
+            ),
+            SizedBox(
+              height: CustomPadding.bigSpace,
+            ),
+            // Text field for transaction title
+            CustomTextfield(
+                name: AppString.title,
+                hintText: AppString.hintTitle,
+                controller: _titleController),
+            SizedBox(
+              height: CustomPadding.defaultSpace,
+            ),
+            // Row containing amount and date fields
+            Row(
+              children: [
+                // Amount text field
+                CustomTextfield(
+                  name: AppString.amount,
+                  hintText: AppString.lines,
+                  controller: _amountController,
+                  width: MediaQuery.sizeOf(context).width / 3,
+                  prefix: Text(
+                    _getAmountPrefix(),
+                    style: CustomTextStyle.titleStyleMedium.copyWith(
+                        fontWeight: CustomTextStyle.fontWeightDefault),
+                  ),
+                  type: TextInputType.numberWithOptions(),
+                ),
+                SizedBox(
+                  width: CustomPadding.defaultSpace,
+                ),
+
+                // Date text field
+                DatePicker()
+              ],
+            ),
+            SizedBox(
+              height: CustomPadding.defaultSpace,
+            ),
+            SplitWidget()
           ],
         ),
       ),
