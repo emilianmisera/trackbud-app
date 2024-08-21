@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:track_bud/models/transaction_model.dart';
+import 'package:track_bud/services/cache_service.dart';
+import 'package:track_bud/services/firestore_service.dart';
+import 'package:track_bud/services/sqlite_service.dart';
+import 'package:track_bud/services/sync_service.dart';
 import 'package:track_bud/utils/buttons_widget.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/date_picker.dart';
@@ -17,13 +22,16 @@ class DynamicBottomSheet extends StatelessWidget {
   final double maxChildSize;
   // text of the button
   final String buttonText;
+  final VoidCallback onButtonPressed;
 
   const DynamicBottomSheet({
     Key? key,
     required this.child,
-    this.initialChildSize = 0.8,
-    this.minChildSize = 0.2,
-    this.maxChildSize = 0.90, required this.buttonText,
+    this.initialChildSize = 0.62,
+    this.minChildSize = 0.3,
+    this.maxChildSize = 0.95,
+    required this.buttonText,
+    required this.onButtonPressed,
   }) : super(key: key);
 
   @override
@@ -62,11 +70,18 @@ class DynamicBottomSheet extends StatelessWidget {
                 ),
               ),
               // Button to add the transaction
-            Padding(
-              padding: EdgeInsets.only(left: CustomPadding.mediumSpace, right: CustomPadding.mediumSpace, bottom: MediaQuery.sizeOf(context).height * CustomPadding.bottomSpace),
-              child: ElevatedButton(
-                  onPressed: () {}, child: Text(buttonText)),
-            )
+              Padding(
+                padding: EdgeInsets.only(
+                    left: CustomPadding.mediumSpace,
+                    right: CustomPadding.mediumSpace,
+                    bottom: MediaQuery.sizeOf(context).height *
+                        CustomPadding.bottomSpace),
+                child: ElevatedButton(
+                    onPressed: () {
+                      onButtonPressed();
+                    },
+                    child: Text(buttonText)),
+              )
             ],
           ),
         );
@@ -91,7 +106,6 @@ class _AddTransactionState extends State<AddTransaction> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _amountController = TextEditingController();
   final TextEditingController _noteController = TextEditingController();
-  
 
   // Updates the selected transaction type
   void updateSelected(Set<String> newSelection) {
@@ -99,10 +113,80 @@ class _AddTransactionState extends State<AddTransaction> {
       _selected = newSelection;
     });
   }
+
 // when Expense is selected, prefix is "-", income is "+"
   String _getAmountPrefix() {
-  return _currentSegment == 0 ? '–' : '+';
-}
+    return _currentSegment == 0 ? '–' : '+';
+  }
+
+  TransactionModel _getTransactionFromForm() {
+    final String transactionId =
+        '0001'; // Generiere eine eindeutige ID für die Transaktion
+    final String userId = '0001'; // Ersetze dies durch die tatsächliche Benutzer-ID
+    final String title = _titleController.text.trim();
+    final double amount = double.tryParse(_amountController.text) ?? 0.0;
+    final String type = _currentSegment == 0 ? 'expense' : 'income';
+    final String category =
+        'chosen category'; // Hier müsste die ausgewählte Kategorie verwendet werden
+    final String notes = _noteController.text.trim();
+    final String date =
+        DateTime.now().toIso8601String(); // Verwende das ausgewählte Datum
+    final String recurrenceType =
+        'einmalig'; // Beispielwert, sollte aus dem Dropdown kommen
+
+    print('getTransactionsFromForm');
+
+    return TransactionModel(
+      transactionId: transactionId,
+      userId: userId,
+      title: title,
+      amount: amount,
+      type: type,
+      category: category,
+      notes: notes,
+      date: date,
+      billImageUrl: '',
+      currency:
+          'EUR', // Beispielwert, kann durch eine Währungsauswahl ersetzt werden
+      recurrenceType: recurrenceType,
+    );
+  }
+
+  Future<void> _saveNewTransaction() async {
+    print('save new Transaction');
+    final newTransaction =
+        _getTransactionFromForm(); // Hole die Transaktion aus dem Formular
+
+    try {
+      // Speichern in SQLite
+      await SQLiteService().insertTransaction(newTransaction);
+
+      // Prüfe auf Internetverbindung
+      bool hasInternet =
+          await SyncService(SQLiteService(), FirestoreService(), CacheService())
+              .checkInternetConnection();
+      if (hasInternet) {
+        // Speichern in Firestore
+        await FirestoreService().addTransaction(newTransaction);
+
+        // Markiere die Transaktion als synchronisiert
+        await SQLiteService()
+            .markTransactionAsSynced(newTransaction.transactionId);
+      } else {
+        print(
+            "Keine Internetverbindung, Transaktion wird später synchronisiert.");
+      }
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Transaktion erfolgreich gespeichert!')),
+      );
+    } catch (e) {
+      print('Fehler beim Speichern der Transaktion: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Fehler beim Speichern der Transaktion')),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -110,8 +194,12 @@ class _AddTransactionState extends State<AddTransaction> {
 
     return DynamicBottomSheet(
       buttonText: AppString.addTransaction,
-      initialChildSize: 0.80,
+      initialChildSize: 0.62,
       maxChildSize: 0.95,
+      onButtonPressed: () async {
+        await _saveNewTransaction();
+        Navigator.pop(context);
+      },
       child: Padding(
         padding: CustomPadding.screenWidth,
         child: Column(
@@ -155,10 +243,16 @@ class _AddTransactionState extends State<AddTransaction> {
                   hintText: AppString.lines,
                   controller: _amountController,
                   width: MediaQuery.sizeOf(context).width / 3,
-                  prefix: Text(_getAmountPrefix(), style: CustomTextStyle.titleStyleMedium.copyWith(fontWeight: CustomTextStyle.fontWeightDefault),),
+                  prefix: Text(
+                    _getAmountPrefix(),
+                    style: CustomTextStyle.titleStyleMedium.copyWith(
+                        fontWeight: CustomTextStyle.fontWeightDefault),
+                  ),
                   type: TextInputType.numberWithOptions(),
                 ),
-                SizedBox(width: CustomPadding.defaultSpace,),
+                SizedBox(
+                  width: CustomPadding.defaultSpace,
+                ),
 
                 // Date text field
                 DatePicker()
@@ -215,9 +309,9 @@ class _AddTransactionState extends State<AddTransaction> {
             SizedBox(
               height: CustomPadding.defaultSpace,
             ),
-            if (keyboardHeight > 0) // when you want to tip some text in notice, you can scroll up
+            if (keyboardHeight >
+                0) // when you want to tip some text in notice, you can scroll up
               SizedBox(height: keyboardHeight),
-            
           ],
         ),
       ),

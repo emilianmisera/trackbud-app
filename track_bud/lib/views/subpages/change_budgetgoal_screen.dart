@@ -18,7 +18,6 @@ class ChangeBudgetGoalScreen extends StatefulWidget {
 class _ChangeBudgetGoalScreenState extends State<ChangeBudgetGoalScreen> {
   // Controller to handle the input in the TextField for the amount of money.
   final TextEditingController _moneyController = TextEditingController();
-  final UserController _userController = UserController();
 
   @override
   void initState() {

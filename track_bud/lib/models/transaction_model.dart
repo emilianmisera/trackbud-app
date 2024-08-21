@@ -1,6 +1,7 @@
 class TransactionModel {
   String transactionId;
   String userId;
+  String title;
   double amount;
   String type;  // 'expense' or 'income'
   String category;
@@ -9,10 +10,12 @@ class TransactionModel {
   String billImageUrl;
   String currency;
   String recurrenceType;  // 'daily', 'weekly', 'monthly', 'one-time'
+  bool isSynced;
 
   TransactionModel({
     required this.transactionId,
     required this.userId,
+    required this.title,
     required this.amount,
     required this.type,
     required this.category,
@@ -21,12 +24,14 @@ class TransactionModel {
     required this.billImageUrl,
     required this.currency,
     required this.recurrenceType,
+    this.isSynced = false,
   });
 
   factory TransactionModel.fromMap(Map<String, dynamic> map) {
     return TransactionModel(
       transactionId: map['transactionId'],
       userId: map['userId'],
+      title: map['title'],
       amount: map['amount'].toDouble(),
       type: map['type'],
       category: map['category'],
@@ -35,6 +40,7 @@ class TransactionModel {
       billImageUrl: map['billImageUrl'],
       currency: map['currency'],
       recurrenceType: map['recurrenceType'],
+      isSynced: map['isSynced'] == 1,
     );
   }
 
@@ -42,6 +48,7 @@ class TransactionModel {
     return {
       'transactionId': transactionId,
       'userId': userId,
+      'title': title,
       'amount': amount,
       'type': type,
       'category': category,
@@ -50,6 +57,7 @@ class TransactionModel {
       'billImageUrl': billImageUrl,
       'currency': currency,
       'recurrenceType': recurrenceType,
+      'isSynced': isSynced ? 1 : 0,
     };
   }
 }
