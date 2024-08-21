@@ -1,6 +1,10 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
+import 'package:track_bud/models/transaction_model.dart';
+import 'package:track_bud/services/cache_service.dart';
+import 'package:track_bud/services/firestore_service.dart';
+import 'package:track_bud/services/sqlite_service.dart';
+import 'package:track_bud/services/sync_service.dart';
 import 'package:track_bud/utils/buttons_widget.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/date_picker.dart';
@@ -17,7 +21,7 @@ class EditTransactionScreen extends StatefulWidget {
 class _EditTransactionScreenState extends State<EditTransactionScreen> {
   //change category & prefix
   //if 0 -> expense, if 1 (or other number) -> income
-  int _currentSegment = 0; 
+  int _currentSegment = 0;
   //controllers
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _amountController = TextEditingController();
@@ -36,8 +40,9 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
             style: CustomTextStyle.regularStyleMedium),
       ),
       body: Padding(
-        padding:
-            const EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace, vertical: CustomPadding.defaultSpace),
+        padding: const EdgeInsets.symmetric(
+            horizontal: CustomPadding.defaultSpace,
+            vertical: CustomPadding.defaultSpace),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -103,7 +108,8 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
                 list: [
                   'einmalig',
                   'täglich',
-                  'wöchentlich' 'zweiwöchentlich',
+                  'wöchentlich',
+                  'zweiwöchentlich',
                   'halb-monatlich',
                   'monatlich',
                   'vierteljährlich',
@@ -146,8 +152,7 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
         child: ElevatedButton(
           // Enable button only if profile has changed
           onPressed: () {
-            // TODO: Implement save functionality
-            Navigator.of(context).pop();
+            //TODO: Backend edit Transactions
           },
           style: ElevatedButton.styleFrom(
               // Set button color based on whether profile has changed
