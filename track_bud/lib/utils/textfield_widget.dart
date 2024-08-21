@@ -111,11 +111,11 @@ class TextFieldAmountOfMoney extends StatelessWidget {
       child: TextFormField(
         controller: controller,
         style: CustomTextStyle.headingStyle,
-        keyboardType: TextInputType.numberWithOptions(),
+        keyboardType: TextInputType.numberWithOptions(decimal: true),
         textAlign: TextAlign.center,
         inputFormatters: [
           FilteringTextInputFormatter
-              .digitsOnly, // textinput has to have only numbers
+              .allow(RegExp(r'[0-9.]')), // textinput has to have only numbers or a dot
         ],
         decoration: InputDecoration(
           hintText: hintText ?? AppString.lines,
