@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:track_bud/models/transaction_model.dart';
 import 'package:track_bud/models/user_model.dart';
 import 'package:track_bud/services/cache_service.dart';
 import 'sqlite_service.dart';
@@ -26,20 +27,10 @@ class SyncService {
     }
   }
 
-  Future<void> _syncOnlineData(String userId) async {
-    try {
-      UserModel? firestoreUser = await _firestoreService.getUserData(userId);
-      if (firestoreUser != null) {
-        await _sqliteService.insertUser(firestoreUser);
-        _cacheService.put(userId, firestoreUser); // refresh cache
-      }
-    } catch (e) {
-      print("Fehler beim Synchronisieren von Online-Daten: $e");
-    }
-  }
 
   Future<void> _syncLocalChanges(String userId) async {
     try {
+      // sync user
       List<UserModel> localUsers = await _sqliteService.getUnsyncedUsers();
       for (var user in localUsers) {
         await _firestoreService.updateUserNameInFirestore(
@@ -47,8 +38,31 @@ class SyncService {
         // Optionally update local database to mark as synced
         await _sqliteService.markUserAsSynced(user.userId);
       }
+      // sync transactions
+      List<TransactionModel> localTransactions = await _sqliteService.getUnsyncedTransactions();
+      for (var transaction in localTransactions) {
+        await _firestoreService.addTransaction(transaction);
+        await _sqliteService.markTransactionAsSynced(transaction.transactionId);
+      }
     } catch (e) {
       print("Fehler beim Synchronisieren von lokalen Änderungen: $e");
+    }
+  }
+
+  Future<void> _syncOnlineData(String userId) async {
+    try {
+      UserModel? firestoreUser = await _firestoreService.getUserData(userId);
+      if (firestoreUser != null) {
+        await _sqliteService.insertUser(firestoreUser);
+        _cacheService.put(userId, firestoreUser); // refresh cache
+      }
+
+      List<TransactionModel> firestoreTransactions = await _firestoreService.getTransactionsForUser(userId);
+      for (var transaction in firestoreTransactions) {
+        await _sqliteService.insertTransaction(transaction);
+      }
+    } catch (e) {
+      print("Fehler beim Synchronisieren von Online-Daten: $e");
     }
   }
 
