@@ -45,7 +45,7 @@ class SQLiteService {
         bankAccountBalance REAL,
         monthlySpendingGoal REAL,
         settings TEXT,
-        friends TEXT
+        friends TEXT,
         isSynced INTEGER DEFAULT 0 -- 0 means not synced, 1 means synced
       )
     ''');
@@ -62,7 +62,7 @@ class SQLiteService {
         date TEXT,
         billImageUrl TEXT,
         currency TEXT,
-        recurrenceType TEXT
+        recurrenceType TEXT,
         isSynced INTEGER DEFAULT 0 -- 0 means not synced, 1 means synced
       )
     ''');
@@ -102,7 +102,7 @@ class SQLiteService {
         description TEXT,
         paidBy TEXT,
         date TEXT,
-        splitBetween TEXT
+        splitBetween TEXT,
         isSynced INTEGER DEFAULT 0 -- 0 means not synced, 1 means synced
       )
     ''');
@@ -111,12 +111,14 @@ class SQLiteService {
   // User methods
   Future<void> insertUser(UserModel user) async {
     final db = await database;
-    await db.insert('users', user.toMap(), conflictAlgorithm: ConflictAlgorithm.replace);
+    await db.insert('users', user.toMap(),
+        conflictAlgorithm: ConflictAlgorithm.replace);
   }
 
   Future<UserModel?> getUserById(String userId) async {
     final db = await database;
-    final maps = await db.query('users', where: 'userId = ?', whereArgs: [userId]);
+    final maps =
+        await db.query('users', where: 'userId = ?', whereArgs: [userId]);
     if (maps.isNotEmpty) {
       return UserModel.fromMap(maps.first);
     }
@@ -125,18 +127,19 @@ class SQLiteService {
 
   Future<void> updateUser(UserModel user) async {
     final db = await database;
-    await db.update('users', user.toMap(), where: 'userId = ?', whereArgs: [user.userId]);
+    await db.update('users', user.toMap(),
+        where: 'userId = ?', whereArgs: [user.userId]);
   }
 
   Future<void> updateUserName(String userId, String newName) async {
-  final db = await database;
-  await db.update(
-    'users',
-    {'name': newName},
-    where: 'userId = ?',
-    whereArgs: [userId],
-  );
-}
+    final db = await database;
+    await db.update(
+      'users',
+      {'name': newName},
+      where: 'userId = ?',
+      whereArgs: [userId],
+    );
+  }
 
   Future<void> deleteUser(String userId) async {
     final db = await database;
@@ -155,7 +158,7 @@ class SQLiteService {
     final db = await database;
     await db.update(
       'users',
-      {'isSynced': 1},  // Setzt isSynced auf 1
+      {'isSynced': 1}, // Setzt isSynced auf 1
       where: 'userId = ?',
       whereArgs: [userId],
     );
@@ -164,29 +167,34 @@ class SQLiteService {
   // Transaction methods
   Future<void> insertTransaction(TransactionModel transaction) async {
     final db = await database;
-    await db.insert('transactions', transaction.toMap(), conflictAlgorithm: ConflictAlgorithm.replace);
+    await db.insert('transactions', transaction.toMap(),
+        conflictAlgorithm: ConflictAlgorithm.replace);
   }
 
   Future<List<TransactionModel>> getTransactionsByUserId(String userId) async {
     final db = await database;
-    final maps = await db.query('transactions', where: 'userId = ?', whereArgs: [userId]);
+    final maps = await db
+        .query('transactions', where: 'userId = ?', whereArgs: [userId]);
     return List.generate(maps.length, (i) => TransactionModel.fromMap(maps[i]));
   }
 
   Future<void> deleteTransaction(String transactionId) async {
     final db = await database;
-    await db.delete('transactions', where: 'transactionId = ?', whereArgs: [transactionId]);
+    await db.delete('transactions',
+        where: 'transactionId = ?', whereArgs: [transactionId]);
   }
 
   // Debt methods
   Future<void> insertDebt(DebtModel debt) async {
     final db = await database;
-    await db.insert('debts', debt.toMap(), conflictAlgorithm: ConflictAlgorithm.replace);
+    await db.insert('debts', debt.toMap(),
+        conflictAlgorithm: ConflictAlgorithm.replace);
   }
 
   Future<List<DebtModel>> getDebtsByUserId(String userId) async {
     final db = await database;
-    final maps = await db.query('debts', where: 'creditorId = ? OR debtorId = ?', whereArgs: [userId, userId]);
+    final maps = await db.query('debts',
+        where: 'creditorId = ? OR debtorId = ?', whereArgs: [userId, userId]);
     return List.generate(maps.length, (i) => DebtModel.fromMap(maps[i]));
   }
 
@@ -198,12 +206,14 @@ class SQLiteService {
   // Group methods
   Future<void> insertGroup(GroupModel group) async {
     final db = await database;
-    await db.insert('groups', group.toMap(), conflictAlgorithm: ConflictAlgorithm.replace);
+    await db.insert('groups', group.toMap(),
+        conflictAlgorithm: ConflictAlgorithm.replace);
   }
 
   Future<GroupModel?> getGroupById(String groupId) async {
     final db = await database;
-    final maps = await db.query('groups', where: 'groupId = ?', whereArgs: [groupId]);
+    final maps =
+        await db.query('groups', where: 'groupId = ?', whereArgs: [groupId]);
     if (maps.isNotEmpty) {
       return GroupModel.fromMap(maps.first);
     }
@@ -216,20 +226,26 @@ class SQLiteService {
   }
 
   // Group Transaction methods (renamed and updated from groupExpense)
-  Future<void> insertGroupTransaction(GroupTransactionModel groupTransaction) async {
+  Future<void> insertGroupTransaction(
+      GroupTransactionModel groupTransaction) async {
     final db = await database;
-    await db.insert('groupTransactions', groupTransaction.toMap(), conflictAlgorithm: ConflictAlgorithm.replace);
+    await db.insert('groupTransactions', groupTransaction.toMap(),
+        conflictAlgorithm: ConflictAlgorithm.replace);
   }
 
-  Future<List<GroupTransactionModel>> getGroupTransactionsByGroupId(String groupId) async {
+  Future<List<GroupTransactionModel>> getGroupTransactionsByGroupId(
+      String groupId) async {
     final db = await database;
-    final maps = await db.query('groupTransactions', where: 'groupId = ?', whereArgs: [groupId]);
-    return List.generate(maps.length, (i) => GroupTransactionModel.fromMap(maps[i]));
+    final maps = await db
+        .query('groupTransactions', where: 'groupId = ?', whereArgs: [groupId]);
+    return List.generate(
+        maps.length, (i) => GroupTransactionModel.fromMap(maps[i]));
   }
 
   Future<void> deleteGroupTransaction(String transactionId) async {
     final db = await database;
-    await db.delete('groupTransactions', where: 'transactionId = ?', whereArgs: [transactionId]);
+    await db.delete('groupTransactions',
+        where: 'transactionId = ?', whereArgs: [transactionId]);
   }
 
   Future<void> close() async {
