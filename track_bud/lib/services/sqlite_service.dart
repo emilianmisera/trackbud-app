@@ -55,6 +55,7 @@ class SQLiteService {
       CREATE TABLE transactions (
         transactionId TEXT PRIMARY KEY,
         userId TEXT,
+        title TEXT,
         amount REAL,
         type TEXT,
         category TEXT,
@@ -182,6 +183,22 @@ class SQLiteService {
     final db = await database;
     await db.delete('transactions',
         where: 'transactionId = ?', whereArgs: [transactionId]);
+  }
+
+  Future<List<TransactionModel>> getUnsyncedTransactions() async {
+    final db = await database;
+    final maps = await db.query('transactions', where: 'isSynced = ?', whereArgs: [0]);
+    return List.generate(maps.length, (i) => TransactionModel.fromMap(maps[i]));
+  }
+
+  Future<void> markTransactionAsSynced(String transactionId) async {
+    final db = await database;
+    await db.update(
+      'transactions',
+      {'isSynced': 1}, // Setzt isSynced auf 1
+      where: 'transactionId = ?',
+      whereArgs: [transactionId],
+    );
   }
 
   // Debt methods
