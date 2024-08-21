@@ -21,9 +21,8 @@ class ProfileSettingsScreen extends StatefulWidget {
 
 class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
   // Controller for the name text field
-  final TextEditingController _nameController =
-      TextEditingController();
-  
+  final TextEditingController _nameController = TextEditingController();
+
   // State variables to track changes
   bool _isProfileChanged = false;
   String _initialName = '';
@@ -60,9 +59,9 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
     }
 
     try {
-      await DependencyInjector.syncService.syncData(userId);
-      // Hier kannst du die Daten aus der SQLite-Datenbank laden und darstellen.
       UserModel? localUser = await SQLiteService().getUserById(userId);
+      print('Loaded user name from SQLite: ${localUser?.name}');
+      await DependencyInjector.syncService.syncData(userId);
       if (localUser != null) {
         setState(() {
           _initialName = localUser.name;
@@ -79,45 +78,50 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
 
   // New method to save profile changes
   Future<void> _saveProfileChanges() async {
-  try {
-    final String userId = FirebaseAuth.instance.currentUser?.uid ?? '';
-    if (userId.isNotEmpty) {
-      final updatedName = _nameController.text;
+    try {
+      final String userId = FirebaseAuth.instance.currentUser?.uid ?? '';
+      if (userId.isNotEmpty) {
+        final updatedName = _nameController.text;
 
-      // Update local database
-      await SQLiteService().updateUserName(userId, updatedName);
+        // Update local database
+        await SQLiteService().updateUserName(userId, updatedName);
 
-      // Also update user info in Firebase
-      await DependencyInjector.syncService.syncData(userId);
+        // Also update user info in Firebase
+        await DependencyInjector.syncService.syncData(userId);
 
-      // Optionally, you may also want to update Firebase User Profile
-      User? user = FirebaseAuth.instance.currentUser;
-      if (user != null) {
-        await user.updateProfile(displayName: updatedName);
-        // Reload user info
-        await user.reload();
+        // Optionally, you may also want to update Firebase User Profile
+        User? user = FirebaseAuth.instance.currentUser;
+        if (user != null) {
+          await user.updateProfile(displayName: updatedName);
+          // Reload user info
+          await user.reload();
+          print('Firebase profile updated: ${user.displayName}');
+        }
+
+        // Show a success message
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Profil erfolgreich aktualisiert.")),
+        );
+
+        // Set profileChanged flag to false after successful update
+        setState(() {
+          _initialName = updatedName;
+          _nameController.text = updatedName;
+          _isProfileChanged = false;
+        });
+
+        Navigator.pop(context, true);
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Fehler: Kein Benutzer angemeldet.")),
+        );
       }
-
-      // Show a success message
+    } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Profil erfolgreich aktualisiert.")),
-      );
-
-      // Set profileChanged flag to false after successful update
-      setState(() {
-        _isProfileChanged = false;
-      });
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Fehler: Kein Benutzer angemeldet.")),
+        SnackBar(content: Text("Fehler beim Aktualisieren des Profils: $e")),
       );
     }
-  } catch (e) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text("Fehler beim Aktualisieren des Profils: $e")),
-    );
   }
-}
 
   @override
   Widget build(BuildContext context) {
@@ -136,9 +140,9 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                   Constants.defaultAppBarHeight,
               left: CustomPadding.defaultSpace,
               right: CustomPadding.defaultSpace,
-              bottom: MediaQuery.sizeOf(context).height * CustomPadding.bottomSpace
-              ),
-              
+              bottom: MediaQuery.sizeOf(context).height *
+                  CustomPadding.bottomSpace),
+
           child: Column(
             children: [
               // Profile picture widget
@@ -184,12 +188,11 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
               // First Name text field
               CustomTextfield(
                   name: AppString.firstName,
-                  hintText: AppString.hintFirstName,
+                  hintText: '',
                   controller: _nameController),
               SizedBox(height: CustomPadding.defaultSpace),
               // Email text field (locked)
-              LockedEmailTextfield(
-                  email: currentUserEmail),
+              LockedEmailTextfield(email: currentUserEmail),
               SizedBox(height: CustomPadding.defaultSpace),
               // Change Email button
               AccAdjustmentButton(
@@ -227,29 +230,26 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
       ),
       // Bottom sheet with Save button
       bottomSheet: AnimatedContainer(
-  duration: Duration(milliseconds: 100),
-  curve: Curves.easeInOut,
-  margin: EdgeInsets.only(
-    bottom: min(
-      MediaQuery.of(context).viewInsets.bottom > 0
-    ? 0
-    : MediaQuery.of(context).size.height * CustomPadding.bottomSpace,
-    MediaQuery.of(context).size.height * CustomPadding.bottomSpace
-    ),
-    left: CustomPadding.defaultSpace,
-    right: CustomPadding.defaultSpace,
-  ),
-  width: MediaQuery.of(context).size.width,
+        duration: Duration(milliseconds: 100),
+        curve: Curves.easeInOut,
+        margin: EdgeInsets.only(
+          bottom: min(
+              MediaQuery.of(context).viewInsets.bottom > 0
+                  ? 0
+                  : MediaQuery.of(context).size.height *
+                      CustomPadding.bottomSpace,
+              MediaQuery.of(context).size.height * CustomPadding.bottomSpace),
+          left: CustomPadding.defaultSpace,
+          right: CustomPadding.defaultSpace,
+        ),
+        width: MediaQuery.of(context).size.width,
         child: ElevatedButton(
           // Enable button only if profile has changed
-          onPressed: _isProfileChanged
-              ? _saveProfileChanges
-              : null,
+          onPressed: _isProfileChanged ? _saveProfileChanges : null,
           style: ElevatedButton.styleFrom(
-            // Set button color based on whether profile has changed
-            disabledBackgroundColor: CustomColor.bluePrimary.withOpacity(0.5),
-            backgroundColor: CustomColor.bluePrimary
-          ),
+              // Set button color based on whether profile has changed
+              disabledBackgroundColor: CustomColor.bluePrimary.withOpacity(0.5),
+              backgroundColor: CustomColor.bluePrimary),
           child: Text(AppString.save),
         ),
       ),

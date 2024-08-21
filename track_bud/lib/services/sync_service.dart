@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:track_bud/models/user_model.dart';
 import 'package:track_bud/services/cache_service.dart';
 import 'sqlite_service.dart';
@@ -13,17 +12,19 @@ class SyncService {
   SyncService(this._sqliteService, this._firestoreService, this._cacheService);
 
   Future<void> syncData(String userId) async {
-  // Retrieve user from local database
-  UserModel? localUser = await SQLiteService().getUserById(userId);
+    bool hasInternet = await checkInternetConnection();
 
-  if (localUser != null) {
-    // Update Firebase with local data
-    await FirebaseFirestore.instance.collection('users').doc(userId).update({
-      'name': localUser.name,
-      'email': localUser.email,
-    });
+    if (hasInternet) {
+      // Sync local changes to remote (Firestore)
+      await _syncLocalChanges(userId);
+
+      // Sync remote changes to local (SQLite)
+      await _syncOnlineData(userId);
+    } else {
+      print(
+          'Keine Internetverbindung. Synchronisation wird später durchgeführt.');
+    }
   }
-}
 
   Future<void> _syncOnlineData(String userId) async {
     try {
@@ -41,7 +42,8 @@ class SyncService {
     try {
       List<UserModel> localUsers = await _sqliteService.getUnsyncedUsers();
       for (var user in localUsers) {
-        await _firestoreService.updateUserNameInFirestore(user.userId, user.name);
+        await _firestoreService.updateUserNameInFirestore(
+            user.userId, user.name);
         // Optionally update local database to mark as synced
         await _sqliteService.markUserAsSynced(user.userId);
       }
