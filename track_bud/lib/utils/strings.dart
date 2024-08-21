@@ -149,4 +149,12 @@ class AppString {
   static String sameGroups = 'Gemeinsame Gruppen'; 
   static String payOffDebts = 'Schulden begleichen';
 
+  //new split
+  static String newSplit = 'Neuer Split';
+  static String giveOut = 'Ausgegeben';
+  static String distribution = 'Verteilung';
+  static String equal = 'gleichmäßig';
+  static String percent = 'prozentual';
+  static String byAmount = 'nach Betrag';
+  static String addSplit = 'Split hinzufügen';
 }
