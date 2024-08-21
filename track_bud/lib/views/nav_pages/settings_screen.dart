@@ -158,8 +158,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
     }
 
     try {
-      await DependencyInjector.syncService.syncData(userId);
       UserModel? localUser = await SQLiteService().getUserById(userId);
+      await DependencyInjector.syncService.syncData(userId);
       if (localUser != null) {
         setState(() {
           currentUserName = localUser.name;
@@ -229,13 +229,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 CustomShadow(
                   // edit Profile Button
                   child: TextButton.icon(
-                    onPressed: () {
-                      Navigator.push(
+                    onPressed: () async { final shouldReload = 
+                      await Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) => ProfileSettingsScreen(),
                         ),
                       );
+                      if (shouldReload == true) {_loadCurrentUserInfo();}
                     },
                     label: Text(
                       AppString.editProfile,
