@@ -142,6 +142,16 @@ class SQLiteService {
     );
   }
 
+  Future<void> updateUserProfileImage(String userId, String imageUrl) async {
+    final db = await database;
+    await db.update(
+      'users',
+      {'profilePictureUrl': imageUrl},
+      where: 'userId = ?',
+      whereArgs: [userId],
+    );
+  }
+
   Future<void> deleteUser(String userId) async {
     final db = await database;
     await db.delete('users', where: 'userId = ?', whereArgs: [userId]);
@@ -187,7 +197,8 @@ class SQLiteService {
 
   Future<List<TransactionModel>> getUnsyncedTransactions() async {
     final db = await database;
-    final maps = await db.query('transactions', where: 'isSynced = ?', whereArgs: [0]);
+    final maps =
+        await db.query('transactions', where: 'isSynced = ?', whereArgs: [0]);
     return List.generate(maps.length, (i) => TransactionModel.fromMap(maps[i]));
   }
 

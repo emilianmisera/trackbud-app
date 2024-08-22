@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -10,6 +13,8 @@ import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfield_widget.dart';
 import 'package:track_bud/views/subpages/change_email_screen.dart';
 import 'package:track_bud/views/subpages/change_password_screen.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'dart:math' show min;
 
 // Profile Settings Screen
@@ -29,6 +34,10 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
   bool _isProfilePictureChanged = false;
   // State variables to hold user info
   String currentUserEmail = '';
+  String _initialProfileImagePath = '';
+  File? _profileImage;
+
+  final ImagePicker _picker = ImagePicker();
 
   @override
   void initState() {
@@ -67,6 +76,7 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
           _initialName = localUser.name;
           _nameController.text = localUser.name;
           currentUserEmail = localUser.email;
+          _initialProfileImagePath = localUser.profilePictureUrl;
         });
       }
     } catch (e) {
@@ -82,6 +92,22 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
       final String userId = FirebaseAuth.instance.currentUser?.uid ?? '';
       if (userId.isNotEmpty) {
         final updatedName = _nameController.text;
+
+        // Falls ein neues Profilbild ausgewählt wurde
+        if (_isProfilePictureChanged && _profileImage != null) {
+          // 1. Upload the image to Firebase Storage and get the URL
+          final String? profileImageUrl =
+              await uploadProfileImage(_profileImage!, userId);
+
+          if (profileImageUrl != null) {
+            // 2. Save the image URL in Firestore
+            await saveProfileImageUrl(userId, profileImageUrl);
+
+            // 3. Update local database if necessary
+            await SQLiteService()
+                .updateUserProfileImage(userId, _profileImage!.path);
+          }
+        }
 
         // Update local database
         await SQLiteService().updateUserName(userId, updatedName);
@@ -123,6 +149,65 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
     }
   }
 
+  // Function to pick an image from the gallery
+  Future<void> _pickImage() async {
+    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    if (image != null) {
+      setState(() {
+        _profileImage = File(image.path); // Store the selected image
+        _isProfilePictureChanged = true;
+        _checkIfProfileChanged();
+      });
+    }
+  }
+
+  Future<String?> uploadProfileImage(File imageFile, String userId) async {
+    try {
+      // Create a reference to the location where the file will be stored
+      final storageRef =
+          FirebaseStorage.instance.ref().child('profile_images/$userId');
+
+      // Upload the image file to Firebase Storage
+      final uploadTask = storageRef.putFile(imageFile);
+
+      // Wait for the upload to complete
+      final snapshot = await uploadTask.whenComplete(() => null);
+
+      // Get the download URL
+      final downloadUrl = await snapshot.ref.getDownloadURL();
+
+      // Return the download URL
+      return downloadUrl;
+    } catch (e) {
+      print("Fehler beim Hochladen des Bildes: $e");
+      return null;
+    }
+  }
+
+  Future<void> saveProfileImageUrl(String userId, String imageUrl) async {
+    try {
+      // Reference to the Firestore collection where you store user profiles
+      final userRef =
+          FirebaseFirestore.instance.collection('users').doc(userId);
+
+      // Update the profile image URL
+      await userRef.update({
+        'profileImageUrl': imageUrl,
+      });
+
+      // Optional: Show a success message
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+            content:
+                Text("Profilbild erfolgreich hochgeladen und gespeichert.")),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Fehler beim Speichern der Bild-URL: $e")),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -149,7 +234,7 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
               Center(
                 child: GestureDetector(
                   onTap: () {
-                    // TODO: Implement profile picture change functionality
+                    _pickImage();
                     setState(() {
                       _isProfilePictureChanged = true;
                       _checkIfProfileChanged();
@@ -164,7 +249,18 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                         child: Container(
                           width: Constants.profilePictureAccountEdit,
                           height: Constants.profilePictureAccountEdit,
-                          color: Colors.red,
+                          child: _profileImage != null
+                              ? Image.file(
+                                  _profileImage!,
+                                  fit: BoxFit.cover,
+                                )
+                              : _initialProfileImagePath.isNotEmpty
+                                  ? Image.network(
+                                      _initialProfileImagePath,
+                                      fit: BoxFit.cover,
+                                    )
+                                  : Icon(Icons.person,
+                                      size: 100, color: Colors.grey),
                         ),
                       ),
                       // Camera icon overlay

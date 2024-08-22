@@ -45,6 +45,10 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>Wir benötigen den Zugriff auf die Kamera, um ein Profilbild zu machen.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Wir benötigen den Zugriff auf die Fotobibliothek, um ein Profilbild zu wählen.</string>
 
 <!-- Put me in the [my_project]/ios/Runner/Info.plist file -->
 <!-- Google Sign-in Section -->
