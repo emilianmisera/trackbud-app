@@ -29,6 +29,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   // State variables to hold user info
   String currentUserName = '';
   String currentUserEmail = '';
+  String? _profileImageUrl;
 
   @override
   void initState() {
@@ -160,10 +161,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
     try {
       UserModel? localUser = await SQLiteService().getUserById(userId);
       await DependencyInjector.syncService.syncData(userId);
+
       if (localUser != null) {
         setState(() {
           currentUserName = localUser.name;
           currentUserEmail = localUser.email;
+          _profileImageUrl =
+              localUser.profilePictureUrl; // Bild-URL aus Datenbank
         });
       }
     } catch (e) {
@@ -189,12 +193,21 @@ class _SettingsScreenState extends State<SettingsScreen> {
               children: [
                 Center(
                   child: ClipRRect(
-                    // ProfilePicture
                     borderRadius: BorderRadius.circular(100.0),
                     child: Container(
                       width: Constants.profilePictureSettingPage,
                       height: Constants.profilePictureSettingPage,
-                      color: Colors.red,
+                      child: _profileImageUrl != null &&
+                              _profileImageUrl!.isNotEmpty
+                          ? Image.network(
+                              _profileImageUrl!,
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) {
+                                return Icon(Icons.person,
+                                    size: 100, color: Colors.grey);
+                              },
+                            )
+                          : Icon(Icons.person, size: 50, color: Colors.grey),
                     ),
                   ),
                 ),
@@ -229,14 +242,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 CustomShadow(
                   // edit Profile Button
                   child: TextButton.icon(
-                    onPressed: () async { final shouldReload = 
-                      await Navigator.push(
+                    onPressed: () async {
+                      final shouldReload = await Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) => ProfileSettingsScreen(),
                         ),
                       );
-                      if (shouldReload == true) {_loadCurrentUserInfo();}
+                      if (shouldReload == true) {
+                        _loadCurrentUserInfo();
+                      }
                     },
                     label: Text(
                       AppString.editProfile,
