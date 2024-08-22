@@ -184,7 +184,7 @@ class _AccAdjustmentWidgetState extends State<AccAdjustmentWidget> {
 
 class CustomSegmentControl extends StatefulWidget {
   final Function(int?) onValueChanged; // callback
-  const CustomSegmentControl({super.key, required this.onValueChanged});
+  const CustomSegmentControl({super.key, required this.onValueChanged,});
 
   @override
   State<CustomSegmentControl> createState() => _CustomSegmentControlState();
