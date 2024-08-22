@@ -109,7 +109,7 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
                 height: CustomPadding.defaultSpace,
               ),
               Text(
-                'Verlauf',
+                AppString.history,
                 style: CustomTextStyle.regularStyleMedium,
               ),
               SizedBox(

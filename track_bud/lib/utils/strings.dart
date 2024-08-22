@@ -124,7 +124,40 @@ class AppString {
 
   //analysis page
   static String balance = 'Kontostand';
+  static String history = 'Verlauf';
 
   //edit transaction page
   static String editTransaction = "Transaktion bearbeiten";
+
+  //debts screen
+  static String debts = 'Schulden';
+  static String credits = 'Guthaben';
+  static String showAll = 'alle Anzeigen';
+  static String friends = 'Freunde';
+  static String groups = 'Gruppen';
+
+  //your_friends_screen & your_groups_screen
+  static String yourFriends = 'Deine Freunde';
+  static String search = 'Suchen...';
+  static String addFriend = 'Freund hinzufügen';
+  static String yourGroups = 'Deine Gruppen';
+  static String addGroup = 'Gruppe erstellen';
+  static String groupNameHint = 'Gruppenname';
+  static String addMembers = 'Mitglieder hinzufügen';
+
+  // friendProfile screen
+  static String sameGroups = 'Gemeinsame Gruppen'; 
+  static String payOffDebts = 'Schulden begleichen';
+
+  //new split
+  static String newSplit = 'Neuer Split';
+  static String debt = 'Schulde';
+  static String giveOut = 'Ausgegeben';
+  static String payedBy = 'Bezahlt von';
+  static String distribution = 'Verteilung';
+  static String equal = 'gleichmäßig';
+  static String percent = 'prozentual';
+  static String byAmount = 'nach Betrag';
+  static String addSplit = 'Split hinzufügen';
+
 }

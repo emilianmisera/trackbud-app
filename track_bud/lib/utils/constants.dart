@@ -172,6 +172,12 @@ class AssetImport {
   static const String email = 'assets/icons/email.svg';
   static const String edit = 'assets/icons/edit.svg';
   static const String changeAmount = 'assets/icons/changeAmount.svg';
+  static const String search = 'assets/icons/search.svg';
+  static const String byAmount = 'assets/icons/byAmount.svg';
+  static const String equal = 'assets/icons/equal.svg';
+  static const String percent = 'assets/icons/percent.svg';
+
+
   //categories
   static const String shoppingCart = 'assets/categories/shoopingCart.png';
   static const String drogerie = 'assets/categories/shopping.png';
@@ -197,4 +203,6 @@ class Constants {
   static const double segmentedControlHeight = 0.05;
   static const double categoryHeight = 0.05;
   static const double infoTileSpace = 20;
+  static const double modalBottomSheetHeight = 0.8;
+  static const double addBottomSheetHeight = 0.4;
 }
