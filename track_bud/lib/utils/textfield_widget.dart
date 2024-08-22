@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:simple_shadow/simple_shadow.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/strings.dart';
@@ -69,7 +70,7 @@ class CustomTextfield extends StatelessWidget {
                 fillColor: CustomColor.white,
                 border: OutlineInputBorder(
                   borderSide: BorderSide.none,
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(Constants.buttonBorderRadius),
                 ),
               ),
             ),
@@ -100,16 +101,19 @@ class CustomShadow extends StatelessWidget {
 class TextFieldAmountOfMoney extends StatelessWidget {
   final TextEditingController controller;
   final String? hintText;
+  final TextStyle? suffixStyle;
+  final TextStyle? inputStyle;
   TextFieldAmountOfMoney({
     Key? key,
     required this.controller,
-    this.hintText,
+    this.hintText, this.suffixStyle, this.inputStyle,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return CustomShadow(
       child: TextFormField(
         controller: controller,
+
         style: CustomTextStyle.headingStyle,
         keyboardType: TextInputType.numberWithOptions(decimal: true),
         textAlign: TextAlign.center,
@@ -121,7 +125,7 @@ class TextFieldAmountOfMoney extends StatelessWidget {
           hintText: hintText ?? AppString.lines,
           suffix: Text(
             "€",
-            style: CustomTextStyle.headingStyle,
+            style: suffixStyle?? CustomTextStyle.headingStyle,
           ),
           contentPadding: EdgeInsets.only(
               left: CustomPadding.defaultSpace,
@@ -134,8 +138,100 @@ class TextFieldAmountOfMoney extends StatelessWidget {
           fillColor: CustomColor.white,
           border: OutlineInputBorder(
             borderSide: BorderSide.none,
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(Constants.buttonBorderRadius),
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class SearchTextfield extends StatelessWidget {
+  final String hintText;
+  final TextEditingController controller;
+  final bool? autofocus;
+  final void Function(String) onChanged;
+
+  const SearchTextfield({
+    Key? key,
+    required this.hintText,
+    required this.controller,
+    this.autofocus, required this.onChanged,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomShadow(
+          child: Container(
+            width: double.infinity,
+            height: Constants.height,
+            child: TextFormField(
+              controller: controller,
+              cursorColor: CustomColor.bluePrimary,
+              autofocus: autofocus ?? false,
+              decoration: InputDecoration(
+                prefixIcon: SvgPicture.asset(AssetImport.search, fit: BoxFit.scaleDown,),
+                hintText: hintText,
+                contentPadding: EdgeInsets.symmetric(
+                  horizontal: CustomPadding.defaultSpace,
+                  vertical: CustomPadding.contentHeightSpace,
+                ),
+                hintStyle: CustomTextStyle.hintStyleDefault,
+                floatingLabelBehavior: FloatingLabelBehavior.never,
+                filled: true,
+                fillColor: CustomColor.white,
+                border: OutlineInputBorder(
+                  borderSide: BorderSide.none,
+                  borderRadius: BorderRadius.circular(Constants.buttonBorderRadius),
+                ),
+              ),
+              onChanged: onChanged,
+            ),
+          ),
+        );
+  }
+}
+
+// Custom Textfield for Split ByAmount option
+class TextFieldByAmount extends StatelessWidget {
+  final TextEditingController controller;
+  final String? hintText;
+  final TextStyle? suffixStyle;
+  final TextStyle? inputStyle;
+  TextFieldByAmount({
+    Key? key,
+    required this.controller,
+    this.hintText, this.suffixStyle, this.inputStyle,
+  }) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      controller: controller,
+      style: inputStyle ?? CustomTextStyle.headingStyle,
+      keyboardType: TextInputType.numberWithOptions(),
+      textAlign: TextAlign.center,
+      inputFormatters: [
+        FilteringTextInputFormatter
+            .digitsOnly, // textinput has to have only numbers
+      ],
+      decoration: InputDecoration(
+        hintText: hintText ?? AppString.lines,
+        suffix: Text(
+          "€",
+          style: suffixStyle?? CustomTextStyle.headingStyle,
+        ),
+        contentPadding: EdgeInsets.only(
+            left: CustomPadding.defaultSpace,
+            right: CustomPadding.defaultSpace,
+            top: CustomPadding.contentHeightSpace,
+            bottom: CustomPadding.contentHeightSpace),
+        hintStyle: CustomTextStyle.hintStyleHeading,
+        floatingLabelBehavior: FloatingLabelBehavior.never,
+        filled: true,
+        fillColor: CustomColor.white,
+        border: OutlineInputBorder(
+          borderSide: BorderSide.none,
+          borderRadius: BorderRadius.circular(Constants.buttonBorderRadius),
         ),
       ),
     );
