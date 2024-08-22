@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:track_bud/utils/buttons_widget.dart';
 import 'package:track_bud/utils/constants.dart';
@@ -242,22 +243,41 @@ class _AddTransactionState extends State<AddTransaction> {
   }
 }
 
+//____________________________________________________________________
+
 // Widget for adding new split
 class AddSplit extends StatefulWidget {
-  const AddSplit({super.key});
+  final List<String>? list;
+  final String? friendName;
+  final bool? isGroup;
+  const AddSplit({
+    Key? key,
+    this.list, this.friendName, this.isGroup,
+  }) : super(key: key);
 
   @override
   State<AddSplit> createState() => _AddSplitState();
 }
 
 class _AddSplitState extends State<AddSplit> {
-  int _currentSegment = 0; // Tracks the current segment (expense or income)
-  final TextEditingController _titleController = TextEditingController();
-  final TextEditingController _amountController = TextEditingController();
+  int _currentSegment = 0; // 0 for user, 1 for friend
+  final TextEditingController _titleController = TextEditingController(); // title input
+  final TextEditingController _amountController = TextEditingController(); // amount input
 
-  // when Expense is selected, prefix is "-", income is "+"
-  String _getAmountPrefix() {
-    return _currentSegment == 0 ? '–' : '+';
+  SplitMethod _selectedSplitMethod = SplitMethod.equal; // equal Split is selected as default
+  double _inputNumber = 0.00; // input Number
+
+  @override
+  void initState() {
+    super.initState();
+    _amountController.addListener(_onInputChanged); // change input number
+  }
+
+// if you change amount, inputnumber will be updated
+  void _onInputChanged() {
+    setState(() {
+      _inputNumber = double.tryParse(_amountController.text) ?? 0.0;
+    });
   }
 
   @override
@@ -281,17 +301,6 @@ class _AddSplitState extends State<AddSplit> {
             SizedBox(
               height: CustomPadding.defaultSpace,
             ),
-            // Segment control for switching between expense and income
-            CustomSegmentControl(
-              onValueChanged: (int? newValue) {
-                setState(() {
-                  _currentSegment = newValue ?? 0; // Update current segment
-                });
-              },
-            ),
-            SizedBox(
-              height: CustomPadding.bigSpace,
-            ),
             // Text field for transaction title
             CustomTextfield(
                 name: AppString.title,
@@ -310,7 +319,7 @@ class _AddSplitState extends State<AddSplit> {
                   controller: _amountController,
                   width: MediaQuery.sizeOf(context).width / 3,
                   prefix: Text(
-                    _getAmountPrefix(),
+                    '-',
                     style: CustomTextStyle.titleStyleMedium.copyWith(
                         fontWeight: CustomTextStyle.fontWeightDefault),
                   ),
@@ -327,8 +336,61 @@ class _AddSplitState extends State<AddSplit> {
             SizedBox(
               height: CustomPadding.defaultSpace,
             ),
-            SplitWidget()
-          ],
+            // choosing who payed
+            Text(
+              AppString.payedBy,
+              style: CustomTextStyle.regularStyleMedium,
+            ),
+            SizedBox(
+              height: CustomPadding.mediumSpace,
+            ),
+            // Dropdown for selecting person who paid bill
+            CustomDropDown(
+              list: widget.list ?? [
+                'Dir',
+                widget.friendName ?? '**Friend Name**'
+              ],
+              dropdownWidth: MediaQuery.sizeOf(context).width - 32,
+            ),
+            SizedBox(
+              height: CustomPadding.defaultSpace,
+            ),
+            // choose between 3 split options
+            SplitMethodSelector(
+              selectedMethod: _selectedSplitMethod,
+              onSplitMethodChanged: (SplitMethod method) {
+                setState(() {
+                  _selectedSplitMethod = method;
+                });
+              },
+            ),
+            SizedBox(height: CustomPadding.defaultSpace),
+            // first split option (eaul & default)
+            if (_selectedSplitMethod == SplitMethod.equal)
+              EqualSplitWidget(
+                amount: _inputNumber,
+                names: widget.list ?? [
+                'Dir',
+                widget.friendName ?? '**Friend Name**'
+                ],
+                isGroup: widget.isGroup ?? false,
+              ),
+            // second split option (percental)
+            if (_selectedSplitMethod == SplitMethod.percent)
+              PercentalSplitWidget(
+                amount: _inputNumber,
+                names: widget.list ?? [
+                'Dir',
+                widget.friendName ?? '**Friend Name**'
+              ],
+                ),
+            // third split option (by amount)
+            if (_selectedSplitMethod == SplitMethod.amount)
+              ByAmountSplitWidget(names: widget.list ?? [
+                'Dir',
+                widget.friendName ?? '**Friend Name**'
+              ],)
+          ]
         ),
       ),
     );
