@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:track_bud/models/user_model.dart';
 import 'package:track_bud/services/dependency_injector.dart';
+import 'package:track_bud/services/firestore_service.dart';
 import 'package:track_bud/services/sqlite_service.dart';
 import 'package:track_bud/utils/buttons_widget.dart';
 import 'package:track_bud/utils/constants.dart';
@@ -93,54 +94,31 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
       if (userId.isNotEmpty) {
         final updatedName = _nameController.text;
 
-        // Falls ein neues Profilbild ausgewählt wurde
         if (_isProfilePictureChanged && _profileImage != null) {
-          // 1. Upload the image to Firebase Storage and get the URL
           final String? profileImageUrl =
               await uploadProfileImage(_profileImage!, userId);
 
           if (profileImageUrl != null) {
-            // 2. Save the image URL in Firestore
-            await saveProfileImageUrl(userId, profileImageUrl);
+            // Update Firestore
+            await FirestoreService()
+                .updateUserProfileImageInFirestore(userId, profileImageUrl);
 
-            // 3. Update local database if necessary
+            // Update local database
             await SQLiteService()
-                .updateUserProfileImage(userId, _profileImage!.path);
+                .updateUserProfileImage(userId, profileImageUrl);
           }
         }
+
+        // Update name in Firestore
+        await FirestoreService().updateUserNameInFirestore(userId, updatedName);
 
         // Update local database
         await SQLiteService().updateUserName(userId, updatedName);
 
-        // Also update user info in Firebase
+        // Sync data
         await DependencyInjector.syncService.syncData(userId);
 
-        // Optionally, you may also want to update Firebase User Profile
-        User? user = FirebaseAuth.instance.currentUser;
-        if (user != null) {
-          await user.updateProfile(displayName: updatedName);
-          // Reload user info
-          await user.reload();
-          print('Firebase profile updated: ${user.displayName}');
-        }
-
-        // Show a success message
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Profil erfolgreich aktualisiert.")),
-        );
-
-        // Set profileChanged flag to false after successful update
-        setState(() {
-          _initialName = updatedName;
-          _nameController.text = updatedName;
-          _isProfileChanged = false;
-        });
-
         Navigator.pop(context, true);
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Fehler: Kein Benutzer angemeldet.")),
-        );
       }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
