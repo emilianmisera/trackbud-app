@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:track_bud/models/transaction_model.dart';
 import 'package:track_bud/services/cache_service.dart';
@@ -9,6 +10,7 @@ import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/date_picker.dart';
 import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfield_widget.dart';
+import 'package:uuid/uuid.dart';
 
 // Reusable DynamicBottomSheet component
 class DynamicBottomSheet extends StatelessWidget {
@@ -102,15 +104,24 @@ class AddTransaction extends StatefulWidget {
 
 class _AddTransactionState extends State<AddTransaction> {
   int _currentSegment = 0; // Tracks the current segment (expense or income)
-  Set<String> _selected = {AppString.expense}; // Selected transaction type
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _amountController = TextEditingController();
   final TextEditingController _noteController = TextEditingController();
+  final Uuid _uuid = Uuid();
+  String? _selectedCategory;
+  String? _selectedRecurrence = 'einmalig';
 
   // Updates the selected transaction type
-  void updateSelected(Set<String> newSelection) {
+  void _onCategorySelected(String category) {
     setState(() {
-      _selected = newSelection;
+      _selectedCategory = category;
+    });
+  }
+
+  // Update recurrence type when selected
+  void _onRecurrenceSelected(String recurrence) {
+    setState(() {
+      _selectedRecurrence = recurrence;
     });
   }
 
@@ -120,19 +131,20 @@ class _AddTransactionState extends State<AddTransaction> {
   }
 
   TransactionModel _getTransactionFromForm() {
-    final String transactionId =
-        '0001'; // Generiere eine eindeutige ID für die Transaktion
-    final String userId = '0001'; // Ersetze dies durch die tatsächliche Benutzer-ID
+    final String transactionId = _uuid.v4();
+    final String userId = FirebaseAuth.instance.currentUser?.uid ??
+        ''; // Ersetze dies durch die tatsächliche Benutzer-ID
+    if (userId.isEmpty) {
+      throw Exception('User not logged in');
+    }
     final String title = _titleController.text.trim();
     final double amount = double.tryParse(_amountController.text) ?? 0.0;
     final String type = _currentSegment == 0 ? 'expense' : 'income';
-    final String category =
-        'chosen category'; // Hier müsste die ausgewählte Kategorie verwendet werden
+    final String category = _selectedCategory ?? 'none';
     final String notes = _noteController.text.trim();
     final String date =
         DateTime.now().toIso8601String(); // Verwende das ausgewählte Datum
-    final String recurrenceType =
-        'einmalig'; // Beispielwert, sollte aus dem Dropdown kommen
+    final String recurrenceType = _selectedRecurrence ?? 'einmalig';
 
     print('getTransactionsFromForm');
 
@@ -270,7 +282,9 @@ class _AddTransactionState extends State<AddTransaction> {
               height: CustomPadding.mediumSpace,
             ),
             // Display either expense or income categories based on current segment
-            _currentSegment == 0 ? CategoriesExpense() : CategoriesIncome(),
+            _currentSegment == 0
+                ? CategoriesExpense(onCategorySelected: _onCategorySelected)
+                : CategoriesIncome(onCategorySelected: _onCategorySelected),
             SizedBox(
               height: CustomPadding.defaultSpace,
             ),
@@ -287,7 +301,8 @@ class _AddTransactionState extends State<AddTransaction> {
               list: [
                 'einmalig',
                 'täglich',
-                'wöchentlich' 'zweiwöchentlich',
+                'wöchentlich',
+                'zweiwöchentlich',
                 'halb-monatlich',
                 'monatlich',
                 'vierteljährlich',
@@ -295,6 +310,9 @@ class _AddTransactionState extends State<AddTransaction> {
                 'jährlich'
               ],
               dropdownWidth: MediaQuery.sizeOf(context).width - 32,
+              onChanged: (value) {
+                _onRecurrenceSelected(value);
+              },
             ),
             SizedBox(
               height: CustomPadding.defaultSpace,

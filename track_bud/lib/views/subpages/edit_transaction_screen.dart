@@ -1,10 +1,5 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:track_bud/models/transaction_model.dart';
-import 'package:track_bud/services/cache_service.dart';
-import 'package:track_bud/services/firestore_service.dart';
-import 'package:track_bud/services/sqlite_service.dart';
-import 'package:track_bud/services/sync_service.dart';
 import 'package:track_bud/utils/buttons_widget.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/date_picker.dart';
@@ -26,6 +21,15 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _amountController = TextEditingController();
   final TextEditingController _noteController = TextEditingController();
+
+  String? _selectedCategory;  //for later when editing the chosen category
+
+  // Updates the selected transaction type
+  void _onCategorySelected(String category) {
+    setState(() {
+      _selectedCategory = category;
+    });
+  }
 
   // when Expense is selected, prefix is "-", income is "+"
   String _getAmountPrefix() {
@@ -91,7 +95,9 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
                 height: CustomPadding.mediumSpace,
               ),
               // Display either expense or income categories based on current segment
-              _currentSegment == 0 ? CategoriesExpense() : CategoriesIncome(),
+              _currentSegment == 0
+                  ? CategoriesExpense(onCategorySelected: _onCategorySelected)
+                  : CategoriesIncome(onCategorySelected: _onCategorySelected),
               SizedBox(
                 height: CustomPadding.defaultSpace,
               ),

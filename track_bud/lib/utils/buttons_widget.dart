@@ -83,7 +83,6 @@ class _CustomDropDownState extends State<CustomDropDown> {
     return CustomShadow(
       child: DropdownButtonHideUnderline(
         child: DropdownButton2<String>(
-          
           items: widget.list.map(buildMenuItem).toList(),
           onChanged: (value) {
             if (value != null) {
@@ -264,7 +263,12 @@ class CustomCategory extends StatelessWidget {
       ),
       child: Row(
         children: [
-           Image.asset(icon, width: 25, height: 25,fit: BoxFit.scaleDown,), // Display category icon
+          Image.asset(
+            icon,
+            width: 25,
+            height: 25,
+            fit: BoxFit.scaleDown,
+          ), // Display category icon
           SizedBox(width: CustomPadding.smallSpace),
           Text(categoryName), // Display category name
         ],
@@ -299,7 +303,7 @@ class OtherCategory extends StatelessWidget {
       ),
       child: Row(
         children: [
-           SvgPicture.asset(icon), // Display category icon
+          SvgPicture.asset(icon), // Display category icon
           SizedBox(width: CustomPadding.smallSpace),
           Text(categoryName), // Display category name
         ],
@@ -310,7 +314,8 @@ class OtherCategory extends StatelessWidget {
 
 // Widget to display a horizontal list of expense categories
 class CategoriesExpense extends StatefulWidget {
-  CategoriesExpense({super.key});
+  final Function(String) onCategorySelected;
+  CategoriesExpense({super.key, required this.onCategorySelected});
 
   @override
   State<CategoriesExpense> createState() => _CategoriesExpenseState();
@@ -376,8 +381,8 @@ class _CategoriesExpenseState extends State<CategoriesExpense> {
             onTap: () {
               setState(() {
                 selectedIndex = index; // Update the selected index
-                //TODO: Connect with backend
               });
+              widget.onCategorySelected(categories[index].categoryName);
             },
             child: Opacity(
               // Reduce opacity for non-selected categories
@@ -393,7 +398,8 @@ class _CategoriesExpenseState extends State<CategoriesExpense> {
 }
 
 class CategoriesIncome extends StatefulWidget {
-  const CategoriesIncome({super.key});
+  final Function(String) onCategorySelected;
+  CategoriesIncome({super.key, required this.onCategorySelected});
 
   @override
   State<CategoriesIncome> createState() => _CategoriesIncomeState();
@@ -408,7 +414,7 @@ class _CategoriesIncomeState extends State<CategoriesIncome> {
     CustomCategory(
         color: CustomColor.unterkunft,
         icon: AssetImport.gehalt,
-        categoryName: AppString.gehalt),
+        categoryName: AppString.loan),
     CustomCategory(
         color: CustomColor.geschenk,
         icon: AssetImport.gift,
@@ -435,8 +441,8 @@ class _CategoriesIncomeState extends State<CategoriesIncome> {
             onTap: () {
               setState(() {
                 selectedIndex = index; // Update the selected index
-                //TODO: Connect with backend
               });
+              widget.onCategorySelected(categories[index].categoryName);
             },
             child: Opacity(
               // Reduce opacity for non-selected categories
