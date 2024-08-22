@@ -151,10 +151,13 @@ class AppString {
 
   //new split
   static String newSplit = 'Neuer Split';
+  static String debt = 'Schulde';
   static String giveOut = 'Ausgegeben';
+  static String payedBy = 'Bezahlt von';
   static String distribution = 'Verteilung';
   static String equal = 'gleichmäßig';
   static String percent = 'prozentual';
   static String byAmount = 'nach Betrag';
   static String addSplit = 'Split hinzufügen';
+
 }

@@ -204,4 +204,5 @@ class Constants {
   static const double categoryHeight = 0.05;
   static const double infoTileSpace = 20;
   static const double modalBottomSheetHeight = 0.8;
+  static const double addBottomSheetHeight = 0.4;
 }
