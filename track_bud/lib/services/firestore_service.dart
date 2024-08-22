@@ -85,4 +85,13 @@ class FirestoreService {
     print("Fehler beim Aktualisieren des Nutzernamens in Firestore: $e");
   }
 }
+
+Future<void> updateUserProfileImageInFirestore(String userId, String imageUrl) async {
+  try {
+    await _db.collection('users').doc(userId).update({'profilePictureUrl': imageUrl});
+  } catch (e) {
+    print("Fehler beim Aktualisieren des Profilbildes in Firestore: $e");
+    throw e;  // Werfen Sie den Fehler, um ihn in der aufrufenden Methode zu behandeln
+  }
+}
 }
