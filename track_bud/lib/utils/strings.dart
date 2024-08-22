@@ -120,7 +120,7 @@ class AppString {
   static String entertainment = 'Entertainment';
   static String geschenke = 'Geschenk';
   static String sonstiges = 'Sonstiges';
-  static String gehalt = 'Gehalt';
+  static String loan = 'Gehalt';
 
   //analysis page
   static String balance = 'Kontostand';
