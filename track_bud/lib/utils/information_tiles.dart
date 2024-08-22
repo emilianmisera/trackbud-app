@@ -8,12 +8,13 @@ import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfield_widget.dart';
 import 'package:track_bud/views/subpages/edit_transaction_screen.dart';
 
-// Displaying Amount and Title
+// Widget for displaying amount and title information
 class InfoTile extends StatelessWidget {
-  final String title; // setup title
-  final String amount; // setup amount
-  final Color color; // setup Color of amount
-  final double? width; // setup width if needed
+  final String title;    // The title of the info tile
+  final String amount;   // The amount to be displayed
+  final Color color;     // The color of the amount text
+  final double? width;   // Optional width of the tile
+
   const InfoTile({
     Key? key,
     required this.title,
@@ -25,32 +26,26 @@ class InfoTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomShadow(
-      //add Shadow
       child: Container(
-        // add space between border and content
         padding: EdgeInsets.symmetric(
           vertical: CustomPadding.contentHeightSpace,
           horizontal: CustomPadding.defaultSpace,
         ),
-        // deafult width is whole screen
         width: width ?? MediaQuery.sizeOf(context).width,
         decoration: BoxDecoration(
-          color: CustomColor.white, // background color of Tile
-          borderRadius: BorderRadius.circular(
-              Constants.buttonBorderRadius), //border Radius
+          color: CustomColor.white,
+          borderRadius: BorderRadius.circular(Constants.buttonBorderRadius),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // amount
+            // Display the amount
             Text(
               '$amount€',
               style: CustomTextStyle.headingStyle.copyWith(color: color),
             ),
-            SizedBox(
-              height: CustomPadding.mediumSpace,
-            ),
-            // title
+            SizedBox(height: CustomPadding.mediumSpace),
+            // Display the title
             Text(
               title,
               style: CustomTextStyle.regularStyleDefault,
@@ -62,7 +57,7 @@ class InfoTile extends StatelessWidget {
   }
 }
 
-// Widget that displays all single Transactions
+// Widget for displaying individual transactions
 class TransactionTile extends StatefulWidget {
   const TransactionTile({super.key});
 
@@ -71,13 +66,12 @@ class TransactionTile extends StatefulWidget {
 }
 
 class _TransactionTileState extends State<TransactionTile> {
-  // method to open a PopUp Window for more Transaction Details
+  // Method to open a popup window with transaction details
   Future _openTransaction() => showDialog(
         context: context,
         builder: (context) => AlertDialog(
           content: TransactionDetail(),
-          insetPadding:
-              EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace),
+          insetPadding: EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace),
           backgroundColor: CustomColor.backgroundPrimary,
           surfaceTintColor: CustomColor.backgroundPrimary,
           shape: RoundedRectangleBorder(
@@ -94,30 +88,31 @@ class _TransactionTileState extends State<TransactionTile> {
       child: Container(
         width: MediaQuery.sizeOf(context).width,
         decoration: BoxDecoration(
-            color: CustomColor.white,
-            borderRadius: BorderRadius.circular(Constants.buttonBorderRadius)),
+          color: CustomColor.white,
+          borderRadius: BorderRadius.circular(Constants.buttonBorderRadius)
+        ),
         child: ListTile(
-          // Icon
+          // Transaction category icon
           leading: CategoryIcon(
-              color: CustomColor.lebensmittel, iconWidget: Image.asset(AssetImport.shoppingCart, width: 25, height: 25,fit: BoxFit.scaleDown,),),
-          // Title of Transaction
+            color: CustomColor.lebensmittel,
+            iconWidget: Image.asset(AssetImport.shoppingCart, width: 25, height: 25, fit: BoxFit.scaleDown),
+          ),
+          // Transaction title
           title: Text(
             'Kaufland',
             style: CustomTextStyle.regularStyleMedium,
           ),
-          // Timestamp
+          // Transaction timestamp
           subtitle: Text(
             'heute, 11:32',
-            style: CustomTextStyle.hintStyleDefault
-                .copyWith(fontSize: CustomTextStyle.fontSizeHint),
+            style: CustomTextStyle.hintStyleDefault.copyWith(fontSize: CustomTextStyle.fontSizeHint),
           ),
-          // Amount
+          // Transaction amount
           trailing: Text(
             '100€',
             style: CustomTextStyle.regularStyleMedium,
           ),
           minVerticalPadding: CustomPadding.defaultSpace,
-          // open PopUp Window
           onTap: _openTransaction,
         ),
       ),
@@ -125,8 +120,7 @@ class _TransactionTileState extends State<TransactionTile> {
   }
 }
 
-// show Transaction Details of TransactionTile
-// option to delete or edit Transaction Tile
+// Widget for displaying detailed transaction information
 class TransactionDetail extends StatefulWidget {
   const TransactionDetail({super.key});
 
@@ -145,6 +139,7 @@ class _TransactionDetailState extends State<TransactionDetail> {
         children: [
           Row(
             children: [
+              // Dropdown menu for edit and delete options
               DropdownButtonHideUnderline(
                 child: DropdownButton2(
                   customButton: const Icon(
@@ -153,23 +148,25 @@ class _TransactionDetailState extends State<TransactionDetail> {
                     color: CustomColor.black,
                   ),
                   items: [
+                    // Edit option
                     DropdownMenuItem<String>(
                       value: 'Bearbeiten',
                       child: Row(
                         children: [
                           SvgPicture.asset(AssetImport.edit),
-                          SizedBox(width: CustomPadding.mediumSpace,),
+                          SizedBox(width: CustomPadding.mediumSpace),
                           Text('Bearbeiten', style: CustomTextStyle.regularStyleDefault),
                         ],
                       ),
                     ),
+                    // Delete option
                     DropdownMenuItem<String>(
                       value: 'Löschen',
                       child: Row(
                         children: [
-                          SvgPicture.asset(AssetImport.trash, color: CustomColor.red,),
-                          SizedBox(width: CustomPadding.mediumSpace,),
-                          Text('Löschen', style: CustomTextStyle.regularStyleDefault.copyWith(color: CustomColor.red),),
+                          SvgPicture.asset(AssetImport.trash, color: CustomColor.red),
+                          SizedBox(width: CustomPadding.mediumSpace),
+                          Text('Löschen', style: CustomTextStyle.regularStyleDefault.copyWith(color: CustomColor.red)),
                         ],
                       ),
                     ),
@@ -177,7 +174,7 @@ class _TransactionDetailState extends State<TransactionDetail> {
                   onChanged: (value) {
                     if (value == 'Bearbeiten') {
                       Navigator.of(context).pop();
-                      // Naviagtion to EditScreen
+                      // Navigate to EditScreen
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -210,6 +207,7 @@ class _TransactionDetailState extends State<TransactionDetail> {
                   ),
                 ),
               ),
+              // Close button
               IconButton(
                 onPressed: () {
                   Navigator.of(context).pop();
@@ -218,18 +216,15 @@ class _TransactionDetailState extends State<TransactionDetail> {
               ),
             ],
           ),
-          SizedBox(
-            height: CustomPadding.defaultSpace,
-          ),
+          SizedBox(height: CustomPadding.defaultSpace),
+          // Transaction details
           Row(
             children: [
               CategoryIcon(
                 color: CustomColor.lebensmittel,
-                iconWidget: Image.asset(AssetImport.shoppingCart, width: 25, height: 25,fit: BoxFit.scaleDown,),
+                iconWidget: Image.asset(AssetImport.shoppingCart, width: 25, height: 25, fit: BoxFit.scaleDown),
               ),
-              SizedBox(
-                width: CustomPadding.mediumSpace,
-              ),
+              SizedBox(width: CustomPadding.mediumSpace),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -237,9 +232,7 @@ class _TransactionDetailState extends State<TransactionDetail> {
                     'Kaufland',
                     style: CustomTextStyle.titleStyleMedium,
                   ),
-                  SizedBox(
-                    height: CustomPadding.smallSpace,
-                  ),
+                  SizedBox(height: CustomPadding.smallSpace),
                   Text(
                     'heute, 11:32',
                     style: CustomTextStyle.hintStyleDefault,
@@ -248,27 +241,25 @@ class _TransactionDetailState extends State<TransactionDetail> {
               ),
             ],
           ),
-          SizedBox(
-            height: CustomPadding.defaultSpace,
-          ),
+          SizedBox(height: CustomPadding.defaultSpace),
+          // Amount section
           Text(
             AppString.amount,
             style: CustomTextStyle.regularStyleDefault,
           ),
-          SizedBox(
-            height: CustomPadding.mediumSpace,
-          ),
+          SizedBox(height: CustomPadding.mediumSpace),
           Row(
             children: [
+              // Amount display
               CustomShadow(
                 child: Container(
                   padding: EdgeInsets.symmetric(
-                      horizontal: CustomPadding.defaultSpace,
-                      vertical: CustomPadding.contentHeightSpace),
+                    horizontal: CustomPadding.defaultSpace,
+                    vertical: CustomPadding.contentHeightSpace
+                  ),
                   decoration: BoxDecoration(
                     color: CustomColor.white,
-                    borderRadius:
-                        BorderRadius.circular(Constants.buttonBorderRadius),
+                    borderRadius: BorderRadius.circular(Constants.buttonBorderRadius),
                   ),
                   child: Text(
                     'data',
@@ -276,48 +267,43 @@ class _TransactionDetailState extends State<TransactionDetail> {
                   ),
                 ),
               ),
-              SizedBox(
-                width: CustomPadding.defaultSpace,
-              ),
+              SizedBox(width: CustomPadding.defaultSpace),
+              // Transaction type
               CustomShadow(
                 child: Container(
                   padding: EdgeInsets.symmetric(
-                      horizontal: CustomPadding.defaultSpace,
-                      vertical: CustomPadding.contentHeightSpace),
+                    horizontal: CustomPadding.defaultSpace,
+                    vertical: CustomPadding.contentHeightSpace
+                  ),
                   decoration: BoxDecoration(
                     color: CustomColor.white,
-                    borderRadius:
-                        BorderRadius.circular(Constants.buttonBorderRadius),
+                    borderRadius: BorderRadius.circular(Constants.buttonBorderRadius),
                   ),
                   child: Text(
                     'einmalige Transaktion',
-                    style: CustomTextStyle.regularStyleDefault
-                        .copyWith(color: CustomColor.bluePrimary),
+                    style: CustomTextStyle.regularStyleDefault.copyWith(color: CustomColor.bluePrimary),
                   ),
                 ),
               ),
             ],
           ),
-          SizedBox(
-            height: CustomPadding.defaultSpace,
-          ),
+          SizedBox(height: CustomPadding.defaultSpace),
+          // Note section
           Text(
             AppString.note,
             style: CustomTextStyle.regularStyleDefault,
           ),
-          SizedBox(
-            height: CustomPadding.mediumSpace,
-          ),
+          SizedBox(height: CustomPadding.mediumSpace),
           CustomShadow(
             child: Container(
               width: double.infinity,
               padding: EdgeInsets.symmetric(
-                  horizontal: CustomPadding.defaultSpace,
-                  vertical: CustomPadding.contentHeightSpace),
+                horizontal: CustomPadding.defaultSpace,
+                vertical: CustomPadding.contentHeightSpace
+              ),
               decoration: BoxDecoration(
                 color: CustomColor.white,
-                borderRadius:
-                    BorderRadius.circular(Constants.buttonBorderRadius),
+                borderRadius: BorderRadius.circular(Constants.buttonBorderRadius),
               ),
               child: Text(
                 'data',

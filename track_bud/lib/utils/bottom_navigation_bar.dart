@@ -92,6 +92,61 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> w
     );
   }
 
+  Future _displayBottomSheet(BuildContext context) {
+    return showModalBottomSheet(
+        context: context,
+        builder: (context) => Container(
+              height: MediaQuery.sizeOf(context).height *
+                  Constants.addBottomSheetHeight,
+              width: MediaQuery.sizeOf(context).width,
+              decoration: BoxDecoration(
+                color: CustomColor.backgroundPrimary,
+                borderRadius:
+                    BorderRadius.circular(Constants.buttonBorderRadius),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.only(left: CustomPadding.defaultSpace, right: CustomPadding.defaultSpace, bottom: 50),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: CustomPadding.mediumSpace),
+                    Center(
+                      child: Container(
+                        // grabber
+                        width: 36,
+                        height: 5,
+                        decoration: BoxDecoration(
+                          color: CustomColor.grabberColor,
+                          borderRadius: BorderRadius.all(Radius.circular(100)),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: CustomPadding.defaultSpace),
+                    ElevatedButton(onPressed: (){
+                      Navigator.pop(context); // Close the bottom sheet
+                showModalBottomSheet(
+                  context: context,
+                  isScrollControlled: true,
+                  builder: (context) => AddTransaction(),
+                );
+                    }, child: Text('Neue Transaktion hinzufügen')),
+                    SizedBox(height: CustomPadding.mediumSpace),
+                    ElevatedButton(onPressed: (){
+                      Navigator.pop(context); // Close the bottom sheet
+                showModalBottomSheet(
+                  context: context,
+                  isScrollControlled: true,
+                  builder: (context) => AddSplit(),
+                );
+                    }, child: Text('Neuen Freundessplit hinzufügen')),
+                    SizedBox(height: CustomPadding.mediumSpace),
+                    ElevatedButton(onPressed: null, child: Text('Neuen Gruppensplit hinzufügen'),),
+                  ],
+                ),
+              ),
+            ));
+  }
+
   @override
   Widget build(BuildContext context) {
     return CustomShadow(
@@ -110,12 +165,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> w
             // Add button (center)
             GestureDetector(
               onTap: () {
-                showModalBottomSheet(
-                  context: context,
-                  isScrollControlled: true,
-                  backgroundColor: Colors.transparent,
-                  builder: (context) => AddTransaction(),
-                );
+                _displayBottomSheet(context);
               },
               child: Container(
                 width: MediaQuery.of(context).size.width * CustomPadding.navbarButtonwidth,
