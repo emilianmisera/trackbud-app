@@ -101,17 +101,19 @@ class CustomShadow extends StatelessWidget {
 class TextFieldAmountOfMoney extends StatelessWidget {
   final TextEditingController controller;
   final String? hintText;
+  final TextStyle? suffixStyle;
+  final TextStyle? inputStyle;
   TextFieldAmountOfMoney({
     Key? key,
     required this.controller,
-    this.hintText,
+    this.hintText, this.suffixStyle, this.inputStyle,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return CustomShadow(
       child: TextFormField(
         controller: controller,
-        style: CustomTextStyle.headingStyle,
+        style: inputStyle ?? CustomTextStyle.headingStyle,
         keyboardType: TextInputType.numberWithOptions(),
         textAlign: TextAlign.center,
         inputFormatters: [
@@ -122,7 +124,7 @@ class TextFieldAmountOfMoney extends StatelessWidget {
           hintText: hintText ?? AppString.lines,
           suffix: Text(
             "€",
-            style: CustomTextStyle.headingStyle,
+            style: suffixStyle?? CustomTextStyle.headingStyle,
           ),
           contentPadding: EdgeInsets.only(
               left: CustomPadding.defaultSpace,
@@ -186,5 +188,51 @@ class SearchTextfield extends StatelessWidget {
             ),
           ),
         );
+  }
+}
+
+// Custom Textfield for Split ByAmount option
+class TextFieldByAmount extends StatelessWidget {
+  final TextEditingController controller;
+  final String? hintText;
+  final TextStyle? suffixStyle;
+  final TextStyle? inputStyle;
+  TextFieldByAmount({
+    Key? key,
+    required this.controller,
+    this.hintText, this.suffixStyle, this.inputStyle,
+  }) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      controller: controller,
+      style: inputStyle ?? CustomTextStyle.headingStyle,
+      keyboardType: TextInputType.numberWithOptions(),
+      textAlign: TextAlign.center,
+      inputFormatters: [
+        FilteringTextInputFormatter
+            .digitsOnly, // textinput has to have only numbers
+      ],
+      decoration: InputDecoration(
+        hintText: hintText ?? AppString.lines,
+        suffix: Text(
+          "€",
+          style: suffixStyle?? CustomTextStyle.headingStyle,
+        ),
+        contentPadding: EdgeInsets.only(
+            left: CustomPadding.defaultSpace,
+            right: CustomPadding.defaultSpace,
+            top: CustomPadding.contentHeightSpace,
+            bottom: CustomPadding.contentHeightSpace),
+        hintStyle: CustomTextStyle.hintStyleHeading,
+        floatingLabelBehavior: FloatingLabelBehavior.never,
+        filled: true,
+        fillColor: CustomColor.white,
+        border: OutlineInputBorder(
+          borderSide: BorderSide.none,
+          borderRadius: BorderRadius.circular(Constants.buttonBorderRadius),
+        ),
+      ),
+    );
   }
 }
