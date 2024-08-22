@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
@@ -22,6 +23,9 @@ void main() async {
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp, // Portrait mode only (android)
   ]);
+  FirebaseFirestore.instance.settings = const Settings(
+    persistenceEnabled: false,
+  ); // Offline-Persistence deaktivieren
   runApp(const MainApp());
 }
 
@@ -34,10 +38,10 @@ class MainApp extends StatelessWidget {
       title: 'TrackBud',
       theme: ColorTheme.lightTheme,
       localizationsDelegates: const [
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-        ],
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
       home: AuthGate(),
     );
   }

@@ -2,7 +2,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:track_bud/models/user_model.dart';
+import 'package:track_bud/services/cache_service.dart';
 import 'package:track_bud/services/firestore_service.dart';
+import 'package:track_bud/services/sqlite_service.dart';
+import 'package:track_bud/services/sync_service.dart';
 import 'package:track_bud/trackbud.dart';
 import 'package:track_bud/views/at_signup/bank_account_info_screen.dart';
 
@@ -32,6 +35,13 @@ class AuthService {
           .createUserWithEmailAndPassword(email: email, password: password);
       await _sendEmailVerification(userCredential);
       await _createUserRecord(userCredential, name);
+      // Synchronisiere die Daten sofort nach der Registrierung
+      SyncService syncService = SyncService(
+        SQLiteService(),
+        FirestoreService(),
+        CacheService(),
+      );
+      await syncService.syncData(userCredential.user!.uid);
       // Handle post login actions
       await handlePostLogin(context, userCredential);
     } on FirebaseAuthException catch (error) {
@@ -71,6 +81,14 @@ class AuthService {
   Future<void> handlePostLogin(
       BuildContext context, UserCredential userCredential) async {
     String userId = userCredential.user!.uid;
+
+    SyncService syncService = SyncService(
+      SQLiteService(),
+      FirestoreService(),
+      CacheService(),
+    ); //create instance of syncService
+
+    await syncService.syncData(userId); //syncs data from firestore and local DB
 
     UserModel? userData = await _firestoreService.getUserData(userId);
 

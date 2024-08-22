@@ -58,10 +58,31 @@ class FirestoreService {
     }
   }
 
-  // Fetch Transaction
-  Future<TransactionModel> getTransaction(String transactionId) async {
-    var snapshot =
-        await _db.collection('transactions').doc(transactionId).get();
-    return TransactionModel.fromMap(snapshot.data()!);
+  // Fetch Transactions for currentUser
+  Future<List<TransactionModel>> getTransactionsForUser(String userId) async {
+  try {
+    // Abrufen aller Transaktionen, die zur angegebenen Benutzer-ID gehören
+    var querySnapshot = await _db
+        .collection('transactions')
+        .where('userId', isEqualTo: userId)
+        .get();
+
+    // Liste von TransactionModel aus den Dokumenten erstellen
+    return querySnapshot.docs
+        .map((doc) => TransactionModel.fromMap(doc.data()))
+        .toList();
+  } catch (e) {
+    // Fehlerbehandlung
+    print("Fehler beim Abrufen der Transaktionen: $e");
+    return [];
   }
+}
+
+  Future<void> updateUserNameInFirestore(String userId, String newName) async {
+  try {
+    await _db.collection('users').doc(userId).update({'name': newName});
+  } catch (e) {
+    print("Fehler beim Aktualisieren des Nutzernamens in Firestore: $e");
+  }
+}
 }

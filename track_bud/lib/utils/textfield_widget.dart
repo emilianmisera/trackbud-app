@@ -113,12 +113,13 @@ class TextFieldAmountOfMoney extends StatelessWidget {
     return CustomShadow(
       child: TextFormField(
         controller: controller,
-        style: inputStyle ?? CustomTextStyle.headingStyle,
-        keyboardType: TextInputType.numberWithOptions(),
+
+        style: CustomTextStyle.headingStyle,
+        keyboardType: TextInputType.numberWithOptions(decimal: true),
         textAlign: TextAlign.center,
         inputFormatters: [
           FilteringTextInputFormatter
-              .digitsOnly, // textinput has to have only numbers
+              .allow(RegExp(r'[0-9.]')), // textinput has to have only numbers or a dot
         ],
         decoration: InputDecoration(
           hintText: hintText ?? AppString.lines,
