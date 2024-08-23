@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:track_bud/utils/buttons_widget.dart';
 import 'package:track_bud/utils/constants.dart';
@@ -7,8 +8,9 @@ import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfield_widget.dart';
 
 class EditTransactionScreen extends StatefulWidget {
-  const EditTransactionScreen({super.key});
-
+  final String transactionId;
+  const EditTransactionScreen({Key? key, required this.transactionId})
+      : super(key: key);
   @override
   State<EditTransactionScreen> createState() => _EditTransactionScreenState();
 }
@@ -22,7 +24,54 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
   final TextEditingController _amountController = TextEditingController();
   final TextEditingController _noteController = TextEditingController();
 
-  String? _selectedCategory;  //for later when editing the chosen category
+  String? _selectedCategory; //for later when editing the chosen category
+  String? _selectedRecurrence;
+  DateTime? _selectedDateTime;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadTransactionData();
+  }
+
+  Future<void> _loadTransactionData() async {
+    // Laden Sie die Transaktionsdaten aus Firestore
+    DocumentSnapshot doc = await FirebaseFirestore.instance
+        .collection('transactions')
+        .doc(widget.transactionId)
+        .get();
+
+    if (doc.exists) {
+      Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+      setState(() {
+        _titleController.text = data['title'];
+        _amountController.text = data['amount'].toString();
+        _noteController.text = data['notes'] ?? '';
+        _selectedCategory = data['category'];
+        _selectedRecurrence = data['recurrenceType'];
+        _selectedDateTime = (data['date'] as Timestamp).toDate();
+        _currentSegment = data['type'] == 'expense' ? 0 : 1;
+      });
+    }
+  }
+
+  Future<void> _updateTransaction() async {
+    // Aktualisieren Sie die Transaktion in Firestore
+    await FirebaseFirestore.instance
+        .collection('transactions')
+        .doc(widget.transactionId)
+        .update({
+      'title': _titleController.text.trim(),
+      'amount': double.parse(_amountController.text),
+      'category': _selectedCategory,
+      'notes': _noteController.text,
+      'date': Timestamp.fromDate(_selectedDateTime!),
+      'recurrenceType': _selectedRecurrence,
+      'type': _currentSegment == 0 ? 'expense' : 'income',
+    });
+
+    Navigator.pop(context);
+  }
 
   // Updates the selected transaction type
   void _onCategorySelected(String category) {
@@ -34,6 +83,12 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
   // when Expense is selected, prefix is "-", income is "+"
   String _getAmountPrefix() {
     return _currentSegment == 0 ? '–' : '+';
+  }
+
+  void _onDateTimeChanged(DateTime newDateTime) {
+    setState(() {
+      _selectedDateTime = newDateTime;
+    });
   }
 
   @override
@@ -79,8 +134,7 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
                     width: CustomPadding.defaultSpace,
                   ),
 
-                  // Date text field
-                  //DatePicker(onDateTimeChanged: ,)
+                  DatePicker(onDateTimeChanged: _onDateTimeChanged)
                 ],
               ),
               SizedBox(
@@ -123,6 +177,8 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
                   'jährlich'
                 ],
                 dropdownWidth: MediaQuery.sizeOf(context).width - 32,
+                value: _selectedRecurrence,
+                onChanged: (value) {setState(() {_selectedRecurrence = value;});},
               ),
               SizedBox(
                 height: CustomPadding.defaultSpace,
@@ -158,7 +214,7 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
         child: ElevatedButton(
           // Enable button only if profile has changed
           onPressed: () {
-            //TODO: Backend edit Transactions
+            _updateTransaction();
           },
           style: ElevatedButton.styleFrom(
               // Set button color based on whether profile has changed
