@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/friends_widget.dart';
