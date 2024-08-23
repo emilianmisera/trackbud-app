@@ -76,17 +76,28 @@ class _GroupOverviewScreenState extends State<GroupOverviewScreen> {
               ),
               TransactionOverview(
                 categoryAmounts: {
-                  'Lebensmittel': 100.50,
-                  'Drogerie': 50.25,
-                  'Restaurant': 75.00,
-                  'Mobilität': 30.75,
-                  'Shopping': 200.00,
-                  'Unterkunft': 500.00,
-                  'Entertainment': 80.50,
-                  'Geschenk': 45.00,
+                  'Lebensmittel': 3.0,
+                  'Drogerie': 2.0,
+                  'Restaurant': 1.00,
+                  'Mobilität': 0.0,
+                  'Shopping': 0.0,
+                  'Unterkunft': 0.0,
+                  'Entertainment': 0.0,
+                  'Geschenk': 0.0,
                   'Sonstiges': 0.0,
                 },
               ),
+              SizedBox(
+                height: CustomPadding.defaultSpace,
+              ),
+              Text(
+                AppString.history,
+                style: CustomTextStyle.regularStyleMedium,
+              ),
+              SizedBox(
+                height: CustomPadding.mediumSpace,
+              ),
+              //TODO: Add Listview with all Transactions
               SizedBox(
                 height: MediaQuery.sizeOf(context).height *
                         CustomPadding.bottomSpace +
