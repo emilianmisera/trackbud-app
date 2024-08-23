@@ -3,6 +3,7 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:track_bud/utils/buttons_widget.dart';
+import 'package:track_bud/utils/category_utilis.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfield_widget.dart';
@@ -64,13 +65,25 @@ class TransactionTile extends StatefulWidget {
   final double amount;
   final DateTime date;
   final String category;
+  final String transactionId;
+  final String notes;
+  final String recurrenceType;
+  final String type;
+  final Function(String) onDelete;
+  final Function(String) onEdit;
 
   const TransactionTile(
       {Key? key,
       required this.title,
       required this.amount,
       required this.date,
-      required this.category})
+      required this.category,
+      required this.transactionId,
+      required this.notes,
+      required this.recurrenceType,
+      required this.type,
+      required this.onDelete,
+      required this.onEdit})
       : super(key: key);
 
   @override
@@ -87,6 +100,12 @@ class _TransactionTileState extends State<TransactionTile> {
             amount: widget.amount,
             date: widget.date,
             category: widget.category,
+            transactionId: widget.transactionId,
+            notes: widget.notes,
+            recurrenceType: widget.recurrenceType,
+            type: widget.type,
+            onDelete: widget.onDelete,
+            onEdit: widget.onEdit,
           ),
           insetPadding:
               EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace),
@@ -99,96 +118,6 @@ class _TransactionTileState extends State<TransactionTile> {
           ),
         ),
       );
-
-  Color getCategoryColor(String category) {
-    switch (category) {
-      case 'Lebensmittel':
-        return CustomColor.lebensmittel;
-      case 'Transport':
-        return CustomColor.mobility;
-      case 'Unterkunft':
-        return CustomColor.unterkunft;
-      case 'Drogerie':
-        return CustomColor.drogerie;
-      case 'Restaurant':
-        return CustomColor.restaurant;
-      case 'Shopping':
-        return CustomColor.shopping;
-      case 'Unterhaltung':
-        return CustomColor.entertainment;
-      case 'Geschenk':
-        return CustomColor.geschenk;
-      case 'Sonstiges':
-        return CustomColor.sonstiges;
-      default:
-        return CustomColor.sonstiges;
-    }
-  }
-
-  Widget getCategoryIcon(String category) {
-    switch (category) {
-      case 'Lebensmittel':
-        return Image.asset(
-          AssetImport.shoppingCart,
-          width: 25,
-          height: 25,
-          fit: BoxFit.scaleDown,
-        );
-      case 'Transport':
-        return Image.asset(
-          AssetImport.mobility,
-          width: 25,
-          height: 25,
-          fit: BoxFit.scaleDown,
-        );
-      case 'Unterkunft':
-        return Image.asset(
-          AssetImport.home,
-          width: 25,
-          height: 25,
-          fit: BoxFit.scaleDown,
-        );
-      case 'Drogerie':
-        return Image.asset(
-          AssetImport.drogerie,
-          width: 25,
-          height: 25,
-          fit: BoxFit.scaleDown,
-        );
-      case 'Restaurant':
-        return Image.asset(
-          AssetImport.restaurant,
-          width: 25,
-          height: 25,
-          fit: BoxFit.scaleDown,
-        );
-      case 'Shopping':
-        return Image.asset(
-          AssetImport.shopping,
-          width: 25,
-          height: 25,
-          fit: BoxFit.scaleDown,
-        );
-      case 'Unterhaltung':
-        return Image.asset(
-          AssetImport.entertainment,
-          width: 25,
-          height: 25,
-          fit: BoxFit.scaleDown,
-        );
-      case 'Geschenk':
-        return Image.asset(
-          AssetImport.gift,
-          width: 25,
-          height: 25,
-          fit: BoxFit.scaleDown,
-        );
-      default:
-        return Icon(
-          Icons.category,
-        );
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -233,6 +162,12 @@ class TransactionDetail extends StatefulWidget {
   final double amount;
   final DateTime date;
   final String category;
+  final String transactionId;
+  final String notes;
+  final String recurrenceType;
+  final String type;
+  final Function(String) onDelete;
+  final Function(String) onEdit;
 
   const TransactionDetail({
     Key? key,
@@ -240,6 +175,12 @@ class TransactionDetail extends StatefulWidget {
     required this.amount,
     required this.date,
     required this.category,
+    required this.transactionId,
+    required this.notes,
+    required this.recurrenceType,
+    required this.type,
+    required this.onDelete,
+    required this.onEdit,
   }) : super(key: key);
 
   @override
@@ -296,15 +237,10 @@ class _TransactionDetailState extends State<TransactionDetail> {
                   onChanged: (value) {
                     if (value == 'Bearbeiten') {
                       Navigator.of(context).pop();
-                      // Navigate to EditScreen
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => EditTransactionScreen(),
-                        ),
-                      );
+                      widget.onEdit(widget.transactionId);
                     } else if (value == 'Löschen') {
-                      //TODO: implement Transaction Deletion
+                      widget.onDelete(widget.transactionId);
+                      Navigator.of(context).pop();
                     }
                   },
                   dropdownStyleData: DropdownStyleData(
@@ -345,21 +281,20 @@ class _TransactionDetailState extends State<TransactionDetail> {
           Row(
             children: [
               CategoryIcon(
-                color: CustomColor.lebensmittel,
-                iconWidget: Image.asset(AssetImport.shoppingCart,
-                    width: 25, height: 25, fit: BoxFit.scaleDown),
+                color: getCategoryColor(widget.category),
+                iconWidget: getCategoryIcon(widget.category),
               ),
               SizedBox(width: CustomPadding.mediumSpace),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Kaufland',
+                    widget.title,
                     style: CustomTextStyle.titleStyleMedium,
                   ),
                   SizedBox(height: CustomPadding.smallSpace),
                   Text(
-                    'heute, 11:32',
+                    DateFormat('dd.MM.yyyy, HH:mm').format(widget.date),
                     style: CustomTextStyle.hintStyleDefault,
                   ),
                 ],
@@ -387,7 +322,7 @@ class _TransactionDetailState extends State<TransactionDetail> {
                         BorderRadius.circular(Constants.buttonBorderRadius),
                   ),
                   child: Text(
-                    'data',
+                    '${widget.amount.toStringAsFixed(2)}€',
                     style: CustomTextStyle.regularStyleMedium,
                   ),
                 ),
@@ -405,7 +340,7 @@ class _TransactionDetailState extends State<TransactionDetail> {
                         BorderRadius.circular(Constants.buttonBorderRadius),
                   ),
                   child: Text(
-                    'einmalige Transaktion',
+                    widget.recurrenceType,
                     style: CustomTextStyle.regularStyleDefault
                         .copyWith(color: CustomColor.bluePrimary),
                   ),
@@ -432,7 +367,7 @@ class _TransactionDetailState extends State<TransactionDetail> {
                     BorderRadius.circular(Constants.buttonBorderRadius),
               ),
               child: Text(
-                'data',
+                widget.notes,
                 style: CustomTextStyle.regularStyleDefault,
               ),
             ),
