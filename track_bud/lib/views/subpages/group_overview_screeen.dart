@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:track_bud/utils/constants.dart';
+import 'package:track_bud/utils/group_debts_chart.dart';
 import 'package:track_bud/utils/group_widget.dart';
 import 'package:track_bud/utils/information_tiles.dart';
 import 'package:track_bud/utils/strings.dart';
@@ -42,7 +43,6 @@ class _GroupOverviewScreeenState extends State<GroupOverviewScreeen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-
                   InfoTile(
                       title: AppString.perPerson,
                       amount: 'amount',
@@ -57,15 +57,24 @@ class _GroupOverviewScreeenState extends State<GroupOverviewScreeen> {
                           Constants.infoTileSpace),
                 ],
               ),
-              
               SizedBox(height: CustomPadding.defaultSpace),
-              Text(AppString.debtsOverview, style: CustomTextStyle.regularStyleMedium,),
-              SizedBox(height: CustomPadding.mediumSpace,),
+              Text(
+                AppString.debtsOverview,
+                style: CustomTextStyle.regularStyleMedium,
+              ),
+              SizedBox(
+                height: CustomPadding.mediumSpace,
+              ),
               DebtsOverview(),
               SizedBox(height: CustomPadding.defaultSpace),
-              Text(AppString.transactionOverview, style: CustomTextStyle.regularStyleMedium,),
-              SizedBox(height: CustomPadding.mediumSpace,),
-
+              Text(
+                AppString.transactionOverview,
+                style: CustomTextStyle.regularStyleMedium,
+              ),
+              SizedBox(
+                height: CustomPadding.mediumSpace,
+              ),
+              TransactionOverview()
             ],
           ),
         ),
@@ -79,15 +88,14 @@ class _GroupOverviewScreeenState extends State<GroupOverviewScreeen> {
           right: CustomPadding.defaultSpace, // Right margin
         ),
         child: ElevatedButton(
-            // Enable button only if profile has changed
-            onPressed: (){},
-            style: ElevatedButton.styleFrom(
+          // Enable button only if profile has changed
+          onPressed: () {},
+          style: ElevatedButton.styleFrom(
               // Set button color based on whether profile has changed
               disabledBackgroundColor: CustomColor.bluePrimary.withOpacity(0.5),
-              backgroundColor: CustomColor.bluePrimary
-            ),
-            child: Text(AppString.payOffDebts),
-          ),
+              backgroundColor: CustomColor.bluePrimary),
+          child: Text(AppString.payOffDebts),
+        ),
       ),
     );
   }
