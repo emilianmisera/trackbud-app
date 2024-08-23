@@ -160,4 +160,10 @@ class AppString {
   static String byAmount = 'nach Betrag';
   static String addSplit = 'Split hinzufügen';
 
+  // split group overview
+  static String overall = 'Insgesamt';
+  static String debtsOverview = 'Schuldenübersicht';
+  static String transactionOverview = 'Ausgabenübersicht';
+  static String perPerson = 'pro Person';
+
 }
