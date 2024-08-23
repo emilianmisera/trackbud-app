@@ -13,7 +13,7 @@ class GroupCard extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => GroupOverviewScreeen(
+            builder: (context) => GroupOverviewScreen(
               groupName: '**group**',
             ), // '**FriendName**'
           ),

@@ -148,6 +148,11 @@ class CategoryInfo extends StatelessWidget {
   final double? amount;
   const CategoryInfo({super.key, required this.categoryName, required this.icon, required this.iconColor, required this.amount });
 
+  String _formatAmount(double? value) {
+    if (value == null) return '0.00€';
+    return '${value.toStringAsFixed(2)}€';
+  }
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -158,7 +163,7 @@ class CategoryInfo extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(categoryName, style: CustomTextStyle.regularStyleMedium,),
-            Text('$amount€', style: CustomTextStyle.hintStyleDefault,),
+            Text(_formatAmount(amount), style: CustomTextStyle.hintStyleDefault,),
           ],
         )
       ],
