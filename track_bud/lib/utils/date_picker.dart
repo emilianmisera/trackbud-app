@@ -5,7 +5,8 @@ import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfield_widget.dart';
 
 class DatePicker extends StatefulWidget {
-  const DatePicker({super.key});
+  final Function(DateTime) onDateTimeChanged;
+  const DatePicker({Key? key, required this.onDateTimeChanged}) : super(key: key);
 
   @override
   State<DatePicker> createState() => _DatePickerState();
@@ -30,6 +31,13 @@ class _DatePickerState extends State<DatePicker> {
     } else {
       return '${date.day}.${date.month}.${date.year}';
     }
+  }
+
+  void _updateDateTime(DateTime newDateTime) {
+    setState(() {
+      _dateTime = newDateTime;
+    });
+    widget.onDateTimeChanged(_dateTime);
   }
 
   @override
@@ -59,9 +67,7 @@ class _DatePickerState extends State<DatePicker> {
                       height: MediaQuery.sizeOf(context).height / 3,
                       child: CupertinoDatePicker(
                         onDateTimeChanged: (DateTime newTime) {
-                          setState(() {
-                            _dateTime = newTime;
-                          });
+                          _updateDateTime(newTime);
                         },
                         backgroundColor: CustomColor.white,
                         initialDateTime: _dateTime,
@@ -114,11 +120,7 @@ class _DatePickerState extends State<DatePicker> {
                       ),
                       child: CupertinoDatePicker(
                         onDateTimeChanged: (DateTime newTime) {
-                          setState(
-                            () {
-                              _dateTime = newTime;
-                            },
-                          );
+                          _updateDateTime(newTime);
                         },
                         backgroundColor: CustomColor.white,
                         initialDateTime: _dateTime,
