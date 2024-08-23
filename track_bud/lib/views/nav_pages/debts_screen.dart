@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/friends_widget.dart';
+import 'package:track_bud/utils/group_widget.dart';
 import 'package:track_bud/utils/information_tiles.dart';
 import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/views/subpages/your_friends_screen.dart';
@@ -101,6 +102,7 @@ class _DebtsScreenState extends State<DebtsScreen> {
             SizedBox(
               height: CustomPadding.mediumSpace,
             ),
+            GroupCard()
           ],
         ),
       ),
