@@ -166,5 +166,7 @@ class AppString {
   static String transactionOverview = 'Ausgabenübersicht';
   static String perPerson = 'pro Person';
   static String addDebt = 'Rechnung hinzufügen';
+  static String payOff = 'begleichen';
+  static String payOffDebtsDescribtion = 'Begleiche die Bilanz.';
 
 }

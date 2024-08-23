@@ -194,12 +194,12 @@ class _DebtsOverviewState extends State<DebtsOverview> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Schulden begleichen',
+            AppString.payOffDebts,
             style: CustomTextStyle.titleStyleMedium,
           ),
           SizedBox(height: CustomPadding.defaultSpace),
           Text(
-            'Begleiche die Bilanz.',
+            AppString.payOffDebts,
             style: CustomTextStyle.hintStyleDefault,
           ),
           SizedBox(height: CustomPadding.defaultSpace),
@@ -208,8 +208,9 @@ class _DebtsOverviewState extends State<DebtsOverview> {
           ElevatedButton(
             onPressed: () {
               Navigator.pop(context);
+              //TODO: update debts in db
             },
-            child: Text('begleichen'),
+            child: Text(AppString.payOff),
           ),
         ],
       ),
@@ -260,7 +261,7 @@ class _DebtsOverviewState extends State<DebtsOverview> {
                 _payOffDebts();
               },
               child: Text(
-                'begleichen',
+                AppString.payOff,
                 style: CustomTextStyle.regularStyleDefault.copyWith(
                   color: CustomColor.bluePrimary,
                 ),
