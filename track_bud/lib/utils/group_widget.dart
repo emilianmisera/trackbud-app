@@ -166,3 +166,60 @@ class _ColorPair {
 
   _ColorPair({required this.backgroundColor, required this.textColor});
 }
+
+class DebtsOverview extends StatelessWidget {
+  const DebtsOverview({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomShadow(
+      child: Container(
+        width: MediaQuery.sizeOf(context).width,
+        padding: EdgeInsets.all(CustomPadding.defaultSpace),
+        decoration: BoxDecoration(
+            color: CustomColor.white,
+            borderRadius: BorderRadius.circular(Constants.buttonBorderRadius)),
+        child: Column(
+          children: [
+            ListTile(
+              // Friend's profile picture
+              leading: ClipRRect(
+                borderRadius: BorderRadius.circular(100.0),
+                child: Container(
+                  width: 40,
+                  height: 40,
+                  color: Colors
+                      .red, // Placeholder color, replace with actual profile picture
+                ),
+              ),
+              // Friend's name
+              title: Text(
+                'Name',
+                style: CustomTextStyle.regularStyleMedium,
+              ),
+              // Debt or credit information
+
+              // Navigation arrow
+              trailing: DebtsInformation(
+                colorScheme: DebtsColorScheme.red,
+                amount: '-120€',
+              ),
+              minVerticalPadding: 0,
+              contentPadding: EdgeInsets.zero,
+            ),
+            SizedBox(height: CustomPadding.smallSpace,),
+            GestureDetector(
+              onTap: () {},
+              child: Text(
+                'begleichen',
+                style: CustomTextStyle.regularStyleDefault.copyWith(
+                  color: CustomColor.bluePrimary,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
