@@ -5,15 +5,15 @@ import 'package:track_bud/utils/group_widget.dart';
 import 'package:track_bud/utils/information_tiles.dart';
 import 'package:track_bud/utils/strings.dart';
 
-class GroupOverviewScreeen extends StatefulWidget {
+class GroupOverviewScreen extends StatefulWidget {
   final String groupName;
-  const GroupOverviewScreeen({super.key, required this.groupName});
+  const GroupOverviewScreen({super.key, required this.groupName});
 
   @override
-  State<GroupOverviewScreeen> createState() => _GroupOverviewScreeenState();
+  State<GroupOverviewScreen> createState() => _GroupOverviewScreenState();
 }
 
-class _GroupOverviewScreeenState extends State<GroupOverviewScreeen> {
+class _GroupOverviewScreenState extends State<GroupOverviewScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,7 +50,7 @@ class _GroupOverviewScreeenState extends State<GroupOverviewScreeen> {
                       width: MediaQuery.sizeOf(context).width / 2 -
                           Constants.infoTileSpace),
                   InfoTile(
-                      title: 'Schulden',
+                      title: AppString.debts,
                       amount: 'amount',
                       color: CustomColor.red,
                       width: MediaQuery.sizeOf(context).width / 2 -
@@ -74,7 +74,24 @@ class _GroupOverviewScreeenState extends State<GroupOverviewScreeen> {
               SizedBox(
                 height: CustomPadding.mediumSpace,
               ),
-              TransactionOverview()
+              TransactionOverview(
+                categoryAmounts: {
+                  'Lebensmittel': 100.50,
+                  'Drogerie': 50.25,
+                  'Restaurant': 75.00,
+                  'Mobilität': 30.75,
+                  'Shopping': 200.00,
+                  'Unterkunft': 500.00,
+                  'Entertainment': 80.50,
+                  'Geschenk': 45.00,
+                  'Sonstiges': 0.0,
+                },
+              ),
+              SizedBox(
+                height: MediaQuery.sizeOf(context).height *
+                        CustomPadding.bottomSpace +
+                    CustomPadding.bigbigSpace,
+              )
             ],
           ),
         ),
@@ -94,7 +111,7 @@ class _GroupOverviewScreeenState extends State<GroupOverviewScreeen> {
               // Set button color based on whether profile has changed
               disabledBackgroundColor: CustomColor.bluePrimary.withOpacity(0.5),
               backgroundColor: CustomColor.bluePrimary),
-          child: Text(AppString.payOffDebts),
+          child: Text(AppString.addDebt),
         ),
       ),
     );
