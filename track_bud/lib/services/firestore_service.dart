@@ -6,23 +6,23 @@ class FirestoreService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
   Future<void> addUserIfNotExists(UserModel user) async {
-  try {
-    // Suche nach Benutzern mit der gleichen E-Mail-Adresse
-    var existingUsers = await _db
-        .collection('users')
-        .where('email', isEqualTo: user.email)
-        .get();
+    try {
+      // Suche nach Benutzern mit der gleichen E-Mail-Adresse
+      var existingUsers = await _db
+          .collection('users')
+          .where('email', isEqualTo: user.email)
+          .get();
 
-    if (existingUsers.docs.isEmpty) {
-      // Wenn kein Benutzer mit dieser E-Mail existiert, füge ihn hinzu
-      await addUser(user);
-    } else {
-      print("Benutzer mit dieser E-Mail existiert bereits.");
+      if (existingUsers.docs.isEmpty) {
+        // Wenn kein Benutzer mit dieser E-Mail existiert, füge ihn hinzu
+        await addUser(user);
+      } else {
+        print("Benutzer mit dieser E-Mail existiert bereits.");
+      }
+    } catch (e) {
+      print("Fehler beim Hinzufügen des Benutzers: $e");
     }
-  } catch (e) {
-    print("Fehler beim Hinzufügen des Benutzers: $e");
   }
-}
 
   // Add User
   Future<void> addUser(UserModel user) {
@@ -34,7 +34,7 @@ class FirestoreService {
     return _db
         .collection('transactions')
         .doc(transaction.transactionId)
-        .set(transaction.toMap());
+        .set(transaction.toFirestoreMap());
   }
 
   // Fetch User
@@ -60,38 +60,62 @@ class FirestoreService {
 
   // Fetch Transactions for currentUser
   Future<List<TransactionModel>> getTransactionsForUser(String userId) async {
-  try {
-    // Abrufen aller Transaktionen, die zur angegebenen Benutzer-ID gehören
-    var querySnapshot = await _db
-        .collection('transactions')
-        .where('userId', isEqualTo: userId)
-        .get();
+    try {
+      // Abrufen aller Transaktionen, die zur angegebenen Benutzer-ID gehören
+      var querySnapshot = await _db
+          .collection('transactions')
+          .where('userId', isEqualTo: userId)
+          .get();
 
-    // Liste von TransactionModel aus den Dokumenten erstellen
-    return querySnapshot.docs
-        .map((doc) => TransactionModel.fromMap(doc.data()))
-        .toList();
-  } catch (e) {
-    // Fehlerbehandlung
-    print("Fehler beim Abrufen der Transaktionen: $e");
-    return [];
+      // Liste von TransactionModel aus den Dokumenten erstellen
+      return querySnapshot.docs
+          .map((doc) => TransactionModel.fromMap(doc.data()))
+          .toList();
+    } catch (e) {
+      // Fehlerbehandlung
+      print("Fehler beim Abrufen der Transaktionen: $e");
+      return [];
+    }
   }
-}
 
   Future<void> updateUserNameInFirestore(String userId, String newName) async {
-  try {
-    await _db.collection('users').doc(userId).update({'name': newName});
-  } catch (e) {
-    print("Fehler beim Aktualisieren des Nutzernamens in Firestore: $e");
+    try {
+      await _db.collection('users').doc(userId).update({'name': newName});
+    } catch (e) {
+      print("Fehler beim Aktualisieren des Nutzernamens in Firestore: $e");
+    }
   }
-}
 
-Future<void> updateUserProfileImageInFirestore(String userId, String imageUrl) async {
-  try {
-    await _db.collection('users').doc(userId).update({'profilePictureUrl': imageUrl});
-  } catch (e) {
-    print("Fehler beim Aktualisieren des Profilbildes in Firestore: $e");
-    throw e;  // Werfen Sie den Fehler, um ihn in der aufrufenden Methode zu behandeln
+  Future<void> updateUserProfileImageInFirestore(
+      String userId, String imageUrl) async {
+    try {
+      await _db
+          .collection('users')
+          .doc(userId)
+          .update({'profilePictureUrl': imageUrl});
+    } catch (e) {
+      print("Fehler beim Aktualisieren des Profilbildes in Firestore: $e");
+      throw e; // Werfen Sie den Fehler, um ihn in der aufrufenden Methode zu behandeln
+    }
   }
-}
+
+  // Temporarily store new email address
+  Future<void> storeNewEmail(String userId, String newEmail) async {
+    await _db.collection('users').doc(userId).update({
+      'pendingNewEmail': newEmail,
+    });
+  }
+
+  // Retrieve the stored email after verification
+  Future<String?> getPendingNewEmail(String userId) async {
+    DocumentSnapshot doc = await _db.collection('users').doc(userId).get();
+    return doc.get('pendingNewEmail') as String?;
+  }
+
+  // Clear the stored email after update
+  Future<void> clearPendingNewEmail(String userId) async {
+    await _db.collection('users').doc(userId).update({
+      'pendingNewEmail': FieldValue.delete(),
+    });
+  }
 }
