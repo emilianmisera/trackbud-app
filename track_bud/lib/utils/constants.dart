@@ -108,6 +108,9 @@ class CustomColor {
   static const Color green = Color.fromRGBO(6, 186, 99, 1);
   static const Color overlayColor = Color.fromRGBO(128, 128, 128, 0.2); //used for button animation
   static const Color grabberColor = Color.fromRGBO(60, 60, 67, 0.3); // used for grabber in bottomSheet
+  static const Color pastelBlue = Color.fromRGBO(223, 234, 255, 1);
+  static const Color pastelGreen = Color.fromRGBO(216, 255, 236, 1);
+  static const Color pastelRed = Color.fromRGBO(254, 226, 228, 1);
 
   //categorie colors
   //expenses
