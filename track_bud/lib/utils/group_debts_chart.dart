@@ -61,8 +61,9 @@ class CategoryBar extends StatelessWidget {
     );
   }
 }
-
+// Widget that displays an overview of transactions categorized by expense type
 class TransactionOverview extends StatelessWidget {
+  // Map of category names to their corresponding amounts
   final Map<String, double?> categoryAmounts;
 
   const TransactionOverview({
@@ -91,6 +92,7 @@ class TransactionOverview extends StatelessWidget {
     );
   }
 
+  // Builds a bar chart representing category expenses
   Widget buildCategoryBar() {
     return CategoryBar(
       categoryExpenses: Map.fromEntries(
@@ -100,7 +102,9 @@ class TransactionOverview extends StatelessWidget {
     );
   }
 
+  // Builds a list of category information widgets
   Widget buildCategoryList() {
+    // Filter out categories with null or zero values, sort by amount in descending order
     List<MapEntry<String, double>> validCategories = categoryAmounts.entries
         .where((e) => e.value != null && e.value! > 0)
         .map((e) => MapEntry(e.key, e.value!))
@@ -122,6 +126,7 @@ class TransactionOverview extends StatelessWidget {
     );
   }
 
+  // Returns the appropriate icon asset path for a given category
   String getCategoryIcon(String category) {
     switch (category) {
       case 'Lebensmittel': return AssetImport.shoppingCart;
@@ -136,6 +141,7 @@ class TransactionOverview extends StatelessWidget {
     }
   }
 
+  // Returns the appropriate color for a given category
   Color getCategoryColor(String category) {
     switch (category) {
       case 'Lebensmittel': return CustomColor.lebensmittel;
@@ -150,6 +156,7 @@ class TransactionOverview extends StatelessWidget {
     }
   }
 
+  // Returns a map of category names to their corresponding colors
   Map<String, Color> getCategoryColors() {
     return {
       'Lebensmittel': CustomColor.lebensmittel,
@@ -165,14 +172,16 @@ class TransactionOverview extends StatelessWidget {
   }
 }
 
-
+// Widget that displays information for a single category
 class CategoryInfo extends StatelessWidget {
   final String categoryName;
   final String icon;
   final Color iconColor;
   final double? amount;
+  
   const CategoryInfo({super.key, required this.categoryName, required this.icon, required this.iconColor, required this.amount });
 
+  // Formats the amount as a string with two decimal places
   String _formatAmount(double? value) {
     if (value == null) return '0.00€';
     return '${value.toStringAsFixed(2)}€';
