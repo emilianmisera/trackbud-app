@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:track_bud/models/transaction_model.dart';
@@ -111,6 +112,7 @@ class _AddTransactionState extends State<AddTransaction> {
   final Uuid _uuid = Uuid();
   String? _selectedCategory;
   String? _selectedRecurrence = 'einmalig';
+  DateTime _selectedDateTime = DateTime.now();
 
   // Updates the selected transaction type
   void _onCategorySelected(String category) {
@@ -123,6 +125,12 @@ class _AddTransactionState extends State<AddTransaction> {
   void _onRecurrenceSelected(String recurrence) {
     setState(() {
       _selectedRecurrence = recurrence;
+    });
+  }
+
+  void _onDateTimeChanged(DateTime newDateTime) {
+    setState(() {
+      _selectedDateTime = newDateTime;
     });
   }
 
@@ -143,8 +151,7 @@ class _AddTransactionState extends State<AddTransaction> {
     final String type = _currentSegment == 0 ? 'expense' : 'income';
     final String category = _selectedCategory ?? 'none';
     final String notes = _noteController.text.trim();
-    final String date =
-        DateTime.now().toIso8601String(); // Verwende das ausgewählte Datum
+    final DateTime date = _selectedDateTime;// Verwende das ausgewählte Datum
     final String recurrenceType = _selectedRecurrence ?? 'einmalig';
 
     print('getTransactionsFromForm');
@@ -268,7 +275,7 @@ class _AddTransactionState extends State<AddTransaction> {
                 ),
 
                 // Date text field
-                DatePicker()
+                DatePicker(onDateTimeChanged: _onDateTimeChanged)
               ],
             ),
             SizedBox(
@@ -434,7 +441,7 @@ class _AddSplitState extends State<AddSplit> {
               ),
 
               // Date text field
-              DatePicker()
+              //DatePicker(onDateTimeChanged: ,)
             ],
           ),
           SizedBox(
