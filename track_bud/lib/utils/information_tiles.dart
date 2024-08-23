@@ -6,14 +6,15 @@ import 'package:track_bud/utils/buttons_widget.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfield_widget.dart';
+import 'package:intl/intl.dart';
 import 'package:track_bud/views/subpages/edit_transaction_screen.dart';
 
 // Widget for displaying amount and title information
 class InfoTile extends StatelessWidget {
-  final String title;    // The title of the info tile
-  final String amount;   // The amount to be displayed
-  final Color color;     // The color of the amount text
-  final double? width;   // Optional width of the tile
+  final String title; // The title of the info tile
+  final String amount; // The amount to be displayed
+  final Color color; // The color of the amount text
+  final double? width; // Optional width of the tile
 
   const InfoTile({
     Key? key,
@@ -59,7 +60,18 @@ class InfoTile extends StatelessWidget {
 
 // Widget for displaying individual transactions
 class TransactionTile extends StatefulWidget {
-  const TransactionTile({super.key});
+  final String title;
+  final double amount;
+  final DateTime date;
+  final String category;
+
+  const TransactionTile(
+      {Key? key,
+      required this.title,
+      required this.amount,
+      required this.date,
+      required this.category})
+      : super(key: key);
 
   @override
   State<TransactionTile> createState() => _TransactionTileState();
@@ -70,8 +82,14 @@ class _TransactionTileState extends State<TransactionTile> {
   Future _openTransaction() => showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          content: TransactionDetail(),
-          insetPadding: EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace),
+          content: TransactionDetail(
+            title: widget.title,
+            amount: widget.amount,
+            date: widget.date,
+            category: widget.category,
+          ),
+          insetPadding:
+              EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace),
           backgroundColor: CustomColor.backgroundPrimary,
           surfaceTintColor: CustomColor.backgroundPrimary,
           shape: RoundedRectangleBorder(
@@ -82,34 +100,123 @@ class _TransactionTileState extends State<TransactionTile> {
         ),
       );
 
+  Color getCategoryColor(String category) {
+    switch (category) {
+      case 'Lebensmittel':
+        return CustomColor.lebensmittel;
+      case 'Transport':
+        return CustomColor.mobility;
+      case 'Unterkunft':
+        return CustomColor.unterkunft;
+      case 'Drogerie':
+        return CustomColor.drogerie;
+      case 'Restaurant':
+        return CustomColor.restaurant;
+      case 'Shopping':
+        return CustomColor.shopping;
+      case 'Unterhaltung':
+        return CustomColor.entertainment;
+      case 'Geschenk':
+        return CustomColor.geschenk;
+      case 'Sonstiges':
+        return CustomColor.sonstiges;
+      default:
+        return CustomColor.sonstiges;
+    }
+  }
+
+  Widget getCategoryIcon(String category) {
+    switch (category) {
+      case 'Lebensmittel':
+        return Image.asset(
+          AssetImport.shoppingCart,
+          width: 25,
+          height: 25,
+          fit: BoxFit.scaleDown,
+        );
+      case 'Transport':
+        return Image.asset(
+          AssetImport.mobility,
+          width: 25,
+          height: 25,
+          fit: BoxFit.scaleDown,
+        );
+      case 'Unterkunft':
+        return Image.asset(
+          AssetImport.home,
+          width: 25,
+          height: 25,
+          fit: BoxFit.scaleDown,
+        );
+      case 'Drogerie':
+        return Image.asset(
+          AssetImport.drogerie,
+          width: 25,
+          height: 25,
+          fit: BoxFit.scaleDown,
+        );
+      case 'Restaurant':
+        return Image.asset(
+          AssetImport.restaurant,
+          width: 25,
+          height: 25,
+          fit: BoxFit.scaleDown,
+        );
+      case 'Shopping':
+        return Image.asset(
+          AssetImport.shopping,
+          width: 25,
+          height: 25,
+          fit: BoxFit.scaleDown,
+        );
+      case 'Unterhaltung':
+        return Image.asset(
+          AssetImport.entertainment,
+          width: 25,
+          height: 25,
+          fit: BoxFit.scaleDown,
+        );
+      case 'Geschenk':
+        return Image.asset(
+          AssetImport.gift,
+          width: 25,
+          height: 25,
+          fit: BoxFit.scaleDown,
+        );
+      default:
+        return Icon(
+          Icons.category,
+        );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return CustomShadow(
       child: Container(
         width: MediaQuery.sizeOf(context).width,
         decoration: BoxDecoration(
-          color: CustomColor.white,
-          borderRadius: BorderRadius.circular(Constants.buttonBorderRadius)
-        ),
+            color: CustomColor.white,
+            borderRadius: BorderRadius.circular(Constants.buttonBorderRadius)),
         child: ListTile(
           // Transaction category icon
           leading: CategoryIcon(
-            color: CustomColor.lebensmittel,
-            iconWidget: Image.asset(AssetImport.shoppingCart, width: 25, height: 25, fit: BoxFit.scaleDown),
-          ),
+              color: getCategoryColor(widget.category),
+              iconWidget: getCategoryIcon(widget.category)),
           // Transaction title
           title: Text(
-            'Kaufland',
+            widget.title,
             style: CustomTextStyle.regularStyleMedium,
           ),
           // Transaction timestamp
           subtitle: Text(
-            'heute, 11:32',
-            style: CustomTextStyle.hintStyleDefault.copyWith(fontSize: CustomTextStyle.fontSizeHint),
+            DateFormat('dd.MM.yyyy, HH:mm').format(widget.date),
+            style: CustomTextStyle.hintStyleDefault
+                .copyWith(fontSize: CustomTextStyle.fontSizeHint),
           ),
           // Transaction amount
           trailing: Text(
-            '100€',
+            '${widget.amount.toStringAsFixed(2)}€',
             style: CustomTextStyle.regularStyleMedium,
           ),
           minVerticalPadding: CustomPadding.defaultSpace,
@@ -122,7 +229,18 @@ class _TransactionTileState extends State<TransactionTile> {
 
 // Widget for displaying detailed transaction information
 class TransactionDetail extends StatefulWidget {
-  const TransactionDetail({super.key});
+  final String title;
+  final double amount;
+  final DateTime date;
+  final String category;
+
+  const TransactionDetail({
+    Key? key,
+    required this.title,
+    required this.amount,
+    required this.date,
+    required this.category,
+  }) : super(key: key);
 
   @override
   State<TransactionDetail> createState() => _TransactionDetailState();
@@ -155,7 +273,8 @@ class _TransactionDetailState extends State<TransactionDetail> {
                         children: [
                           SvgPicture.asset(AssetImport.edit),
                           SizedBox(width: CustomPadding.mediumSpace),
-                          Text('Bearbeiten', style: CustomTextStyle.regularStyleDefault),
+                          Text('Bearbeiten',
+                              style: CustomTextStyle.regularStyleDefault),
                         ],
                       ),
                     ),
@@ -164,9 +283,12 @@ class _TransactionDetailState extends State<TransactionDetail> {
                       value: 'Löschen',
                       child: Row(
                         children: [
-                          SvgPicture.asset(AssetImport.trash, color: CustomColor.red),
+                          SvgPicture.asset(AssetImport.trash,
+                              color: CustomColor.red),
                           SizedBox(width: CustomPadding.mediumSpace),
-                          Text('Löschen', style: CustomTextStyle.regularStyleDefault.copyWith(color: CustomColor.red)),
+                          Text('Löschen',
+                              style: CustomTextStyle.regularStyleDefault
+                                  .copyWith(color: CustomColor.red)),
                         ],
                       ),
                     ),
@@ -189,13 +311,15 @@ class _TransactionDetailState extends State<TransactionDetail> {
                     width: 160,
                     padding: const EdgeInsets.symmetric(vertical: 6),
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(Constants.buttonBorderRadius),
+                      borderRadius:
+                          BorderRadius.circular(Constants.buttonBorderRadius),
                       color: Colors.white,
                     ),
                   ),
                   menuItemStyleData: MenuItemStyleData(
                     customHeights: [48, 48],
-                    padding: const EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: CustomPadding.defaultSpace),
                   ),
                 ),
               ),
@@ -222,7 +346,8 @@ class _TransactionDetailState extends State<TransactionDetail> {
             children: [
               CategoryIcon(
                 color: CustomColor.lebensmittel,
-                iconWidget: Image.asset(AssetImport.shoppingCart, width: 25, height: 25, fit: BoxFit.scaleDown),
+                iconWidget: Image.asset(AssetImport.shoppingCart,
+                    width: 25, height: 25, fit: BoxFit.scaleDown),
               ),
               SizedBox(width: CustomPadding.mediumSpace),
               Column(
@@ -254,12 +379,12 @@ class _TransactionDetailState extends State<TransactionDetail> {
               CustomShadow(
                 child: Container(
                   padding: EdgeInsets.symmetric(
-                    horizontal: CustomPadding.defaultSpace,
-                    vertical: CustomPadding.contentHeightSpace
-                  ),
+                      horizontal: CustomPadding.defaultSpace,
+                      vertical: CustomPadding.contentHeightSpace),
                   decoration: BoxDecoration(
                     color: CustomColor.white,
-                    borderRadius: BorderRadius.circular(Constants.buttonBorderRadius),
+                    borderRadius:
+                        BorderRadius.circular(Constants.buttonBorderRadius),
                   ),
                   child: Text(
                     'data',
@@ -272,16 +397,17 @@ class _TransactionDetailState extends State<TransactionDetail> {
               CustomShadow(
                 child: Container(
                   padding: EdgeInsets.symmetric(
-                    horizontal: CustomPadding.defaultSpace,
-                    vertical: CustomPadding.contentHeightSpace
-                  ),
+                      horizontal: CustomPadding.defaultSpace,
+                      vertical: CustomPadding.contentHeightSpace),
                   decoration: BoxDecoration(
                     color: CustomColor.white,
-                    borderRadius: BorderRadius.circular(Constants.buttonBorderRadius),
+                    borderRadius:
+                        BorderRadius.circular(Constants.buttonBorderRadius),
                   ),
                   child: Text(
                     'einmalige Transaktion',
-                    style: CustomTextStyle.regularStyleDefault.copyWith(color: CustomColor.bluePrimary),
+                    style: CustomTextStyle.regularStyleDefault
+                        .copyWith(color: CustomColor.bluePrimary),
                   ),
                 ),
               ),
@@ -298,12 +424,12 @@ class _TransactionDetailState extends State<TransactionDetail> {
             child: Container(
               width: double.infinity,
               padding: EdgeInsets.symmetric(
-                horizontal: CustomPadding.defaultSpace,
-                vertical: CustomPadding.contentHeightSpace
-              ),
+                  horizontal: CustomPadding.defaultSpace,
+                  vertical: CustomPadding.contentHeightSpace),
               decoration: BoxDecoration(
                 color: CustomColor.white,
-                borderRadius: BorderRadius.circular(Constants.buttonBorderRadius),
+                borderRadius:
+                    BorderRadius.circular(Constants.buttonBorderRadius),
               ),
               child: Text(
                 'data',
