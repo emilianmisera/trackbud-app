@@ -2,7 +2,9 @@
 //https://stackoverflow.com/a/53549197
 
 import 'package:flutter/material.dart';
+import 'package:track_bud/utils/buttons_widget.dart';
 import 'package:track_bud/utils/constants.dart';
+import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfield_widget.dart';
 
 class CategoryBar extends StatelessWidget {
@@ -122,9 +124,44 @@ class TransactionOverview extends StatelessWidget {
                 'Sonstiges': CustomColor.sonstiges,
               },
             ),
+            SizedBox(height: CustomPadding.bigSpace,),
+            CategoryInfo(categoryName: AppString.lebensmittel, icon: AssetImport.shoppingCart, iconColor: CustomColor.lebensmittel, amount: lebensmittel,),
+            CategoryInfo(categoryName: AppString.drogerie, icon: AssetImport.shopping, iconColor: CustomColor.drogerie, amount: drogerie,),
+            CategoryInfo(categoryName: AppString.restaurants, icon: AssetImport.restaurant, iconColor: CustomColor.restaurant, amount: restaurant,),
+            CategoryInfo(categoryName: AppString.mobility, icon: AssetImport.mobility, iconColor: CustomColor.mobility, amount: mobility,),
+            CategoryInfo(categoryName: AppString.shopping, icon: AssetImport.shopping, iconColor: CustomColor.shopping, amount: shopping,),
+            CategoryInfo(categoryName: AppString.unterkunft, icon: AssetImport.home, iconColor: CustomColor.unterkunft, amount: unterkunft,),
+            CategoryInfo(categoryName: AppString.entertainment, icon: AssetImport.entertainment, iconColor: CustomColor.entertainment, amount: entertainment,),
+            CategoryInfo(categoryName: AppString.geschenke, icon: AssetImport.gift, iconColor: CustomColor.geschenk, amount: geschenk,),
+            CategoryInfo(categoryName: AppString.sonstiges, icon: AssetImport.other, iconColor: CustomColor.sonstiges, amount: sonstiges,),
           ],
         ),
       ),
+    );
+  }
+}
+
+class CategoryInfo extends StatelessWidget {
+  final String categoryName;
+  final String icon;
+  final Color iconColor;
+  final double? amount;
+  const CategoryInfo({super.key, required this.categoryName, required this.icon, required this.iconColor, required this.amount });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        CategoryIcon(color: iconColor, iconWidget: Image.asset(icon, height: 20, width: 20, fit: BoxFit.scaleDown,)),
+        SizedBox(width: CustomPadding.mediumSpace,),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(categoryName, style: CustomTextStyle.regularStyleMedium,),
+            Text('$amount€', style: CustomTextStyle.hintStyleDefault,),
+          ],
+        )
+      ],
     );
   }
 }
