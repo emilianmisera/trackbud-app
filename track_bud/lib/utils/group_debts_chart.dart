@@ -4,7 +4,6 @@
 import 'package:flutter/material.dart';
 import 'package:track_bud/utils/buttons_widget.dart';
 import 'package:track_bud/utils/constants.dart';
-import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfield_widget.dart';
 
 class CategoryBar extends StatelessWidget {
@@ -64,28 +63,11 @@ class CategoryBar extends StatelessWidget {
 }
 
 class TransactionOverview extends StatelessWidget {
-  // Declare variables for each category's expense
-  final double? lebensmittel;
-  final double? drogerie;
-  final double? restaurant;
-  final double? mobility;
-  final double? shopping;
-  final double? unterkunft;
-  final double? entertainment;
-  final double? geschenk;
-  final double? sonstiges;
+  final Map<String, double?> categoryAmounts;
 
   const TransactionOverview({
     super.key,
-    this.lebensmittel,
-    this.drogerie,
-    this.restaurant,
-    this.mobility,
-    this.shopping,
-    this.unterkunft,
-    this.entertainment,
-    this.geschenk,
-    this.sonstiges
+    required this.categoryAmounts,
   });
 
   @override
@@ -95,51 +77,94 @@ class TransactionOverview extends StatelessWidget {
         width: MediaQuery.sizeOf(context).width,
         padding: EdgeInsets.all(CustomPadding.defaultSpace),
         decoration: BoxDecoration(
-            color: CustomColor.white,
-            borderRadius: BorderRadius.circular(Constants.buttonBorderRadius)),
+          color: CustomColor.white,
+          borderRadius: BorderRadius.circular(Constants.buttonBorderRadius),
+        ),
         child: Column(
           children: [
-            CategoryBar(
-              // 0.0 as the default value to make category empty
-              categoryExpenses: {
-                'Lebensmittel': lebensmittel ?? 0.0,
-                'Drogerie': drogerie ?? 0.0,
-                'Restaurant': restaurant ?? 0.0,
-                'Mobilität': mobility ?? 0.0,
-                'Shopping': shopping ?? 0.0,
-                'Unterkunft': unterkunft ?? 0.0,
-                'Entertainment': entertainment ?? 0.0,
-                'Geschenk': geschenk ?? 0.0,
-                'Sonstiges': sonstiges ?? 0.0,
-              },
-              categoryColors: {
-                'Lebensmittel': CustomColor.lebensmittel,
-                'Drogerie': CustomColor.drogerie,
-                'Restaurant': CustomColor.restaurant,
-                'Mobilität': CustomColor.mobility,
-                'Shopping': CustomColor.shopping,
-                'Unterkunft': CustomColor.unterkunft,
-                'Entertainment': CustomColor.entertainment,
-                'Geschenk': CustomColor.geschenk,
-                'Sonstiges': CustomColor.sonstiges,
-              },
-            ),
-            SizedBox(height: CustomPadding.bigSpace,),
-            CategoryInfo(categoryName: AppString.lebensmittel, icon: AssetImport.shoppingCart, iconColor: CustomColor.lebensmittel, amount: lebensmittel,),
-            CategoryInfo(categoryName: AppString.drogerie, icon: AssetImport.shopping, iconColor: CustomColor.drogerie, amount: drogerie,),
-            CategoryInfo(categoryName: AppString.restaurants, icon: AssetImport.restaurant, iconColor: CustomColor.restaurant, amount: restaurant,),
-            CategoryInfo(categoryName: AppString.mobility, icon: AssetImport.mobility, iconColor: CustomColor.mobility, amount: mobility,),
-            CategoryInfo(categoryName: AppString.shopping, icon: AssetImport.shopping, iconColor: CustomColor.shopping, amount: shopping,),
-            CategoryInfo(categoryName: AppString.unterkunft, icon: AssetImport.home, iconColor: CustomColor.unterkunft, amount: unterkunft,),
-            CategoryInfo(categoryName: AppString.entertainment, icon: AssetImport.entertainment, iconColor: CustomColor.entertainment, amount: entertainment,),
-            CategoryInfo(categoryName: AppString.geschenke, icon: AssetImport.gift, iconColor: CustomColor.geschenk, amount: geschenk,),
-            CategoryInfo(categoryName: AppString.sonstiges, icon: AssetImport.other, iconColor: CustomColor.sonstiges, amount: sonstiges,),
+            buildCategoryBar(),
+            SizedBox(height: CustomPadding.bigSpace),
+            buildCategoryList(),
           ],
         ),
       ),
     );
   }
+
+  Widget buildCategoryBar() {
+    return CategoryBar(
+      categoryExpenses: Map.fromEntries(
+        categoryAmounts.entries.map((e) => MapEntry(e.key, e.value ?? 0.0))
+      ),
+      categoryColors: getCategoryColors(),
+    );
+  }
+
+  Widget buildCategoryList() {
+    List<MapEntry<String, double>> validCategories = categoryAmounts.entries
+        .where((e) => e.value != null && e.value! > 0)
+        .map((e) => MapEntry(e.key, e.value!))
+        .toList()
+      ..sort((a, b) => b.value.compareTo(a.value));
+
+    return Column(
+      children: validCategories.map((entry) => 
+        Padding(
+          padding: EdgeInsets.only(bottom: CustomPadding.mediumSpace),
+          child: CategoryInfo(
+            categoryName: entry.key,
+            icon: getCategoryIcon(entry.key),
+            iconColor: getCategoryColor(entry.key),
+            amount: entry.value,
+          ),
+        )
+      ).toList(),
+    );
+  }
+
+  String getCategoryIcon(String category) {
+    switch (category) {
+      case 'Lebensmittel': return AssetImport.shoppingCart;
+      case 'Drogerie': return AssetImport.shopping;
+      case 'Restaurant': return AssetImport.restaurant;
+      case 'Mobilität': return AssetImport.mobility;
+      case 'Shopping': return AssetImport.shopping;
+      case 'Unterkunft': return AssetImport.home;
+      case 'Entertainment': return AssetImport.entertainment;
+      case 'Geschenk': return AssetImport.gift;
+      default: return AssetImport.other;
+    }
+  }
+
+  Color getCategoryColor(String category) {
+    switch (category) {
+      case 'Lebensmittel': return CustomColor.lebensmittel;
+      case 'Drogerie': return CustomColor.drogerie;
+      case 'Restaurant': return CustomColor.restaurant;
+      case 'Mobilität': return CustomColor.mobility;
+      case 'Shopping': return CustomColor.shopping;
+      case 'Unterkunft': return CustomColor.unterkunft;
+      case 'Entertainment': return CustomColor.entertainment;
+      case 'Geschenk': return CustomColor.geschenk;
+      default: return CustomColor.sonstiges;
+    }
+  }
+
+  Map<String, Color> getCategoryColors() {
+    return {
+      'Lebensmittel': CustomColor.lebensmittel,
+      'Drogerie': CustomColor.drogerie,
+      'Restaurant': CustomColor.restaurant,
+      'Mobilität': CustomColor.mobility,
+      'Shopping': CustomColor.shopping,
+      'Unterkunft': CustomColor.unterkunft,
+      'Entertainment': CustomColor.entertainment,
+      'Geschenk': CustomColor.geschenk,
+      'Sonstiges': CustomColor.sonstiges,
+    };
+  }
 }
+
 
 class CategoryInfo extends StatelessWidget {
   final String categoryName;
