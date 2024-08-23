@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:track_bud/utils/constants.dart';
+import 'package:track_bud/utils/split_widget.dart';
+import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfield_widget.dart';
 import 'package:track_bud/views/subpages/group_overview_screeen.dart';
 
@@ -166,8 +168,54 @@ class _ColorPair {
   _ColorPair({required this.backgroundColor, required this.textColor});
 }
 
-class DebtsOverview extends StatelessWidget {
+class DebtsOverview extends StatefulWidget {
   const DebtsOverview({super.key});
+
+  @override
+  State<DebtsOverview> createState() => _DebtsOverviewState();
+}
+
+class _DebtsOverviewState extends State<DebtsOverview> {
+
+  // Method to open a popup window to pay off debts
+  Future _payOffDebts() => showDialog(
+  context: context,
+  builder: (context) => Dialog(
+    insetPadding: EdgeInsets.all(16),
+    child: Container(
+      width: MediaQuery.of(context).size.width - 32,
+      padding: EdgeInsets.all(CustomPadding.defaultSpace),
+      decoration: BoxDecoration(
+        color: CustomColor.backgroundPrimary,
+        borderRadius: BorderRadius.circular(Constants.buttonBorderRadius),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Schulden begleichen',
+            style: CustomTextStyle.titleStyleMedium,
+          ),
+          SizedBox(height: CustomPadding.defaultSpace),
+          Text(
+            'Begleiche die Bilanz.',
+            style: CustomTextStyle.hintStyleDefault,
+          ),
+          SizedBox(height: CustomPadding.defaultSpace),
+          ByAmountTile(),
+          SizedBox(height: CustomPadding.defaultSpace),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: Text('begleichen'),
+          ),
+        ],
+      ),
+    ),
+  ),
+);
 
   @override
   Widget build(BuildContext context) {
@@ -208,7 +256,9 @@ class DebtsOverview extends StatelessWidget {
             ),
             SizedBox(height: CustomPadding.smallSpace,),
             GestureDetector(
-              onTap: () {},
+              onTap: () {
+                _payOffDebts();
+              },
               child: Text(
                 'begleichen',
                 style: CustomTextStyle.regularStyleDefault.copyWith(
