@@ -145,7 +145,7 @@ class CustomPadding {
   static const double navbarButtonwidth = 0.15;
   static const double categoryWidthSpace = 16;
   static const double categoryHeightSpace = 12;
-  static const double categoryIconSpace = 16;
+  static const double categoryIconSpace = 8;
 }
 
 class AssetImport {
@@ -191,6 +191,7 @@ class AssetImport {
   static const String gehalt = 'assets/categories/money.png';
   static const String restaurant = 'assets/categories/restaurant.png';
   static const String shopping = 'assets/categories/shopping.png';
+  static const String other = 'assets/categories/other.png';
 }
 
 class Constants {

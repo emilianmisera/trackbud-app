@@ -165,5 +165,6 @@ class AppString {
   static String debtsOverview = 'Schuldenübersicht';
   static String transactionOverview = 'Ausgabenübersicht';
   static String perPerson = 'pro Person';
+  static String addDebt = 'Rechnung hinzufügen';
 
 }
