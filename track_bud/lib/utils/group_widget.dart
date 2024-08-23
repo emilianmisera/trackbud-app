@@ -53,7 +53,7 @@ class GroupCard extends StatelessWidget {
               ),
               // Navigation arrow
               trailing: Text(
-                '10000,00',
+                '10000,00€',
                 style: CustomTextStyle.regularStyleMedium,
               ),
               minVerticalPadding: 0,
@@ -81,8 +81,7 @@ class GroupCard extends StatelessWidget {
                             width: 40,
                             height: 40,
                             decoration: BoxDecoration(
-                              color: Colors
-                                  .primaries[index % Colors.primaries.length],
+                              color: Colors.red,
                               shape: BoxShape.circle,
                               border: Border.all(color: CustomColor.white),
                             ),
