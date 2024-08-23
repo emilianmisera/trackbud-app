@@ -80,7 +80,7 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
                   ),
 
                   // Date text field
-                  DatePicker()
+                  //DatePicker(onDateTimeChanged: ,)
                 ],
               ),
               SizedBox(
