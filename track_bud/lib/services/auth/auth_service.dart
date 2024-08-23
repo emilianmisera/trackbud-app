@@ -42,8 +42,6 @@ class AuthService {
         CacheService(),
       );
       await syncService.syncData(userCredential.user!.uid);
-      // Handle post login actions
-      await handlePostLogin(context, userCredential);
     } on FirebaseAuthException catch (error) {
       _showErrorSnackBar(context, error.message ?? error.code);
     }
@@ -147,6 +145,74 @@ class AuthService {
   // Send email verification
   Future<void> _sendEmailVerification(UserCredential userCredential) async {
     await userCredential.user?.sendEmailVerification();
+  }
+
+  // Method to send a verification link for email update
+  Future<void> sendEmailUpdateVerificationLink(
+      String newEmail, String password) async {
+    User? user = _firebaseAuth.currentUser;
+
+    if (user != null) {
+      try {
+        // Reauthenticate the user
+        await _reauthenticateUser(user, password);
+
+        // Temporarily store the new email in Firestore
+        await _firestoreService.storeNewEmail(user.uid, newEmail);
+
+        // Create an action code settings to control the verification process
+        ActionCodeSettings actionCodeSettings = ActionCodeSettings(
+          url:
+              'https://yourapp.page.link/verify-email', // Replace with your dynamic link or app link
+          handleCodeInApp: true,
+          androidPackageName: 'com.yourapp.package',
+          androidInstallApp: true,
+          androidMinimumVersion: '12',
+          iOSBundleId: 'com.yourapp.bundleid',
+        );
+
+        // Send a verification email to the new email address
+        await user.verifyBeforeUpdateEmail(newEmail, actionCodeSettings);
+
+        print('Verification email sent to $newEmail.');
+      } on FirebaseAuthException catch (e) {
+        print('Error sending verification email: $e');
+        throw e;
+      }
+    } else {
+      throw FirebaseAuthException(
+        code: 'user-not-signed-in',
+        message: 'User is not signed in.',
+      );
+    }
+  }
+
+  // After verification, update the user's email
+  Future<void> updateEmailAfterVerification(String userId) async {
+    User? user = _firebaseAuth.currentUser;
+
+    if (user != null && user.emailVerified) {
+      try {
+        // Retrieve the stored email from Firestore
+        String? newEmail = await _firestoreService.getPendingNewEmail(userId);
+
+        if (newEmail != null) {
+          // Update the email in Firebase Auth
+          await user.updateEmail(newEmail);
+          print('Email successfully updated to $newEmail.');
+
+          // Optionally, clear the pending email in Firestore
+          await _firestoreService.clearPendingNewEmail(userId);
+        } else {
+          print('No pending email found.');
+        }
+      } on FirebaseAuthException catch (e) {
+        print('Error updating email: $e');
+        throw e;
+      }
+    } else {
+      print('User has not verified their email.');
+    }
   }
 
   // Create user record in Firestore

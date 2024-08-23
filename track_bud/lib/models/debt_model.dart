@@ -1,10 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class DebtModel {
   String debtId;
   String creditorId;
   String debtorId;
   double amount;
   String description;
-  String date;
+  Timestamp date;
   String status;  // 'pending' or 'paid'
 
   DebtModel({

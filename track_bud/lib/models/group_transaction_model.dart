@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class GroupTransactionModel {
   String transactionId;
   String groupId;
@@ -7,7 +9,7 @@ class GroupTransactionModel {
   String description;
   String type;  // 'expense' or 'income'
   String paidBy;
-  String date;
+  Timestamp date;
   List<String> splitBetween;
 
   GroupTransactionModel({

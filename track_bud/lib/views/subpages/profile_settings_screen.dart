@@ -51,8 +51,8 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
   // Function to check if profile has been modified
   void _checkIfProfileChanged() {
     setState(() {
-      _isProfileChanged =
-          _nameController.text != _initialName || _isProfilePictureChanged;
+      _isProfileChanged = _nameController.text.trim() != _initialName.trim() ||
+          _isProfilePictureChanged;
     });
   }
 
@@ -92,7 +92,7 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
     try {
       final String userId = FirebaseAuth.instance.currentUser?.uid ?? '';
       if (userId.isNotEmpty) {
-        final updatedName = _nameController.text;
+        final updatedName = _nameController.text.trim();
 
         if (_isProfilePictureChanged && _profileImage != null) {
           final String? profileImageUrl =
@@ -214,7 +214,6 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                   onTap: () {
                     _pickImage();
                     setState(() {
-                      _isProfilePictureChanged = true;
                       _checkIfProfileChanged();
                     });
                   },

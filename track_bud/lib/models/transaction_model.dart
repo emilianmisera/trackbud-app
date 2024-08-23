@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class TransactionModel {
   String transactionId;
   String userId;
@@ -6,7 +8,7 @@ class TransactionModel {
   String type;  // 'expense' or 'income'
   String category;
   String notes;
-  String date;
+  DateTime date;
   String billImageUrl;
   String currency;
   String recurrenceType;  // 'daily', 'weekly', 'monthly', 'one-time'
@@ -36,7 +38,7 @@ class TransactionModel {
       type: map['type'],
       category: map['category'],
       notes: map['notes'],
-      date: map['date'],
+      date: map['date'] is Timestamp ? (map['date'] as Timestamp).toDate() : DateTime.fromMillisecondsSinceEpoch(map['date'] as int),
       billImageUrl: map['billImageUrl'],
       currency: map['currency'],
       recurrenceType: map['recurrenceType'],
@@ -53,11 +55,17 @@ class TransactionModel {
       'type': type,
       'category': category,
       'notes': notes,
-      'date': date,
+      'date': date.millisecondsSinceEpoch,
       'billImageUrl': billImageUrl,
       'currency': currency,
       'recurrenceType': recurrenceType,
       'isSynced': isSynced ? 1 : 0,
     };
+  }
+
+  Map<String, dynamic> toFirestoreMap() {
+    var map = toMap();
+    map['date'] = Timestamp.fromDate(date);
+    return map;
   }
 }

@@ -6,6 +6,7 @@ import 'package:track_bud/utils/buttons_widget.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/information_tiles.dart';
 import 'package:track_bud/utils/strings.dart';
+import 'package:track_bud/widgets/transaction_list.dart';
 
 class AnalysisScreen extends StatefulWidget {
   const AnalysisScreen({super.key});
@@ -55,8 +56,10 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
   @override
   Widget build(BuildContext context) {
     // change InfoTile Title & Color based on selected DropDown
-    String _infoTileTitle = _selectedOption == 'Ausgaben' ? 'ausgegeben' : 'erhalten';
-    Color _infoTileColor = _selectedOption == 'Ausgaben' ? CustomColor.red : CustomColor.green;
+    String _infoTileTitle =
+        _selectedOption == 'Ausgaben' ? 'ausgegeben' : 'erhalten';
+    Color _infoTileColor =
+        _selectedOption == 'Ausgaben' ? CustomColor.red : CustomColor.green;
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -79,7 +82,6 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-
                   InfoTile(
                       title: _infoTileTitle,
                       amount: 'amount',
@@ -103,7 +105,8 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
                 height: CustomPadding.defaultSpace,
               ),
               ChartTile(
-                chartChild: ChartTile(chartChild: DonutChart(selectedOption: _selectedOption)),
+                chartChild: ChartTile(
+                    chartChild: DonutChart(selectedOption: _selectedOption)),
               ),
               SizedBox(
                 height: CustomPadding.defaultSpace,
@@ -115,7 +118,7 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
               SizedBox(
                 height: CustomPadding.mediumSpace,
               ),
-              TransactionTile(),
+              TransactionList(),
             ],
           ),
         ),
