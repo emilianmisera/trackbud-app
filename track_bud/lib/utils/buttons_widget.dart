@@ -52,6 +52,7 @@ class CustomDropDown extends StatefulWidget {
   final double? width;
   final double? height;
   final EdgeInsets? padding;
+  final String? value;
   final Function(String)? onChanged;
   final double? dropdownWidth;
   const CustomDropDown({
@@ -60,6 +61,7 @@ class CustomDropDown extends StatefulWidget {
     this.width,
     this.height,
     this.padding,
+    this.value,
     this.onChanged,
     this.dropdownWidth,
   });
@@ -183,7 +185,10 @@ class _AccAdjustmentWidgetState extends State<AccAdjustmentWidget> {
 
 class CustomSegmentControl extends StatefulWidget {
   final Function(int?) onValueChanged; // callback
-  const CustomSegmentControl({super.key, required this.onValueChanged,});
+  const CustomSegmentControl({
+    super.key,
+    required this.onValueChanged,
+  });
 
   @override
   State<CustomSegmentControl> createState() => _CustomSegmentControlState();
