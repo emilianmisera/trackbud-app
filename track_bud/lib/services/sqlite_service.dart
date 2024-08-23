@@ -60,7 +60,7 @@ class SQLiteService {
         type TEXT,
         category TEXT,
         notes TEXT,
-        date TEXT,
+        date INTEGER,
         billImageUrl TEXT,
         currency TEXT,
         recurrenceType TEXT,
@@ -76,7 +76,7 @@ class SQLiteService {
         debtorId TEXT,
         amount REAL,
         description TEXT,
-        date TEXT,
+        date INTEGER,
         status TEXT
       )
     ''');
@@ -102,7 +102,7 @@ class SQLiteService {
         type TEXT,
         description TEXT,
         paidBy TEXT,
-        date TEXT,
+        date INTEGER,
         splitBetween TEXT,
         isSynced INTEGER DEFAULT 0 -- 0 means not synced, 1 means synced
       )
