@@ -146,7 +146,10 @@ class _AddTransactionState extends State<AddTransaction> {
     if (userId.isEmpty) {
       throw Exception('User not logged in');
     }
-    final String title = _titleController.text.trim();
+    String title = _titleController.text.trim();
+    if (title.isEmpty) {
+      title = _selectedCategory ?? 'Sonstiges';
+    }
     final double amount = double.tryParse(_amountController.text) ?? 0.0;
     final String type = _currentSegment == 0 ? 'expense' : 'income';
     final String category = _selectedCategory ?? 'none';
