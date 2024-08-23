@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:track_bud/services/auth/auth_service.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfield_widget.dart';
@@ -13,8 +14,27 @@ class ChangeEmailScreen extends StatefulWidget {
 class _ChangeEmailScreenState extends State<ChangeEmailScreen> {
   // Controllers for the text fields
   final TextEditingController _currentEmailController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _newEmailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final AuthService _authService = AuthService(); // Add this line
+
+  void _changeEmail() async {
+    try {
+      await _authService.sendEmailUpdateVerificationLink(
+        _newEmailController.text,
+        _passwordController.text,
+      );
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content:
+            Text('Ein Verifizierungslink wurde an die neue E-Mail gesendet.'),
+      ));
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Fehler beim Senden des Verifizierungslinks: $e'),
+      ));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,11 +78,12 @@ class _ChangeEmailScreenState extends State<ChangeEmailScreen> {
               CustomTextfield(
                   name: AppString.newEmail,
                   hintText: AppString.newEmailHint,
-                  controller: _emailController),
+                  controller: _newEmailController),
               SizedBox(height: CustomPadding.defaultSpace),
               // Confirm Password text field
               CustomTextfield(
                   name: AppString.password,
+                  obscureText: true,
                   hintText: AppString.hintPassword,
                   controller: _passwordController),
             ],
@@ -79,7 +100,7 @@ class _ChangeEmailScreenState extends State<ChangeEmailScreen> {
         width: MediaQuery.of(context).size.width,
         child: ElevatedButton(
           onPressed: () async {
-            // TODO: Implement save functionality
+            _changeEmail();
           },
           child: Text(AppString.save),
         ),
