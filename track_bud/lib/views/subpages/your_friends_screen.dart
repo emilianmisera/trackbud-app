@@ -23,7 +23,8 @@ class _YourFriendsScreenState extends State<YourFriendsScreen> {
       final userId =
           "Aktuelle Nutzer-ID hier einfügen"; // ID des aktuellen Nutzers
       String inviteLink = await _inviteService.createInviteLink(userId);
-      Share.share('Hier ist dein Einladungslink: $inviteLink');
+      Share.share(
+          'Füge mich zu deinen Freunden in TrackBud hinzu: $inviteLink');
     } catch (e) {
       print("Fehler beim Teilen des Links: $e");
     }
