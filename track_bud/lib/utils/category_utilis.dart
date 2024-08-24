@@ -22,6 +22,8 @@ Color getCategoryColor(String category) {
       return CustomColor.geschenk;
     case 'Sonstiges':
       return CustomColor.sonstiges;
+    case 'Gehalt':
+      return CustomColor.unterkunft;
     default:
       return CustomColor.sonstiges;
   }
@@ -89,6 +91,13 @@ Widget getCategoryIcon(String category) {
     case 'Sonstiges':
       return Image.asset(
         AssetImport.other,
+        width: 25,
+        height: 25,
+        fit: BoxFit.scaleDown,
+      );
+    case 'Gehalt':
+      return Image.asset(
+        AssetImport.gehalt,
         width: 25,
         height: 25,
         fit: BoxFit.scaleDown,
