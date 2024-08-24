@@ -8,7 +8,6 @@ import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfield_widget.dart';
 import 'package:intl/intl.dart';
-import 'package:track_bud/views/subpages/edit_transaction_screen.dart';
 
 // Widget for displaying amount and title information
 class InfoTile extends StatelessWidget {
@@ -30,7 +29,7 @@ class InfoTile extends StatelessWidget {
     return CustomShadow(
       child: Container(
         padding: EdgeInsets.symmetric(
-          vertical: CustomPadding.contentHeightSpace,
+          vertical: CustomPadding.defaultSpace,
           horizontal: CustomPadding.defaultSpace,
         ),
         width: width ?? MediaQuery.sizeOf(context).width,
