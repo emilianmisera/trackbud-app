@@ -372,6 +372,7 @@ class _AddSplitState extends State<AddSplit> {
       TextEditingController(); // title input
   final TextEditingController _amountController =
       TextEditingController(); // amount input
+  String? _selectedCategory;
 
   SplitMethod _selectedSplitMethod =
       SplitMethod.equal; // equal Split is selected as default
@@ -387,6 +388,12 @@ class _AddSplitState extends State<AddSplit> {
   void _onInputChanged() {
     setState(() {
       _inputNumber = double.tryParse(_amountController.text) ?? 0.0;
+    });
+  }
+  // Updates the selected transaction type
+  void _onCategorySelected(String category) {
+    setState(() {
+      _selectedCategory = category;
     });
   }
 
@@ -447,6 +454,18 @@ class _AddSplitState extends State<AddSplit> {
               //DatePicker(onDateTimeChanged: ,)
             ],
           ),
+          SizedBox(
+            height: CustomPadding.defaultSpace,
+          ),
+          // choose category
+          Text(
+            AppString.categorie,
+            style: CustomTextStyle.regularStyleMedium,
+          ),
+          SizedBox(
+            height: CustomPadding.mediumSpace,
+          ),
+          CategoriesExpense(onCategorySelected: _onCategorySelected),
           SizedBox(
             height: CustomPadding.defaultSpace,
           ),
