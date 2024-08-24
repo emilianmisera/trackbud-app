@@ -125,6 +125,7 @@ class AppString {
   //analysis page
   static String balance = 'Kontostand';
   static String history = 'Verlauf';
+  static String workIncome = 'Gehalt';
 
   //edit transaction page
   static String editTransaction = "Transaktion bearbeiten";

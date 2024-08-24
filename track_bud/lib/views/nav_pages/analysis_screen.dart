@@ -83,16 +83,17 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   InfoTile(
-                      title: _infoTileTitle,
-                      amount: 'amount',
-                      color: _infoTileColor,
-                      width: MediaQuery.sizeOf(context).width / 2 -
-                          Constants.infoTileSpace),
+                    title: _infoTileTitle,
+                    amount: 'amount',
+                    color: _infoTileColor,
+                    width: MediaQuery.sizeOf(context).width / 2 -
+                        Constants.infoTileSpace,
+                  ),
                   CustomDropDown(
                     list: ['Ausgaben', 'Einkommen'],
                     width: MediaQuery.sizeOf(context).width / 2 -
                         Constants.infoTileSpace,
-                    height: 105,
+                    height: 88,
                     onChanged: (value) {
                       setState(() {
                         _selectedOption = value;
@@ -105,9 +106,7 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
                 height: CustomPadding.defaultSpace,
               ),
               ChartTile(
-                chartChild: ChartTile(
-                    chartChild: DonutChart(selectedOption: _selectedOption)),
-              ),
+                  chartChild: DonutChart(selectedOption: _selectedOption)),
               SizedBox(
                 height: CustomPadding.defaultSpace,
               ),

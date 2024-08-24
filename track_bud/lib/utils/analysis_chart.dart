@@ -65,7 +65,7 @@ class _DonutChartState extends State<DonutChart> {
         sectionData: PieChartSectionData(
           color: CustomColor.shopping,
           value:
-              70, //TODO: insert overall Amount of Lebensmittel category Transaction here
+              0, //TODO: insert overall Amount of Lebensmittel category Transaction here
           title: AppString.shopping,
         ),
         iconAsset: AssetImport.shopping),
@@ -73,7 +73,7 @@ class _DonutChartState extends State<DonutChart> {
         sectionData: PieChartSectionData(
           color: CustomColor.unterkunft,
           value:
-              70, //TODO: insert overall Amount of Lebensmittel category Transaction here
+              0, //TODO: insert overall Amount of Lebensmittel category Transaction here
           title: AppString.unterkunft,
         ),
         iconAsset: AssetImport.home),
@@ -81,7 +81,7 @@ class _DonutChartState extends State<DonutChart> {
         sectionData: PieChartSectionData(
           color: CustomColor.restaurant,
           value:
-              70, //TODO: insert overall Amount of Lebensmittel category Transaction here
+              0, //TODO: insert overall Amount of Lebensmittel category Transaction here
           title: AppString.restaurants,
         ),
         iconAsset: AssetImport.restaurant),
@@ -89,7 +89,7 @@ class _DonutChartState extends State<DonutChart> {
         sectionData: PieChartSectionData(
           color: CustomColor.mobility,
           value:
-              70, //TODO: insert overall Amount of Lebensmittel category Transaction here
+              50, //TODO: insert overall Amount of Lebensmittel category Transaction here
           title: AppString.mobility,
         ),
         iconAsset: AssetImport.mobility),
@@ -97,7 +97,7 @@ class _DonutChartState extends State<DonutChart> {
         sectionData: PieChartSectionData(
           color: CustomColor.entertainment,
           value:
-              70, //TODO: insert overall Amount of Lebensmittel category Transaction here
+              10, //TODO: insert overall Amount of Lebensmittel category Transaction here
           title: AppString.entertainment,
         ),
         iconAsset: AssetImport.entertainment),
@@ -105,7 +105,7 @@ class _DonutChartState extends State<DonutChart> {
         sectionData: PieChartSectionData(
           color: CustomColor.geschenk,
           value:
-              70, //TODO: insert overall Amount of Lebensmittel category Transaction here
+              0, //TODO: insert overall Amount of Lebensmittel category Transaction here
           title: AppString.geschenke,
         ),
         iconAsset: AssetImport.gift),
@@ -113,10 +113,10 @@ class _DonutChartState extends State<DonutChart> {
         sectionData: PieChartSectionData(
           color: CustomColor.sonstiges,
           value:
-              70, //TODO: insert overall Amount of Lebensmittel category Transaction here
+              0, //TODO: insert overall Amount of Lebensmittel category Transaction here
           title: AppString.sonstiges,
         ),
-        iconAsset: AssetImport.shoppingCart),
+        iconAsset: AssetImport.other),
   ];
 
   final List<ChartSectionData> incomeSections = [
@@ -125,14 +125,14 @@ class _DonutChartState extends State<DonutChart> {
           color: CustomColor.gehalt,
           value:
               70, //TODO: insert overall Amount of Lebensmittel category Transaction here
-          title: AppString.unterkunft,
+          title: AppString.workIncome,
         ),
         iconAsset: AssetImport.gehalt),
     ChartSectionData(
         sectionData: PieChartSectionData(
           color: CustomColor.geschenk,
           value:
-              70, //TODO: insert overall Amount of Lebensmittel category Transaction here
+              10, //TODO: insert overall Amount of Lebensmittel category Transaction here
           title: AppString.geschenke,
         ),
         iconAsset: AssetImport.gift),
@@ -143,35 +143,53 @@ class _DonutChartState extends State<DonutChart> {
               70, //TODO: insert overall Amount of Lebensmittel category Transaction here
           title: AppString.sonstiges,
         ),
-        iconAsset: AssetImport.shoppingCart),
+        iconAsset: AssetImport.other),
   ];
 
   // Generate sections for the pie chart
-  List<PieChartSectionData> showingSections() {
-    // if Expense Dropdown is selcted, the expenseSection will be displayed,
+  Map<int, PieChartSectionData> showingSections() {
+    // if Expense Dropdown is selected, the expenseSection will be displayed,
     // if Income Dropdown is selected, incomeSection will be displayed
     final sections =
         widget.selectedOption == 'Ausgaben' ? expenseSections : incomeSections;
-    return List.generate(sections.length, (i) {
-      if (i >= sections.length) return PieChartSectionData();
+    return Map.fromEntries(sections
+        .asMap()
+        .entries
+        .where((entry) => entry.value.sectionData.value > 0)
+        .map((entry) {
+      final i = entry.key;
+      final section = entry.value;
       final isTouched = i == selectedIndex;
       // Set opacity to 50% for non-selected sections when a section is selected
       final opacity = selectedIndex == null || isTouched ? 1.0 : 0.5;
 
-      return PieChartSectionData(
-        color: sections[i].sectionData.color.withOpacity(opacity),
-        value: sections[i].sectionData.value,
-        showTitle: false,
-        // Increase radius of the selected section
-        radius: isTouched ? 70 : 60,
-      );
-    });
+      return MapEntry(
+          i,
+          PieChartSectionData(
+            color: section.sectionData.color.withOpacity(opacity),
+            value: section.sectionData.value,
+            showTitle: false,
+            // Increase radius of the selected section
+            radius: isTouched ? 70 : 60,
+          ));
+    }));
   }
 
   @override
   Widget build(BuildContext context) {
     final sections =
         widget.selectedOption == 'Ausgaben' ? expenseSections : incomeSections;
+    final showingSectionsMap = showingSections();
+
+    void updateSelectedIndex(int index) {
+      setState(() {
+        if (selectedIndex == index) {
+          selectedIndex = null; // Deselect if already selected
+        } else {
+          selectedIndex = index; // Select the touched section
+        }
+      });
+    }
 
     return Column(
       children: [
@@ -186,23 +204,19 @@ class _DonutChartState extends State<DonutChart> {
               sectionsSpace: 0, // No space between pie sections
               centerSpaceRadius:
                   80, // Set the radius of the empty space in the center
-              sections: showingSections(), // Get the sections data
+              sections:
+                  showingSectionsMap.values.toList(), // Get the sections data
               pieTouchData: PieTouchData(
                 // Handle touch events on the pie chart
                 touchCallback: (FlTouchEvent event, pieTouchResponse) {
                   if (event is FlTapUpEvent) {
-                    // Only react to the TouchUp event
                     setState(() {
                       if (pieTouchResponse == null ||
                           pieTouchResponse.touchedSection == null) {
                         return; // Exit if no valid touch response
                       }
-                      final touchedIndex =
-                          pieTouchResponse.touchedSection!.touchedSectionIndex;
-                      if (touchedIndex < 0 ||
-                          touchedIndex >= expenseSections.length) {
-                        return; // Exit if touched index is out of range
-                      }
+                      final touchedIndex = showingSectionsMap.keys.elementAt(
+                          pieTouchResponse.touchedSection!.touchedSectionIndex);
                       if (selectedIndex == touchedIndex) {
                         selectedIndex = null; // Deselect if already selected
                       } else {
@@ -220,26 +234,35 @@ class _DonutChartState extends State<DonutChart> {
           height: CustomPadding.defaultSpace,
         ),
         // Category names display
+        // Category names display
         Column(
-          children: selectedIndex != null && selectedIndex! < sections.length
+          children: selectedIndex != null &&
+                  sections[selectedIndex!].sectionData.value > 0
               ? [
                   CategoryTile(
                     color: sections[selectedIndex!].sectionData.color,
                     title: sections[selectedIndex!].sectionData.title,
                     percentage: sections[selectedIndex!].sectionData.value,
-                    icon:
-                        sections[selectedIndex!].iconAsset,
+                    icon: sections[selectedIndex!].iconAsset,
+                    onTap: () => updateSelectedIndex(selectedIndex!),
                   )
                 ]
               : sections
-                  .map((section) => Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 4.0),
-                      child: CategoryTile(
-                        color: section.sectionData.color,
-                        title: section.sectionData.title,
-                        percentage: section.sectionData.value,
-                        icon: section.iconAsset,
-                      )))
+                  .asMap()
+                  .entries
+                  .where((entry) =>
+                      entry.value.sectionData.value >
+                      0) // Only include sections with value > 0
+                  .map((entry) => Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 4.0),
+                        child: CategoryTile(
+                          color: entry.value.sectionData.color,
+                          title: entry.value.sectionData.title,
+                          percentage: entry.value.sectionData.value,
+                          icon: entry.value.iconAsset,
+                          onTap: () => updateSelectedIndex(entry.key),
+                        ),
+                      ))
                   .toList(),
         ),
       ],
@@ -267,60 +290,68 @@ class CategoryTile extends StatelessWidget {
   final String title;
   final double percentage;
   final String icon;
-  const CategoryTile(
-      {super.key,
-      required this.color,
-      required this.title,
-      required this.percentage,
-      required this.icon});
+  final VoidCallback onTap;
+
+  const CategoryTile({
+    super.key,
+    required this.color,
+    required this.title,
+    required this.percentage,
+    required this.icon,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery.sizeOf(context).width,
-      decoration: BoxDecoration(
-          color: CustomColor.white,
-          borderRadius: BorderRadius.circular(Constants.buttonBorderRadius)),
-      child: ListTile(
-        // Icon
-        leading: CategoryIcon(
-            color: color,
-            iconWidget: Image.asset(
-              icon,
-              width: 25,
-              height: 25,
-              fit: BoxFit.scaleDown,
-            )), //TODO: Add Icons
-        // Title of Transaction
-        title: Text(
-          title,
-          style: CustomTextStyle.regularStyleMedium,
+    return GestureDetector(
+      // Wrap the Container with GestureDetector to handle taps
+      onTap: onTap,
+      child: Container(
+        width: MediaQuery.sizeOf(context).width,
+        decoration: BoxDecoration(
+            color: CustomColor.white,
+            borderRadius: BorderRadius.circular(Constants.buttonBorderRadius)),
+        child: ListTile(
+          // Icon
+          leading: CategoryIcon(
+              color: color,
+              iconWidget: Image.asset(
+                icon,
+                width: 25,
+                height: 25,
+                fit: BoxFit.scaleDown,
+              )),
+          // Title of Transaction
+          title: Text(
+            title,
+            style: CustomTextStyle.regularStyleMedium,
+          ),
+          // Timestamp
+          subtitle: Text(
+            '$percentage%',
+            style: CustomTextStyle.hintStyleDefault
+                .copyWith(fontSize: CustomTextStyle.fontSizeHint),
+          ),
+          // Amount
+          trailing: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Text(
+                '100€', //TODO: implement total Amount of category expense/income
+                style: CustomTextStyle.regularStyleMedium,
+              ),
+              SizedBox(
+                height: 8,
+              ),
+              Text(
+                '- Transaktionen', //TODO: implement length of list of amount of transactions of specific categroy
+                style: CustomTextStyle.hintStyleDefault
+                    .copyWith(fontSize: CustomTextStyle.fontSizeHint),
+              ),
+            ],
+          ),
+          minVerticalPadding: CustomPadding.defaultSpace,
         ),
-        // Timestamp
-        subtitle: Text(
-          '$percentage%',
-          style: CustomTextStyle.hintStyleDefault
-              .copyWith(fontSize: CustomTextStyle.fontSizeHint),
-        ),
-        // Amount
-        trailing: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            Text(
-              '100€', //TODO: implement total Amount of category expense/income
-              style: CustomTextStyle.regularStyleMedium,
-            ),
-            SizedBox(
-              height: 8,
-            ),
-            Text(
-              '- Transaktionen', //TODO: implement length of list of amount of transactions of specific categroy
-              style: CustomTextStyle.hintStyleDefault
-                  .copyWith(fontSize: CustomTextStyle.fontSizeHint),
-            ),
-          ],
-        ),
-        minVerticalPadding: CustomPadding.defaultSpace,
       ),
     );
   }

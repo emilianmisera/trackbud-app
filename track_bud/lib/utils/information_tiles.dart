@@ -8,7 +8,6 @@ import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfield_widget.dart';
 import 'package:intl/intl.dart';
-import 'package:track_bud/views/subpages/edit_transaction_screen.dart';
 
 // Widget for displaying amount and title information
 class InfoTile extends StatelessWidget {
@@ -30,7 +29,7 @@ class InfoTile extends StatelessWidget {
     return CustomShadow(
       child: Container(
         padding: EdgeInsets.symmetric(
-          vertical: CustomPadding.contentHeightSpace,
+          vertical: CustomPadding.defaultSpace,
           horizontal: CustomPadding.defaultSpace,
         ),
         width: width ?? MediaQuery.sizeOf(context).width,
@@ -94,18 +93,21 @@ class _TransactionTileState extends State<TransactionTile> {
   // Method to open a popup window with transaction details
   Future _openTransaction() => showDialog(
         context: context,
-        builder: (context) => AlertDialog(
-          content: TransactionDetail(
-            title: widget.title,
-            amount: widget.amount,
-            date: widget.date,
-            category: widget.category,
-            transactionId: widget.transactionId,
-            notes: widget.notes,
-            recurrenceType: widget.recurrenceType,
-            type: widget.type,
-            onDelete: widget.onDelete,
-            onEdit: widget.onEdit,
+        builder: (context) => Dialog(
+          child: Padding(
+            padding: const EdgeInsets.all(CustomPadding.defaultSpace),
+            child: TransactionDetail(
+              title: widget.title,
+              amount: widget.amount,
+              date: widget.date,
+              category: widget.category,
+              transactionId: widget.transactionId,
+              notes: widget.notes,
+              recurrenceType: widget.recurrenceType,
+              type: widget.type,
+              onDelete: widget.onDelete,
+              onEdit: widget.onEdit,
+            ),
           ),
           insetPadding:
               EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace),
