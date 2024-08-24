@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/information_tiles.dart';
 import 'package:track_bud/views/subpages/edit_transaction_screen.dart';
 
@@ -50,10 +51,11 @@ class TransactionList extends StatelessWidget {
         return ListView(
           shrinkWrap: true,
           physics: NeverScrollableScrollPhysics(),
+          padding: EdgeInsets.zero,
           children: snapshot.data!.docs.map((DocumentSnapshot document) {
             Map<String, dynamic> data = document.data() as Map<String, dynamic>;
             return Padding(
-              padding: const EdgeInsets.only(bottom: 4),
+              padding: const EdgeInsets.only(bottom: CustomPadding.mediumSpace),
               child: TransactionTile(
                 title: data['title'],
                 amount: data['amount'],
