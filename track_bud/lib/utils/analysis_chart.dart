@@ -73,7 +73,7 @@ class _DonutChartState extends State<DonutChart> {
         sectionData: PieChartSectionData(
           color: CustomColor.unterkunft,
           value:
-              70, //TODO: insert overall Amount of Lebensmittel category Transaction here
+              0, //TODO: insert overall Amount of Lebensmittel category Transaction here
           title: AppString.unterkunft,
         ),
         iconAsset: AssetImport.home),
@@ -81,7 +81,7 @@ class _DonutChartState extends State<DonutChart> {
         sectionData: PieChartSectionData(
           color: CustomColor.restaurant,
           value:
-              70, //TODO: insert overall Amount of Lebensmittel category Transaction here
+              0, //TODO: insert overall Amount of Lebensmittel category Transaction here
           title: AppString.restaurants,
         ),
         iconAsset: AssetImport.restaurant),
@@ -89,7 +89,7 @@ class _DonutChartState extends State<DonutChart> {
         sectionData: PieChartSectionData(
           color: CustomColor.mobility,
           value:
-              70, //TODO: insert overall Amount of Lebensmittel category Transaction here
+              5, //TODO: insert overall Amount of Lebensmittel category Transaction here
           title: AppString.mobility,
         ),
         iconAsset: AssetImport.mobility),
@@ -97,7 +97,7 @@ class _DonutChartState extends State<DonutChart> {
         sectionData: PieChartSectionData(
           color: CustomColor.entertainment,
           value:
-              70, //TODO: insert overall Amount of Lebensmittel category Transaction here
+              0, //TODO: insert overall Amount of Lebensmittel category Transaction here
           title: AppString.entertainment,
         ),
         iconAsset: AssetImport.entertainment),
@@ -105,7 +105,7 @@ class _DonutChartState extends State<DonutChart> {
         sectionData: PieChartSectionData(
           color: CustomColor.geschenk,
           value:
-              70, //TODO: insert overall Amount of Lebensmittel category Transaction here
+              00, //TODO: insert overall Amount of Lebensmittel category Transaction here
           title: AppString.geschenke,
         ),
         iconAsset: AssetImport.gift),
@@ -125,14 +125,14 @@ class _DonutChartState extends State<DonutChart> {
           color: CustomColor.gehalt,
           value:
               70, //TODO: insert overall Amount of Lebensmittel category Transaction here
-          title: AppString.unterkunft,
+          title: AppString.workIncome,
         ),
         iconAsset: AssetImport.gehalt),
     ChartSectionData(
         sectionData: PieChartSectionData(
           color: CustomColor.geschenk,
           value:
-              70, //TODO: insert overall Amount of Lebensmittel category Transaction here
+              10, //TODO: insert overall Amount of Lebensmittel category Transaction here
           title: AppString.geschenke,
         ),
         iconAsset: AssetImport.gift),
@@ -143,17 +143,18 @@ class _DonutChartState extends State<DonutChart> {
               70, //TODO: insert overall Amount of Lebensmittel category Transaction here
           title: AppString.sonstiges,
         ),
-        iconAsset: AssetImport.shoppingCart),
+        iconAsset: AssetImport.other),
   ];
 
   // Generate sections for the pie chart
   List<PieChartSectionData> showingSections() {
-    // if Expense Dropdown is selcted, the expenseSection will be displayed,
+    // if Expense Dropdown is selected, the expenseSection will be displayed,
     // if Income Dropdown is selected, incomeSection will be displayed
     final sections =
         widget.selectedOption == 'Ausgaben' ? expenseSections : incomeSections;
     return List.generate(sections.length, (i) {
-      if (i >= sections.length) return PieChartSectionData();
+      if (i >= sections.length || sections[i].sectionData.value == 0)
+        return PieChartSectionData(value: 0);
       final isTouched = i == selectedIndex;
       // Set opacity to 50% for non-selected sections when a section is selected
       final opacity = selectedIndex == null || isTouched ? 1.0 : 0.5;
@@ -165,7 +166,9 @@ class _DonutChartState extends State<DonutChart> {
         // Increase radius of the selected section
         radius: isTouched ? 70 : 60,
       );
-    });
+    })
+        .where((section) => section.value > 0)
+        .toList(); // Only include sections with value > 0
   }
 
   @override
@@ -223,15 +226,18 @@ class _DonutChartState extends State<DonutChart> {
         Column(
           children: selectedIndex != null && selectedIndex! < sections.length
               ? [
-                  CategoryTile(
-                    color: sections[selectedIndex!].sectionData.color,
-                    title: sections[selectedIndex!].sectionData.title,
-                    percentage: sections[selectedIndex!].sectionData.value,
-                    icon:
-                        sections[selectedIndex!].iconAsset,
-                  )
+                  if (sections[selectedIndex!].sectionData.value > 0)
+                    CategoryTile(
+                      color: sections[selectedIndex!].sectionData.color,
+                      title: sections[selectedIndex!].sectionData.title,
+                      percentage: sections[selectedIndex!].sectionData.value,
+                      icon: sections[selectedIndex!].iconAsset,
+                    )
                 ]
               : sections
+                  .where((section) =>
+                      section.sectionData.value >
+                      0) // Only include sections with value > 0
                   .map((section) => Padding(
                       padding: const EdgeInsets.symmetric(vertical: 4.0),
                       child: CategoryTile(
