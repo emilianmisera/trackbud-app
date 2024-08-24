@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:track_bud/services/invite_service.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfield_widget.dart';
+import 'package:share/share.dart';
 
 class YourFriendsScreen extends StatefulWidget {
   const YourFriendsScreen({super.key});
@@ -13,7 +15,20 @@ class YourFriendsScreen extends StatefulWidget {
 class _YourFriendsScreenState extends State<YourFriendsScreen> {
   final TextEditingController _searchController = TextEditingController();
   final TextEditingController _emailFriendController = TextEditingController();
+  final InviteService _inviteService = InviteService();
   List friendList = [];
+
+  Future<void> _shareInviteLink() async {
+    try {
+      final userId =
+          "Aktuelle Nutzer-ID hier einfügen"; // ID des aktuellen Nutzers
+      String inviteLink = await _inviteService.createInviteLink(userId);
+      Share.share(
+          'Füge mich zu deinen Freunden in TrackBud hinzu: $inviteLink');
+    } catch (e) {
+      print("Fehler beim Teilen des Links: $e");
+    }
+  }
 
   void _searchFriend(String query) {
     //TODO: add search-function
@@ -33,7 +48,10 @@ class _YourFriendsScreenState extends State<YourFriendsScreen> {
                     BorderRadius.circular(Constants.buttonBorderRadius),
               ),
               child: Padding(
-                padding: const EdgeInsets.only(left: CustomPadding.defaultSpace, right: CustomPadding.defaultSpace, bottom: 50),
+                padding: const EdgeInsets.only(
+                    left: CustomPadding.defaultSpace,
+                    right: CustomPadding.defaultSpace,
+                    bottom: 50),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -50,11 +68,21 @@ class _YourFriendsScreenState extends State<YourFriendsScreen> {
                       ),
                     ),
                     SizedBox(height: CustomPadding.defaultSpace),
-                    Text(AppString.addFriend, style: CustomTextStyle.regularStyleMedium,),
+                    Text(
+                      AppString.addFriend,
+                      style: CustomTextStyle.regularStyleMedium,
+                    ),
                     SizedBox(height: CustomPadding.mediumSpace),
-                    CustomTextfield(name: AppString.email, hintText: AppString.hintEmail, controller: _emailFriendController),
+                    CustomTextfield(
+                        name: AppString.email,
+                        hintText: AppString.hintEmail,
+                        controller: _emailFriendController),
                     Spacer(),
-                    ElevatedButton(onPressed: (){Navigator.pop(context);}, child: Text(AppString.addFriend)),
+                    ElevatedButton(
+                        onPressed: () {
+                          _shareInviteLink();
+                        },
+                        child: Text(AppString.addFriend)),
                   ],
                 ),
               ),
