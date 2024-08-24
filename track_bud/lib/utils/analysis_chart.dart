@@ -176,6 +176,18 @@ class _DonutChartState extends State<DonutChart> {
     final sections =
         widget.selectedOption == 'Ausgaben' ? expenseSections : incomeSections;
 
+    // update the selectedIndex
+  void _updateSelectedIndex(int index) {
+    setState(() {
+      if (selectedIndex == index) {
+        selectedIndex = null; // Deselect if already selected
+      } else {
+        selectedIndex = index; // Select the touched section
+      }
+    });
+  }
+
+
     return Column(
       children: [
         // Pie chart
@@ -223,35 +235,38 @@ class _DonutChartState extends State<DonutChart> {
           height: CustomPadding.defaultSpace,
         ),
         // Category names display
-        Column(
-          children: selectedIndex != null && selectedIndex! < sections.length
-              ? [
-                  if (sections[selectedIndex!].sectionData.value > 0)
-                    CategoryTile(
-                      color: sections[selectedIndex!].sectionData.color,
-                      title: sections[selectedIndex!].sectionData.title,
-                      percentage: sections[selectedIndex!].sectionData.value,
-                      icon: sections[selectedIndex!].iconAsset,
-                    )
-                ]
-              : sections
-                  .where((section) =>
-                      section.sectionData.value >
-                      0) // Only include sections with value > 0
-                  .map((section) => Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 4.0),
-                      child: CategoryTile(
-                        color: section.sectionData.color,
-                        title: section.sectionData.title,
-                        percentage: section.sectionData.value,
-                        icon: section.iconAsset,
-                      )))
-                  .toList(),
-        ),
-      ],
-    );
-  }
-}
+        // Category names display
+      Column(
+        children: selectedIndex != null && selectedIndex! < sections.length
+          ? [
+              if (sections[selectedIndex!].sectionData.value > 0)
+                CategoryTile(
+                  color: sections[selectedIndex!].sectionData.color,
+                  title: sections[selectedIndex!].sectionData.title,
+                  percentage: sections[selectedIndex!].sectionData.value,
+                  icon: sections[selectedIndex!].iconAsset,
+                  onTap: () => _updateSelectedIndex(selectedIndex!),
+                )
+            ]
+          : sections
+              .where((section) => section.sectionData.value > 0) // Only include sections with value > 0
+              .map((section) {
+                final index = sections.indexOf(section);
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 4.0),
+                  child: CategoryTile(
+                    color: section.sectionData.color,
+                    title: section.sectionData.title,
+                    percentage: section.sectionData.value,
+                    icon: section.iconAsset,
+                    onTap: () => _updateSelectedIndex(index),
+                  ),
+                );
+              }).toList(),
+      ),
+    ],
+  );
+}}
 
 class ChartSectionData {
   final PieChartSectionData sectionData;
@@ -273,60 +288,69 @@ class CategoryTile extends StatelessWidget {
   final String title;
   final double percentage;
   final String icon;
-  const CategoryTile(
-      {super.key,
-      required this.color,
-      required this.title,
-      required this.percentage,
-      required this.icon});
+  final VoidCallback onTap;
+
+  const CategoryTile({
+    super.key,
+    required this.color,
+    required this.title,
+    required this.percentage,
+    required this.icon,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery.sizeOf(context).width,
-      decoration: BoxDecoration(
+    return GestureDetector( // Wrap the Container with GestureDetector to handle taps
+      onTap: onTap,
+      child: Container(
+        width: MediaQuery.sizeOf(context).width,
+        decoration: BoxDecoration(
           color: CustomColor.white,
-          borderRadius: BorderRadius.circular(Constants.buttonBorderRadius)),
-      child: ListTile(
-        // Icon
-        leading: CategoryIcon(
+          borderRadius: BorderRadius.circular(Constants.buttonBorderRadius)
+        ),
+        child: ListTile(
+          // Icon
+          leading: CategoryIcon(
             color: color,
             iconWidget: Image.asset(
               icon,
               width: 25,
               height: 25,
               fit: BoxFit.scaleDown,
-            )), //TODO: Add Icons
-        // Title of Transaction
-        title: Text(
-          title,
-          style: CustomTextStyle.regularStyleMedium,
+            )
+          ),
+          // Title of Transaction
+          title: Text(
+            title,
+            style: CustomTextStyle.regularStyleMedium,
+          ),
+          // Timestamp
+          subtitle: Text(
+            '$percentage%',
+            style: CustomTextStyle.hintStyleDefault
+                .copyWith(fontSize: CustomTextStyle.fontSizeHint),
+          ),
+          // Amount
+          trailing: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Text(
+                '100€', //TODO: implement total Amount of category expense/income
+                style: CustomTextStyle.regularStyleMedium,
+              ),
+              SizedBox(
+                height: 8,
+              ),
+              Text(
+                '- Transaktionen', //TODO: implement length of list of amount of transactions of specific categroy
+                style: CustomTextStyle.hintStyleDefault
+                    .copyWith(fontSize: CustomTextStyle.fontSizeHint),
+              ),
+            ],
+          ),
+          minVerticalPadding: CustomPadding.defaultSpace,
         ),
-        // Timestamp
-        subtitle: Text(
-          '$percentage%',
-          style: CustomTextStyle.hintStyleDefault
-              .copyWith(fontSize: CustomTextStyle.fontSizeHint),
-        ),
-        // Amount
-        trailing: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            Text(
-              '100€', //TODO: implement total Amount of category expense/income
-              style: CustomTextStyle.regularStyleMedium,
-            ),
-            SizedBox(
-              height: 8,
-            ),
-            Text(
-              '- Transaktionen', //TODO: implement length of list of amount of transactions of specific categroy
-              style: CustomTextStyle.hintStyleDefault
-                  .copyWith(fontSize: CustomTextStyle.fontSizeHint),
-            ),
-          ],
-        ),
-        minVerticalPadding: CustomPadding.defaultSpace,
       ),
     );
   }
