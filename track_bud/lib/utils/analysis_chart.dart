@@ -113,10 +113,10 @@ class _DonutChartState extends State<DonutChart> {
         sectionData: PieChartSectionData(
           color: CustomColor.sonstiges,
           value:
-              70, //TODO: insert overall Amount of Lebensmittel category Transaction here
+              0, //TODO: insert overall Amount of Lebensmittel category Transaction here
           title: AppString.sonstiges,
         ),
-        iconAsset: AssetImport.shoppingCart),
+        iconAsset: AssetImport.other),
   ];
 
   final List<ChartSectionData> incomeSections = [
