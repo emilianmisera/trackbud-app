@@ -282,41 +282,6 @@ class CustomCategory extends StatelessWidget {
   }
 }
 
-// Widget for individual category items
-class OtherCategory extends StatelessWidget {
-  final Color color;
-  final String icon;
-  final String categoryName;
-
-  const OtherCategory({
-    super.key,
-    required this.color,
-    required this.icon,
-    required this.categoryName,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(
-        horizontal: CustomPadding.categoryWidthSpace,
-        vertical: CustomPadding.categoryHeightSpace,
-      ),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(7),
-        color: color,
-      ),
-      child: Row(
-        children: [
-          SvgPicture.asset(icon), // Display category icon
-          SizedBox(width: CustomPadding.smallSpace),
-          Text(categoryName), // Display category name
-        ],
-      ),
-    );
-  }
-}
-
 // Widget to display a horizontal list of expense categories
 class CategoriesExpense extends StatefulWidget {
   final Function(String) onCategorySelected;
@@ -364,10 +329,10 @@ class _CategoriesExpenseState extends State<CategoriesExpense> {
         color: CustomColor.geschenk,
         icon: AssetImport.gift,
         categoryName: AppString.geschenke),
-    OtherCategory(
+    CustomCategory(
         color: CustomColor.sonstiges,
-        icon: AssetImport.info,
-        categoryName: AppString.sonstiges)
+        icon: AssetImport.other,
+        categoryName: AppString.sonstiges),
   ];
 
   @override
@@ -424,10 +389,10 @@ class _CategoriesIncomeState extends State<CategoriesIncome> {
         color: CustomColor.geschenk,
         icon: AssetImport.gift,
         categoryName: AppString.geschenke),
-    OtherCategory(
+    CustomCategory(
         color: CustomColor.sonstiges,
-        icon: AssetImport.info,
-        categoryName: AppString.sonstiges)
+        icon: AssetImport.other,
+        categoryName: AppString.sonstiges),
   ];
 
   @override

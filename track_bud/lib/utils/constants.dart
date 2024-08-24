@@ -183,7 +183,7 @@ class AssetImport {
 
   //categories
   static const String shoppingCart = 'assets/categories/shoopingCart.png';
-  static const String drogerie = 'assets/categories/shopping.png';
+  static const String drogerie = 'assets/categories/drogerie.png';
   static const String mobility = 'assets/categories/car.png';
   static const String entertainment = 'assets/categories/entertainment.png';
   static const String gift = 'assets/categories/gift.png';

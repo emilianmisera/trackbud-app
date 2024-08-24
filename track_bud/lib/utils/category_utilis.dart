@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:track_bud/utils/constants.dart';
 
-// Methode, um die Farbe basierend auf der Kategorie zu erhalten
+// get color based on category
 Color getCategoryColor(String category) {
   switch (category) {
     case 'Lebensmittel':
@@ -28,7 +27,7 @@ Color getCategoryColor(String category) {
   }
 }
 
-// Methode, um das Icon basierend auf der Kategorie zu erhalten
+// get icon based on category
 Widget getCategoryIcon(String category) {
   switch (category) {
     case 'Lebensmittel':
@@ -87,9 +86,16 @@ Widget getCategoryIcon(String category) {
         height: 25,
         fit: BoxFit.scaleDown,
       );
+    case 'Sonstiges':
+      return Image.asset(
+        AssetImport.other,
+        width: 25,
+        height: 25,
+        fit: BoxFit.scaleDown,
+      );
     default:
       return Icon(
-        Icons.category,
+        Icons.error,
       );
   }
 }
