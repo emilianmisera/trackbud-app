@@ -271,7 +271,6 @@ class _AddTransactionState extends State<AddTransaction> {
                     style: CustomTextStyle.titleStyleMedium.copyWith(
                         fontWeight: CustomTextStyle.fontWeightDefault),
                   ),
-                  type: TextInputType.numberWithOptions(),
                 ),
                 SizedBox(
                   width: CustomPadding.defaultSpace,
@@ -444,7 +443,6 @@ class _AddSplitState extends State<AddSplit> {
                   style: CustomTextStyle.titleStyleMedium
                       .copyWith(fontWeight: CustomTextStyle.fontWeightDefault),
                 ),
-                type: TextInputType.numberWithOptions(),
               ),
               SizedBox(
                 width: CustomPadding.defaultSpace,
