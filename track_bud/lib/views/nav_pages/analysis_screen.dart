@@ -87,12 +87,13 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
                       amount: 'amount',
                       color: _infoTileColor,
                       width: MediaQuery.sizeOf(context).width / 2 -
-                          Constants.infoTileSpace),
+                          Constants.infoTileSpace,
+                  ),
                   CustomDropDown(
                     list: ['Ausgaben', 'Einkommen'],
                     width: MediaQuery.sizeOf(context).width / 2 -
                         Constants.infoTileSpace,
-                    height: 105,
+                    height: 88,
                     onChanged: (value) {
                       setState(() {
                         _selectedOption = value;
@@ -104,10 +105,10 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
               SizedBox(
                 height: CustomPadding.defaultSpace,
               ),
-              ChartTile(
-                chartChild: ChartTile(
+              
+                ChartTile(
                     chartChild: DonutChart(selectedOption: _selectedOption)),
-              ),
+              
               SizedBox(
                 height: CustomPadding.defaultSpace,
               ),

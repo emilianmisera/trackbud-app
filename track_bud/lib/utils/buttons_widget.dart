@@ -100,7 +100,7 @@ class _CustomDropDownState extends State<CustomDropDown> {
           style: CustomTextStyle.regularStyleMedium,
           dropdownStyleData: DropdownStyleData(
             maxHeight: 200,
-            width: widget.dropdownWidth ?? 200,
+            width: widget.dropdownWidth ?? 150,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(Constants.buttonBorderRadius),
               color: CustomColor.white,
