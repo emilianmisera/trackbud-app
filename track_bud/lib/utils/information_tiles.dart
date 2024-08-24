@@ -94,18 +94,21 @@ class _TransactionTileState extends State<TransactionTile> {
   // Method to open a popup window with transaction details
   Future _openTransaction() => showDialog(
         context: context,
-        builder: (context) => AlertDialog(
-          content: TransactionDetail(
-            title: widget.title,
-            amount: widget.amount,
-            date: widget.date,
-            category: widget.category,
-            transactionId: widget.transactionId,
-            notes: widget.notes,
-            recurrenceType: widget.recurrenceType,
-            type: widget.type,
-            onDelete: widget.onDelete,
-            onEdit: widget.onEdit,
+        builder: (context) => Dialog(
+          child: Padding(
+            padding: const EdgeInsets.all(CustomPadding.defaultSpace),
+            child: TransactionDetail(
+              title: widget.title,
+              amount: widget.amount,
+              date: widget.date,
+              category: widget.category,
+              transactionId: widget.transactionId,
+              notes: widget.notes,
+              recurrenceType: widget.recurrenceType,
+              type: widget.type,
+              onDelete: widget.onDelete,
+              onEdit: widget.onEdit,
+            ),
           ),
           insetPadding:
               EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace),
