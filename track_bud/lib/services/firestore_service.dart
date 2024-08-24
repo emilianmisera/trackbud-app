@@ -118,4 +118,81 @@ class FirestoreService {
       'pendingNewEmail': FieldValue.delete(),
     });
   }
+
+  // add Friend
+  Future<void> addFriend(String currentUserId, String friendUserId) async {
+    try {
+      // Lade den aktuellen Benutzer
+      DocumentSnapshot currentUserDoc =
+          await _db.collection('users').doc(currentUserId).get();
+
+      if (currentUserDoc.exists) {
+        List<String> currentFriends =
+            List<String>.from(currentUserDoc.get('friends'));
+
+        // Überprüfe, ob die Freundschaft bereits besteht
+        if (!currentFriends.contains(friendUserId)) {
+          currentFriends.add(friendUserId);
+
+          // Aktualisiere die Freundesliste des aktuellen Benutzers in Firestore
+          await _db.collection('users').doc(currentUserId).update({
+            'friends': currentFriends,
+          });
+
+          // Wiederhole den Prozess, um die Freundesliste des eingeladenen Benutzers zu aktualisieren
+          DocumentSnapshot friendUserDoc =
+              await _db.collection('users').doc(friendUserId).get();
+
+          if (friendUserDoc.exists) {
+            List<String> friendFriends =
+                List<String>.from(friendUserDoc.get('friends'));
+
+            if (!friendFriends.contains(currentUserId)) {
+              friendFriends.add(currentUserId);
+
+              await _db.collection('users').doc(friendUserId).update({
+                'friends': friendFriends,
+              });
+            }
+          }
+        } else {
+          print("Freundschaft besteht bereits.");
+        }
+      } else {
+        print("Benutzer nicht gefunden.");
+      }
+    } catch (e) {
+      print("Fehler beim Hinzufügen des Freundes: $e");
+    }
+  }
+
+  Future<List<UserModel>> getFriends(String userId) async {
+    try {
+      DocumentSnapshot currentUserDoc =
+          await _db.collection('users').doc(userId).get();
+
+      if (currentUserDoc.exists) {
+        List<String> friendsIds =
+            List<String>.from(currentUserDoc.get('friends'));
+        List<UserModel> friends = [];
+
+        for (String friendId in friendsIds) {
+          DocumentSnapshot friendDoc =
+              await _db.collection('users').doc(friendId).get();
+          if (friendDoc.exists) {
+            friends.add(
+                UserModel.fromMap(friendDoc.data() as Map<String, dynamic>));
+          }
+        }
+
+        return friends;
+      } else {
+        print("Benutzer nicht gefunden.");
+        return [];
+      }
+    } catch (e) {
+      print("Fehler beim Abrufen der Freunde: $e");
+      return [];
+    }
+  }
 }
