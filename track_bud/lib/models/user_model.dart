@@ -30,7 +30,7 @@ class UserModel {
       bankAccountBalance: map['bankAccountBalance'].toDouble(),
       monthlySpendingGoal: map['monthlySpendingGoal'].toDouble(),
       settings: jsonDecode(map['settings']),
-      friends: List<String>.from(jsonDecode(map['friends'])),
+      friends: (map['friends'] as List<dynamic>?)?.cast<String>() ?? [],
     );
   }
 
@@ -43,7 +43,7 @@ class UserModel {
       'bankAccountBalance': bankAccountBalance,
       'monthlySpendingGoal': monthlySpendingGoal,
       'settings': jsonEncode(settings),
-      'friends': jsonEncode(friends),
+      'friends': friends,
     };
   }
 }
