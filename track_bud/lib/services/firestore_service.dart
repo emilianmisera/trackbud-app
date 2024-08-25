@@ -122,39 +122,37 @@ class FirestoreService {
   // add Friend
   Future<void> addFriend(String currentUserId, String friendUserId) async {
     try {
-      // Lade den aktuellen Benutzer
       DocumentSnapshot currentUserDoc =
           await _db.collection('users').doc(currentUserId).get();
 
       if (currentUserDoc.exists) {
         List<String> currentFriends =
-            List<String>.from(currentUserDoc.get('friends'));
+            (currentUserDoc.get('friends') as List<dynamic>?)?.cast<String>() ??
+                [];
 
-        // Überprüfe, ob die Freundschaft bereits besteht
         if (!currentFriends.contains(friendUserId)) {
           currentFriends.add(friendUserId);
 
-          // Aktualisiere die Freundesliste des aktuellen Benutzers in Firestore
           await _db.collection('users').doc(currentUserId).update({
             'friends': currentFriends,
           });
 
-          // Wiederhole den Prozess, um die Freundesliste des eingeladenen Benutzers zu aktualisieren
+          // Aktualisiere auch die Freundesliste des anderen Benutzers
           DocumentSnapshot friendUserDoc =
               await _db.collection('users').doc(friendUserId).get();
-
           if (friendUserDoc.exists) {
             List<String> friendFriends =
-                List<String>.from(friendUserDoc.get('friends'));
-
+                (friendUserDoc.get('friends') as List<dynamic>?)
+                        ?.cast<String>() ??
+                    [];
             if (!friendFriends.contains(currentUserId)) {
               friendFriends.add(currentUserId);
-
               await _db.collection('users').doc(friendUserId).update({
                 'friends': friendFriends,
               });
             }
           }
+          print("Freund erfolgreich hinzugefügt");
         } else {
           print("Freundschaft besteht bereits.");
         }
@@ -163,6 +161,7 @@ class FirestoreService {
       }
     } catch (e) {
       print("Fehler beim Hinzufügen des Freundes: $e");
+      throw e;
     }
   }
 
