@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:track_bud/services/firestore_service.dart';
@@ -51,23 +52,27 @@ class _TrackBudState extends State<TrackBud> {
     });
   }
 
+  String getCurrentUserId() {
+    User? currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser != null) {
+      return currentUser.uid; // Die eindeutige userId des aktuellen Benutzers
+    } else {
+      throw Exception('Kein Benutzer ist angemeldet');
+    }
+  }
+
   void _handleDynamicLink(Uri deepLink) {
     final String? invitedUserId = deepLink.queryParameters['userId'];
 
     if (invitedUserId != null) {
-      // Hier solltest du auch die currentUserId kennen
-      String currentUserId =
-          "user-id-here"; // Dies solltest du dynamisch abrufen, z.B. vom aktuell eingeloggten User
-      _addFriend(currentUserId, invitedUserId); // Methode aufrufen
+      String currentUserId = getCurrentUserId();
+      _addFriend(currentUserId, invitedUserId);
     }
   }
 
   Future<void> _addFriend(String currentUserId, String invitedUserId) async {
     try {
       await _firestoreService.addFriend(currentUserId, invitedUserId);
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Freund erfolgreich hinzugefügt!')),
-      );
     } catch (e) {
       print('Fehler beim Hinzufügen des Freundes: $e');
       ScaffoldMessenger.of(context).showSnackBar(

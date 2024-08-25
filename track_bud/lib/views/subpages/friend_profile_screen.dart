@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:track_bud/models/user_model.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/friends_widget.dart';
 import 'package:track_bud/utils/strings.dart';
 
 class FriendProfileScreen extends StatefulWidget {
-  final String friendName;
-  const FriendProfileScreen({super.key, required this.friendName});
+  final UserModel friend;
+  const FriendProfileScreen({super.key, required this.friend});
 
   @override
   State<FriendProfileScreen> createState() => _FriendProfileScreenState();
@@ -17,7 +18,7 @@ class _FriendProfileScreenState extends State<FriendProfileScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          widget.friendName,
+          widget.friend.name,
           style: CustomTextStyle.regularStyleMedium,
         ),
       ),
@@ -37,15 +38,23 @@ class _FriendProfileScreenState extends State<FriendProfileScreen> {
                   child: Container(
                     width: Constants.profilePictureAccountEdit,
                     height: Constants.profilePictureAccountEdit,
-                    color: Colors.red,
+                    child: widget.friend.profilePictureUrl != ""
+                        ? Image.network(widget.friend.profilePictureUrl!,
+                            fit: BoxFit.cover)
+                        : Icon(Icons.person, color: Colors.grey),
                   ),
                 ),
               ),
               SizedBox(height: CustomPadding.bigSpace),
               FriendProfileDetails(),
               SizedBox(height: CustomPadding.defaultSpace),
-              Text(AppString.history, style: CustomTextStyle.regularStyleMedium,),
-              SizedBox(height: CustomPadding.mediumSpace,),
+              Text(
+                AppString.history,
+                style: CustomTextStyle.regularStyleMedium,
+              ),
+              SizedBox(
+                height: CustomPadding.mediumSpace,
+              ),
             ],
           ),
         ),
@@ -59,15 +68,13 @@ class _FriendProfileScreenState extends State<FriendProfileScreen> {
           right: CustomPadding.defaultSpace, // Right margin
         ),
         child: ElevatedButton(
-            // Enable button only if profile has changed
-            onPressed: (){},
-            style: ElevatedButton.styleFrom(
-              // Set button color based on whether profile has changed
+          // Enable button only if profile has changed
+          onPressed: () {},
+          style: ElevatedButton.styleFrom(
               disabledBackgroundColor: CustomColor.bluePrimary.withOpacity(0.5),
-              backgroundColor: CustomColor.bluePrimary
-            ),
-            child: Text(AppString.payOffDebts),
-          ),
+              backgroundColor: CustomColor.bluePrimary),
+          child: Text(AppString.payOffDebts),
+        ),
       ),
     );
   }

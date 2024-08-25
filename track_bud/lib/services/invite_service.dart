@@ -8,10 +8,10 @@ class InviteService {
         uriPrefix: 'https://trackbud.page.link', // Prüfe deine URI-Präfix
         link: Uri.parse('https://trackbud.com/friend_invite?userId=$userId'),
         androidParameters: AndroidParameters(
-          packageName: 'com.example.track_bud', // Deine Android-Paketname
+          packageName: 'com.example.track_bud',
         ),
         iosParameters: IOSParameters(
-          bundleId: 'com.example.trackBud', // Deine iOS-Bundle-ID
+          bundleId: 'com.example.trackBud',
         ),
       );
 
@@ -21,7 +21,7 @@ class InviteService {
       return dynamicLink.shortUrl.toString();
     } catch (e) {
       print("Fehler beim Erstellen des Links: $e");
-      throw e; // Fehler weitergeben, um den Fehler zu sehen
+      throw e;
     }
   }
 }
