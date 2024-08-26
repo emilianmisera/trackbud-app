@@ -22,10 +22,14 @@ class ColorTheme {
             const Size(double.infinity, Constants.height),
           ),
           backgroundColor: WidgetStateProperty.resolveWith<Color>(
-            (states) {
-              return CustomColor.bluePrimary; // when not pressing
-            },
-          ),
+      (states) {
+        if (states.contains(WidgetState.disabled)) {
+          // Return the color with 50% opacity when the button is disabled
+          return CustomColor.bluePrimary.withOpacity(0.5);
+        }
+        return CustomColor.bluePrimary; // Default color when not disabled
+      },
+    ),
           shape: WidgetStateProperty.resolveWith<OutlinedBorder>(
             (_) {
               return const RoundedRectangleBorder(
@@ -45,9 +49,15 @@ class ColorTheme {
           textStyle: WidgetStateProperty.resolveWith(
             (states) => (CustomTextStyle.buttonTextStyle),
           ),
-          foregroundColor:
-              WidgetStateProperty.all<Color>(CustomColor.white) // Text Color
-          ),
+          foregroundColor: WidgetStateProperty.resolveWith<Color>(
+      (states) {
+        if (states.contains(WidgetState.disabled)) {
+          // Return the text color with 50% opacity when the button is disabled
+          return CustomColor.white.withOpacity(0.5);
+        }
+        return CustomColor.white; // Default text color
+      },
+          ),),
     ),
     outlinedButtonTheme: OutlinedButtonThemeData(
       //style for outlinedButton

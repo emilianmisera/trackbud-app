@@ -28,6 +28,9 @@ class DynamicBottomSheet extends StatelessWidget {
   final String buttonText;
   final VoidCallback onButtonPressed;
 
+  final bool isButtonEnabled;
+  
+
   const DynamicBottomSheet({
     Key? key,
     required this.child,
@@ -35,7 +38,7 @@ class DynamicBottomSheet extends StatelessWidget {
     this.minChildSize = 0.3,
     this.maxChildSize = 0.95,
     required this.buttonText,
-    required this.onButtonPressed,
+    required this.onButtonPressed, required this.isButtonEnabled,
   }) : super(key: key);
 
   @override
@@ -81,9 +84,7 @@ class DynamicBottomSheet extends StatelessWidget {
                     bottom: MediaQuery.sizeOf(context).height *
                         CustomPadding.bottomSpace),
                 child: ElevatedButton(
-                    onPressed: () {
-                      onButtonPressed();
-                    },
+                    onPressed: isButtonEnabled ? onButtonPressed : null, 
                     child: Text(buttonText)),
               )
             ],
@@ -114,10 +115,38 @@ class _AddTransactionState extends State<AddTransaction> {
   String? _selectedRecurrence = 'einmalig';
   DateTime _selectedDateTime = DateTime.now();
 
-  // Updates the selected transaction type
+   bool _isFormValid = false; // New property to track form validity
+
+   void _validateForm() {
+    setState(() {
+      _isFormValid = _titleController.text.isNotEmpty &&
+          _amountController.text.isNotEmpty &&
+          _selectedCategory != null;
+    });
+  }
+
+
+  @override
+  void initState() {
+    super.initState();
+    // Add listeners to validate form when input changes
+    _titleController.addListener(_validateForm);
+    _amountController.addListener(_validateForm);
+  }
+
+  @override
+  void dispose() {
+    // Remove listeners
+    _titleController.removeListener(_validateForm);
+    _amountController.removeListener(_validateForm);
+    super.dispose();
+  }
+
+  // // Updates the selected transaction type
   void _onCategorySelected(String category) {
     setState(() {
       _selectedCategory = category;
+      _validateForm(); // Validate form after category selection
     });
   }
 
@@ -216,6 +245,7 @@ class _AddTransactionState extends State<AddTransaction> {
     final keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
 
     return DynamicBottomSheet(
+      isButtonEnabled: _isFormValid,
       buttonText: AppString.addTransaction,
       initialChildSize: 0.62,
       maxChildSize: 0.95,
@@ -263,6 +293,7 @@ class _AddTransactionState extends State<AddTransaction> {
                 // Amount text field
                 CustomTextfield(
                   name: AppString.amount,
+                  type: TextInputType.numberWithOptions(decimal: true),
                   hintText: AppString.lines,
                   controller: _amountController,
                   width: MediaQuery.sizeOf(context).width / 3,
@@ -376,11 +407,39 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
   SplitMethod _selectedSplitMethod =
       SplitMethod.equal; // equal Split is selected as default
   double _inputNumber = 0.00; // input Number
+  bool _isFormValid = false;
+
+  void _validateForm() {
+    setState(() {
+      _isFormValid = _titleController.text.isNotEmpty &&
+          _amountController.text.isNotEmpty &&
+          _selectedCategory != null;
+    });
+  }
 
   @override
   void initState() {
     super.initState();
-    _amountController.addListener(_onInputChanged); // change input number
+    _amountController.addListener(_onInputChanged);
+    
+    _titleController.addListener(_validateForm);
+    _amountController.addListener(_validateForm);
+  }
+
+  @override
+  void dispose() {
+    // Remove listeners
+    _titleController.removeListener(_validateForm);
+    _amountController.removeListener(_validateForm);
+    super.dispose();
+  }
+
+  // Updates the selected transaction type
+  void _onCategorySelected(String category) {
+    setState(() {
+      _selectedCategory = category;
+      _validateForm(); // Validate form after category selection
+    });
   }
 
 // if you change amount, inputnumber will be updated
@@ -389,18 +448,13 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
       _inputNumber = double.tryParse(_amountController.text) ?? 0.0;
     });
   }
-  // Updates the selected transaction type
-  void _onCategorySelected(String category) {
-    setState(() {
-      _selectedCategory = category;
-    });
-  }
 
   Future<void> _saveNewSplit() async {}
 
   @override
   Widget build(BuildContext context) {
     return DynamicBottomSheet(
+      isButtonEnabled: _isFormValid,
       buttonText: AppString.addSplit,
       initialChildSize: 0.62,
       maxChildSize: 0.95,
@@ -435,6 +489,7 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
               // Amount text field
               CustomTextfield(
                 name: AppString.amount,
+                type: TextInputType.numberWithOptions(decimal: true),
                 hintText: AppString.lines,
                 controller: _amountController,
                 width: MediaQuery.sizeOf(context).width / 3,
@@ -546,25 +601,48 @@ class _AddGroupSplit extends State<AddGroupSplit> {
   String? _selectedCategory;
 
   SplitMethod _selectedSplitMethod =
-      SplitMethod.equal; // equal Split is selected as default
+      SplitMethod.equal; // equal Split is selected as default2
   double _inputNumber = 0.00; // input Number
+  bool _isFormValid = false;
 
-  @override
+void _validateForm() {
+    setState(() {
+      _isFormValid = _titleController.text.isNotEmpty &&
+          _amountController.text.isNotEmpty &&
+          _selectedCategory != null;
+    });
+  }
+
+@override
   void initState() {
     super.initState();
-    _amountController.addListener(_onInputChanged); // change input number
+    _amountController.addListener(_onInputChanged);
+
+    _titleController.addListener(_validateForm);
+    _amountController.addListener(_validateForm);
   }
+
+  @override
+  void dispose() {
+    // Remove listeners
+    _titleController.removeListener(_validateForm);
+    _amountController.removeListener(_validateForm);
+    super.dispose();
+  }
+
+  // Updates the selected transaction type
+  void _onCategorySelected(String category) {
+    setState(() {
+      _selectedCategory = category;
+      _validateForm(); // Validate form after category selection
+    });
+  }
+
 
 // if you change amount, inputnumber will be updated
   void _onInputChanged() {
     setState(() {
       _inputNumber = double.tryParse(_amountController.text) ?? 0.0;
-    });
-  }
-  // Updates the selected transaction type
-  void _onCategorySelected(String category) {
-    setState(() {
-      _selectedCategory = category;
     });
   }
 
@@ -573,6 +651,7 @@ class _AddGroupSplit extends State<AddGroupSplit> {
   @override
   Widget build(BuildContext context) {
     return DynamicBottomSheet(
+      isButtonEnabled: _isFormValid,
       buttonText: AppString.addSplit,
       initialChildSize: 0.62,
       maxChildSize: 0.95,
@@ -597,7 +676,8 @@ class _AddGroupSplit extends State<AddGroupSplit> {
           CustomTextfield(
               name: AppString.title,
               hintText: AppString.hintTitle,
-              controller: _titleController),
+              controller: _titleController,
+              ),
           SizedBox(
             height: CustomPadding.defaultSpace,
           ),
@@ -609,6 +689,7 @@ class _AddGroupSplit extends State<AddGroupSplit> {
                 name: AppString.amount,
                 hintText: AppString.lines,
                 controller: _amountController,
+                type: TextInputType.numberWithOptions(decimal: true),
                 width: MediaQuery.sizeOf(context).width / 3,
                 prefix: Text(
                   '-',
