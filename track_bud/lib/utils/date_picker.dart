@@ -161,3 +161,78 @@ class _DatePickerState extends State<DatePicker> {
     );
   }
 }
+
+
+
+class SelectTimeUnit extends StatefulWidget {
+  final Function(int?) onValueChanged; // callback
+  const SelectTimeUnit({
+    super.key,
+    required this.onValueChanged,
+  });
+
+  @override
+  State<SelectTimeUnit> createState() => _SelectTimeUnitState();
+}
+
+class _SelectTimeUnitState extends State<SelectTimeUnit> {
+  // _sliding: Tracks the currently selected segment (0 for expense, 1 for income)
+  int? _sliding = 1;
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomShadow(
+      child: Container(
+        width: double.infinity, // Ensures the control spans the full width
+        child: CupertinoSlidingSegmentedControl(
+          children: {
+            // Expense segment
+            0: Container(
+              // Sets the height of the segment relative to screen height
+              height: 28,
+              alignment: Alignment.center,
+              child: Text(AppString.day,
+                  // Applies different styles based on selection state
+                  style: _sliding == 0
+                      ? CustomTextStyle.slidingTimeUnitStyleSelected
+                      : CustomTextStyle.slidingTimeUnitStyleDefault),
+            ),
+            // Income segment
+            1: Container(
+              height: 28,
+              alignment: Alignment.center,
+              child: Text(AppString.week,
+                  style: _sliding == 1
+                      ? CustomTextStyle.slidingTimeUnitStyleSelected
+                      : CustomTextStyle.slidingTimeUnitStyleDefault),
+            ),
+            2: Container(
+              height: 28,
+              alignment: Alignment.center,
+              child: Text(AppString.month,
+                  style: _sliding == 2
+                      ? CustomTextStyle.slidingTimeUnitStyleSelected
+                      : CustomTextStyle.slidingTimeUnitStyleDefault),
+            ),
+            3: Container(
+              height: 28,
+              alignment: Alignment.center,
+              child: Text(AppString.year,
+                  style: _sliding == 3
+                      ? CustomTextStyle.slidingTimeUnitStyleSelected
+                      : CustomTextStyle.slidingTimeUnitStyleDefault),
+            ),
+          },
+          groupValue: _sliding, // Current selection
+          onValueChanged: (int? newValue) {
+            setState(() {
+              _sliding = newValue;
+            });
+            widget.onValueChanged(newValue); // Call the callback
+          },
+          backgroundColor: CustomColor.white, // Background color of the control
+        ),
+      ),
+    );
+  }
+}
