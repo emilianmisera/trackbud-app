@@ -12,6 +12,7 @@ import 'package:track_bud/utils/date_picker.dart';
 import 'package:track_bud/utils/split_widget.dart';
 import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfield_widget.dart';
+import 'package:track_bud/utils/textinput_format.dart';
 import 'package:uuid/uuid.dart';
 
 // Reusable DynamicBottomSheet component
@@ -302,6 +303,9 @@ class _AddTransactionState extends State<AddTransaction> {
                     style: CustomTextStyle.titleStyleMedium.copyWith(
                         fontWeight: CustomTextStyle.fontWeightDefault),
                   ),
+                  inputFormatters: [
+                    GermanNumericTextFormatter()
+                  ],
                 ),
                 SizedBox(
                   width: CustomPadding.defaultSpace,
@@ -400,8 +404,7 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
   int _currentSegment = 0; // 0 for user, 1 for friend
   final TextEditingController _titleController =
       TextEditingController(); // title input
-  final TextEditingController _amountController =
-      TextEditingController(); // amount input
+  final TextEditingController _amountController = TextEditingController(); // amount input
   String? _selectedCategory;
 
   SplitMethod _selectedSplitMethod =
@@ -498,6 +501,9 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
                   style: CustomTextStyle.titleStyleMedium
                       .copyWith(fontWeight: CustomTextStyle.fontWeightDefault),
                 ),
+                inputFormatters: [
+                    GermanNumericTextFormatter()
+                  ],
               ),
               SizedBox(
                 width: CustomPadding.defaultSpace,
@@ -696,6 +702,9 @@ void _validateForm() {
                   style: CustomTextStyle.titleStyleMedium
                       .copyWith(fontWeight: CustomTextStyle.fontWeightDefault),
                 ),
+                inputFormatters: [
+                    GermanNumericTextFormatter()
+                  ],
               ),
               SizedBox(
                 width: CustomPadding.defaultSpace,
