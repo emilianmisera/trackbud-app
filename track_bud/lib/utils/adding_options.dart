@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:track_bud/models/transaction_model.dart';
@@ -31,7 +30,7 @@ class DynamicBottomSheet extends StatelessWidget {
   const DynamicBottomSheet({
     Key? key,
     required this.child,
-    this.initialChildSize = 0.62,
+    this.initialChildSize = 0.76,
     this.minChildSize = 0.3,
     this.maxChildSize = 0.95,
     required this.buttonText,
@@ -150,11 +149,13 @@ class _AddTransactionState extends State<AddTransaction> {
     if (title.isEmpty) {
       title = _selectedCategory ?? 'Sonstiges';
     }
-    final double amount = double.tryParse(_amountController.text) ?? 0.0;
+    //replace ',' with '.' for correct representation of decimal numbers
+    final double amount =
+        double.tryParse(_amountController.text.replaceAll(',', '.')) ?? 0.0;
     final String type = _currentSegment == 0 ? 'expense' : 'income';
     final String category = _selectedCategory ?? 'none';
     final String notes = _noteController.text.trim();
-    final DateTime date = _selectedDateTime;// Verwende das ausgewählte Datum
+    final DateTime date = _selectedDateTime; // Verwende das ausgewählte Datum
     final String recurrenceType = _selectedRecurrence ?? 'einmalig';
 
     print('getTransactionsFromForm');
@@ -217,7 +218,7 @@ class _AddTransactionState extends State<AddTransaction> {
 
     return DynamicBottomSheet(
       buttonText: AppString.addTransaction,
-      initialChildSize: 0.62,
+      initialChildSize: 0.76,
       maxChildSize: 0.95,
       onButtonPressed: () async {
         await _saveNewTransaction();
@@ -263,7 +264,7 @@ class _AddTransactionState extends State<AddTransaction> {
                 // Amount text field
                 CustomTextfield(
                   name: AppString.amount,
-                  hintText: AppString.lines,
+                  hintText: '',
                   controller: _amountController,
                   width: MediaQuery.sizeOf(context).width / 3,
                   prefix: Text(
@@ -271,6 +272,7 @@ class _AddTransactionState extends State<AddTransaction> {
                     style: CustomTextStyle.titleStyleMedium.copyWith(
                         fontWeight: CustomTextStyle.fontWeightDefault),
                   ),
+                  type: TextInputType.numberWithOptions(),
                 ),
                 SizedBox(
                   width: CustomPadding.defaultSpace,
@@ -389,6 +391,7 @@ class _AddSplitState extends State<AddSplit> {
       _inputNumber = double.tryParse(_amountController.text) ?? 0.0;
     });
   }
+
   // Updates the selected transaction type
   void _onCategorySelected(String category) {
     setState(() {
@@ -402,7 +405,7 @@ class _AddSplitState extends State<AddSplit> {
   Widget build(BuildContext context) {
     return DynamicBottomSheet(
       buttonText: AppString.addSplit,
-      initialChildSize: 0.62,
+      initialChildSize: 0.76,
       maxChildSize: 0.95,
       onButtonPressed: () async {
         await _saveNewSplit();
@@ -435,7 +438,7 @@ class _AddSplitState extends State<AddSplit> {
               // Amount text field
               CustomTextfield(
                 name: AppString.amount,
-                hintText: AppString.lines,
+                hintText: '',
                 controller: _amountController,
                 width: MediaQuery.sizeOf(context).width / 3,
                 prefix: Text(
@@ -443,6 +446,7 @@ class _AddSplitState extends State<AddSplit> {
                   style: CustomTextStyle.titleStyleMedium
                       .copyWith(fontWeight: CustomTextStyle.fontWeightDefault),
                 ),
+                type: TextInputType.numberWithOptions(),
               ),
               SizedBox(
                 width: CustomPadding.defaultSpace,
