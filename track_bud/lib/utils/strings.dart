@@ -126,6 +126,10 @@ class AppString {
   static String balance = 'Kontostand';
   static String history = 'Verlauf';
   static String workIncome = 'Gehalt';
+  static String day = 'Tag';
+  static String month = 'Monat';
+  static String week = 'Woche';
+  static String year = 'Jahr';
 
   //edit transaction page
   static String editTransaction = "Transaktion bearbeiten";
