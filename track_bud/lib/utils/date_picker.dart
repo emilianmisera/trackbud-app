@@ -6,7 +6,8 @@ import 'package:track_bud/utils/textfield_widget.dart';
 
 class DatePicker extends StatefulWidget {
   final Function(DateTime) onDateTimeChanged;
-  const DatePicker({Key? key, required this.onDateTimeChanged}) : super(key: key);
+  const DatePicker({Key? key, required this.onDateTimeChanged})
+      : super(key: key);
 
   @override
   State<DatePicker> createState() => _DatePickerState();
@@ -33,9 +34,20 @@ class _DatePickerState extends State<DatePicker> {
     }
   }
 
-  void _updateDateTime(DateTime newDateTime) {
+  void _updateDate(DateTime newDate) {
     setState(() {
-      _dateTime = newDateTime;
+      //keep the time when date gets changed
+      _dateTime = DateTime(newDate.year, newDate.month, newDate.day,
+          _dateTime.hour, _dateTime.minute);
+    });
+    widget.onDateTimeChanged(_dateTime);
+  }
+
+  void _updateTime(DateTime newTime) {
+    setState(() {
+      // Behalte das aktuelle Datum bei, aber aktualisiere die Zeit
+      _dateTime = DateTime(_dateTime.year, _dateTime.month, _dateTime.day,
+          newTime.hour, newTime.minute);
     });
     widget.onDateTimeChanged(_dateTime);
   }
@@ -66,8 +78,8 @@ class _DatePickerState extends State<DatePicker> {
                       width: MediaQuery.sizeOf(context).width,
                       height: MediaQuery.sizeOf(context).height / 3,
                       child: CupertinoDatePicker(
-                        onDateTimeChanged: (DateTime newTime) {
-                          _updateDateTime(newTime);
+                        onDateTimeChanged: (DateTime newDate) {
+                          _updateDate(newDate);
                         },
                         backgroundColor: CustomColor.white,
                         initialDateTime: _dateTime,
@@ -120,7 +132,7 @@ class _DatePickerState extends State<DatePicker> {
                       ),
                       child: CupertinoDatePicker(
                         onDateTimeChanged: (DateTime newTime) {
-                          _updateDateTime(newTime);
+                          _updateTime(newTime);
                         },
                         backgroundColor: CustomColor.white,
                         initialDateTime: _dateTime,
