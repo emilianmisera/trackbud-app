@@ -18,7 +18,6 @@ class TransactionList extends StatelessWidget {
     }
 
     void _editTransaction(String transactionId) {
-      // Navigieren Sie zur EditTransactionScreen und übergeben Sie die transactionId
       Navigator.push(
         context,
         MaterialPageRoute(

@@ -159,18 +159,25 @@ class _SettingsScreenState extends State<SettingsScreen> {
     }
 
     try {
+      print("User ID: $userId");
+
       UserModel? localUser = await SQLiteService().getUserById(userId);
+      print("Local User: ${localUser?.toMap()}");
+
       await DependencyInjector.syncService.syncData(userId);
+      print("Synchronization complete");
 
       if (localUser != null) {
         setState(() {
           currentUserName = localUser.name;
           currentUserEmail = localUser.email;
-          _profileImageUrl =
-              localUser.profilePictureUrl; // Bild-URL aus Datenbank
+          _profileImageUrl = localUser.profilePictureUrl;
         });
       }
-    } catch (e) {
+    } catch (e, stackTrace) {
+      print("Fehler beim Laden der Nutzerdaten: $e");
+      print("Stacktrace: $stackTrace");
+
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Fehler beim Laden der Nutzerdaten: $e")),
       );
