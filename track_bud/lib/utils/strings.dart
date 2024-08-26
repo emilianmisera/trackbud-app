@@ -99,7 +99,7 @@ class AppString {
   //new transaction
   static String newTransaction = 'Neue Transaktion';
   static String expense = 'Ausgabe';
-  static String income = 'Eingabe';
+  static String income = 'Einnahme';
   static String title = 'Titel';
   static String hintTitle = 'Titel eingeben';
   static String amount = 'Betrag';
@@ -152,6 +152,7 @@ class AppString {
 
   //new split
   static String newSplit = 'Neuer Split';
+  static String newGroupSplit = 'Neuer Gruppensplit';
   static String debt = 'Schulde';
   static String giveOut = 'Ausgegeben';
   static String payedBy = 'Bezahlt von';
