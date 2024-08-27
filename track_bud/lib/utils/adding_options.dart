@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:track_bud/models/transaction_model.dart';
@@ -35,7 +34,7 @@ class DynamicBottomSheet extends StatelessWidget {
   const DynamicBottomSheet({
     Key? key,
     required this.child,
-    this.initialChildSize = 0.62,
+    this.initialChildSize = 0.76,
     this.minChildSize = 0.3,
     this.maxChildSize = 0.95,
     required this.buttonText,
@@ -187,6 +186,7 @@ class _AddTransactionState extends State<AddTransaction> {
     final String category = _selectedCategory ?? 'none';
     final String notes = _noteController.text.trim();
     final DateTime date = _selectedDateTime;
+
     final String recurrenceType = _selectedRecurrence ?? 'einmalig';
 
     return TransactionModel(
@@ -233,7 +233,7 @@ class _AddTransactionState extends State<AddTransaction> {
   Widget build(BuildContext context) {
     return DynamicBottomSheet(
       buttonText: AppString.addTransaction,
-      initialChildSize: 0.62,
+      initialChildSize: 0.76,
       maxChildSize: 0.95,
       isButtonEnabled: _isFormValid,
       onButtonPressed: () async {
@@ -274,7 +274,7 @@ class _AddTransactionState extends State<AddTransaction> {
                 // Amount text field
                 CustomTextfield(
                   name: AppString.amount,
-                  hintText: AppString.lines,
+                  hintText: '',
                   controller: _amountController,
                   width: MediaQuery.sizeOf(context).width / 3,
                   prefix: Text(
@@ -286,6 +286,7 @@ class _AddTransactionState extends State<AddTransaction> {
                   inputFormatters: [
                     GermanNumericTextFormatter(),
                   ],
+
                 ),
                 SizedBox(width: CustomPadding.defaultSpace),
                 // Date
@@ -399,7 +400,7 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
       _validateForm();
     });
   }
- // Updates the selected transaction type
+
   void _onCategorySelected(String category) {
     setState(() {
       _selectedCategory = category;
@@ -420,7 +421,7 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
   Widget build(BuildContext context) {
     return DynamicBottomSheet(
       buttonText: AppString.addSplit,
-      initialChildSize: 0.62,
+      initialChildSize: 0.76,
       maxChildSize: 0.95,
       isButtonEnabled: _isFormValid,
       onButtonPressed: () async {
@@ -505,6 +506,7 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
                 names: widget.list ??
                     ['Dir', widget.friendName ?? '**Friend Name**'],
                 isGroup: widget.isGroup ?? false,
+
               ),
             if (_selectedSplitMethod == SplitMethod.percent)
               PercentalSplitWidget(

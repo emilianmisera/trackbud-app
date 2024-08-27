@@ -18,11 +18,11 @@ class TransactionList extends StatelessWidget {
     }
 
     void _editTransaction(String transactionId) {
-      // Navigieren Sie zur EditTransactionScreen und übergeben Sie die transactionId
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => EditTransactionScreen(transactionId: transactionId),
+          builder: (context) =>
+              EditTransactionScreen(transactionId: transactionId),
         ),
       );
     }
@@ -37,7 +37,6 @@ class TransactionList extends StatelessWidget {
         if (snapshot.hasError) {
           print('Ein Fehler ist aufgetreten ${snapshot.error}');
           return Text('Ein Fehler ist aufgetreten');
-          
         }
 
         if (snapshot.connectionState == ConnectionState.waiting) {
@@ -45,8 +44,8 @@ class TransactionList extends StatelessWidget {
         }
 
         if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-        return Text('Keine Transaktionen gefunden');
-      }
+          return Text('Keine Transaktionen gefunden');
+        }
 
         return ListView(
           shrinkWrap: true,

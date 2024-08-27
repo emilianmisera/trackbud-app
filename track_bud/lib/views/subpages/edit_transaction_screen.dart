@@ -56,13 +56,12 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
   }
 
   Future<void> _updateTransaction() async {
-    // Aktualisieren Sie die Transaktion in Firestore
     await FirebaseFirestore.instance
         .collection('transactions')
         .doc(widget.transactionId)
         .update({
       'title': _titleController.text.trim(),
-      'amount': double.parse(_amountController.text),
+      'amount': double.parse(_amountController.text.replaceAll(',', '.')),
       'category': _selectedCategory,
       'notes': _noteController.text,
       'date': Timestamp.fromDate(_selectedDateTime!),
@@ -120,7 +119,7 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
                   // Amount text field
                   CustomTextfield(
                     name: AppString.amount,
-                    hintText: AppString.lines,
+                    hintText: '',
                     controller: _amountController,
                     width: MediaQuery.sizeOf(context).width / 3,
                     prefix: Text(
@@ -178,7 +177,11 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
                 ],
                 dropdownWidth: MediaQuery.sizeOf(context).width - 32,
                 value: _selectedRecurrence,
-                onChanged: (value) {setState(() {_selectedRecurrence = value;});},
+                onChanged: (value) {
+                  setState(() {
+                    _selectedRecurrence = value;
+                  });
+                },
               ),
               SizedBox(
                 height: CustomPadding.defaultSpace,

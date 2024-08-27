@@ -40,11 +40,13 @@ class _ChangeBankaccountScreenState extends State<ChangeBankaccountScreen> {
 
     try {
       UserModel? localUser = await SQLiteService().getUserById(userId);
-      print('Loaded user bankaccount from SQLite: ${localUser?.bankAccountBalance}');
+      print(
+          'Loaded user bankaccount from SQLite: ${localUser?.bankAccountBalance}');
       await DependencyInjector.syncService.syncData(userId);
       if (localUser != null) {
         setState(() {
-          _moneyController.text = localUser.bankAccountBalance.toStringAsFixed(2);
+          _moneyController.text =
+              localUser.bankAccountBalance.toStringAsFixed(2);
         });
       }
     } catch (e) {
@@ -70,7 +72,7 @@ class _ChangeBankaccountScreenState extends State<ChangeBankaccountScreen> {
       return;
     }
 
-    final String amountText = _moneyController.text.trim();
+    final String amountText = _moneyController.text.trim().replaceAll(',', '.');
     if (amountText.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(

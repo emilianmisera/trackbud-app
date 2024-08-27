@@ -39,11 +39,13 @@ class _ChangeBudgetGoalScreenState extends State<ChangeBudgetGoalScreen> {
 
     try {
       UserModel? localUser = await SQLiteService().getUserById(userId);
-      print('Loaded user budgetgoal from SQLite: ${localUser?.monthlySpendingGoal}');
+      print(
+          'Loaded user budgetgoal from SQLite: ${localUser?.monthlySpendingGoal}');
       await DependencyInjector.syncService.syncData(userId);
       if (localUser != null) {
         setState(() {
-          _moneyController.text = localUser.monthlySpendingGoal.toStringAsFixed(2);
+          _moneyController.text =
+              localUser.monthlySpendingGoal.toStringAsFixed(2);
         });
       }
     } catch (e) {
@@ -69,7 +71,7 @@ class _ChangeBudgetGoalScreenState extends State<ChangeBudgetGoalScreen> {
       return;
     }
 
-    final String amountText = _moneyController.text.trim();
+    final String amountText = _moneyController.text.trim().replaceAll(',', '.');
     if (amountText.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(

@@ -26,11 +26,19 @@ class UserModel {
       userId: map['userId'],
       email: map['email'],
       name: map['name'],
-      profilePictureUrl: map['profilePictureUrl'],
-      bankAccountBalance: map['bankAccountBalance'].toDouble(),
-      monthlySpendingGoal: map['monthlySpendingGoal'].toDouble(),
-      settings: jsonDecode(map['settings']),
-      friends: List<String>.from(jsonDecode(map['friends'])),
+      profilePictureUrl: map['profilePictureUrl'] ?? '',
+      bankAccountBalance: map['bankAccountBalance']?.toDouble() ?? 0.0,
+      monthlySpendingGoal: map['monthlySpendingGoal']?.toDouble() ?? 0.0,
+      
+      // Check if settings is a valid JSON string
+      settings: map['settings'] != null && map['settings'] is String && map['settings'].isNotEmpty
+          ? jsonDecode(map['settings']) as Map<String, dynamic>
+          : {}, // Default to an empty Map if null or invalid
+      
+      // Check if friends is a valid JSON string
+      friends: map['friends'] != null && map['friends'] is String && map['friends'].isNotEmpty
+          ? List<String>.from(jsonDecode(map['friends']))
+          : [], // Default to an empty List if null or invalid
     );
   }
 

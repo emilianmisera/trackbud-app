@@ -29,6 +29,7 @@ class CustomTextfield extends StatelessWidget {
     this.prefix,
     this.isMultiline = false, 
     this.type, this.inputFormatters, // default false
+
   }) : super(key: key);
 
   @override
@@ -46,7 +47,9 @@ class CustomTextfield extends StatelessWidget {
         CustomShadow(
           child: Container(
             width: width ?? double.infinity,
-            height: isMultiline ? 120 : Constants.height, // choose height of Textfield Box
+            height: isMultiline
+                ? 120
+                : Constants.height, // choose height of Textfield Box
             child: TextFormField(
               controller: controller,
               obscureText: obscureText,
@@ -72,7 +75,8 @@ class CustomTextfield extends StatelessWidget {
                 fillColor: CustomColor.white,
                 border: OutlineInputBorder(
                   borderSide: BorderSide.none,
-                  borderRadius: BorderRadius.circular(Constants.buttonBorderRadius),
+                  borderRadius:
+                      BorderRadius.circular(Constants.buttonBorderRadius),
                 ),
               ),
             ),
@@ -108,26 +112,27 @@ class TextFieldAmountOfMoney extends StatelessWidget {
   TextFieldAmountOfMoney({
     Key? key,
     required this.controller,
-    this.hintText, this.suffixStyle, this.inputStyle,
+    this.hintText,
+    this.suffixStyle,
+    this.inputStyle,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return CustomShadow(
       child: TextFormField(
         controller: controller,
-
         style: CustomTextStyle.headingStyle,
         keyboardType: TextInputType.numberWithOptions(decimal: true),
         textAlign: TextAlign.center,
         inputFormatters: [
-          FilteringTextInputFormatter
-              .allow(RegExp(r'[0-9.]')), // textinput has to have only numbers or a dot
+          FilteringTextInputFormatter.allow(RegExp(
+              r'[0-9.,]')), // textinput has to have only numbers or a dot or a comma
         ],
         decoration: InputDecoration(
           hintText: hintText ?? AppString.lines,
           suffix: Text(
             "€",
-            style: suffixStyle?? CustomTextStyle.headingStyle,
+            style: suffixStyle ?? CustomTextStyle.headingStyle,
           ),
           contentPadding: EdgeInsets.only(
               left: CustomPadding.defaultSpace,
@@ -158,39 +163,43 @@ class SearchTextfield extends StatelessWidget {
     Key? key,
     required this.hintText,
     required this.controller,
-    this.autofocus, required this.onChanged,
+    this.autofocus,
+    required this.onChanged,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return CustomShadow(
-          child: Container(
-            width: double.infinity,
-            height: Constants.height,
-            child: TextFormField(
-              controller: controller,
-              cursorColor: CustomColor.bluePrimary,
-              autofocus: autofocus ?? false,
-              decoration: InputDecoration(
-                prefixIcon: SvgPicture.asset(AssetImport.search, fit: BoxFit.scaleDown,),
-                hintText: hintText,
-                contentPadding: EdgeInsets.symmetric(
-                  horizontal: CustomPadding.defaultSpace,
-                  vertical: CustomPadding.contentHeightSpace,
-                ),
-                hintStyle: CustomTextStyle.hintStyleDefault,
-                floatingLabelBehavior: FloatingLabelBehavior.never,
-                filled: true,
-                fillColor: CustomColor.white,
-                border: OutlineInputBorder(
-                  borderSide: BorderSide.none,
-                  borderRadius: BorderRadius.circular(Constants.buttonBorderRadius),
-                ),
-              ),
-              onChanged: onChanged,
+      child: Container(
+        width: double.infinity,
+        height: Constants.height,
+        child: TextFormField(
+          controller: controller,
+          cursorColor: CustomColor.bluePrimary,
+          autofocus: autofocus ?? false,
+          decoration: InputDecoration(
+            prefixIcon: SvgPicture.asset(
+              AssetImport.search,
+              fit: BoxFit.scaleDown,
+            ),
+            hintText: hintText,
+            contentPadding: EdgeInsets.symmetric(
+              horizontal: CustomPadding.defaultSpace,
+              vertical: CustomPadding.contentHeightSpace,
+            ),
+            hintStyle: CustomTextStyle.hintStyleDefault,
+            floatingLabelBehavior: FloatingLabelBehavior.never,
+            filled: true,
+            fillColor: CustomColor.white,
+            border: OutlineInputBorder(
+              borderSide: BorderSide.none,
+              borderRadius: BorderRadius.circular(Constants.buttonBorderRadius),
             ),
           ),
-        );
+          onChanged: onChanged,
+        ),
+      ),
+    );
   }
 }
 
@@ -203,7 +212,9 @@ class TextFieldByAmount extends StatelessWidget {
   TextFieldByAmount({
     Key? key,
     required this.controller,
-    this.hintText, this.suffixStyle, this.inputStyle,
+    this.hintText,
+    this.suffixStyle,
+    this.inputStyle,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -220,7 +231,7 @@ class TextFieldByAmount extends StatelessWidget {
         hintText: hintText ?? AppString.lines,
         suffix: Text(
           "€",
-          style: suffixStyle?? CustomTextStyle.headingStyle,
+          style: suffixStyle ?? CustomTextStyle.headingStyle,
         ),
         contentPadding: EdgeInsets.only(
             left: CustomPadding.defaultSpace,

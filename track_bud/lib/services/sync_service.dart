@@ -27,7 +27,6 @@ class SyncService {
     }
   }
 
-
   Future<void> _syncLocalChanges(String userId) async {
     try {
       // sync user
@@ -39,7 +38,8 @@ class SyncService {
         await _sqliteService.markUserAsSynced(user.userId);
       }
       // sync transactions
-      List<TransactionModel> localTransactions = await _sqliteService.getUnsyncedTransactions();
+      List<TransactionModel> localTransactions =
+          await _sqliteService.getUnsyncedTransactions();
       for (var transaction in localTransactions) {
         await _firestoreService.addTransaction(transaction);
         await _sqliteService.markTransactionAsSynced(transaction.transactionId);
@@ -57,7 +57,8 @@ class SyncService {
         _cacheService.put(userId, firestoreUser); // refresh cache
       }
 
-      List<TransactionModel> firestoreTransactions = await _firestoreService.getTransactionsForUser(userId);
+      List<TransactionModel> firestoreTransactions =
+          await _firestoreService.getTransactionsForUser(userId);
       for (var transaction in firestoreTransactions) {
         await _sqliteService.insertTransaction(transaction);
       }
