@@ -13,12 +13,71 @@ class ExpensesOverview extends StatefulWidget {
 }
 
 class _ExpensesOverviewState extends State<ExpensesOverview> {
-  // Current time unit selected (0: Day, 1: Week, 2: Month, 3: Year)
   int _currentTimeUnit = 1;
   
-  // Sample expense data for a week
-  List<double> _expenses = [100.00, 50.00, 20.00, 0.00, 0.00, 0, 0];
+  late List<double> _dailyExpenses;
+  late List<double> _weeklyExpenses;
+  late List<double> _monthlyExpenses;
+  late List<double> _yearlyExpenses;
 
+  @override
+  void initState() {
+    super.initState();
+    _initializeExpenses();
+  }
+
+  void _initializeExpenses() {
+    _dailyExpenses = [100.00];
+    _weeklyExpenses = [100.00, 50.00, 20.00, 0.00, 0.00, 0, 0];
+    _monthlyExpenses = List.generate(31, (index) => index < 7 ? _weeklyExpenses[index] : 0);
+    _yearlyExpenses = List.generate(12, (index) => index == 0 ? _weeklyExpenses.reduce((a, b) => a + b) : 0);
+  }
+  
+  Map<String, double> categoryAmounts = {
+  'Lebensmittel': 3.0,
+  'Drogerie': 2.0,
+  'Restaurant': 1.00,
+  'Mobilität': 0.0,
+  'Shopping': 0.0,
+  'Unterkunft': 0.0,
+  'Entertainment': 0.0,
+  'Geschenk': 0.0,
+  'Sonstiges': 0.0,
+};
+
+List<double> _getCurrentExpenses() {
+  switch (_currentTimeUnit) {
+    case 0:
+      return _dailyExpenses;
+    case 1:
+      return _weeklyExpenses;
+    case 2:
+      return _monthlyExpenses;
+    case 3:
+      return _yearlyExpenses;
+    default:
+      return _weeklyExpenses;
+  }
+}
+
+String _getTimeUnitText() {
+  switch (_currentTimeUnit) {
+    case 0:
+      return 'Heute';
+    case 1:
+      return 'Diese Woche';
+    case 2:
+      return 'Dieser Monat';
+    case 3:
+      return 'Dieses Jahr';
+    default:
+      return 'Diese Woche';
+  }
+}
+
+double _calculateTotalExpenses() {
+  return categoryAmounts.values.reduce((a, b) => a + b);
+}
   @override
   Widget build(BuildContext context) {
     return CustomShadow(
@@ -43,32 +102,29 @@ class _ExpensesOverviewState extends State<ExpensesOverview> {
             // Display current time period and total expense
             Row(
               children: [
-                Icon(Icons.arrow_back_ios_new_rounded, color: CustomColor.hintColor, size: 15,),
-                Text('Diese Woche', style: CustomTextStyle.hintStyleDefault,),
+                Icon(
+                  Icons.arrow_back_ios_new_rounded,
+                  color: CustomColor.hintColor,
+                  size: 15,
+                ),
+                Text(_getTimeUnitText(), style: CustomTextStyle.hintStyleDefault,),
               ],
             ),
-            Text('50,00', style: CustomTextStyle.headingStyle,),
+            Text(
+  '${_calculateTotalExpenses().toStringAsFixed(2)}',
+  style: CustomTextStyle.headingStyle,
+),
             SizedBox(height: CustomPadding.mediumSpace),
             // Display overview of transactions by category
             TransactionOverview(
               isOverview: true,
-              categoryAmounts: {
-                'Lebensmittel': 3.0,
-                'Drogerie': 2.0,
-                'Restaurant': 1.00,
-                'Mobilität': 0.0,
-                'Shopping': 0.0,
-                'Unterkunft': 0.0,
-                'Entertainment': 0.0,
-                'Geschenk': 0.0,
-                'Sonstiges': 0.0,
-              },
+              categoryAmounts: categoryAmounts,
             ),
             SizedBox(height: CustomPadding.defaultSpace),
             // Display animated expenses chart
             ExpensesChart(
               currentTimeUnit: _currentTimeUnit,
-              expenses: _expenses,
+              expenses: _getCurrentExpenses(),
             ),
           ],
         ),
@@ -97,6 +153,15 @@ class ExpensesChart extends StatefulWidget {
 class _ExpensesChartState extends State<ExpensesChart> with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _heightAnimation;
+
+  // Get the current day of the week (0-6, where 0 is Monday)
+  int get _currentDayOfWeek => DateTime.now().weekday - 1;
+
+  // Get the current day of the month (1-31)
+  int get _currentDayOfMonth => DateTime.now().day - 1;
+
+  // Get the current month (0-11)
+  int get _currentMonth => DateTime.now().month - 1;
 
   @override
   void initState() {
@@ -152,7 +217,6 @@ class _ExpensesChartState extends State<ExpensesChart> with SingleTickerProvider
     }
   }
 
-  // Build chart for weekly expenses
   Widget _buildWeekChart() {
     final List<String> days = ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'];
     final List<double> weekExpenses = _getWeekExpenses();
@@ -161,6 +225,7 @@ class _ExpensesChartState extends State<ExpensesChart> with SingleTickerProvider
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: List.generate(7, (index) {
+        bool isCurrentDay = index == _currentDayOfWeek;
         return Column(
           children: [
             Container(
@@ -175,7 +240,6 @@ class _ExpensesChartState extends State<ExpensesChart> with SingleTickerProvider
                 child: AnimatedBuilder(
                   animation: _heightAnimation,
                   builder: (context, child) {
-                    // Animate the height of each bar
                     return Container(
                       width: 30,
                       height: maxExpense > 0 ? (weekExpenses[index] / maxExpense) * 75 * _heightAnimation.value : 0,
@@ -189,7 +253,23 @@ class _ExpensesChartState extends State<ExpensesChart> with SingleTickerProvider
               ),
             ),
             SizedBox(height: 4),
-            Text(days[index], style: CustomTextStyle.hintStyleDefault.copyWith(fontSize: 14),),
+            Text(
+              days[index],
+              style: CustomTextStyle.hintStyleDefault.copyWith(
+                fontSize: 14,
+                color: isCurrentDay ? CustomColor.bluePrimary : null,
+              ),
+            ),
+            // Blue circle indicator for current day
+            if (isCurrentDay)
+              Container(
+                height: 10,
+                width: 10,
+                decoration: BoxDecoration(
+                  color: CustomColor.bluePrimary,
+                  shape: BoxShape.circle,
+                ),
+              ),
           ],
         );
       }),
@@ -206,31 +286,46 @@ class _ExpensesChartState extends State<ExpensesChart> with SingleTickerProvider
       scrollDirection: Axis.horizontal,
       child: Row(
         children: List.generate(daysInMonth, (index) {
-          return Container(
-            height: 75,
-            width: 8,
-            margin: EdgeInsets.symmetric(horizontal: 1),
-            decoration: BoxDecoration(
-              color: CustomColor.grey,
-              borderRadius: BorderRadius.circular(5),
-            ),
-            child: Align(
-              alignment: Alignment.bottomCenter,
-              child: AnimatedBuilder(
-                animation: _heightAnimation,
-                builder: (context, child) {
-                  // Animate the height of each bar
-                  return Container(
-                    width: 8,
-                    height: maxExpense > 0 ? (monthExpenses[index] / maxExpense) * 75 * _heightAnimation.value : 0,
-                    decoration: BoxDecoration(
-                      color: CustomColor.bluePrimary,
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                  );
-                },
+          bool isCurrentDay = index == _currentDayOfMonth;
+          return Column(
+            children: [
+              Container(
+                height: 75,
+                width: 8,
+                margin: EdgeInsets.symmetric(horizontal: 1),
+                decoration: BoxDecoration(
+                  color: CustomColor.grey,
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: AnimatedBuilder(
+                    animation: _heightAnimation,
+                    builder: (context, child) {
+                      return Container(
+                        width: 8,
+                        height: maxExpense > 0 ? (monthExpenses[index] / maxExpense) * 75 * _heightAnimation.value : 0,
+                        decoration: BoxDecoration(
+                          color: CustomColor.bluePrimary,
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                      );
+                    },
+                  ),
+                ),
               ),
-            ),
+              SizedBox(height: 4),
+              // Blue circle indicator for current day
+              if (isCurrentDay)
+                Container(
+                  height: 10,
+                  width: 10,
+                  decoration: BoxDecoration(
+                    color: CustomColor.bluePrimary,
+                    shape: BoxShape.circle,
+                  ),
+                ),
+            ],
           );
         }),
       ),
@@ -246,6 +341,7 @@ class _ExpensesChartState extends State<ExpensesChart> with SingleTickerProvider
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: List.generate(12, (index) {
+        bool isCurrentMonth = index == _currentMonth;
         return Column(
           children: [
             Container(
@@ -260,12 +356,10 @@ class _ExpensesChartState extends State<ExpensesChart> with SingleTickerProvider
                 child: AnimatedBuilder(
                   animation: _heightAnimation,
                   builder: (context, child) {
-                    // Animate the height of each bar
                     return Container(
                       width: 20,
                       height: maxExpense > 0 ? (yearExpenses[index] / maxExpense) * 75 * _heightAnimation.value : 0,
                       decoration: BoxDecoration(
-                        // Color the bar red if expenses exceed budget goal
                         color: yearExpenses[index] > widget.budgetGoal ? CustomColor.red : CustomColor.bluePrimary,
                         borderRadius: BorderRadius.circular(5),
                       ),
@@ -275,17 +369,36 @@ class _ExpensesChartState extends State<ExpensesChart> with SingleTickerProvider
               ),
             ),
             SizedBox(height: 4),
-            Text(months[index], style: CustomTextStyle.hintStyleDefault.copyWith(fontSize: 13),),
+            Text(
+              months[index],
+              style: CustomTextStyle.hintStyleDefault.copyWith(
+                fontSize: 13,
+                color: isCurrentMonth ? CustomColor.bluePrimary : null,
+              ),
+            ),
+            // Blue circle indicator for current month
+            if (isCurrentMonth)
+              Container(
+                height: 10,
+                width: 10,
+                decoration: BoxDecoration(
+                  color: CustomColor.bluePrimary,
+                  shape: BoxShape.circle,
+                ),
+              ),
           ],
         );
       }),
     );
   }
 
+
   // Get expenses for a week
   List<double> _getWeekExpenses() {
     // Return the first 7 expenses if available, otherwise fill with zeros
-    return widget.expenses.length >= 7 ? widget.expenses.sublist(0, 7) : List.filled(7, 0.0);
+    return widget.expenses.length >= 7
+        ? widget.expenses.sublist(0, 7)
+        : List.filled(7, 0.0);
   }
 
   // Get expenses for a month
@@ -307,7 +420,9 @@ class _ExpensesChartState extends State<ExpensesChart> with SingleTickerProvider
       int startWeek = i * 4;
       int endWeek = (i + 1) * 4;
       if (endWeek > weeksInYear) endWeek = weeksInYear;
-      for (int j = startWeek * 7; j < endWeek * 7 && j < widget.expenses.length; j++) {
+      for (int j = startWeek * 7;
+          j < endWeek * 7 && j < widget.expenses.length;
+          j++) {
         yearExpenses[i] += widget.expenses[j];
       }
     }
