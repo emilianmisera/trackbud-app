@@ -175,4 +175,6 @@ class AppString {
   static String payOff = 'begleichen';
   static String payOffDebtsDescribtion = 'Begleiche die Bilanz.';
 
+  //overview screen
+  static String remainingText = 'verbleiben diesen Monat';
 }
