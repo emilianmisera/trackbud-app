@@ -92,6 +92,18 @@ class CustomTextStyle {
     fontWeight: fontWeightDefault,
     color: CustomColor.hintColor,
   );
+  static TextStyle slidingTimeUnitStyleDefault = const TextStyle(
+    fontFamily: fontFamily,
+    fontSize: fontSizeSegmentControl,
+    fontWeight: fontWeightDefault,
+    color: CustomColor.hintColor,
+  );
+  static TextStyle slidingTimeUnitStyleSelected = const TextStyle(
+    fontFamily: fontFamily,
+    fontSize: fontSizeSegmentControl,
+    fontWeight: fontWeightMedium,
+    color: CustomColor.black,
+  );
 
 }
 
@@ -205,6 +217,7 @@ class Constants {
   static const double profilePictureSettingPage = 65;
   static const double profilePictureAccountEdit = 115;
   static const double segmentedControlHeight = 0.05;
+  static const double timeUnitHeight = 0.03;
   static const double categoryHeight = 0.05;
   static const double infoTileSpace = 20;
   static const double modalBottomSheetHeight = 0.8;

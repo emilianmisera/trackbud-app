@@ -151,7 +151,7 @@ class EqualTile extends StatefulWidget {
 
 class _EqualTileState extends State<EqualTile> {
   // State of the checkbox
-  bool _checkBox = false;
+  bool _checkBox = true;
 
   @override
   Widget build(BuildContext context) {

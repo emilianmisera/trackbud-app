@@ -176,47 +176,46 @@ class DebtsOverview extends StatefulWidget {
 }
 
 class _DebtsOverviewState extends State<DebtsOverview> {
-
   // Method to open a popup window to pay off debts
   Future _payOffDebts() => showDialog(
-  context: context,
-  builder: (context) => Dialog(
-    insetPadding: EdgeInsets.all(16),
-    child: Container(
-      width: MediaQuery.of(context).size.width - 32,
-      padding: EdgeInsets.all(CustomPadding.defaultSpace),
-      decoration: BoxDecoration(
-        color: CustomColor.backgroundPrimary,
-        borderRadius: BorderRadius.circular(Constants.buttonBorderRadius),
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            AppString.payOffDebts,
-            style: CustomTextStyle.titleStyleMedium,
+        context: context,
+        builder: (context) => Dialog(
+          insetPadding: EdgeInsets.all(16),
+          child: Container(
+            width: MediaQuery.of(context).size.width - 32,
+            padding: EdgeInsets.all(CustomPadding.defaultSpace),
+            decoration: BoxDecoration(
+              color: CustomColor.backgroundPrimary,
+              borderRadius: BorderRadius.circular(Constants.buttonBorderRadius),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  AppString.payOffDebts,
+                  style: CustomTextStyle.titleStyleMedium,
+                ),
+                SizedBox(height: CustomPadding.defaultSpace),
+                Text(
+                  AppString.payOffDebts,
+                  style: CustomTextStyle.hintStyleDefault,
+                ),
+                SizedBox(height: CustomPadding.defaultSpace),
+                ByAmountTile(),
+                SizedBox(height: CustomPadding.defaultSpace),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                    //TODO: update debts in db
+                  },
+                  child: Text(AppString.payOff),
+                ),
+              ],
+            ),
           ),
-          SizedBox(height: CustomPadding.defaultSpace),
-          Text(
-            AppString.payOffDebts,
-            style: CustomTextStyle.hintStyleDefault,
-          ),
-          SizedBox(height: CustomPadding.defaultSpace),
-          ByAmountTile(),
-          SizedBox(height: CustomPadding.defaultSpace),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.pop(context);
-              //TODO: update debts in db
-            },
-            child: Text(AppString.payOff),
-          ),
-        ],
-      ),
-    ),
-  ),
-);
+        ),
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -255,7 +254,9 @@ class _DebtsOverviewState extends State<DebtsOverview> {
               minVerticalPadding: 0,
               contentPadding: EdgeInsets.zero,
             ),
-            SizedBox(height: CustomPadding.smallSpace,),
+            SizedBox(
+              height: CustomPadding.smallSpace,
+            ),
             GestureDetector(
               onTap: () {
                 _payOffDebts();
@@ -268,6 +269,64 @@ class _DebtsOverviewState extends State<DebtsOverview> {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+
+class Group extends StatelessWidget {
+  final void Function() onTap;
+  const Group({super.key, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomShadow(
+      child: Container(
+        width: double.infinity,
+        padding: EdgeInsets.symmetric(
+            horizontal: CustomPadding.defaultSpace,
+            vertical: CustomPadding.mediumSpace),
+        decoration: BoxDecoration(
+          color: CustomColor.white,
+          borderRadius: BorderRadius.circular(Constants.buttonBorderRadius),
+        ),
+        child: ListTile(
+          contentPadding: EdgeInsets.zero,
+          leading: ClipRRect(
+            borderRadius: BorderRadius.circular(100.0),
+            child: Container(
+              width: 40,
+              height: 40,
+              color: Colors.red,
+            ),
+          ),
+          title: Text(
+            'Gruppenname',
+            style: CustomTextStyle.regularStyleMedium,
+          ),
+          trailing: Container(
+            width: 65,
+            height: 30,
+            child: Stack(
+              children: List.generate(3, (index) {
+                return Positioned(
+                  left: index * 18,
+                  child: Container(
+                    width: 30,
+                    height: 30,
+                    decoration: BoxDecoration(
+                      color: Colors.red,
+                      shape: BoxShape.circle,
+                      border: Border.all(color: CustomColor.white, width: 2),
+                    ),
+                  ),
+                );
+              }),
+            ),
+          ),
+          onTap: onTap,
         ),
       ),
     );
