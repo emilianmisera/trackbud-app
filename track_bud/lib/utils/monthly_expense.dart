@@ -54,6 +54,7 @@ class _MonthlyExpenseState extends State<MonthlyExpense> {
               backgroundColor: CustomColor.grey,
               progressColor: getProgressColor(_percentage), // Dynamic color based on percentage
               animateFromLastPercent: true,
+              animation: true,
             ),
             SizedBox(height: CustomPadding.smallSpace),
             
