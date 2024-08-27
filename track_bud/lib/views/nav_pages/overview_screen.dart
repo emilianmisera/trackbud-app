@@ -23,7 +23,9 @@ class _OverviewPageState extends State<OverviewScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ExpensesOverview()
+              ExpensesOverview(),
+              SizedBox(height: CustomPadding.defaultSpace,),
+              
             ],
           ),
         ),
