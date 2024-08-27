@@ -4,6 +4,7 @@ import 'package:track_bud/utils/group_widget.dart';
 import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfield_widget.dart';
 
+// Widget to display an overview of debts
 class OverviewDebtsWidget extends StatelessWidget {
   const OverviewDebtsWidget({super.key});
 
@@ -19,6 +20,7 @@ class OverviewDebtsWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Row to display total debt
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -35,6 +37,7 @@ class OverviewDebtsWidget extends StatelessWidget {
             SizedBox(
               height: CustomPadding.mediumSpace,
             ),
+            // Row to display debt to friends
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -52,6 +55,7 @@ class OverviewDebtsWidget extends StatelessWidget {
             SizedBox(
               height: CustomPadding.mediumSpace,
             ),
+            // Row to display friend's avatar and name (for debt to friends)
             Row(
               children: [
                 ClipRRect(
@@ -71,6 +75,7 @@ class OverviewDebtsWidget extends StatelessWidget {
             SizedBox(
               height: CustomPadding.defaultSpace,
             ),
+            // Row to display debt owed to you
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -88,6 +93,7 @@ class OverviewDebtsWidget extends StatelessWidget {
             SizedBox(
               height: CustomPadding.mediumSpace,
             ),
+            // Row to display friend's avatar and name (for debt owed to you)
             Row(
               children: [
                 ClipRRect(
