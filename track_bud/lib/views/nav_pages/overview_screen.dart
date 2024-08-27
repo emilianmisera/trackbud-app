@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/monthly_expense.dart';
 import 'package:track_bud/utils/overview_chart.dart';
+import 'package:track_bud/utils/overview_debts_widget.dart';
 
 class OverviewScreen extends StatefulWidget {
   const OverviewScreen({super.key});
@@ -27,6 +28,8 @@ class _OverviewPageState extends State<OverviewScreen> {
               ExpensesOverview(),
               SizedBox(height: CustomPadding.defaultSpace,),
               MonthlyExpense(),
+              SizedBox(height: CustomPadding.defaultSpace,),
+              OverviewDebtsWidget()
             ],
           ),
         ),
