@@ -177,4 +177,8 @@ class AppString {
 
   //overview screen
   static String remainingText = 'verbleiben diesen Monat';
+  static String inTotal = 'Gesamt:';
+  static String toFriends = 'An Freunde:';
+  static String toYou = 'An Dich:';
+
 }
