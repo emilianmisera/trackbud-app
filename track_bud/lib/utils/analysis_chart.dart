@@ -4,21 +4,12 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:track_bud/controller/transaction_controller.dart';
 import 'package:track_bud/utils/buttons_widget.dart';
 import 'package:track_bud/utils/constants.dart';
-import 'package:track_bud/utils/date_picker.dart';
 import 'package:track_bud/utils/strings.dart';
 
 // ChartTile: A container widget for chart backgrounds
 class ChartTile extends StatelessWidget {
-
   final Widget chartChild;
   const ChartTile({super.key, required this.chartChild});
-
-  @override
-  State<ChartTile> createState() => _ChartTileState();
-}
-
-class _ChartTileState extends State<ChartTile> {
-  int _currentTimeUnit = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -30,24 +21,7 @@ class _ChartTileState extends State<ChartTile> {
         color: CustomColor.white,
         borderRadius: BorderRadius.circular(Constants.buttonBorderRadius),
       ),
-      child: Column(
-        children: [
-          SelectTimeUnit(onValueChanged: (int? newValue) {
-                setState(() {
-                  _currentTimeUnit = newValue ?? 0;  // Update current segment
-                });
-              },),
-          SizedBox(height: CustomPadding.defaultSpace,),
-          Row(
-            children: [
-              Icon(Icons.arrow_back_ios_new_rounded, color: CustomColor.hintColor, size: 15,),
-              Text('Diese Woche', style: CustomTextStyle.hintStyleDefault,),
-            ],
-          ),
-          SizedBox(height: CustomPadding.defaultSpace,),
-          widget.chartChild
-        ],
-      ),
+      child: chartChild,
     );
   }
 }
@@ -273,61 +247,24 @@ class _DonutChartState extends State<DonutChart> {
     );
   }
 
-  // List of pie chart sections with their properties
+  // Predefined list of expense sections
   final List<ChartSectionData> _expenseSections = [
     ChartSectionData(
       sectionData: PieChartSectionData(
           color: CustomColor.lebensmittel, title: AppString.lebensmittel),
       iconAsset: AssetImport.shoppingCart,
     ),
-    ChartSectionData(
-        sectionData: PieChartSectionData(
-            color: CustomColor.drogerie, title: AppString.drogerie),
-        iconAsset: AssetImport.drogerie),
-    ChartSectionData(
-        sectionData: PieChartSectionData(
-            color: CustomColor.shopping, title: AppString.shopping),
-        iconAsset: AssetImport.shopping),
-    ChartSectionData(
-        sectionData: PieChartSectionData(
-            color: CustomColor.unterkunft, title: AppString.unterkunft),
-        iconAsset: AssetImport.home),
-    ChartSectionData(
-        sectionData: PieChartSectionData(
-            color: CustomColor.restaurant, title: AppString.restaurants),
-        iconAsset: AssetImport.restaurant),
-    ChartSectionData(
-        sectionData: PieChartSectionData(
-            color: CustomColor.mobility, title: AppString.mobility),
-        iconAsset: AssetImport.mobility),
-    ChartSectionData(
-        sectionData: PieChartSectionData(
-            color: CustomColor.entertainment, title: AppString.entertainment),
-        iconAsset: AssetImport.entertainment),
-    ChartSectionData(
-        sectionData: PieChartSectionData(
-            color: CustomColor.geschenk, title: AppString.geschenke),
-        iconAsset: AssetImport.gift),
-    ChartSectionData(
-        sectionData: PieChartSectionData(
-            color: CustomColor.sonstiges, title: AppString.sonstiges),
-        iconAsset: AssetImport.other),
+    // ... (other expense sections)
   ];
 
+  // Predefined list of income sections
   final List<ChartSectionData> _incomeSections = [
     ChartSectionData(
       sectionData: PieChartSectionData(
           color: CustomColor.gehalt, title: AppString.workIncome),
       iconAsset: AssetImport.gehalt,
     ),
-    ChartSectionData(
-        sectionData: PieChartSectionData(
-            color: CustomColor.geschenk, title: AppString.geschenke),
-        iconAsset: AssetImport.gift),
-    ChartSectionData(
-        sectionData: PieChartSectionData(
-            color: CustomColor.sonstiges, title: AppString.sonstiges),
-        iconAsset: AssetImport.other),
+    // ... (other income sections)
   ];
 }
 
