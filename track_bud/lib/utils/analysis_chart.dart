@@ -7,8 +7,9 @@ import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/date_picker.dart';
 import 'package:track_bud/utils/strings.dart';
 
-// Background of Charts
-class ChartTile extends StatefulWidget {
+// ChartTile: A container widget for chart backgrounds
+class ChartTile extends StatelessWidget {
+
   final Widget chartChild;
   const ChartTile({super.key, required this.chartChild});
 
@@ -51,11 +52,18 @@ class _ChartTileState extends State<ChartTile> {
   }
 }
 
-// Donut Chart in Analysis Screen
+// DonutChart: Main widget for displaying the donut chart in Analysis Screen
 class DonutChart extends StatefulWidget {
   final String selectedOption;
+  final String? selectedCategory;
+  final Function(String) onCategorySelected;
 
-  const DonutChart({Key? key, required this.selectedOption}) : super(key: key);
+  const DonutChart(
+      {Key? key,
+      required this.selectedOption,
+      required this.selectedCategory,
+      required this.onCategorySelected})
+      : super(key: key);
 
   @override
   _DonutChartState createState() => _DonutChartState();
@@ -71,32 +79,73 @@ class _DonutChartState extends State<DonutChart> {
     _loadData();
   }
 
+  @override
+  void didUpdateWidget(covariant DonutChart oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    // Reload data if selected option or category changes
+    if (oldWidget.selectedOption != widget.selectedOption ||
+        oldWidget.selectedCategory != widget.selectedCategory) {
+      _loadData();
+      if (mounted) {
+        setState(() {
+          selectedIndex = widget.selectedCategory == null
+              ? null
+              : _getSections().indexWhere((section) =>
+                  section.sectionData.title == widget.selectedCategory);
+        });
+      }
+    }
+  }
+
+  // Load category data from Firebase
   Future<void> _loadData() async {
     final userId = FirebaseAuth.instance.currentUser?.uid ?? '';
     final isIncome = widget.selectedOption == 'Einnahmen';
-    categoryData =
-        await TransactionController().getCategoryTotals(userId, isIncome);
-    setState(() {});
+    try {
+      categoryData =
+          await TransactionController().getCategoryTotals(userId, isIncome);
+      if (mounted) {
+        setState(() {});
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          // Handle error state here
+        });
+      }
+    }
   }
 
+  // Get chart sections based on income or expense
   List<ChartSectionData> _getSections() {
     final isIncome = widget.selectedOption == 'Einnahmen';
     final sections = isIncome ? _incomeSections : _expenseSections;
 
-    return sections.map((section) {
-      final totalAmount =
-          categoryData[section.sectionData.title]?['totalAmount'] ?? 0.0;
-      return ChartSectionData(
-        sectionData: PieChartSectionData(
-          color: section.sectionData.color,
-          value: totalAmount,
-          title: section.sectionData.title,
-        ),
-        iconAsset: section.iconAsset,
-      );
-    }).toList();
+    final sortedSections = sections
+        .map((section) {
+          final totalAmount =
+              categoryData[section.sectionData.title]?['totalAmount'] ?? 0.0;
+          return ChartSectionData(
+            sectionData: PieChartSectionData(
+              color: section.sectionData.color,
+              value: totalAmount,
+              title: section.sectionData.title,
+            ),
+            iconAsset: section.iconAsset,
+          );
+        })
+        .toList()
+        .where((section) => section.sectionData.value > 0)
+        .toList();
+
+    sortedSections
+        .sort((a, b) => b.sectionData.value.compareTo(a.sectionData.value));
+
+    return sortedSections;
   }
 
+  // Generate map of PieChartSectionData for the chart
   Map<int, PieChartSectionData> _showingSections() {
     final sections = _getSections();
     return Map.fromEntries(
@@ -125,6 +174,10 @@ class _DonutChartState extends State<DonutChart> {
 
   @override
   Widget build(BuildContext context) {
+    _loadData();
+    if (categoryData.isEmpty) {
+      return Center(child: CircularProgressIndicator());
+    }
     final showingSectionsMap = _showingSections();
 
     return Column(
@@ -137,18 +190,22 @@ class _DonutChartState extends State<DonutChart> {
               borderData: FlBorderData(show: false),
               sectionsSpace: 0,
               centerSpaceRadius: 80,
+              startDegreeOffset: 270,
               sections: showingSectionsMap.values.toList(),
               pieTouchData: PieTouchData(
                 touchCallback: (FlTouchEvent event, pieTouchResponse) {
                   if (event is FlTapUpEvent &&
                       pieTouchResponse?.touchedSection != null) {
+                    final touchedIndex = showingSectionsMap.keys.elementAt(
+                      pieTouchResponse!.touchedSection!.touchedSectionIndex,
+                    );
+                    final sectionTitle =
+                        _getSections()[touchedIndex].sectionData.title;
                     setState(() {
-                      final touchedIndex = showingSectionsMap.keys.elementAt(
-                        pieTouchResponse!.touchedSection!.touchedSectionIndex,
-                      );
                       selectedIndex =
                           (selectedIndex == touchedIndex) ? null : touchedIndex;
                     });
+                    widget.onCategorySelected(sectionTitle);
                   }
                 },
               ),
@@ -165,37 +222,54 @@ class _DonutChartState extends State<DonutChart> {
     );
   }
 
+  // Build category tiles for display
   List<Widget> _buildCategoryTiles() {
     final sections = _getSections();
+
     if (selectedIndex != null &&
         sections[selectedIndex!].sectionData.value > 0) {
       final selectedSection = sections[selectedIndex!];
       return [
-        _buildCategoryTile(selectedSection),
+        _buildCategoryTile(selectedSection, selectedIndex!),
       ];
     } else {
-      return sections
+      // Sort sections by totalAmount in descending order
+      final sortedSections = sections
           .where((section) => section.sectionData.value > 0)
+          .toList()
+        ..sort((a, b) => b.sectionData.value.compareTo(a.sectionData.value));
+
+      return sortedSections
           .map((section) => Padding(
                 padding: const EdgeInsets.symmetric(vertical: 4.0),
-                child: _buildCategoryTile(section),
+                child: _buildCategoryTile(section, sections.indexOf(section)),
               ))
           .toList();
     }
   }
 
-  Widget _buildCategoryTile(ChartSectionData section) {
+  // Build individual category tile
+  Widget _buildCategoryTile(ChartSectionData section, int index) {
     final data = categoryData[section.sectionData.title] ?? {};
+    final totalSum = categoryData['totalSum'] ?? 0.0;
+    final totalAmount = data['totalAmount'] ?? 0.0;
+
+    // Calculate the percentage
+    final percentage = totalSum > 0 ? (totalAmount / totalSum) * 100 : 0.0;
+
     return CategoryTile(
       color: section.sectionData.color,
       title: section.sectionData.title,
-      percentage: section.sectionData.value,
+      percentage: percentage,
       icon: section.iconAsset,
-      totalAmount: data['totalAmount'] ?? 0.0,
+      totalAmount: totalAmount,
       transactionCount: data['transactionCount'] ?? 0,
-      onTap: () => setState(() {
-        selectedIndex = selectedIndex == null ? 0 : null;
-      }),
+      onTap: () {
+        setState(() {
+          selectedIndex = selectedIndex == index ? null : index;
+        });
+        widget.onCategorySelected(section.sectionData.title);
+      },
     );
   }
 
@@ -203,68 +277,61 @@ class _DonutChartState extends State<DonutChart> {
   final List<ChartSectionData> _expenseSections = [
     ChartSectionData(
       sectionData: PieChartSectionData(
-          color: CustomColor.lebensmittel,
-          value: 0,
-          title: AppString.lebensmittel),
+          color: CustomColor.lebensmittel, title: AppString.lebensmittel),
       iconAsset: AssetImport.shoppingCart,
     ),
     ChartSectionData(
         sectionData: PieChartSectionData(
-            color: CustomColor.drogerie, value: 0, title: AppString.drogerie),
+            color: CustomColor.drogerie, title: AppString.drogerie),
         iconAsset: AssetImport.drogerie),
     ChartSectionData(
         sectionData: PieChartSectionData(
-            color: CustomColor.shopping, value: 0, title: AppString.shopping),
+            color: CustomColor.shopping, title: AppString.shopping),
         iconAsset: AssetImport.shopping),
     ChartSectionData(
         sectionData: PieChartSectionData(
-            color: CustomColor.unterkunft,
-            value: 0,
-            title: AppString.unterkunft),
+            color: CustomColor.unterkunft, title: AppString.unterkunft),
         iconAsset: AssetImport.home),
     ChartSectionData(
         sectionData: PieChartSectionData(
-            color: CustomColor.restaurant,
-            value: 0,
-            title: AppString.restaurants),
+            color: CustomColor.restaurant, title: AppString.restaurants),
         iconAsset: AssetImport.restaurant),
     ChartSectionData(
         sectionData: PieChartSectionData(
-            color: CustomColor.mobility, value: 0, title: AppString.mobility),
+            color: CustomColor.mobility, title: AppString.mobility),
         iconAsset: AssetImport.mobility),
     ChartSectionData(
         sectionData: PieChartSectionData(
-            color: CustomColor.entertainment,
-            value: 0,
-            title: AppString.entertainment),
+            color: CustomColor.entertainment, title: AppString.entertainment),
         iconAsset: AssetImport.entertainment),
     ChartSectionData(
         sectionData: PieChartSectionData(
-            color: CustomColor.geschenk, value: 0, title: AppString.geschenke),
+            color: CustomColor.geschenk, title: AppString.geschenke),
         iconAsset: AssetImport.gift),
     ChartSectionData(
         sectionData: PieChartSectionData(
-            color: CustomColor.sonstiges, value: 0, title: AppString.sonstiges),
+            color: CustomColor.sonstiges, title: AppString.sonstiges),
         iconAsset: AssetImport.other),
   ];
 
   final List<ChartSectionData> _incomeSections = [
     ChartSectionData(
       sectionData: PieChartSectionData(
-          color: CustomColor.gehalt, value: 0, title: AppString.workIncome),
+          color: CustomColor.gehalt, title: AppString.workIncome),
       iconAsset: AssetImport.gehalt,
     ),
     ChartSectionData(
         sectionData: PieChartSectionData(
-            color: CustomColor.geschenk, value: 0, title: AppString.geschenke),
+            color: CustomColor.geschenk, title: AppString.geschenke),
         iconAsset: AssetImport.gift),
     ChartSectionData(
         sectionData: PieChartSectionData(
-            color: CustomColor.sonstiges, value: 0, title: AppString.sonstiges),
+            color: CustomColor.sonstiges, title: AppString.sonstiges),
         iconAsset: AssetImport.other),
   ];
 }
 
+// ChartSectionData: Data structure for chart sections
 class ChartSectionData {
   final PieChartSectionData sectionData;
   final String iconAsset;
@@ -279,7 +346,7 @@ class ChartSectionData {
       );
 }
 
-// Widget that displays Information about the chart
+// CategoryTile: Widget that displays information about each category
 class CategoryTile extends StatelessWidget {
   final Color color;
   final String title;
@@ -320,7 +387,7 @@ class CategoryTile extends StatelessWidget {
               )),
           title: Text(title, style: CustomTextStyle.regularStyleMedium),
           subtitle: Text(
-            '${percentage.toStringAsFixed(2)}%',
+            '${percentage.toStringAsFixed(1)}%',
             style: CustomTextStyle.hintStyleDefault
                 .copyWith(fontSize: CustomTextStyle.fontSizeHint),
           ),
