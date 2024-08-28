@@ -127,7 +127,7 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
                       style: CustomTextStyle.titleStyleMedium.copyWith(
                           fontWeight: CustomTextStyle.fontWeightDefault),
                     ),
-                    type: TextInputType.numberWithOptions(),
+                    type: TextInputType.numberWithOptions(decimal: true),
                   ),
                   SizedBox(
                     width: CustomPadding.defaultSpace,

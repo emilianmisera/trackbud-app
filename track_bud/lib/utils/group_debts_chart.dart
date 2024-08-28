@@ -9,11 +9,12 @@ import 'package:track_bud/utils/textfield_widget.dart';
 class CategoryBar extends StatelessWidget {
   final Map<String, double> categoryExpenses;
   final Map<String, Color> categoryColors;
+  final double? height;
 
   const CategoryBar({
     Key? key,
     required this.categoryExpenses,
-    required this.categoryColors,
+    required this.categoryColors, this.height,
   }) : super(key: key);
 
   @override
@@ -40,7 +41,7 @@ class CategoryBar extends StatelessWidget {
     return ClipRRect(
       borderRadius: BorderRadius.circular(5),
       child: Container(
-        height: 20,
+        height: height ?? 20,
         child: Row(
           children: sortedExpenses.map((entry) {
             String category = entry.key;
@@ -65,40 +66,45 @@ class CategoryBar extends StatelessWidget {
 class TransactionOverview extends StatelessWidget {
   // Map of category names to their corresponding amounts
   final Map<String, double?> categoryAmounts;
+  final bool isOverview;
 
   const TransactionOverview({
     super.key,
     required this.categoryAmounts,
+    this.isOverview = false, // Set default value to false
   });
 
   @override
   Widget build(BuildContext context) {
-    return CustomShadow(
-      child: Container(
-        width: MediaQuery.sizeOf(context).width,
-        padding: EdgeInsets.all(CustomPadding.defaultSpace),
-        decoration: BoxDecoration(
-          color: CustomColor.white,
-          borderRadius: BorderRadius.circular(Constants.buttonBorderRadius),
-        ),
-        child: Column(
-          children: [
-            buildCategoryBar(),
-            SizedBox(height: CustomPadding.bigSpace),
-            buildCategoryList(),
-          ],
-        ),
-      ),
-    );
+    return isOverview
+        ? buildCategoryBar(height: 7.0) // Set height for overview mode
+        : CustomShadow(
+            child: Container(
+              width: MediaQuery.sizeOf(context).width,
+              padding: EdgeInsets.all(CustomPadding.defaultSpace),
+              decoration: BoxDecoration(
+                color: CustomColor.white,
+                borderRadius: BorderRadius.circular(Constants.buttonBorderRadius),
+              ),
+              child: Column(
+                children: [
+                  buildCategoryBar(), // Set height for overview mode
+                  SizedBox(height: CustomPadding.bigSpace),
+                  buildCategoryList(),
+                ],
+              ),
+            ),
+          );
   }
 
   // Builds a bar chart representing category expenses
-  Widget buildCategoryBar() {
+  Widget buildCategoryBar({double height = 20.0}) {
     return CategoryBar(
       categoryExpenses: Map.fromEntries(
         categoryAmounts.entries.map((e) => MapEntry(e.key, e.value ?? 0.0))
       ),
       categoryColors: getCategoryColors(),
+      height: height, // Pass the height based on isOverview
     );
   }
 

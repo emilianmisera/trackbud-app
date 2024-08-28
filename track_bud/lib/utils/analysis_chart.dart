@@ -4,12 +4,21 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:track_bud/controller/transaction_controller.dart';
 import 'package:track_bud/utils/buttons_widget.dart';
 import 'package:track_bud/utils/constants.dart';
+import 'package:track_bud/utils/date_picker.dart';
 import 'package:track_bud/utils/strings.dart';
 
 // ChartTile: A container widget for chart backgrounds
 class ChartTile extends StatelessWidget {
+
   final Widget chartChild;
   const ChartTile({super.key, required this.chartChild});
+
+  @override
+  State<ChartTile> createState() => _ChartTileState();
+}
+
+class _ChartTileState extends State<ChartTile> {
+  int _currentTimeUnit = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +30,24 @@ class ChartTile extends StatelessWidget {
         color: CustomColor.white,
         borderRadius: BorderRadius.circular(Constants.buttonBorderRadius),
       ),
-      child: chartChild,
+      child: Column(
+        children: [
+          SelectTimeUnit(onValueChanged: (int? newValue) {
+                setState(() {
+                  _currentTimeUnit = newValue ?? 0;  // Update current segment
+                });
+              },),
+          SizedBox(height: CustomPadding.defaultSpace,),
+          Row(
+            children: [
+              Icon(Icons.arrow_back_ios_new_rounded, color: CustomColor.hintColor, size: 15,),
+              Text('Diese Woche', style: CustomTextStyle.hintStyleDefault,),
+            ],
+          ),
+          SizedBox(height: CustomPadding.defaultSpace,),
+          widget.chartChild
+        ],
+      ),
     );
   }
 }
