@@ -43,7 +43,7 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
   @override
   void initState() {
     super.initState();
-    _loadCurrentUserInfo();
+    //_loadCurrentUserInfo();
     // Add listener to name controller to detect changes
     _nameController.addListener(_checkIfProfileChanged);
   }
@@ -55,7 +55,7 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
           _isProfilePictureChanged;
     });
   }
-
+/*
   Future<void> _loadCurrentUserInfo() async {
     final String userId = FirebaseAuth.instance.currentUser?.uid ?? '';
 
@@ -86,7 +86,7 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
       );
     }
   }
-
+*/
   // New method to save profile changes
   Future<void> _saveProfileChanges() async {
     try {
@@ -104,8 +104,7 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                 .updateUserProfileImageInFirestore(userId, profileImageUrl);
 
             // Update local database
-            await SQLiteService()
-                .updateUserProfileImage(userId, profileImageUrl);
+            //await SQLiteService().updateUserProfileImage(userId, profileImageUrl);
           }
         }
 
@@ -113,10 +112,10 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
         await FirestoreService().updateUserNameInFirestore(userId, updatedName);
 
         // Update local database
-        await SQLiteService().updateUserName(userId, updatedName);
+        //await SQLiteService().updateUserName(userId, updatedName);
 
         // Sync data
-        await DependencyInjector.syncService.syncData(userId);
+        //await DependencyInjector.syncService.syncData(userId);
 
         Navigator.pop(context, true);
       }

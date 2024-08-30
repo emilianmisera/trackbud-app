@@ -1,4 +1,4 @@
-import 'dart:io';
+/*import 'dart:io';
 import 'package:track_bud/models/transaction_model.dart';
 import 'package:track_bud/models/user_model.dart';
 import 'package:track_bud/services/cache_service.dart';
@@ -57,11 +57,7 @@ class SyncService {
         _cacheService.put(userId, firestoreUser); // refresh cache
       }
 
-      List<TransactionModel> firestoreTransactions =
-          await _firestoreService.getTransactionsForUser(userId);
-      for (var transaction in firestoreTransactions) {
-        await _sqliteService.insertTransaction(transaction);
-      }
+      
     } catch (e) {
       print("Fehler beim Synchronisieren von Online-Daten: $e");
     }
@@ -75,4 +71,4 @@ class SyncService {
       return false;
     }
   }
-}
+} */

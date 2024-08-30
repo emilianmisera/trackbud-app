@@ -22,9 +22,9 @@ class _ChangeBudgetGoalScreenState extends State<ChangeBudgetGoalScreen> {
   @override
   void initState() {
     super.initState();
-    _loadCurrentBudgetGoal(); // Load bank account info when screen is initialized
+    //_loadCurrentBudgetGoal(); // Load bank account info when screen is initialized
   }
-
+/*
   Future<void> _loadCurrentBudgetGoal() async {
     final String userId = FirebaseAuth.instance.currentUser?.uid ?? '';
 
@@ -56,7 +56,7 @@ class _ChangeBudgetGoalScreenState extends State<ChangeBudgetGoalScreen> {
       );
     }
   }
-
+*/
   Future<void> _saveBudgetGoal() async {
     // Get the current user's ID
     final String userId = FirebaseAuth.instance.currentUser?.uid ?? '';

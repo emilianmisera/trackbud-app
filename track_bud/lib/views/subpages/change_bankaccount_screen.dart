@@ -23,9 +23,9 @@ class _ChangeBankaccountScreenState extends State<ChangeBankaccountScreen> {
   @override
   void initState() {
     super.initState();
-    _loadCurrentBankAccountInfo(); // Load bank account info when screen is initialized
+    //_loadCurrentBankAccountInfo(); // Load bank account info when screen is initialized
   }
-
+/*
   Future<void> _loadCurrentBankAccountInfo() async {
     final String userId = FirebaseAuth.instance.currentUser?.uid ?? '';
 
@@ -57,7 +57,7 @@ class _ChangeBankaccountScreenState extends State<ChangeBankaccountScreen> {
       );
     }
   }
-
+*/
   Future<void> _saveBankAccountInfo() async {
     // Get the current user's ID
     final String userId = FirebaseAuth.instance.currentUser?.uid ?? '';

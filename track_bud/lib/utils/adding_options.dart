@@ -136,7 +136,7 @@ class _AddTransactionState extends State<AddTransaction> {
   // Validate form inputs
   void _validateForm() {
     setState(() {
-      _isFormValid = _titleController.text.isNotEmpty &&
+      _isFormValid =
           _amountController.text.isNotEmpty &&
           _selectedCategory != null;
     });
@@ -179,7 +179,7 @@ class _AddTransactionState extends State<AddTransaction> {
     }
     String title = _titleController.text.trim();
     if (title.isEmpty) {
-      title = _selectedCategory ?? 'Sonstiges';
+      title = _selectedCategory!;
     }
     final double amount = _parseAmount();
     final String type = _currentSegment == 0 ? 'expense' : 'income';
@@ -208,15 +208,16 @@ class _AddTransactionState extends State<AddTransaction> {
     final newTransaction = _getTransactionFromForm();
 
     try {
-      await SQLiteService().insertTransaction(newTransaction);
+
+      await FirestoreService().addTransaction(newTransaction);
+      /*await SQLiteService().insertTransaction(newTransaction);
 
       bool hasInternet = await SyncService(SQLiteService(), FirestoreService(), CacheService()).checkInternetConnection();
       if (hasInternet) {
-        await FirestoreService().addTransaction(newTransaction);
         await SQLiteService().markTransactionAsSynced(newTransaction.transactionId);
       } else {
         print("Keine Internetverbindung, Transaktion wird später synchronisiert.");
-      }
+      }*/
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Transaktion erfolgreich gespeichert!')),
@@ -387,7 +388,7 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
 
   void _validateForm() {
     setState(() {
-      _isFormValid = _titleController.text.isNotEmpty &&
+      _isFormValid =
           _amountController.text.isNotEmpty &&
           _selectedCategory != null;
     });
