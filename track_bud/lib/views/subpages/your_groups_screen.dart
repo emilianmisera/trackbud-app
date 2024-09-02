@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/strings.dart';
-import 'package:track_bud/utils/textfield_widget.dart';
+import 'package:track_bud/utils/textfield_widgets.dart';
 
 class YourGroupsScreen extends StatefulWidget {
   const YourGroupsScreen({super.key});
@@ -25,14 +25,19 @@ class _YourGroupsScreenState extends State<YourGroupsScreen> {
     return showModalBottomSheet(
         context: context,
         builder: (context) => Container(
-              height: MediaQuery.sizeOf(context).height * Constants.modalBottomSheetHeight,
+              height: MediaQuery.sizeOf(context).height *
+                  Constants.modalBottomSheetHeight,
               width: MediaQuery.sizeOf(context).width,
               decoration: BoxDecoration(
                 color: CustomColor.backgroundPrimary,
-                borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
+                borderRadius:
+                    BorderRadius.circular(Constants.contentBorderRadius),
               ),
               child: Padding(
-                padding: const EdgeInsets.only(left: CustomPadding.defaultSpace, right: CustomPadding.defaultSpace, bottom: 50),
+                padding: const EdgeInsets.only(
+                    left: CustomPadding.defaultSpace,
+                    right: CustomPadding.defaultSpace,
+                    bottom: 50),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -101,7 +106,10 @@ class _YourGroupsScreenState extends State<YourGroupsScreen> {
       body: SingleChildScrollView(
         child: Padding(
           // spacing between content and screen
-          padding: EdgeInsets.only(top: CustomPadding.defaultSpace, left: CustomPadding.defaultSpace, right: CustomPadding.defaultSpace),
+          padding: EdgeInsets.only(
+              top: CustomPadding.defaultSpace,
+              left: CustomPadding.defaultSpace,
+              right: CustomPadding.defaultSpace),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -111,7 +119,9 @@ class _YourGroupsScreenState extends State<YourGroupsScreen> {
                 controller: _searchController,
                 onChanged: _searchGroup,
               ),
-              Gap(CustomPadding.defaultSpace),
+              Gap(
+                CustomPadding.defaultSpace,
+              ),
               // List of Friends
               /*
               Expanded(
@@ -152,7 +162,9 @@ class GroupTitle extends StatelessWidget {
             color: Colors.red,
           ),
         ),
-        Gap(CustomPadding.mediumSpace),
+        Gap(
+          CustomPadding.mediumSpace,
+        ),
         Expanded(
           child: CustomShadow(
             child: Container(
@@ -172,7 +184,8 @@ class GroupTitle extends StatelessWidget {
                   fillColor: CustomColor.white,
                   border: OutlineInputBorder(
                     borderSide: BorderSide.none,
-                    borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
+                    borderRadius:
+                        BorderRadius.circular(Constants.contentBorderRadius),
                   ),
                 ),
               ),

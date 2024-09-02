@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
 import 'package:track_bud/utils/constants.dart';
+import 'package:track_bud/utils/enum/split_methods.dart';
 import 'package:track_bud/utils/strings.dart';
-import 'package:track_bud/utils/textfield_widget.dart';
-
-// Enum to represent different split methods
-enum SplitMethod { equal, percent, amount }
+import 'package:track_bud/utils/textfield_widgets.dart';
 
 // Widget for a single split button
 class SplitButton extends StatefulWidget {
@@ -163,7 +161,7 @@ class _EqualTileState extends State<EqualTile> {
             style: TextStyles.regularStyleDefault,
           ),
           trailing: widget.friendSplit
-              ? Container(
+              ? SizedBox(
                   width: 200,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,

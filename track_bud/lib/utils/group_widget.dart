@@ -1,9 +1,11 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:track_bud/utils/constants.dart';
+import 'package:track_bud/utils/enum/debts_box.dart';
 import 'package:track_bud/utils/split_widget.dart';
 import 'package:track_bud/utils/strings.dart';
-import 'package:track_bud/utils/textfield_widget.dart';
+import 'package:track_bud/utils/textfield_widgets.dart';
 import 'package:track_bud/views/subpages/group_overview_screeen.dart';
 
 class GroupCard extends StatelessWidget {
@@ -90,7 +92,7 @@ class GroupCard extends StatelessWidget {
                     ),
                   ),
                 ),
-                DebtsInformation(
+                BalanceState(
                   colorScheme: DebtsColorScheme.blue,
                 )
               ],
@@ -102,62 +104,30 @@ class GroupCard extends StatelessWidget {
   }
 }
 
-enum DebtsColorScheme {
-  blue,
-  green,
-  red,
-}
-
-class DebtsInformation extends StatelessWidget {
+class BalanceState extends StatelessWidget {
   final DebtsColorScheme colorScheme;
   final String? amount;
 
-  const DebtsInformation({
-    super.key,
+  const BalanceState({
+    Key? key,
     required this.colorScheme,
     this.amount,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final colors = _getColors(colorScheme);
-
     return Container(
       padding: EdgeInsets.symmetric(horizontal: CustomPadding.mediumSpace, vertical: CustomPadding.smallSpace),
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: colors.backgroundColor),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(5),
+        color: colorScheme.color,
+      ),
       child: Text(
         amount ?? 'quitt',
-        style: TextStyles.regularStyleMedium.copyWith(color: colors.textColor),
+        style: TextStyles.regularStyleMedium.copyWith(color: colorScheme.textColor),
       ),
     );
   }
-
-  _ColorPair _getColors(DebtsColorScheme scheme) {
-    switch (scheme) {
-      case DebtsColorScheme.blue:
-        return _ColorPair(
-          backgroundColor: CustomColor.pastelBlue,
-          textColor: CustomColor.bluePrimary,
-        );
-      case DebtsColorScheme.green:
-        return _ColorPair(
-          backgroundColor: CustomColor.pastelGreen,
-          textColor: CustomColor.green,
-        );
-      case DebtsColorScheme.red:
-        return _ColorPair(
-          backgroundColor: CustomColor.pastelRed,
-          textColor: CustomColor.red,
-        );
-    }
-  }
-}
-
-class _ColorPair {
-  final Color backgroundColor;
-  final Color textColor;
-
-  _ColorPair({required this.backgroundColor, required this.textColor});
 }
 
 class DebtsOverview extends StatefulWidget {
@@ -236,7 +206,8 @@ class _DebtsOverviewState extends State<DebtsOverview> {
               // Debt or credit information
 
               // Navigation arrow
-              trailing: DebtsInformation(
+              trailing: BalanceState(
+                //TODO: Change ColorScheme based on amount
                 colorScheme: DebtsColorScheme.red,
                 amount: '-120€',
               ),
@@ -264,9 +235,10 @@ class _DebtsOverviewState extends State<DebtsOverview> {
   }
 }
 
-class ChooseGroup extends StatelessWidget {
+// Displays on the 
+class GroupChoice extends StatelessWidget {
   final void Function() onTap;
-  const ChooseGroup({super.key, required this.onTap});
+  const GroupChoice({super.key, required this.onTap});
 
   @override
   Widget build(BuildContext context) {

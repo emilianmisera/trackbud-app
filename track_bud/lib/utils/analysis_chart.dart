@@ -5,7 +5,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:gap/gap.dart';
 import 'package:track_bud/utils/buttons_widget.dart';
 import 'package:track_bud/utils/constants.dart';
-import 'package:track_bud/utils/enums/categories.dart';
+import 'package:track_bud/utils/enum/categories.dart';
 
 // DonutChart widget to display expense or income data
 class DonutChart extends StatefulWidget {

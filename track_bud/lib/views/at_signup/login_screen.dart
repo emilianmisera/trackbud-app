@@ -1,11 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
-import 'package:track_bud/services/auth/auth_service.dart';
+import 'package:track_bud/services/auth/firebase_service.dart';
+import 'package:track_bud/trackbud.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/strings.dart';
-import 'package:track_bud/utils/textfield_widget.dart';
+import 'package:track_bud/utils/textfield_widgets.dart';
 import 'package:track_bud/views/at_signup/forgot_password_screen.dart';
 import 'package:track_bud/views/at_signup/signup_screen.dart';
 
@@ -17,61 +19,62 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  final AuthService _authService = AuthService();
+  final TextEditingController _email = TextEditingController();
+  final TextEditingController _password = TextEditingController();
 
-  Future<void> _handleSignIn() async {
-    String email = _emailController.text.trim();
-    String password = _passwordController.text.trim();
+  void _loginUser() async {
+    final AuthService authService = AuthService();
 
-    if (email.isEmpty || password.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text("${AppTexts.emptyLoginInput}"),
-        ),
-      );
-      return;
-    }
-
+    // try login
     try {
-      // Versuche, den Benutzer mit E-Mail und Passwort anzumelden
-      await _authService.signInWithEmailAndPassword(context, email, password);
+      debugPrint('login_screen: _loginUser -> trying to login...');
+      await authService.signInWithEmailAndPassword(_email.text, _password.text);
 
-      // Zeige eine Erfolgsmeldung an
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(AppTexts.successfulLogin),
-        ),
-      );
-    } on FirebaseAuthException catch (e) {
-      // Zeige eine Fehlermeldung an, falls die Anmeldung fehlgeschlagen ist
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text("${AppTexts.loginFailedSnackbar}: ${e.message ?? e.code}"),
-        ),
-      );
+      debugPrint(
+          'login_screen: _loginUser -> sucess! -> redirecting to Overview');
+      if (mounted) {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => TrackBud()),
+        );
+      }
+    } catch (e) {
+      debugPrint('login_screen: _loginUser -> user login failed');
+      showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+                title: Text('Fehler: ${e.toString()}'),
+              ));
     }
+
+    // catch any errors
   }
 
-  Future<void> _handleGoogleSignIn() async {
-    try {
-      // Versuche, den Benutzer mit Google anzumelden
-      await _authService.signInWithGoogle(context);
+  Future<Map<String, dynamic>> getCurrentUserData() async {
+    final User? user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      print('User is null');
+      return {};
+    }
 
-      // Zeige eine Erfolgsmeldung an
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(AppTexts.successfulLogin),
-        ),
-      );
-    } catch (error) {
-      // Zeige eine Fehlermeldung an, falls die Google-Anmeldung fehlgeschlagen ist
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text("Google-Anmeldung fehlgeschlagen: $error"),
-        ),
-      );
+    try {
+      print('Attempting to fetch data for user ID: ${user.uid}');
+      DocumentSnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
+          .instance
+          .collection('users')
+          .doc(user.uid)
+          .get();
+
+      if (!snapshot.exists) {
+        print('User document does not exist');
+        return {};
+      }
+
+      Map<String, dynamic> data = snapshot.data() ?? {};
+      print('Document data: $data');
+      return data;
+    } catch (e) {
+      print('Error fetching user data: $e');
+      return {};
     }
   }
 
@@ -82,7 +85,8 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Padding(
           // spacing between content and screen
           padding: EdgeInsets.only(
-              top: MediaQuery.sizeOf(context).height * CustomPadding.topSpaceAuth,
+              top: MediaQuery.sizeOf(context).height *
+                  CustomPadding.topSpaceAuth,
               left: CustomPadding.defaultSpace,
               right: CustomPadding.defaultSpace),
           child: Column(
@@ -103,7 +107,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 CustomPadding.defaultSpace,
               ),
               CustomTextfield(
-                controller: _emailController,
+                controller: _email,
                 name: AppTexts.email,
                 hintText: AppTexts.hintEmail,
                 obscureText: false,
@@ -112,7 +116,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 CustomPadding.defaultSpace,
               ),
               CustomTextfield(
-                controller: _passwordController,
+                controller: _password,
                 name: AppTexts.password,
                 hintText: AppTexts.hintPassword,
                 obscureText: true,
@@ -125,7 +129,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: GestureDetector(
                   // forgot Password
                   onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => ForgotPasswordScreen()));
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => ForgotPasswordScreen()));
                   },
                   child: Text(
                     AppTexts.forgotPassword,
@@ -138,7 +143,9 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               ElevatedButton(
                 //sign in button
-                onPressed: _handleSignIn,
+                onPressed: () {
+                  _loginUser();
+                },
                 child: Text(
                   AppTexts.signIn,
                 ),
@@ -151,7 +158,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: [
                   Expanded(
                     child: Container(
-                        margin: const EdgeInsets.only(right: CustomPadding.mediumSpace),
+                        margin: const EdgeInsets.only(
+                            right: CustomPadding.mediumSpace),
                         child: Divider(
                           color: CustomColor.grey,
                         )),
@@ -162,7 +170,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   Expanded(
                     child: Container(
-                        margin: const EdgeInsets.only(left: CustomPadding.mediumSpace),
+                        margin: const EdgeInsets.only(
+                            left: CustomPadding.mediumSpace),
                         child: Divider(
                           color: CustomColor.grey,
                         )),
@@ -175,13 +184,7 @@ class _LoginScreenState extends State<LoginScreen> {
               CustomShadow(
                 // Google Sign In
                 child: TextButton.icon(
-                  onPressed: () async {
-                    try {
-                      _handleGoogleSignIn();
-                    } on FirebaseAuthException {
-                      //error handling
-                    } catch (e) {}
-                  },
+                  onPressed: () async {},
                   label: Text(AppTexts.signInWithGoogle),
                   icon: SvgPicture.asset(AssetImport.googleLogo),
                 ),
@@ -218,7 +221,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => SignUpScreen()));
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: (context) => SignUpScreen()));
                     },
                     child: Text(
                       AppTexts.signUp,

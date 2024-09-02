@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:track_bud/utils/constants.dart';
-import 'package:track_bud/utils/monthly_expense.dart';
-import 'package:track_bud/utils/overview_chart.dart';
-import 'package:track_bud/utils/overview_debts_widget.dart';
+import 'package:track_bud/utils/group_widget.dart';
+import 'package:track_bud/utils/overview/monthly_expense.dart';
+import 'package:track_bud/utils/overview/overview_chart.dart';
+import 'package:track_bud/utils/overview/debts.dart';
+import 'package:track_bud/utils/strings.dart';
+import 'package:track_bud/widgets/transaction_list.dart';
 
+// Homescreen of the App, showing Information about Expenses and Debts
 class OverviewScreen extends StatefulWidget {
   const OverviewScreen({super.key});
 
@@ -26,11 +30,17 @@ class _OverviewPageState extends State<OverviewScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ExpensesOverview(),
+              // Tile showing Expenses with column chart
+              ExpensesOverviewTile(),
               Gap(CustomPadding.defaultSpace),
-              MonthlyExpense(),
+              // Tile showing with Progress Bar how much money User has left to reach his budget goal
+              MonthlyExpenseTile(),
               Gap(CustomPadding.defaultSpace),
-              OverviewDebtsWidget()
+              // Tile showing Information if User has debts or credits left
+              OverviewDebtsTile(),
+              Gap(CustomPadding.defaultSpace),
+              Text(AppTexts.history, style: TextStyles.regularStyleMedium),
+              TransactionHistoryList()
             ],
           ),
         ),

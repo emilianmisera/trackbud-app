@@ -5,10 +5,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
 import 'package:track_bud/utils/buttons_widget.dart';
 import 'package:track_bud/utils/constants.dart';
-import 'package:track_bud/utils/enums/categories.dart';
+import 'package:track_bud/utils/enum/categories.dart';
 import 'package:track_bud/utils/strings.dart';
-import 'package:track_bud/utils/textfield_widget.dart';
-
+import 'package:track_bud/utils/textfield_widgets.dart';
 import 'package:intl/intl.dart';
 
 // Widget for displaying amount and title information

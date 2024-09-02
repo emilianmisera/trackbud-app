@@ -27,12 +27,15 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppTexts.accAdjustments, style: TextStyles.regularStyleMedium),
+        title:
+            Text(AppTexts.accAdjustments, style: TextStyles.regularStyleMedium),
       ),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.only(
-              top: MediaQuery.sizeOf(context).height * CustomPadding.topSpaceAuth - Constants.defaultAppBarHeight,
+              top: MediaQuery.sizeOf(context).height *
+                      CustomPadding.topSpaceAuth -
+                  Constants.defaultAppBarHeight,
               left: CustomPadding.defaultSpace,
               right: CustomPadding.defaultSpace),
           child: Column(
@@ -42,7 +45,9 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                 AppTexts.budget,
                 style: TextStyles.regularStyleMedium,
               ),
-              Gap(CustomPadding.mediumSpace),
+              Gap(
+             CustomPadding.mediumSpace,
+              ),
               AccAdjustmentButton(
                   //BankAccount
                   icon: AssetImport.changeAmount,
@@ -55,7 +60,9 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                       ),
                     );
                   }),
-              Gap(CustomPadding.mediumSpace),
+              Gap(
+                CustomPadding.mediumSpace,
+              ),
               AccAdjustmentButton(
                   // Budget Goal
                   icon: AssetImport.target,
@@ -68,7 +75,9 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                       ),
                     );
                   }),
-              Gap(CustomPadding.mediumSpace),
+              Gap(
+                CustomPadding.mediumSpace,
+              ),
               AccAdjustmentWidget(
                 // Currency
                 icon: AssetImport.settings,
@@ -80,7 +89,9 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                 AppTexts.appearance,
                 style: TextStyles.regularStyleMedium,
               ),
-              Gap(CustomPadding.mediumSpace),
+              Gap(
+              CustomPadding.mediumSpace,
+              ),
               AccAdjustmentWidget(
                 // DarkMode
                 icon: AssetImport.mode,

@@ -16,6 +16,7 @@ extension BoxColor on DebtsColorScheme {
         return CustomColor.pastelRed;
       case DebtsColorScheme.green:
         return CustomColor.pastelGreen;
+      
     }
   }
 }
@@ -29,6 +30,7 @@ extension TextColor on DebtsColorScheme {
         return CustomColor.red;
       case DebtsColorScheme.green:
         return CustomColor.green;
+      
     }
   }
 }

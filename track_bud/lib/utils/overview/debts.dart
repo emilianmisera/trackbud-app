@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:track_bud/utils/constants.dart';
+import 'package:track_bud/utils/enum/debts_box.dart';
 import 'package:track_bud/utils/group_widget.dart';
 import 'package:track_bud/utils/strings.dart';
-import 'package:track_bud/utils/textfield_widget.dart';
+import 'package:track_bud/utils/textfield_widgets.dart';
 
 // Widget to display an overview of debts
-class OverviewDebtsWidget extends StatelessWidget {
-  const OverviewDebtsWidget({super.key});
+class OverviewDebtsTile extends StatelessWidget {
+  const OverviewDebtsTile({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +30,8 @@ class OverviewDebtsWidget extends StatelessWidget {
                   AppTexts.inTotal,
                   style: TextStyles.regularStyleMedium,
                 ),
-                DebtsInformation(
+                BalanceState(
+                  //TODO: Change ColorScheme based on amount
                   colorScheme: DebtsColorScheme.green,
                   amount: '100,00€',
                 )

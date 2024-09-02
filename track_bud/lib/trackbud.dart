@@ -1,7 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
-import 'package:track_bud/services/firestore_service.dart';
 import 'package:track_bud/utils/bottom_navigation_bar.dart';
 import 'package:track_bud/views/nav_pages/analysis_screen.dart';
 import 'package:track_bud/views/nav_pages/debts_screen.dart';
@@ -22,9 +20,7 @@ class TrackBud extends StatefulWidget {
 }
 
 class _TrackBudState extends State<TrackBud> {
-  final FirestoreService _firestoreService =
-      FirestoreService(); // FirestoreService Instanz
-
+ final user = FirebaseAuth.instance.currentUser;
   // List of all screens that can be displayed in the app
   final List<Widget> screens = [
     OverviewScreen(),
@@ -33,53 +29,7 @@ class _TrackBudState extends State<TrackBud> {
     SettingsScreen()
   ];
 
-  @override
-  void initState() {
-    super.initState();
-    _retrieveDynamicLink();
-  }
-
-  Future<void> _retrieveDynamicLink() async {
-    FirebaseDynamicLinks.instance.onLink
-        .listen((PendingDynamicLinkData dynamicLinkData) {
-      final Uri deepLink = dynamicLinkData.link;
-
-      if (deepLink != null) {
-        _handleDynamicLink(deepLink);
-      }
-    }).onError((error) {
-      print('Fehler beim Empfangen des dynamischen Links: $error');
-    });
-  }
-
-  String getCurrentUserId() {
-    User? currentUser = FirebaseAuth.instance.currentUser;
-    if (currentUser != null) {
-      return currentUser.uid; // Die eindeutige userId des aktuellen Benutzers
-    } else {
-      throw Exception('Kein Benutzer ist angemeldet');
-    }
-  }
-
-  void _handleDynamicLink(Uri deepLink) {
-    final String? invitedUserId = deepLink.queryParameters['userId'];
-
-    if (invitedUserId != null) {
-      String currentUserId = getCurrentUserId();
-      _addFriend(currentUserId, invitedUserId);
-    }
-  }
-
-  Future<void> _addFriend(String currentUserId, String invitedUserId) async {
-    try {
-      await _firestoreService.addFriend(currentUserId, invitedUserId);
-    } catch (e) {
-      print('Fehler beim Hinzufügen des Freundes: $e');
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Fehler beim Hinzufügen des Freundes.')),
-      );
-    }
-  }
+  
 
   @override
   Widget build(BuildContext context) {

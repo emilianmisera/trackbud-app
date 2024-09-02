@@ -42,11 +42,15 @@ class CustomTextfield extends StatelessWidget {
           name,
           style: TextStyles.regularStyleMedium,
         ),
-        Gap(CustomPadding.mediumSpace),
+        Gap(
+        CustomPadding.mediumSpace,
+        ),
         CustomShadow(
           child: Container(
             width: width ?? double.infinity,
-            height: isMultiline ? 120 : Constants.height, // choose height of Textfield Box
+            height: isMultiline
+                ? 120
+                : Constants.height, // choose height of Textfield Box
             child: TextFormField(
               controller: controller,
               obscureText: obscureText,
@@ -72,7 +76,8 @@ class CustomTextfield extends StatelessWidget {
                 fillColor: CustomColor.white,
                 border: OutlineInputBorder(
                   borderSide: BorderSide.none,
-                  borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
+                  borderRadius:
+                      BorderRadius.circular(Constants.contentBorderRadius),
                 ),
               ),
             ),
@@ -90,7 +95,12 @@ class CustomShadow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SimpleShadow(color: CustomColor.black, opacity: 0.084, offset: Offset(0, 0), sigma: 2, child: child);
+    return SimpleShadow(
+        color: CustomColor.black,
+        opacity: 0.084,
+        offset: Offset(0, 0),
+        sigma: 2,
+        child: child);
   }
 }
 
@@ -116,7 +126,8 @@ class TextFieldAmountOfMoney extends StatelessWidget {
         keyboardType: TextInputType.numberWithOptions(decimal: true),
         textAlign: TextAlign.center,
         inputFormatters: [
-          FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]')), // textinput has to have only numbers or a dot or a comma
+          FilteringTextInputFormatter.allow(RegExp(
+              r'[0-9.,]')), // textinput has to have only numbers or a dot or a comma
         ],
         decoration: InputDecoration(
           hintText: hintText ?? AppTexts.lines,
@@ -183,7 +194,8 @@ class SearchTextfield extends StatelessWidget {
             fillColor: CustomColor.white,
             border: OutlineInputBorder(
               borderSide: BorderSide.none,
-              borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
+              borderRadius:
+                  BorderRadius.circular(Constants.contentBorderRadius),
             ),
           ),
           onChanged: onChanged,
@@ -214,7 +226,8 @@ class TextFieldByAmount extends StatelessWidget {
       keyboardType: TextInputType.numberWithOptions(),
       textAlign: TextAlign.center,
       inputFormatters: [
-        FilteringTextInputFormatter.digitsOnly, // textinput has to have only numbers
+        FilteringTextInputFormatter
+            .digitsOnly, // textinput has to have only numbers
       ],
       decoration: InputDecoration(
         hintText: hintText ?? AppTexts.lines,

@@ -3,7 +3,7 @@ import 'package:gap/gap.dart';
 import 'package:track_bud/models/user_model.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/strings.dart';
-import 'package:track_bud/utils/textfield_widget.dart';
+import 'package:track_bud/utils/textfield_widgets.dart';
 import 'package:track_bud/views/subpages/friend_profile_screen.dart';
 
 // Widget to display a friend's card in a list
@@ -17,7 +17,9 @@ class FriendCard extends StatelessWidget {
     return CustomShadow(
       child: Container(
         width: MediaQuery.sizeOf(context).width,
-        decoration: BoxDecoration(color: CustomColor.white, borderRadius: BorderRadius.circular(Constants.contentBorderRadius)),
+        decoration: BoxDecoration(
+            color: CustomColor.white,
+            borderRadius: BorderRadius.circular(Constants.contentBorderRadius)),
         child: ListTile(
           // Friend's profile picture
           leading: ClipRRect(
@@ -26,7 +28,7 @@ class FriendCard extends StatelessWidget {
               width: 40,
               height: 40,
               child: friend.profilePictureUrl != ""
-                  ? Image.network(friend.profilePictureUrl!, fit: BoxFit.cover)
+                  ? Image.network(friend.profilePictureUrl, fit: BoxFit.cover)
                   : Icon(Icons.person, color: Colors.grey),
             ),
           ),
@@ -38,7 +40,8 @@ class FriendCard extends StatelessWidget {
           // Debt or credit information
           subtitle: Text(
             'bekommt insgesamt ...', // "receives in total ..."
-            style: TextStyles.hintStyleDefault.copyWith(fontSize: TextStyles.fontSizeHint),
+            style: TextStyles.hintStyleDefault
+                .copyWith(fontSize: TextStyles.fontSizeHint),
           ),
           // Navigation arrow
           trailing: Icon(
@@ -77,7 +80,9 @@ class FriendProfileDetails extends StatelessWidget {
         color: CustomColor.white,
         borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
       ),
-      padding: EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace, vertical: CustomPadding.defaultSpace),
+      padding: EdgeInsets.symmetric(
+          horizontal: CustomPadding.defaultSpace,
+          vertical: CustomPadding.defaultSpace),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -86,19 +91,25 @@ class FriendProfileDetails extends StatelessWidget {
             AppTexts.debts,
             style: TextStyles.regularStyleDefault,
           ),
-          Gap(CustomPadding.mediumSpace),
+          Gap(
+            CustomPadding.mediumSpace,
+          ),
 
           // TODO: add Amount Box to display debt amount
           // This should be implemented to show the actual debt amount
 
-          Gap(CustomPadding.defaultSpace),
+          Gap(
+            CustomPadding.defaultSpace,
+          ),
 
           // Shared groups section
           Text(
             AppTexts.sameGroups,
             style: TextStyles.regularStyleDefault,
           ),
-          Gap(CustomPadding.mediumSpace),
+          Gap(
+            CustomPadding.mediumSpace,
+          ),
 
           // TODO: add same Groups
           // This should be implemented to show the groups shared with this friend

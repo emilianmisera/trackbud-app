@@ -4,7 +4,8 @@ import 'package:gap/gap.dart';
 import 'package:track_bud/utils/adding_options.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/group_widget.dart';
-import 'package:track_bud/utils/textfield_widget.dart';
+import 'package:track_bud/utils/strings.dart';
+import 'package:track_bud/utils/textfield_widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 // custom bottom navigation bar
@@ -108,7 +109,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> w
             height: 235,
             child: Column(
               children: [
-                ChooseGroup(
+                GroupChoice(
                   onTap: () {
                     Navigator.pop(context); // Close the window
                     showModalBottomSheet(
@@ -171,7 +172,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> w
                             builder: (context) => AddTransaction(),
                           );
                         },
-                        child: Text('Neue Transaktion hinzufügen')),
+                        child: Text(AppTexts.addNewTransaction)),
                     Gap(CustomPadding.mediumSpace),
                     ElevatedButton(
                         onPressed: () {
@@ -184,14 +185,14 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> w
                             ),
                           );
                         },
-                        child: Text('Neuen Freundessplit hinzufügen')),
+                        child: Text(AppTexts.addNewFriendSplit)),
                     Gap(CustomPadding.mediumSpace),
                     ElevatedButton(
                       onPressed: () {
                         Navigator.pop(context);
                         _chooseSplitGroup();
                       },
-                      child: Text('Neuen Gruppensplit hinzufügen'),
+                      child: Text(AppTexts.addNewGroupSplit),
                     ),
                   ],
                 ),

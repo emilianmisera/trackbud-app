@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:track_bud/controller/user_controller.dart';
+
 import 'package:track_bud/utils/analysis_chart.dart';
 import 'package:track_bud/utils/buttons_widget.dart';
 import 'package:track_bud/utils/constants.dart';
@@ -17,58 +17,9 @@ class AnalysisScreen extends StatefulWidget {
 }
 
 class _AnalysisScreenState extends State<AnalysisScreen> {
-  final UserController _userController = UserController();
   double _currentBalance = 0.00;
   String _selectedOption = 'Ausgaben'; // Default option is 'Expenses'
-  String? _selectedCategory;
 
-  @override
-  void initState() {
-    super.initState();
-    //_loadCurrentBankAccountInfo(); // Uncomment to load bank info on initialization
-  }
-
-  // Future method to load current bank account balance
-  /*Future<void> _loadCurrentBankAccountInfo() async {
-    final String userId = FirebaseAuth.instance.currentUser?.uid ?? '';
-
-    if (userId.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text("Benutzer nicht angemeldet."),
-        ),
-      );
-      return;
-    }
-
-    try {
-      double currentBalance =
-          await _userController.getBankAccountBalance(userId);
-      setState(() {
-        _currentBalance = currentBalance;
-      });
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text("Fehler beim Laden des Bankkontostands: $e"),
-        ),
-      );
-    }
-  }*/
-
-  // Updates chart data when a new category or option is selected
-  void _updateChartData() {
-    setState(() {
-      _selectedCategory = null; // Reset category when chart is updated
-    });
-  }
-
-  // Handles category selection for the chart
-  void _onCategorySelected(String category) {
-    setState(() {
-      _selectedCategory = category == _selectedCategory ? null : category;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +39,9 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               InfoTile(title: AppTexts.balance, amount: '${_currentBalance.toStringAsFixed(2)}', color: CustomColor.bluePrimary),
-              Gap(CustomPadding.mediumSpace),
+              Gap(
+                CustomPadding.mediumSpace,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -105,25 +58,17 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
                     onChanged: (value) {
                       setState(() {
                         _selectedOption = value;
-                        _selectedCategory = null;
                       });
                     },
                   ),
                 ],
               ),
               Gap(CustomPadding.defaultSpace),
-              DonutChart(
-                  selectedOption: _selectedOption,
-                  key: ValueKey(_selectedOption),
-                  ),
+              DonutChart(selectedOption: _selectedOption),
               Gap(CustomPadding.defaultSpace),
-              Text(
-                AppTexts.history,
-                style: TextStyles.regularStyleMedium,
-              ),
+              Text(AppTexts.history, style: TextStyles.regularStyleMedium),
               Gap(CustomPadding.mediumSpace),
-              TransactionList(
-                  onTransactionChangeCallback: _updateChartData, selectedOption: _selectedOption, selectedCategory: _selectedCategory),
+              TransactionHistoryList(),
             ],
           ),
         ),

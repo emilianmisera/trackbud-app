@@ -1,16 +1,15 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:track_bud/models/transaction_model.dart';
-import 'package:track_bud/services/firestore_service.dart';
 import 'package:track_bud/utils/buttons_widget.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/date_picker.dart';
+import 'package:track_bud/utils/enum/split_methods.dart';
 import 'package:track_bud/utils/split_widget.dart';
 import 'package:track_bud/utils/strings.dart';
-import 'package:track_bud/utils/textfield_widget.dart';
+import 'package:track_bud/utils/textfield_widgets.dart';
 import 'package:track_bud/utils/textinput_format.dart';
-import 'package:uuid/uuid.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 // This File shows following Widgets:
 // 1) Reusuble scrollable DynamicBottomSheet that is only used for adding a new Transaction, Friendsplit & Groupsplit
@@ -94,7 +93,7 @@ class DynamicBottomSheet extends StatelessWidget {
   }
 }
 
-//____________________________________________________________________
+//___________________________________________________________________________________________________________________
 
 // Widget for adding a new transaction
 class AddTransaction extends StatefulWidget {
@@ -109,7 +108,6 @@ class _AddTransactionState extends State<AddTransaction> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _amountController = TextEditingController();
   final TextEditingController _noteController = TextEditingController();
-  final Uuid _uuid = Uuid();
   String? _selectedCategory;
   String? _selectedRecurrence = 'einmalig';
   DateTime _selectedDateTime = DateTime.now();
@@ -122,10 +120,44 @@ class _AddTransactionState extends State<AddTransaction> {
     _amountController.addListener(_validateForm);
   }
 
+  // Function to add a new transaction to Firestore
+  Future<void> _addTransactionToDB() async {
+    try {
+      // Get the current user
+      final user = FirebaseAuth.instance.currentUser;
+
+      // Create a new transaction document
+      await FirebaseFirestore.instance.collection('transactions').add({
+        'userId': user!.uid,
+        'title': _titleController.text,
+        // Parse amount from comma-separated string to double
+        'amount':
+            double.tryParse(_amountController.text.replaceAll(',', '.')) ?? 0.0 * (_currentSegment == 0 ? -1 : 1), // Negative for expenses
+        'category': _selectedCategory,
+        'date': _selectedDateTime,
+        'recurrence': _selectedRecurrence,
+        'note': _noteController.text,
+      });
+
+      // Show success message
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Transaktion erfolgreich hinzugefügt.')),
+      );
+
+      // Clear the form or navigate back
+      Navigator.pop(context);
+    } catch (e) {
+      // Handle any errors
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Fehler beim Hinzufügen der Transaktion: $e')),
+      );
+    }
+  }
+
   @override
   void dispose() {
-    _titleController.removeListener(_validateForm);
-    _amountController.removeListener(_validateForm);
+    // _titleController.removeListener(_validateForm);
+    // _amountController.removeListener(_validateForm);
     _titleController.dispose();
     _amountController.dispose();
     _noteController.dispose();
@@ -135,7 +167,7 @@ class _AddTransactionState extends State<AddTransaction> {
   // Validate form inputs
   void _validateForm() {
     setState(() {
-      _isFormValid = _amountController.text.isNotEmpty && _selectedCategory != null;
+      _isFormValid = _titleController.text.isNotEmpty && _amountController.text.isNotEmpty && _selectedCategory != null;
     });
   }
 
@@ -146,67 +178,6 @@ class _AddTransactionState extends State<AddTransaction> {
     });
   }
 
-  // Parse amount from comma-separated string to double
-  double _parseAmount() {
-    String amountText = _amountController.text.replaceAll(',', '.');
-    return double.tryParse(amountText) ?? 0.0;
-  }
-
-  TransactionModel _getTransactionFromForm() {
-    final String transactionId = _uuid.v4();
-    final String userId = FirebaseAuth.instance.currentUser?.uid ?? '';
-    String title = _titleController.text.trim();
-    if (title.isEmpty) {
-      title = _selectedCategory!;
-    }
-    final double amount = _parseAmount();
-    final String type = _currentSegment == 0 ? 'expense' : 'income';
-    final String category = _selectedCategory ?? 'none';
-    final String notes = _noteController.text.trim();
-    final DateTime date = _selectedDateTime;
-
-    final String recurrenceType = _selectedRecurrence ?? 'einmalig';
-
-    return TransactionModel(
-      transactionId: transactionId,
-      userId: userId,
-      title: title,
-      amount: amount,
-      type: type,
-      category: category,
-      notes: notes,
-      date: date,
-      billImageUrl: '',
-      currency: 'EUR',
-      recurrenceType: recurrenceType,
-    );
-  }
-
-  Future<void> _saveNewTransaction() async {
-    final newTransaction = _getTransactionFromForm();
-
-    try {
-      await FirestoreService().addTransaction(newTransaction);
-      /*await SQLiteService().insertTransaction(newTransaction);
-
-      bool hasInternet = await SyncService(SQLiteService(), FirestoreService(), CacheService()).checkInternetConnection();
-      if (hasInternet) {
-        await SQLiteService().markTransactionAsSynced(newTransaction.transactionId);
-      } else {
-        print("Keine Internetverbindung, Transaktion wird später synchronisiert.");
-      }*/
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Transaktion erfolgreich gespeichert!')),
-      );
-    } catch (e) {
-      print('Fehler beim Speichern der Transaktion: $e');
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Fehler beim Speichern der Transaktion')),
-      );
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return DynamicBottomSheet(
@@ -215,8 +186,7 @@ class _AddTransactionState extends State<AddTransaction> {
       maxChildSize: 0.95,
       isButtonEnabled: _isFormValid,
       onButtonPressed: () async {
-        _saveNewTransaction();
-        Navigator.pop(context);
+        _addTransactionToDB();
       },
       child: Padding(
         padding: CustomPadding.screenWidth,

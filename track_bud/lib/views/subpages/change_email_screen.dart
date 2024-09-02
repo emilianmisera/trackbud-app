@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:track_bud/services/auth/auth_service.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/strings.dart';
-import 'package:track_bud/utils/textfield_widget.dart';
+import 'package:track_bud/utils/textfield_widgets.dart';
 
 class ChangeEmailScreen extends StatefulWidget {
   const ChangeEmailScreen({super.key});
@@ -17,23 +16,6 @@ class _ChangeEmailScreenState extends State<ChangeEmailScreen> {
   final TextEditingController _currentEmailController = TextEditingController();
   final TextEditingController _newEmailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final AuthService _authService = AuthService(); // Add this line
-
-  void _changeEmail() async {
-    try {
-      await _authService.sendEmailUpdateVerificationLink(
-        _newEmailController.text,
-        _passwordController.text,
-      );
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('Ein Verifizierungslink wurde an die neue E-Mail gesendet.'),
-      ));
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('Fehler beim Senden des Verifizierungslinks: $e'),
-      ));
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +26,8 @@ class _ChangeEmailScreenState extends State<ChangeEmailScreen> {
           // Padding adds spacing around the content inside the screen.
           padding: EdgeInsets.only(
             top: MediaQuery.sizeOf(context).height * CustomPadding.topSpace -
-                Constants.defaultAppBarHeight, // Top padding based on screen height
+                Constants
+                    .defaultAppBarHeight, // Top padding based on screen height
             left: CustomPadding.defaultSpace, // Left padding
             right: CustomPadding.defaultSpace, // Right padding
           ),
@@ -56,21 +39,35 @@ class _ChangeEmailScreenState extends State<ChangeEmailScreen> {
                 AppTexts.changeEmail,
                 style: TextStyles.headingStyle,
               ),
-              Gap(CustomPadding.mediumSpace),
+              Gap(
+              CustomPadding.mediumSpace,
+              ),
               // The description text
               Text(
                 AppTexts.changeEmailDesscribtion,
                 style: TextStyles.hintStyleDefault,
               ),
-              Gap(CustomPadding.bigSpace),
+              Gap(
+                CustomPadding.bigSpace,
+              ),
               // Current email text field
-              CustomTextfield(name: AppTexts.currentEmail, hintText: AppTexts.currentEmailHint, controller: _currentEmailController),
+              CustomTextfield(
+                  name: AppTexts.currentEmail,
+                  hintText: AppTexts.currentEmailHint,
+                  controller: _currentEmailController),
               Gap(CustomPadding.defaultSpace),
               // new email text field
-              CustomTextfield(name: AppTexts.newEmail, hintText: AppTexts.newEmailHint, controller: _newEmailController),
+              CustomTextfield(
+                  name: AppTexts.newEmail,
+                  hintText: AppTexts.newEmailHint,
+                  controller: _newEmailController),
               Gap(CustomPadding.defaultSpace),
               // Confirm Password text field
-              CustomTextfield(name: AppTexts.password, obscureText: true, hintText: AppTexts.hintPassword, controller: _passwordController),
+              CustomTextfield(
+                  name: AppTexts.password,
+                  obscureText: true,
+                  hintText: AppTexts.hintPassword,
+                  controller: _passwordController),
             ],
           ),
         ),
@@ -84,9 +81,7 @@ class _ChangeEmailScreenState extends State<ChangeEmailScreen> {
         ),
         width: MediaQuery.of(context).size.width,
         child: ElevatedButton(
-          onPressed: () async {
-            _changeEmail();
-          },
+          onPressed: () async {},
           child: Text(AppTexts.save),
         ),
       ),

@@ -1,8 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:track_bud/models/user_model.dart';
-import 'package:track_bud/services/firestore_service.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/friends_widget.dart';
 import 'package:track_bud/utils/group_widget.dart';
@@ -19,42 +17,8 @@ class DebtsScreen extends StatefulWidget {
 }
 
 class _DebtsScreenState extends State<DebtsScreen> {
-  final FirestoreService _firestoreService = FirestoreService();
   List<UserModel> _friends = [];
   bool _isLoading = true;
-
-  @override
-  void initState() {
-    super.initState();
-    _loadFriends();
-  }
-
-  String getCurrentUserId() {
-    User? currentUser = FirebaseAuth.instance.currentUser;
-    if (currentUser != null) {
-      return currentUser.uid; // Die eindeutige userId des aktuellen Benutzers
-    } else {
-      throw Exception('Kein Benutzer ist angemeldet');
-    }
-  }
-
-  Future<void> _loadFriends() async {
-    String _currentUserId = getCurrentUserId();
-    try {
-      // Lade die Freunde des aktuellen Nutzers
-      List<UserModel> friends = await _firestoreService.getFriends(_currentUserId);
-
-      setState(() {
-        _friends = friends;
-        _isLoading = false;
-      });
-    } catch (e) {
-      print('Fehler beim Laden der Freunde: $e');
-      setState(() {
-        _isLoading = false;
-      });
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,15 +40,19 @@ class _DebtsScreenState extends State<DebtsScreen> {
                     title: AppTexts.debts,
                     amount: 'amount',
                     color: CustomColor.red,
-                    width: MediaQuery.sizeOf(context).width / 2 - Constants.infoTileSpace),
+                    width: MediaQuery.sizeOf(context).width / 2 -
+                        Constants.infoTileSpace),
                 InfoTile(
                     title: AppTexts.credits,
                     amount: 'amount',
                     color: CustomColor.green,
-                    width: MediaQuery.sizeOf(context).width / 2 - Constants.infoTileSpace),
+                    width: MediaQuery.sizeOf(context).width / 2 -
+                        Constants.infoTileSpace),
               ],
             ),
-            Gap(CustomPadding.defaultSpace),
+            Gap(
+           CustomPadding.defaultSpace,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -101,11 +69,15 @@ class _DebtsScreenState extends State<DebtsScreen> {
                       ),
                     );
                   },
-                  child: Text(AppTexts.showAll, style: TextStyles.regularStyleMedium.copyWith(color: CustomColor.bluePrimary)),
+                  child: Text(AppTexts.showAll,
+                      style: TextStyles.regularStyleMedium
+                          .copyWith(color: CustomColor.bluePrimary)),
                 ),
               ],
             ),
-            Gap(CustomPadding.mediumSpace),
+            Gap(
+              CustomPadding.mediumSpace,
+            ),
             if (_isLoading)
               Center(child: CircularProgressIndicator())
             else if (_friends.isEmpty)
@@ -116,12 +88,16 @@ class _DebtsScreenState extends State<DebtsScreen> {
                     .map((friend) => Column(
                           children: [
                             FriendCard(friend: friend),
-                            Gap(CustomPadding.smallSpace), // Abstand zwischen den Karten
+                            Gap(
+                         CustomPadding
+                                    .smallSpace), // Abstand zwischen den Karten
                           ],
                         ))
                     .toList(),
               ),
-            Gap(CustomPadding.defaultSpace),
+            Gap(
+            CustomPadding.defaultSpace,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -138,11 +114,15 @@ class _DebtsScreenState extends State<DebtsScreen> {
                       ),
                     );
                   },
-                  child: Text(AppTexts.showAll, style: TextStyles.regularStyleMedium.copyWith(color: CustomColor.bluePrimary)),
+                  child: Text(AppTexts.showAll,
+                      style: TextStyles.regularStyleMedium
+                          .copyWith(color: CustomColor.bluePrimary)),
                 ),
               ],
             ),
-            Gap(CustomPadding.mediumSpace),
+            Gap(
+          CustomPadding.mediumSpace,
+            ),
             GroupCard()
           ],
         ),

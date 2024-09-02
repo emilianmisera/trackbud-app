@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/strings.dart';
-import 'package:track_bud/utils/textfield_widget.dart';
+import 'package:track_bud/utils/textfield_widgets.dart';
 import 'package:track_bud/views/at_signup/forgot_password_screen.dart';
 
 class ChangePasswordScreen extends StatefulWidget {
@@ -14,9 +14,11 @@ class ChangePasswordScreen extends StatefulWidget {
 
 class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   // Controllers for the text fields
-  final TextEditingController _currentPasswordController = TextEditingController();
+  final TextEditingController _currentPasswordController =
+      TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +29,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
           // Padding adds spacing around the content inside the screen
           padding: EdgeInsets.only(
             top: MediaQuery.sizeOf(context).height * CustomPadding.topSpace -
-                Constants.defaultAppBarHeight, // Top padding based on screen height
+                Constants
+                    .defaultAppBarHeight, // Top padding based on screen height
             left: CustomPadding.defaultSpace, // Left padding
             right: CustomPadding.defaultSpace, // Right padding
           ),

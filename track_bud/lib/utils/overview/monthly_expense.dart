@@ -3,16 +3,16 @@ import 'package:gap/gap.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/strings.dart';
-import 'package:track_bud/utils/textfield_widget.dart';
+import 'package:track_bud/utils/textfield_widgets.dart';
 
-class MonthlyExpense extends StatefulWidget {
-  const MonthlyExpense({super.key});
+class MonthlyExpenseTile extends StatefulWidget {
+  const MonthlyExpenseTile({super.key});
 
   @override
-  State<MonthlyExpense> createState() => _MonthlyExpenseState();
+  State<MonthlyExpenseTile> createState() => _MonthlyExpenseTileState();
 }
 
-class _MonthlyExpenseState extends State<MonthlyExpense> {
+class _MonthlyExpenseTileState extends State<MonthlyExpenseTile> {
   // Progress percentage (0.0 to 1.0)
   double _percentage = 0.6;
 
@@ -53,7 +53,8 @@ class _MonthlyExpenseState extends State<MonthlyExpense> {
               percent: _percentage,
               barRadius: const Radius.circular(180),
               backgroundColor: CustomColor.grey,
-              progressColor: getProgressColor(_percentage), // Dynamic color based on percentage
+              progressColor: getProgressColor(
+                  _percentage), // Dynamic color based on percentage
               animateFromLastPercent: true,
               animation: true,
             ),
@@ -64,11 +65,11 @@ class _MonthlyExpenseState extends State<MonthlyExpense> {
               children: [
                 Text('250€', style: TextStyles.regularStyleMedium),
                 Gap(3),
-                Text('von', style: TextStyles.hintStyleDefault),
+                Text(AppTexts.of, style: TextStyles.hintStyleDefault),
                 Gap(3),
                 Text('400€', style: TextStyles.regularStyleMedium),
                 Gap(3),
-                Text('ausgegeben', style: TextStyles.hintStyleDefault),
+                Text(AppTexts.spent, style: TextStyles.hintStyleDefault),
               ],
             )
           ],

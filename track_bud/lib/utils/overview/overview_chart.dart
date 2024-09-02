@@ -2,19 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/date_picker.dart';
-import 'package:track_bud/utils/enums/categories.dart';
 import 'package:track_bud/utils/group_debts_chart.dart';
-import 'package:track_bud/utils/textfield_widget.dart';
+import 'package:track_bud/utils/textfield_widgets.dart';
 
 // Main widget for displaying the expenses overview
-class ExpensesOverview extends StatefulWidget {
-  const ExpensesOverview({super.key});
+class ExpensesOverviewTile extends StatefulWidget {
+  const ExpensesOverviewTile({super.key});
 
   @override
-  State<ExpensesOverview> createState() => _ExpensesOverviewState();
+  State<ExpensesOverviewTile> createState() => _ExpensesOverviewTileState();
 }
 
-class _ExpensesOverviewState extends State<ExpensesOverview> {
+class _ExpensesOverviewTileState extends State<ExpensesOverviewTile> {
   int _currentTimeUnit = 1;
 
   late List<double> _dailyExpenses;
@@ -31,20 +30,22 @@ class _ExpensesOverviewState extends State<ExpensesOverview> {
   void _initializeExpenses() {
     _dailyExpenses = [100.00];
     _weeklyExpenses = [100.00, 50.00, 20.00, 0.00, 0.00, 0, 0];
-    _monthlyExpenses = List.generate(31, (index) => index < 7 ? _weeklyExpenses[index] : 0);
-    _yearlyExpenses = List.generate(12, (index) => index == 0 ? _weeklyExpenses.reduce((a, b) => a + b) : 0);
+    _monthlyExpenses =
+        List.generate(31, (index) => index < 7 ? _weeklyExpenses[index] : 0);
+    _yearlyExpenses = List.generate(12,
+        (index) => index == 0 ? _weeklyExpenses.reduce((a, b) => a + b) : 0);
   }
 
-  Map<Categories, double> categoryAmounts = {
-    Categories.lebensmittel: 3.0,
-    Categories.drogerie: 2.0,
-    Categories.restaurant: 1.00,
-    Categories.mobility: 0.0,
-    Categories.shopping: 0.0,
-    Categories.unterkunft: 0.0,
-    Categories.entertainment: 0.0,
-    Categories.geschenk: 0.0,
-    Categories.sonstiges: 0.0,
+  Map<String, double> categoryAmounts = {
+    'Lebensmittel': 3.0,
+    'Drogerie': 2.0,
+    'Restaurant': 1.00,
+    'Mobilität': 0.0,
+    'Shopping': 0.0,
+    'Unterkunft': 0.0,
+    'Entertainment': 0.0,
+    'Geschenk': 0.0,
+    'Sonstiges': 0.0,
   };
 
   List<double> _getCurrentExpenses() {
@@ -156,7 +157,8 @@ class ExpensesChart extends StatefulWidget {
   _ExpensesChartState createState() => _ExpensesChartState();
 }
 
-class _ExpensesChartState extends State<ExpensesChart> with SingleTickerProviderStateMixin {
+class _ExpensesChartState extends State<ExpensesChart>
+    with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _heightAnimation;
 
@@ -188,7 +190,8 @@ class _ExpensesChartState extends State<ExpensesChart> with SingleTickerProvider
   void didUpdateWidget(ExpensesChart oldWidget) {
     super.didUpdateWidget(oldWidget);
     // Restart animation if time unit or expenses change
-    if (oldWidget.currentTimeUnit != widget.currentTimeUnit || oldWidget.expenses != widget.expenses) {
+    if (oldWidget.currentTimeUnit != widget.currentTimeUnit ||
+        oldWidget.expenses != widget.expenses) {
       _startAnimation();
     }
   }
@@ -247,7 +250,11 @@ class _ExpensesChartState extends State<ExpensesChart> with SingleTickerProvider
                   builder: (context, child) {
                     return Container(
                       width: 30,
-                      height: maxExpense > 0 ? (weekExpenses[index] / maxExpense) * 75 * _heightAnimation.value : 0,
+                      height: maxExpense > 0
+                          ? (weekExpenses[index] / maxExpense) *
+                              75 *
+                              _heightAnimation.value
+                          : 0,
                       decoration: BoxDecoration(
                         color: CustomColor.bluePrimary,
                         borderRadius: BorderRadius.circular(5),
@@ -309,7 +316,11 @@ class _ExpensesChartState extends State<ExpensesChart> with SingleTickerProvider
                     builder: (context, child) {
                       return Container(
                         width: 8,
-                        height: maxExpense > 0 ? (monthExpenses[index] / maxExpense) * 75 * _heightAnimation.value : 0,
+                        height: maxExpense > 0
+                            ? (monthExpenses[index] / maxExpense) *
+                                75 *
+                                _heightAnimation.value
+                            : 0,
                         decoration: BoxDecoration(
                           color: CustomColor.bluePrimary,
                           borderRadius: BorderRadius.circular(5),
@@ -339,7 +350,20 @@ class _ExpensesChartState extends State<ExpensesChart> with SingleTickerProvider
 
   // Build chart for yearly expenses
   Widget _buildYearChart() {
-    final List<String> months = ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'];
+    final List<String> months = [
+      'J',
+      'F',
+      'M',
+      'A',
+      'M',
+      'J',
+      'J',
+      'A',
+      'S',
+      'O',
+      'N',
+      'D'
+    ];
     final List<double> yearExpenses = _getYearExpenses();
     double maxExpense = yearExpenses.reduce((a, b) => a > b ? a : b);
 
@@ -363,9 +387,15 @@ class _ExpensesChartState extends State<ExpensesChart> with SingleTickerProvider
                   builder: (context, child) {
                     return Container(
                       width: 20,
-                      height: maxExpense > 0 ? (yearExpenses[index] / maxExpense) * 75 * _heightAnimation.value : 0,
+                      height: maxExpense > 0
+                          ? (yearExpenses[index] / maxExpense) *
+                              75 *
+                              _heightAnimation.value
+                          : 0,
                       decoration: BoxDecoration(
-                        color: yearExpenses[index] > widget.budgetGoal ? CustomColor.red : CustomColor.bluePrimary,
+                        color: yearExpenses[index] > widget.budgetGoal
+                            ? CustomColor.red
+                            : CustomColor.bluePrimary,
                         borderRadius: BorderRadius.circular(5),
                       ),
                     );
@@ -400,7 +430,9 @@ class _ExpensesChartState extends State<ExpensesChart> with SingleTickerProvider
   // Get expenses for a week
   List<double> _getWeekExpenses() {
     // Return the first 7 expenses if available, otherwise fill with zeros
-    return widget.expenses.length >= 7 ? widget.expenses.sublist(0, 7) : List.filled(7, 0.0);
+    return widget.expenses.length >= 7
+        ? widget.expenses.sublist(0, 7)
+        : List.filled(7, 0.0);
   }
 
   // Get expenses for a month
@@ -422,7 +454,9 @@ class _ExpensesChartState extends State<ExpensesChart> with SingleTickerProvider
       int startWeek = i * 4;
       int endWeek = (i + 1) * 4;
       if (endWeek > weeksInYear) endWeek = weeksInYear;
-      for (int j = startWeek * 7; j < endWeek * 7 && j < widget.expenses.length; j++) {
+      for (int j = startWeek * 7;
+          j < endWeek * 7 && j < widget.expenses.length;
+          j++) {
         yearExpenses[i] += widget.expenses[j];
       }
     }

@@ -1,16 +1,16 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
-import 'package:track_bud/services/auth/auth_service.dart';
+import 'package:track_bud/services/auth/firebase_service.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/strings.dart';
-import 'package:track_bud/utils/textfield_widget.dart';
-import 'package:track_bud/views/at_signup/login_screen.dart';
+import 'package:track_bud/utils/textfield_widgets.dart';
 import 'package:track_bud/views/at_signup/onboarding_screen.dart';
 import 'package:track_bud/views/subpages/about_trackbud_screen.dart';
 import 'package:track_bud/views/subpages/account_settings_screen.dart';
 import 'package:track_bud/views/subpages/notifications_settings_screen.dart';
-import 'package:track_bud/views/subpages/profile_settings_screen.dart';
 
 class SettingsScreen extends StatefulWidget {
   SettingsScreen({super.key});
@@ -20,67 +20,84 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  final AuthService _authService = AuthService();
   final TextEditingController _passwordController = TextEditingController();
-
   // State variables to hold user info
+  final User? user = FirebaseAuth.instance.currentUser;
   String currentUserName = '';
   String currentUserEmail = '';
   String? _profileImageUrl;
+  bool isLoading = true;
 
   @override
   void initState() {
     super.initState();
-    //_loadCurrentUserInfo();
+    _loadUserData();
   }
 
-  // SIGNOUT METHOD
-  Future<void> _signOut() async {
-    try {
-      await _authService.signOut();
+  Future<Map<String, dynamic>> getCurrentUserData() async {
+    if (user != null) {
+      try {
+        debugPrint('Attempting to fetch data for user ID: ${user!.uid}');
+        DocumentSnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore.instance.collection('users').doc(user!.uid).get();
 
-      // Open LoginScreen on Signout
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const LoginScreen()),
-      );
+        if (snapshot.exists) {
+          debugPrint('Document data: ${snapshot.data()}');
+          return snapshot.data() ?? {};
+        } else {
+          debugPrint('User document does not exist');
+          return {};
+        }
+      } catch (e) {
+        debugPrint('Error fetching user data: $e');
+        return {};
+      }
+    }
+    debugPrint('null');
+    return {};
+  }
+
+  Future<void> _loadUserData() async {
+    try {
+      Map<String, dynamic> userData = await getCurrentUserData();
+      debugPrint('Received user data: $userData');
+      setState(() {
+        currentUserName = userData['name'] ?? 'Unbekannter Benutzer';
+        currentUserName == 'Unbekannter Benutzer' ? debugPrint('Name field not found in user data') : null;
+
+        currentUserEmail = userData['email'] ?? '';
+        currentUserEmail == '' ? debugPrint('email field not found in user data') : null;
+        isLoading = false;
+      });
     } catch (e) {
-      // Show error if Signout fails
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Fehler beim Abmelden: ${e.toString()}'),
-        ),
-      );
+      debugPrint('Error in _loadUserData: $e');
+      setState(() {
+        currentUserName = 'Fehler beim Laden der Benutzerdaten: $e';
+        isLoading = false;
+      });
     }
   }
 
-// DELETE USER ACCOUNT (dont delete from firestore DB yet, so friends still see shared costs etc)
-  Future<void> _handleAccountDeletion(BuildContext context) async {
+  Future<void> logout() async {
+    final AuthService authService = AuthService();
+
     try {
-      // Get the password entered by the user
-      String password = _passwordController.text;
-
-      // Attempt to delete the user account
-      await _authService.deleteUserAccount(password);
-
-      submit();
-
-      // Show success message and navigate away or logout the user
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Konto erfolgreich gelöscht.')),
-      );
-
-      // navigate the user to a login or home screen after deletion
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const OnboardingScreen()),
-      );
+      debugPrint('logout: Versuche, den Benutzer abzumelden...');
+      await authService.signOut();
+      debugPrint('logout: Benutzer erfolgreich abgemeldet');
+      if (mounted) {
+        // Navigieren Sie zur Login-Seite und entfernen Sie alle vorherigen Routen
+        Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => OnboardingScreen()),
+          (Route<dynamic> route) => false,
+        );
+      }
     } catch (e) {
-      submit();
-      // Show error message if something goes wrong
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Fehler beim Löschen des Kontos: $e')),
-      );
+      debugPrint('logout: Fehler beim Abmelden des Benutzers: ${e.toString()}');
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Fehler beim Abmelden: ${e.toString()}')),
+        );
+      }
     }
   }
 
@@ -100,7 +117,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   AppTexts.deleteAccDescribtion,
                   style: TextStyles.hintStyleDefault,
                 ),
-                Gap(CustomPadding.defaultSpace),
+                Gap(
+                  CustomPadding.defaultSpace,
+                ),
                 CustomTextfield(
                   name: AppTexts.password,
                   obscureText: true,
@@ -108,11 +127,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   controller: _passwordController,
                   autofocus: true,
                 ),
-                Gap(CustomPadding.defaultSpace),
+                Gap(
+                  CustomPadding.defaultSpace,
+                ),
                 ElevatedButton(
-                  onPressed: () {
-                    _handleAccountDeletion(context);
-                  },
+                  onPressed: () {},
                   style: ElevatedButton.styleFrom(backgroundColor: CustomColor.red),
                   child: Text(
                     AppTexts.deleteAcc,
@@ -138,45 +157,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
     Navigator.of(context).pop();
   }
 
-/*
-  Future<void> _loadCurrentUserInfo() async {
-    final String userId = FirebaseAuth.instance.currentUser?.uid ?? '';
-
-    if (userId.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text("Benutzer nicht angemeldet."),
-        ),
-      );
-      return;
-    }
-
-    try {
-      print("User ID: $userId");
-
-      UserModel? localUser = await SQLiteService().getUserById(userId);
-      print("Local User: ${localUser?.toMap()}");
-
-      await DependencyInjector.syncService.syncData(userId);
-      print("Synchronization complete");
-
-      if (localUser != null) {
-        setState(() {
-          currentUserName = localUser.name;
-          currentUserEmail = localUser.email;
-          _profileImageUrl = localUser.profilePictureUrl;
-        });
-      }
-    } catch (e, stackTrace) {
-      print("Fehler beim Laden der Nutzerdaten: $e");
-      print("Stacktrace: $stackTrace");
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Fehler beim Laden der Nutzerdaten: $e")),
-      );
-    }
-  }
-*/
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -208,40 +188,38 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                   ),
                 ),
-                Gap(CustomPadding.mediumSpace),
+                Gap(
+                  CustomPadding.mediumSpace,
+                ),
                 Center(
                     child: Text(
                   // FirstName
                   currentUserName,
                   style: TextStyles.titleStyleMedium,
                 )),
-                Gap(CustomPadding.smallSpace),
+                Gap(
+                  CustomPadding.smallSpace,
+                ),
                 Center(
                     child: Text(
                   //email
                   currentUserEmail,
                   style: TextStyles.hintStyleDefault,
                 )),
-                Gap(CustomPadding.bigbigSpace),
+                Gap(
+                  CustomPadding.bigbigSpace,
+                ),
                 Text(
                   AppTexts.preferences,
                   style: TextStyles.regularStyleMedium,
                 ),
-                Gap(CustomPadding.defaultSpace),
+                Gap(
+                  CustomPadding.defaultSpace,
+                ),
                 CustomShadow(
                   // edit Profile Button
                   child: TextButton.icon(
-                    onPressed: () async {
-                      final shouldReload = await Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ProfileSettingsScreen(),
-                        ),
-                      );
-                      if (shouldReload == true) {
-                        //_loadCurrentUserInfo();
-                      }
-                    },
+                    onPressed: () async {},
                     label: Text(
                       AppTexts.editProfile,
                       style: TextStyles.regularStyleDefault,
@@ -252,7 +230,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                   ),
                 ),
-                Gap(CustomPadding.mediumSpace),
+                Gap(
+                  CustomPadding.mediumSpace,
+                ),
                 CustomShadow(
                   // accAdjustment button
                   child: TextButton.icon(
@@ -274,7 +254,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                   ),
                 ),
-                Gap(CustomPadding.mediumSpace),
+                Gap(
+                  CustomPadding.mediumSpace,
+                ),
                 CustomShadow(
                   // notification button
                   child: TextButton.icon(
@@ -296,7 +278,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                   ),
                 ),
-                Gap(CustomPadding.mediumSpace),
+                Gap(
+                  CustomPadding.mediumSpace,
+                ),
                 CustomShadow(
                   // aboutTrackbut button
                   child: TextButton.icon(
@@ -318,11 +302,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                   ),
                 ),
-                Gap(CustomPadding.mediumSpace),
+                Gap(
+                  CustomPadding.mediumSpace,
+                ),
                 CustomShadow(
                   // Logout Button
                   child: TextButton.icon(
-                    onPressed: _signOut,
+                    onPressed: () {
+                      logout();
+                    },
                     label: Text(
                       AppTexts.logout,
                       style: TextStyles.regularStyleDefault,
@@ -333,7 +321,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                   ),
                 ),
-                Gap(CustomPadding.mediumSpace),
+                Gap(
+                  CustomPadding.mediumSpace,
+                ),
                 CustomShadow(
                   // delete Account Button
                   child: TextButton.icon(
