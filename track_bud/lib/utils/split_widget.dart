@@ -40,7 +40,7 @@ class _SplitButtonState extends State<SplitButton> {
             // Display the icon
             SvgPicture.asset(
               widget.icon,
-              color: widget.isSelected ? CustomColor.bluePrimary : CustomColor.hintColor,
+              colorFilter: ColorFilter.mode(widget.isSelected ? CustomColor.bluePrimary : CustomColor.hintColor, BlendMode.srcIn),
             ),
             Gap(CustomPadding.smallSpace),
             // Display the text

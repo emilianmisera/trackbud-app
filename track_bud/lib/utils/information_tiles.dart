@@ -233,7 +233,10 @@ class _TransactionDetailState extends State<TransactionDetail> {
                       value: 'Löschen',
                       child: Row(
                         children: [
-                          SvgPicture.asset(AssetImport.trash, color: CustomColor.red),
+                          SvgPicture.asset(
+                            AssetImport.trash,
+                            colorFilter: ColorFilter.mode(CustomColor.red, BlendMode.srcIn),
+                          ),
                           Gap(CustomPadding.mediumSpace),
                           Text('Löschen', style: TextStyles.regularStyleDefault.copyWith(color: CustomColor.red)),
                         ],
