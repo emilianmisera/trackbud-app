@@ -1,10 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:track_bud/models/transaction_model.dart';
-import 'package:track_bud/services/cache_service.dart';
 import 'package:track_bud/services/firestore_service.dart';
-import 'package:track_bud/services/sqlite_service.dart';
-import 'package:track_bud/services/sync_service.dart';
 import 'package:track_bud/utils/buttons_widget.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/date_picker.dart';
@@ -13,6 +11,11 @@ import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfield_widget.dart';
 import 'package:track_bud/utils/textinput_format.dart';
 import 'package:uuid/uuid.dart';
+
+// This File shows following Widgets:
+// 1) Reusuble scrollable DynamicBottomSheet that is only used for adding a new Transaction, Friendsplit & Groupsplit
+// 2) Add a new Transaction
+// 3) Add a new Split
 
 // Reusable DynamicBottomSheet component
 class DynamicBottomSheet extends StatelessWidget {
@@ -143,22 +146,6 @@ class _AddTransactionState extends State<AddTransaction> {
     });
   }
 
-  void _onRecurrenceSelected(String recurrence) {
-    setState(() {
-      _selectedRecurrence = recurrence;
-    });
-  }
-
-  void _onDateTimeChanged(DateTime newDateTime) {
-    setState(() {
-      _selectedDateTime = newDateTime;
-    });
-  }
-
-  String _getAmountPrefix() {
-    return _currentSegment == 0 ? '–' : '+';
-  }
-
   // Parse amount from comma-separated string to double
   double _parseAmount() {
     String amountText = _amountController.text.replaceAll(',', '.');
@@ -168,9 +155,6 @@ class _AddTransactionState extends State<AddTransaction> {
   TransactionModel _getTransactionFromForm() {
     final String transactionId = _uuid.v4();
     final String userId = FirebaseAuth.instance.currentUser?.uid ?? '';
-    if (userId.isEmpty) {
-      throw Exception('User nicht angemeldet');
-    }
     String title = _titleController.text.trim();
     if (title.isEmpty) {
       title = _selectedCategory!;
@@ -231,7 +215,7 @@ class _AddTransactionState extends State<AddTransaction> {
       maxChildSize: 0.95,
       isButtonEnabled: _isFormValid,
       onButtonPressed: () async {
-        await _saveNewTransaction();
+        _saveNewTransaction();
         Navigator.pop(context);
       },
       child: Padding(
@@ -246,7 +230,7 @@ class _AddTransactionState extends State<AddTransaction> {
                 style: TextStyles.regularStyleMedium,
               ),
             ),
-            SizedBox(height: CustomPadding.defaultSpace),
+            Gap(CustomPadding.defaultSpace),
             // Segment control for switching between expense and income
             CustomSegmentControl(
               onValueChanged: (int? newValue) {
@@ -255,10 +239,10 @@ class _AddTransactionState extends State<AddTransaction> {
                 });
               },
             ),
-            SizedBox(height: CustomPadding.bigSpace),
+            Gap(CustomPadding.bigSpace),
             // Text field for transaction title
             CustomTextfield(name: AppTexts.title, hintText: AppTexts.hintTitle, controller: _titleController),
-            SizedBox(height: CustomPadding.defaultSpace),
+            Gap(CustomPadding.defaultSpace),
             // Row containing amount and date fields
             Row(
               children: [
@@ -269,55 +253,47 @@ class _AddTransactionState extends State<AddTransaction> {
                   controller: _amountController,
                   width: MediaQuery.sizeOf(context).width / 3,
                   prefix: Text(
-                    _getAmountPrefix(),
+                    _currentSegment == 0 ? '–' : '+',
                     style: TextStyles.titleStyleMedium.copyWith(fontWeight: TextStyles.fontWeightDefault),
                   ),
                   type: TextInputType.numberWithOptions(decimal: true),
-                  inputFormatters: [
-                    GermanNumericTextFormatter(),
-                  ],
+                  inputFormatters: [GermanNumericTextFormatter()],
                 ),
-                SizedBox(width: CustomPadding.defaultSpace),
+                Gap(CustomPadding.defaultSpace),
                 // Date
-                DatePicker(onDateTimeChanged: _onDateTimeChanged)
+                DatePicker(onDateTimeChanged: (dateTime) => setState(() => _selectedDateTime = dateTime)),
               ],
             ),
-            SizedBox(height: CustomPadding.defaultSpace),
+            Gap(CustomPadding.defaultSpace),
             Text(
               AppTexts.categorie,
               style: TextStyles.regularStyleMedium,
             ),
-            SizedBox(height: CustomPadding.mediumSpace),
+            Gap(CustomPadding.mediumSpace),
             // Category section
             // Display either expense or income categories based on current segment
             _currentSegment == 0
                 ? CategoriesExpense(onCategorySelected: _onCategorySelected)
                 : CategoriesIncome(onCategorySelected: _onCategorySelected),
-            SizedBox(height: CustomPadding.defaultSpace),
+            Gap(CustomPadding.defaultSpace),
             Text(
               AppTexts.recurry,
               style: TextStyles.regularStyleMedium,
             ),
-            SizedBox(height: CustomPadding.mediumSpace),
+            Gap(CustomPadding.mediumSpace),
             // Dropdown for selecting recurrence frequency
-            CustomDropDown(
-              list: [
-                'einmalig',
-                'täglich',
-                'wöchentlich',
-                'zweiwöchentlich',
-                'halb-monatlich',
-                'monatlich',
-                'vierteljährlich',
-                'halb-jährlich',
-                'jährlich'
-              ],
-              dropdownWidth: MediaQuery.sizeOf(context).width - 32,
-              onChanged: (value) {
-                _onRecurrenceSelected(value);
-              },
-            ),
-            SizedBox(height: CustomPadding.defaultSpace),
+            CustomDropDown(list: [
+              'einmalig',
+              'täglich',
+              'wöchentlich',
+              'zweiwöchentlich',
+              'halb-monatlich',
+              'monatlich',
+              'vierteljährlich',
+              'halb-jährlich',
+              'jährlich'
+            ], dropdownWidth: MediaQuery.sizeOf(context).width - 32, onChanged: (value) => setState(() => _selectedRecurrence = value)),
+            Gap(CustomPadding.defaultSpace),
             // Note text field
             CustomTextfield(
               name: AppTexts.note,
@@ -325,7 +301,7 @@ class _AddTransactionState extends State<AddTransaction> {
               controller: _noteController,
               isMultiline: true,
             ),
-            SizedBox(height: CustomPadding.defaultSpace),
+            Gap(CustomPadding.defaultSpace),
           ],
         ),
       ),
@@ -333,12 +309,14 @@ class _AddTransactionState extends State<AddTransaction> {
   }
 }
 
-// Widget for adding new friend split
-class AddFriendSplit extends StatefulWidget {
+//___________________________________________________________________________________________________________________
+
+// Widget for adding new split
+class AddSplit extends StatefulWidget {
   final List<String>? list;
   final String? friendName;
   final bool? isGroup;
-  const AddFriendSplit({
+  const AddSplit({
     Key? key,
     this.list,
     this.friendName,
@@ -346,182 +324,10 @@ class AddFriendSplit extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<AddFriendSplit> createState() => _AddFriendSplitState();
+  State<AddSplit> createState() => _AddSplitState();
 }
 
-class _AddFriendSplitState extends State<AddFriendSplit> {
-  final TextEditingController _titleController = TextEditingController(); // title input
-  final TextEditingController _amountController = TextEditingController(); // amount input
-  String? _selectedCategory;
-  SplitMethod _selectedSplitMethod = SplitMethod.equal; // equal Split is selected as default
-  double _inputNumber = 0.00; // amount input Number
-  bool _isFormValid = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _titleController.addListener(_validateForm);
-    _amountController.addListener(_onInputChanged);
-  }
-
-  @override
-  void dispose() {
-    // Remove listeners
-    _titleController.removeListener(_validateForm);
-    _amountController.removeListener(_onInputChanged);
-    _titleController.dispose();
-    _amountController.dispose();
-    super.dispose();
-  }
-
-  void _validateForm() {
-    setState(() {
-      _isFormValid = _amountController.text.isNotEmpty && _selectedCategory != null;
-    });
-  }
-
-// if you change amount, inputnumber will be updated
-  void _onInputChanged() {
-    setState(() {
-      _inputNumber = _parseAmount();
-      _validateForm();
-    });
-  }
-
-  void _onCategorySelected(String category) {
-    setState(() {
-      _selectedCategory = category;
-      _validateForm();
-    });
-  }
-
-  double _parseAmount() {
-    String amountText = _amountController.text.replaceAll(',', '.');
-    return double.tryParse(amountText) ?? 0.0;
-  }
-
-  Future<void> _saveNewSplit() async {
-    // Implement split saving logic here
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return DynamicBottomSheet(
-      buttonText: AppTexts.addSplit,
-      initialChildSize: 0.76,
-      maxChildSize: 0.95,
-      isButtonEnabled: _isFormValid,
-      onButtonPressed: () async {
-        await _saveNewSplit();
-        Navigator.pop(context);
-      },
-      child: Padding(
-        padding: CustomPadding.screenWidth,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Center(
-              // Title of the bottom sheet
-              child: Text(
-                AppTexts.newSplit,
-                style: TextStyles.regularStyleMedium,
-              ),
-            ),
-            SizedBox(height: CustomPadding.defaultSpace),
-            // Text field for transaction title
-            CustomTextfield(name: AppTexts.title, hintText: AppTexts.hintTitle, controller: _titleController),
-            SizedBox(height: CustomPadding.defaultSpace),
-            // Row containing amount and date fields
-            Row(
-              children: [
-                // Amount text field
-                CustomTextfield(
-                  name: AppTexts.amount,
-                  hintText: AppTexts.lines,
-                  controller: _amountController,
-                  width: MediaQuery.sizeOf(context).width / 3,
-                  prefix: Text(
-                    '-',
-                    style: TextStyles.titleStyleMedium.copyWith(fontWeight: TextStyles.fontWeightDefault),
-                  ),
-                  type: TextInputType.numberWithOptions(decimal: true),
-                  inputFormatters: [
-                    GermanNumericTextFormatter(),
-                  ],
-                ),
-                SizedBox(width: CustomPadding.defaultSpace),
-                // Add DatePicker here if needed
-              ],
-            ),
-            SizedBox(height: CustomPadding.defaultSpace),
-            Text(
-              AppTexts.categorie,
-              style: TextStyles.regularStyleMedium,
-            ),
-            SizedBox(height: CustomPadding.mediumSpace),
-            CategoriesExpense(onCategorySelected: _onCategorySelected),
-            SizedBox(height: CustomPadding.defaultSpace),
-            Text(
-              AppTexts.payedBy,
-              style: TextStyles.regularStyleMedium,
-            ),
-            SizedBox(height: CustomPadding.mediumSpace),
-            // choosing who payed
-            // Dropdown for selecting person who paid bill
-            CustomDropDown(
-              list: widget.list ?? ['Dir', widget.friendName ?? '**Friend Name**'],
-              dropdownWidth: MediaQuery.sizeOf(context).width - 32,
-            ),
-            SizedBox(height: CustomPadding.defaultSpace),
-            // choose between 3 split options
-            SplitMethodSelector(
-              selectedMethod: _selectedSplitMethod,
-              onSplitMethodChanged: (SplitMethod method) {
-                setState(() {
-                  _selectedSplitMethod = method;
-                });
-              },
-            ),
-            SizedBox(height: CustomPadding.defaultSpace),
-            if (_selectedSplitMethod == SplitMethod.equal)
-              EqualSplitWidget(
-                amount: _inputNumber,
-                names: widget.list ?? ['Dir', widget.friendName ?? '**Friend Name**'],
-                isGroup: widget.isGroup ?? false,
-              ),
-            if (_selectedSplitMethod == SplitMethod.percent)
-              PercentalSplitWidget(
-                amount: _inputNumber,
-                names: widget.list ?? ['Dir', widget.friendName ?? '**Friend Name**'],
-              ),
-            if (_selectedSplitMethod == SplitMethod.amount)
-              ByAmountSplitWidget(
-                names: widget.list ?? ['Dir', widget.friendName ?? '**Friend Name**'],
-              )
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-// Widget for adding new group split
-class AddGroupSplit extends StatefulWidget {
-  final List<String>? list;
-  final String? friendName;
-  final bool? isGroup;
-  const AddGroupSplit({
-    Key? key,
-    this.list,
-    this.friendName,
-    this.isGroup,
-  }) : super(key: key);
-
-  @override
-  State<AddGroupSplit> createState() => _AddGroupSplitState();
-}
-
-class _AddGroupSplitState extends State<AddGroupSplit> {
+class _AddSplitState extends State<AddSplit> {
   final TextEditingController _titleController = TextEditingController(); // title input
   final TextEditingController _amountController = TextEditingController(); // amount input
   String? _selectedCategory;
@@ -602,10 +408,10 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
                 style: TextStyles.regularStyleMedium,
               ),
             ),
-            SizedBox(height: CustomPadding.defaultSpace),
+            Gap(CustomPadding.defaultSpace),
             // Text field for transaction title
             CustomTextfield(name: AppTexts.title, hintText: AppTexts.hintTitle, controller: _titleController),
-            SizedBox(height: CustomPadding.defaultSpace),
+            Gap(CustomPadding.defaultSpace),
             // Row containing amount and date fields
             Row(
               children: [
@@ -624,31 +430,31 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
                     GermanNumericTextFormatter(),
                   ],
                 ),
-                SizedBox(width: CustomPadding.defaultSpace),
+                Gap(CustomPadding.defaultSpace),
                 // Add DatePicker here if needed
               ],
             ),
-            SizedBox(height: CustomPadding.defaultSpace),
+            Gap(CustomPadding.defaultSpace),
             Text(
               AppTexts.categorie,
               style: TextStyles.regularStyleMedium,
             ),
-            SizedBox(height: CustomPadding.mediumSpace),
+            Gap(CustomPadding.mediumSpace),
             // choose category
             CategoriesExpense(onCategorySelected: _onCategorySelected),
-            SizedBox(height: CustomPadding.defaultSpace),
+            Gap(CustomPadding.defaultSpace),
             Text(
               AppTexts.payedBy,
               style: TextStyles.regularStyleMedium,
             ),
-            SizedBox(height: CustomPadding.mediumSpace),
+            Gap(CustomPadding.mediumSpace),
             // choosing who payed
             // Dropdown for selecting person who paid bill
             CustomDropDown(
               list: widget.list ?? ['Dir', widget.friendName ?? '**Friend Name**'],
               dropdownWidth: MediaQuery.sizeOf(context).width - 32,
             ),
-            SizedBox(height: CustomPadding.defaultSpace),
+            Gap(CustomPadding.defaultSpace),
             // choose between 3 split options
             SplitMethodSelector(
               selectedMethod: _selectedSplitMethod,
@@ -658,7 +464,7 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
                 });
               },
             ),
-            SizedBox(height: CustomPadding.defaultSpace),
+            Gap(CustomPadding.defaultSpace),
             if (_selectedSplitMethod == SplitMethod.equal)
               EqualSplitWidget(
                 amount: _inputNumber,

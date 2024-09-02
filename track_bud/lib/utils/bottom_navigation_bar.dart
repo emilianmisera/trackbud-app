@@ -7,6 +7,7 @@ import 'package:track_bud/utils/textfield_widget.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 // custom bottom navigation bar
+// ignore: must_be_immutable
 class CustomBottomNavigationBar extends StatefulWidget {
   int currentIndex;
   void Function(int) onTap;
@@ -112,7 +113,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> w
                     showModalBottomSheet(
                       context: context,
                       isScrollControlled: true,
-                      builder: (context) => AddGroupSplit(
+                      builder: (context) => AddSplit(
                         isGroup: true,
                       ),
                     );
@@ -177,7 +178,9 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> w
                           showModalBottomSheet(
                             context: context,
                             isScrollControlled: true,
-                            builder: (context) => AddFriendSplit(),
+                            builder: (context) => AddSplit(
+                              isGroup: false,
+                            ),
                           );
                         },
                         child: Text('Neuen Freundessplit hinzufügen')),
