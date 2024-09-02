@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:track_bud/utils/constants.dart';
+import 'package:track_bud/utils/enums/categories.dart';
 import 'package:track_bud/utils/group_debts_chart.dart';
 import 'package:track_bud/utils/group_widget.dart';
 import 'package:track_bud/utils/information_tiles.dart';
@@ -68,15 +69,15 @@ class _GroupOverviewScreenState extends State<GroupOverviewScreen> {
               ),
               TransactionOverview(
                 categoryAmounts: {
-                  'Lebensmittel': 3.0,
-                  'Drogerie': 2.0,
-                  'Restaurant': 1.00,
-                  'Mobilität': 0.0,
-                  'Shopping': 0.0,
-                  'Unterkunft': 0.0,
-                  'Entertainment': 0.0,
-                  'Geschenk': 0.0,
-                  'Sonstiges': 0.0,
+                  Categories.lebensmittel: 3.0,
+                  Categories.drogerie: 2.0,
+                  Categories.restaurant: 1.00,
+                  Categories.mobility: 0.0,
+                  Categories.shopping: 0.0,
+                  Categories.unterkunft: 0.0,
+                  Categories.entertainment: 0.0,
+                  Categories.geschenk: 0.0,
+                  Categories.sonstiges: 0.0,
                 },
               ),
               SizedBox(
