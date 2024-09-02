@@ -13,17 +13,11 @@ class CustomTextStyle {
   static const FontWeight fontWeightMedium = FontWeight.w500;
   static const FontWeight fontWeightSemiBold = FontWeight.w600;
 
-  static TextStyle headingStyle = const TextStyle(
-      fontFamily: fontFamily,
-      fontSize: fontSizeHeading,
-      fontWeight: fontWeightSemiBold,
-      color: CustomColor.black);
+  static TextStyle headingStyle =
+      const TextStyle(fontFamily: fontFamily, fontSize: fontSizeHeading, fontWeight: fontWeightSemiBold, color: CustomColor.black);
 
-  static TextStyle introductionStyle = const TextStyle(
-      fontFamily: fontFamily,
-      fontSize: fontSizeHeading,
-      fontWeight: fontWeightMedium,
-      color: CustomColor.black);
+  static TextStyle introductionStyle =
+      const TextStyle(fontFamily: fontFamily, fontSize: fontSizeHeading, fontWeight: fontWeightMedium, color: CustomColor.black);
 
   static TextStyle regularStyleDefault = const TextStyle(
     fontFamily: fontFamily,
@@ -73,7 +67,6 @@ class CustomTextStyle {
     color: CustomColor.hintColor,
   );
 
-  
   static TextStyle slidingStyleExpense = const TextStyle(
     fontFamily: fontFamily,
     fontSize: fontSizeDefault,
@@ -104,7 +97,6 @@ class CustomTextStyle {
     fontWeight: fontWeightMedium,
     color: CustomColor.black,
   );
-
 }
 
 class CustomColor {
@@ -142,8 +134,7 @@ class CustomColor {
 
 class CustomPadding {
   static const EdgeInsets screenWidth = EdgeInsets.only(left: 16, right: 16);
-  static const EdgeInsets defaultHeightSpace =
-      EdgeInsets.only(top: 8, bottom: 8);
+  static const EdgeInsets defaultHeightSpace = EdgeInsets.only(top: 8, bottom: 8);
   static const double bottomSpace = 0.05;
   static const double topSpaceSettingsScreen = 0.11;
   static const double topSpace = 0.08;
@@ -192,7 +183,6 @@ class AssetImport {
   static const String equal = 'assets/icons/equal.svg';
   static const String percent = 'assets/icons/percent.svg';
 
-
   //categories
   static const String shoppingCart = 'assets/categories/shoopingCart.png';
   static const String drogerie = 'assets/categories/drogerie.png';
@@ -210,8 +200,7 @@ class Constants {
   //Button
   static const double buttonBorderRadius = 10;
   static const double height = 60;
-  static const Padding screenWidth =
-      Padding(padding: EdgeInsets.only(left: 16, right: 16));
+  static const Padding screenWidth = Padding(padding: EdgeInsets.only(left: 16, right: 16));
   static const double defaultAppBarHeight = 56;
   static const Duration buttonAnimationDuration = Duration(milliseconds: 200);
   static const double profilePictureSettingPage = 65;
@@ -222,4 +211,5 @@ class Constants {
   static const double infoTileSpace = 20;
   static const double modalBottomSheetHeight = 0.8;
   static const double addBottomSheetHeight = 0.4;
+  static const double iconSize = 25;
 }
