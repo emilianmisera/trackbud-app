@@ -112,12 +112,11 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
                 ],
               ),
               Gap(CustomPadding.defaultSpace),
-              ChartTile(
-                  chartChild: DonutChart(
-                      selectedOption: _selectedOption,
-                      selectedCategory: _selectedCategory,
-                      key: ValueKey(_selectedOption),
-                      onCategorySelected: _onCategorySelected)),
+              DonutChart(
+                  selectedOption: _selectedOption,
+                  selectedCategory: _selectedCategory,
+                  key: ValueKey(_selectedOption),
+                  onCategorySelected: _onCategorySelected),
               Gap(CustomPadding.defaultSpace),
               Text(
                 AppTexts.history,

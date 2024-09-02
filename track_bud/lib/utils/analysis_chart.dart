@@ -7,24 +7,6 @@ import 'package:track_bud/utils/buttons_widget.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/strings.dart';
 
-// Background of Charts
-class ChartTile extends StatelessWidget {
-  final Widget chartChild;
-  const ChartTile({super.key, required this.chartChild});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery.sizeOf(context).width,
-      padding: EdgeInsets.only(top: CustomPadding.bigSpace, bottom: CustomPadding.defaultSpace),
-      decoration: BoxDecoration(
-        color: CustomColor.white,
-        borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
-      ),
-      child: chartChild,
-    );
-  }
-}
 
 // Donut Chart in Analysis Screen
 class DonutChart extends StatefulWidget {
@@ -138,42 +120,50 @@ class _DonutChartState extends State<DonutChart> {
     }
     final showingSectionsMap = _showingSections();
 
-    return Column(
-      children: [
-        // Pie chart
-        AspectRatio(
-          aspectRatio: 1.3,
-          child: PieChart(
-            PieChartData(
-              borderData: FlBorderData(show: false),
-              sectionsSpace: 0,
-              centerSpaceRadius: 80,
-              startDegreeOffset: 270,
-              sections: showingSectionsMap.values.toList(),
-              pieTouchData: PieTouchData(
-                touchCallback: (FlTouchEvent event, pieTouchResponse) {
-                  if (event is FlTapUpEvent && pieTouchResponse?.touchedSection != null) {
-                    final touchedIndex = showingSectionsMap.keys.elementAt(
-                      pieTouchResponse!.touchedSection!.touchedSectionIndex,
-                    );
-                    final sectionTitle = _getSections()[touchedIndex].sectionData.title;
-                    setState(() {
-                      selectedIndex = (selectedIndex == touchedIndex) ? null : touchedIndex;
-                    });
-                    widget.onCategorySelected(sectionTitle);
-                  }
-                },
+    return Container(
+      width: MediaQuery.sizeOf(context).width,
+      padding: EdgeInsets.only(top: CustomPadding.bigSpace, bottom: CustomPadding.defaultSpace),
+      decoration: BoxDecoration(
+        color: CustomColor.white,
+        borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
+      ),
+      child: Column(
+        children: [
+          // Pie chart
+          AspectRatio(
+            aspectRatio: 1.3,
+            child: PieChart(
+              PieChartData(
+                borderData: FlBorderData(show: false),
+                sectionsSpace: 0,
+                centerSpaceRadius: 80,
+                startDegreeOffset: 270,
+                sections: showingSectionsMap.values.toList(),
+                pieTouchData: PieTouchData(
+                  touchCallback: (FlTouchEvent event, pieTouchResponse) {
+                    if (event is FlTapUpEvent && pieTouchResponse?.touchedSection != null) {
+                      final touchedIndex = showingSectionsMap.keys.elementAt(
+                        pieTouchResponse!.touchedSection!.touchedSectionIndex,
+                      );
+                      final sectionTitle = _getSections()[touchedIndex].sectionData.title;
+                      setState(() {
+                        selectedIndex = (selectedIndex == touchedIndex) ? null : touchedIndex;
+                      });
+                      widget.onCategorySelected(sectionTitle);
+                    }
+                  },
+                ),
               ),
             ),
           ),
-        ),
-        Gap(CustomPadding.defaultSpace),
+          Gap(CustomPadding.defaultSpace),
 
-        // Category names display
-        Column(
-          children: _buildCategoryTiles(),
-        ),
-      ],
+          // Category names display
+          Column(
+            children: _buildCategoryTiles(),
+          ),
+        ],
+      ),
     );
   }
 
