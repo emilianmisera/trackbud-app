@@ -25,7 +25,7 @@ class OverviewDebtsWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  AppString.inTotal,
+                  AppTexts.inTotal,
                   style: CustomTextStyle.regularStyleMedium,
                 ),
                 DebtsInformation(
@@ -42,13 +42,12 @@ class OverviewDebtsWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  AppString.toFriends,
+                  AppTexts.toFriends,
                   style: CustomTextStyle.hintStyleDefault,
                 ),
                 Text(
                   '10€',
-                  style: CustomTextStyle.regularStyleDefault
-                      .copyWith(color: CustomColor.red),
+                  style: CustomTextStyle.regularStyleDefault.copyWith(color: CustomColor.red),
                 )
               ],
             ),
@@ -69,7 +68,10 @@ class OverviewDebtsWidget extends StatelessWidget {
                 SizedBox(
                   width: CustomPadding.mediumSpace,
                 ),
-                Text('Freund', style: CustomTextStyle.regularStyleDefault.copyWith(fontSize: 14),)
+                Text(
+                  'Freund',
+                  style: CustomTextStyle.regularStyleDefault.copyWith(fontSize: 14),
+                )
               ],
             ),
             SizedBox(
@@ -80,13 +82,12 @@ class OverviewDebtsWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  AppString.toYou,
+                  AppTexts.toYou,
                   style: CustomTextStyle.hintStyleDefault,
                 ),
                 Text(
                   '110€',
-                  style: CustomTextStyle.regularStyleDefault
-                      .copyWith(color: CustomColor.green),
+                  style: CustomTextStyle.regularStyleDefault.copyWith(color: CustomColor.green),
                 )
               ],
             ),
@@ -107,7 +108,10 @@ class OverviewDebtsWidget extends StatelessWidget {
                 SizedBox(
                   width: CustomPadding.mediumSpace,
                 ),
-                Text('Freund', style: CustomTextStyle.regularStyleDefault.copyWith(fontSize: 14),)
+                Text(
+                  'Freund',
+                  style: CustomTextStyle.regularStyleDefault.copyWith(fontSize: 14),
+                )
               ],
             ),
           ],

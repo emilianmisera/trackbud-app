@@ -6,8 +6,7 @@ import 'package:track_bud/utils/textfield_widget.dart';
 
 class DatePicker extends StatefulWidget {
   final Function(DateTime) onDateTimeChanged;
-  const DatePicker({Key? key, required this.onDateTimeChanged})
-      : super(key: key);
+  const DatePicker({Key? key, required this.onDateTimeChanged}) : super(key: key);
 
   @override
   State<DatePicker> createState() => _DatePickerState();
@@ -37,8 +36,7 @@ class _DatePickerState extends State<DatePicker> {
   void _updateDate(DateTime newDate) {
     setState(() {
       //keep the time when date gets changed
-      _dateTime = DateTime(newDate.year, newDate.month, newDate.day,
-          _dateTime.hour, _dateTime.minute);
+      _dateTime = DateTime(newDate.year, newDate.month, newDate.day, _dateTime.hour, _dateTime.minute);
     });
     widget.onDateTimeChanged(_dateTime);
   }
@@ -46,8 +44,7 @@ class _DatePickerState extends State<DatePicker> {
   void _updateTime(DateTime newTime) {
     setState(() {
       // Behalte das aktuelle Datum bei, aber aktualisiere die Zeit
-      _dateTime = DateTime(_dateTime.year, _dateTime.month, _dateTime.day,
-          newTime.hour, newTime.minute);
+      _dateTime = DateTime(_dateTime.year, _dateTime.month, _dateTime.day, newTime.hour, newTime.minute);
     });
     widget.onDateTimeChanged(_dateTime);
   }
@@ -59,7 +56,7 @@ class _DatePickerState extends State<DatePicker> {
       children: [
         // Date label
         Text(
-          AppString.date,
+          AppTexts.date,
           style: CustomTextStyle.regularStyleMedium,
         ),
         SizedBox(
@@ -93,8 +90,7 @@ class _DatePickerState extends State<DatePicker> {
               child: CustomShadow(
                 child: Container(
                   height: Constants.height,
-                  padding: EdgeInsets.symmetric(
-                      horizontal: CustomPadding.defaultSpace),
+                  padding: EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace),
                   decoration: BoxDecoration(
                     color: CustomColor.white,
                     borderRadius: BorderRadius.circular(10),
@@ -146,8 +142,7 @@ class _DatePickerState extends State<DatePicker> {
               child: CustomShadow(
                 child: Container(
                   height: Constants.height,
-                  padding: EdgeInsets.symmetric(
-                      horizontal: CustomPadding.defaultSpace),
+                  padding: EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace),
                   decoration: BoxDecoration(
                     color: CustomColor.white,
                     borderRadius: BorderRadius.circular(10),
@@ -173,8 +168,6 @@ class _DatePickerState extends State<DatePicker> {
     );
   }
 }
-
-
 
 class SelectTimeUnit extends StatefulWidget {
   final Function(int?) onValueChanged; // callback
@@ -203,36 +196,28 @@ class _SelectTimeUnitState extends State<SelectTimeUnit> {
               // Sets the height of the segment relative to screen height
               height: 28,
               alignment: Alignment.center,
-              child: Text(AppString.day,
+              child: Text(AppTexts.day,
                   // Applies different styles based on selection state
-                  style: _sliding == 0
-                      ? CustomTextStyle.slidingTimeUnitStyleSelected
-                      : CustomTextStyle.slidingTimeUnitStyleDefault),
+                  style: _sliding == 0 ? CustomTextStyle.slidingTimeUnitStyleSelected : CustomTextStyle.slidingTimeUnitStyleDefault),
             ),
             // Income segment
             1: Container(
               height: 28,
               alignment: Alignment.center,
-              child: Text(AppString.week,
-                  style: _sliding == 1
-                      ? CustomTextStyle.slidingTimeUnitStyleSelected
-                      : CustomTextStyle.slidingTimeUnitStyleDefault),
+              child: Text(AppTexts.week,
+                  style: _sliding == 1 ? CustomTextStyle.slidingTimeUnitStyleSelected : CustomTextStyle.slidingTimeUnitStyleDefault),
             ),
             2: Container(
               height: 28,
               alignment: Alignment.center,
-              child: Text(AppString.month,
-                  style: _sliding == 2
-                      ? CustomTextStyle.slidingTimeUnitStyleSelected
-                      : CustomTextStyle.slidingTimeUnitStyleDefault),
+              child: Text(AppTexts.month,
+                  style: _sliding == 2 ? CustomTextStyle.slidingTimeUnitStyleSelected : CustomTextStyle.slidingTimeUnitStyleDefault),
             ),
             3: Container(
               height: 28,
               alignment: Alignment.center,
-              child: Text(AppString.year,
-                  style: _sliding == 3
-                      ? CustomTextStyle.slidingTimeUnitStyleSelected
-                      : CustomTextStyle.slidingTimeUnitStyleDefault),
+              child: Text(AppTexts.year,
+                  style: _sliding == 3 ? CustomTextStyle.slidingTimeUnitStyleSelected : CustomTextStyle.slidingTimeUnitStyleDefault),
             ),
           },
           groupValue: _sliding, // Current selection

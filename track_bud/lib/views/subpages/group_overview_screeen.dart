@@ -26,17 +26,11 @@ class _GroupOverviewScreenState extends State<GroupOverviewScreen> {
       body: SingleChildScrollView(
         child: Padding(
           // spacing between content and screen
-          padding: EdgeInsets.only(
-              top: CustomPadding.defaultSpace,
-              left: CustomPadding.defaultSpace,
-              right: CustomPadding.defaultSpace),
+          padding: EdgeInsets.only(top: CustomPadding.defaultSpace, left: CustomPadding.defaultSpace, right: CustomPadding.defaultSpace),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              InfoTile(
-                  title: AppString.overall,
-                  amount: '10000,50',
-                  color: CustomColor.black),
+              InfoTile(title: AppTexts.overall, amount: '10000,50', color: CustomColor.black),
               SizedBox(
                 height: CustomPadding.mediumSpace,
               ),
@@ -44,22 +38,20 @@ class _GroupOverviewScreenState extends State<GroupOverviewScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   InfoTile(
-                      title: AppString.perPerson,
+                      title: AppTexts.perPerson,
                       amount: 'amount',
                       color: CustomColor.bluePrimary,
-                      width: MediaQuery.sizeOf(context).width / 2 -
-                          Constants.infoTileSpace),
+                      width: MediaQuery.sizeOf(context).width / 2 - Constants.infoTileSpace),
                   InfoTile(
-                      title: AppString.debts,
+                      title: AppTexts.debts,
                       amount: 'amount',
                       color: CustomColor.red,
-                      width: MediaQuery.sizeOf(context).width / 2 -
-                          Constants.infoTileSpace),
+                      width: MediaQuery.sizeOf(context).width / 2 - Constants.infoTileSpace),
                 ],
               ),
               SizedBox(height: CustomPadding.defaultSpace),
               Text(
-                AppString.debtsOverview,
+                AppTexts.debtsOverview,
                 style: CustomTextStyle.regularStyleMedium,
               ),
               SizedBox(
@@ -68,7 +60,7 @@ class _GroupOverviewScreenState extends State<GroupOverviewScreen> {
               DebtsOverview(),
               SizedBox(height: CustomPadding.defaultSpace),
               Text(
-                AppString.transactionOverview,
+                AppTexts.transactionOverview,
                 style: CustomTextStyle.regularStyleMedium,
               ),
               SizedBox(
@@ -91,7 +83,7 @@ class _GroupOverviewScreenState extends State<GroupOverviewScreen> {
                 height: CustomPadding.defaultSpace,
               ),
               Text(
-                AppString.history,
+                AppTexts.history,
                 style: CustomTextStyle.regularStyleMedium,
               ),
               SizedBox(
@@ -99,9 +91,7 @@ class _GroupOverviewScreenState extends State<GroupOverviewScreen> {
               ),
               //TODO: Add Listview with all Transactions
               SizedBox(
-                height: MediaQuery.sizeOf(context).height *
-                        CustomPadding.bottomSpace +
-                    CustomPadding.bigbigSpace,
+                height: MediaQuery.sizeOf(context).height * CustomPadding.bottomSpace + CustomPadding.bigbigSpace,
               )
             ],
           ),
@@ -110,8 +100,7 @@ class _GroupOverviewScreenState extends State<GroupOverviewScreen> {
       bottomSheet: Container(
         // Margin is applied to the bottom of the button and the sides for proper spacing.
         margin: EdgeInsets.only(
-          bottom: MediaQuery.sizeOf(context).height *
-              CustomPadding.bottomSpace, // Bottom margin based on screen height
+          bottom: MediaQuery.sizeOf(context).height * CustomPadding.bottomSpace, // Bottom margin based on screen height
           left: CustomPadding.defaultSpace, // Left margin
           right: CustomPadding.defaultSpace, // Right margin
         ),
@@ -122,7 +111,7 @@ class _GroupOverviewScreenState extends State<GroupOverviewScreen> {
               // Set button color based on whether profile has changed
               disabledBackgroundColor: CustomColor.bluePrimary.withOpacity(0.5),
               backgroundColor: CustomColor.bluePrimary),
-          child: Text(AppString.addDebt),
+          child: Text(AppTexts.addDebt),
         ),
       ),
     );

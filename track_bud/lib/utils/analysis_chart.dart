@@ -15,8 +15,7 @@ class ChartTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.sizeOf(context).width,
-      padding: EdgeInsets.only(
-          top: CustomPadding.bigSpace, bottom: CustomPadding.defaultSpace),
+      padding: EdgeInsets.only(top: CustomPadding.bigSpace, bottom: CustomPadding.defaultSpace),
       decoration: BoxDecoration(
         color: CustomColor.white,
         borderRadius: BorderRadius.circular(Constants.buttonBorderRadius),
@@ -32,11 +31,7 @@ class DonutChart extends StatefulWidget {
   final String? selectedCategory;
   final Function(String) onCategorySelected;
 
-  const DonutChart(
-      {Key? key,
-      required this.selectedOption,
-      required this.selectedCategory,
-      required this.onCategorySelected})
+  const DonutChart({Key? key, required this.selectedOption, required this.selectedCategory, required this.onCategorySelected})
       : super(key: key);
 
   @override
@@ -60,27 +55,30 @@ class _DonutChartState extends State<DonutChart> {
     if (oldWidget.selectedOption != widget.selectedOption || oldWidget.selectedCategory != widget.selectedCategory) {
       _loadData();
       setState(() {
-        selectedIndex = widget.selectedCategory == null ? null : _getSections().indexWhere((section) => section.sectionData.title == widget.selectedCategory);
+        selectedIndex = widget.selectedCategory == null
+            ? null
+            : _getSections().indexWhere((section) => section.sectionData.title == widget.selectedCategory);
       });
     }
   }
 
   Future<void> _loadData() async {
-  final userId = FirebaseAuth.instance.currentUser?.uid ?? '';
-  final isIncome = widget.selectedOption == 'Einnahmen';
-  try {
-    categoryData = await TransactionController().getCategoryTotals(userId, isIncome);
-    if (mounted) { // Ensure the widget is still mounted before calling setState
-      setState(() {});
-    }
-  } catch (e) {
-    if (mounted) {
-      setState(() {
-        // Handle error state here, maybe show an error message
-      });
+    final userId = FirebaseAuth.instance.currentUser?.uid ?? '';
+    final isIncome = widget.selectedOption == 'Einnahmen';
+    try {
+      categoryData = await TransactionController().getCategoryTotals(userId, isIncome);
+      if (mounted) {
+        // Ensure the widget is still mounted before calling setState
+        setState(() {});
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          // Handle error state here, maybe show an error message
+        });
+      }
     }
   }
-}
 
   List<ChartSectionData> _getSections() {
     final isIncome = widget.selectedOption == 'Einnahmen';
@@ -88,8 +86,7 @@ class _DonutChartState extends State<DonutChart> {
 
     final sortedSections = sections
         .map((section) {
-          final totalAmount =
-              categoryData[section.sectionData.title]?['totalAmount'] ?? 0.0;
+          final totalAmount = categoryData[section.sectionData.title]?['totalAmount'] ?? 0.0;
           return ChartSectionData(
             sectionData: PieChartSectionData(
               color: section.sectionData.color,
@@ -103,8 +100,7 @@ class _DonutChartState extends State<DonutChart> {
         .where((section) => section.sectionData.value > 0)
         .toList();
 
-    sortedSections
-        .sort((a, b) => b.sectionData.value.compareTo(a.sectionData.value));
+    sortedSections.sort((a, b) => b.sectionData.value.compareTo(a.sectionData.value));
 
     return sortedSections;
   }
@@ -112,11 +108,7 @@ class _DonutChartState extends State<DonutChart> {
   Map<int, PieChartSectionData> _showingSections() {
     final sections = _getSections();
     return Map.fromEntries(
-      sections
-          .asMap()
-          .entries
-          .where((entry) => entry.value.sectionData.value > 0)
-          .map((entry) {
+      sections.asMap().entries.where((entry) => entry.value.sectionData.value > 0).map((entry) {
         final i = entry.key;
         final section = entry.value;
         final isTouched = i == selectedIndex;
@@ -159,16 +151,13 @@ class _DonutChartState extends State<DonutChart> {
               sections: showingSectionsMap.values.toList(),
               pieTouchData: PieTouchData(
                 touchCallback: (FlTouchEvent event, pieTouchResponse) {
-                  if (event is FlTapUpEvent &&
-                      pieTouchResponse?.touchedSection != null) {
+                  if (event is FlTapUpEvent && pieTouchResponse?.touchedSection != null) {
                     final touchedIndex = showingSectionsMap.keys.elementAt(
                       pieTouchResponse!.touchedSection!.touchedSectionIndex,
                     );
-                    final sectionTitle =
-                        _getSections()[touchedIndex].sectionData.title;
+                    final sectionTitle = _getSections()[touchedIndex].sectionData.title;
                     setState(() {
-                      selectedIndex =
-                          (selectedIndex == touchedIndex) ? null : touchedIndex;
+                      selectedIndex = (selectedIndex == touchedIndex) ? null : touchedIndex;
                     });
                     widget.onCategorySelected(sectionTitle);
                   }
@@ -190,17 +179,14 @@ class _DonutChartState extends State<DonutChart> {
   List<Widget> _buildCategoryTiles() {
     final sections = _getSections();
 
-    if (selectedIndex != null &&
-        sections[selectedIndex!].sectionData.value > 0) {
+    if (selectedIndex != null && sections[selectedIndex!].sectionData.value > 0) {
       final selectedSection = sections[selectedIndex!];
       return [
         _buildCategoryTile(selectedSection, selectedIndex!),
       ];
     } else {
       // Sortiere die Abschnitte nach totalAmount in absteigender Reihenfolge
-      final sortedSections = sections
-          .where((section) => section.sectionData.value > 0)
-          .toList()
+      final sortedSections = sections.where((section) => section.sectionData.value > 0).toList()
         ..sort((a, b) => b.sectionData.value.compareTo(a.sectionData.value));
 
       return sortedSections
@@ -239,58 +225,35 @@ class _DonutChartState extends State<DonutChart> {
   // List of pie chart sections with their properties
   final List<ChartSectionData> _expenseSections = [
     ChartSectionData(
-      sectionData: PieChartSectionData(
-          color: CustomColor.lebensmittel, title: AppString.lebensmittel),
+      sectionData: PieChartSectionData(color: CustomColor.lebensmittel, title: AppTexts.lebensmittel),
       iconAsset: AssetImport.shoppingCart,
     ),
     ChartSectionData(
-        sectionData: PieChartSectionData(
-            color: CustomColor.drogerie, title: AppString.drogerie),
-        iconAsset: AssetImport.drogerie),
+        sectionData: PieChartSectionData(color: CustomColor.drogerie, title: AppTexts.drogerie), iconAsset: AssetImport.drogerie),
     ChartSectionData(
-        sectionData: PieChartSectionData(
-            color: CustomColor.shopping, title: AppString.shopping),
-        iconAsset: AssetImport.shopping),
+        sectionData: PieChartSectionData(color: CustomColor.shopping, title: AppTexts.shopping), iconAsset: AssetImport.shopping),
     ChartSectionData(
-        sectionData: PieChartSectionData(
-            color: CustomColor.unterkunft, title: AppString.unterkunft),
-        iconAsset: AssetImport.home),
+        sectionData: PieChartSectionData(color: CustomColor.unterkunft, title: AppTexts.unterkunft), iconAsset: AssetImport.home),
     ChartSectionData(
-        sectionData: PieChartSectionData(
-            color: CustomColor.restaurant, title: AppString.restaurants),
-        iconAsset: AssetImport.restaurant),
+        sectionData: PieChartSectionData(color: CustomColor.restaurant, title: AppTexts.restaurants), iconAsset: AssetImport.restaurant),
     ChartSectionData(
-        sectionData: PieChartSectionData(
-            color: CustomColor.mobility, title: AppString.mobility),
-        iconAsset: AssetImport.mobility),
+        sectionData: PieChartSectionData(color: CustomColor.mobility, title: AppTexts.mobility), iconAsset: AssetImport.mobility),
     ChartSectionData(
-        sectionData: PieChartSectionData(
-            color: CustomColor.entertainment, title: AppString.entertainment),
+        sectionData: PieChartSectionData(color: CustomColor.entertainment, title: AppTexts.entertainment),
         iconAsset: AssetImport.entertainment),
+    ChartSectionData(sectionData: PieChartSectionData(color: CustomColor.geschenk, title: AppTexts.geschenke), iconAsset: AssetImport.gift),
     ChartSectionData(
-        sectionData: PieChartSectionData(
-            color: CustomColor.geschenk, title: AppString.geschenke),
-        iconAsset: AssetImport.gift),
-    ChartSectionData(
-        sectionData: PieChartSectionData(
-            color: CustomColor.sonstiges, title: AppString.sonstiges),
-        iconAsset: AssetImport.other),
+        sectionData: PieChartSectionData(color: CustomColor.sonstiges, title: AppTexts.sonstiges), iconAsset: AssetImport.other),
   ];
 
   final List<ChartSectionData> _incomeSections = [
     ChartSectionData(
-      sectionData: PieChartSectionData(
-          color: CustomColor.gehalt, title: AppString.workIncome),
+      sectionData: PieChartSectionData(color: CustomColor.gehalt, title: AppTexts.workIncome),
       iconAsset: AssetImport.gehalt,
     ),
+    ChartSectionData(sectionData: PieChartSectionData(color: CustomColor.geschenk, title: AppTexts.geschenke), iconAsset: AssetImport.gift),
     ChartSectionData(
-        sectionData: PieChartSectionData(
-            color: CustomColor.geschenk, title: AppString.geschenke),
-        iconAsset: AssetImport.gift),
-    ChartSectionData(
-        sectionData: PieChartSectionData(
-            color: CustomColor.sonstiges, title: AppString.sonstiges),
-        iconAsset: AssetImport.other),
+        sectionData: PieChartSectionData(color: CustomColor.sonstiges, title: AppTexts.sonstiges), iconAsset: AssetImport.other),
   ];
 }
 
@@ -335,9 +298,7 @@ class CategoryTile extends StatelessWidget {
       onTap: onTap,
       child: Container(
         width: MediaQuery.sizeOf(context).width,
-        decoration: BoxDecoration(
-            color: CustomColor.white,
-            borderRadius: BorderRadius.circular(Constants.buttonBorderRadius)),
+        decoration: BoxDecoration(color: CustomColor.white, borderRadius: BorderRadius.circular(Constants.buttonBorderRadius)),
         child: ListTile(
           leading: CategoryIcon(
               color: color,
@@ -350,18 +311,15 @@ class CategoryTile extends StatelessWidget {
           title: Text(title, style: CustomTextStyle.regularStyleMedium),
           subtitle: Text(
             '${percentage.toStringAsFixed(1)}%',
-            style: CustomTextStyle.hintStyleDefault
-                .copyWith(fontSize: CustomTextStyle.fontSizeHint),
+            style: CustomTextStyle.hintStyleDefault.copyWith(fontSize: CustomTextStyle.fontSizeHint),
           ),
           trailing: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Text('${totalAmount.toStringAsFixed(2)}€',
-                  style: CustomTextStyle.regularStyleMedium),
+              Text('${totalAmount.toStringAsFixed(2)}€', style: CustomTextStyle.regularStyleMedium),
               SizedBox(height: 8),
               Text('$transactionCount Transaktionen',
-                  style: CustomTextStyle.hintStyleDefault
-                      .copyWith(fontSize: CustomTextStyle.fontSizeHint)),
+                  style: CustomTextStyle.hintStyleDefault.copyWith(fontSize: CustomTextStyle.fontSizeHint)),
             ],
           ),
           minVerticalPadding: CustomPadding.defaultSpace,

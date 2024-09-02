@@ -16,9 +16,7 @@ class FriendCard extends StatelessWidget {
     return CustomShadow(
       child: Container(
         width: MediaQuery.sizeOf(context).width,
-        decoration: BoxDecoration(
-            color: CustomColor.white,
-            borderRadius: BorderRadius.circular(Constants.buttonBorderRadius)),
+        decoration: BoxDecoration(color: CustomColor.white, borderRadius: BorderRadius.circular(Constants.buttonBorderRadius)),
         child: ListTile(
           // Friend's profile picture
           leading: ClipRRect(
@@ -39,8 +37,7 @@ class FriendCard extends StatelessWidget {
           // Debt or credit information
           subtitle: Text(
             'bekommt insgesamt ...', // "receives in total ..."
-            style: CustomTextStyle.hintStyleDefault
-                .copyWith(fontSize: CustomTextStyle.fontSizeHint),
+            style: CustomTextStyle.hintStyleDefault.copyWith(fontSize: CustomTextStyle.fontSizeHint),
           ),
           // Navigation arrow
           trailing: Icon(
@@ -79,15 +76,13 @@ class FriendProfileDetails extends StatelessWidget {
         color: CustomColor.white,
         borderRadius: BorderRadius.circular(Constants.buttonBorderRadius),
       ),
-      padding: EdgeInsets.symmetric(
-          horizontal: CustomPadding.defaultSpace,
-          vertical: CustomPadding.defaultSpace),
+      padding: EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace, vertical: CustomPadding.defaultSpace),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Debts section
           Text(
-            AppString.debts,
+            AppTexts.debts,
             style: CustomTextStyle.regularStyleDefault,
           ),
           SizedBox(
@@ -103,7 +98,7 @@ class FriendProfileDetails extends StatelessWidget {
 
           // Shared groups section
           Text(
-            AppString.sameGroups,
+            AppTexts.sameGroups,
             style: CustomTextStyle.regularStyleDefault,
           ),
           SizedBox(

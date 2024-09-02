@@ -42,9 +42,9 @@ class _MonthlyExpenseState extends State<MonthlyExpense> {
           children: [
             // Remaining amount
             Text('50,00€', style: CustomTextStyle.headingStyle),
-            Text(AppString.remainingText, style: CustomTextStyle.hintStyleDefault),
+            Text(AppTexts.remainingText, style: CustomTextStyle.hintStyleDefault),
             SizedBox(height: CustomPadding.smallSpace),
-            
+
             // Progress bar
             LinearPercentIndicator(
               padding: EdgeInsets.zero,
@@ -57,7 +57,7 @@ class _MonthlyExpenseState extends State<MonthlyExpense> {
               animation: true,
             ),
             SizedBox(height: CustomPadding.smallSpace),
-            
+
             // Expense details
             Row(
               children: [

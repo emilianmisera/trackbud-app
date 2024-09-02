@@ -109,8 +109,7 @@ class _TransactionTileState extends State<TransactionTile> {
               onEdit: widget.onEdit,
             ),
           ),
-          insetPadding:
-              EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace),
+          insetPadding: EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace),
           backgroundColor: CustomColor.backgroundPrimary,
           surfaceTintColor: CustomColor.backgroundPrimary,
           shape: RoundedRectangleBorder(
@@ -126,14 +125,10 @@ class _TransactionTileState extends State<TransactionTile> {
     return CustomShadow(
       child: Container(
         width: MediaQuery.sizeOf(context).width,
-        decoration: BoxDecoration(
-            color: CustomColor.white,
-            borderRadius: BorderRadius.circular(Constants.buttonBorderRadius)),
+        decoration: BoxDecoration(color: CustomColor.white, borderRadius: BorderRadius.circular(Constants.buttonBorderRadius)),
         child: ListTile(
           // Transaction category icon
-          leading: CategoryIcon(
-              color: getCategoryColor(widget.category),
-              iconWidget: getCategoryIcon(widget.category)),
+          leading: CategoryIcon(color: getCategoryColor(widget.category), iconWidget: getCategoryIcon(widget.category)),
           // Transaction title
           title: Text(
             widget.title,
@@ -142,8 +137,7 @@ class _TransactionTileState extends State<TransactionTile> {
           // Transaction timestamp
           subtitle: Text(
             DateFormat('dd.MM.yyyy, HH:mm').format(widget.date),
-            style: CustomTextStyle.hintStyleDefault
-                .copyWith(fontSize: CustomTextStyle.fontSizeHint),
+            style: CustomTextStyle.hintStyleDefault.copyWith(fontSize: CustomTextStyle.fontSizeHint),
           ),
           // Transaction amount
           trailing: Text(
@@ -216,8 +210,7 @@ class _TransactionDetailState extends State<TransactionDetail> {
                         children: [
                           SvgPicture.asset(AssetImport.edit),
                           SizedBox(width: CustomPadding.mediumSpace),
-                          Text('Bearbeiten',
-                              style: CustomTextStyle.regularStyleDefault),
+                          Text('Bearbeiten', style: CustomTextStyle.regularStyleDefault),
                         ],
                       ),
                     ),
@@ -226,12 +219,9 @@ class _TransactionDetailState extends State<TransactionDetail> {
                       value: 'Löschen',
                       child: Row(
                         children: [
-                          SvgPicture.asset(AssetImport.trash,
-                              color: CustomColor.red),
+                          SvgPicture.asset(AssetImport.trash, color: CustomColor.red),
                           SizedBox(width: CustomPadding.mediumSpace),
-                          Text('Löschen',
-                              style: CustomTextStyle.regularStyleDefault
-                                  .copyWith(color: CustomColor.red)),
+                          Text('Löschen', style: CustomTextStyle.regularStyleDefault.copyWith(color: CustomColor.red)),
                         ],
                       ),
                     ),
@@ -249,22 +239,20 @@ class _TransactionDetailState extends State<TransactionDetail> {
                     width: 160,
                     padding: const EdgeInsets.symmetric(vertical: 6),
                     decoration: BoxDecoration(
-                      borderRadius:
-                          BorderRadius.circular(Constants.buttonBorderRadius),
+                      borderRadius: BorderRadius.circular(Constants.buttonBorderRadius),
                       color: Colors.white,
                     ),
                   ),
                   menuItemStyleData: MenuItemStyleData(
                     customHeights: [48, 48],
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: CustomPadding.defaultSpace),
+                    padding: const EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace),
                   ),
                 ),
               ),
               Expanded(
                 child: Center(
                   child: Text(
-                    AppString.expense,
+                    AppTexts.expense,
                     style: CustomTextStyle.regularStyleMedium,
                   ),
                 ),
@@ -306,7 +294,7 @@ class _TransactionDetailState extends State<TransactionDetail> {
           SizedBox(height: CustomPadding.defaultSpace),
           // Amount section
           Text(
-            AppString.amount,
+            AppTexts.amount,
             style: CustomTextStyle.regularStyleDefault,
           ),
           SizedBox(height: CustomPadding.mediumSpace),
@@ -315,13 +303,10 @@ class _TransactionDetailState extends State<TransactionDetail> {
               // Amount display
               CustomShadow(
                 child: Container(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: CustomPadding.defaultSpace,
-                      vertical: CustomPadding.contentHeightSpace),
+                  padding: EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace, vertical: CustomPadding.contentHeightSpace),
                   decoration: BoxDecoration(
                     color: CustomColor.white,
-                    borderRadius:
-                        BorderRadius.circular(Constants.buttonBorderRadius),
+                    borderRadius: BorderRadius.circular(Constants.buttonBorderRadius),
                   ),
                   child: Text(
                     '${widget.amount.toStringAsFixed(2)}€',
@@ -333,18 +318,14 @@ class _TransactionDetailState extends State<TransactionDetail> {
               // Transaction type
               CustomShadow(
                 child: Container(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: CustomPadding.defaultSpace,
-                      vertical: CustomPadding.contentHeightSpace),
+                  padding: EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace, vertical: CustomPadding.contentHeightSpace),
                   decoration: BoxDecoration(
                     color: CustomColor.white,
-                    borderRadius:
-                        BorderRadius.circular(Constants.buttonBorderRadius),
+                    borderRadius: BorderRadius.circular(Constants.buttonBorderRadius),
                   ),
                   child: Text(
                     widget.recurrenceType,
-                    style: CustomTextStyle.regularStyleDefault
-                        .copyWith(color: CustomColor.bluePrimary),
+                    style: CustomTextStyle.regularStyleDefault.copyWith(color: CustomColor.bluePrimary),
                   ),
                 ),
               ),
@@ -353,20 +334,17 @@ class _TransactionDetailState extends State<TransactionDetail> {
           SizedBox(height: CustomPadding.defaultSpace),
           // Note section
           Text(
-            AppString.note,
+            AppTexts.note,
             style: CustomTextStyle.regularStyleDefault,
           ),
           SizedBox(height: CustomPadding.mediumSpace),
           CustomShadow(
             child: Container(
               width: double.infinity,
-              padding: EdgeInsets.symmetric(
-                  horizontal: CustomPadding.defaultSpace,
-                  vertical: CustomPadding.contentHeightSpace),
+              padding: EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace, vertical: CustomPadding.contentHeightSpace),
               decoration: BoxDecoration(
                 color: CustomColor.white,
-                borderRadius:
-                    BorderRadius.circular(Constants.buttonBorderRadius),
+                borderRadius: BorderRadius.circular(Constants.buttonBorderRadius),
               ),
               child: Text(
                 widget.notes,

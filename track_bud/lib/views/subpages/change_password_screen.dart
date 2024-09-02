@@ -13,11 +13,9 @@ class ChangePasswordScreen extends StatefulWidget {
 
 class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   // Controllers for the text fields
-  final TextEditingController _currentPasswordController =
-      TextEditingController();
+  final TextEditingController _currentPasswordController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController =
-      TextEditingController();
+  final TextEditingController _confirmPasswordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +26,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
           // Padding adds spacing around the content inside the screen
           padding: EdgeInsets.only(
             top: MediaQuery.sizeOf(context).height * CustomPadding.topSpace -
-                Constants
-                    .defaultAppBarHeight, // Top padding based on screen height
+                Constants.defaultAppBarHeight, // Top padding based on screen height
             left: CustomPadding.defaultSpace, // Left padding
             right: CustomPadding.defaultSpace, // Right padding
           ),
@@ -38,22 +35,22 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
             children: [
               // Heading text
               Text(
-                AppString.changePassword,
+                AppTexts.changePassword,
                 style: CustomTextStyle.headingStyle,
               ),
               SizedBox(height: CustomPadding.mediumSpace),
 
               // Description text
               Text(
-                AppString.changePasswordDesscribtion,
+                AppTexts.changePasswordDesscribtion,
                 style: CustomTextStyle.hintStyleDefault,
               ),
               SizedBox(height: CustomPadding.bigSpace),
 
               // Current password text field
               CustomTextfield(
-                name: AppString.currentPassword,
-                hintText: AppString.currentPasswordHint,
+                name: AppTexts.currentPassword,
+                hintText: AppTexts.currentPasswordHint,
                 controller: _currentPasswordController,
               ),
               SizedBox(height: CustomPadding.mediumSpace),
@@ -68,7 +65,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                     ));
                   },
                   child: Text(
-                    AppString.forgotPassword,
+                    AppTexts.forgotPassword,
                     style: CustomTextStyle.hintStyleMedium,
                   ),
                 ),
@@ -77,16 +74,16 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
 
               // New password text field
               CustomTextfield(
-                name: AppString.newPassword,
-                hintText: AppString.hintPassword,
+                name: AppTexts.newPassword,
+                hintText: AppTexts.hintPassword,
                 controller: _passwordController,
               ),
               SizedBox(height: CustomPadding.defaultSpace),
 
               // Confirm new password text field
               CustomTextfield(
-                name: AppString.confirmPassword,
-                hintText: AppString.confirmNewPasswort,
+                name: AppTexts.confirmPassword,
+                hintText: AppTexts.confirmNewPasswort,
                 controller: _confirmPasswordController,
               ),
             ],
@@ -105,7 +102,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
           onPressed: () async {
             // TODO: Implement save functionality
           },
-          child: Text(AppString.save),
+          child: Text(AppTexts.save),
         ),
       ),
     );

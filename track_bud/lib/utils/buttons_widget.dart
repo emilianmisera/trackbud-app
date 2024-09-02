@@ -12,13 +12,7 @@ class AccAdjustmentButton extends StatelessWidget {
   final void Function() onPressed;
   final EdgeInsets? padding;
   final Widget? widget;
-  const AccAdjustmentButton(
-      {super.key,
-      required this.icon,
-      required this.name,
-      required this.onPressed,
-      this.widget,
-      this.padding});
+  const AccAdjustmentButton({super.key, required this.icon, required this.name, required this.onPressed, this.widget, this.padding});
 
   @override
   Widget build(BuildContext context) {
@@ -41,8 +35,7 @@ class AccAdjustmentButton extends StatelessWidget {
           fixedSize: const Size(double.infinity, Constants.height),
           elevation: 0,
           surfaceTintColor: CustomColor.backgroundPrimary,
-          padding: padding ??
-              EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace)),
+          padding: padding ?? EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace)),
     );
   }
 }
@@ -141,8 +134,7 @@ class AccAdjustmentWidget extends StatefulWidget {
   final String icon;
   final String name;
   final Widget? widget;
-  const AccAdjustmentWidget(
-      {super.key, required this.icon, required this.name, this.widget});
+  const AccAdjustmentWidget({super.key, required this.icon, required this.name, this.widget});
 
   @override
   State<AccAdjustmentWidget> createState() => _AccAdjustmentWidgetState();
@@ -154,8 +146,7 @@ class _AccAdjustmentWidgetState extends State<AccAdjustmentWidget> {
     return Container(
       width: double.infinity,
       height: Constants.height,
-      padding: EdgeInsets.only(
-          left: CustomPadding.defaultSpace, right: CustomPadding.defaultSpace),
+      padding: EdgeInsets.only(left: CustomPadding.defaultSpace, right: CustomPadding.defaultSpace),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(5)),
         color: CustomColor.backgroundPrimary,
@@ -208,24 +199,17 @@ class _CustomSegmentControlState extends State<CustomSegmentControl> {
             // Expense segment
             0: Container(
               // Sets the height of the segment relative to screen height
-              height: MediaQuery.sizeOf(context).height *
-                  Constants.segmentedControlHeight,
+              height: MediaQuery.sizeOf(context).height * Constants.segmentedControlHeight,
               alignment: Alignment.center,
-              child: Text(AppString.expense,
+              child: Text(AppTexts.expense,
                   // Applies different styles based on selection state
-                  style: _sliding == 0
-                      ? CustomTextStyle.slidingStyleExpense
-                      : CustomTextStyle.slidingStyleDefault),
+                  style: _sliding == 0 ? CustomTextStyle.slidingStyleExpense : CustomTextStyle.slidingStyleDefault),
             ),
             // Income segment
             1: Container(
-              height: MediaQuery.sizeOf(context).height *
-                  Constants.segmentedControlHeight,
+              height: MediaQuery.sizeOf(context).height * Constants.segmentedControlHeight,
               alignment: Alignment.center,
-              child: Text(AppString.income,
-                  style: _sliding == 1
-                      ? CustomTextStyle.slidingStyleIncome
-                      : CustomTextStyle.slidingStyleDefault),
+              child: Text(AppTexts.income, style: _sliding == 1 ? CustomTextStyle.slidingStyleIncome : CustomTextStyle.slidingStyleDefault),
             ),
           },
           groupValue: _sliding, // Current selection
@@ -297,42 +281,15 @@ class _CategoriesExpenseState extends State<CategoriesExpense> {
 
   // List of categories
   List categories = [
-    CustomCategory(
-        color: CustomColor.lebensmittel,
-        icon: AssetImport.shoppingCart,
-        categoryName: AppString.lebensmittel),
-    CustomCategory(
-        color: CustomColor.drogerie,
-        icon: AssetImport.drogerie,
-        categoryName: AppString.drogerie),
-    CustomCategory(
-        color: CustomColor.restaurant,
-        icon: AssetImport.restaurant,
-        categoryName: AppString.restaurants),
-    CustomCategory(
-        color: CustomColor.mobility,
-        icon: AssetImport.mobility,
-        categoryName: AppString.mobility),
-    CustomCategory(
-        color: CustomColor.shopping,
-        icon: AssetImport.shopping,
-        categoryName: AppString.shopping),
-    CustomCategory(
-        color: CustomColor.unterkunft,
-        icon: AssetImport.home,
-        categoryName: AppString.unterkunft),
-    CustomCategory(
-        color: CustomColor.entertainment,
-        icon: AssetImport.entertainment,
-        categoryName: AppString.entertainment),
-    CustomCategory(
-        color: CustomColor.geschenk,
-        icon: AssetImport.gift,
-        categoryName: AppString.geschenke),
-    CustomCategory(
-        color: CustomColor.sonstiges,
-        icon: AssetImport.other,
-        categoryName: AppString.sonstiges),
+    CustomCategory(color: CustomColor.lebensmittel, icon: AssetImport.shoppingCart, categoryName: AppTexts.lebensmittel),
+    CustomCategory(color: CustomColor.drogerie, icon: AssetImport.drogerie, categoryName: AppTexts.drogerie),
+    CustomCategory(color: CustomColor.restaurant, icon: AssetImport.restaurant, categoryName: AppTexts.restaurants),
+    CustomCategory(color: CustomColor.mobility, icon: AssetImport.mobility, categoryName: AppTexts.mobility),
+    CustomCategory(color: CustomColor.shopping, icon: AssetImport.shopping, categoryName: AppTexts.shopping),
+    CustomCategory(color: CustomColor.unterkunft, icon: AssetImport.home, categoryName: AppTexts.unterkunft),
+    CustomCategory(color: CustomColor.entertainment, icon: AssetImport.entertainment, categoryName: AppTexts.entertainment),
+    CustomCategory(color: CustomColor.geschenk, icon: AssetImport.gift, categoryName: AppTexts.geschenke),
+    CustomCategory(color: CustomColor.sonstiges, icon: AssetImport.other, categoryName: AppTexts.sonstiges),
   ];
 
   @override
@@ -344,9 +301,7 @@ class _CategoriesExpenseState extends State<CategoriesExpense> {
         scrollDirection: Axis.horizontal, // Make the list scroll horizontally
         itemCount: categories.length,
         itemBuilder: (context, index) => Padding(
-          padding: EdgeInsets.only(
-              right:
-                  CustomPadding.mediumSpace), // add Padding between categories
+          padding: EdgeInsets.only(right: CustomPadding.mediumSpace), // add Padding between categories
           child: GestureDetector(
             onTap: () {
               setState(() {
@@ -356,8 +311,7 @@ class _CategoriesExpenseState extends State<CategoriesExpense> {
             },
             child: Opacity(
               // Reduce opacity for non-selected categories
-              opacity:
-                  selectedIndex == null || selectedIndex == index ? 1.0 : 0.5,
+              opacity: selectedIndex == null || selectedIndex == index ? 1.0 : 0.5,
               child: categories[index],
             ),
           ),
@@ -381,18 +335,9 @@ class _CategoriesIncomeState extends State<CategoriesIncome> {
 
   // List of categories
   List categories = [
-    CustomCategory(
-        color: CustomColor.unterkunft,
-        icon: AssetImport.gehalt,
-        categoryName: AppString.loan),
-    CustomCategory(
-        color: CustomColor.geschenk,
-        icon: AssetImport.gift,
-        categoryName: AppString.geschenke),
-    CustomCategory(
-        color: CustomColor.sonstiges,
-        icon: AssetImport.other,
-        categoryName: AppString.sonstiges),
+    CustomCategory(color: CustomColor.unterkunft, icon: AssetImport.gehalt, categoryName: AppTexts.loan),
+    CustomCategory(color: CustomColor.geschenk, icon: AssetImport.gift, categoryName: AppTexts.geschenke),
+    CustomCategory(color: CustomColor.sonstiges, icon: AssetImport.other, categoryName: AppTexts.sonstiges),
   ];
 
   @override
@@ -404,9 +349,7 @@ class _CategoriesIncomeState extends State<CategoriesIncome> {
         scrollDirection: Axis.horizontal, // Make the list scroll horizontally
         itemCount: categories.length,
         itemBuilder: (context, index) => Padding(
-          padding: EdgeInsets.only(
-              right:
-                  CustomPadding.mediumSpace), // add Padding between categories
+          padding: EdgeInsets.only(right: CustomPadding.mediumSpace), // add Padding between categories
           child: GestureDetector(
             onTap: () {
               setState(() {
@@ -416,8 +359,7 @@ class _CategoriesIncomeState extends State<CategoriesIncome> {
             },
             child: Opacity(
               // Reduce opacity for non-selected categories
-              opacity:
-                  selectedIndex == null || selectedIndex == index ? 1.0 : 0.5,
+              opacity: selectedIndex == null || selectedIndex == index ? 1.0 : 0.5,
               child: categories[index],
             ),
           ),

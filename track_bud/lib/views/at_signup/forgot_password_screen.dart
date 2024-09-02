@@ -23,76 +23,72 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       bottomSheet: Container(
         // Margin is applied to the bottom of the button and the sides for proper spacing.
         margin: EdgeInsets.only(
-          bottom: MediaQuery.sizeOf(context).height *
-              CustomPadding.bottomSpace, // Bottom margin based on screen height
+          bottom: MediaQuery.sizeOf(context).height * CustomPadding.bottomSpace, // Bottom margin based on screen height
           left: CustomPadding.defaultSpace, // Left margin
           right: CustomPadding.defaultSpace, // Right margin
         ),
-        width: MediaQuery.of(context)
-            .size
-            .width, // Set the button width to match the screen width
+        width: MediaQuery.of(context).size.width, // Set the button width to match the screen width
         child: ElevatedButton(
-                onPressed: () async {
-                  // Retrieve email input from the text controller
-                  String email = _emailController.text.trim();
+          onPressed: () async {
+            // Retrieve email input from the text controller
+            String email = _emailController.text.trim();
 
-                  // Validate email input
-                  if (email.isEmpty) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text("Please enter your email."),
-                      ),
-                    );
-                    return;
-                  }
-
-                  try {
-                    // Attempt to send a password reset email
-                    await _authService.sendPasswordResetEmail(email);
-
-                    // Show success message
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text("Password reset email sent."),
-                      ),
-                    );
-
-                    // Optionally navigate back to login screen
-                    Navigator.of(context).pop();
-                  } on FirebaseAuthException catch (e) {
-                    // Handle error and show error message
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text("Error: ${e.message}"),
-                      ),
-                    );
-                  }
-                },
-                child: Text(
-                  AppString.continueText,
+            // Validate email input
+            if (email.isEmpty) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text("Please enter your email."),
                 ),
-              ),
+              );
+              return;
+            }
+
+            try {
+              // Attempt to send a password reset email
+              await _authService.sendPasswordResetEmail(email);
+
+              // Show success message
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text("Password reset email sent."),
+                ),
+              );
+
+              // Optionally navigate back to login screen
+              Navigator.of(context).pop();
+            } on FirebaseAuthException catch (e) {
+              // Handle error and show error message
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text("Error: ${e.message}"),
+                ),
+              );
+            }
+          },
+          child: Text(
+            AppTexts.continueText,
+          ),
+        ),
       ),
       body: SingleChildScrollView(
         child: Padding(
           // spacing between content and screen
           padding: EdgeInsets.only(
-              top: MediaQuery.sizeOf(context).height *
-                  CustomPadding.topSpaceAuth - Constants.defaultAppBarHeight,
+              top: MediaQuery.sizeOf(context).height * CustomPadding.topSpaceAuth - Constants.defaultAppBarHeight,
               left: CustomPadding.defaultSpace,
               right: CustomPadding.defaultSpace),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start, //alignment to left
             children: [
               Text(
-                AppString.resetPassword,
+                AppTexts.resetPassword,
                 style: CustomTextStyle.headingStyle,
               ),
               SizedBox(
                 height: CustomPadding.mediumSpace,
               ),
               Text(
-                AppString.resetPasswordDescription,
+                AppTexts.resetPasswordDescription,
                 style: CustomTextStyle.hintStyleDefault,
               ),
               SizedBox(
@@ -100,8 +96,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               ),
               CustomTextfield(
                 controller: _emailController,
-                name: AppString.email,
-                hintText: AppString.hintEmail,
+                name: AppTexts.email,
+                hintText: AppTexts.hintEmail,
                 obscureText: false,
               ), //email
             ],

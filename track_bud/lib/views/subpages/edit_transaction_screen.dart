@@ -9,8 +9,7 @@ import 'package:track_bud/utils/textfield_widget.dart';
 
 class EditTransactionScreen extends StatefulWidget {
   final String transactionId;
-  const EditTransactionScreen({Key? key, required this.transactionId})
-      : super(key: key);
+  const EditTransactionScreen({Key? key, required this.transactionId}) : super(key: key);
   @override
   State<EditTransactionScreen> createState() => _EditTransactionScreenState();
 }
@@ -36,10 +35,7 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
 
   Future<void> _loadTransactionData() async {
     // Laden Sie die Transaktionsdaten aus Firestore
-    DocumentSnapshot doc = await FirebaseFirestore.instance
-        .collection('transactions')
-        .doc(widget.transactionId)
-        .get();
+    DocumentSnapshot doc = await FirebaseFirestore.instance.collection('transactions').doc(widget.transactionId).get();
 
     if (doc.exists) {
       Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
@@ -56,10 +52,7 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
   }
 
   Future<void> _updateTransaction() async {
-    await FirebaseFirestore.instance
-        .collection('transactions')
-        .doc(widget.transactionId)
-        .update({
+    await FirebaseFirestore.instance.collection('transactions').doc(widget.transactionId).update({
       'title': _titleController.text.trim(),
       'amount': double.parse(_amountController.text.replaceAll(',', '.')),
       'category': _selectedCategory,
@@ -94,22 +87,16 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppString.editTransaction,
-            style: CustomTextStyle.regularStyleMedium),
+        title: Text(AppTexts.editTransaction, style: CustomTextStyle.regularStyleMedium),
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(
-            horizontal: CustomPadding.defaultSpace,
-            vertical: CustomPadding.defaultSpace),
+        padding: const EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace, vertical: CustomPadding.defaultSpace),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Text field for transaction title
-              CustomTextfield(
-                  name: AppString.title,
-                  hintText: AppString.hintTitle,
-                  controller: _titleController),
+              CustomTextfield(name: AppTexts.title, hintText: AppTexts.hintTitle, controller: _titleController),
               SizedBox(
                 height: CustomPadding.defaultSpace,
               ),
@@ -118,14 +105,13 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
                 children: [
                   // Amount text field
                   CustomTextfield(
-                    name: AppString.amount,
+                    name: AppTexts.amount,
                     hintText: '',
                     controller: _amountController,
                     width: MediaQuery.sizeOf(context).width / 3,
                     prefix: Text(
                       _getAmountPrefix(),
-                      style: CustomTextStyle.titleStyleMedium.copyWith(
-                          fontWeight: CustomTextStyle.fontWeightDefault),
+                      style: CustomTextStyle.titleStyleMedium.copyWith(fontWeight: CustomTextStyle.fontWeightDefault),
                     ),
                     type: TextInputType.numberWithOptions(decimal: true),
                   ),
@@ -141,7 +127,7 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
               ),
               // Category section
               Text(
-                AppString.categorie,
+                AppTexts.categorie,
                 style: CustomTextStyle.regularStyleMedium,
               ),
               SizedBox(
@@ -156,7 +142,7 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
               ),
               // Recurrence section
               Text(
-                AppString.recurry,
+                AppTexts.recurry,
                 style: CustomTextStyle.regularStyleMedium,
               ),
               SizedBox(
@@ -188,8 +174,8 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
               ),
               // Note text field
               CustomTextfield(
-                name: AppString.note,
-                hintText: AppString.noteHint,
+                name: AppTexts.note,
+                hintText: AppTexts.noteHint,
                 controller: _noteController,
                 isMultiline: true,
               ),
@@ -204,11 +190,7 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
         duration: Duration(milliseconds: 100),
         curve: Curves.easeInOut,
         margin: EdgeInsets.only(
-          bottom: min(
-              MediaQuery.of(context).viewInsets.bottom > 0
-                  ? 0
-                  : MediaQuery.of(context).size.height *
-                      CustomPadding.bottomSpace,
+          bottom: min(MediaQuery.of(context).viewInsets.bottom > 0 ? 0 : MediaQuery.of(context).size.height * CustomPadding.bottomSpace,
               MediaQuery.of(context).size.height * CustomPadding.bottomSpace),
           left: CustomPadding.defaultSpace,
           right: CustomPadding.defaultSpace,
@@ -223,7 +205,7 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
               // Set button color based on whether profile has changed
               disabledBackgroundColor: CustomColor.bluePrimary.withOpacity(0.5),
               backgroundColor: CustomColor.bluePrimary),
-          child: Text(AppString.save),
+          child: Text(AppTexts.save),
         ),
       ),
     );

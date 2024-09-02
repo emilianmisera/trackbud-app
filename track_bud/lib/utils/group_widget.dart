@@ -25,9 +25,7 @@ class GroupCard extends StatelessWidget {
           child: Container(
         width: MediaQuery.sizeOf(context).width,
         padding: EdgeInsets.all(CustomPadding.defaultSpace),
-        decoration: BoxDecoration(
-            color: CustomColor.white,
-            borderRadius: BorderRadius.circular(Constants.buttonBorderRadius)),
+        decoration: BoxDecoration(color: CustomColor.white, borderRadius: BorderRadius.circular(Constants.buttonBorderRadius)),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -38,8 +36,7 @@ class GroupCard extends StatelessWidget {
                 child: Container(
                   width: 40,
                   height: 40,
-                  color: Colors
-                      .red, // Placeholder color, replace with actual profile picture
+                  color: Colors.red, // Placeholder color, replace with actual profile picture
                 ),
               ),
               // Friend's name
@@ -50,8 +47,7 @@ class GroupCard extends StatelessWidget {
               // Debt or credit information
               subtitle: Text(
                 '**Date**',
-                style: CustomTextStyle.hintStyleDefault
-                    .copyWith(fontSize: CustomTextStyle.fontSizeHint),
+                style: CustomTextStyle.hintStyleDefault.copyWith(fontSize: CustomTextStyle.fontSizeHint),
               ),
               // Navigation arrow
               trailing: Text(
@@ -126,16 +122,11 @@ class DebtsInformation extends StatelessWidget {
     final colors = _getColors(colorScheme);
 
     return Container(
-      padding: EdgeInsets.symmetric(
-          horizontal: CustomPadding.mediumSpace,
-          vertical: CustomPadding.smallSpace),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(5),
-          color: colors.backgroundColor),
+      padding: EdgeInsets.symmetric(horizontal: CustomPadding.mediumSpace, vertical: CustomPadding.smallSpace),
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: colors.backgroundColor),
       child: Text(
         amount ?? 'quitt',
-        style: CustomTextStyle.regularStyleMedium
-            .copyWith(color: colors.textColor),
+        style: CustomTextStyle.regularStyleMedium.copyWith(color: colors.textColor),
       ),
     );
   }
@@ -193,12 +184,12 @@ class _DebtsOverviewState extends State<DebtsOverview> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  AppString.payOffDebts,
+                  AppTexts.payOffDebts,
                   style: CustomTextStyle.titleStyleMedium,
                 ),
                 SizedBox(height: CustomPadding.defaultSpace),
                 Text(
-                  AppString.payOffDebts,
+                  AppTexts.payOffDebts,
                   style: CustomTextStyle.hintStyleDefault,
                 ),
                 SizedBox(height: CustomPadding.defaultSpace),
@@ -209,7 +200,7 @@ class _DebtsOverviewState extends State<DebtsOverview> {
                     Navigator.pop(context);
                     //TODO: update debts in db
                   },
-                  child: Text(AppString.payOff),
+                  child: Text(AppTexts.payOff),
                 ),
               ],
             ),
@@ -223,9 +214,7 @@ class _DebtsOverviewState extends State<DebtsOverview> {
       child: Container(
         width: MediaQuery.sizeOf(context).width,
         padding: EdgeInsets.all(CustomPadding.defaultSpace),
-        decoration: BoxDecoration(
-            color: CustomColor.white,
-            borderRadius: BorderRadius.circular(Constants.buttonBorderRadius)),
+        decoration: BoxDecoration(color: CustomColor.white, borderRadius: BorderRadius.circular(Constants.buttonBorderRadius)),
         child: Column(
           children: [
             ListTile(
@@ -235,8 +224,7 @@ class _DebtsOverviewState extends State<DebtsOverview> {
                 child: Container(
                   width: 40,
                   height: 40,
-                  color: Colors
-                      .red, // Placeholder color, replace with actual profile picture
+                  color: Colors.red, // Placeholder color, replace with actual profile picture
                 ),
               ),
               // Friend's name
@@ -262,7 +250,7 @@ class _DebtsOverviewState extends State<DebtsOverview> {
                 _payOffDebts();
               },
               child: Text(
-                AppString.payOff,
+                AppTexts.payOff,
                 style: CustomTextStyle.regularStyleDefault.copyWith(
                   color: CustomColor.bluePrimary,
                 ),
@@ -275,7 +263,6 @@ class _DebtsOverviewState extends State<DebtsOverview> {
   }
 }
 
-
 class Group extends StatelessWidget {
   final void Function() onTap;
   const Group({super.key, required this.onTap});
@@ -285,9 +272,7 @@ class Group extends StatelessWidget {
     return CustomShadow(
       child: Container(
         width: double.infinity,
-        padding: EdgeInsets.symmetric(
-            horizontal: CustomPadding.defaultSpace,
-            vertical: CustomPadding.mediumSpace),
+        padding: EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace, vertical: CustomPadding.mediumSpace),
         decoration: BoxDecoration(
           color: CustomColor.white,
           borderRadius: BorderRadius.circular(Constants.buttonBorderRadius),

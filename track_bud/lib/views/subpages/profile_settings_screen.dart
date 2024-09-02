@@ -51,10 +51,10 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
   // Function to check if profile has been modified
   void _checkIfProfileChanged() {
     setState(() {
-      _isProfileChanged = _nameController.text.trim() != _initialName.trim() ||
-          _isProfilePictureChanged;
+      _isProfileChanged = _nameController.text.trim() != _initialName.trim() || _isProfilePictureChanged;
     });
   }
+
 /*
   Future<void> _loadCurrentUserInfo() async {
     final String userId = FirebaseAuth.instance.currentUser?.uid ?? '';
@@ -95,13 +95,11 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
         final updatedName = _nameController.text.trim();
 
         if (_isProfilePictureChanged && _profileImage != null) {
-          final String? profileImageUrl =
-              await uploadProfileImage(_profileImage!, userId);
+          final String? profileImageUrl = await uploadProfileImage(_profileImage!, userId);
 
           if (profileImageUrl != null) {
             // Update Firestore
-            await FirestoreService()
-                .updateUserProfileImageInFirestore(userId, profileImageUrl);
+            await FirestoreService().updateUserProfileImageInFirestore(userId, profileImageUrl);
 
             // Update local database
             //await SQLiteService().updateUserProfileImage(userId, profileImageUrl);
@@ -141,8 +139,7 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
   Future<String?> uploadProfileImage(File imageFile, String userId) async {
     try {
       // Create a reference to the location where the file will be stored
-      final storageRef =
-          FirebaseStorage.instance.ref().child('profile_images/$userId');
+      final storageRef = FirebaseStorage.instance.ref().child('profile_images/$userId');
 
       // Upload the image file to Firebase Storage
       final uploadTask = storageRef.putFile(imageFile);
@@ -164,8 +161,7 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
   Future<void> saveProfileImageUrl(String userId, String imageUrl) async {
     try {
       // Reference to the Firestore collection where you store user profiles
-      final userRef =
-          FirebaseFirestore.instance.collection('users').doc(userId);
+      final userRef = FirebaseFirestore.instance.collection('users').doc(userId);
 
       // Update the profile image URL
       await userRef.update({
@@ -174,9 +170,7 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
 
       // Optional: Show a success message
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-            content:
-                Text("Profilbild erfolgreich hochgeladen und gespeichert.")),
+        SnackBar(content: Text("Profilbild erfolgreich hochgeladen und gespeichert.")),
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -190,20 +184,16 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
     return Scaffold(
       // App bar with title
       appBar: AppBar(
-        title: Text(AppString.editProfile,
-            style: CustomTextStyle.regularStyleMedium),
+        title: Text(AppTexts.editProfile, style: CustomTextStyle.regularStyleMedium),
       ),
       body: SingleChildScrollView(
         child: Padding(
           // add Space
           padding: EdgeInsets.only(
-              top: MediaQuery.sizeOf(context).height *
-                      CustomPadding.topSpaceAuth -
-                  Constants.defaultAppBarHeight,
+              top: MediaQuery.sizeOf(context).height * CustomPadding.topSpaceAuth - Constants.defaultAppBarHeight,
               left: CustomPadding.defaultSpace,
               right: CustomPadding.defaultSpace,
-              bottom: MediaQuery.sizeOf(context).height *
-                  CustomPadding.bottomSpace),
+              bottom: MediaQuery.sizeOf(context).height * CustomPadding.bottomSpace),
 
           child: Column(
             children: [
@@ -235,8 +225,7 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                                       _initialProfileImagePath,
                                       fit: BoxFit.cover,
                                     )
-                                  : Icon(Icons.person,
-                                      size: 100, color: Colors.grey),
+                                  : Icon(Icons.person, size: 100, color: Colors.grey),
                         ),
                       ),
                       // Camera icon overlay
@@ -258,10 +247,7 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
               ),
               SizedBox(height: CustomPadding.bigSpace),
               // First Name text field
-              CustomTextfield(
-                  name: AppString.firstName,
-                  hintText: '',
-                  controller: _nameController),
+              CustomTextfield(name: AppTexts.firstName, hintText: '', controller: _nameController),
               SizedBox(height: CustomPadding.defaultSpace),
               // Email text field (locked)
               LockedEmailTextfield(email: currentUserEmail),
@@ -269,7 +255,7 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
               // Change Email button
               AccAdjustmentButton(
                 icon: AssetImport.email,
-                name: AppString.changeEmail,
+                name: AppTexts.changeEmail,
                 onPressed: () {
                   Navigator.push(
                     context,
@@ -278,13 +264,12 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                     ),
                   );
                 },
-                padding:
-                    EdgeInsets.symmetric(horizontal: CustomPadding.mediumSpace),
+                padding: EdgeInsets.symmetric(horizontal: CustomPadding.mediumSpace),
               ),
               // Change Password button
               AccAdjustmentButton(
                 icon: AssetImport.userEdit,
-                name: AppString.changePassword,
+                name: AppTexts.changePassword,
                 onPressed: () {
                   Navigator.push(
                     context,
@@ -293,8 +278,7 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                     ),
                   );
                 },
-                padding:
-                    EdgeInsets.symmetric(horizontal: CustomPadding.mediumSpace),
+                padding: EdgeInsets.symmetric(horizontal: CustomPadding.mediumSpace),
               ),
             ],
           ),
@@ -305,11 +289,7 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
         duration: Duration(milliseconds: 100),
         curve: Curves.easeInOut,
         margin: EdgeInsets.only(
-          bottom: min(
-              MediaQuery.of(context).viewInsets.bottom > 0
-                  ? 0
-                  : MediaQuery.of(context).size.height *
-                      CustomPadding.bottomSpace,
+          bottom: min(MediaQuery.of(context).viewInsets.bottom > 0 ? 0 : MediaQuery.of(context).size.height * CustomPadding.bottomSpace,
               MediaQuery.of(context).size.height * CustomPadding.bottomSpace),
           left: CustomPadding.defaultSpace,
           right: CustomPadding.defaultSpace,
@@ -322,7 +302,7 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
               // Set button color based on whether profile has changed
               disabledBackgroundColor: CustomColor.bluePrimary.withOpacity(0.5),
               backgroundColor: CustomColor.bluePrimary),
-          child: Text(AppString.save),
+          child: Text(AppTexts.save),
         ),
       ),
     );
@@ -341,7 +321,7 @@ class LockedEmailTextfield extends StatelessWidget {
       children: [
         // Email label
         Text(
-          AppString.email,
+          AppTexts.email,
           style: CustomTextStyle.regularStyleMedium,
         ),
         SizedBox(

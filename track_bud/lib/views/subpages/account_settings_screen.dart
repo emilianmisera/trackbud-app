@@ -26,22 +26,19 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppString.accAdjustments,
-            style: CustomTextStyle.regularStyleMedium),
+        title: Text(AppTexts.accAdjustments, style: CustomTextStyle.regularStyleMedium),
       ),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.only(
-              top: MediaQuery.sizeOf(context).height *
-                      CustomPadding.topSpaceAuth -
-                  Constants.defaultAppBarHeight,
+              top: MediaQuery.sizeOf(context).height * CustomPadding.topSpaceAuth - Constants.defaultAppBarHeight,
               left: CustomPadding.defaultSpace,
               right: CustomPadding.defaultSpace),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                AppString.budget,
+                AppTexts.budget,
                 style: CustomTextStyle.regularStyleMedium,
               ),
               SizedBox(
@@ -50,7 +47,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
               AccAdjustmentButton(
                   //BankAccount
                   icon: AssetImport.changeAmount,
-                  name: AppString.changeBankAcc,
+                  name: AppTexts.changeBankAcc,
                   onPressed: () {
                     Navigator.push(
                       context,
@@ -65,7 +62,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
               AccAdjustmentButton(
                   // Budget Goal
                   icon: AssetImport.target,
-                  name: AppString.changeBudgetGoal,
+                  name: AppTexts.changeBudgetGoal,
                   onPressed: () {
                     Navigator.push(
                       context,
@@ -80,12 +77,12 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
               AccAdjustmentWidget(
                 // Currency
                 icon: AssetImport.settings,
-                name: AppString.changeCurrency,
+                name: AppTexts.changeCurrency,
                 widget: CurrencyDropdown(), // Dropdown for changing currency
               ),
               SizedBox(height: CustomPadding.defaultSpace),
               Text(
-                AppString.appearance,
+                AppTexts.appearance,
                 style: CustomTextStyle.regularStyleMedium,
               ),
               SizedBox(
@@ -94,7 +91,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
               AccAdjustmentWidget(
                 // DarkMode
                 icon: AssetImport.mode,
-                name: AppString.darkMode,
+                name: AppTexts.darkMode,
                 widget: Switch(
                   // Switch Widget
                   value: isActive,

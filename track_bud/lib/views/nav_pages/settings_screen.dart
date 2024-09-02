@@ -91,7 +91,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         context: context,
         builder: (context) => AlertDialog(
           title: Text(
-            AppString.deleteAcc,
+            AppTexts.deleteAcc,
             style: CustomTextStyle.titleStyleMedium,
           ),
           content: Container(
@@ -100,16 +100,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
             child: Column(
               children: [
                 Text(
-                  AppString.deleteAccDescribtion,
+                  AppTexts.deleteAccDescribtion,
                   style: CustomTextStyle.hintStyleDefault,
                 ),
                 SizedBox(
                   height: CustomPadding.defaultSpace,
                 ),
                 CustomTextfield(
-                  name: AppString.password,
+                  name: AppTexts.password,
                   obscureText: true,
-                  hintText: AppString.hintPassword,
+                  hintText: AppTexts.hintPassword,
                   controller: _passwordController,
                   autofocus: true,
                 ),
@@ -120,10 +120,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   onPressed: () {
                     _handleAccountDeletion(context);
                   },
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: CustomColor.red),
+                  style: ElevatedButton.styleFrom(backgroundColor: CustomColor.red),
                   child: Text(
-                    AppString.deleteAcc,
+                    AppTexts.deleteAcc,
                   ),
                 )
               ],
@@ -145,6 +144,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     _passwordController.clear();
     Navigator.of(context).pop();
   }
+
 /*
   Future<void> _loadCurrentUserInfo() async {
     final String userId = FirebaseAuth.instance.currentUser?.uid ?? '';
@@ -191,8 +191,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         child: Padding(
             // spacing between content and screen
             padding: EdgeInsets.only(
-                top: MediaQuery.sizeOf(context).height *
-                    CustomPadding.topSpaceSettingsScreen,
+                top: MediaQuery.sizeOf(context).height * CustomPadding.topSpaceSettingsScreen,
                 left: CustomPadding.defaultSpace,
                 right: CustomPadding.defaultSpace),
             child: Column(
@@ -204,14 +203,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     child: Container(
                       width: Constants.profilePictureSettingPage,
                       height: Constants.profilePictureSettingPage,
-                      child: _profileImageUrl != null &&
-                              _profileImageUrl!.isNotEmpty
+                      child: _profileImageUrl != null && _profileImageUrl!.isNotEmpty
                           ? Image.network(
                               _profileImageUrl!,
                               fit: BoxFit.cover,
                               errorBuilder: (context, error, stackTrace) {
-                                return Icon(Icons.person,
-                                    size: 100, color: Colors.grey);
+                                return Icon(Icons.person, size: 100, color: Colors.grey);
                               },
                             )
                           : Icon(Icons.person, size: 50, color: Colors.grey),
@@ -240,7 +237,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   height: CustomPadding.bigbigSpace,
                 ),
                 Text(
-                  AppString.preferences,
+                  AppTexts.preferences,
                   style: CustomTextStyle.regularStyleMedium,
                 ),
                 SizedBox(
@@ -261,7 +258,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       }
                     },
                     label: Text(
-                      AppString.editProfile,
+                      AppTexts.editProfile,
                       style: CustomTextStyle.regularStyleDefault,
                     ),
                     icon: SvgPicture.asset(AssetImport.userEdit),
@@ -285,7 +282,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       );
                     },
                     label: Text(
-                      AppString.accAdjustments,
+                      AppTexts.accAdjustments,
                       style: CustomTextStyle.regularStyleDefault,
                     ),
                     icon: SvgPicture.asset(AssetImport.settings),
@@ -309,7 +306,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       );
                     },
                     label: Text(
-                      AppString.notifications,
+                      AppTexts.notifications,
                       style: CustomTextStyle.regularStyleDefault,
                     ),
                     icon: SvgPicture.asset(AssetImport.bell),
@@ -333,7 +330,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       );
                     },
                     label: Text(
-                      AppString.abouTrackBud,
+                      AppTexts.abouTrackBud,
                       style: CustomTextStyle.regularStyleDefault,
                     ),
                     icon: SvgPicture.asset(AssetImport.info),
@@ -350,7 +347,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   child: TextButton.icon(
                     onPressed: _signOut,
                     label: Text(
-                      AppString.logout,
+                      AppTexts.logout,
                       style: CustomTextStyle.regularStyleDefault,
                     ),
                     icon: SvgPicture.asset(AssetImport.logout),
@@ -369,7 +366,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       openPopUp();
                     }, //_handleAccountDeletion,
                     label: Text(
-                      AppString.deleteAcc,
+                      AppTexts.deleteAcc,
                       style: TextStyle(
                         fontFamily: CustomTextStyle.fontFamily,
                         fontSize: CustomTextStyle.fontSizeDefault,

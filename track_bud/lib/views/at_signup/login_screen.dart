@@ -21,60 +21,58 @@ class _LoginScreenState extends State<LoginScreen> {
   final AuthService _authService = AuthService();
 
   Future<void> _handleSignIn() async {
-  String email = _emailController.text.trim();
-  String password = _passwordController.text.trim();
+    String email = _emailController.text.trim();
+    String password = _passwordController.text.trim();
 
-  if (email.isEmpty || password.isEmpty) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text("${AppString.emptyLoginInput}"),
-      ),
-    );
-    return;
+    if (email.isEmpty || password.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("${AppTexts.emptyLoginInput}"),
+        ),
+      );
+      return;
+    }
+
+    try {
+      // Versuche, den Benutzer mit E-Mail und Passwort anzumelden
+      await _authService.signInWithEmailAndPassword(context, email, password);
+
+      // Zeige eine Erfolgsmeldung an
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(AppTexts.successfulLogin),
+        ),
+      );
+    } on FirebaseAuthException catch (e) {
+      // Zeige eine Fehlermeldung an, falls die Anmeldung fehlgeschlagen ist
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("${AppTexts.loginFailedSnackbar}: ${e.message ?? e.code}"),
+        ),
+      );
+    }
   }
-
-  try {
-    // Versuche, den Benutzer mit E-Mail und Passwort anzumelden
-    await _authService.signInWithEmailAndPassword(context, email, password);
-
-    // Zeige eine Erfolgsmeldung an
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(AppString.successfulLogin),
-      ),
-    );
-
-  } on FirebaseAuthException catch (e) {
-    // Zeige eine Fehlermeldung an, falls die Anmeldung fehlgeschlagen ist
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text("${AppString.loginFailedSnackbar}: ${e.message ?? e.code}"),
-      ),
-    );
-  }
-}
 
   Future<void> _handleGoogleSignIn() async {
-  try {
-    // Versuche, den Benutzer mit Google anzumelden
-    await _authService.signInWithGoogle(context);
+    try {
+      // Versuche, den Benutzer mit Google anzumelden
+      await _authService.signInWithGoogle(context);
 
-    // Zeige eine Erfolgsmeldung an
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(AppString.successfulLogin),
-      ),
-    );
-
-  } catch (error) {
-    // Zeige eine Fehlermeldung an, falls die Google-Anmeldung fehlgeschlagen ist
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text("Google-Anmeldung fehlgeschlagen: $error"),
-      ),
-    );
+      // Zeige eine Erfolgsmeldung an
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(AppTexts.successfulLogin),
+        ),
+      );
+    } catch (error) {
+      // Zeige eine Fehlermeldung an, falls die Google-Anmeldung fehlgeschlagen ist
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Google-Anmeldung fehlgeschlagen: $error"),
+        ),
+      );
+    }
   }
-}
 
   @override
   Widget build(BuildContext context) {
@@ -83,22 +81,21 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Padding(
           // spacing between content and screen
           padding: EdgeInsets.only(
-              top: MediaQuery.sizeOf(context).height *
-                  CustomPadding.topSpaceAuth,
+              top: MediaQuery.sizeOf(context).height * CustomPadding.topSpaceAuth,
               left: CustomPadding.defaultSpace,
               right: CustomPadding.defaultSpace),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start, //alignment to left
             children: [
               Text(
-                AppString.signIn,
+                AppTexts.signIn,
                 style: CustomTextStyle.headingStyle,
               ),
               SizedBox(
                 height: CustomPadding.mediumSpace,
               ),
               Text(
-                AppString.signInDescription,
+                AppTexts.signInDescription,
                 style: CustomTextStyle.hintStyleDefault,
               ),
               SizedBox(
@@ -106,8 +103,8 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               CustomTextfield(
                 controller: _emailController,
-                name: AppString.email,
-                hintText: AppString.hintEmail,
+                name: AppTexts.email,
+                hintText: AppTexts.hintEmail,
                 obscureText: false,
               ), //email
               SizedBox(
@@ -115,8 +112,8 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               CustomTextfield(
                 controller: _passwordController,
-                name: AppString.password,
-                hintText: AppString.hintPassword,
+                name: AppTexts.password,
+                hintText: AppTexts.hintPassword,
                 obscureText: true,
               ),
               SizedBox(
@@ -127,11 +124,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: GestureDetector(
                   // forgot Password
                   onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => ForgotPasswordScreen()));
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => ForgotPasswordScreen()));
                   },
                   child: Text(
-                    AppString.forgotPassword,
+                    AppTexts.forgotPassword,
                     style: CustomTextStyle.hintStyleMedium,
                   ),
                 ),
@@ -143,7 +139,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 //sign in button
                 onPressed: _handleSignIn,
                 child: Text(
-                  AppString.signIn,
+                  AppTexts.signIn,
                 ),
               ),
               SizedBox(
@@ -154,20 +150,18 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: [
                   Expanded(
                     child: Container(
-                        margin: const EdgeInsets.only(
-                            right: CustomPadding.mediumSpace),
+                        margin: const EdgeInsets.only(right: CustomPadding.mediumSpace),
                         child: Divider(
                           color: CustomColor.grey,
                         )),
                   ),
                   Text(
-                    AppString.or,
+                    AppTexts.or,
                     style: CustomTextStyle.hintStyleMedium,
                   ),
                   Expanded(
                     child: Container(
-                        margin: const EdgeInsets.only(
-                            left: CustomPadding.mediumSpace),
+                        margin: const EdgeInsets.only(left: CustomPadding.mediumSpace),
                         child: Divider(
                           color: CustomColor.grey,
                         )),
@@ -187,7 +181,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       //error handling
                     } catch (e) {}
                   },
-                  label: Text(AppString.signInWithGoogle),
+                  label: Text(AppTexts.signInWithGoogle),
                   icon: SvgPicture.asset(AssetImport.googleLogo),
                 ),
               ),
@@ -198,7 +192,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 // Apple Sign In
                 child: TextButton.icon(
                   onPressed: () {},
-                  label: Text(AppString.signInWithApple),
+                  label: Text(AppTexts.signInWithApple),
                   icon: SvgPicture.asset(AssetImport.appleLogo),
                   style: ButtonStyle(
                     backgroundColor: WidgetStateProperty.resolveWith<Color>(
@@ -217,18 +211,16 @@ class _LoginScreenState extends State<LoginScreen> {
                 // Redirection to sign up page if user doesn't have an account
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(AppString.newHere,
-                      style: CustomTextStyle.hintStyleMedium),
+                  Text(AppTexts.newHere, style: CustomTextStyle.hintStyleMedium),
                   SizedBox(
                     width: CustomPadding.smallSpace,
                   ),
                   GestureDetector(
                     onTap: () {
-                      Navigator.of(context).pushReplacement(MaterialPageRoute(
-                          builder: (context) => SignUpScreen()));
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => SignUpScreen()));
                     },
                     child: Text(
-                      AppString.signUp,
+                      AppTexts.signUp,
                       style: TextStyle(
                         fontSize: CustomTextStyle.fontSizeDefault,
                         fontWeight: CustomTextStyle.fontWeightMedium,

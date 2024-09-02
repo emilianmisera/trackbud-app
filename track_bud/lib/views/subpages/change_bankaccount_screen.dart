@@ -12,8 +12,7 @@ class ChangeBankaccountScreen extends StatefulWidget {
   const ChangeBankaccountScreen({super.key});
 
   @override
-  State<ChangeBankaccountScreen> createState() =>
-      _ChangeBankaccountScreenState();
+  State<ChangeBankaccountScreen> createState() => _ChangeBankaccountScreenState();
 }
 
 class _ChangeBankaccountScreenState extends State<ChangeBankaccountScreen> {
@@ -25,6 +24,7 @@ class _ChangeBankaccountScreenState extends State<ChangeBankaccountScreen> {
     super.initState();
     //_loadCurrentBankAccountInfo(); // Load bank account info when screen is initialized
   }
+
 /*
   Future<void> _loadCurrentBankAccountInfo() async {
     final String userId = FirebaseAuth.instance.currentUser?.uid ?? '';
@@ -105,8 +105,7 @@ class _ChangeBankaccountScreenState extends State<ChangeBankaccountScreen> {
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content:
-              Text("Fehler beim Speichern der Bankkonto-Informationen: $e"),
+          content: Text("Fehler beim Speichern der Bankkonto-Informationen: $e"),
         ),
       );
     }
@@ -121,8 +120,7 @@ class _ChangeBankaccountScreenState extends State<ChangeBankaccountScreen> {
           // Padding adds spacing around the content inside the screen.
           padding: EdgeInsets.only(
             top: MediaQuery.sizeOf(context).height * CustomPadding.topSpace -
-                Constants
-                    .defaultAppBarHeight, // Top padding based on screen height
+                Constants.defaultAppBarHeight, // Top padding based on screen height
             left: CustomPadding.defaultSpace, // Left padding
             right: CustomPadding.defaultSpace, // Right padding
           ),
@@ -130,22 +128,18 @@ class _ChangeBankaccountScreenState extends State<ChangeBankaccountScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                AppString.changeBankAccHeading, // The heading text
-                style: CustomTextStyle
-                    .headingStyle, // The text style for the heading.
+                AppTexts.changeBankAccHeading, // The heading text
+                style: CustomTextStyle.headingStyle, // The text style for the heading.
               ),
               SizedBox(
-                height: CustomPadding
-                    .mediumSpace, // Adds vertical space between the heading and the next element.
+                height: CustomPadding.mediumSpace, // Adds vertical space between the heading and the next element.
               ),
               Text(
-                AppString.changeBankAccDescribtion, // The description text
-                style: CustomTextStyle
-                    .hintStyleDefault, // The text style for the description.
+                AppTexts.changeBankAccDescribtion, // The description text
+                style: CustomTextStyle.hintStyleDefault, // The text style for the description.
               ),
               SizedBox(
-                height: CustomPadding
-                    .bigSpace, // Adds more vertical space before the next element.
+                height: CustomPadding.bigSpace, // Adds more vertical space before the next element.
               ),
               // A custom TextField widget for entering the amount of money, using the controller defined above.
               //TODO: insert current BankAccount here
@@ -160,8 +154,7 @@ class _ChangeBankaccountScreenState extends State<ChangeBankaccountScreen> {
       bottomSheet: Container(
         // Margin is applied to the bottom of the button and the sides for proper spacing.
         margin: EdgeInsets.only(
-          bottom: MediaQuery.sizeOf(context).height *
-              CustomPadding.bottomSpace, // Bottom margin based on screen height
+          bottom: MediaQuery.sizeOf(context).height * CustomPadding.bottomSpace, // Bottom margin based on screen height
           left: CustomPadding.defaultSpace, // Left margin
           right: CustomPadding.defaultSpace, // Right margin
         ),
@@ -171,7 +164,7 @@ class _ChangeBankaccountScreenState extends State<ChangeBankaccountScreen> {
             _saveBankAccountInfo();
           },
           child: Text(
-            AppString.save,
+            AppTexts.save,
           ),
         ),
       ),

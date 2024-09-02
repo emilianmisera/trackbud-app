@@ -29,7 +29,6 @@ class DynamicBottomSheet extends StatelessWidget {
   final VoidCallback onButtonPressed;
 
   final bool isButtonEnabled;
-  
 
   const DynamicBottomSheet({
     Key? key,
@@ -38,7 +37,8 @@ class DynamicBottomSheet extends StatelessWidget {
     this.minChildSize = 0.3,
     this.maxChildSize = 0.95,
     required this.buttonText,
-    required this.onButtonPressed, required this.isButtonEnabled,
+    required this.onButtonPressed,
+    required this.isButtonEnabled,
   }) : super(key: key);
 
   @override
@@ -52,8 +52,7 @@ class DynamicBottomSheet extends StatelessWidget {
         return Container(
           decoration: BoxDecoration(
             color: CustomColor.backgroundPrimary,
-            borderRadius: BorderRadius.vertical(
-                top: Radius.circular(Constants.buttonBorderRadius)),
+            borderRadius: BorderRadius.vertical(top: Radius.circular(Constants.buttonBorderRadius)),
           ),
           child: Column(
             children: [
@@ -81,11 +80,8 @@ class DynamicBottomSheet extends StatelessWidget {
                 padding: EdgeInsets.only(
                     left: CustomPadding.mediumSpace,
                     right: CustomPadding.mediumSpace,
-                    bottom: MediaQuery.sizeOf(context).height *
-                        CustomPadding.bottomSpace),
-                child: ElevatedButton(
-                    onPressed: isButtonEnabled ? onButtonPressed : null, 
-                    child: Text(buttonText)),
+                    bottom: MediaQuery.sizeOf(context).height * CustomPadding.bottomSpace),
+                child: ElevatedButton(onPressed: isButtonEnabled ? onButtonPressed : null, child: Text(buttonText)),
               )
             ],
           ),
@@ -136,9 +132,7 @@ class _AddTransactionState extends State<AddTransaction> {
   // Validate form inputs
   void _validateForm() {
     setState(() {
-      _isFormValid =
-          _amountController.text.isNotEmpty &&
-          _selectedCategory != null;
+      _isFormValid = _amountController.text.isNotEmpty && _selectedCategory != null;
     });
   }
 
@@ -208,7 +202,6 @@ class _AddTransactionState extends State<AddTransaction> {
     final newTransaction = _getTransactionFromForm();
 
     try {
-
       await FirestoreService().addTransaction(newTransaction);
       /*await SQLiteService().insertTransaction(newTransaction);
 
@@ -233,7 +226,7 @@ class _AddTransactionState extends State<AddTransaction> {
   @override
   Widget build(BuildContext context) {
     return DynamicBottomSheet(
-      buttonText: AppString.addTransaction,
+      buttonText: AppTexts.addTransaction,
       initialChildSize: 0.76,
       maxChildSize: 0.95,
       isButtonEnabled: _isFormValid,
@@ -249,7 +242,7 @@ class _AddTransactionState extends State<AddTransaction> {
             // Title of the bottom sheet
             Center(
               child: Text(
-                AppString.newTransaction,
+                AppTexts.newTransaction,
                 style: CustomTextStyle.regularStyleMedium,
               ),
             ),
@@ -258,36 +251,31 @@ class _AddTransactionState extends State<AddTransaction> {
             CustomSegmentControl(
               onValueChanged: (int? newValue) {
                 setState(() {
-                  _currentSegment = newValue ?? 0;  // Update current segment
+                  _currentSegment = newValue ?? 0; // Update current segment
                 });
               },
             ),
             SizedBox(height: CustomPadding.bigSpace),
             // Text field for transaction title
-            CustomTextfield(
-                name: AppString.title,
-                hintText: AppString.hintTitle,
-                controller: _titleController),
+            CustomTextfield(name: AppTexts.title, hintText: AppTexts.hintTitle, controller: _titleController),
             SizedBox(height: CustomPadding.defaultSpace),
             // Row containing amount and date fields
             Row(
               children: [
                 // Amount text field
                 CustomTextfield(
-                  name: AppString.amount,
+                  name: AppTexts.amount,
                   hintText: '',
                   controller: _amountController,
                   width: MediaQuery.sizeOf(context).width / 3,
                   prefix: Text(
                     _getAmountPrefix(),
-                    style: CustomTextStyle.titleStyleMedium.copyWith(
-                        fontWeight: CustomTextStyle.fontWeightDefault),
+                    style: CustomTextStyle.titleStyleMedium.copyWith(fontWeight: CustomTextStyle.fontWeightDefault),
                   ),
                   type: TextInputType.numberWithOptions(decimal: true),
                   inputFormatters: [
                     GermanNumericTextFormatter(),
                   ],
-
                 ),
                 SizedBox(width: CustomPadding.defaultSpace),
                 // Date
@@ -296,7 +284,7 @@ class _AddTransactionState extends State<AddTransaction> {
             ),
             SizedBox(height: CustomPadding.defaultSpace),
             Text(
-              AppString.categorie,
+              AppTexts.categorie,
               style: CustomTextStyle.regularStyleMedium,
             ),
             SizedBox(height: CustomPadding.mediumSpace),
@@ -307,7 +295,7 @@ class _AddTransactionState extends State<AddTransaction> {
                 : CategoriesIncome(onCategorySelected: _onCategorySelected),
             SizedBox(height: CustomPadding.defaultSpace),
             Text(
-              AppString.recurry,
+              AppTexts.recurry,
               style: CustomTextStyle.regularStyleMedium,
             ),
             SizedBox(height: CustomPadding.mediumSpace),
@@ -332,8 +320,8 @@ class _AddTransactionState extends State<AddTransaction> {
             SizedBox(height: CustomPadding.defaultSpace),
             // Note text field
             CustomTextfield(
-              name: AppString.note,
-              hintText: AppString.noteHint,
+              name: AppTexts.note,
+              hintText: AppTexts.noteHint,
               controller: _noteController,
               isMultiline: true,
             ),
@@ -345,7 +333,7 @@ class _AddTransactionState extends State<AddTransaction> {
   }
 }
 
-// Widget for adding new friend split 
+// Widget for adding new friend split
 class AddFriendSplit extends StatefulWidget {
   final List<String>? list;
   final String? friendName;
@@ -388,9 +376,7 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
 
   void _validateForm() {
     setState(() {
-      _isFormValid =
-          _amountController.text.isNotEmpty &&
-          _selectedCategory != null;
+      _isFormValid = _amountController.text.isNotEmpty && _selectedCategory != null;
     });
   }
 
@@ -421,7 +407,7 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
   @override
   Widget build(BuildContext context) {
     return DynamicBottomSheet(
-      buttonText: AppString.addSplit,
+      buttonText: AppTexts.addSplit,
       initialChildSize: 0.76,
       maxChildSize: 0.95,
       isButtonEnabled: _isFormValid,
@@ -437,30 +423,26 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
             Center(
               // Title of the bottom sheet
               child: Text(
-                AppString.newSplit,
+                AppTexts.newSplit,
                 style: CustomTextStyle.regularStyleMedium,
               ),
             ),
             SizedBox(height: CustomPadding.defaultSpace),
             // Text field for transaction title
-            CustomTextfield(
-                name: AppString.title,
-                hintText: AppString.hintTitle,
-                controller: _titleController),
+            CustomTextfield(name: AppTexts.title, hintText: AppTexts.hintTitle, controller: _titleController),
             SizedBox(height: CustomPadding.defaultSpace),
             // Row containing amount and date fields
             Row(
               children: [
                 // Amount text field
                 CustomTextfield(
-                  name: AppString.amount,
-                  hintText: AppString.lines,
+                  name: AppTexts.amount,
+                  hintText: AppTexts.lines,
                   controller: _amountController,
                   width: MediaQuery.sizeOf(context).width / 3,
                   prefix: Text(
                     '-',
-                    style: CustomTextStyle.titleStyleMedium.copyWith(
-                        fontWeight: CustomTextStyle.fontWeightDefault),
+                    style: CustomTextStyle.titleStyleMedium.copyWith(fontWeight: CustomTextStyle.fontWeightDefault),
                   ),
                   type: TextInputType.numberWithOptions(decimal: true),
                   inputFormatters: [
@@ -473,14 +455,14 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
             ),
             SizedBox(height: CustomPadding.defaultSpace),
             Text(
-              AppString.categorie,
+              AppTexts.categorie,
               style: CustomTextStyle.regularStyleMedium,
             ),
             SizedBox(height: CustomPadding.mediumSpace),
             CategoriesExpense(onCategorySelected: _onCategorySelected),
             SizedBox(height: CustomPadding.defaultSpace),
             Text(
-              AppString.payedBy,
+              AppTexts.payedBy,
               style: CustomTextStyle.regularStyleMedium,
             ),
             SizedBox(height: CustomPadding.mediumSpace),
@@ -504,21 +486,17 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
             if (_selectedSplitMethod == SplitMethod.equal)
               EqualSplitWidget(
                 amount: _inputNumber,
-                names: widget.list ??
-                    ['Dir', widget.friendName ?? '**Friend Name**'],
+                names: widget.list ?? ['Dir', widget.friendName ?? '**Friend Name**'],
                 isGroup: widget.isGroup ?? false,
-
               ),
             if (_selectedSplitMethod == SplitMethod.percent)
               PercentalSplitWidget(
                 amount: _inputNumber,
-                names: widget.list ??
-                    ['Dir', widget.friendName ?? '**Friend Name**'],
+                names: widget.list ?? ['Dir', widget.friendName ?? '**Friend Name**'],
               ),
             if (_selectedSplitMethod == SplitMethod.amount)
               ByAmountSplitWidget(
-                names: widget.list ??
-                    ['Dir', widget.friendName ?? '**Friend Name**'],
+                names: widget.list ?? ['Dir', widget.friendName ?? '**Friend Name**'],
               )
           ],
         ),
@@ -571,9 +549,7 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
   // Validate form inputs
   void _validateForm() {
     setState(() {
-      _isFormValid = _titleController.text.isNotEmpty &&
-          _amountController.text.isNotEmpty &&
-          _selectedCategory != null;
+      _isFormValid = _titleController.text.isNotEmpty && _amountController.text.isNotEmpty && _selectedCategory != null;
     });
   }
 
@@ -606,7 +582,7 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
   @override
   Widget build(BuildContext context) {
     return DynamicBottomSheet(
-      buttonText: AppString.addSplit,
+      buttonText: AppTexts.addSplit,
       initialChildSize: 0.62,
       maxChildSize: 0.95,
       isButtonEnabled: _isFormValid,
@@ -622,30 +598,26 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
             // Title of the bottom sheet
             Center(
               child: Text(
-                AppString.newGroupSplit,
+                AppTexts.newGroupSplit,
                 style: CustomTextStyle.regularStyleMedium,
               ),
             ),
             SizedBox(height: CustomPadding.defaultSpace),
             // Text field for transaction title
-            CustomTextfield(
-                name: AppString.title,
-                hintText: AppString.hintTitle,
-                controller: _titleController),
+            CustomTextfield(name: AppTexts.title, hintText: AppTexts.hintTitle, controller: _titleController),
             SizedBox(height: CustomPadding.defaultSpace),
             // Row containing amount and date fields
             Row(
               children: [
                 // Amount text field
                 CustomTextfield(
-                  name: AppString.amount,
-                  hintText: AppString.lines,
+                  name: AppTexts.amount,
+                  hintText: AppTexts.lines,
                   controller: _amountController,
                   width: MediaQuery.sizeOf(context).width / 3,
                   prefix: Text(
                     '-',
-                    style: CustomTextStyle.titleStyleMedium.copyWith(
-                        fontWeight: CustomTextStyle.fontWeightDefault),
+                    style: CustomTextStyle.titleStyleMedium.copyWith(fontWeight: CustomTextStyle.fontWeightDefault),
                   ),
                   type: TextInputType.numberWithOptions(decimal: true),
                   inputFormatters: [
@@ -658,7 +630,7 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
             ),
             SizedBox(height: CustomPadding.defaultSpace),
             Text(
-              AppString.categorie,
+              AppTexts.categorie,
               style: CustomTextStyle.regularStyleMedium,
             ),
             SizedBox(height: CustomPadding.mediumSpace),
@@ -666,7 +638,7 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
             CategoriesExpense(onCategorySelected: _onCategorySelected),
             SizedBox(height: CustomPadding.defaultSpace),
             Text(
-              AppString.payedBy,
+              AppTexts.payedBy,
               style: CustomTextStyle.regularStyleMedium,
             ),
             SizedBox(height: CustomPadding.mediumSpace),
@@ -690,20 +662,17 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
             if (_selectedSplitMethod == SplitMethod.equal)
               EqualSplitWidget(
                 amount: _inputNumber,
-                names: widget.list ??
-                    ['Dir', widget.friendName ?? '**Friend Name**'],
+                names: widget.list ?? ['Dir', widget.friendName ?? '**Friend Name**'],
                 isGroup: widget.isGroup ?? true,
               ),
             if (_selectedSplitMethod == SplitMethod.percent)
               PercentalSplitWidget(
                 amount: _inputNumber,
-                names: widget.list ??
-                    ['Dir', widget.friendName ?? '**Friend Name**'],
+                names: widget.list ?? ['Dir', widget.friendName ?? '**Friend Name**'],
               ),
             if (_selectedSplitMethod == SplitMethod.amount)
               ByAmountSplitWidget(
-                names: widget.list ??
-                    ['Dir', widget.friendName ?? '**Friend Name**'],
+                names: widget.list ?? ['Dir', widget.friendName ?? '**Friend Name**'],
               )
           ],
         ),

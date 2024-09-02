@@ -25,8 +25,7 @@ class _ChangeEmailScreenState extends State<ChangeEmailScreen> {
         _passwordController.text,
       );
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content:
-            Text('Ein Verifizierungslink wurde an die neue E-Mail gesendet.'),
+        content: Text('Ein Verifizierungslink wurde an die neue E-Mail gesendet.'),
       ));
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -44,8 +43,7 @@ class _ChangeEmailScreenState extends State<ChangeEmailScreen> {
           // Padding adds spacing around the content inside the screen.
           padding: EdgeInsets.only(
             top: MediaQuery.sizeOf(context).height * CustomPadding.topSpace -
-                Constants
-                    .defaultAppBarHeight, // Top padding based on screen height
+                Constants.defaultAppBarHeight, // Top padding based on screen height
             left: CustomPadding.defaultSpace, // Left padding
             right: CustomPadding.defaultSpace, // Right padding
           ),
@@ -54,7 +52,7 @@ class _ChangeEmailScreenState extends State<ChangeEmailScreen> {
             children: [
               // The heading text
               Text(
-                AppString.changeEmail,
+                AppTexts.changeEmail,
                 style: CustomTextStyle.headingStyle,
               ),
               SizedBox(
@@ -62,30 +60,20 @@ class _ChangeEmailScreenState extends State<ChangeEmailScreen> {
               ),
               // The description text
               Text(
-                AppString.changeEmailDesscribtion,
+                AppTexts.changeEmailDesscribtion,
                 style: CustomTextStyle.hintStyleDefault,
               ),
               SizedBox(
                 height: CustomPadding.bigSpace,
               ),
               // Current email text field
-              CustomTextfield(
-                  name: AppString.currentEmail,
-                  hintText: AppString.currentEmailHint,
-                  controller: _currentEmailController),
+              CustomTextfield(name: AppTexts.currentEmail, hintText: AppTexts.currentEmailHint, controller: _currentEmailController),
               SizedBox(height: CustomPadding.defaultSpace),
               // new email text field
-              CustomTextfield(
-                  name: AppString.newEmail,
-                  hintText: AppString.newEmailHint,
-                  controller: _newEmailController),
+              CustomTextfield(name: AppTexts.newEmail, hintText: AppTexts.newEmailHint, controller: _newEmailController),
               SizedBox(height: CustomPadding.defaultSpace),
               // Confirm Password text field
-              CustomTextfield(
-                  name: AppString.password,
-                  obscureText: true,
-                  hintText: AppString.hintPassword,
-                  controller: _passwordController),
+              CustomTextfield(name: AppTexts.password, obscureText: true, hintText: AppTexts.hintPassword, controller: _passwordController),
             ],
           ),
         ),
@@ -102,7 +90,7 @@ class _ChangeEmailScreenState extends State<ChangeEmailScreen> {
           onPressed: () async {
             _changeEmail();
           },
-          child: Text(AppString.save),
+          child: Text(AppTexts.save),
         ),
       ),
     );

@@ -43,8 +43,7 @@ class _YourFriendsScreenState extends State<YourFriendsScreen> {
     String _currentUserId = getCurrentUserId();
     try {
       // Lade die Freunde des aktuellen Nutzers
-      List<UserModel> friends =
-          await _firestoreService.getFriends(_currentUserId);
+      List<UserModel> friends = await _firestoreService.getFriends(_currentUserId);
 
       setState(() {
         _friends = friends;
@@ -62,8 +61,7 @@ class _YourFriendsScreenState extends State<YourFriendsScreen> {
     try {
       final userId = getCurrentUserId();
       String inviteLink = await _inviteService.createInviteLink(userId);
-      Share.share(
-          'Füge mich zu deinen Freunden in TrackBud hinzu: $inviteLink');
+      Share.share('Füge mich zu deinen Freunden in TrackBud hinzu: $inviteLink');
     } catch (e) {
       print("Fehler beim Teilen des Links: $e");
     }
@@ -78,19 +76,14 @@ class _YourFriendsScreenState extends State<YourFriendsScreen> {
     return showModalBottomSheet(
         context: context,
         builder: (context) => Container(
-              height: MediaQuery.sizeOf(context).height *
-                  Constants.modalBottomSheetHeight,
+              height: MediaQuery.sizeOf(context).height * Constants.modalBottomSheetHeight,
               width: MediaQuery.sizeOf(context).width,
               decoration: BoxDecoration(
                 color: CustomColor.backgroundPrimary,
-                borderRadius:
-                    BorderRadius.circular(Constants.buttonBorderRadius),
+                borderRadius: BorderRadius.circular(Constants.buttonBorderRadius),
               ),
               child: Padding(
-                padding: const EdgeInsets.only(
-                    left: CustomPadding.defaultSpace,
-                    right: CustomPadding.defaultSpace,
-                    bottom: 50),
+                padding: const EdgeInsets.only(left: CustomPadding.defaultSpace, right: CustomPadding.defaultSpace, bottom: 50),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -108,20 +101,17 @@ class _YourFriendsScreenState extends State<YourFriendsScreen> {
                     ),
                     SizedBox(height: CustomPadding.defaultSpace),
                     Text(
-                      AppString.addFriend,
+                      AppTexts.addFriend,
                       style: CustomTextStyle.regularStyleMedium,
                     ),
                     SizedBox(height: CustomPadding.mediumSpace),
-                    CustomTextfield(
-                        name: AppString.email,
-                        hintText: AppString.hintEmail,
-                        controller: _emailFriendController),
+                    CustomTextfield(name: AppTexts.email, hintText: AppTexts.hintEmail, controller: _emailFriendController),
                     Spacer(),
                     ElevatedButton(
                         onPressed: () {
                           _shareInviteLink();
                         },
-                        child: Text(AppString.addFriend)),
+                        child: Text(AppTexts.addFriend)),
                   ],
                 ),
               ),
@@ -133,7 +123,7 @@ class _YourFriendsScreenState extends State<YourFriendsScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          AppString.yourFriends,
+          AppTexts.yourFriends,
           style: CustomTextStyle.regularStyleMedium,
         ),
         actions: [
@@ -153,16 +143,14 @@ class _YourFriendsScreenState extends State<YourFriendsScreen> {
           : SingleChildScrollView(
               child: Padding(
                 // spacing between content and screen
-                padding: EdgeInsets.only(
-                    top: CustomPadding.defaultSpace,
-                    left: CustomPadding.defaultSpace,
-                    right: CustomPadding.defaultSpace),
+                padding:
+                    EdgeInsets.only(top: CustomPadding.defaultSpace, left: CustomPadding.defaultSpace, right: CustomPadding.defaultSpace),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     //SearchField
                     SearchTextfield(
-                      hintText: AppString.search,
+                      hintText: AppTexts.search,
                       controller: _searchController,
                       onChanged: _searchFriend,
                     ),
@@ -176,8 +164,7 @@ class _YourFriendsScreenState extends State<YourFriendsScreen> {
                       Column(
                         children: _friends
                             .map((friend) => Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: CustomPadding.smallSpace),
+                                  padding: const EdgeInsets.symmetric(vertical: CustomPadding.smallSpace),
                                   child: FriendCard(friend: friend),
                                 ))
                             .toList(),

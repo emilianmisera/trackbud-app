@@ -24,19 +24,14 @@ class _YourGroupsScreenState extends State<YourGroupsScreen> {
     return showModalBottomSheet(
         context: context,
         builder: (context) => Container(
-              height: MediaQuery.sizeOf(context).height *
-                  Constants.modalBottomSheetHeight,
+              height: MediaQuery.sizeOf(context).height * Constants.modalBottomSheetHeight,
               width: MediaQuery.sizeOf(context).width,
               decoration: BoxDecoration(
                 color: CustomColor.backgroundPrimary,
-                borderRadius:
-                    BorderRadius.circular(Constants.buttonBorderRadius),
+                borderRadius: BorderRadius.circular(Constants.buttonBorderRadius),
               ),
               child: Padding(
-                padding: const EdgeInsets.only(
-                    left: CustomPadding.defaultSpace,
-                    right: CustomPadding.defaultSpace,
-                    bottom: 50),
+                padding: const EdgeInsets.only(left: CustomPadding.defaultSpace, right: CustomPadding.defaultSpace, bottom: 50),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -56,7 +51,7 @@ class _YourGroupsScreenState extends State<YourGroupsScreen> {
                     SizedBox(height: CustomPadding.defaultSpace),
                     Center(
                       child: Text(
-                        AppString.addGroup,
+                        AppTexts.addGroup,
                         style: CustomTextStyle.regularStyleMedium,
                       ),
                     ),
@@ -64,7 +59,7 @@ class _YourGroupsScreenState extends State<YourGroupsScreen> {
                     GroupTitle(createGroupController: _createGroupController),
                     SizedBox(height: CustomPadding.defaultSpace),
                     Text(
-                      AppString.addMembers,
+                      AppTexts.addMembers,
                       style: CustomTextStyle.regularStyleMedium,
                     ),
                     SizedBox(height: CustomPadding.mediumSpace),
@@ -74,7 +69,7 @@ class _YourGroupsScreenState extends State<YourGroupsScreen> {
                         onPressed: () {
                           Navigator.pop(context);
                         },
-                        child: Text(AppString.addFriend)),
+                        child: Text(AppTexts.addFriend)),
                   ],
                 ),
               ),
@@ -86,7 +81,7 @@ class _YourGroupsScreenState extends State<YourGroupsScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          AppString.yourGroups,
+          AppTexts.yourGroups,
           style: CustomTextStyle.regularStyleMedium,
         ),
         actions: [
@@ -105,16 +100,13 @@ class _YourGroupsScreenState extends State<YourGroupsScreen> {
       body: SingleChildScrollView(
         child: Padding(
           // spacing between content and screen
-          padding: EdgeInsets.only(
-              top: CustomPadding.defaultSpace,
-              left: CustomPadding.defaultSpace,
-              right: CustomPadding.defaultSpace),
+          padding: EdgeInsets.only(top: CustomPadding.defaultSpace, left: CustomPadding.defaultSpace, right: CustomPadding.defaultSpace),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               //SearchField
               SearchTextfield(
-                hintText: AppString.search,
+                hintText: AppTexts.search,
                 controller: _searchController,
                 onChanged: _searchGroup,
               ),
@@ -141,8 +133,6 @@ class _YourGroupsScreenState extends State<YourGroupsScreen> {
   }
 }
 
-
-
 class GroupTitle extends StatelessWidget {
   const GroupTitle({
     super.key,
@@ -156,37 +146,36 @@ class GroupTitle extends StatelessWidget {
     return Row(
       children: [
         ClipRRect(
-    borderRadius: BorderRadius.circular(100.0),
-    child: Container(
-      width: 60,
-      height: 60,
-      color: Colors.red,
-    ),
-                      ),
-                      SizedBox(width: CustomPadding.mediumSpace,),
+          borderRadius: BorderRadius.circular(100.0),
+          child: Container(
+            width: 60,
+            height: 60,
+            color: Colors.red,
+          ),
+        ),
+        SizedBox(
+          width: CustomPadding.mediumSpace,
+        ),
         Expanded(
           child: CustomShadow(
             child: Container(
-              height: Constants
-                  .height, // choose height of Textfield Box
+              height: Constants.height, // choose height of Textfield Box
               child: TextFormField(
                 controller: _createGroupController,
                 cursorColor: CustomColor.bluePrimary,
                 decoration: InputDecoration(
-                  hintText: AppString.groupNameHint,
+                  hintText: AppTexts.groupNameHint,
                   contentPadding: EdgeInsets.symmetric(
                     horizontal: CustomPadding.defaultSpace,
                     vertical: CustomPadding.contentHeightSpace,
                   ),
                   hintStyle: CustomTextStyle.hintStyleDefault,
-                  floatingLabelBehavior:
-                      FloatingLabelBehavior.never,
+                  floatingLabelBehavior: FloatingLabelBehavior.never,
                   filled: true,
                   fillColor: CustomColor.white,
                   border: OutlineInputBorder(
                     borderSide: BorderSide.none,
-                    borderRadius: BorderRadius.circular(
-                        Constants.buttonBorderRadius),
+                    borderRadius: BorderRadius.circular(Constants.buttonBorderRadius),
                   ),
                 ),
               ),

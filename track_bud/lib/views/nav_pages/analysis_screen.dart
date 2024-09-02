@@ -73,10 +73,8 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
   @override
   Widget build(BuildContext context) {
     // Determine the title and color for the InfoTile based on the selected option
-    String _infoTileTitle =
-        _selectedOption == 'Ausgaben' ? 'ausgegeben' : 'erhalten';
-    Color _infoTileColor =
-        _selectedOption == 'Ausgaben' ? CustomColor.red : CustomColor.green;
+    String _infoTileTitle = _selectedOption == 'Ausgaben' ? 'ausgegeben' : 'erhalten';
+    Color _infoTileColor = _selectedOption == 'Ausgaben' ? CustomColor.red : CustomColor.green;
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -89,10 +87,7 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              InfoTile(
-                  title: AppString.balance,
-                  amount: '${_currentBalance.toStringAsFixed(2)}',
-                  color: CustomColor.bluePrimary),
+              InfoTile(title: AppTexts.balance, amount: '${_currentBalance.toStringAsFixed(2)}', color: CustomColor.bluePrimary),
               SizedBox(
                 height: CustomPadding.mediumSpace,
               ),
@@ -103,13 +98,11 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
                     title: _infoTileTitle,
                     amount: 'amount', // Placeholder text, replace with actual amount
                     color: _infoTileColor,
-                    width: MediaQuery.sizeOf(context).width / 2 -
-                        Constants.infoTileSpace,
+                    width: MediaQuery.sizeOf(context).width / 2 - Constants.infoTileSpace,
                   ),
                   CustomDropDown(
                     list: ['Ausgaben', 'Einnahmen'],
-                    width: MediaQuery.sizeOf(context).width / 2 -
-                        Constants.infoTileSpace,
+                    width: MediaQuery.sizeOf(context).width / 2 - Constants.infoTileSpace,
                     height: 88,
                     onChanged: (value) {
                       setState(() {
@@ -133,16 +126,14 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
                 height: CustomPadding.defaultSpace,
               ),
               Text(
-                AppString.history,
+                AppTexts.history,
                 style: CustomTextStyle.regularStyleMedium,
               ),
               SizedBox(
                 height: CustomPadding.mediumSpace,
               ),
               TransactionList(
-                  onTransactionChangeCallback: _updateChartData,
-                  selectedOption: _selectedOption,
-                  selectedCategory: _selectedCategory),
+                  onTransactionChangeCallback: _updateChartData, selectedOption: _selectedOption, selectedCategory: _selectedCategory),
             ],
           ),
         ),

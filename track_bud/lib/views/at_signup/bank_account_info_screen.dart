@@ -18,7 +18,7 @@ class _BankAccountInfoScreenState extends State<BankAccountInfoScreen> {
   // Controller to handle the input in the TextField for the amount of money.
   final TextEditingController _moneyController = TextEditingController();
 
-Future<void> _saveBankAccountInfo() async {
+  Future<void> _saveBankAccountInfo() async {
     // Get the current user's ID
     final String userId = FirebaseAuth.instance.currentUser?.uid ?? '';
 
@@ -82,18 +82,15 @@ Future<void> _saveBankAccountInfo() async {
       bottomSheet: Container(
         // Margin is applied to the bottom of the button and the sides for proper spacing.
         margin: EdgeInsets.only(
-          bottom: MediaQuery.sizeOf(context).height *
-              CustomPadding.bottomSpace, // Bottom margin based on screen height
+          bottom: MediaQuery.sizeOf(context).height * CustomPadding.bottomSpace, // Bottom margin based on screen height
           left: CustomPadding.defaultSpace, // Left margin
           right: CustomPadding.defaultSpace, // Right margin
         ),
-        width: MediaQuery.of(context)
-            .size
-            .width, // Set the button width to match the screen width
+        width: MediaQuery.of(context).size.width, // Set the button width to match the screen width
         child: ElevatedButton(
           onPressed: _saveBankAccountInfo,
           child: Text(
-            AppString.continueText,
+            AppTexts.continueText,
           ),
         ),
       ),
@@ -102,9 +99,7 @@ Future<void> _saveBankAccountInfo() async {
         child: Padding(
           // Padding adds spacing around the content inside the screen.
           padding: EdgeInsets.only(
-            top: MediaQuery.sizeOf(context).height *
-                CustomPadding
-                    .topSpaceAuth, // Top padding based on screen height
+            top: MediaQuery.sizeOf(context).height * CustomPadding.topSpaceAuth, // Top padding based on screen height
             left: CustomPadding.defaultSpace, // Left padding
             right: CustomPadding.defaultSpace, // Right padding
           ),
@@ -112,22 +107,18 @@ Future<void> _saveBankAccountInfo() async {
             // Column to organize the content vertically.
             children: [
               Text(
-                AppString.bankAccInfoHeading, // The heading text
-                style: CustomTextStyle
-                    .headingStyle, // The text style for the heading.
+                AppTexts.bankAccInfoHeading, // The heading text
+                style: CustomTextStyle.headingStyle, // The text style for the heading.
               ),
               SizedBox(
-                height: CustomPadding
-                    .mediumSpace, // Adds vertical space between the heading and the next element.
+                height: CustomPadding.mediumSpace, // Adds vertical space between the heading and the next element.
               ),
               Text(
-                AppString.bankAccInfoDescription, // The description text
-                style: CustomTextStyle
-                    .hintStyleDefault, // The text style for the description.
+                AppTexts.bankAccInfoDescription, // The description text
+                style: CustomTextStyle.hintStyleDefault, // The text style for the description.
               ),
               SizedBox(
-                height: CustomPadding
-                    .bigSpace, // Adds more vertical space before the next element.
+                height: CustomPadding.bigSpace, // Adds more vertical space before the next element.
               ),
               // A custom TextField widget for entering the amount of money, using the controller defined above.
               TextFieldAmountOfMoney(controller: _moneyController),
