@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:gap/gap.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfield_widget.dart';
@@ -43,11 +44,11 @@ class _SplitButtonState extends State<SplitButton> {
               widget.icon,
               color: widget.isSelected ? CustomColor.bluePrimary : CustomColor.hintColor,
             ),
-            SizedBox(height: CustomPadding.smallSpace),
+            Gap(CustomPadding.smallSpace),
             // Display the text
             Text(
               widget.text,
-              style: CustomTextStyle.hintStyleDefault.copyWith(
+              style: TextStyles.hintStyleDefault.copyWith(
                 color: widget.isSelected ? CustomColor.bluePrimary : CustomColor.hintColor,
               ),
             ),
@@ -55,14 +56,9 @@ class _SplitButtonState extends State<SplitButton> {
         ),
         style: ElevatedButton.styleFrom(
           backgroundColor: CustomColor.white,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(Constants.buttonBorderRadius))
-          ),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(Constants.contentBorderRadius))),
           minimumSize: Size(25, 10),
-          padding: EdgeInsets.symmetric(
-            horizontal: CustomPadding.defaultSpace,
-            vertical: CustomPadding.contentHeightSpace
-          ),
+          padding: EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace, vertical: CustomPadding.contentHeightSpace),
           elevation: 0,
         ),
       ),
@@ -94,31 +90,31 @@ class _SplitMethodSelectorState extends State<SplitMethodSelector> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          AppString.distribution,
-          style: CustomTextStyle.regularStyleMedium,
+          AppTexts.distribution,
+          style: TextStyles.regularStyleMedium,
         ),
-        SizedBox(height: CustomPadding.mediumSpace),
+        Gap(CustomPadding.mediumSpace),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             // Equal split button
             SplitButton(
               icon: AssetImport.equal,
-              text: AppString.equal,
+              text: AppTexts.equal,
               onPressed: () => widget.onSplitMethodChanged(SplitMethod.equal),
               isSelected: widget.selectedMethod == SplitMethod.equal,
             ),
             // Percent split button
             SplitButton(
               icon: AssetImport.percent,
-              text: AppString.percent,
+              text: AppTexts.percent,
               onPressed: () => widget.onSplitMethodChanged(SplitMethod.percent),
               isSelected: widget.selectedMethod == SplitMethod.percent,
             ),
             // By amount split button
             SplitButton(
               icon: AssetImport.byAmount,
-              text: AppString.byAmount,
+              text: AppTexts.byAmount,
               onPressed: () => widget.onSplitMethodChanged(SplitMethod.amount),
               isSelected: widget.selectedMethod == SplitMethod.amount,
             ),
@@ -138,12 +134,7 @@ class EqualTile extends StatefulWidget {
   // Whether this is a friend's split (determines UI elements)
   final bool friendSplit;
 
-  const EqualTile({
-    super.key,
-    this.name,
-    required this.splitAmount,
-    required this.friendSplit
-  });
+  const EqualTile({super.key, this.name, required this.splitAmount, required this.friendSplit});
 
   @override
   State<EqualTile> createState() => _EqualTileState();
@@ -157,10 +148,7 @@ class _EqualTileState extends State<EqualTile> {
   Widget build(BuildContext context) {
     return CustomShadow(
       child: Container(
-        decoration: BoxDecoration(
-          color: CustomColor.white,
-          borderRadius: BorderRadius.circular(Constants.buttonBorderRadius)
-        ),
+        decoration: BoxDecoration(color: CustomColor.white, borderRadius: BorderRadius.circular(Constants.contentBorderRadius)),
         child: ListTile(
           leading: ClipRRect(
             borderRadius: BorderRadius.circular(100.0),
@@ -172,62 +160,53 @@ class _EqualTileState extends State<EqualTile> {
           ),
           title: Text(
             widget.name ?? 'Du',
-            style: CustomTextStyle.regularStyleDefault,
+            style: TextStyles.regularStyleDefault,
           ),
           trailing: widget.friendSplit
-            ? SizedBox(
-                width: 200,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    // Display split amount
-                    Container(
-                      padding: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        color: CustomColor.white,
-                        borderRadius: BorderRadius.circular(Constants.buttonBorderRadius),
-                        border: Border.all(color: CustomColor.grey),
+              ? Container(
+                  width: 200,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      // Display split amount
+                      Container(
+                        padding: EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: CustomColor.white,
+                          borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
+                          border: Border.all(color: CustomColor.grey),
+                        ),
+                        child: Text('${widget.splitAmount}€', style: TextStyles.hintStyleDefault),
                       ),
-                      child: Text('${widget.splitAmount}€', style: CustomTextStyle.hintStyleDefault),
-                    ),
-                    // Checkbox for friend's split
-                    Checkbox(
-                      hoverColor: CustomColor.bluePrimary,
-                      checkColor: CustomColor.white,
-                      fillColor: WidgetStateProperty.resolveWith<Color>(
-                        (Set<WidgetState> states) {
-                          return states.contains(WidgetState.selected)
-                            ? CustomColor.bluePrimary
-                            : CustomColor.white;
-                        }
+                      // Checkbox for friend's split
+                      Checkbox(
+                        hoverColor: CustomColor.bluePrimary,
+                        checkColor: CustomColor.white,
+                        fillColor: WidgetStateProperty.resolveWith<Color>((Set<WidgetState> states) {
+                          return states.contains(WidgetState.selected) ? CustomColor.bluePrimary : CustomColor.white;
+                        }),
+                        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                        value: _checkBox,
+                        onChanged: (value) {
+                          setState(() {
+                            _checkBox = value!;
+                          });
+                        },
+                        activeColor: Colors.blueAccent,
                       ),
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10.0))
-                      ),
-                      value: _checkBox,
-                      onChanged: (value) {
-                        setState(() {
-                          _checkBox = value!;
-                        });
-                      },
-                      activeColor: Colors.blueAccent,
-                    ),
-                  ],
+                    ],
+                  ),
+                )
+              : Container(
+                  padding: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: CustomColor.white,
+                    borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
+                    border: Border.all(color: CustomColor.grey),
+                  ),
+                  child: Text('${widget.splitAmount}€', style: TextStyles.hintStyleDefault),
                 ),
-              )
-            : Container(
-                padding: EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: CustomColor.white,
-                  borderRadius: BorderRadius.circular(Constants.buttonBorderRadius),
-                  border: Border.all(color: CustomColor.grey),
-                ),
-                child: Text('${widget.splitAmount}€', style: CustomTextStyle.hintStyleDefault),
-              ),
-          contentPadding: EdgeInsets.symmetric(
-            horizontal: CustomPadding.defaultSpace,
-            vertical: CustomPadding.defaultSpace
-          ),
+          contentPadding: EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace, vertical: CustomPadding.defaultSpace),
         ),
       ),
     );
@@ -259,7 +238,7 @@ class EqualSplitWidget extends StatelessWidget {
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
       itemCount: names.length,
-      separatorBuilder: (context, index) => SizedBox(height: CustomPadding.mediumSpace),
+      separatorBuilder: (context, index) => Gap(CustomPadding.mediumSpace),
       itemBuilder: (context, index) {
         return EqualTile(
           name: names[index],
@@ -293,46 +272,45 @@ class PercentTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomShadow(
-      child: Container(
-        width: MediaQuery.of(context).size.width,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(Constants.buttonBorderRadius),
-          color: CustomColor.white,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ListTile(
-              contentPadding: EdgeInsets.only(left: CustomPadding.defaultSpace),
-              leading: ClipRRect(
-                borderRadius: BorderRadius.circular(100.0),
-                child: Container(
-                  width: 40,
-                  height: 40,
-                  color: Colors.red, // TODO: Replace with profile picture
-                ),
-              ),
-              title: Text(
-                name ?? 'Du',
-                style: CustomTextStyle.regularStyleMedium,
-              ),
-              subtitle: Text(
-                '${sliderValue.round()}% = ${(amount * (sliderValue / 100)).toStringAsFixed(2)}€',
-                style: CustomTextStyle.regularStyleDefault.copyWith(fontSize: CustomTextStyle.fontSizeHint),
+        child: Container(
+      width: MediaQuery.of(context).size.width,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
+        color: CustomColor.white,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ListTile(
+            contentPadding: EdgeInsets.only(left: CustomPadding.defaultSpace),
+            leading: ClipRRect(
+              borderRadius: BorderRadius.circular(100.0),
+              child: Container(
+                width: 40,
+                height: 40,
+                color: Colors.red, // TODO: Replace with profile picture
               ),
             ),
-            Slider(
-              onChanged: onChanged,
-              max: 100.00,
-              divisions: 20,
-              value: sliderValue,
-              activeColor: CustomColor.bluePrimary,
-              inactiveColor: CustomColor.grey,
-            )
-          ],
-        ),
-      )
-    );
+            title: Text(
+              name ?? 'Du',
+              style: TextStyles.regularStyleMedium,
+            ),
+            subtitle: Text(
+              '${sliderValue.round()}% = ${(amount * (sliderValue / 100)).toStringAsFixed(2)}€',
+              style: TextStyles.regularStyleDefault.copyWith(fontSize: TextStyles.fontSizeHint),
+            ),
+          ),
+          Slider(
+            onChanged: onChanged,
+            max: 100.00,
+            divisions: 20,
+            value: sliderValue,
+            activeColor: CustomColor.bluePrimary,
+            inactiveColor: CustomColor.grey,
+          )
+        ],
+      ),
+    ));
   }
 }
 
@@ -384,7 +362,7 @@ class _PercentalSplitWidgetState extends State<PercentalSplitWidget> {
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
       itemCount: widget.names.length,
-      separatorBuilder: (context, index) => SizedBox(height: CustomPadding.mediumSpace),
+      separatorBuilder: (context, index) => Gap(CustomPadding.mediumSpace),
       itemBuilder: (context, index) {
         return PercentTile(
           amount: widget.amount,
@@ -416,10 +394,7 @@ class _ByAmountTileState extends State<ByAmountTile> {
   Widget build(BuildContext context) {
     return CustomShadow(
       child: Container(
-        decoration: BoxDecoration(
-          color: CustomColor.white,
-          borderRadius: BorderRadius.circular(Constants.buttonBorderRadius)
-        ),
+        decoration: BoxDecoration(color: CustomColor.white, borderRadius: BorderRadius.circular(Constants.contentBorderRadius)),
         child: ListTile(
           leading: ClipRRect(
             borderRadius: BorderRadius.circular(100.0),
@@ -431,24 +406,18 @@ class _ByAmountTileState extends State<ByAmountTile> {
           ),
           title: Text(
             widget.name ?? 'Du',
-            style: CustomTextStyle.regularStyleDefault,
+            style: TextStyles.regularStyleDefault,
           ),
           trailing: Container(
-            width: 80,
-            decoration: BoxDecoration(
-              border: Border.all(color: CustomColor.grey),
-              borderRadius: BorderRadius.circular(Constants.buttonBorderRadius)
-            ),
-            child: TextFieldByAmount(
-              controller: _inputController,
-              inputStyle: CustomTextStyle.regularStyleDefault,
-              suffixStyle: CustomTextStyle.regularStyleDefault,
-            )
-          ),
-          contentPadding: EdgeInsets.symmetric(
-            horizontal: CustomPadding.defaultSpace,
-            vertical: CustomPadding.defaultSpace
-          ),
+              width: 80,
+              decoration: BoxDecoration(
+                  border: Border.all(color: CustomColor.grey), borderRadius: BorderRadius.circular(Constants.contentBorderRadius)),
+              child: TextFieldByAmount(
+                controller: _inputController,
+                inputStyle: TextStyles.regularStyleDefault,
+                suffixStyle: TextStyles.regularStyleDefault,
+              )),
+          contentPadding: EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace, vertical: CustomPadding.defaultSpace),
         ),
       ),
     );
@@ -471,7 +440,7 @@ class ByAmountSplitWidget extends StatelessWidget {
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
       itemCount: names.length,
-      separatorBuilder: (context, index) => SizedBox(height: CustomPadding.mediumSpace),
+      separatorBuilder: (context, index) => Gap(CustomPadding.mediumSpace),
       itemBuilder: (context, index) {
         return ByAmountTile(name: names[index]);
       },

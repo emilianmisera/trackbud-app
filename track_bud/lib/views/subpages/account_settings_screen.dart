@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:track_bud/utils/buttons_widget.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/strings.dart';
@@ -26,31 +27,26 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppString.accAdjustments,
-            style: CustomTextStyle.regularStyleMedium),
+        title: Text(AppTexts.accAdjustments, style: TextStyles.regularStyleMedium),
       ),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.only(
-              top: MediaQuery.sizeOf(context).height *
-                      CustomPadding.topSpaceAuth -
-                  Constants.defaultAppBarHeight,
+              top: MediaQuery.sizeOf(context).height * CustomPadding.topSpaceAuth - Constants.defaultAppBarHeight,
               left: CustomPadding.defaultSpace,
               right: CustomPadding.defaultSpace),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                AppString.budget,
-                style: CustomTextStyle.regularStyleMedium,
+                AppTexts.budget,
+                style: TextStyles.regularStyleMedium,
               ),
-              SizedBox(
-                height: CustomPadding.mediumSpace,
-              ),
+              Gap(CustomPadding.mediumSpace),
               AccAdjustmentButton(
                   //BankAccount
                   icon: AssetImport.changeAmount,
-                  name: AppString.changeBankAcc,
+                  name: AppTexts.changeBankAcc,
                   onPressed: () {
                     Navigator.push(
                       context,
@@ -59,13 +55,11 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                       ),
                     );
                   }),
-              SizedBox(
-                height: CustomPadding.mediumSpace,
-              ),
+              Gap(CustomPadding.mediumSpace),
               AccAdjustmentButton(
                   // Budget Goal
                   icon: AssetImport.target,
-                  name: AppString.changeBudgetGoal,
+                  name: AppTexts.changeBudgetGoal,
                   onPressed: () {
                     Navigator.push(
                       context,
@@ -74,27 +68,23 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                       ),
                     );
                   }),
-              SizedBox(
-                height: CustomPadding.mediumSpace,
-              ),
+              Gap(CustomPadding.mediumSpace),
               AccAdjustmentWidget(
                 // Currency
                 icon: AssetImport.settings,
-                name: AppString.changeCurrency,
+                name: AppTexts.changeCurrency,
                 widget: CurrencyDropdown(), // Dropdown for changing currency
               ),
-              SizedBox(height: CustomPadding.defaultSpace),
+              Gap(CustomPadding.defaultSpace),
               Text(
-                AppString.appearance,
-                style: CustomTextStyle.regularStyleMedium,
+                AppTexts.appearance,
+                style: TextStyles.regularStyleMedium,
               ),
-              SizedBox(
-                height: CustomPadding.mediumSpace,
-              ),
+              Gap(CustomPadding.mediumSpace),
               AccAdjustmentWidget(
                 // DarkMode
                 icon: AssetImport.mode,
-                name: AppString.darkMode,
+                name: AppTexts.darkMode,
                 widget: Switch(
                   // Switch Widget
                   value: isActive,
@@ -148,7 +138,7 @@ class _CurrencyDropdownState extends State<CurrencyDropdown> {
           }),
           value: value,
           elevation: 0,
-          style: CustomTextStyle.regularStyleMedium,
+          style: TextStyles.regularStyleMedium,
           dropdownColor: CustomColor.white,
           iconSize: 0.0,
         ),
@@ -160,7 +150,7 @@ class _CurrencyDropdownState extends State<CurrencyDropdown> {
         value: item,
         child: Text(
           item,
-          style: CustomTextStyle.titleStyleMedium,
+          style: TextStyles.titleStyleMedium,
         ),
       );
 }

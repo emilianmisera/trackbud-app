@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:track_bud/models/user_model.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/strings.dart';
@@ -16,9 +17,7 @@ class FriendCard extends StatelessWidget {
     return CustomShadow(
       child: Container(
         width: MediaQuery.sizeOf(context).width,
-        decoration: BoxDecoration(
-            color: CustomColor.white,
-            borderRadius: BorderRadius.circular(Constants.buttonBorderRadius)),
+        decoration: BoxDecoration(color: CustomColor.white, borderRadius: BorderRadius.circular(Constants.contentBorderRadius)),
         child: ListTile(
           // Friend's profile picture
           leading: ClipRRect(
@@ -34,13 +33,12 @@ class FriendCard extends StatelessWidget {
           // Friend's name
           title: Text(
             friend.name,
-            style: CustomTextStyle.regularStyleMedium,
+            style: TextStyles.regularStyleMedium,
           ),
           // Debt or credit information
           subtitle: Text(
             'bekommt insgesamt ...', // "receives in total ..."
-            style: CustomTextStyle.hintStyleDefault
-                .copyWith(fontSize: CustomTextStyle.fontSizeHint),
+            style: TextStyles.hintStyleDefault.copyWith(fontSize: TextStyles.fontSizeHint),
           ),
           // Navigation arrow
           trailing: Icon(
@@ -77,38 +75,30 @@ class FriendProfileDetails extends StatelessWidget {
       width: MediaQuery.sizeOf(context).width,
       decoration: BoxDecoration(
         color: CustomColor.white,
-        borderRadius: BorderRadius.circular(Constants.buttonBorderRadius),
+        borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
       ),
-      padding: EdgeInsets.symmetric(
-          horizontal: CustomPadding.defaultSpace,
-          vertical: CustomPadding.defaultSpace),
+      padding: EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace, vertical: CustomPadding.defaultSpace),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Debts section
           Text(
-            AppString.debts,
-            style: CustomTextStyle.regularStyleDefault,
+            AppTexts.debts,
+            style: TextStyles.regularStyleDefault,
           ),
-          SizedBox(
-            height: CustomPadding.mediumSpace,
-          ),
+          Gap(CustomPadding.mediumSpace),
 
           // TODO: add Amount Box to display debt amount
           // This should be implemented to show the actual debt amount
 
-          SizedBox(
-            height: CustomPadding.defaultSpace,
-          ),
+          Gap(CustomPadding.defaultSpace),
 
           // Shared groups section
           Text(
-            AppString.sameGroups,
-            style: CustomTextStyle.regularStyleDefault,
+            AppTexts.sameGroups,
+            style: TextStyles.regularStyleDefault,
           ),
-          SizedBox(
-            height: CustomPadding.mediumSpace,
-          ),
+          Gap(CustomPadding.mediumSpace),
 
           // TODO: add same Groups
           // This should be implemented to show the groups shared with this friend

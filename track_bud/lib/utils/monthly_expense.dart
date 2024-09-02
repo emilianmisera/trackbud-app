@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/strings.dart';
@@ -35,16 +36,16 @@ class _MonthlyExpenseState extends State<MonthlyExpense> {
         padding: EdgeInsets.all(CustomPadding.defaultSpace),
         decoration: BoxDecoration(
           color: CustomColor.white,
-          borderRadius: BorderRadius.circular(Constants.buttonBorderRadius),
+          borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Remaining amount
-            Text('50,00€', style: CustomTextStyle.headingStyle),
-            Text(AppString.remainingText, style: CustomTextStyle.hintStyleDefault),
-            SizedBox(height: CustomPadding.smallSpace),
-            
+            Text('50,00€', style: TextStyles.headingStyle),
+            Text(AppTexts.remainingText, style: TextStyles.hintStyleDefault),
+            Gap(CustomPadding.smallSpace),
+
             // Progress bar
             LinearPercentIndicator(
               padding: EdgeInsets.zero,
@@ -56,18 +57,18 @@ class _MonthlyExpenseState extends State<MonthlyExpense> {
               animateFromLastPercent: true,
               animation: true,
             ),
-            SizedBox(height: CustomPadding.smallSpace),
-            
+            Gap(CustomPadding.smallSpace),
+
             // Expense details
             Row(
               children: [
-                Text('250€', style: CustomTextStyle.regularStyleMedium),
-                SizedBox(width: 3),
-                Text('von', style: CustomTextStyle.hintStyleDefault),
-                SizedBox(width: 3),
-                Text('400€', style: CustomTextStyle.regularStyleMedium),
-                SizedBox(width: 3),
-                Text('ausgegeben', style: CustomTextStyle.hintStyleDefault),
+                Text('250€', style: TextStyles.regularStyleMedium),
+                Gap(3),
+                Text('von', style: TextStyles.hintStyleDefault),
+                Gap(3),
+                Text('400€', style: TextStyles.regularStyleMedium),
+                Gap(3),
+                Text('ausgegeben', style: TextStyles.hintStyleDefault),
               ],
             )
           ],

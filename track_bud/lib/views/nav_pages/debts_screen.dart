@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:track_bud/models/user_model.dart';
 import 'package:track_bud/services/firestore_service.dart';
 import 'package:track_bud/utils/constants.dart';
@@ -41,8 +42,7 @@ class _DebtsScreenState extends State<DebtsScreen> {
     String _currentUserId = getCurrentUserId();
     try {
       // Lade die Freunde des aktuellen Nutzers
-      List<UserModel> friends =
-          await _firestoreService.getFriends(_currentUserId);
+      List<UserModel> friends = await _firestoreService.getFriends(_currentUserId);
 
       setState(() {
         _friends = friends;
@@ -73,28 +73,24 @@ class _DebtsScreenState extends State<DebtsScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 InfoTile(
-                    title: AppString.debts,
+                    title: AppTexts.debts,
                     amount: 'amount',
                     color: CustomColor.red,
-                    width: MediaQuery.sizeOf(context).width / 2 -
-                        Constants.infoTileSpace),
+                    width: MediaQuery.sizeOf(context).width / 2 - Constants.infoTileSpace),
                 InfoTile(
-                    title: AppString.credits,
+                    title: AppTexts.credits,
                     amount: 'amount',
                     color: CustomColor.green,
-                    width: MediaQuery.sizeOf(context).width / 2 -
-                        Constants.infoTileSpace),
+                    width: MediaQuery.sizeOf(context).width / 2 - Constants.infoTileSpace),
               ],
             ),
-            SizedBox(
-              height: CustomPadding.defaultSpace,
-            ),
+            Gap(CustomPadding.defaultSpace),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  AppString.friends,
-                  style: CustomTextStyle.regularStyleMedium,
+                  AppTexts.friends,
+                  style: TextStyles.regularStyleMedium,
                 ),
                 GestureDetector(
                   onTap: () {
@@ -105,15 +101,11 @@ class _DebtsScreenState extends State<DebtsScreen> {
                       ),
                     );
                   },
-                  child: Text(AppString.showAll,
-                      style: CustomTextStyle.regularStyleMedium
-                          .copyWith(color: CustomColor.bluePrimary)),
+                  child: Text(AppTexts.showAll, style: TextStyles.regularStyleMedium.copyWith(color: CustomColor.bluePrimary)),
                 ),
               ],
             ),
-            SizedBox(
-              height: CustomPadding.mediumSpace,
-            ),
+            Gap(CustomPadding.mediumSpace),
             if (_isLoading)
               Center(child: CircularProgressIndicator())
             else if (_friends.isEmpty)
@@ -124,22 +116,18 @@ class _DebtsScreenState extends State<DebtsScreen> {
                     .map((friend) => Column(
                           children: [
                             FriendCard(friend: friend),
-                            SizedBox(
-                                height: CustomPadding
-                                    .smallSpace), // Abstand zwischen den Karten
+                            Gap(CustomPadding.smallSpace), // Abstand zwischen den Karten
                           ],
                         ))
                     .toList(),
               ),
-            SizedBox(
-              height: CustomPadding.defaultSpace,
-            ),
+            Gap(CustomPadding.defaultSpace),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  AppString.groups,
-                  style: CustomTextStyle.regularStyleMedium,
+                  AppTexts.groups,
+                  style: TextStyles.regularStyleMedium,
                 ),
                 GestureDetector(
                   onTap: () {
@@ -150,15 +138,11 @@ class _DebtsScreenState extends State<DebtsScreen> {
                       ),
                     );
                   },
-                  child: Text(AppString.showAll,
-                      style: CustomTextStyle.regularStyleMedium
-                          .copyWith(color: CustomColor.bluePrimary)),
+                  child: Text(AppTexts.showAll, style: TextStyles.regularStyleMedium.copyWith(color: CustomColor.bluePrimary)),
                 ),
               ],
             ),
-            SizedBox(
-              height: CustomPadding.mediumSpace,
-            ),
+            Gap(CustomPadding.mediumSpace),
             GroupCard()
           ],
         ),

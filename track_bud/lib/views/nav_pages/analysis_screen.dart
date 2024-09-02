@@ -1,5 +1,5 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:track_bud/controller/user_controller.dart';
 import 'package:track_bud/utils/analysis_chart.dart';
 import 'package:track_bud/utils/buttons_widget.dart';
@@ -73,10 +73,8 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
   @override
   Widget build(BuildContext context) {
     // Determine the title and color for the InfoTile based on the selected option
-    String _infoTileTitle =
-        _selectedOption == 'Ausgaben' ? 'ausgegeben' : 'erhalten';
-    Color _infoTileColor =
-        _selectedOption == 'Ausgaben' ? CustomColor.red : CustomColor.green;
+    String _infoTileTitle = _selectedOption == 'Ausgaben' ? 'ausgegeben' : 'erhalten';
+    Color _infoTileColor = _selectedOption == 'Ausgaben' ? CustomColor.red : CustomColor.green;
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -89,13 +87,8 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              InfoTile(
-                  title: AppString.balance,
-                  amount: '${_currentBalance.toStringAsFixed(2)}',
-                  color: CustomColor.bluePrimary),
-              SizedBox(
-                height: CustomPadding.mediumSpace,
-              ),
+              InfoTile(title: AppTexts.balance, amount: '${_currentBalance.toStringAsFixed(2)}', color: CustomColor.bluePrimary),
+              Gap(CustomPadding.mediumSpace),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -103,13 +96,11 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
                     title: _infoTileTitle,
                     amount: 'amount', // Placeholder text, replace with actual amount
                     color: _infoTileColor,
-                    width: MediaQuery.sizeOf(context).width / 2 -
-                        Constants.infoTileSpace,
+                    width: MediaQuery.sizeOf(context).width / 2 - Constants.infoTileSpace,
                   ),
                   CustomDropDown(
                     list: ['Ausgaben', 'Einnahmen'],
-                    width: MediaQuery.sizeOf(context).width / 2 -
-                        Constants.infoTileSpace,
+                    width: MediaQuery.sizeOf(context).width / 2 - Constants.infoTileSpace,
                     height: 88,
                     onChanged: (value) {
                       setState(() {
@@ -120,29 +111,19 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
                   ),
                 ],
               ),
-              SizedBox(
-                height: CustomPadding.defaultSpace,
-              ),
-              ChartTile(
-                  chartChild: DonutChart(
-                      selectedOption: _selectedOption,
-                      selectedCategory: _selectedCategory,
-                      key: ValueKey(_selectedOption),
-                      onCategorySelected: _onCategorySelected)),
-              SizedBox(
-                height: CustomPadding.defaultSpace,
-              ),
-              Text(
-                AppString.history,
-                style: CustomTextStyle.regularStyleMedium,
-              ),
-              SizedBox(
-                height: CustomPadding.mediumSpace,
-              ),
-              TransactionList(
-                  onTransactionChangeCallback: _updateChartData,
+              Gap(CustomPadding.defaultSpace),
+              DonutChart(
                   selectedOption: _selectedOption,
-                  selectedCategory: _selectedCategory),
+                  key: ValueKey(_selectedOption),
+                  ),
+              Gap(CustomPadding.defaultSpace),
+              Text(
+                AppTexts.history,
+                style: TextStyles.regularStyleMedium,
+              ),
+              Gap(CustomPadding.mediumSpace),
+              TransactionList(
+                  onTransactionChangeCallback: _updateChartData, selectedOption: _selectedOption, selectedCategory: _selectedCategory),
             ],
           ),
         ),

@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:track_bud/utils/buttons_widget.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/date_picker.dart';
@@ -9,8 +10,7 @@ import 'package:track_bud/utils/textfield_widget.dart';
 
 class EditTransactionScreen extends StatefulWidget {
   final String transactionId;
-  const EditTransactionScreen({Key? key, required this.transactionId})
-      : super(key: key);
+  const EditTransactionScreen({Key? key, required this.transactionId}) : super(key: key);
   @override
   State<EditTransactionScreen> createState() => _EditTransactionScreenState();
 }
@@ -36,10 +36,7 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
 
   Future<void> _loadTransactionData() async {
     // Laden Sie die Transaktionsdaten aus Firestore
-    DocumentSnapshot doc = await FirebaseFirestore.instance
-        .collection('transactions')
-        .doc(widget.transactionId)
-        .get();
+    DocumentSnapshot doc = await FirebaseFirestore.instance.collection('transactions').doc(widget.transactionId).get();
 
     if (doc.exists) {
       Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
@@ -56,10 +53,7 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
   }
 
   Future<void> _updateTransaction() async {
-    await FirebaseFirestore.instance
-        .collection('transactions')
-        .doc(widget.transactionId)
-        .update({
+    await FirebaseFirestore.instance.collection('transactions').doc(widget.transactionId).update({
       'title': _titleController.text.trim(),
       'amount': double.parse(_amountController.text.replaceAll(',', '.')),
       'category': _selectedCategory,
@@ -94,74 +88,55 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppString.editTransaction,
-            style: CustomTextStyle.regularStyleMedium),
+        title: Text(AppTexts.editTransaction, style: TextStyles.regularStyleMedium),
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(
-            horizontal: CustomPadding.defaultSpace,
-            vertical: CustomPadding.defaultSpace),
+        padding: const EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace, vertical: CustomPadding.defaultSpace),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Text field for transaction title
-              CustomTextfield(
-                  name: AppString.title,
-                  hintText: AppString.hintTitle,
-                  controller: _titleController),
-              SizedBox(
-                height: CustomPadding.defaultSpace,
-              ),
+              CustomTextfield(name: AppTexts.title, hintText: AppTexts.hintTitle, controller: _titleController),
+              Gap(CustomPadding.defaultSpace),
               // Row containing amount and date fields
               Row(
                 children: [
                   // Amount text field
                   CustomTextfield(
-                    name: AppString.amount,
+                    name: AppTexts.amount,
                     hintText: '',
                     controller: _amountController,
                     width: MediaQuery.sizeOf(context).width / 3,
                     prefix: Text(
                       _getAmountPrefix(),
-                      style: CustomTextStyle.titleStyleMedium.copyWith(
-                          fontWeight: CustomTextStyle.fontWeightDefault),
+                      style: TextStyles.titleStyleMedium.copyWith(fontWeight: TextStyles.fontWeightDefault),
                     ),
                     type: TextInputType.numberWithOptions(decimal: true),
                   ),
-                  SizedBox(
-                    width: CustomPadding.defaultSpace,
-                  ),
+                  Gap(CustomPadding.defaultSpace),
 
                   DatePicker(onDateTimeChanged: _onDateTimeChanged)
                 ],
               ),
-              SizedBox(
-                height: CustomPadding.defaultSpace,
-              ),
+              Gap(CustomPadding.defaultSpace),
               // Category section
               Text(
-                AppString.categorie,
-                style: CustomTextStyle.regularStyleMedium,
+                AppTexts.categorie,
+                style: TextStyles.regularStyleMedium,
               ),
-              SizedBox(
-                height: CustomPadding.mediumSpace,
-              ),
+              Gap(CustomPadding.mediumSpace),
               // Display either expense or income categories based on current segment
               _currentSegment == 0
                   ? CategoriesExpense(onCategorySelected: _onCategorySelected)
                   : CategoriesIncome(onCategorySelected: _onCategorySelected),
-              SizedBox(
-                height: CustomPadding.defaultSpace,
-              ),
+              Gap(CustomPadding.defaultSpace),
               // Recurrence section
               Text(
-                AppString.recurry,
-                style: CustomTextStyle.regularStyleMedium,
+                AppTexts.recurry,
+                style: TextStyles.regularStyleMedium,
               ),
-              SizedBox(
-                height: CustomPadding.mediumSpace,
-              ),
+              Gap(CustomPadding.mediumSpace),
               // Dropdown for selecting recurrence frequency
               CustomDropDown(
                 list: [
@@ -183,19 +158,15 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
                   });
                 },
               ),
-              SizedBox(
-                height: CustomPadding.defaultSpace,
-              ),
+              Gap(CustomPadding.defaultSpace),
               // Note text field
               CustomTextfield(
-                name: AppString.note,
-                hintText: AppString.noteHint,
+                name: AppTexts.note,
+                hintText: AppTexts.noteHint,
                 controller: _noteController,
                 isMultiline: true,
               ),
-              SizedBox(
-                height: CustomPadding.defaultSpace,
-              ),
+              Gap(CustomPadding.defaultSpace),
             ],
           ),
         ),
@@ -204,11 +175,7 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
         duration: Duration(milliseconds: 100),
         curve: Curves.easeInOut,
         margin: EdgeInsets.only(
-          bottom: min(
-              MediaQuery.of(context).viewInsets.bottom > 0
-                  ? 0
-                  : MediaQuery.of(context).size.height *
-                      CustomPadding.bottomSpace,
+          bottom: min(MediaQuery.of(context).viewInsets.bottom > 0 ? 0 : MediaQuery.of(context).size.height * CustomPadding.bottomSpace,
               MediaQuery.of(context).size.height * CustomPadding.bottomSpace),
           left: CustomPadding.defaultSpace,
           right: CustomPadding.defaultSpace,
@@ -223,7 +190,7 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
               // Set button color based on whether profile has changed
               disabledBackgroundColor: CustomColor.bluePrimary.withOpacity(0.5),
               backgroundColor: CustomColor.bluePrimary),
-          child: Text(AppString.save),
+          child: Text(AppTexts.save),
         ),
       ),
     );

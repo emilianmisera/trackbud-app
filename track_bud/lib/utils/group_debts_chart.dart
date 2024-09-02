@@ -2,8 +2,10 @@
 //https://stackoverflow.com/a/53549197
 
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:track_bud/utils/buttons_widget.dart';
 import 'package:track_bud/utils/constants.dart';
+import 'package:track_bud/utils/enums/categories.dart';
 import 'package:track_bud/utils/textfield_widget.dart';
 
 class CategoryBar extends StatelessWidget {
@@ -14,15 +16,15 @@ class CategoryBar extends StatelessWidget {
   const CategoryBar({
     Key? key,
     required this.categoryExpenses,
-    required this.categoryColors, this.height,
+    required this.categoryColors,
+    this.height,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     // Calculate the total expense by summing up all category expenses
     // fold() to iterate through all values and sum them up
-    double totalExpense =
-        categoryExpenses.values.fold(0, (sum, expense) => sum + expense);
+    double totalExpense = categoryExpenses.values.fold(0, (sum, expense) => sum + expense);
 
     // Sort the expenses in descending order
     // convert the map entries to a list to sort
@@ -62,34 +64,36 @@ class CategoryBar extends StatelessWidget {
     );
   }
 }
+
 // Widget that displays an overview of transactions categorized by expense type
 class TransactionOverview extends StatelessWidget {
-  // Map of category names to their corresponding amounts
-  final Map<String, double?> categoryAmounts;
+  // Map of categories to their corresponding amounts
+  final Map<Categories, double?> categoryAmounts;
   final bool isOverview;
 
   const TransactionOverview({
     super.key,
     required this.categoryAmounts,
-    this.isOverview = false, // Set default value to false
+    this.isOverview = false,
   });
 
   @override
   Widget build(BuildContext context) {
+    // Render the category bar differently based on the isOverview flag
     return isOverview
-        ? buildCategoryBar(height: 7.0) // Set height for overview mode
+        ? buildCategoryBar(height: 7.0)
         : CustomShadow(
             child: Container(
               width: MediaQuery.sizeOf(context).width,
               padding: EdgeInsets.all(CustomPadding.defaultSpace),
               decoration: BoxDecoration(
                 color: CustomColor.white,
-                borderRadius: BorderRadius.circular(Constants.buttonBorderRadius),
+                borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
               ),
               child: Column(
                 children: [
-                  buildCategoryBar(), // Set height for overview mode
-                  SizedBox(height: CustomPadding.bigSpace),
+                  buildCategoryBar(),
+                  Gap(CustomPadding.bigSpace),
                   buildCategoryList(),
                 ],
               ),
@@ -97,95 +101,56 @@ class TransactionOverview extends StatelessWidget {
           );
   }
 
-  // Builds a bar chart representing category expenses
+  // Build the category bar chart
   Widget buildCategoryBar({double height = 20.0}) {
     return CategoryBar(
-      categoryExpenses: Map.fromEntries(
-        categoryAmounts.entries.map((e) => MapEntry(e.key, e.value ?? 0.0))
+      // Map category names to their corresponding amounts
+      categoryExpenses: Map.fromEntries(categoryAmounts.entries.map((e) => MapEntry(e.key.categoryName, e.value ?? 0.0))),
+      // Map category names to their corresponding colors
+      categoryColors: categoryAmounts.entries.fold<Map<String, Color>>(
+        {},
+        (acc, entry) => {
+          ...acc,
+          entry.key.categoryName: entry.key.color,
+        },
       ),
-      categoryColors: getCategoryColors(),
-      height: height, // Pass the height based on isOverview
+      height: height,
     );
   }
 
-  // Builds a list of category information widgets
+  // Build the list of category information widgets
   Widget buildCategoryList() {
     // Filter out categories with null or zero values, sort by amount in descending order
-    List<MapEntry<String, double>> validCategories = categoryAmounts.entries
+    List<MapEntry<Categories, double>> validCategories = categoryAmounts.entries
         .where((e) => e.value != null && e.value! > 0)
-        .map((e) => MapEntry(e.key, e.value!))
+        .map((e) => MapEntry(e.key, e.value!)) // Cast to double instead of double?
         .toList()
       ..sort((a, b) => b.value.compareTo(a.value));
 
     return Column(
-      children: validCategories.map((entry) => 
-        Padding(
-          padding: EdgeInsets.only(bottom: CustomPadding.mediumSpace),
-          child: CategoryInfo(
-            categoryName: entry.key,
-            icon: getCategoryIcon(entry.key),
-            iconColor: getCategoryColor(entry.key),
-            amount: entry.value,
-          ),
-        )
-      ).toList(),
+      children: validCategories
+          .map((entry) => Padding(
+                padding: EdgeInsets.only(bottom: CustomPadding.mediumSpace),
+                child: CategoryInfo(
+                  categoryName: entry.key.categoryName,
+                  icon: entry.key.icon,
+                  iconColor: entry.key.color,
+                  amount: entry.value,
+                ),
+              ))
+          .toList(),
     );
-  }
-
-  // Returns the appropriate icon asset path for a given category
-  String getCategoryIcon(String category) {
-    switch (category) {
-      case 'Lebensmittel': return AssetImport.shoppingCart;
-      case 'Drogerie': return AssetImport.shopping;
-      case 'Restaurant': return AssetImport.restaurant;
-      case 'Mobilität': return AssetImport.mobility;
-      case 'Shopping': return AssetImport.shopping;
-      case 'Unterkunft': return AssetImport.home;
-      case 'Entertainment': return AssetImport.entertainment;
-      case 'Geschenk': return AssetImport.gift;
-      default: return AssetImport.other;
-    }
-  }
-
-  // Returns the appropriate color for a given category
-  Color getCategoryColor(String category) {
-    switch (category) {
-      case 'Lebensmittel': return CustomColor.lebensmittel;
-      case 'Drogerie': return CustomColor.drogerie;
-      case 'Restaurant': return CustomColor.restaurant;
-      case 'Mobilität': return CustomColor.mobility;
-      case 'Shopping': return CustomColor.shopping;
-      case 'Unterkunft': return CustomColor.unterkunft;
-      case 'Entertainment': return CustomColor.entertainment;
-      case 'Geschenk': return CustomColor.geschenk;
-      default: return CustomColor.sonstiges;
-    }
-  }
-
-  // Returns a map of category names to their corresponding colors
-  Map<String, Color> getCategoryColors() {
-    return {
-      'Lebensmittel': CustomColor.lebensmittel,
-      'Drogerie': CustomColor.drogerie,
-      'Restaurant': CustomColor.restaurant,
-      'Mobilität': CustomColor.mobility,
-      'Shopping': CustomColor.shopping,
-      'Unterkunft': CustomColor.unterkunft,
-      'Entertainment': CustomColor.entertainment,
-      'Geschenk': CustomColor.geschenk,
-      'Sonstiges': CustomColor.sonstiges,
-    };
   }
 }
 
 // Widget that displays information for a single category
 class CategoryInfo extends StatelessWidget {
   final String categoryName;
-  final String icon;
+  final Image icon;
   final Color iconColor;
   final double? amount;
-  
-  const CategoryInfo({super.key, required this.categoryName, required this.icon, required this.iconColor, required this.amount });
+
+  const CategoryInfo({super.key, required this.categoryName, required this.icon, required this.iconColor, required this.amount});
 
   // Formats the amount as a string with two decimal places
   String _formatAmount(double? value) {
@@ -197,13 +162,21 @@ class CategoryInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        CategoryIcon(color: iconColor, iconWidget: Image.asset(icon, height: 20, width: 20, fit: BoxFit.scaleDown,)),
-        SizedBox(width: CustomPadding.mediumSpace,),
+        CategoryIcon(color: iconColor, iconWidget: icon),
+        Gap(
+          CustomPadding.mediumSpace,
+        ),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(categoryName, style: CustomTextStyle.regularStyleMedium,),
-            Text(_formatAmount(amount), style: CustomTextStyle.hintStyleDefault,),
+            Text(
+              categoryName,
+              style: TextStyles.regularStyleMedium,
+            ),
+            Text(
+              _formatAmount(amount),
+              style: TextStyles.hintStyleDefault,
+            ),
           ],
         )
       ],

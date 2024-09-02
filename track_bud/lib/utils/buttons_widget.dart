@@ -2,7 +2,9 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:gap/gap.dart';
 import 'package:track_bud/utils/constants.dart';
+import 'package:track_bud/utils/enums/categories.dart';
 import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfield_widget.dart';
 
@@ -12,13 +14,7 @@ class AccAdjustmentButton extends StatelessWidget {
   final void Function() onPressed;
   final EdgeInsets? padding;
   final Widget? widget;
-  const AccAdjustmentButton(
-      {super.key,
-      required this.icon,
-      required this.name,
-      required this.onPressed,
-      this.widget,
-      this.padding});
+  const AccAdjustmentButton({super.key, required this.icon, required this.name, required this.onPressed, this.widget, this.padding});
 
   @override
   Widget build(BuildContext context) {
@@ -29,9 +25,9 @@ class AccAdjustmentButton extends StatelessWidget {
         children: [
           Text(
             name,
-            style: CustomTextStyle.regularStyleDefault,
+            style: TextStyles.regularStyleDefault,
           ),
-          widget ?? Icon(Icons.arrow_forward_ios)
+          Icon(Icons.arrow_forward_ios_rounded),
         ],
       ),
       onPressed: onPressed,
@@ -41,8 +37,7 @@ class AccAdjustmentButton extends StatelessWidget {
           fixedSize: const Size(double.infinity, Constants.height),
           elevation: 0,
           surfaceTintColor: CustomColor.backgroundPrimary,
-          padding: padding ??
-              EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace)),
+          padding: padding ?? EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace)),
     );
   }
 }
@@ -97,16 +92,16 @@ class _CustomDropDownState extends State<CustomDropDown> {
             }
           },
           value: value,
-          style: CustomTextStyle.regularStyleMedium,
+          style: TextStyles.regularStyleMedium,
           dropdownStyleData: DropdownStyleData(
             maxHeight: 200,
             width: widget.dropdownWidth ?? 150,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(Constants.buttonBorderRadius),
+              borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
               color: CustomColor.white,
             ),
             scrollbarTheme: ScrollbarThemeData(
-              radius: const Radius.circular(Constants.buttonBorderRadius),
+              radius: const Radius.circular(Constants.contentBorderRadius),
               thickness: WidgetStateProperty.all(6),
               thumbVisibility: WidgetStateProperty.all(true),
             ),
@@ -130,7 +125,7 @@ class _CustomDropDownState extends State<CustomDropDown> {
         value: item,
         child: Text(
           item,
-          style: CustomTextStyle.regularStyleDefault.copyWith(
+          style: TextStyles.regularStyleDefault.copyWith(
             color: value == item ? CustomColor.bluePrimary : null,
           ),
         ),
@@ -141,8 +136,7 @@ class AccAdjustmentWidget extends StatefulWidget {
   final String icon;
   final String name;
   final Widget? widget;
-  const AccAdjustmentWidget(
-      {super.key, required this.icon, required this.name, this.widget});
+  const AccAdjustmentWidget({super.key, required this.icon, required this.name, this.widget});
 
   @override
   State<AccAdjustmentWidget> createState() => _AccAdjustmentWidgetState();
@@ -154,8 +148,7 @@ class _AccAdjustmentWidgetState extends State<AccAdjustmentWidget> {
     return Container(
       width: double.infinity,
       height: Constants.height,
-      padding: EdgeInsets.only(
-          left: CustomPadding.defaultSpace, right: CustomPadding.defaultSpace),
+      padding: EdgeInsets.only(left: CustomPadding.defaultSpace, right: CustomPadding.defaultSpace),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(5)),
         color: CustomColor.backgroundPrimary,
@@ -167,12 +160,12 @@ class _AccAdjustmentWidgetState extends State<AccAdjustmentWidget> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               SvgPicture.asset(widget.icon),
-              SizedBox(
-                width: 8,
+              Gap(
+                8,
               ),
               Text(
                 widget.name,
-                style: CustomTextStyle.regularStyleDefault,
+                style: TextStyles.regularStyleDefault,
               ),
             ],
           ),
@@ -208,24 +201,17 @@ class _CustomSegmentControlState extends State<CustomSegmentControl> {
             // Expense segment
             0: Container(
               // Sets the height of the segment relative to screen height
-              height: MediaQuery.sizeOf(context).height *
-                  Constants.segmentedControlHeight,
+              height: MediaQuery.sizeOf(context).height * Constants.segmentedControlHeight,
               alignment: Alignment.center,
-              child: Text(AppString.expense,
+              child: Text(AppTexts.expense,
                   // Applies different styles based on selection state
-                  style: _sliding == 0
-                      ? CustomTextStyle.slidingStyleExpense
-                      : CustomTextStyle.slidingStyleDefault),
+                  style: _sliding == 0 ? TextStyles.slidingStyleExpense : TextStyles.slidingStyleDefault),
             ),
             // Income segment
             1: Container(
-              height: MediaQuery.sizeOf(context).height *
-                  Constants.segmentedControlHeight,
+              height: MediaQuery.sizeOf(context).height * Constants.segmentedControlHeight,
               alignment: Alignment.center,
-              child: Text(AppString.income,
-                  style: _sliding == 1
-                      ? CustomTextStyle.slidingStyleIncome
-                      : CustomTextStyle.slidingStyleDefault),
+              child: Text(AppTexts.income, style: _sliding == 1 ? TextStyles.slidingStyleIncome : TextStyles.slidingStyleDefault),
             ),
           },
           groupValue: _sliding, // Current selection
@@ -237,46 +223,6 @@ class _CustomSegmentControlState extends State<CustomSegmentControl> {
           },
           backgroundColor: CustomColor.white, // Background color of the control
         ),
-      ),
-    );
-  }
-}
-
-// Widget for individual category items
-class CustomCategory extends StatelessWidget {
-  final Color color;
-  final String icon;
-  final String categoryName;
-
-  const CustomCategory({
-    super.key,
-    required this.color,
-    required this.icon,
-    required this.categoryName,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(
-        horizontal: CustomPadding.categoryWidthSpace,
-        vertical: CustomPadding.categoryHeightSpace,
-      ),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(7),
-        color: color,
-      ),
-      child: Row(
-        children: [
-          Image.asset(
-            icon,
-            width: 25,
-            height: 25,
-            fit: BoxFit.scaleDown,
-          ), // Display category icon
-          SizedBox(width: CustomPadding.smallSpace),
-          Text(categoryName), // Display category name
-        ],
       ),
     );
   }
@@ -295,46 +241,6 @@ class _CategoriesExpenseState extends State<CategoriesExpense> {
   // Index of the currently selected category
   int? selectedIndex;
 
-  // List of categories
-  List categories = [
-    CustomCategory(
-        color: CustomColor.lebensmittel,
-        icon: AssetImport.shoppingCart,
-        categoryName: AppString.lebensmittel),
-    CustomCategory(
-        color: CustomColor.drogerie,
-        icon: AssetImport.drogerie,
-        categoryName: AppString.drogerie),
-    CustomCategory(
-        color: CustomColor.restaurant,
-        icon: AssetImport.restaurant,
-        categoryName: AppString.restaurants),
-    CustomCategory(
-        color: CustomColor.mobility,
-        icon: AssetImport.mobility,
-        categoryName: AppString.mobility),
-    CustomCategory(
-        color: CustomColor.shopping,
-        icon: AssetImport.shopping,
-        categoryName: AppString.shopping),
-    CustomCategory(
-        color: CustomColor.unterkunft,
-        icon: AssetImport.home,
-        categoryName: AppString.unterkunft),
-    CustomCategory(
-        color: CustomColor.entertainment,
-        icon: AssetImport.entertainment,
-        categoryName: AppString.entertainment),
-    CustomCategory(
-        color: CustomColor.geschenk,
-        icon: AssetImport.gift,
-        categoryName: AppString.geschenke),
-    CustomCategory(
-        color: CustomColor.sonstiges,
-        icon: AssetImport.other,
-        categoryName: AppString.sonstiges),
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -342,23 +248,34 @@ class _CategoriesExpenseState extends State<CategoriesExpense> {
       height: MediaQuery.sizeOf(context).height * Constants.categoryHeight,
       child: ListView.builder(
         scrollDirection: Axis.horizontal, // Make the list scroll horizontally
-        itemCount: categories.length,
+        itemCount: Categories.values.length,
         itemBuilder: (context, index) => Padding(
-          padding: EdgeInsets.only(
-              right:
-                  CustomPadding.mediumSpace), // add Padding between categories
+          padding: EdgeInsets.only(right: CustomPadding.mediumSpace), // add Padding between categories
           child: GestureDetector(
             onTap: () {
-              setState(() {
-                selectedIndex = index; // Update the selected index
-              });
-              widget.onCategorySelected(categories[index].categoryName);
+              setState(() => selectedIndex = index);
+              widget.onCategorySelected(Categories.values[index].categoryName);
             },
             child: Opacity(
               // Reduce opacity for non-selected categories
-              opacity:
-                  selectedIndex == null || selectedIndex == index ? 1.0 : 0.5,
-              child: categories[index],
+              opacity: selectedIndex == null || selectedIndex == index ? 1.0 : 0.5,
+              child: Container(
+                padding: EdgeInsets.symmetric(
+                  horizontal: CustomPadding.categoryWidthSpace,
+                  vertical: CustomPadding.categoryHeightSpace,
+                ),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(7),
+                  color: Categories.values[index].color,
+                ),
+                child: Row(
+                  children: [
+                    Categories.values[index].icon, // Display category icon
+                    Gap(CustomPadding.smallSpace),
+                    Text(Categories.values[index].categoryName), // Display category name
+                  ],
+                ),
+              ),
             ),
           ),
         ),
@@ -379,22 +296,6 @@ class _CategoriesIncomeState extends State<CategoriesIncome> {
   // Index of the currently selected category
   int? selectedIndex;
 
-  // List of categories
-  List categories = [
-    CustomCategory(
-        color: CustomColor.unterkunft,
-        icon: AssetImport.gehalt,
-        categoryName: AppString.loan),
-    CustomCategory(
-        color: CustomColor.geschenk,
-        icon: AssetImport.gift,
-        categoryName: AppString.geschenke),
-    CustomCategory(
-        color: CustomColor.sonstiges,
-        icon: AssetImport.other,
-        categoryName: AppString.sonstiges),
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -402,23 +303,36 @@ class _CategoriesIncomeState extends State<CategoriesIncome> {
       height: MediaQuery.sizeOf(context).height * Constants.categoryHeight,
       child: ListView.builder(
         scrollDirection: Axis.horizontal, // Make the list scroll horizontally
-        itemCount: categories.length,
+        itemCount: Categories.values.length,
         itemBuilder: (context, index) => Padding(
-          padding: EdgeInsets.only(
-              right:
-                  CustomPadding.mediumSpace), // add Padding between categories
+          padding: EdgeInsets.only(right: CustomPadding.mediumSpace), // add Padding between categories
           child: GestureDetector(
             onTap: () {
               setState(() {
                 selectedIndex = index; // Update the selected index
               });
-              widget.onCategorySelected(categories[index].categoryName);
+              widget.onCategorySelected(Categories.values[index].categoryName);
             },
             child: Opacity(
               // Reduce opacity for non-selected categories
-              opacity:
-                  selectedIndex == null || selectedIndex == index ? 1.0 : 0.5,
-              child: categories[index],
+              opacity: selectedIndex == null || selectedIndex == index ? 1.0 : 0.5,
+              child: Container(
+                padding: EdgeInsets.symmetric(
+                  horizontal: CustomPadding.categoryWidthSpace,
+                  vertical: CustomPadding.categoryHeightSpace,
+                ),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(7),
+                  color: Categories.values[index].color,
+                ),
+                child: Row(
+                  children: [
+                    Categories.values[index].icon, // Display category icon
+                    Gap(CustomPadding.smallSpace),
+                    Text(Categories.values[index].categoryName), // Display category name
+                  ],
+                ),
+              ),
             ),
           ),
         ),

@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:gap/gap.dart';
 import 'package:track_bud/services/auth/auth_service.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/strings.dart';
@@ -21,60 +22,58 @@ class _LoginScreenState extends State<LoginScreen> {
   final AuthService _authService = AuthService();
 
   Future<void> _handleSignIn() async {
-  String email = _emailController.text.trim();
-  String password = _passwordController.text.trim();
+    String email = _emailController.text.trim();
+    String password = _passwordController.text.trim();
 
-  if (email.isEmpty || password.isEmpty) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text("${AppString.emptyLoginInput}"),
-      ),
-    );
-    return;
+    if (email.isEmpty || password.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("${AppTexts.emptyLoginInput}"),
+        ),
+      );
+      return;
+    }
+
+    try {
+      // Versuche, den Benutzer mit E-Mail und Passwort anzumelden
+      await _authService.signInWithEmailAndPassword(context, email, password);
+
+      // Zeige eine Erfolgsmeldung an
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(AppTexts.successfulLogin),
+        ),
+      );
+    } on FirebaseAuthException catch (e) {
+      // Zeige eine Fehlermeldung an, falls die Anmeldung fehlgeschlagen ist
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("${AppTexts.loginFailedSnackbar}: ${e.message ?? e.code}"),
+        ),
+      );
+    }
   }
-
-  try {
-    // Versuche, den Benutzer mit E-Mail und Passwort anzumelden
-    await _authService.signInWithEmailAndPassword(context, email, password);
-
-    // Zeige eine Erfolgsmeldung an
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(AppString.successfulLogin),
-      ),
-    );
-
-  } on FirebaseAuthException catch (e) {
-    // Zeige eine Fehlermeldung an, falls die Anmeldung fehlgeschlagen ist
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text("${AppString.loginFailedSnackbar}: ${e.message ?? e.code}"),
-      ),
-    );
-  }
-}
 
   Future<void> _handleGoogleSignIn() async {
-  try {
-    // Versuche, den Benutzer mit Google anzumelden
-    await _authService.signInWithGoogle(context);
+    try {
+      // Versuche, den Benutzer mit Google anzumelden
+      await _authService.signInWithGoogle(context);
 
-    // Zeige eine Erfolgsmeldung an
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(AppString.successfulLogin),
-      ),
-    );
-
-  } catch (error) {
-    // Zeige eine Fehlermeldung an, falls die Google-Anmeldung fehlgeschlagen ist
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text("Google-Anmeldung fehlgeschlagen: $error"),
-      ),
-    );
+      // Zeige eine Erfolgsmeldung an
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(AppTexts.successfulLogin),
+        ),
+      );
+    } catch (error) {
+      // Zeige eine Fehlermeldung an, falls die Google-Anmeldung fehlgeschlagen ist
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Google-Anmeldung fehlgeschlagen: $error"),
+        ),
+      );
+    }
   }
-}
 
   @override
   Widget build(BuildContext context) {
@@ -83,99 +82,95 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Padding(
           // spacing between content and screen
           padding: EdgeInsets.only(
-              top: MediaQuery.sizeOf(context).height *
-                  CustomPadding.topSpaceAuth,
+              top: MediaQuery.sizeOf(context).height * CustomPadding.topSpaceAuth,
               left: CustomPadding.defaultSpace,
               right: CustomPadding.defaultSpace),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start, //alignment to left
             children: [
               Text(
-                AppString.signIn,
-                style: CustomTextStyle.headingStyle,
+                AppTexts.signIn,
+                style: TextStyles.headingStyle,
               ),
-              SizedBox(
-                height: CustomPadding.mediumSpace,
+              Gap(
+                CustomPadding.mediumSpace,
               ),
               Text(
-                AppString.signInDescription,
-                style: CustomTextStyle.hintStyleDefault,
+                AppTexts.signInDescription,
+                style: TextStyles.hintStyleDefault,
               ),
-              SizedBox(
-                height: CustomPadding.defaultSpace,
+              Gap(
+                CustomPadding.defaultSpace,
               ),
               CustomTextfield(
                 controller: _emailController,
-                name: AppString.email,
-                hintText: AppString.hintEmail,
+                name: AppTexts.email,
+                hintText: AppTexts.hintEmail,
                 obscureText: false,
               ), //email
-              SizedBox(
-                height: CustomPadding.defaultSpace,
+              Gap(
+                CustomPadding.defaultSpace,
               ),
               CustomTextfield(
                 controller: _passwordController,
-                name: AppString.password,
-                hintText: AppString.hintPassword,
+                name: AppTexts.password,
+                hintText: AppTexts.hintPassword,
                 obscureText: true,
               ),
-              SizedBox(
-                height: CustomPadding.mediumSpace,
+              Gap(
+                CustomPadding.mediumSpace,
               ),
               Align(
                 alignment: Alignment.centerRight,
                 child: GestureDetector(
                   // forgot Password
                   onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => ForgotPasswordScreen()));
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => ForgotPasswordScreen()));
                   },
                   child: Text(
-                    AppString.forgotPassword,
-                    style: CustomTextStyle.hintStyleMedium,
+                    AppTexts.forgotPassword,
+                    style: TextStyles.hintStyleMedium,
                   ),
                 ),
               ),
-              SizedBox(
-                height: CustomPadding.bigSpace,
+              Gap(
+                CustomPadding.bigSpace,
               ),
               ElevatedButton(
                 //sign in button
                 onPressed: _handleSignIn,
                 child: Text(
-                  AppString.signIn,
+                  AppTexts.signIn,
                 ),
               ),
-              SizedBox(
-                height: CustomPadding.bigSpace,
+              Gap(
+                CustomPadding.bigSpace,
               ),
               Row(
                 // Divider
                 children: [
                   Expanded(
                     child: Container(
-                        margin: const EdgeInsets.only(
-                            right: CustomPadding.mediumSpace),
+                        margin: const EdgeInsets.only(right: CustomPadding.mediumSpace),
                         child: Divider(
                           color: CustomColor.grey,
                         )),
                   ),
                   Text(
-                    AppString.or,
-                    style: CustomTextStyle.hintStyleMedium,
+                    AppTexts.or,
+                    style: TextStyles.hintStyleMedium,
                   ),
                   Expanded(
                     child: Container(
-                        margin: const EdgeInsets.only(
-                            left: CustomPadding.mediumSpace),
+                        margin: const EdgeInsets.only(left: CustomPadding.mediumSpace),
                         child: Divider(
                           color: CustomColor.grey,
                         )),
                   ),
                 ],
               ),
-              SizedBox(
-                height: CustomPadding.bigSpace,
+              Gap(
+                CustomPadding.bigSpace,
               ),
               CustomShadow(
                 // Google Sign In
@@ -187,18 +182,18 @@ class _LoginScreenState extends State<LoginScreen> {
                       //error handling
                     } catch (e) {}
                   },
-                  label: Text(AppString.signInWithGoogle),
+                  label: Text(AppTexts.signInWithGoogle),
                   icon: SvgPicture.asset(AssetImport.googleLogo),
                 ),
               ),
-              SizedBox(
-                height: CustomPadding.defaultSpace,
+              Gap(
+                CustomPadding.defaultSpace,
               ),
               CustomShadow(
                 // Apple Sign In
                 child: TextButton.icon(
                   onPressed: () {},
-                  label: Text(AppString.signInWithApple),
+                  label: Text(AppTexts.signInWithApple),
                   icon: SvgPicture.asset(AssetImport.appleLogo),
                   style: ButtonStyle(
                     backgroundColor: WidgetStateProperty.resolveWith<Color>(
@@ -210,28 +205,26 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ),
-              SizedBox(
-                height: CustomPadding.bigSpace,
+              Gap(
+                CustomPadding.bigSpace,
               ),
               Row(
                 // Redirection to sign up page if user doesn't have an account
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(AppString.newHere,
-                      style: CustomTextStyle.hintStyleMedium),
-                  SizedBox(
-                    width: CustomPadding.smallSpace,
+                  Text(AppTexts.newHere, style: TextStyles.hintStyleMedium),
+                  Gap(
+                    CustomPadding.smallSpace,
                   ),
                   GestureDetector(
                     onTap: () {
-                      Navigator.of(context).pushReplacement(MaterialPageRoute(
-                          builder: (context) => SignUpScreen()));
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => SignUpScreen()));
                     },
                     child: Text(
-                      AppString.signUp,
+                      AppTexts.signUp,
                       style: TextStyle(
-                        fontSize: CustomTextStyle.fontSizeDefault,
-                        fontWeight: CustomTextStyle.fontWeightMedium,
+                        fontSize: TextStyles.fontSizeDefault,
+                        fontWeight: TextStyles.fontWeightMedium,
                         color: CustomColor.bluePrimary,
                         decoration: TextDecoration.underline,
                         decorationColor: CustomColor.bluePrimary,
@@ -240,7 +233,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   )
                 ],
               ),
-              SizedBox(height: CustomPadding.smallSpace),
+              Gap(CustomPadding.smallSpace),
             ],
           ),
         ),

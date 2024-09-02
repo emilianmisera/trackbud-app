@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/group_widget.dart';
 import 'package:track_bud/utils/strings.dart';
@@ -15,7 +16,7 @@ class OverviewDebtsWidget extends StatelessWidget {
         padding: EdgeInsets.all(CustomPadding.defaultSpace),
         decoration: BoxDecoration(
           color: CustomColor.white,
-          borderRadius: BorderRadius.circular(Constants.buttonBorderRadius),
+          borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -25,8 +26,8 @@ class OverviewDebtsWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  AppString.inTotal,
-                  style: CustomTextStyle.regularStyleMedium,
+                  AppTexts.inTotal,
+                  style: TextStyles.regularStyleMedium,
                 ),
                 DebtsInformation(
                   colorScheme: DebtsColorScheme.green,
@@ -34,26 +35,25 @@ class OverviewDebtsWidget extends StatelessWidget {
                 )
               ],
             ),
-            SizedBox(
-              height: CustomPadding.mediumSpace,
+            Gap(
+              CustomPadding.mediumSpace,
             ),
             // Row to display debt to friends
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  AppString.toFriends,
-                  style: CustomTextStyle.hintStyleDefault,
+                  AppTexts.toFriends,
+                  style: TextStyles.hintStyleDefault,
                 ),
                 Text(
                   '10€',
-                  style: CustomTextStyle.regularStyleDefault
-                      .copyWith(color: CustomColor.red),
+                  style: TextStyles.regularStyleDefault.copyWith(color: CustomColor.red),
                 )
               ],
             ),
-            SizedBox(
-              height: CustomPadding.mediumSpace,
+            Gap(
+              CustomPadding.mediumSpace,
             ),
             // Row to display friend's avatar and name (for debt to friends)
             Row(
@@ -66,32 +66,34 @@ class OverviewDebtsWidget extends StatelessWidget {
                     color: Colors.red,
                   ),
                 ),
-                SizedBox(
-                  width: CustomPadding.mediumSpace,
+                Gap(
+                  CustomPadding.mediumSpace,
                 ),
-                Text('Freund', style: CustomTextStyle.regularStyleDefault.copyWith(fontSize: 14),)
+                Text(
+                  'Freund',
+                  style: TextStyles.regularStyleDefault.copyWith(fontSize: 14),
+                )
               ],
             ),
-            SizedBox(
-              height: CustomPadding.defaultSpace,
+            Gap(
+              CustomPadding.defaultSpace,
             ),
             // Row to display debt owed to you
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  AppString.toYou,
-                  style: CustomTextStyle.hintStyleDefault,
+                  AppTexts.toYou,
+                  style: TextStyles.hintStyleDefault,
                 ),
                 Text(
                   '110€',
-                  style: CustomTextStyle.regularStyleDefault
-                      .copyWith(color: CustomColor.green),
+                  style: TextStyles.regularStyleDefault.copyWith(color: CustomColor.green),
                 )
               ],
             ),
-            SizedBox(
-              height: CustomPadding.mediumSpace,
+            Gap(
+              CustomPadding.mediumSpace,
             ),
             // Row to display friend's avatar and name (for debt owed to you)
             Row(
@@ -104,10 +106,13 @@ class OverviewDebtsWidget extends StatelessWidget {
                     color: Colors.red,
                   ),
                 ),
-                SizedBox(
-                  width: CustomPadding.mediumSpace,
+                Gap(
+                  CustomPadding.mediumSpace,
                 ),
-                Text('Freund', style: CustomTextStyle.regularStyleDefault.copyWith(fontSize: 14),)
+                Text(
+                  'Freund',
+                  style: TextStyles.regularStyleDefault.copyWith(fontSize: 14),
+                )
               ],
             ),
           ],

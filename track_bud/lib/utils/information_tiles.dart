@@ -2,11 +2,13 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:gap/gap.dart';
 import 'package:track_bud/utils/buttons_widget.dart';
-import 'package:track_bud/utils/category_utilis.dart';
 import 'package:track_bud/utils/constants.dart';
+import 'package:track_bud/utils/enums/categories.dart';
 import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfield_widget.dart';
+
 import 'package:intl/intl.dart';
 
 // Widget for displaying amount and title information
@@ -35,7 +37,7 @@ class InfoTile extends StatelessWidget {
         width: width ?? MediaQuery.sizeOf(context).width,
         decoration: BoxDecoration(
           color: CustomColor.white,
-          borderRadius: BorderRadius.circular(Constants.buttonBorderRadius),
+          borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -43,13 +45,13 @@ class InfoTile extends StatelessWidget {
             // Display the amount
             Text(
               '$amount€',
-              style: CustomTextStyle.headingStyle.copyWith(color: color),
+              style: TextStyles.headingStyle.copyWith(color: color),
             ),
-            SizedBox(height: CustomPadding.mediumSpace),
+            Gap(CustomPadding.mediumSpace),
             // Display the title
             Text(
               title,
-              style: CustomTextStyle.regularStyleDefault,
+              style: TextStyles.regularStyleDefault,
             ),
           ],
         ),
@@ -109,13 +111,12 @@ class _TransactionTileState extends State<TransactionTile> {
               onEdit: widget.onEdit,
             ),
           ),
-          insetPadding:
-              EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace),
+          insetPadding: EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace),
           backgroundColor: CustomColor.backgroundPrimary,
           surfaceTintColor: CustomColor.backgroundPrimary,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(
-              Radius.circular(Constants.buttonBorderRadius),
+              Radius.circular(Constants.contentBorderRadius),
             ),
           ),
         ),
@@ -126,29 +127,37 @@ class _TransactionTileState extends State<TransactionTile> {
     return CustomShadow(
       child: Container(
         width: MediaQuery.sizeOf(context).width,
-        decoration: BoxDecoration(
-            color: CustomColor.white,
-            borderRadius: BorderRadius.circular(Constants.buttonBorderRadius)),
+        decoration: BoxDecoration(color: CustomColor.white, borderRadius: BorderRadius.circular(Constants.contentBorderRadius)),
         child: ListTile(
           // Transaction category icon
           leading: CategoryIcon(
-              color: getCategoryColor(widget.category),
-              iconWidget: getCategoryIcon(widget.category)),
+            color: Categories.values
+                .firstWhere(
+                  (c) => c.categoryName.toLowerCase() == widget.category.toLowerCase(),
+                  orElse: () => Categories.sonstiges,
+                )
+                .color,
+            iconWidget: Categories.values
+                .firstWhere(
+                  (c) => c.categoryName.toLowerCase() == widget.category.toLowerCase(),
+                  orElse: () => Categories.sonstiges,
+                )
+                .icon,
+          ),
           // Transaction title
           title: Text(
             widget.title,
-            style: CustomTextStyle.regularStyleMedium,
+            style: TextStyles.regularStyleMedium,
           ),
           // Transaction timestamp
           subtitle: Text(
             DateFormat('dd.MM.yyyy, HH:mm').format(widget.date),
-            style: CustomTextStyle.hintStyleDefault
-                .copyWith(fontSize: CustomTextStyle.fontSizeHint),
+            style: TextStyles.hintStyleDefault.copyWith(fontSize: TextStyles.fontSizeHint),
           ),
           // Transaction amount
           trailing: Text(
             '${widget.amount.toStringAsFixed(2)}€',
-            style: CustomTextStyle.regularStyleMedium,
+            style: TextStyles.regularStyleMedium,
           ),
           minVerticalPadding: CustomPadding.defaultSpace,
           onTap: _openTransaction,
@@ -215,9 +224,8 @@ class _TransactionDetailState extends State<TransactionDetail> {
                       child: Row(
                         children: [
                           SvgPicture.asset(AssetImport.edit),
-                          SizedBox(width: CustomPadding.mediumSpace),
-                          Text('Bearbeiten',
-                              style: CustomTextStyle.regularStyleDefault),
+                          Gap(CustomPadding.mediumSpace),
+                          Text('Bearbeiten', style: TextStyles.regularStyleDefault),
                         ],
                       ),
                     ),
@@ -226,12 +234,9 @@ class _TransactionDetailState extends State<TransactionDetail> {
                       value: 'Löschen',
                       child: Row(
                         children: [
-                          SvgPicture.asset(AssetImport.trash,
-                              color: CustomColor.red),
-                          SizedBox(width: CustomPadding.mediumSpace),
-                          Text('Löschen',
-                              style: CustomTextStyle.regularStyleDefault
-                                  .copyWith(color: CustomColor.red)),
+                          SvgPicture.asset(AssetImport.trash, color: CustomColor.red),
+                          Gap(CustomPadding.mediumSpace),
+                          Text('Löschen', style: TextStyles.regularStyleDefault.copyWith(color: CustomColor.red)),
                         ],
                       ),
                     ),
@@ -249,23 +254,21 @@ class _TransactionDetailState extends State<TransactionDetail> {
                     width: 160,
                     padding: const EdgeInsets.symmetric(vertical: 6),
                     decoration: BoxDecoration(
-                      borderRadius:
-                          BorderRadius.circular(Constants.buttonBorderRadius),
+                      borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
                       color: Colors.white,
                     ),
                   ),
                   menuItemStyleData: MenuItemStyleData(
                     customHeights: [48, 48],
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: CustomPadding.defaultSpace),
+                    padding: const EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace),
                   ),
                 ),
               ),
               Expanded(
                 child: Center(
                   child: Text(
-                    AppString.expense,
-                    style: CustomTextStyle.regularStyleMedium,
+                    AppTexts.expense,
+                    style: TextStyles.regularStyleMedium,
                   ),
                 ),
               ),
@@ -278,99 +281,99 @@ class _TransactionDetailState extends State<TransactionDetail> {
               ),
             ],
           ),
-          SizedBox(height: CustomPadding.defaultSpace),
+          Gap(CustomPadding.defaultSpace),
           // Transaction details
           Row(
             children: [
               CategoryIcon(
-                color: getCategoryColor(widget.category),
-                iconWidget: getCategoryIcon(widget.category),
+                color: Categories.values
+                    .firstWhere(
+                      (c) => c.categoryName.toLowerCase() == widget.category.toLowerCase(),
+                      orElse: () => Categories.sonstiges,
+                    )
+                    .color,
+                iconWidget: Categories.values
+                    .firstWhere(
+                      (c) => c.categoryName.toLowerCase() == widget.category.toLowerCase(),
+                      orElse: () => Categories.sonstiges,
+                    )
+                    .icon,
               ),
-              SizedBox(width: CustomPadding.mediumSpace),
+              Gap(CustomPadding.mediumSpace),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     widget.title,
-                    style: CustomTextStyle.titleStyleMedium,
+                    style: TextStyles.titleStyleMedium,
                   ),
-                  SizedBox(height: CustomPadding.smallSpace),
+                  Gap(CustomPadding.smallSpace),
                   Text(
                     DateFormat('dd.MM.yyyy, HH:mm').format(widget.date),
-                    style: CustomTextStyle.hintStyleDefault,
+                    style: TextStyles.hintStyleDefault,
                   ),
                 ],
               ),
             ],
           ),
-          SizedBox(height: CustomPadding.defaultSpace),
+          Gap(CustomPadding.defaultSpace),
           // Amount section
           Text(
-            AppString.amount,
-            style: CustomTextStyle.regularStyleDefault,
+            AppTexts.amount,
+            style: TextStyles.regularStyleDefault,
           ),
-          SizedBox(height: CustomPadding.mediumSpace),
+          Gap(CustomPadding.mediumSpace),
           Row(
             children: [
               // Amount display
               CustomShadow(
                 child: Container(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: CustomPadding.defaultSpace,
-                      vertical: CustomPadding.contentHeightSpace),
+                  padding: EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace, vertical: CustomPadding.contentHeightSpace),
                   decoration: BoxDecoration(
                     color: CustomColor.white,
-                    borderRadius:
-                        BorderRadius.circular(Constants.buttonBorderRadius),
+                    borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
                   ),
                   child: Text(
                     '${widget.amount.toStringAsFixed(2)}€',
-                    style: CustomTextStyle.regularStyleMedium,
+                    style: TextStyles.regularStyleMedium,
                   ),
                 ),
               ),
-              SizedBox(width: CustomPadding.defaultSpace),
+              Gap(CustomPadding.defaultSpace),
               // Transaction type
               CustomShadow(
                 child: Container(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: CustomPadding.defaultSpace,
-                      vertical: CustomPadding.contentHeightSpace),
+                  padding: EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace, vertical: CustomPadding.contentHeightSpace),
                   decoration: BoxDecoration(
                     color: CustomColor.white,
-                    borderRadius:
-                        BorderRadius.circular(Constants.buttonBorderRadius),
+                    borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
                   ),
                   child: Text(
                     widget.recurrenceType,
-                    style: CustomTextStyle.regularStyleDefault
-                        .copyWith(color: CustomColor.bluePrimary),
+                    style: TextStyles.regularStyleDefault.copyWith(color: CustomColor.bluePrimary),
                   ),
                 ),
               ),
             ],
           ),
-          SizedBox(height: CustomPadding.defaultSpace),
+          Gap(CustomPadding.defaultSpace),
           // Note section
           Text(
-            AppString.note,
-            style: CustomTextStyle.regularStyleDefault,
+            AppTexts.note,
+            style: TextStyles.regularStyleDefault,
           ),
-          SizedBox(height: CustomPadding.mediumSpace),
+          Gap(CustomPadding.mediumSpace),
           CustomShadow(
             child: Container(
               width: double.infinity,
-              padding: EdgeInsets.symmetric(
-                  horizontal: CustomPadding.defaultSpace,
-                  vertical: CustomPadding.contentHeightSpace),
+              padding: EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace, vertical: CustomPadding.contentHeightSpace),
               decoration: BoxDecoration(
                 color: CustomColor.white,
-                borderRadius:
-                    BorderRadius.circular(Constants.buttonBorderRadius),
+                borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
               ),
               child: Text(
                 widget.notes,
-                style: CustomTextStyle.regularStyleDefault,
+                style: TextStyles.regularStyleDefault,
               ),
             ),
           ),

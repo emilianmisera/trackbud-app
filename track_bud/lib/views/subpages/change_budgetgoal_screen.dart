@@ -1,9 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:track_bud/controller/user_controller.dart';
-import 'package:track_bud/models/user_model.dart';
-import 'package:track_bud/services/dependency_injector.dart';
-import 'package:track_bud/services/sqlite_service.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfield_widget.dart';
@@ -24,6 +22,7 @@ class _ChangeBudgetGoalScreenState extends State<ChangeBudgetGoalScreen> {
     super.initState();
     //_loadCurrentBudgetGoal(); // Load bank account info when screen is initialized
   }
+
 /*
   Future<void> _loadCurrentBudgetGoal() async {
     final String userId = FirebaseAuth.instance.currentUser?.uid ?? '';
@@ -119,8 +118,7 @@ class _ChangeBudgetGoalScreenState extends State<ChangeBudgetGoalScreen> {
           // Padding adds spacing around the content inside the screen.
           padding: EdgeInsets.only(
             top: MediaQuery.sizeOf(context).height * CustomPadding.topSpace -
-                Constants
-                    .defaultAppBarHeight, // Top padding based on screen height
+                Constants.defaultAppBarHeight, // Top padding based on screen height
             left: CustomPadding.defaultSpace, // Left padding
             right: CustomPadding.defaultSpace, // Right padding
           ),
@@ -128,22 +126,18 @@ class _ChangeBudgetGoalScreenState extends State<ChangeBudgetGoalScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                AppString.changeBudgetGoalHeading, // The heading text
-                style: CustomTextStyle
-                    .headingStyle, // The text style for the heading.
+                AppTexts.changeBudgetGoalHeading, // The heading text
+                style: TextStyles.headingStyle, // The text style for the heading.
               ),
-              SizedBox(
-                height: CustomPadding
-                    .mediumSpace, // Adds vertical space between the heading and the next element.
+              Gap(
+                CustomPadding.mediumSpace, // Adds vertical space between the heading and the next element.
               ),
               Text(
-                AppString.changeBudgetGoalDescribtion, // The description text
-                style: CustomTextStyle
-                    .hintStyleDefault, // The text style for the description.
+                AppTexts.changeBudgetGoalDescribtion, // The description text
+                style: TextStyles.hintStyleDefault, // The text style for the description.
               ),
-              SizedBox(
-                height: CustomPadding
-                    .bigSpace, // Adds more vertical space before the next element.
+              Gap(
+                CustomPadding.bigSpace, // Adds more vertical space before the next element.
               ),
               // A custom TextField widget for entering the amount of money, using the controller defined above.
               TextFieldAmountOfMoney(
@@ -157,21 +151,18 @@ class _ChangeBudgetGoalScreenState extends State<ChangeBudgetGoalScreen> {
       bottomSheet: Container(
         // Margin is applied to the bottom of the button and the sides for proper spacing.
         margin: EdgeInsets.only(
-          bottom: MediaQuery.sizeOf(context).height *
-              CustomPadding.bottomSpace, // Bottom margin based on screen height
+          bottom: MediaQuery.sizeOf(context).height * CustomPadding.bottomSpace, // Bottom margin based on screen height
           left: CustomPadding.defaultSpace, // Left margin
           right: CustomPadding.defaultSpace, // Right margin
         ),
-        width: MediaQuery.of(context)
-            .size
-            .width, // Set the button width to match the screen width
+        width: MediaQuery.of(context).size.width, // Set the button width to match the screen width
         child: ElevatedButton(
           // Saving Button
           onPressed: () {
             _saveBudgetGoal();
           },
           child: Text(
-            AppString.save,
+            AppTexts.save,
           ),
         ),
       ),

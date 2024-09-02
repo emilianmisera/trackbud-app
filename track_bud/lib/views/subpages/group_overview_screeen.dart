@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:track_bud/utils/constants.dart';
+import 'package:track_bud/utils/enums/categories.dart';
 import 'package:track_bud/utils/group_debts_chart.dart';
 import 'package:track_bud/utils/group_widget.dart';
 import 'package:track_bud/utils/information_tiles.dart';
@@ -20,88 +22,70 @@ class _GroupOverviewScreenState extends State<GroupOverviewScreen> {
       appBar: AppBar(
         title: Text(
           widget.groupName,
-          style: CustomTextStyle.regularStyleMedium,
+          style: TextStyles.regularStyleMedium,
         ),
       ),
       body: SingleChildScrollView(
         child: Padding(
           // spacing between content and screen
-          padding: EdgeInsets.only(
-              top: CustomPadding.defaultSpace,
-              left: CustomPadding.defaultSpace,
-              right: CustomPadding.defaultSpace),
+          padding: EdgeInsets.only(top: CustomPadding.defaultSpace, left: CustomPadding.defaultSpace, right: CustomPadding.defaultSpace),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              InfoTile(
-                  title: AppString.overall,
-                  amount: '10000,50',
-                  color: CustomColor.black),
-              SizedBox(
-                height: CustomPadding.mediumSpace,
+              InfoTile(title: AppTexts.overall, amount: '10000,50', color: CustomColor.black),
+              Gap(
+                CustomPadding.mediumSpace,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   InfoTile(
-                      title: AppString.perPerson,
+                      title: AppTexts.perPerson,
                       amount: 'amount',
                       color: CustomColor.bluePrimary,
-                      width: MediaQuery.sizeOf(context).width / 2 -
-                          Constants.infoTileSpace),
+                      width: MediaQuery.sizeOf(context).width / 2 - Constants.infoTileSpace),
                   InfoTile(
-                      title: AppString.debts,
+                      title: AppTexts.debts,
                       amount: 'amount',
                       color: CustomColor.red,
-                      width: MediaQuery.sizeOf(context).width / 2 -
-                          Constants.infoTileSpace),
+                      width: MediaQuery.sizeOf(context).width / 2 - Constants.infoTileSpace),
                 ],
               ),
-              SizedBox(height: CustomPadding.defaultSpace),
+              Gap(CustomPadding.defaultSpace),
               Text(
-                AppString.debtsOverview,
-                style: CustomTextStyle.regularStyleMedium,
+                AppTexts.debtsOverview,
+                style: TextStyles.regularStyleMedium,
               ),
-              SizedBox(
-                height: CustomPadding.mediumSpace,
-              ),
+              Gap(CustomPadding.mediumSpace),
               DebtsOverview(),
-              SizedBox(height: CustomPadding.defaultSpace),
+              Gap(CustomPadding.defaultSpace),
               Text(
-                AppString.transactionOverview,
-                style: CustomTextStyle.regularStyleMedium,
+                AppTexts.transactionOverview,
+                style: TextStyles.regularStyleMedium,
               ),
-              SizedBox(
-                height: CustomPadding.mediumSpace,
-              ),
+              Gap(CustomPadding.mediumSpace),
               TransactionOverview(
                 categoryAmounts: {
-                  'Lebensmittel': 3.0,
-                  'Drogerie': 2.0,
-                  'Restaurant': 1.00,
-                  'Mobilität': 0.0,
-                  'Shopping': 0.0,
-                  'Unterkunft': 0.0,
-                  'Entertainment': 0.0,
-                  'Geschenk': 0.0,
-                  'Sonstiges': 0.0,
+                  Categories.lebensmittel: 3.0,
+                  Categories.drogerie: 2.0,
+                  Categories.restaurant: 1.00,
+                  Categories.mobility: 0.0,
+                  Categories.shopping: 0.0,
+                  Categories.unterkunft: 0.0,
+                  Categories.entertainment: 0.0,
+                  Categories.geschenk: 0.0,
+                  Categories.sonstiges: 0.0,
                 },
               ),
-              SizedBox(
-                height: CustomPadding.defaultSpace,
-              ),
+              Gap(CustomPadding.defaultSpace),
               Text(
-                AppString.history,
-                style: CustomTextStyle.regularStyleMedium,
+                AppTexts.history,
+                style: TextStyles.regularStyleMedium,
               ),
-              SizedBox(
-                height: CustomPadding.mediumSpace,
-              ),
+              Gap(CustomPadding.mediumSpace),
               //TODO: Add Listview with all Transactions
-              SizedBox(
-                height: MediaQuery.sizeOf(context).height *
-                        CustomPadding.bottomSpace +
-                    CustomPadding.bigbigSpace,
+              Gap(
+                MediaQuery.sizeOf(context).height * CustomPadding.bottomSpace + CustomPadding.bigbigSpace,
               )
             ],
           ),
@@ -110,8 +94,7 @@ class _GroupOverviewScreenState extends State<GroupOverviewScreen> {
       bottomSheet: Container(
         // Margin is applied to the bottom of the button and the sides for proper spacing.
         margin: EdgeInsets.only(
-          bottom: MediaQuery.sizeOf(context).height *
-              CustomPadding.bottomSpace, // Bottom margin based on screen height
+          bottom: MediaQuery.sizeOf(context).height * CustomPadding.bottomSpace, // Bottom margin based on screen height
           left: CustomPadding.defaultSpace, // Left margin
           right: CustomPadding.defaultSpace, // Right margin
         ),
@@ -122,7 +105,7 @@ class _GroupOverviewScreenState extends State<GroupOverviewScreen> {
               // Set button color based on whether profile has changed
               disabledBackgroundColor: CustomColor.bluePrimary.withOpacity(0.5),
               backgroundColor: CustomColor.bluePrimary),
-          child: Text(AppString.addDebt),
+          child: Text(AppTexts.addDebt),
         ),
       ),
     );

@@ -28,6 +28,7 @@ dependencies:
   firebase_dynamic_links: ^6.0.4
   share: ^2.0.4
   percent_indicator: ^4.2.3
+  gap: ^3.0.1
 
 
 

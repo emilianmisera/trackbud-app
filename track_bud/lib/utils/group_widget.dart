@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/split_widget.dart';
 import 'package:track_bud/utils/strings.dart';
@@ -25,9 +26,7 @@ class GroupCard extends StatelessWidget {
           child: Container(
         width: MediaQuery.sizeOf(context).width,
         padding: EdgeInsets.all(CustomPadding.defaultSpace),
-        decoration: BoxDecoration(
-            color: CustomColor.white,
-            borderRadius: BorderRadius.circular(Constants.buttonBorderRadius)),
+        decoration: BoxDecoration(color: CustomColor.white, borderRadius: BorderRadius.circular(Constants.contentBorderRadius)),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -38,25 +37,23 @@ class GroupCard extends StatelessWidget {
                 child: Container(
                   width: 40,
                   height: 40,
-                  color: Colors
-                      .red, // Placeholder color, replace with actual profile picture
+                  color: Colors.red, // Placeholder color, replace with actual profile picture
                 ),
               ),
               // Friend's name
               title: Text(
                 'Name',
-                style: CustomTextStyle.regularStyleMedium,
+                style: TextStyles.regularStyleMedium,
               ),
               // Debt or credit information
               subtitle: Text(
                 '**Date**',
-                style: CustomTextStyle.hintStyleDefault
-                    .copyWith(fontSize: CustomTextStyle.fontSizeHint),
+                style: TextStyles.hintStyleDefault.copyWith(fontSize: TextStyles.fontSizeHint),
               ),
               // Navigation arrow
               trailing: Text(
                 '10000,00€',
-                style: CustomTextStyle.regularStyleMedium,
+                style: TextStyles.regularStyleMedium,
               ),
               minVerticalPadding: 0,
               contentPadding: EdgeInsets.zero,
@@ -66,8 +63,8 @@ class GroupCard extends StatelessWidget {
                 color: CustomColor.grey,
               ),
             ),
-            SizedBox(
-              height: CustomPadding.mediumSpace,
+            Gap(
+              CustomPadding.mediumSpace,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -126,16 +123,11 @@ class DebtsInformation extends StatelessWidget {
     final colors = _getColors(colorScheme);
 
     return Container(
-      padding: EdgeInsets.symmetric(
-          horizontal: CustomPadding.mediumSpace,
-          vertical: CustomPadding.smallSpace),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(5),
-          color: colors.backgroundColor),
+      padding: EdgeInsets.symmetric(horizontal: CustomPadding.mediumSpace, vertical: CustomPadding.smallSpace),
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: colors.backgroundColor),
       child: Text(
         amount ?? 'quitt',
-        style: CustomTextStyle.regularStyleMedium
-            .copyWith(color: colors.textColor),
+        style: TextStyles.regularStyleMedium.copyWith(color: colors.textColor),
       ),
     );
   }
@@ -186,30 +178,30 @@ class _DebtsOverviewState extends State<DebtsOverview> {
             padding: EdgeInsets.all(CustomPadding.defaultSpace),
             decoration: BoxDecoration(
               color: CustomColor.backgroundPrimary,
-              borderRadius: BorderRadius.circular(Constants.buttonBorderRadius),
+              borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
             ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  AppString.payOffDebts,
-                  style: CustomTextStyle.titleStyleMedium,
+                  AppTexts.payOffDebts,
+                  style: TextStyles.titleStyleMedium,
                 ),
-                SizedBox(height: CustomPadding.defaultSpace),
+                Gap(CustomPadding.defaultSpace),
                 Text(
-                  AppString.payOffDebts,
-                  style: CustomTextStyle.hintStyleDefault,
+                  AppTexts.payOffDebts,
+                  style: TextStyles.hintStyleDefault,
                 ),
-                SizedBox(height: CustomPadding.defaultSpace),
+                Gap(CustomPadding.defaultSpace),
                 ByAmountTile(),
-                SizedBox(height: CustomPadding.defaultSpace),
+                Gap(CustomPadding.defaultSpace),
                 ElevatedButton(
                   onPressed: () {
                     Navigator.pop(context);
                     //TODO: update debts in db
                   },
-                  child: Text(AppString.payOff),
+                  child: Text(AppTexts.payOff),
                 ),
               ],
             ),
@@ -223,9 +215,7 @@ class _DebtsOverviewState extends State<DebtsOverview> {
       child: Container(
         width: MediaQuery.sizeOf(context).width,
         padding: EdgeInsets.all(CustomPadding.defaultSpace),
-        decoration: BoxDecoration(
-            color: CustomColor.white,
-            borderRadius: BorderRadius.circular(Constants.buttonBorderRadius)),
+        decoration: BoxDecoration(color: CustomColor.white, borderRadius: BorderRadius.circular(Constants.contentBorderRadius)),
         child: Column(
           children: [
             ListTile(
@@ -235,14 +225,13 @@ class _DebtsOverviewState extends State<DebtsOverview> {
                 child: Container(
                   width: 40,
                   height: 40,
-                  color: Colors
-                      .red, // Placeholder color, replace with actual profile picture
+                  color: Colors.red, // Placeholder color, replace with actual profile picture
                 ),
               ),
               // Friend's name
               title: Text(
                 'Name',
-                style: CustomTextStyle.regularStyleMedium,
+                style: TextStyles.regularStyleMedium,
               ),
               // Debt or credit information
 
@@ -254,16 +243,16 @@ class _DebtsOverviewState extends State<DebtsOverview> {
               minVerticalPadding: 0,
               contentPadding: EdgeInsets.zero,
             ),
-            SizedBox(
-              height: CustomPadding.smallSpace,
+            Gap(
+              CustomPadding.smallSpace,
             ),
             GestureDetector(
               onTap: () {
                 _payOffDebts();
               },
               child: Text(
-                AppString.payOff,
-                style: CustomTextStyle.regularStyleDefault.copyWith(
+                AppTexts.payOff,
+                style: TextStyles.regularStyleDefault.copyWith(
                   color: CustomColor.bluePrimary,
                 ),
               ),
@@ -275,22 +264,19 @@ class _DebtsOverviewState extends State<DebtsOverview> {
   }
 }
 
-
-class Group extends StatelessWidget {
+class ChooseGroup extends StatelessWidget {
   final void Function() onTap;
-  const Group({super.key, required this.onTap});
+  const ChooseGroup({super.key, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
     return CustomShadow(
       child: Container(
         width: double.infinity,
-        padding: EdgeInsets.symmetric(
-            horizontal: CustomPadding.defaultSpace,
-            vertical: CustomPadding.mediumSpace),
+        padding: EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace, vertical: CustomPadding.mediumSpace),
         decoration: BoxDecoration(
           color: CustomColor.white,
-          borderRadius: BorderRadius.circular(Constants.buttonBorderRadius),
+          borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
         ),
         child: ListTile(
           contentPadding: EdgeInsets.zero,
@@ -304,7 +290,7 @@ class Group extends StatelessWidget {
           ),
           title: Text(
             'Gruppenname',
-            style: CustomTextStyle.regularStyleMedium,
+            style: TextStyles.regularStyleMedium,
           ),
           trailing: Container(
             width: 65,

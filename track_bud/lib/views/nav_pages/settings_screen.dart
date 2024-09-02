@@ -1,10 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:track_bud/models/user_model.dart';
+import 'package:gap/gap.dart';
 import 'package:track_bud/services/auth/auth_service.dart';
-import 'package:track_bud/services/dependency_injector.dart';
-import 'package:track_bud/services/sqlite_service.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfield_widget.dart';
@@ -91,8 +88,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
         context: context,
         builder: (context) => AlertDialog(
           title: Text(
-            AppString.deleteAcc,
-            style: CustomTextStyle.titleStyleMedium,
+            AppTexts.deleteAcc,
+            style: TextStyles.titleStyleMedium,
           ),
           content: Container(
             width: double.infinity,
@@ -100,30 +97,25 @@ class _SettingsScreenState extends State<SettingsScreen> {
             child: Column(
               children: [
                 Text(
-                  AppString.deleteAccDescribtion,
-                  style: CustomTextStyle.hintStyleDefault,
+                  AppTexts.deleteAccDescribtion,
+                  style: TextStyles.hintStyleDefault,
                 ),
-                SizedBox(
-                  height: CustomPadding.defaultSpace,
-                ),
+                Gap(CustomPadding.defaultSpace),
                 CustomTextfield(
-                  name: AppString.password,
+                  name: AppTexts.password,
                   obscureText: true,
-                  hintText: AppString.hintPassword,
+                  hintText: AppTexts.hintPassword,
                   controller: _passwordController,
                   autofocus: true,
                 ),
-                SizedBox(
-                  height: CustomPadding.defaultSpace,
-                ),
+                Gap(CustomPadding.defaultSpace),
                 ElevatedButton(
                   onPressed: () {
                     _handleAccountDeletion(context);
                   },
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: CustomColor.red),
+                  style: ElevatedButton.styleFrom(backgroundColor: CustomColor.red),
                   child: Text(
-                    AppString.deleteAcc,
+                    AppTexts.deleteAcc,
                   ),
                 )
               ],
@@ -134,7 +126,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           surfaceTintColor: CustomColor.backgroundPrimary,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(
-              Radius.circular(Constants.buttonBorderRadius),
+              Radius.circular(Constants.contentBorderRadius),
             ),
           ),
         ),
@@ -145,6 +137,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     _passwordController.clear();
     Navigator.of(context).pop();
   }
+
 /*
   Future<void> _loadCurrentUserInfo() async {
     final String userId = FirebaseAuth.instance.currentUser?.uid ?? '';
@@ -191,8 +184,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         child: Padding(
             // spacing between content and screen
             padding: EdgeInsets.only(
-                top: MediaQuery.sizeOf(context).height *
-                    CustomPadding.topSpaceSettingsScreen,
+                top: MediaQuery.sizeOf(context).height * CustomPadding.topSpaceSettingsScreen,
                 left: CustomPadding.defaultSpace,
                 right: CustomPadding.defaultSpace),
             child: Column(
@@ -204,48 +196,38 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     child: Container(
                       width: Constants.profilePictureSettingPage,
                       height: Constants.profilePictureSettingPage,
-                      child: _profileImageUrl != null &&
-                              _profileImageUrl!.isNotEmpty
+                      child: _profileImageUrl != null && _profileImageUrl!.isNotEmpty
                           ? Image.network(
                               _profileImageUrl!,
                               fit: BoxFit.cover,
                               errorBuilder: (context, error, stackTrace) {
-                                return Icon(Icons.person,
-                                    size: 100, color: Colors.grey);
+                                return Icon(Icons.person, size: 100, color: Colors.grey);
                               },
                             )
                           : Icon(Icons.person, size: 50, color: Colors.grey),
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: CustomPadding.mediumSpace,
-                ),
+                Gap(CustomPadding.mediumSpace),
                 Center(
                     child: Text(
                   // FirstName
                   currentUserName,
-                  style: CustomTextStyle.titleStyleMedium,
+                  style: TextStyles.titleStyleMedium,
                 )),
-                SizedBox(
-                  height: CustomPadding.smallSpace,
-                ),
+                Gap(CustomPadding.smallSpace),
                 Center(
                     child: Text(
                   //email
                   currentUserEmail,
-                  style: CustomTextStyle.hintStyleDefault,
+                  style: TextStyles.hintStyleDefault,
                 )),
-                SizedBox(
-                  height: CustomPadding.bigbigSpace,
-                ),
+                Gap(CustomPadding.bigbigSpace),
                 Text(
-                  AppString.preferences,
-                  style: CustomTextStyle.regularStyleMedium,
+                  AppTexts.preferences,
+                  style: TextStyles.regularStyleMedium,
                 ),
-                SizedBox(
-                  height: CustomPadding.defaultSpace,
-                ),
+                Gap(CustomPadding.defaultSpace),
                 CustomShadow(
                   // edit Profile Button
                   child: TextButton.icon(
@@ -261,8 +243,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       }
                     },
                     label: Text(
-                      AppString.editProfile,
-                      style: CustomTextStyle.regularStyleDefault,
+                      AppTexts.editProfile,
+                      style: TextStyles.regularStyleDefault,
                     ),
                     icon: SvgPicture.asset(AssetImport.userEdit),
                     style: ButtonStyle(
@@ -270,9 +252,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: CustomPadding.mediumSpace,
-                ),
+                Gap(CustomPadding.mediumSpace),
                 CustomShadow(
                   // accAdjustment button
                   child: TextButton.icon(
@@ -285,8 +265,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       );
                     },
                     label: Text(
-                      AppString.accAdjustments,
-                      style: CustomTextStyle.regularStyleDefault,
+                      AppTexts.accAdjustments,
+                      style: TextStyles.regularStyleDefault,
                     ),
                     icon: SvgPicture.asset(AssetImport.settings),
                     style: ButtonStyle(
@@ -294,9 +274,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: CustomPadding.mediumSpace,
-                ),
+                Gap(CustomPadding.mediumSpace),
                 CustomShadow(
                   // notification button
                   child: TextButton.icon(
@@ -309,8 +287,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       );
                     },
                     label: Text(
-                      AppString.notifications,
-                      style: CustomTextStyle.regularStyleDefault,
+                      AppTexts.notifications,
+                      style: TextStyles.regularStyleDefault,
                     ),
                     icon: SvgPicture.asset(AssetImport.bell),
                     style: ButtonStyle(
@@ -318,9 +296,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: CustomPadding.mediumSpace,
-                ),
+                Gap(CustomPadding.mediumSpace),
                 CustomShadow(
                   // aboutTrackbut button
                   child: TextButton.icon(
@@ -333,8 +309,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       );
                     },
                     label: Text(
-                      AppString.abouTrackBud,
-                      style: CustomTextStyle.regularStyleDefault,
+                      AppTexts.abouTrackBud,
+                      style: TextStyles.regularStyleDefault,
                     ),
                     icon: SvgPicture.asset(AssetImport.info),
                     style: ButtonStyle(
@@ -342,16 +318,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: CustomPadding.mediumSpace,
-                ),
+                Gap(CustomPadding.mediumSpace),
                 CustomShadow(
                   // Logout Button
                   child: TextButton.icon(
                     onPressed: _signOut,
                     label: Text(
-                      AppString.logout,
-                      style: CustomTextStyle.regularStyleDefault,
+                      AppTexts.logout,
+                      style: TextStyles.regularStyleDefault,
                     ),
                     icon: SvgPicture.asset(AssetImport.logout),
                     style: ButtonStyle(
@@ -359,9 +333,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: CustomPadding.mediumSpace,
-                ),
+                Gap(CustomPadding.mediumSpace),
                 CustomShadow(
                   // delete Account Button
                   child: TextButton.icon(
@@ -369,11 +341,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       openPopUp();
                     }, //_handleAccountDeletion,
                     label: Text(
-                      AppString.deleteAcc,
+                      AppTexts.deleteAcc,
                       style: TextStyle(
-                        fontFamily: CustomTextStyle.fontFamily,
-                        fontSize: CustomTextStyle.fontSizeDefault,
-                        fontWeight: CustomTextStyle.fontWeightDefault,
+                        fontFamily: TextStyles.fontFamily,
+                        fontSize: TextStyles.fontSizeDefault,
+                        fontWeight: TextStyles.fontWeightDefault,
                         color: CustomColor.red,
                       ),
                     ),

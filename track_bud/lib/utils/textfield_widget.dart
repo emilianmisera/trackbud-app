@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:gap/gap.dart';
 import 'package:simple_shadow/simple_shadow.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/strings.dart';
@@ -27,9 +28,9 @@ class CustomTextfield extends StatelessWidget {
     this.autofocus,
     this.width,
     this.prefix,
-    this.isMultiline = false, 
-    this.type, this.inputFormatters, // default false
-
+    this.isMultiline = false,
+    this.type,
+    this.inputFormatters, // default false
   }) : super(key: key);
 
   @override
@@ -39,17 +40,13 @@ class CustomTextfield extends StatelessWidget {
       children: [
         Text(
           name,
-          style: CustomTextStyle.regularStyleMedium,
+          style: TextStyles.regularStyleMedium,
         ),
-        SizedBox(
-          height: CustomPadding.mediumSpace,
-        ),
+        Gap(CustomPadding.mediumSpace),
         CustomShadow(
           child: Container(
             width: width ?? double.infinity,
-            height: isMultiline
-                ? 120
-                : Constants.height, // choose height of Textfield Box
+            height: isMultiline ? 120 : Constants.height, // choose height of Textfield Box
             child: TextFormField(
               controller: controller,
               obscureText: obscureText,
@@ -69,14 +66,13 @@ class CustomTextfield extends StatelessWidget {
                   horizontal: CustomPadding.defaultSpace,
                   vertical: CustomPadding.contentHeightSpace,
                 ),
-                hintStyle: CustomTextStyle.hintStyleDefault,
+                hintStyle: TextStyles.hintStyleDefault,
                 floatingLabelBehavior: FloatingLabelBehavior.never,
                 filled: true,
                 fillColor: CustomColor.white,
                 border: OutlineInputBorder(
                   borderSide: BorderSide.none,
-                  borderRadius:
-                      BorderRadius.circular(Constants.buttonBorderRadius),
+                  borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
                 ),
               ),
             ),
@@ -94,12 +90,7 @@ class CustomShadow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SimpleShadow(
-        color: CustomColor.black,
-        opacity: 0.084,
-        offset: Offset(0, 0),
-        sigma: 2,
-        child: child);
+    return SimpleShadow(color: CustomColor.black, opacity: 0.084, offset: Offset(0, 0), sigma: 2, child: child);
   }
 }
 
@@ -121,31 +112,30 @@ class TextFieldAmountOfMoney extends StatelessWidget {
     return CustomShadow(
       child: TextFormField(
         controller: controller,
-        style: CustomTextStyle.headingStyle,
+        style: TextStyles.headingStyle,
         keyboardType: TextInputType.numberWithOptions(decimal: true),
         textAlign: TextAlign.center,
         inputFormatters: [
-          FilteringTextInputFormatter.allow(RegExp(
-              r'[0-9.,]')), // textinput has to have only numbers or a dot or a comma
+          FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]')), // textinput has to have only numbers or a dot or a comma
         ],
         decoration: InputDecoration(
-          hintText: hintText ?? AppString.lines,
+          hintText: hintText ?? AppTexts.lines,
           suffix: Text(
             "€",
-            style: suffixStyle ?? CustomTextStyle.headingStyle,
+            style: suffixStyle ?? TextStyles.headingStyle,
           ),
           contentPadding: EdgeInsets.only(
               left: CustomPadding.defaultSpace,
               right: CustomPadding.defaultSpace,
               top: CustomPadding.contentHeightSpace,
               bottom: CustomPadding.contentHeightSpace),
-          hintStyle: CustomTextStyle.hintStyleHeading,
+          hintStyle: TextStyles.hintStyleHeading,
           floatingLabelBehavior: FloatingLabelBehavior.never,
           filled: true,
           fillColor: CustomColor.white,
           border: OutlineInputBorder(
             borderSide: BorderSide.none,
-            borderRadius: BorderRadius.circular(Constants.buttonBorderRadius),
+            borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
           ),
         ),
       ),
@@ -187,13 +177,13 @@ class SearchTextfield extends StatelessWidget {
               horizontal: CustomPadding.defaultSpace,
               vertical: CustomPadding.contentHeightSpace,
             ),
-            hintStyle: CustomTextStyle.hintStyleDefault,
+            hintStyle: TextStyles.hintStyleDefault,
             floatingLabelBehavior: FloatingLabelBehavior.never,
             filled: true,
             fillColor: CustomColor.white,
             border: OutlineInputBorder(
               borderSide: BorderSide.none,
-              borderRadius: BorderRadius.circular(Constants.buttonBorderRadius),
+              borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
             ),
           ),
           onChanged: onChanged,
@@ -220,31 +210,30 @@ class TextFieldByAmount extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controller,
-      style: inputStyle ?? CustomTextStyle.headingStyle,
+      style: inputStyle ?? TextStyles.headingStyle,
       keyboardType: TextInputType.numberWithOptions(),
       textAlign: TextAlign.center,
       inputFormatters: [
-        FilteringTextInputFormatter
-            .digitsOnly, // textinput has to have only numbers
+        FilteringTextInputFormatter.digitsOnly, // textinput has to have only numbers
       ],
       decoration: InputDecoration(
-        hintText: hintText ?? AppString.lines,
+        hintText: hintText ?? AppTexts.lines,
         suffix: Text(
           "€",
-          style: suffixStyle ?? CustomTextStyle.headingStyle,
+          style: suffixStyle ?? TextStyles.headingStyle,
         ),
         contentPadding: EdgeInsets.only(
             left: CustomPadding.defaultSpace,
             right: CustomPadding.defaultSpace,
             top: CustomPadding.contentHeightSpace,
             bottom: CustomPadding.contentHeightSpace),
-        hintStyle: CustomTextStyle.hintStyleHeading,
+        hintStyle: TextStyles.hintStyleHeading,
         floatingLabelBehavior: FloatingLabelBehavior.never,
         filled: true,
         fillColor: CustomColor.white,
         border: OutlineInputBorder(
           borderSide: BorderSide.none,
-          borderRadius: BorderRadius.circular(Constants.buttonBorderRadius),
+          borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
         ),
       ),
     );

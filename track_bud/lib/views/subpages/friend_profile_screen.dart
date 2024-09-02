@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:track_bud/models/user_model.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/friends_widget.dart';
@@ -19,16 +20,13 @@ class _FriendProfileScreenState extends State<FriendProfileScreen> {
       appBar: AppBar(
         title: Text(
           widget.friend.name,
-          style: CustomTextStyle.regularStyleMedium,
+          style: TextStyles.regularStyleMedium,
         ),
       ),
       body: SingleChildScrollView(
         child: Padding(
           // spacing between content and screen
-          padding: EdgeInsets.only(
-              top: CustomPadding.defaultSpace,
-              left: CustomPadding.defaultSpace,
-              right: CustomPadding.defaultSpace),
+          padding: EdgeInsets.only(top: CustomPadding.defaultSpace, left: CustomPadding.defaultSpace, right: CustomPadding.defaultSpace),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -39,22 +37,19 @@ class _FriendProfileScreenState extends State<FriendProfileScreen> {
                     width: Constants.profilePictureAccountEdit,
                     height: Constants.profilePictureAccountEdit,
                     child: widget.friend.profilePictureUrl != ""
-                        ? Image.network(widget.friend.profilePictureUrl!,
-                            fit: BoxFit.cover)
+                        ? Image.network(widget.friend.profilePictureUrl, fit: BoxFit.cover)
                         : Icon(Icons.person, color: Colors.grey),
                   ),
                 ),
               ),
-              SizedBox(height: CustomPadding.bigSpace),
+              Gap(CustomPadding.bigSpace),
               FriendProfileDetails(),
-              SizedBox(height: CustomPadding.defaultSpace),
+              Gap(CustomPadding.defaultSpace),
               Text(
-                AppString.history,
-                style: CustomTextStyle.regularStyleMedium,
+                AppTexts.history,
+                style: TextStyles.regularStyleMedium,
               ),
-              SizedBox(
-                height: CustomPadding.mediumSpace,
-              ),
+              Gap(CustomPadding.mediumSpace),
             ],
           ),
         ),
@@ -62,8 +57,7 @@ class _FriendProfileScreenState extends State<FriendProfileScreen> {
       bottomSheet: Container(
         // Margin is applied to the bottom of the button and the sides for proper spacing.
         margin: EdgeInsets.only(
-          bottom: MediaQuery.sizeOf(context).height *
-              CustomPadding.bottomSpace, // Bottom margin based on screen height
+          bottom: MediaQuery.sizeOf(context).height * CustomPadding.bottomSpace, // Bottom margin based on screen height
           left: CustomPadding.defaultSpace, // Left margin
           right: CustomPadding.defaultSpace, // Right margin
         ),
@@ -71,9 +65,8 @@ class _FriendProfileScreenState extends State<FriendProfileScreen> {
           // Enable button only if profile has changed
           onPressed: () {},
           style: ElevatedButton.styleFrom(
-              disabledBackgroundColor: CustomColor.bluePrimary.withOpacity(0.5),
-              backgroundColor: CustomColor.bluePrimary),
-          child: Text(AppString.payOffDebts),
+              disabledBackgroundColor: CustomColor.bluePrimary.withOpacity(0.5), backgroundColor: CustomColor.bluePrimary),
+          child: Text(AppTexts.payOffDebts),
         ),
       ),
     );
