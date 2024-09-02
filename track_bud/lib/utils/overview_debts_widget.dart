@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/group_widget.dart';
 import 'package:track_bud/utils/strings.dart';
@@ -34,8 +35,8 @@ class OverviewDebtsWidget extends StatelessWidget {
                 )
               ],
             ),
-            SizedBox(
-              height: CustomPadding.mediumSpace,
+            Gap(
+              CustomPadding.mediumSpace,
             ),
             // Row to display debt to friends
             Row(
@@ -51,8 +52,8 @@ class OverviewDebtsWidget extends StatelessWidget {
                 )
               ],
             ),
-            SizedBox(
-              height: CustomPadding.mediumSpace,
+            Gap(
+              CustomPadding.mediumSpace,
             ),
             // Row to display friend's avatar and name (for debt to friends)
             Row(
@@ -65,8 +66,8 @@ class OverviewDebtsWidget extends StatelessWidget {
                     color: Colors.red,
                   ),
                 ),
-                SizedBox(
-                  width: CustomPadding.mediumSpace,
+                Gap(
+                  CustomPadding.mediumSpace,
                 ),
                 Text(
                   'Freund',
@@ -74,8 +75,8 @@ class OverviewDebtsWidget extends StatelessWidget {
                 )
               ],
             ),
-            SizedBox(
-              height: CustomPadding.defaultSpace,
+            Gap(
+              CustomPadding.defaultSpace,
             ),
             // Row to display debt owed to you
             Row(
@@ -91,8 +92,8 @@ class OverviewDebtsWidget extends StatelessWidget {
                 )
               ],
             ),
-            SizedBox(
-              height: CustomPadding.mediumSpace,
+            Gap(
+              CustomPadding.mediumSpace,
             ),
             // Row to display friend's avatar and name (for debt owed to you)
             Row(
@@ -105,8 +106,8 @@ class OverviewDebtsWidget extends StatelessWidget {
                     color: Colors.red,
                   ),
                 ),
-                SizedBox(
-                  width: CustomPadding.mediumSpace,
+                Gap(
+                  CustomPadding.mediumSpace,
                 ),
                 Text(
                   'Freund',

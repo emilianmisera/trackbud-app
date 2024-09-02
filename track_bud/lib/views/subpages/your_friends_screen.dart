@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:track_bud/models/user_model.dart';
 import 'package:track_bud/services/firestore_service.dart';
 import 'package:track_bud/services/invite_service.dart';
@@ -87,7 +88,7 @@ class _YourFriendsScreenState extends State<YourFriendsScreen> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    SizedBox(height: CustomPadding.mediumSpace),
+                    Gap(CustomPadding.mediumSpace),
                     Center(
                       child: Container(
                         // grabber
@@ -99,12 +100,12 @@ class _YourFriendsScreenState extends State<YourFriendsScreen> {
                         ),
                       ),
                     ),
-                    SizedBox(height: CustomPadding.defaultSpace),
+                    Gap(CustomPadding.defaultSpace),
                     Text(
                       AppTexts.addFriend,
                       style: TextStyles.regularStyleMedium,
                     ),
-                    SizedBox(height: CustomPadding.mediumSpace),
+                    Gap(CustomPadding.mediumSpace),
                     CustomTextfield(name: AppTexts.email, hintText: AppTexts.hintEmail, controller: _emailFriendController),
                     Spacer(),
                     ElevatedButton(
@@ -154,9 +155,7 @@ class _YourFriendsScreenState extends State<YourFriendsScreen> {
                       controller: _searchController,
                       onChanged: _searchFriend,
                     ),
-                    SizedBox(
-                      height: CustomPadding.defaultSpace,
-                    ),
+                    Gap(CustomPadding.defaultSpace),
                     // List of Friends
                     if (_friends.isEmpty)
                       Center(child: Text("Keine Freunde gefunden."))

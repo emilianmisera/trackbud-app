@@ -163,8 +163,8 @@ class CategoryInfo extends StatelessWidget {
     return Row(
       children: [
         CategoryIcon(color: iconColor, iconWidget: icon),
-        SizedBox(
-          width: CustomPadding.mediumSpace,
+        Gap(
+          CustomPadding.mediumSpace,
         ),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:gap/gap.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfield_widget.dart';
@@ -43,7 +44,7 @@ class _SplitButtonState extends State<SplitButton> {
               widget.icon,
               color: widget.isSelected ? CustomColor.bluePrimary : CustomColor.hintColor,
             ),
-            SizedBox(height: CustomPadding.smallSpace),
+            Gap(CustomPadding.smallSpace),
             // Display the text
             Text(
               widget.text,
@@ -92,7 +93,7 @@ class _SplitMethodSelectorState extends State<SplitMethodSelector> {
           AppTexts.distribution,
           style: TextStyles.regularStyleMedium,
         ),
-        SizedBox(height: CustomPadding.mediumSpace),
+        Gap(CustomPadding.mediumSpace),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -162,7 +163,7 @@ class _EqualTileState extends State<EqualTile> {
             style: TextStyles.regularStyleDefault,
           ),
           trailing: widget.friendSplit
-              ? SizedBox(
+              ? Container(
                   width: 200,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
@@ -237,7 +238,7 @@ class EqualSplitWidget extends StatelessWidget {
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
       itemCount: names.length,
-      separatorBuilder: (context, index) => SizedBox(height: CustomPadding.mediumSpace),
+      separatorBuilder: (context, index) => Gap(CustomPadding.mediumSpace),
       itemBuilder: (context, index) {
         return EqualTile(
           name: names[index],
@@ -361,7 +362,7 @@ class _PercentalSplitWidgetState extends State<PercentalSplitWidget> {
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
       itemCount: widget.names.length,
-      separatorBuilder: (context, index) => SizedBox(height: CustomPadding.mediumSpace),
+      separatorBuilder: (context, index) => Gap(CustomPadding.mediumSpace),
       itemBuilder: (context, index) {
         return PercentTile(
           amount: widget.amount,
@@ -439,7 +440,7 @@ class ByAmountSplitWidget extends StatelessWidget {
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
       itemCount: names.length,
-      separatorBuilder: (context, index) => SizedBox(height: CustomPadding.mediumSpace),
+      separatorBuilder: (context, index) => Gap(CustomPadding.mediumSpace),
       itemBuilder: (context, index) {
         return ByAmountTile(name: names[index]);
       },

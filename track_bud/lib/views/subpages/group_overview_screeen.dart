@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/enums/categories.dart';
 import 'package:track_bud/utils/group_debts_chart.dart';
@@ -32,8 +33,8 @@ class _GroupOverviewScreenState extends State<GroupOverviewScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               InfoTile(title: AppTexts.overall, amount: '10000,50', color: CustomColor.black),
-              SizedBox(
-                height: CustomPadding.mediumSpace,
+              Gap(
+                CustomPadding.mediumSpace,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -50,23 +51,19 @@ class _GroupOverviewScreenState extends State<GroupOverviewScreen> {
                       width: MediaQuery.sizeOf(context).width / 2 - Constants.infoTileSpace),
                 ],
               ),
-              SizedBox(height: CustomPadding.defaultSpace),
+              Gap(CustomPadding.defaultSpace),
               Text(
                 AppTexts.debtsOverview,
                 style: TextStyles.regularStyleMedium,
               ),
-              SizedBox(
-                height: CustomPadding.mediumSpace,
-              ),
+              Gap(CustomPadding.mediumSpace),
               DebtsOverview(),
-              SizedBox(height: CustomPadding.defaultSpace),
+              Gap(CustomPadding.defaultSpace),
               Text(
                 AppTexts.transactionOverview,
                 style: TextStyles.regularStyleMedium,
               ),
-              SizedBox(
-                height: CustomPadding.mediumSpace,
-              ),
+              Gap(CustomPadding.mediumSpace),
               TransactionOverview(
                 categoryAmounts: {
                   Categories.lebensmittel: 3.0,
@@ -80,19 +77,15 @@ class _GroupOverviewScreenState extends State<GroupOverviewScreen> {
                   Categories.sonstiges: 0.0,
                 },
               ),
-              SizedBox(
-                height: CustomPadding.defaultSpace,
-              ),
+              Gap(CustomPadding.defaultSpace),
               Text(
                 AppTexts.history,
                 style: TextStyles.regularStyleMedium,
               ),
-              SizedBox(
-                height: CustomPadding.mediumSpace,
-              ),
+              Gap(CustomPadding.mediumSpace),
               //TODO: Add Listview with all Transactions
-              SizedBox(
-                height: MediaQuery.sizeOf(context).height * CustomPadding.bottomSpace + CustomPadding.bigbigSpace,
+              Gap(
+                MediaQuery.sizeOf(context).height * CustomPadding.bottomSpace + CustomPadding.bigbigSpace,
               )
             ],
           ),

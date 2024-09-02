@@ -2,6 +2,7 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:gap/gap.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfield_widget.dart';
@@ -158,8 +159,8 @@ class _AccAdjustmentWidgetState extends State<AccAdjustmentWidget> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               SvgPicture.asset(widget.icon),
-              SizedBox(
-                width: 8,
+              Gap(
+                CustomPadding.mediumSpace,
               ),
               Text(
                 widget.name,
@@ -258,7 +259,7 @@ class CustomCategory extends StatelessWidget {
             height: 25,
             fit: BoxFit.scaleDown,
           ), // Display category icon
-          SizedBox(width: CustomPadding.smallSpace),
+          Gap(CustomPadding.smallSpace),
           Text(categoryName), // Display category name
         ],
       ),

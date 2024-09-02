@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:track_bud/models/user_model.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/friends_widget.dart';
@@ -36,21 +37,19 @@ class _FriendProfileScreenState extends State<FriendProfileScreen> {
                     width: Constants.profilePictureAccountEdit,
                     height: Constants.profilePictureAccountEdit,
                     child: widget.friend.profilePictureUrl != ""
-                        ? Image.network(widget.friend.profilePictureUrl!, fit: BoxFit.cover)
+                        ? Image.network(widget.friend.profilePictureUrl, fit: BoxFit.cover)
                         : Icon(Icons.person, color: Colors.grey),
                   ),
                 ),
               ),
-              SizedBox(height: CustomPadding.bigSpace),
+              Gap(CustomPadding.bigSpace),
               FriendProfileDetails(),
-              SizedBox(height: CustomPadding.defaultSpace),
+              Gap(CustomPadding.defaultSpace),
               Text(
                 AppTexts.history,
                 style: TextStyles.regularStyleMedium,
               ),
-              SizedBox(
-                height: CustomPadding.mediumSpace,
-              ),
+              Gap(CustomPadding.mediumSpace),
             ],
           ),
         ),

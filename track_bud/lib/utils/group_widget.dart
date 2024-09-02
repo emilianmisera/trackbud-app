@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/split_widget.dart';
 import 'package:track_bud/utils/strings.dart';
@@ -62,8 +63,8 @@ class GroupCard extends StatelessWidget {
                 color: CustomColor.grey,
               ),
             ),
-            SizedBox(
-              height: CustomPadding.mediumSpace,
+            Gap(
+              CustomPadding.mediumSpace,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -187,14 +188,14 @@ class _DebtsOverviewState extends State<DebtsOverview> {
                   AppTexts.payOffDebts,
                   style: TextStyles.titleStyleMedium,
                 ),
-                SizedBox(height: CustomPadding.defaultSpace),
+                Gap(CustomPadding.defaultSpace),
                 Text(
                   AppTexts.payOffDebts,
                   style: TextStyles.hintStyleDefault,
                 ),
-                SizedBox(height: CustomPadding.defaultSpace),
+                Gap(CustomPadding.defaultSpace),
                 ByAmountTile(),
-                SizedBox(height: CustomPadding.defaultSpace),
+                Gap(CustomPadding.defaultSpace),
                 ElevatedButton(
                   onPressed: () {
                     Navigator.pop(context);
@@ -242,8 +243,8 @@ class _DebtsOverviewState extends State<DebtsOverview> {
               minVerticalPadding: 0,
               contentPadding: EdgeInsets.zero,
             ),
-            SizedBox(
-              height: CustomPadding.smallSpace,
+            Gap(
+              CustomPadding.smallSpace,
             ),
             GestureDetector(
               onTap: () {

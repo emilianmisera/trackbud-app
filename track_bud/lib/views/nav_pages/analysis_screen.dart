@@ -1,5 +1,5 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:track_bud/controller/user_controller.dart';
 import 'package:track_bud/utils/analysis_chart.dart';
 import 'package:track_bud/utils/buttons_widget.dart';
@@ -88,9 +88,7 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               InfoTile(title: AppTexts.balance, amount: '${_currentBalance.toStringAsFixed(2)}', color: CustomColor.bluePrimary),
-              SizedBox(
-                height: CustomPadding.mediumSpace,
-              ),
+              Gap(CustomPadding.mediumSpace),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -113,25 +111,19 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
                   ),
                 ],
               ),
-              SizedBox(
-                height: CustomPadding.defaultSpace,
-              ),
+              Gap(CustomPadding.defaultSpace),
               ChartTile(
                   chartChild: DonutChart(
                       selectedOption: _selectedOption,
                       selectedCategory: _selectedCategory,
                       key: ValueKey(_selectedOption),
                       onCategorySelected: _onCategorySelected)),
-              SizedBox(
-                height: CustomPadding.defaultSpace,
-              ),
+              Gap(CustomPadding.defaultSpace),
               Text(
                 AppTexts.history,
                 style: TextStyles.regularStyleMedium,
               ),
-              SizedBox(
-                height: CustomPadding.mediumSpace,
-              ),
+              Gap(CustomPadding.mediumSpace),
               TransactionList(
                   onTransactionChangeCallback: _updateChartData, selectedOption: _selectedOption, selectedCategory: _selectedCategory),
             ],

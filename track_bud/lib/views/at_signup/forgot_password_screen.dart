@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:track_bud/services/auth/auth_service.dart'; // Import your AuthService
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/strings.dart';
@@ -84,16 +85,12 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 AppTexts.resetPassword,
                 style: TextStyles.headingStyle,
               ),
-              SizedBox(
-                height: CustomPadding.mediumSpace,
-              ),
+              Gap(CustomPadding.mediumSpace),
               Text(
                 AppTexts.resetPasswordDescription,
                 style: TextStyles.hintStyleDefault,
               ),
-              SizedBox(
-                height: CustomPadding.defaultSpace,
-              ),
+              Gap(CustomPadding.defaultSpace),
               CustomTextfield(
                 controller: _emailController,
                 name: AppTexts.email,

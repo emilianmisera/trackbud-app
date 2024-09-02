@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:gap/gap.dart';
 import 'package:track_bud/services/auth/auth_service.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/strings.dart';
@@ -91,15 +92,15 @@ class _LoginScreenState extends State<LoginScreen> {
                 AppTexts.signIn,
                 style: TextStyles.headingStyle,
               ),
-              SizedBox(
-                height: CustomPadding.mediumSpace,
+              Gap(
+                CustomPadding.mediumSpace,
               ),
               Text(
                 AppTexts.signInDescription,
                 style: TextStyles.hintStyleDefault,
               ),
-              SizedBox(
-                height: CustomPadding.defaultSpace,
+              Gap(
+                CustomPadding.defaultSpace,
               ),
               CustomTextfield(
                 controller: _emailController,
@@ -107,8 +108,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 hintText: AppTexts.hintEmail,
                 obscureText: false,
               ), //email
-              SizedBox(
-                height: CustomPadding.defaultSpace,
+              Gap(
+                CustomPadding.defaultSpace,
               ),
               CustomTextfield(
                 controller: _passwordController,
@@ -116,8 +117,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 hintText: AppTexts.hintPassword,
                 obscureText: true,
               ),
-              SizedBox(
-                height: CustomPadding.mediumSpace,
+              Gap(
+                CustomPadding.mediumSpace,
               ),
               Align(
                 alignment: Alignment.centerRight,
@@ -132,8 +133,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ),
-              SizedBox(
-                height: CustomPadding.bigSpace,
+              Gap(
+                CustomPadding.bigSpace,
               ),
               ElevatedButton(
                 //sign in button
@@ -142,8 +143,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   AppTexts.signIn,
                 ),
               ),
-              SizedBox(
-                height: CustomPadding.bigSpace,
+              Gap(
+                CustomPadding.bigSpace,
               ),
               Row(
                 // Divider
@@ -168,8 +169,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ],
               ),
-              SizedBox(
-                height: CustomPadding.bigSpace,
+              Gap(
+                CustomPadding.bigSpace,
               ),
               CustomShadow(
                 // Google Sign In
@@ -185,8 +186,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   icon: SvgPicture.asset(AssetImport.googleLogo),
                 ),
               ),
-              SizedBox(
-                height: CustomPadding.defaultSpace,
+              Gap(
+                CustomPadding.defaultSpace,
               ),
               CustomShadow(
                 // Apple Sign In
@@ -204,16 +205,16 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ),
-              SizedBox(
-                height: CustomPadding.bigSpace,
+              Gap(
+                CustomPadding.bigSpace,
               ),
               Row(
                 // Redirection to sign up page if user doesn't have an account
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(AppTexts.newHere, style: TextStyles.hintStyleMedium),
-                  SizedBox(
-                    width: CustomPadding.smallSpace,
+                  Gap(
+                    CustomPadding.smallSpace,
                   ),
                   GestureDetector(
                     onTap: () {
@@ -232,7 +233,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   )
                 ],
               ),
-              SizedBox(height: CustomPadding.smallSpace),
+              Gap(CustomPadding.smallSpace),
             ],
           ),
         ),

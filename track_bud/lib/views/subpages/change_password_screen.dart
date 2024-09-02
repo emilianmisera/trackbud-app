@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfield_widget.dart';
@@ -38,14 +39,14 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 AppTexts.changePassword,
                 style: TextStyles.headingStyle,
               ),
-              SizedBox(height: CustomPadding.mediumSpace),
+              Gap(CustomPadding.mediumSpace),
 
               // Description text
               Text(
                 AppTexts.changePasswordDesscribtion,
                 style: TextStyles.hintStyleDefault,
               ),
-              SizedBox(height: CustomPadding.bigSpace),
+              Gap(CustomPadding.bigSpace),
 
               // Current password text field
               CustomTextfield(
@@ -53,7 +54,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 hintText: AppTexts.currentPasswordHint,
                 controller: _currentPasswordController,
               ),
-              SizedBox(height: CustomPadding.mediumSpace),
+              Gap(CustomPadding.mediumSpace),
 
               // Forgot password link
               Align(
@@ -70,7 +71,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                   ),
                 ),
               ),
-              SizedBox(height: CustomPadding.defaultSpace),
+              Gap(CustomPadding.defaultSpace),
 
               // New password text field
               CustomTextfield(
@@ -78,7 +79,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 hintText: AppTexts.hintPassword,
                 controller: _passwordController,
               ),
-              SizedBox(height: CustomPadding.defaultSpace),
+              Gap(CustomPadding.defaultSpace),
 
               // Confirm new password text field
               CustomTextfield(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/strings.dart';
@@ -43,7 +44,7 @@ class _MonthlyExpenseState extends State<MonthlyExpense> {
             // Remaining amount
             Text('50,00€', style: TextStyles.headingStyle),
             Text(AppTexts.remainingText, style: TextStyles.hintStyleDefault),
-            SizedBox(height: CustomPadding.smallSpace),
+            Gap(CustomPadding.smallSpace),
 
             // Progress bar
             LinearPercentIndicator(
@@ -56,17 +57,17 @@ class _MonthlyExpenseState extends State<MonthlyExpense> {
               animateFromLastPercent: true,
               animation: true,
             ),
-            SizedBox(height: CustomPadding.smallSpace),
+            Gap(CustomPadding.smallSpace),
 
             // Expense details
             Row(
               children: [
                 Text('250€', style: TextStyles.regularStyleMedium),
-                SizedBox(width: 3),
+                Gap(3),
                 Text('von', style: TextStyles.hintStyleDefault),
-                SizedBox(width: 3),
+                Gap(3),
                 Text('400€', style: TextStyles.regularStyleMedium),
-                SizedBox(width: 3),
+                Gap(3),
                 Text('ausgegeben', style: TextStyles.hintStyleDefault),
               ],
             )

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfield_widget.dart';
@@ -59,8 +60,8 @@ class _DatePickerState extends State<DatePicker> {
           AppTexts.date,
           style: TextStyles.regularStyleMedium,
         ),
-        SizedBox(
-          height: CustomPadding.mediumSpace,
+        Gap(
+          CustomPadding.mediumSpace,
         ),
         Row(
           children: [
@@ -110,8 +111,8 @@ class _DatePickerState extends State<DatePicker> {
                 minimumSize: Size(Constants.height, Constants.height),
               ),
             ),
-            SizedBox(
-              width: CustomPadding.mediumSpace,
+            Gap(
+              CustomPadding.mediumSpace,
             ),
             // Time picker button
             TextButton(

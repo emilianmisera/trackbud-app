@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:track_bud/models/user_model.dart';
 import 'package:track_bud/services/firestore_service.dart';
 import 'package:track_bud/utils/constants.dart';
@@ -83,9 +84,7 @@ class _DebtsScreenState extends State<DebtsScreen> {
                     width: MediaQuery.sizeOf(context).width / 2 - Constants.infoTileSpace),
               ],
             ),
-            SizedBox(
-              height: CustomPadding.defaultSpace,
-            ),
+            Gap(CustomPadding.defaultSpace),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -106,9 +105,7 @@ class _DebtsScreenState extends State<DebtsScreen> {
                 ),
               ],
             ),
-            SizedBox(
-              height: CustomPadding.mediumSpace,
-            ),
+            Gap(CustomPadding.mediumSpace),
             if (_isLoading)
               Center(child: CircularProgressIndicator())
             else if (_friends.isEmpty)
@@ -119,14 +116,12 @@ class _DebtsScreenState extends State<DebtsScreen> {
                     .map((friend) => Column(
                           children: [
                             FriendCard(friend: friend),
-                            SizedBox(height: CustomPadding.smallSpace), // Abstand zwischen den Karten
+                            Gap(CustomPadding.smallSpace), // Abstand zwischen den Karten
                           ],
                         ))
                     .toList(),
               ),
-            SizedBox(
-              height: CustomPadding.defaultSpace,
-            ),
+            Gap(CustomPadding.defaultSpace),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -147,9 +142,7 @@ class _DebtsScreenState extends State<DebtsScreen> {
                 ),
               ],
             ),
-            SizedBox(
-              height: CustomPadding.mediumSpace,
-            ),
+            Gap(CustomPadding.mediumSpace),
             GroupCard()
           ],
         ),

@@ -1,10 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:track_bud/models/user_model.dart';
+import 'package:gap/gap.dart';
 import 'package:track_bud/services/auth/auth_service.dart';
-import 'package:track_bud/services/dependency_injector.dart';
-import 'package:track_bud/services/sqlite_service.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfield_widget.dart';
@@ -103,9 +100,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   AppTexts.deleteAccDescribtion,
                   style: TextStyles.hintStyleDefault,
                 ),
-                SizedBox(
-                  height: CustomPadding.defaultSpace,
-                ),
+                Gap(CustomPadding.defaultSpace),
                 CustomTextfield(
                   name: AppTexts.password,
                   obscureText: true,
@@ -113,9 +108,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   controller: _passwordController,
                   autofocus: true,
                 ),
-                SizedBox(
-                  height: CustomPadding.defaultSpace,
-                ),
+                Gap(CustomPadding.defaultSpace),
                 ElevatedButton(
                   onPressed: () {
                     _handleAccountDeletion(context);
@@ -215,34 +208,26 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: CustomPadding.mediumSpace,
-                ),
+                Gap(CustomPadding.mediumSpace),
                 Center(
                     child: Text(
                   // FirstName
                   currentUserName,
                   style: TextStyles.titleStyleMedium,
                 )),
-                SizedBox(
-                  height: CustomPadding.smallSpace,
-                ),
+                Gap(CustomPadding.smallSpace),
                 Center(
                     child: Text(
                   //email
                   currentUserEmail,
                   style: TextStyles.hintStyleDefault,
                 )),
-                SizedBox(
-                  height: CustomPadding.bigbigSpace,
-                ),
+                Gap(CustomPadding.bigbigSpace),
                 Text(
                   AppTexts.preferences,
                   style: TextStyles.regularStyleMedium,
                 ),
-                SizedBox(
-                  height: CustomPadding.defaultSpace,
-                ),
+                Gap(CustomPadding.defaultSpace),
                 CustomShadow(
                   // edit Profile Button
                   child: TextButton.icon(
@@ -267,9 +252,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: CustomPadding.mediumSpace,
-                ),
+                Gap(CustomPadding.mediumSpace),
                 CustomShadow(
                   // accAdjustment button
                   child: TextButton.icon(
@@ -291,9 +274,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: CustomPadding.mediumSpace,
-                ),
+                Gap(CustomPadding.mediumSpace),
                 CustomShadow(
                   // notification button
                   child: TextButton.icon(
@@ -315,9 +296,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: CustomPadding.mediumSpace,
-                ),
+                Gap(CustomPadding.mediumSpace),
                 CustomShadow(
                   // aboutTrackbut button
                   child: TextButton.icon(
@@ -339,9 +318,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: CustomPadding.mediumSpace,
-                ),
+                Gap(CustomPadding.mediumSpace),
                 CustomShadow(
                   // Logout Button
                   child: TextButton.icon(
@@ -356,9 +333,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: CustomPadding.mediumSpace,
-                ),
+                Gap(CustomPadding.mediumSpace),
                 CustomShadow(
                   // delete Account Button
                   child: TextButton.icon(

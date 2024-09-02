@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:gap/gap.dart';
 import 'package:track_bud/utils/adding_options.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/group_widget.dart';
@@ -148,7 +149,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> w
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: CustomPadding.mediumSpace),
+                    Gap(CustomPadding.mediumSpace),
                     Center(
                       child: Container(
                         // grabber
@@ -160,7 +161,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> w
                         ),
                       ),
                     ),
-                    SizedBox(height: CustomPadding.defaultSpace),
+                    Gap(CustomPadding.defaultSpace),
                     ElevatedButton(
                         onPressed: () {
                           Navigator.pop(context); // Close the bottom sheet
@@ -171,7 +172,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> w
                           );
                         },
                         child: Text('Neue Transaktion hinzufügen')),
-                    SizedBox(height: CustomPadding.mediumSpace),
+                    Gap(CustomPadding.mediumSpace),
                     ElevatedButton(
                         onPressed: () {
                           Navigator.pop(context); // Close the bottom sheet
@@ -184,7 +185,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> w
                           );
                         },
                         child: Text('Neuen Freundessplit hinzufügen')),
-                    SizedBox(height: CustomPadding.mediumSpace),
+                    Gap(CustomPadding.mediumSpace),
                     ElevatedButton(
                       onPressed: () {
                         Navigator.pop(context);

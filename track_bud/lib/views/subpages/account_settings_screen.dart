@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:track_bud/utils/buttons_widget.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/strings.dart';
@@ -41,9 +42,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                 AppTexts.budget,
                 style: TextStyles.regularStyleMedium,
               ),
-              SizedBox(
-                height: CustomPadding.mediumSpace,
-              ),
+              Gap(CustomPadding.mediumSpace),
               AccAdjustmentButton(
                   //BankAccount
                   icon: AssetImport.changeAmount,
@@ -56,9 +55,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                       ),
                     );
                   }),
-              SizedBox(
-                height: CustomPadding.mediumSpace,
-              ),
+              Gap(CustomPadding.mediumSpace),
               AccAdjustmentButton(
                   // Budget Goal
                   icon: AssetImport.target,
@@ -71,23 +68,19 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                       ),
                     );
                   }),
-              SizedBox(
-                height: CustomPadding.mediumSpace,
-              ),
+              Gap(CustomPadding.mediumSpace),
               AccAdjustmentWidget(
                 // Currency
                 icon: AssetImport.settings,
                 name: AppTexts.changeCurrency,
                 widget: CurrencyDropdown(), // Dropdown for changing currency
               ),
-              SizedBox(height: CustomPadding.defaultSpace),
+              Gap(CustomPadding.defaultSpace),
               Text(
                 AppTexts.appearance,
                 style: TextStyles.regularStyleMedium,
               ),
-              SizedBox(
-                height: CustomPadding.mediumSpace,
-              ),
+              Gap(CustomPadding.mediumSpace),
               AccAdjustmentWidget(
                 // DarkMode
                 icon: AssetImport.mode,

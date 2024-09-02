@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:gap/gap.dart';
 import 'package:simple_shadow/simple_shadow.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/strings.dart';
@@ -41,9 +42,7 @@ class CustomTextfield extends StatelessWidget {
           name,
           style: TextStyles.regularStyleMedium,
         ),
-        SizedBox(
-          height: CustomPadding.mediumSpace,
-        ),
+        Gap(CustomPadding.mediumSpace),
         CustomShadow(
           child: Container(
             width: width ?? double.infinity,

@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:track_bud/utils/buttons_widget.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/date_picker.dart';
@@ -97,9 +98,7 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
             children: [
               // Text field for transaction title
               CustomTextfield(name: AppTexts.title, hintText: AppTexts.hintTitle, controller: _titleController),
-              SizedBox(
-                height: CustomPadding.defaultSpace,
-              ),
+              Gap(CustomPadding.defaultSpace),
               // Row containing amount and date fields
               Row(
                 children: [
@@ -115,39 +114,29 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
                     ),
                     type: TextInputType.numberWithOptions(decimal: true),
                   ),
-                  SizedBox(
-                    width: CustomPadding.defaultSpace,
-                  ),
+                  Gap(CustomPadding.defaultSpace),
 
                   DatePicker(onDateTimeChanged: _onDateTimeChanged)
                 ],
               ),
-              SizedBox(
-                height: CustomPadding.defaultSpace,
-              ),
+              Gap(CustomPadding.defaultSpace),
               // Category section
               Text(
                 AppTexts.categorie,
                 style: TextStyles.regularStyleMedium,
               ),
-              SizedBox(
-                height: CustomPadding.mediumSpace,
-              ),
+              Gap(CustomPadding.mediumSpace),
               // Display either expense or income categories based on current segment
               _currentSegment == 0
                   ? CategoriesExpense(onCategorySelected: _onCategorySelected)
                   : CategoriesIncome(onCategorySelected: _onCategorySelected),
-              SizedBox(
-                height: CustomPadding.defaultSpace,
-              ),
+              Gap(CustomPadding.defaultSpace),
               // Recurrence section
               Text(
                 AppTexts.recurry,
                 style: TextStyles.regularStyleMedium,
               ),
-              SizedBox(
-                height: CustomPadding.mediumSpace,
-              ),
+              Gap(CustomPadding.mediumSpace),
               // Dropdown for selecting recurrence frequency
               CustomDropDown(
                 list: [
@@ -169,9 +158,7 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
                   });
                 },
               ),
-              SizedBox(
-                height: CustomPadding.defaultSpace,
-              ),
+              Gap(CustomPadding.defaultSpace),
               // Note text field
               CustomTextfield(
                 name: AppTexts.note,
@@ -179,9 +166,7 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
                 controller: _noteController,
                 isMultiline: true,
               ),
-              SizedBox(
-                height: CustomPadding.defaultSpace,
-              ),
+              Gap(CustomPadding.defaultSpace),
             ],
           ),
         ),

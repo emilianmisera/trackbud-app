@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:track_bud/models/user_model.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/strings.dart';
@@ -85,15 +86,15 @@ class FriendProfileDetails extends StatelessWidget {
             AppTexts.debts,
             style: TextStyles.regularStyleDefault,
           ),
-          SizedBox(
-            height: CustomPadding.mediumSpace,
+          Gap(
+            CustomPadding.mediumSpace,
           ),
 
           // TODO: add Amount Box to display debt amount
           // This should be implemented to show the actual debt amount
 
-          SizedBox(
-            height: CustomPadding.defaultSpace,
+          Gap(
+            CustomPadding.defaultSpace,
           ),
 
           // Shared groups section
@@ -101,8 +102,8 @@ class FriendProfileDetails extends StatelessWidget {
             AppTexts.sameGroups,
             style: TextStyles.regularStyleDefault,
           ),
-          SizedBox(
-            height: CustomPadding.mediumSpace,
+          Gap(
+            CustomPadding.mediumSpace,
           ),
 
           // TODO: add same Groups

@@ -59,7 +59,7 @@ class DynamicBottomSheet extends StatelessWidget {
           ),
           child: Column(
             children: [
-              SizedBox(height: CustomPadding.mediumSpace),
+              Gap(CustomPadding.mediumSpace),
               Center(
                 child: Container(
                   // grabber
@@ -71,7 +71,7 @@ class DynamicBottomSheet extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: CustomPadding.defaultSpace),
+              Gap(CustomPadding.defaultSpace),
               Expanded(
                 child: SingleChildScrollView(
                   controller: scrollController,

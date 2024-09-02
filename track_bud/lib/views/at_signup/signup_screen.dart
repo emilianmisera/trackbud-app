@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:track_bud/services/auth/auth_service.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/strings.dart';
@@ -90,52 +91,40 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 AppTexts.signUp,
                 style: TextStyles.headingStyle,
               ),
-              SizedBox(
-                height: CustomPadding.mediumSpace,
-              ),
+              Gap(CustomPadding.mediumSpace),
               Text(
                 AppTexts.signUpDescription,
                 style: TextStyles.hintStyleDefault,
               ),
-              SizedBox(
-                height: CustomPadding.defaultSpace,
-              ),
+              Gap(CustomPadding.defaultSpace),
               CustomTextfield(
                 //first name
                 controller: _nameController,
                 name: AppTexts.firstName,
                 hintText: AppTexts.hintFirstName, obscureText: false,
               ),
-              SizedBox(
-                height: CustomPadding.defaultSpace,
-              ),
+              Gap(CustomPadding.defaultSpace),
               CustomTextfield(
                 //email
                 controller: _emailController,
                 name: AppTexts.email,
                 hintText: AppTexts.hintEmail, obscureText: false,
               ),
-              SizedBox(
-                height: CustomPadding.defaultSpace,
-              ),
+              Gap(CustomPadding.defaultSpace),
               CustomTextfield(
                 //password
                 controller: _passwordController,
                 name: AppTexts.password,
                 hintText: AppTexts.hintPassword, obscureText: true,
               ),
-              SizedBox(
-                height: CustomPadding.defaultSpace,
-              ),
+              Gap(CustomPadding.defaultSpace),
               CustomTextfield(
                 //confirm Password
                 controller: _confirmationPasswordController,
                 name: AppTexts.confirmPassword,
                 hintText: AppTexts.confirmPassword, obscureText: true,
               ), //password
-              SizedBox(
-                height: CustomPadding.bigSpace,
-              ),
+              Gap(CustomPadding.bigSpace),
               ElevatedButton(
                 //sign up button
                 onPressed: _handleSignUp,
@@ -143,17 +132,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   AppTexts.signUp,
                 ),
               ),
-              SizedBox(
-                height: CustomPadding.bigSpace,
-              ),
+              Gap(CustomPadding.bigSpace),
               Row(
                 // Redirection to sign in page if user does have an account
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(AppTexts.notNew, style: TextStyles.hintStyleMedium),
-                  SizedBox(
-                    width: CustomPadding.smallSpace,
-                  ),
+                  Gap(CustomPadding.smallSpace),
                   GestureDetector(
                     onTap: () {
                       Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => LoginScreen()));
@@ -171,7 +156,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   )
                 ],
               ),
-              SizedBox(height: CustomPadding.smallSpace),
+              Gap(CustomPadding.smallSpace),
             ],
           ),
         ),

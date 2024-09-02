@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/monthly_expense.dart';
 import 'package:track_bud/utils/overview_chart.dart';
@@ -26,9 +27,9 @@ class _OverviewPageState extends State<OverviewScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ExpensesOverview(),
-              SizedBox(height: CustomPadding.defaultSpace,),
+              Gap(CustomPadding.defaultSpace),
               MonthlyExpense(),
-              SizedBox(height: CustomPadding.defaultSpace,),
+              Gap(CustomPadding.defaultSpace),
               OverviewDebtsWidget()
             ],
           ),

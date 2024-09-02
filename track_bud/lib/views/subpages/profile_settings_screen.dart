@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:gap/gap.dart';
 import 'package:track_bud/models/user_model.dart';
 import 'package:track_bud/services/dependency_injector.dart';
 import 'package:track_bud/services/firestore_service.dart';
@@ -245,13 +246,13 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                   ),
                 ),
               ),
-              SizedBox(height: CustomPadding.bigSpace),
+              Gap(CustomPadding.bigSpace),
               // First Name text field
               CustomTextfield(name: AppTexts.firstName, hintText: '', controller: _nameController),
-              SizedBox(height: CustomPadding.defaultSpace),
+              Gap(CustomPadding.defaultSpace),
               // Email text field (locked)
               LockedEmailTextfield(email: currentUserEmail),
-              SizedBox(height: CustomPadding.defaultSpace),
+              Gap(CustomPadding.defaultSpace),
               // Change Email button
               AccAdjustmentButton(
                 icon: AssetImport.email,
@@ -324,8 +325,8 @@ class LockedEmailTextfield extends StatelessWidget {
           AppTexts.email,
           style: TextStyles.regularStyleMedium,
         ),
-        SizedBox(
-          height: CustomPadding.mediumSpace,
+        Gap(
+          CustomPadding.mediumSpace,
         ),
         // Custom shadow container for email display
         CustomShadow(

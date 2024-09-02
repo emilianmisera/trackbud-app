@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:track_bud/controller/user_controller.dart';
 import 'package:track_bud/trackbud.dart';
 import 'package:track_bud/utils/constants.dart';
@@ -110,15 +111,15 @@ class _BudgetGoalScreenState extends State<BudgetGoalScreen> {
                 AppTexts.budgetGoalHeading, // The heading text
                 style: TextStyles.headingStyle, // The text style for the heading.
               ),
-              SizedBox(
-                height: CustomPadding.mediumSpace, // Adds vertical space between the heading and the next element.
+              Gap(
+                CustomPadding.mediumSpace // Adds vertical space between the heading and the next element.
               ),
               Text(
                 AppTexts.budgetGoalDescription, // The description text
                 style: TextStyles.hintStyleDefault, // The text style for the description.
               ),
-              SizedBox(
-                height: CustomPadding.bigSpace, // Adds more vertical space before the next element.
+              Gap(
+                CustomPadding.bigSpace // Adds more vertical space before the next element.
               ),
               // A custom TextField widget for entering the amount of money, using the controller defined above.
               TextFieldAmountOfMoney(controller: _moneyController),

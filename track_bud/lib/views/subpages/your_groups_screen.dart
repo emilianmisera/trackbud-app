@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfield_widget.dart';
@@ -36,7 +37,7 @@ class _YourGroupsScreenState extends State<YourGroupsScreen> {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: CustomPadding.mediumSpace),
+                    Gap(CustomPadding.mediumSpace),
                     Center(
                       child: Container(
                         // grabber
@@ -48,21 +49,21 @@ class _YourGroupsScreenState extends State<YourGroupsScreen> {
                         ),
                       ),
                     ),
-                    SizedBox(height: CustomPadding.defaultSpace),
+                    Gap(CustomPadding.defaultSpace),
                     Center(
                       child: Text(
                         AppTexts.addGroup,
                         style: TextStyles.regularStyleMedium,
                       ),
                     ),
-                    SizedBox(height: CustomPadding.mediumSpace),
+                    Gap(CustomPadding.mediumSpace),
                     GroupTitle(createGroupController: _createGroupController),
-                    SizedBox(height: CustomPadding.defaultSpace),
+                    Gap(CustomPadding.defaultSpace),
                     Text(
                       AppTexts.addMembers,
                       style: TextStyles.regularStyleMedium,
                     ),
-                    SizedBox(height: CustomPadding.mediumSpace),
+                    Gap(CustomPadding.mediumSpace),
                     //TODO: add ListView with Friends
                     Spacer(),
                     ElevatedButton(
@@ -110,9 +111,7 @@ class _YourGroupsScreenState extends State<YourGroupsScreen> {
                 controller: _searchController,
                 onChanged: _searchGroup,
               ),
-              SizedBox(
-                height: CustomPadding.defaultSpace,
-              ),
+              Gap(CustomPadding.defaultSpace),
               // List of Friends
               /*
               Expanded(
@@ -153,9 +152,7 @@ class GroupTitle extends StatelessWidget {
             color: Colors.red,
           ),
         ),
-        SizedBox(
-          width: CustomPadding.mediumSpace,
-        ),
+        Gap(CustomPadding.mediumSpace),
         Expanded(
           child: CustomShadow(
             child: Container(

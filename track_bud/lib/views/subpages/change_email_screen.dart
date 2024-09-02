@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:track_bud/services/auth/auth_service.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/strings.dart';
@@ -55,23 +56,19 @@ class _ChangeEmailScreenState extends State<ChangeEmailScreen> {
                 AppTexts.changeEmail,
                 style: TextStyles.headingStyle,
               ),
-              SizedBox(
-                height: CustomPadding.mediumSpace,
-              ),
+              Gap(CustomPadding.mediumSpace),
               // The description text
               Text(
                 AppTexts.changeEmailDesscribtion,
                 style: TextStyles.hintStyleDefault,
               ),
-              SizedBox(
-                height: CustomPadding.bigSpace,
-              ),
+              Gap(CustomPadding.bigSpace),
               // Current email text field
               CustomTextfield(name: AppTexts.currentEmail, hintText: AppTexts.currentEmailHint, controller: _currentEmailController),
-              SizedBox(height: CustomPadding.defaultSpace),
+              Gap(CustomPadding.defaultSpace),
               // new email text field
               CustomTextfield(name: AppTexts.newEmail, hintText: AppTexts.newEmailHint, controller: _newEmailController),
-              SizedBox(height: CustomPadding.defaultSpace),
+              Gap(CustomPadding.defaultSpace),
               // Confirm Password text field
               CustomTextfield(name: AppTexts.password, obscureText: true, hintText: AppTexts.hintPassword, controller: _passwordController),
             ],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/date_picker.dart';
 import 'package:track_bud/utils/enums/categories.dart';
@@ -100,7 +101,7 @@ class _ExpensesOverviewState extends State<ExpensesOverview> {
                 });
               },
             ),
-            SizedBox(height: CustomPadding.defaultSpace),
+            Gap(CustomPadding.defaultSpace),
             // Display current time period and total expense
             Row(
               children: [
@@ -119,13 +120,13 @@ class _ExpensesOverviewState extends State<ExpensesOverview> {
               '${_calculateTotalExpenses().toStringAsFixed(2)}',
               style: TextStyles.headingStyle,
             ),
-            SizedBox(height: CustomPadding.mediumSpace),
+            Gap(CustomPadding.mediumSpace),
             // Display overview of transactions by category
             TransactionOverview(
               isOverview: true,
               categoryAmounts: categoryAmounts,
             ),
-            SizedBox(height: CustomPadding.defaultSpace),
+            Gap(CustomPadding.defaultSpace),
             // Display animated expenses chart
             ExpensesChart(
               currentTimeUnit: _currentTimeUnit,
@@ -256,7 +257,7 @@ class _ExpensesChartState extends State<ExpensesChart> with SingleTickerProvider
                 ),
               ),
             ),
-            SizedBox(height: 4),
+            Gap(4),
             Text(
               days[index],
               style: TextStyles.hintStyleDefault.copyWith(
@@ -318,7 +319,7 @@ class _ExpensesChartState extends State<ExpensesChart> with SingleTickerProvider
                   ),
                 ),
               ),
-              SizedBox(height: 4),
+              Gap(4),
               // Blue circle indicator for current day
               if (isCurrentDay)
                 Container(
@@ -372,7 +373,7 @@ class _ExpensesChartState extends State<ExpensesChart> with SingleTickerProvider
                 ),
               ),
             ),
-            SizedBox(height: 4),
+            Gap(4),
             Text(
               months[index],
               style: TextStyles.hintStyleDefault.copyWith(

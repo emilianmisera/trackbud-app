@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:gap/gap.dart';
 import 'package:track_bud/controller/transaction_controller.dart';
 import 'package:track_bud/utils/buttons_widget.dart';
 import 'package:track_bud/utils/constants.dart';
@@ -166,7 +167,7 @@ class _DonutChartState extends State<DonutChart> {
             ),
           ),
         ),
-        SizedBox(height: CustomPadding.defaultSpace),
+        Gap(CustomPadding.defaultSpace),
 
         // Category names display
         Column(
@@ -317,7 +318,7 @@ class CategoryTile extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text('${totalAmount.toStringAsFixed(2)}€', style: TextStyles.regularStyleMedium),
-              SizedBox(height: 8),
+              Gap(8),
               Text('$transactionCount Transaktionen', style: TextStyles.hintStyleDefault.copyWith(fontSize: TextStyles.fontSizeHint)),
             ],
           ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:gap/gap.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/views/at_signup/login_screen.dart';
@@ -21,23 +22,17 @@ class OnboardingScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start, //alignment to left
           children: [
             SvgPicture.asset(AssetImport.textLogo),
-            SizedBox(
-              height: CustomPadding.defaultSpace,
-            ),
+            Gap(CustomPadding.defaultSpace),
             Text(
               AppTexts.onboardingTitle,
               style: TextStyles.introductionStyle,
             ),
-            SizedBox(
-              height: CustomPadding.mediumSpace,
-            ),
+            Gap(CustomPadding.mediumSpace),
             Text(
               AppTexts.onboardingDescription,
               style: TextStyles.regularStyleDefault,
             ),
-            SizedBox(
-              height: CustomPadding.defaultSpace,
-            ),
+            Gap(CustomPadding.defaultSpace),
             ElevatedButton(
               //sign in button
               onPressed: () {
