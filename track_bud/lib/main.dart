@@ -4,7 +4,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:track_bud/firebase_options.dart';
-import 'package:track_bud/services/auth/authgate.dart';
 import 'package:track_bud/trackbud.dart';
 import 'package:track_bud/utils/color_theme.dart';
 import 'package:track_bud/utils/constants.dart';

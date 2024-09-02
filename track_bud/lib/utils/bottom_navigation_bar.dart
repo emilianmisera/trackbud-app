@@ -11,20 +11,16 @@ import 'package:flutter_svg/flutter_svg.dart';
 // custom bottom navigation bar
 // ignore: must_be_immutable
 class CustomBottomNavigationBar extends StatefulWidget {
-  int currentIndex;
   void Function(int) onTap;
 
-  CustomBottomNavigationBar({
-    Key? key,
-    required this.onTap,
-    required this.currentIndex,
-  }) : super(key: key);
+  CustomBottomNavigationBar({required this.onTap, super.key});
 
   @override
   State<CustomBottomNavigationBar> createState() => _CustomBottomNavigationBarState();
 }
 
 class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> with SingleTickerProviderStateMixin {
+  int _currentIndex = 0;
   // Animation controller for managing the animation of tab icons
   late AnimationController _animationController;
   // List of animations for each tab
@@ -59,9 +55,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> w
 
   // Handle tab tap event
   void _onTap(int index) {
-    setState(() {
-      widget.currentIndex = index;
-    });
+    setState(() => _currentIndex = index);
     // Reset and start the animation
     _animationController.reset();
     _animationController.forward();
@@ -76,7 +70,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> w
       builder: (context, child) {
         return Transform.scale(
           // Scale the active tab
-          scale: widget.currentIndex == index ? _animations[index].value : 1.0,
+          scale: _currentIndex == index ? _animations[index].value : 1.0,
           child: InkWell(
             onTap: () => _onTap(index),
             child: Container(
@@ -86,7 +80,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> w
               child: Center(
                 child: SvgPicture.asset(
                   // Change icon based on whether this tab is selected
-                  widget.currentIndex == index ? active : inactive,
+                  _currentIndex == index ? active : inactive,
                 ),
               ),
             ),
