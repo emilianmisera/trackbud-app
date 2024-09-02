@@ -1,4 +1,4 @@
-import 'dart:async';
+/*import 'dart:async';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import '../models/user_model.dart';
@@ -280,4 +280,4 @@ class SQLiteService {
     final db = await database;
     db.close();
   }
-}
+}*/

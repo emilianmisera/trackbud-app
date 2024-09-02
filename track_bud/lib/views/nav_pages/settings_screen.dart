@@ -34,7 +34,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   void initState() {
     super.initState();
-    _loadCurrentUserInfo();
+    //_loadCurrentUserInfo();
   }
 
   // SIGNOUT METHOD
@@ -145,7 +145,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     _passwordController.clear();
     Navigator.of(context).pop();
   }
-
+/*
   Future<void> _loadCurrentUserInfo() async {
     final String userId = FirebaseAuth.instance.currentUser?.uid ?? '';
 
@@ -183,7 +183,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       );
     }
   }
-
+*/
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -257,7 +257,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         ),
                       );
                       if (shouldReload == true) {
-                        _loadCurrentUserInfo();
+                        //_loadCurrentUserInfo();
                       }
                     },
                     label: Text(

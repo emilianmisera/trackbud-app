@@ -78,7 +78,6 @@ class _TransactionListState extends State<TransactionList> {
       // Notify the parent widget about the change
       widget.onTransactionChangeCallback();
     } catch (e) {
-      // Fehlerbehandlung
       print('Fehler beim Laden der Transaktionen: $e');
       setState(() {
         _isLoading = false;

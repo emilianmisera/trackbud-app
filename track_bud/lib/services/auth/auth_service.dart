@@ -36,12 +36,12 @@ class AuthService {
       await _sendEmailVerification(userCredential);
       await _createUserRecord(userCredential, name);
       // Synchronisiere die Daten sofort nach der Registrierung
-      SyncService syncService = SyncService(
+      /*SyncService syncService = SyncService(
         SQLiteService(),
         FirestoreService(),
         CacheService(),
       );
-      await syncService.syncData(userCredential.user!.uid);
+      await syncService.syncData(userCredential.user!.uid);*/
     } on FirebaseAuthException catch (error) {
       _showErrorSnackBar(context, error.message ?? error.code);
     }
@@ -80,14 +80,14 @@ class AuthService {
       BuildContext context, UserCredential userCredential) async {
     String userId = userCredential.user!.uid;
 
-    SyncService syncService = SyncService(
+    /*SyncService syncService = SyncService(
       SQLiteService(),
       FirestoreService(),
       CacheService(),
     ); //create instance of syncService
 
     await syncService.syncData(userId); //syncs data from firestore and local DB
-
+*/
     UserModel? userData = await _firestoreService.getUserData(userId);
 
     if (userData != null) {
@@ -162,8 +162,7 @@ class AuthService {
 
         // Create an action code settings to control the verification process
         ActionCodeSettings actionCodeSettings = ActionCodeSettings(
-          url:
-              'https://yourapp.page.link/verify-email', // Replace with your dynamic link or app link
+          url: 'https://yourapp.page.link/verify-email', // Replace with your dynamic link or app link
           handleCodeInApp: true,
           androidPackageName: 'com.yourapp.package',
           androidInstallApp: true,
