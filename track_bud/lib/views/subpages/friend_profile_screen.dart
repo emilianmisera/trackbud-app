@@ -19,7 +19,7 @@ class _FriendProfileScreenState extends State<FriendProfileScreen> {
       appBar: AppBar(
         title: Text(
           widget.friend.name,
-          style: CustomTextStyle.regularStyleMedium,
+          style: TextStyles.regularStyleMedium,
         ),
       ),
       body: SingleChildScrollView(
@@ -46,7 +46,7 @@ class _FriendProfileScreenState extends State<FriendProfileScreen> {
               SizedBox(height: CustomPadding.defaultSpace),
               Text(
                 AppTexts.history,
-                style: CustomTextStyle.regularStyleMedium,
+                style: TextStyles.regularStyleMedium,
               ),
               SizedBox(
                 height: CustomPadding.mediumSpace,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class CustomTextStyle {
+class TextStyles {
   static const String fontFamily = "Outfit";
 
   static const double fontSizeSegmentControl = 13;

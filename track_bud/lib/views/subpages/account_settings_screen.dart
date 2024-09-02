@@ -26,7 +26,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppTexts.accAdjustments, style: CustomTextStyle.regularStyleMedium),
+        title: Text(AppTexts.accAdjustments, style: TextStyles.regularStyleMedium),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -39,7 +39,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
             children: [
               Text(
                 AppTexts.budget,
-                style: CustomTextStyle.regularStyleMedium,
+                style: TextStyles.regularStyleMedium,
               ),
               SizedBox(
                 height: CustomPadding.mediumSpace,
@@ -83,7 +83,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
               SizedBox(height: CustomPadding.defaultSpace),
               Text(
                 AppTexts.appearance,
-                style: CustomTextStyle.regularStyleMedium,
+                style: TextStyles.regularStyleMedium,
               ),
               SizedBox(
                 height: CustomPadding.mediumSpace,
@@ -145,7 +145,7 @@ class _CurrencyDropdownState extends State<CurrencyDropdown> {
           }),
           value: value,
           elevation: 0,
-          style: CustomTextStyle.regularStyleMedium,
+          style: TextStyles.regularStyleMedium,
           dropdownColor: CustomColor.white,
           iconSize: 0.0,
         ),
@@ -157,7 +157,7 @@ class _CurrencyDropdownState extends State<CurrencyDropdown> {
         value: item,
         child: Text(
           item,
-          style: CustomTextStyle.titleStyleMedium,
+          style: TextStyles.titleStyleMedium,
         ),
       );
 }

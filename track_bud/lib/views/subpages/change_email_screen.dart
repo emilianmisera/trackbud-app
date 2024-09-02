@@ -53,7 +53,7 @@ class _ChangeEmailScreenState extends State<ChangeEmailScreen> {
               // The heading text
               Text(
                 AppTexts.changeEmail,
-                style: CustomTextStyle.headingStyle,
+                style: TextStyles.headingStyle,
               ),
               SizedBox(
                 height: CustomPadding.mediumSpace,
@@ -61,7 +61,7 @@ class _ChangeEmailScreenState extends State<ChangeEmailScreen> {
               // The description text
               Text(
                 AppTexts.changeEmailDesscribtion,
-                style: CustomTextStyle.hintStyleDefault,
+                style: TextStyles.hintStyleDefault,
               ),
               SizedBox(
                 height: CustomPadding.bigSpace,

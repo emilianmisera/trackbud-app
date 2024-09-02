@@ -41,8 +41,8 @@ class _MonthlyExpenseState extends State<MonthlyExpense> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Remaining amount
-            Text('50,00€', style: CustomTextStyle.headingStyle),
-            Text(AppTexts.remainingText, style: CustomTextStyle.hintStyleDefault),
+            Text('50,00€', style: TextStyles.headingStyle),
+            Text(AppTexts.remainingText, style: TextStyles.hintStyleDefault),
             SizedBox(height: CustomPadding.smallSpace),
 
             // Progress bar
@@ -61,13 +61,13 @@ class _MonthlyExpenseState extends State<MonthlyExpense> {
             // Expense details
             Row(
               children: [
-                Text('250€', style: CustomTextStyle.regularStyleMedium),
+                Text('250€', style: TextStyles.regularStyleMedium),
                 SizedBox(width: 3),
-                Text('von', style: CustomTextStyle.hintStyleDefault),
+                Text('von', style: TextStyles.hintStyleDefault),
                 SizedBox(width: 3),
-                Text('400€', style: CustomTextStyle.regularStyleMedium),
+                Text('400€', style: TextStyles.regularStyleMedium),
                 SizedBox(width: 3),
-                Text('ausgegeben', style: CustomTextStyle.hintStyleDefault),
+                Text('ausgegeben', style: TextStyles.hintStyleDefault),
               ],
             )
           ],

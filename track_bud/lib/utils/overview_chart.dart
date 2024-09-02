@@ -14,7 +14,7 @@ class ExpensesOverview extends StatefulWidget {
 
 class _ExpensesOverviewState extends State<ExpensesOverview> {
   int _currentTimeUnit = 1;
-  
+
   late List<double> _dailyExpenses;
   late List<double> _weeklyExpenses;
   late List<double> _monthlyExpenses;
@@ -32,52 +32,53 @@ class _ExpensesOverviewState extends State<ExpensesOverview> {
     _monthlyExpenses = List.generate(31, (index) => index < 7 ? _weeklyExpenses[index] : 0);
     _yearlyExpenses = List.generate(12, (index) => index == 0 ? _weeklyExpenses.reduce((a, b) => a + b) : 0);
   }
-  
+
   Map<String, double> categoryAmounts = {
-  'Lebensmittel': 3.0,
-  'Drogerie': 2.0,
-  'Restaurant': 1.00,
-  'Mobilität': 0.0,
-  'Shopping': 0.0,
-  'Unterkunft': 0.0,
-  'Entertainment': 0.0,
-  'Geschenk': 0.0,
-  'Sonstiges': 0.0,
-};
+    'Lebensmittel': 3.0,
+    'Drogerie': 2.0,
+    'Restaurant': 1.00,
+    'Mobilität': 0.0,
+    'Shopping': 0.0,
+    'Unterkunft': 0.0,
+    'Entertainment': 0.0,
+    'Geschenk': 0.0,
+    'Sonstiges': 0.0,
+  };
 
-List<double> _getCurrentExpenses() {
-  switch (_currentTimeUnit) {
-    case 0:
-      return _dailyExpenses;
-    case 1:
-      return _weeklyExpenses;
-    case 2:
-      return _monthlyExpenses;
-    case 3:
-      return _yearlyExpenses;
-    default:
-      return _weeklyExpenses;
+  List<double> _getCurrentExpenses() {
+    switch (_currentTimeUnit) {
+      case 0:
+        return _dailyExpenses;
+      case 1:
+        return _weeklyExpenses;
+      case 2:
+        return _monthlyExpenses;
+      case 3:
+        return _yearlyExpenses;
+      default:
+        return _weeklyExpenses;
+    }
   }
-}
 
-String _getTimeUnitText() {
-  switch (_currentTimeUnit) {
-    case 0:
-      return 'Heute';
-    case 1:
-      return 'Diese Woche';
-    case 2:
-      return 'Dieser Monat';
-    case 3:
-      return 'Dieses Jahr';
-    default:
-      return 'Diese Woche';
+  String _getTimeUnitText() {
+    switch (_currentTimeUnit) {
+      case 0:
+        return 'Heute';
+      case 1:
+        return 'Diese Woche';
+      case 2:
+        return 'Dieser Monat';
+      case 3:
+        return 'Dieses Jahr';
+      default:
+        return 'Diese Woche';
+    }
   }
-}
 
-double _calculateTotalExpenses() {
-  return categoryAmounts.values.reduce((a, b) => a + b);
-}
+  double _calculateTotalExpenses() {
+    return categoryAmounts.values.reduce((a, b) => a + b);
+  }
+
   @override
   Widget build(BuildContext context) {
     return CustomShadow(
@@ -107,13 +108,16 @@ double _calculateTotalExpenses() {
                   color: CustomColor.hintColor,
                   size: 15,
                 ),
-                Text(_getTimeUnitText(), style: CustomTextStyle.hintStyleDefault,),
+                Text(
+                  _getTimeUnitText(),
+                  style: TextStyles.hintStyleDefault,
+                ),
               ],
             ),
             Text(
-  '${_calculateTotalExpenses().toStringAsFixed(2)}',
-  style: CustomTextStyle.headingStyle,
-),
+              '${_calculateTotalExpenses().toStringAsFixed(2)}',
+              style: TextStyles.headingStyle,
+            ),
             SizedBox(height: CustomPadding.mediumSpace),
             // Display overview of transactions by category
             TransactionOverview(
@@ -182,8 +186,7 @@ class _ExpensesChartState extends State<ExpensesChart> with SingleTickerProvider
   void didUpdateWidget(ExpensesChart oldWidget) {
     super.didUpdateWidget(oldWidget);
     // Restart animation if time unit or expenses change
-    if (oldWidget.currentTimeUnit != widget.currentTimeUnit ||
-        oldWidget.expenses != widget.expenses) {
+    if (oldWidget.currentTimeUnit != widget.currentTimeUnit || oldWidget.expenses != widget.expenses) {
       _startAnimation();
     }
   }
@@ -255,7 +258,7 @@ class _ExpensesChartState extends State<ExpensesChart> with SingleTickerProvider
             SizedBox(height: 4),
             Text(
               days[index],
-              style: CustomTextStyle.hintStyleDefault.copyWith(
+              style: TextStyles.hintStyleDefault.copyWith(
                 fontSize: 14,
                 color: isCurrentDay ? CustomColor.bluePrimary : null,
               ),
@@ -371,7 +374,7 @@ class _ExpensesChartState extends State<ExpensesChart> with SingleTickerProvider
             SizedBox(height: 4),
             Text(
               months[index],
-              style: CustomTextStyle.hintStyleDefault.copyWith(
+              style: TextStyles.hintStyleDefault.copyWith(
                 fontSize: 13,
                 color: isCurrentMonth ? CustomColor.bluePrimary : null,
               ),
@@ -392,13 +395,10 @@ class _ExpensesChartState extends State<ExpensesChart> with SingleTickerProvider
     );
   }
 
-
   // Get expenses for a week
   List<double> _getWeekExpenses() {
     // Return the first 7 expenses if available, otherwise fill with zeros
-    return widget.expenses.length >= 7
-        ? widget.expenses.sublist(0, 7)
-        : List.filled(7, 0.0);
+    return widget.expenses.length >= 7 ? widget.expenses.sublist(0, 7) : List.filled(7, 0.0);
   }
 
   // Get expenses for a month
@@ -420,9 +420,7 @@ class _ExpensesChartState extends State<ExpensesChart> with SingleTickerProvider
       int startWeek = i * 4;
       int endWeek = (i + 1) * 4;
       if (endWeek > weeksInYear) endWeek = weeksInYear;
-      for (int j = startWeek * 7;
-          j < endWeek * 7 && j < widget.expenses.length;
-          j++) {
+      for (int j = startWeek * 7; j < endWeek * 7 && j < widget.expenses.length; j++) {
         yearExpenses[i] += widget.expenses[j];
       }
     }

@@ -92,7 +92,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         builder: (context) => AlertDialog(
           title: Text(
             AppTexts.deleteAcc,
-            style: CustomTextStyle.titleStyleMedium,
+            style: TextStyles.titleStyleMedium,
           ),
           content: Container(
             width: double.infinity,
@@ -101,7 +101,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               children: [
                 Text(
                   AppTexts.deleteAccDescribtion,
-                  style: CustomTextStyle.hintStyleDefault,
+                  style: TextStyles.hintStyleDefault,
                 ),
                 SizedBox(
                   height: CustomPadding.defaultSpace,
@@ -222,7 +222,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     child: Text(
                   // FirstName
                   currentUserName,
-                  style: CustomTextStyle.titleStyleMedium,
+                  style: TextStyles.titleStyleMedium,
                 )),
                 SizedBox(
                   height: CustomPadding.smallSpace,
@@ -231,14 +231,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     child: Text(
                   //email
                   currentUserEmail,
-                  style: CustomTextStyle.hintStyleDefault,
+                  style: TextStyles.hintStyleDefault,
                 )),
                 SizedBox(
                   height: CustomPadding.bigbigSpace,
                 ),
                 Text(
                   AppTexts.preferences,
-                  style: CustomTextStyle.regularStyleMedium,
+                  style: TextStyles.regularStyleMedium,
                 ),
                 SizedBox(
                   height: CustomPadding.defaultSpace,
@@ -259,7 +259,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     },
                     label: Text(
                       AppTexts.editProfile,
-                      style: CustomTextStyle.regularStyleDefault,
+                      style: TextStyles.regularStyleDefault,
                     ),
                     icon: SvgPicture.asset(AssetImport.userEdit),
                     style: ButtonStyle(
@@ -283,7 +283,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     },
                     label: Text(
                       AppTexts.accAdjustments,
-                      style: CustomTextStyle.regularStyleDefault,
+                      style: TextStyles.regularStyleDefault,
                     ),
                     icon: SvgPicture.asset(AssetImport.settings),
                     style: ButtonStyle(
@@ -307,7 +307,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     },
                     label: Text(
                       AppTexts.notifications,
-                      style: CustomTextStyle.regularStyleDefault,
+                      style: TextStyles.regularStyleDefault,
                     ),
                     icon: SvgPicture.asset(AssetImport.bell),
                     style: ButtonStyle(
@@ -331,7 +331,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     },
                     label: Text(
                       AppTexts.abouTrackBud,
-                      style: CustomTextStyle.regularStyleDefault,
+                      style: TextStyles.regularStyleDefault,
                     ),
                     icon: SvgPicture.asset(AssetImport.info),
                     style: ButtonStyle(
@@ -348,7 +348,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     onPressed: _signOut,
                     label: Text(
                       AppTexts.logout,
-                      style: CustomTextStyle.regularStyleDefault,
+                      style: TextStyles.regularStyleDefault,
                     ),
                     icon: SvgPicture.asset(AssetImport.logout),
                     style: ButtonStyle(
@@ -368,9 +368,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     label: Text(
                       AppTexts.deleteAcc,
                       style: TextStyle(
-                        fontFamily: CustomTextStyle.fontFamily,
-                        fontSize: CustomTextStyle.fontSizeDefault,
-                        fontWeight: CustomTextStyle.fontWeightDefault,
+                        fontFamily: TextStyles.fontFamily,
+                        fontSize: TextStyles.fontSizeDefault,
+                        fontWeight: TextStyles.fontWeightDefault,
                         color: CustomColor.red,
                       ),
                     ),

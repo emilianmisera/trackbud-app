@@ -308,18 +308,17 @@ class CategoryTile extends StatelessWidget {
                 height: 25,
                 fit: BoxFit.scaleDown,
               )),
-          title: Text(title, style: CustomTextStyle.regularStyleMedium),
+          title: Text(title, style: TextStyles.regularStyleMedium),
           subtitle: Text(
             '${percentage.toStringAsFixed(1)}%',
-            style: CustomTextStyle.hintStyleDefault.copyWith(fontSize: CustomTextStyle.fontSizeHint),
+            style: TextStyles.hintStyleDefault.copyWith(fontSize: TextStyles.fontSizeHint),
           ),
           trailing: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Text('${totalAmount.toStringAsFixed(2)}€', style: CustomTextStyle.regularStyleMedium),
+              Text('${totalAmount.toStringAsFixed(2)}€', style: TextStyles.regularStyleMedium),
               SizedBox(height: 8),
-              Text('$transactionCount Transaktionen',
-                  style: CustomTextStyle.hintStyleDefault.copyWith(fontSize: CustomTextStyle.fontSizeHint)),
+              Text('$transactionCount Transaktionen', style: TextStyles.hintStyleDefault.copyWith(fontSize: TextStyles.fontSizeHint)),
             ],
           ),
           minVerticalPadding: CustomPadding.defaultSpace,

@@ -23,7 +23,7 @@ class AccAdjustmentButton extends StatelessWidget {
         children: [
           Text(
             name,
-            style: CustomTextStyle.regularStyleDefault,
+            style: TextStyles.regularStyleDefault,
           ),
           widget ?? Icon(Icons.arrow_forward_ios)
         ],
@@ -90,7 +90,7 @@ class _CustomDropDownState extends State<CustomDropDown> {
             }
           },
           value: value,
-          style: CustomTextStyle.regularStyleMedium,
+          style: TextStyles.regularStyleMedium,
           dropdownStyleData: DropdownStyleData(
             maxHeight: 200,
             width: widget.dropdownWidth ?? 150,
@@ -123,7 +123,7 @@ class _CustomDropDownState extends State<CustomDropDown> {
         value: item,
         child: Text(
           item,
-          style: CustomTextStyle.regularStyleDefault.copyWith(
+          style: TextStyles.regularStyleDefault.copyWith(
             color: value == item ? CustomColor.bluePrimary : null,
           ),
         ),
@@ -163,7 +163,7 @@ class _AccAdjustmentWidgetState extends State<AccAdjustmentWidget> {
               ),
               Text(
                 widget.name,
-                style: CustomTextStyle.regularStyleDefault,
+                style: TextStyles.regularStyleDefault,
               ),
             ],
           ),
@@ -203,13 +203,13 @@ class _CustomSegmentControlState extends State<CustomSegmentControl> {
               alignment: Alignment.center,
               child: Text(AppTexts.expense,
                   // Applies different styles based on selection state
-                  style: _sliding == 0 ? CustomTextStyle.slidingStyleExpense : CustomTextStyle.slidingStyleDefault),
+                  style: _sliding == 0 ? TextStyles.slidingStyleExpense : TextStyles.slidingStyleDefault),
             ),
             // Income segment
             1: Container(
               height: MediaQuery.sizeOf(context).height * Constants.segmentedControlHeight,
               alignment: Alignment.center,
-              child: Text(AppTexts.income, style: _sliding == 1 ? CustomTextStyle.slidingStyleIncome : CustomTextStyle.slidingStyleDefault),
+              child: Text(AppTexts.income, style: _sliding == 1 ? TextStyles.slidingStyleIncome : TextStyles.slidingStyleDefault),
             ),
           },
           groupValue: _sliding, // Current selection

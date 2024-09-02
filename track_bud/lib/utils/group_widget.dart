@@ -42,17 +42,17 @@ class GroupCard extends StatelessWidget {
               // Friend's name
               title: Text(
                 'Name',
-                style: CustomTextStyle.regularStyleMedium,
+                style: TextStyles.regularStyleMedium,
               ),
               // Debt or credit information
               subtitle: Text(
                 '**Date**',
-                style: CustomTextStyle.hintStyleDefault.copyWith(fontSize: CustomTextStyle.fontSizeHint),
+                style: TextStyles.hintStyleDefault.copyWith(fontSize: TextStyles.fontSizeHint),
               ),
               // Navigation arrow
               trailing: Text(
                 '10000,00€',
-                style: CustomTextStyle.regularStyleMedium,
+                style: TextStyles.regularStyleMedium,
               ),
               minVerticalPadding: 0,
               contentPadding: EdgeInsets.zero,
@@ -126,7 +126,7 @@ class DebtsInformation extends StatelessWidget {
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: colors.backgroundColor),
       child: Text(
         amount ?? 'quitt',
-        style: CustomTextStyle.regularStyleMedium.copyWith(color: colors.textColor),
+        style: TextStyles.regularStyleMedium.copyWith(color: colors.textColor),
       ),
     );
   }
@@ -185,12 +185,12 @@ class _DebtsOverviewState extends State<DebtsOverview> {
               children: [
                 Text(
                   AppTexts.payOffDebts,
-                  style: CustomTextStyle.titleStyleMedium,
+                  style: TextStyles.titleStyleMedium,
                 ),
                 SizedBox(height: CustomPadding.defaultSpace),
                 Text(
                   AppTexts.payOffDebts,
-                  style: CustomTextStyle.hintStyleDefault,
+                  style: TextStyles.hintStyleDefault,
                 ),
                 SizedBox(height: CustomPadding.defaultSpace),
                 ByAmountTile(),
@@ -230,7 +230,7 @@ class _DebtsOverviewState extends State<DebtsOverview> {
               // Friend's name
               title: Text(
                 'Name',
-                style: CustomTextStyle.regularStyleMedium,
+                style: TextStyles.regularStyleMedium,
               ),
               // Debt or credit information
 
@@ -251,7 +251,7 @@ class _DebtsOverviewState extends State<DebtsOverview> {
               },
               child: Text(
                 AppTexts.payOff,
-                style: CustomTextStyle.regularStyleDefault.copyWith(
+                style: TextStyles.regularStyleDefault.copyWith(
                   color: CustomColor.bluePrimary,
                 ),
               ),
@@ -289,7 +289,7 @@ class Group extends StatelessWidget {
           ),
           title: Text(
             'Gruppenname',
-            style: CustomTextStyle.regularStyleMedium,
+            style: TextStyles.regularStyleMedium,
           ),
           trailing: Container(
             width: 65,

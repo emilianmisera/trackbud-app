@@ -82,14 +82,14 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
             children: [
               Text(
                 AppTexts.resetPassword,
-                style: CustomTextStyle.headingStyle,
+                style: TextStyles.headingStyle,
               ),
               SizedBox(
                 height: CustomPadding.mediumSpace,
               ),
               Text(
                 AppTexts.resetPasswordDescription,
-                style: CustomTextStyle.hintStyleDefault,
+                style: TextStyles.hintStyleDefault,
               ),
               SizedBox(
                 height: CustomPadding.defaultSpace,

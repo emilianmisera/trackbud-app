@@ -91,7 +91,7 @@ class _DebtsScreenState extends State<DebtsScreen> {
               children: [
                 Text(
                   AppTexts.friends,
-                  style: CustomTextStyle.regularStyleMedium,
+                  style: TextStyles.regularStyleMedium,
                 ),
                 GestureDetector(
                   onTap: () {
@@ -102,7 +102,7 @@ class _DebtsScreenState extends State<DebtsScreen> {
                       ),
                     );
                   },
-                  child: Text(AppTexts.showAll, style: CustomTextStyle.regularStyleMedium.copyWith(color: CustomColor.bluePrimary)),
+                  child: Text(AppTexts.showAll, style: TextStyles.regularStyleMedium.copyWith(color: CustomColor.bluePrimary)),
                 ),
               ],
             ),
@@ -132,7 +132,7 @@ class _DebtsScreenState extends State<DebtsScreen> {
               children: [
                 Text(
                   AppTexts.groups,
-                  style: CustomTextStyle.regularStyleMedium,
+                  style: TextStyles.regularStyleMedium,
                 ),
                 GestureDetector(
                   onTap: () {
@@ -143,7 +143,7 @@ class _DebtsScreenState extends State<DebtsScreen> {
                       ),
                     );
                   },
-                  child: Text(AppTexts.showAll, style: CustomTextStyle.regularStyleMedium.copyWith(color: CustomColor.bluePrimary)),
+                  child: Text(AppTexts.showAll, style: TextStyles.regularStyleMedium.copyWith(color: CustomColor.bluePrimary)),
                 ),
               ],
             ),

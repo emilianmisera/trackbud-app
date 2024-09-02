@@ -52,7 +52,7 @@ class _YourGroupsScreenState extends State<YourGroupsScreen> {
                     Center(
                       child: Text(
                         AppTexts.addGroup,
-                        style: CustomTextStyle.regularStyleMedium,
+                        style: TextStyles.regularStyleMedium,
                       ),
                     ),
                     SizedBox(height: CustomPadding.mediumSpace),
@@ -60,7 +60,7 @@ class _YourGroupsScreenState extends State<YourGroupsScreen> {
                     SizedBox(height: CustomPadding.defaultSpace),
                     Text(
                       AppTexts.addMembers,
-                      style: CustomTextStyle.regularStyleMedium,
+                      style: TextStyles.regularStyleMedium,
                     ),
                     SizedBox(height: CustomPadding.mediumSpace),
                     //TODO: add ListView with Friends
@@ -82,7 +82,7 @@ class _YourGroupsScreenState extends State<YourGroupsScreen> {
       appBar: AppBar(
         title: Text(
           AppTexts.yourGroups,
-          style: CustomTextStyle.regularStyleMedium,
+          style: TextStyles.regularStyleMedium,
         ),
         actions: [
           IconButton(
@@ -169,7 +169,7 @@ class GroupTitle extends StatelessWidget {
                     horizontal: CustomPadding.defaultSpace,
                     vertical: CustomPadding.contentHeightSpace,
                   ),
-                  hintStyle: CustomTextStyle.hintStyleDefault,
+                  hintStyle: TextStyles.hintStyleDefault,
                   floatingLabelBehavior: FloatingLabelBehavior.never,
                   filled: true,
                   fillColor: CustomColor.white,

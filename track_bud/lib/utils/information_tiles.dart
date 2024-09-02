@@ -43,13 +43,13 @@ class InfoTile extends StatelessWidget {
             // Display the amount
             Text(
               '$amount€',
-              style: CustomTextStyle.headingStyle.copyWith(color: color),
+              style: TextStyles.headingStyle.copyWith(color: color),
             ),
             SizedBox(height: CustomPadding.mediumSpace),
             // Display the title
             Text(
               title,
-              style: CustomTextStyle.regularStyleDefault,
+              style: TextStyles.regularStyleDefault,
             ),
           ],
         ),
@@ -132,17 +132,17 @@ class _TransactionTileState extends State<TransactionTile> {
           // Transaction title
           title: Text(
             widget.title,
-            style: CustomTextStyle.regularStyleMedium,
+            style: TextStyles.regularStyleMedium,
           ),
           // Transaction timestamp
           subtitle: Text(
             DateFormat('dd.MM.yyyy, HH:mm').format(widget.date),
-            style: CustomTextStyle.hintStyleDefault.copyWith(fontSize: CustomTextStyle.fontSizeHint),
+            style: TextStyles.hintStyleDefault.copyWith(fontSize: TextStyles.fontSizeHint),
           ),
           // Transaction amount
           trailing: Text(
             '${widget.amount.toStringAsFixed(2)}€',
-            style: CustomTextStyle.regularStyleMedium,
+            style: TextStyles.regularStyleMedium,
           ),
           minVerticalPadding: CustomPadding.defaultSpace,
           onTap: _openTransaction,
@@ -210,7 +210,7 @@ class _TransactionDetailState extends State<TransactionDetail> {
                         children: [
                           SvgPicture.asset(AssetImport.edit),
                           SizedBox(width: CustomPadding.mediumSpace),
-                          Text('Bearbeiten', style: CustomTextStyle.regularStyleDefault),
+                          Text('Bearbeiten', style: TextStyles.regularStyleDefault),
                         ],
                       ),
                     ),
@@ -221,7 +221,7 @@ class _TransactionDetailState extends State<TransactionDetail> {
                         children: [
                           SvgPicture.asset(AssetImport.trash, color: CustomColor.red),
                           SizedBox(width: CustomPadding.mediumSpace),
-                          Text('Löschen', style: CustomTextStyle.regularStyleDefault.copyWith(color: CustomColor.red)),
+                          Text('Löschen', style: TextStyles.regularStyleDefault.copyWith(color: CustomColor.red)),
                         ],
                       ),
                     ),
@@ -253,7 +253,7 @@ class _TransactionDetailState extends State<TransactionDetail> {
                 child: Center(
                   child: Text(
                     AppTexts.expense,
-                    style: CustomTextStyle.regularStyleMedium,
+                    style: TextStyles.regularStyleMedium,
                   ),
                 ),
               ),
@@ -280,12 +280,12 @@ class _TransactionDetailState extends State<TransactionDetail> {
                 children: [
                   Text(
                     widget.title,
-                    style: CustomTextStyle.titleStyleMedium,
+                    style: TextStyles.titleStyleMedium,
                   ),
                   SizedBox(height: CustomPadding.smallSpace),
                   Text(
                     DateFormat('dd.MM.yyyy, HH:mm').format(widget.date),
-                    style: CustomTextStyle.hintStyleDefault,
+                    style: TextStyles.hintStyleDefault,
                   ),
                 ],
               ),
@@ -295,7 +295,7 @@ class _TransactionDetailState extends State<TransactionDetail> {
           // Amount section
           Text(
             AppTexts.amount,
-            style: CustomTextStyle.regularStyleDefault,
+            style: TextStyles.regularStyleDefault,
           ),
           SizedBox(height: CustomPadding.mediumSpace),
           Row(
@@ -310,7 +310,7 @@ class _TransactionDetailState extends State<TransactionDetail> {
                   ),
                   child: Text(
                     '${widget.amount.toStringAsFixed(2)}€',
-                    style: CustomTextStyle.regularStyleMedium,
+                    style: TextStyles.regularStyleMedium,
                   ),
                 ),
               ),
@@ -325,7 +325,7 @@ class _TransactionDetailState extends State<TransactionDetail> {
                   ),
                   child: Text(
                     widget.recurrenceType,
-                    style: CustomTextStyle.regularStyleDefault.copyWith(color: CustomColor.bluePrimary),
+                    style: TextStyles.regularStyleDefault.copyWith(color: CustomColor.bluePrimary),
                   ),
                 ),
               ),
@@ -335,7 +335,7 @@ class _TransactionDetailState extends State<TransactionDetail> {
           // Note section
           Text(
             AppTexts.note,
-            style: CustomTextStyle.regularStyleDefault,
+            style: TextStyles.regularStyleDefault,
           ),
           SizedBox(height: CustomPadding.mediumSpace),
           CustomShadow(
@@ -348,7 +348,7 @@ class _TransactionDetailState extends State<TransactionDetail> {
               ),
               child: Text(
                 widget.notes,
-                style: CustomTextStyle.regularStyleDefault,
+                style: TextStyles.regularStyleDefault,
               ),
             ),
           ),

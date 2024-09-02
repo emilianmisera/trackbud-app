@@ -39,7 +39,7 @@ class CustomTextfield extends StatelessWidget {
       children: [
         Text(
           name,
-          style: CustomTextStyle.regularStyleMedium,
+          style: TextStyles.regularStyleMedium,
         ),
         SizedBox(
           height: CustomPadding.mediumSpace,
@@ -67,7 +67,7 @@ class CustomTextfield extends StatelessWidget {
                   horizontal: CustomPadding.defaultSpace,
                   vertical: CustomPadding.contentHeightSpace,
                 ),
-                hintStyle: CustomTextStyle.hintStyleDefault,
+                hintStyle: TextStyles.hintStyleDefault,
                 floatingLabelBehavior: FloatingLabelBehavior.never,
                 filled: true,
                 fillColor: CustomColor.white,
@@ -113,7 +113,7 @@ class TextFieldAmountOfMoney extends StatelessWidget {
     return CustomShadow(
       child: TextFormField(
         controller: controller,
-        style: CustomTextStyle.headingStyle,
+        style: TextStyles.headingStyle,
         keyboardType: TextInputType.numberWithOptions(decimal: true),
         textAlign: TextAlign.center,
         inputFormatters: [
@@ -123,14 +123,14 @@ class TextFieldAmountOfMoney extends StatelessWidget {
           hintText: hintText ?? AppTexts.lines,
           suffix: Text(
             "€",
-            style: suffixStyle ?? CustomTextStyle.headingStyle,
+            style: suffixStyle ?? TextStyles.headingStyle,
           ),
           contentPadding: EdgeInsets.only(
               left: CustomPadding.defaultSpace,
               right: CustomPadding.defaultSpace,
               top: CustomPadding.contentHeightSpace,
               bottom: CustomPadding.contentHeightSpace),
-          hintStyle: CustomTextStyle.hintStyleHeading,
+          hintStyle: TextStyles.hintStyleHeading,
           floatingLabelBehavior: FloatingLabelBehavior.never,
           filled: true,
           fillColor: CustomColor.white,
@@ -178,7 +178,7 @@ class SearchTextfield extends StatelessWidget {
               horizontal: CustomPadding.defaultSpace,
               vertical: CustomPadding.contentHeightSpace,
             ),
-            hintStyle: CustomTextStyle.hintStyleDefault,
+            hintStyle: TextStyles.hintStyleDefault,
             floatingLabelBehavior: FloatingLabelBehavior.never,
             filled: true,
             fillColor: CustomColor.white,
@@ -211,7 +211,7 @@ class TextFieldByAmount extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controller,
-      style: inputStyle ?? CustomTextStyle.headingStyle,
+      style: inputStyle ?? TextStyles.headingStyle,
       keyboardType: TextInputType.numberWithOptions(),
       textAlign: TextAlign.center,
       inputFormatters: [
@@ -221,14 +221,14 @@ class TextFieldByAmount extends StatelessWidget {
         hintText: hintText ?? AppTexts.lines,
         suffix: Text(
           "€",
-          style: suffixStyle ?? CustomTextStyle.headingStyle,
+          style: suffixStyle ?? TextStyles.headingStyle,
         ),
         contentPadding: EdgeInsets.only(
             left: CustomPadding.defaultSpace,
             right: CustomPadding.defaultSpace,
             top: CustomPadding.contentHeightSpace,
             bottom: CustomPadding.contentHeightSpace),
-        hintStyle: CustomTextStyle.hintStyleHeading,
+        hintStyle: TextStyles.hintStyleHeading,
         floatingLabelBehavior: FloatingLabelBehavior.never,
         filled: true,
         fillColor: CustomColor.white,

@@ -184,7 +184,7 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
     return Scaffold(
       // App bar with title
       appBar: AppBar(
-        title: Text(AppTexts.editProfile, style: CustomTextStyle.regularStyleMedium),
+        title: Text(AppTexts.editProfile, style: TextStyles.regularStyleMedium),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -322,7 +322,7 @@ class LockedEmailTextfield extends StatelessWidget {
         // Email label
         Text(
           AppTexts.email,
-          style: CustomTextStyle.regularStyleMedium,
+          style: TextStyles.regularStyleMedium,
         ),
         SizedBox(
           height: CustomPadding.mediumSpace,
@@ -346,7 +346,7 @@ class LockedEmailTextfield extends StatelessWidget {
                 // Display the email
                 Text(
                   email,
-                  style: CustomTextStyle.hintStyleDefault,
+                  style: TextStyles.hintStyleDefault,
                 ),
                 // Lock icon to indicate the field is not editable
                 SvgPicture.asset(AssetImport.lock)

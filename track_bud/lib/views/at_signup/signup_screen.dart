@@ -88,14 +88,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
             children: [
               Text(
                 AppTexts.signUp,
-                style: CustomTextStyle.headingStyle,
+                style: TextStyles.headingStyle,
               ),
               SizedBox(
                 height: CustomPadding.mediumSpace,
               ),
               Text(
                 AppTexts.signUpDescription,
-                style: CustomTextStyle.hintStyleDefault,
+                style: TextStyles.hintStyleDefault,
               ),
               SizedBox(
                 height: CustomPadding.defaultSpace,
@@ -150,7 +150,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 // Redirection to sign in page if user does have an account
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(AppTexts.notNew, style: CustomTextStyle.hintStyleMedium),
+                  Text(AppTexts.notNew, style: TextStyles.hintStyleMedium),
                   SizedBox(
                     width: CustomPadding.smallSpace,
                   ),
@@ -161,8 +161,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     child: Text(
                       AppTexts.signIn,
                       style: TextStyle(
-                        fontSize: CustomTextStyle.fontSizeDefault,
-                        fontWeight: CustomTextStyle.fontWeightMedium,
+                        fontSize: TextStyles.fontSizeDefault,
+                        fontWeight: TextStyles.fontWeightMedium,
                         color: CustomColor.bluePrimary,
                         decoration: TextDecoration.underline,
                         decorationColor: CustomColor.bluePrimary,

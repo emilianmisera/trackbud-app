@@ -57,7 +57,7 @@ class _DatePickerState extends State<DatePicker> {
         // Date label
         Text(
           AppTexts.date,
-          style: CustomTextStyle.regularStyleMedium,
+          style: TextStyles.regularStyleMedium,
         ),
         SizedBox(
           height: CustomPadding.mediumSpace,
@@ -98,7 +98,7 @@ class _DatePickerState extends State<DatePicker> {
                   child: Center(
                     child: Text(
                       _getDateText(_dateTime),
-                      style: CustomTextStyle.regularStyleDefault.copyWith(
+                      style: TextStyles.regularStyleDefault.copyWith(
                         color: CustomColor.bluePrimary,
                       ),
                     ),
@@ -150,7 +150,7 @@ class _DatePickerState extends State<DatePicker> {
                   child: Center(
                     child: Text(
                       '${_dateTime.hour.toString().padLeft(2, '0')}:${_dateTime.minute.toString().padLeft(2, '0')}', // if time is single digit, 0 gets added
-                      style: CustomTextStyle.regularStyleDefault.copyWith(
+                      style: TextStyles.regularStyleDefault.copyWith(
                         color: CustomColor.bluePrimary,
                       ),
                     ),
@@ -198,26 +198,26 @@ class _SelectTimeUnitState extends State<SelectTimeUnit> {
               alignment: Alignment.center,
               child: Text(AppTexts.day,
                   // Applies different styles based on selection state
-                  style: _sliding == 0 ? CustomTextStyle.slidingTimeUnitStyleSelected : CustomTextStyle.slidingTimeUnitStyleDefault),
+                  style: _sliding == 0 ? TextStyles.slidingTimeUnitStyleSelected : TextStyles.slidingTimeUnitStyleDefault),
             ),
             // Income segment
             1: Container(
               height: 28,
               alignment: Alignment.center,
               child: Text(AppTexts.week,
-                  style: _sliding == 1 ? CustomTextStyle.slidingTimeUnitStyleSelected : CustomTextStyle.slidingTimeUnitStyleDefault),
+                  style: _sliding == 1 ? TextStyles.slidingTimeUnitStyleSelected : TextStyles.slidingTimeUnitStyleDefault),
             ),
             2: Container(
               height: 28,
               alignment: Alignment.center,
               child: Text(AppTexts.month,
-                  style: _sliding == 2 ? CustomTextStyle.slidingTimeUnitStyleSelected : CustomTextStyle.slidingTimeUnitStyleDefault),
+                  style: _sliding == 2 ? TextStyles.slidingTimeUnitStyleSelected : TextStyles.slidingTimeUnitStyleDefault),
             ),
             3: Container(
               height: 28,
               alignment: Alignment.center,
               child: Text(AppTexts.year,
-                  style: _sliding == 3 ? CustomTextStyle.slidingTimeUnitStyleSelected : CustomTextStyle.slidingTimeUnitStyleDefault),
+                  style: _sliding == 3 ? TextStyles.slidingTimeUnitStyleSelected : TextStyles.slidingTimeUnitStyleDefault),
             ),
           },
           groupValue: _sliding, // Current selection

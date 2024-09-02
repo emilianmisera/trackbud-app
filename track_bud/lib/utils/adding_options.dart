@@ -243,7 +243,7 @@ class _AddTransactionState extends State<AddTransaction> {
             Center(
               child: Text(
                 AppTexts.newTransaction,
-                style: CustomTextStyle.regularStyleMedium,
+                style: TextStyles.regularStyleMedium,
               ),
             ),
             SizedBox(height: CustomPadding.defaultSpace),
@@ -270,7 +270,7 @@ class _AddTransactionState extends State<AddTransaction> {
                   width: MediaQuery.sizeOf(context).width / 3,
                   prefix: Text(
                     _getAmountPrefix(),
-                    style: CustomTextStyle.titleStyleMedium.copyWith(fontWeight: CustomTextStyle.fontWeightDefault),
+                    style: TextStyles.titleStyleMedium.copyWith(fontWeight: TextStyles.fontWeightDefault),
                   ),
                   type: TextInputType.numberWithOptions(decimal: true),
                   inputFormatters: [
@@ -285,7 +285,7 @@ class _AddTransactionState extends State<AddTransaction> {
             SizedBox(height: CustomPadding.defaultSpace),
             Text(
               AppTexts.categorie,
-              style: CustomTextStyle.regularStyleMedium,
+              style: TextStyles.regularStyleMedium,
             ),
             SizedBox(height: CustomPadding.mediumSpace),
             // Category section
@@ -296,7 +296,7 @@ class _AddTransactionState extends State<AddTransaction> {
             SizedBox(height: CustomPadding.defaultSpace),
             Text(
               AppTexts.recurry,
-              style: CustomTextStyle.regularStyleMedium,
+              style: TextStyles.regularStyleMedium,
             ),
             SizedBox(height: CustomPadding.mediumSpace),
             // Dropdown for selecting recurrence frequency
@@ -424,7 +424,7 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
               // Title of the bottom sheet
               child: Text(
                 AppTexts.newSplit,
-                style: CustomTextStyle.regularStyleMedium,
+                style: TextStyles.regularStyleMedium,
               ),
             ),
             SizedBox(height: CustomPadding.defaultSpace),
@@ -442,7 +442,7 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
                   width: MediaQuery.sizeOf(context).width / 3,
                   prefix: Text(
                     '-',
-                    style: CustomTextStyle.titleStyleMedium.copyWith(fontWeight: CustomTextStyle.fontWeightDefault),
+                    style: TextStyles.titleStyleMedium.copyWith(fontWeight: TextStyles.fontWeightDefault),
                   ),
                   type: TextInputType.numberWithOptions(decimal: true),
                   inputFormatters: [
@@ -456,14 +456,14 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
             SizedBox(height: CustomPadding.defaultSpace),
             Text(
               AppTexts.categorie,
-              style: CustomTextStyle.regularStyleMedium,
+              style: TextStyles.regularStyleMedium,
             ),
             SizedBox(height: CustomPadding.mediumSpace),
             CategoriesExpense(onCategorySelected: _onCategorySelected),
             SizedBox(height: CustomPadding.defaultSpace),
             Text(
               AppTexts.payedBy,
-              style: CustomTextStyle.regularStyleMedium,
+              style: TextStyles.regularStyleMedium,
             ),
             SizedBox(height: CustomPadding.mediumSpace),
             // choosing who payed
@@ -599,7 +599,7 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
             Center(
               child: Text(
                 AppTexts.newGroupSplit,
-                style: CustomTextStyle.regularStyleMedium,
+                style: TextStyles.regularStyleMedium,
               ),
             ),
             SizedBox(height: CustomPadding.defaultSpace),
@@ -617,7 +617,7 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
                   width: MediaQuery.sizeOf(context).width / 3,
                   prefix: Text(
                     '-',
-                    style: CustomTextStyle.titleStyleMedium.copyWith(fontWeight: CustomTextStyle.fontWeightDefault),
+                    style: TextStyles.titleStyleMedium.copyWith(fontWeight: TextStyles.fontWeightDefault),
                   ),
                   type: TextInputType.numberWithOptions(decimal: true),
                   inputFormatters: [
@@ -631,7 +631,7 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
             SizedBox(height: CustomPadding.defaultSpace),
             Text(
               AppTexts.categorie,
-              style: CustomTextStyle.regularStyleMedium,
+              style: TextStyles.regularStyleMedium,
             ),
             SizedBox(height: CustomPadding.mediumSpace),
             // choose category
@@ -639,7 +639,7 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
             SizedBox(height: CustomPadding.defaultSpace),
             Text(
               AppTexts.payedBy,
-              style: CustomTextStyle.regularStyleMedium,
+              style: TextStyles.regularStyleMedium,
             ),
             SizedBox(height: CustomPadding.mediumSpace),
             // choosing who payed

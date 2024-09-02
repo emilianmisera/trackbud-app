@@ -20,7 +20,7 @@ class _GroupOverviewScreenState extends State<GroupOverviewScreen> {
       appBar: AppBar(
         title: Text(
           widget.groupName,
-          style: CustomTextStyle.regularStyleMedium,
+          style: TextStyles.regularStyleMedium,
         ),
       ),
       body: SingleChildScrollView(
@@ -52,7 +52,7 @@ class _GroupOverviewScreenState extends State<GroupOverviewScreen> {
               SizedBox(height: CustomPadding.defaultSpace),
               Text(
                 AppTexts.debtsOverview,
-                style: CustomTextStyle.regularStyleMedium,
+                style: TextStyles.regularStyleMedium,
               ),
               SizedBox(
                 height: CustomPadding.mediumSpace,
@@ -61,7 +61,7 @@ class _GroupOverviewScreenState extends State<GroupOverviewScreen> {
               SizedBox(height: CustomPadding.defaultSpace),
               Text(
                 AppTexts.transactionOverview,
-                style: CustomTextStyle.regularStyleMedium,
+                style: TextStyles.regularStyleMedium,
               ),
               SizedBox(
                 height: CustomPadding.mediumSpace,
@@ -84,7 +84,7 @@ class _GroupOverviewScreenState extends State<GroupOverviewScreen> {
               ),
               Text(
                 AppTexts.history,
-                style: CustomTextStyle.regularStyleMedium,
+                style: TextStyles.regularStyleMedium,
               ),
               SizedBox(
                 height: CustomPadding.mediumSpace,

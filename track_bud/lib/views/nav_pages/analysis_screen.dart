@@ -127,7 +127,7 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
               ),
               Text(
                 AppTexts.history,
-                style: CustomTextStyle.regularStyleMedium,
+                style: TextStyles.regularStyleMedium,
               ),
               SizedBox(
                 height: CustomPadding.mediumSpace,

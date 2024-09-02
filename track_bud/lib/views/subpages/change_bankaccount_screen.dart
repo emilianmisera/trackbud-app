@@ -129,14 +129,14 @@ class _ChangeBankaccountScreenState extends State<ChangeBankaccountScreen> {
             children: [
               Text(
                 AppTexts.changeBankAccHeading, // The heading text
-                style: CustomTextStyle.headingStyle, // The text style for the heading.
+                style: TextStyles.headingStyle, // The text style for the heading.
               ),
               SizedBox(
                 height: CustomPadding.mediumSpace, // Adds vertical space between the heading and the next element.
               ),
               Text(
                 AppTexts.changeBankAccDescribtion, // The description text
-                style: CustomTextStyle.hintStyleDefault, // The text style for the description.
+                style: TextStyles.hintStyleDefault, // The text style for the description.
               ),
               SizedBox(
                 height: CustomPadding.bigSpace, // Adds more vertical space before the next element.

@@ -89,14 +89,14 @@ class _LoginScreenState extends State<LoginScreen> {
             children: [
               Text(
                 AppTexts.signIn,
-                style: CustomTextStyle.headingStyle,
+                style: TextStyles.headingStyle,
               ),
               SizedBox(
                 height: CustomPadding.mediumSpace,
               ),
               Text(
                 AppTexts.signInDescription,
-                style: CustomTextStyle.hintStyleDefault,
+                style: TextStyles.hintStyleDefault,
               ),
               SizedBox(
                 height: CustomPadding.defaultSpace,
@@ -128,7 +128,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                   child: Text(
                     AppTexts.forgotPassword,
-                    style: CustomTextStyle.hintStyleMedium,
+                    style: TextStyles.hintStyleMedium,
                   ),
                 ),
               ),
@@ -157,7 +157,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   Text(
                     AppTexts.or,
-                    style: CustomTextStyle.hintStyleMedium,
+                    style: TextStyles.hintStyleMedium,
                   ),
                   Expanded(
                     child: Container(
@@ -211,7 +211,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 // Redirection to sign up page if user doesn't have an account
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(AppTexts.newHere, style: CustomTextStyle.hintStyleMedium),
+                  Text(AppTexts.newHere, style: TextStyles.hintStyleMedium),
                   SizedBox(
                     width: CustomPadding.smallSpace,
                   ),
@@ -222,8 +222,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: Text(
                       AppTexts.signUp,
                       style: TextStyle(
-                        fontSize: CustomTextStyle.fontSizeDefault,
-                        fontWeight: CustomTextStyle.fontWeightMedium,
+                        fontSize: TextStyles.fontSizeDefault,
+                        fontWeight: TextStyles.fontWeightMedium,
                         color: CustomColor.bluePrimary,
                         decoration: TextDecoration.underline,
                         decorationColor: CustomColor.bluePrimary,

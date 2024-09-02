@@ -32,12 +32,12 @@ class FriendCard extends StatelessWidget {
           // Friend's name
           title: Text(
             friend.name,
-            style: CustomTextStyle.regularStyleMedium,
+            style: TextStyles.regularStyleMedium,
           ),
           // Debt or credit information
           subtitle: Text(
             'bekommt insgesamt ...', // "receives in total ..."
-            style: CustomTextStyle.hintStyleDefault.copyWith(fontSize: CustomTextStyle.fontSizeHint),
+            style: TextStyles.hintStyleDefault.copyWith(fontSize: TextStyles.fontSizeHint),
           ),
           // Navigation arrow
           trailing: Icon(
@@ -83,7 +83,7 @@ class FriendProfileDetails extends StatelessWidget {
           // Debts section
           Text(
             AppTexts.debts,
-            style: CustomTextStyle.regularStyleDefault,
+            style: TextStyles.regularStyleDefault,
           ),
           SizedBox(
             height: CustomPadding.mediumSpace,
@@ -99,7 +99,7 @@ class FriendProfileDetails extends StatelessWidget {
           // Shared groups section
           Text(
             AppTexts.sameGroups,
-            style: CustomTextStyle.regularStyleDefault,
+            style: TextStyles.regularStyleDefault,
           ),
           SizedBox(
             height: CustomPadding.mediumSpace,

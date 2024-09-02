@@ -36,14 +36,14 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
               // Heading text
               Text(
                 AppTexts.changePassword,
-                style: CustomTextStyle.headingStyle,
+                style: TextStyles.headingStyle,
               ),
               SizedBox(height: CustomPadding.mediumSpace),
 
               // Description text
               Text(
                 AppTexts.changePasswordDesscribtion,
-                style: CustomTextStyle.hintStyleDefault,
+                style: TextStyles.hintStyleDefault,
               ),
               SizedBox(height: CustomPadding.bigSpace),
 
@@ -66,7 +66,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                   },
                   child: Text(
                     AppTexts.forgotPassword,
-                    style: CustomTextStyle.hintStyleMedium,
+                    style: TextStyles.hintStyleMedium,
                   ),
                 ),
               ),

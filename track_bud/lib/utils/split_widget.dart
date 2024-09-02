@@ -47,7 +47,7 @@ class _SplitButtonState extends State<SplitButton> {
             // Display the text
             Text(
               widget.text,
-              style: CustomTextStyle.hintStyleDefault.copyWith(
+              style: TextStyles.hintStyleDefault.copyWith(
                 color: widget.isSelected ? CustomColor.bluePrimary : CustomColor.hintColor,
               ),
             ),
@@ -90,7 +90,7 @@ class _SplitMethodSelectorState extends State<SplitMethodSelector> {
       children: [
         Text(
           AppTexts.distribution,
-          style: CustomTextStyle.regularStyleMedium,
+          style: TextStyles.regularStyleMedium,
         ),
         SizedBox(height: CustomPadding.mediumSpace),
         Row(
@@ -159,7 +159,7 @@ class _EqualTileState extends State<EqualTile> {
           ),
           title: Text(
             widget.name ?? 'Du',
-            style: CustomTextStyle.regularStyleDefault,
+            style: TextStyles.regularStyleDefault,
           ),
           trailing: widget.friendSplit
               ? SizedBox(
@@ -175,7 +175,7 @@ class _EqualTileState extends State<EqualTile> {
                           borderRadius: BorderRadius.circular(Constants.buttonBorderRadius),
                           border: Border.all(color: CustomColor.grey),
                         ),
-                        child: Text('${widget.splitAmount}€', style: CustomTextStyle.hintStyleDefault),
+                        child: Text('${widget.splitAmount}€', style: TextStyles.hintStyleDefault),
                       ),
                       // Checkbox for friend's split
                       Checkbox(
@@ -203,7 +203,7 @@ class _EqualTileState extends State<EqualTile> {
                     borderRadius: BorderRadius.circular(Constants.buttonBorderRadius),
                     border: Border.all(color: CustomColor.grey),
                   ),
-                  child: Text('${widget.splitAmount}€', style: CustomTextStyle.hintStyleDefault),
+                  child: Text('${widget.splitAmount}€', style: TextStyles.hintStyleDefault),
                 ),
           contentPadding: EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace, vertical: CustomPadding.defaultSpace),
         ),
@@ -292,11 +292,11 @@ class PercentTile extends StatelessWidget {
             ),
             title: Text(
               name ?? 'Du',
-              style: CustomTextStyle.regularStyleMedium,
+              style: TextStyles.regularStyleMedium,
             ),
             subtitle: Text(
               '${sliderValue.round()}% = ${(amount * (sliderValue / 100)).toStringAsFixed(2)}€',
-              style: CustomTextStyle.regularStyleDefault.copyWith(fontSize: CustomTextStyle.fontSizeHint),
+              style: TextStyles.regularStyleDefault.copyWith(fontSize: TextStyles.fontSizeHint),
             ),
           ),
           Slider(
@@ -405,7 +405,7 @@ class _ByAmountTileState extends State<ByAmountTile> {
           ),
           title: Text(
             widget.name ?? 'Du',
-            style: CustomTextStyle.regularStyleDefault,
+            style: TextStyles.regularStyleDefault,
           ),
           trailing: Container(
               width: 80,
@@ -413,8 +413,8 @@ class _ByAmountTileState extends State<ByAmountTile> {
                   border: Border.all(color: CustomColor.grey), borderRadius: BorderRadius.circular(Constants.buttonBorderRadius)),
               child: TextFieldByAmount(
                 controller: _inputController,
-                inputStyle: CustomTextStyle.regularStyleDefault,
-                suffixStyle: CustomTextStyle.regularStyleDefault,
+                inputStyle: TextStyles.regularStyleDefault,
+                suffixStyle: TextStyles.regularStyleDefault,
               )),
           contentPadding: EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace, vertical: CustomPadding.defaultSpace),
         ),

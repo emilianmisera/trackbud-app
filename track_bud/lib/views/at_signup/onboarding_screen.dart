@@ -26,14 +26,14 @@ class OnboardingScreen extends StatelessWidget {
             ),
             Text(
               AppTexts.onboardingTitle,
-              style: CustomTextStyle.introductionStyle,
+              style: TextStyles.introductionStyle,
             ),
             SizedBox(
               height: CustomPadding.mediumSpace,
             ),
             Text(
               AppTexts.onboardingDescription,
-              style: CustomTextStyle.regularStyleDefault,
+              style: TextStyles.regularStyleDefault,
             ),
             SizedBox(
               height: CustomPadding.defaultSpace,

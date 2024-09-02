@@ -18,12 +18,10 @@ class CustomBottomNavigationBar extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<CustomBottomNavigationBar> createState() =>
-      _CustomBottomNavigationBarState();
+  State<CustomBottomNavigationBar> createState() => _CustomBottomNavigationBarState();
 }
 
-class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar>
-    with SingleTickerProviderStateMixin {
+class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> with SingleTickerProviderStateMixin {
   // Animation controller for managing the animation of tab icons
   late AnimationController _animationController;
   // List of animations for each tab
@@ -80,8 +78,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar>
             onTap: () => _onTap(index),
             child: Container(
               // Increased touch area
-              width: MediaQuery.of(context).size.width *
-                  CustomPadding.navbarButtonwidth,
+              width: MediaQuery.of(context).size.width * CustomPadding.navbarButtonwidth,
               height: Constants.height,
               child: Center(
                 child: SvgPicture.asset(
@@ -102,21 +99,25 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar>
         builder: (context) => AlertDialog(
           title: Text(
             'Gruppe auswählen',
-            style: CustomTextStyle.titleStyleMedium,
+            style: TextStyles.titleStyleMedium,
           ),
           content: Container(
             width: double.maxFinite,
             height: 235,
             child: Column(
               children: [
-                Group(onTap: () {
-                  Navigator.pop(context); // Close the window
-                  showModalBottomSheet(
-                          context: context,
-                          isScrollControlled: true,
-                          builder: (context) => AddGroupSplit(isGroup: true,),
-                        );
-                },)
+                Group(
+                  onTap: () {
+                    Navigator.pop(context); // Close the window
+                    showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      builder: (context) => AddGroupSplit(
+                        isGroup: true,
+                      ),
+                    );
+                  },
+                )
               ],
             ),
           ),
@@ -135,19 +136,14 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar>
     return showModalBottomSheet(
         context: context,
         builder: (context) => Container(
-              height: MediaQuery.sizeOf(context).height *
-                  Constants.addBottomSheetHeight,
+              height: MediaQuery.sizeOf(context).height * Constants.addBottomSheetHeight,
               width: MediaQuery.sizeOf(context).width,
               decoration: BoxDecoration(
                 color: CustomColor.backgroundPrimary,
-                borderRadius:
-                    BorderRadius.circular(Constants.buttonBorderRadius),
+                borderRadius: BorderRadius.circular(Constants.buttonBorderRadius),
               ),
               child: Padding(
-                padding: const EdgeInsets.only(
-                    left: CustomPadding.defaultSpace,
-                    right: CustomPadding.defaultSpace,
-                    bottom: 50),
+                padding: const EdgeInsets.only(left: CustomPadding.defaultSpace, right: CustomPadding.defaultSpace, bottom: 50),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -190,7 +186,6 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar>
                       onPressed: () {
                         Navigator.pop(context);
                         _chooseSplitGroup();
-
                       },
                       child: Text('Neuen Gruppensplit hinzufügen'),
                     ),
@@ -221,8 +216,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar>
                 _displayBottomSheet(context);
               },
               child: Container(
-                width: MediaQuery.of(context).size.width *
-                    CustomPadding.navbarButtonwidth,
+                width: MediaQuery.of(context).size.width * CustomPadding.navbarButtonwidth,
                 child: SvgPicture.asset(AssetImport.addButton),
               ),
             ),

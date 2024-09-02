@@ -87,7 +87,7 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppTexts.editTransaction, style: CustomTextStyle.regularStyleMedium),
+        title: Text(AppTexts.editTransaction, style: TextStyles.regularStyleMedium),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace, vertical: CustomPadding.defaultSpace),
@@ -111,7 +111,7 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
                     width: MediaQuery.sizeOf(context).width / 3,
                     prefix: Text(
                       _getAmountPrefix(),
-                      style: CustomTextStyle.titleStyleMedium.copyWith(fontWeight: CustomTextStyle.fontWeightDefault),
+                      style: TextStyles.titleStyleMedium.copyWith(fontWeight: TextStyles.fontWeightDefault),
                     ),
                     type: TextInputType.numberWithOptions(decimal: true),
                   ),
@@ -128,7 +128,7 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
               // Category section
               Text(
                 AppTexts.categorie,
-                style: CustomTextStyle.regularStyleMedium,
+                style: TextStyles.regularStyleMedium,
               ),
               SizedBox(
                 height: CustomPadding.mediumSpace,
@@ -143,7 +143,7 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
               // Recurrence section
               Text(
                 AppTexts.recurry,
-                style: CustomTextStyle.regularStyleMedium,
+                style: TextStyles.regularStyleMedium,
               ),
               SizedBox(
                 height: CustomPadding.mediumSpace,

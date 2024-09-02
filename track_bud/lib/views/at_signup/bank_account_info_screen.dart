@@ -108,14 +108,14 @@ class _BankAccountInfoScreenState extends State<BankAccountInfoScreen> {
             children: [
               Text(
                 AppTexts.bankAccInfoHeading, // The heading text
-                style: CustomTextStyle.headingStyle, // The text style for the heading.
+                style: TextStyles.headingStyle, // The text style for the heading.
               ),
               SizedBox(
                 height: CustomPadding.mediumSpace, // Adds vertical space between the heading and the next element.
               ),
               Text(
                 AppTexts.bankAccInfoDescription, // The description text
-                style: CustomTextStyle.hintStyleDefault, // The text style for the description.
+                style: TextStyles.hintStyleDefault, // The text style for the description.
               ),
               SizedBox(
                 height: CustomPadding.bigSpace, // Adds more vertical space before the next element.

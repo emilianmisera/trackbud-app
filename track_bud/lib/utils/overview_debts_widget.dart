@@ -26,7 +26,7 @@ class OverviewDebtsWidget extends StatelessWidget {
               children: [
                 Text(
                   AppTexts.inTotal,
-                  style: CustomTextStyle.regularStyleMedium,
+                  style: TextStyles.regularStyleMedium,
                 ),
                 DebtsInformation(
                   colorScheme: DebtsColorScheme.green,
@@ -43,11 +43,11 @@ class OverviewDebtsWidget extends StatelessWidget {
               children: [
                 Text(
                   AppTexts.toFriends,
-                  style: CustomTextStyle.hintStyleDefault,
+                  style: TextStyles.hintStyleDefault,
                 ),
                 Text(
                   '10€',
-                  style: CustomTextStyle.regularStyleDefault.copyWith(color: CustomColor.red),
+                  style: TextStyles.regularStyleDefault.copyWith(color: CustomColor.red),
                 )
               ],
             ),
@@ -70,7 +70,7 @@ class OverviewDebtsWidget extends StatelessWidget {
                 ),
                 Text(
                   'Freund',
-                  style: CustomTextStyle.regularStyleDefault.copyWith(fontSize: 14),
+                  style: TextStyles.regularStyleDefault.copyWith(fontSize: 14),
                 )
               ],
             ),
@@ -83,11 +83,11 @@ class OverviewDebtsWidget extends StatelessWidget {
               children: [
                 Text(
                   AppTexts.toYou,
-                  style: CustomTextStyle.hintStyleDefault,
+                  style: TextStyles.hintStyleDefault,
                 ),
                 Text(
                   '110€',
-                  style: CustomTextStyle.regularStyleDefault.copyWith(color: CustomColor.green),
+                  style: TextStyles.regularStyleDefault.copyWith(color: CustomColor.green),
                 )
               ],
             ),
@@ -110,7 +110,7 @@ class OverviewDebtsWidget extends StatelessWidget {
                 ),
                 Text(
                   'Freund',
-                  style: CustomTextStyle.regularStyleDefault.copyWith(fontSize: 14),
+                  style: TextStyles.regularStyleDefault.copyWith(fontSize: 14),
                 )
               ],
             ),

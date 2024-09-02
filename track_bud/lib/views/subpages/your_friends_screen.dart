@@ -102,7 +102,7 @@ class _YourFriendsScreenState extends State<YourFriendsScreen> {
                     SizedBox(height: CustomPadding.defaultSpace),
                     Text(
                       AppTexts.addFriend,
-                      style: CustomTextStyle.regularStyleMedium,
+                      style: TextStyles.regularStyleMedium,
                     ),
                     SizedBox(height: CustomPadding.mediumSpace),
                     CustomTextfield(name: AppTexts.email, hintText: AppTexts.hintEmail, controller: _emailFriendController),
@@ -124,7 +124,7 @@ class _YourFriendsScreenState extends State<YourFriendsScreen> {
       appBar: AppBar(
         title: Text(
           AppTexts.yourFriends,
-          style: CustomTextStyle.regularStyleMedium,
+          style: TextStyles.regularStyleMedium,
         ),
         actions: [
           IconButton(
