@@ -114,9 +114,8 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
               Gap(CustomPadding.defaultSpace),
               DonutChart(
                   selectedOption: _selectedOption,
-                  selectedCategory: _selectedCategory,
                   key: ValueKey(_selectedOption),
-                  onCategorySelected: _onCategorySelected),
+                  ),
               Gap(CustomPadding.defaultSpace),
               Text(
                 AppTexts.history,
