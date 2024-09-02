@@ -86,25 +86,19 @@ class FriendProfileDetails extends StatelessWidget {
             AppTexts.debts,
             style: TextStyles.regularStyleDefault,
           ),
-          Gap(
-            CustomPadding.mediumSpace,
-          ),
+          Gap(CustomPadding.mediumSpace),
 
           // TODO: add Amount Box to display debt amount
           // This should be implemented to show the actual debt amount
 
-          Gap(
-            CustomPadding.defaultSpace,
-          ),
+          Gap(CustomPadding.defaultSpace),
 
           // Shared groups section
           Text(
             AppTexts.sameGroups,
             style: TextStyles.regularStyleDefault,
           ),
-          Gap(
-            CustomPadding.mediumSpace,
-          ),
+          Gap(CustomPadding.mediumSpace),
 
           // TODO: add same Groups
           // This should be implemented to show the groups shared with this friend

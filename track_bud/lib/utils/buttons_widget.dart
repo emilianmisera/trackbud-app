@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
 import 'package:track_bud/utils/constants.dart';
+import 'package:track_bud/utils/enums/categories.dart';
 import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfield_widget.dart';
 
@@ -26,7 +27,7 @@ class AccAdjustmentButton extends StatelessWidget {
             name,
             style: TextStyles.regularStyleDefault,
           ),
-          widget ?? Icon(Icons.arrow_forward_ios)
+          Icon(Icons.arrow_forward_ios_rounded),
         ],
       ),
       onPressed: onPressed,
@@ -160,7 +161,7 @@ class _AccAdjustmentWidgetState extends State<AccAdjustmentWidget> {
             children: [
               SvgPicture.asset(widget.icon),
               Gap(
-                CustomPadding.mediumSpace,
+                8,
               ),
               Text(
                 widget.name,
@@ -227,46 +228,6 @@ class _CustomSegmentControlState extends State<CustomSegmentControl> {
   }
 }
 
-// Widget for individual category items
-class CustomCategory extends StatelessWidget {
-  final Color color;
-  final String icon;
-  final String categoryName;
-
-  const CustomCategory({
-    super.key,
-    required this.color,
-    required this.icon,
-    required this.categoryName,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(
-        horizontal: CustomPadding.categoryWidthSpace,
-        vertical: CustomPadding.categoryHeightSpace,
-      ),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(7),
-        color: color,
-      ),
-      child: Row(
-        children: [
-          Image.asset(
-            icon,
-            width: 25,
-            height: 25,
-            fit: BoxFit.scaleDown,
-          ), // Display category icon
-          Gap(CustomPadding.smallSpace),
-          Text(categoryName), // Display category name
-        ],
-      ),
-    );
-  }
-}
-
 // Widget to display a horizontal list of expense categories
 class CategoriesExpense extends StatefulWidget {
   final Function(String) onCategorySelected;
@@ -280,19 +241,6 @@ class _CategoriesExpenseState extends State<CategoriesExpense> {
   // Index of the currently selected category
   int? selectedIndex;
 
-  // List of categories
-  List categories = [
-    CustomCategory(color: CustomColor.lebensmittel, icon: AssetImport.shoppingCart, categoryName: AppTexts.lebensmittel),
-    CustomCategory(color: CustomColor.drogerie, icon: AssetImport.drogerie, categoryName: AppTexts.drogerie),
-    CustomCategory(color: CustomColor.restaurant, icon: AssetImport.restaurant, categoryName: AppTexts.restaurants),
-    CustomCategory(color: CustomColor.mobility, icon: AssetImport.mobility, categoryName: AppTexts.mobility),
-    CustomCategory(color: CustomColor.shopping, icon: AssetImport.shopping, categoryName: AppTexts.shopping),
-    CustomCategory(color: CustomColor.unterkunft, icon: AssetImport.home, categoryName: AppTexts.unterkunft),
-    CustomCategory(color: CustomColor.entertainment, icon: AssetImport.entertainment, categoryName: AppTexts.entertainment),
-    CustomCategory(color: CustomColor.geschenk, icon: AssetImport.gift, categoryName: AppTexts.geschenke),
-    CustomCategory(color: CustomColor.sonstiges, icon: AssetImport.other, categoryName: AppTexts.sonstiges),
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -300,20 +248,34 @@ class _CategoriesExpenseState extends State<CategoriesExpense> {
       height: MediaQuery.sizeOf(context).height * Constants.categoryHeight,
       child: ListView.builder(
         scrollDirection: Axis.horizontal, // Make the list scroll horizontally
-        itemCount: categories.length,
+        itemCount: Categories.values.length,
         itemBuilder: (context, index) => Padding(
           padding: EdgeInsets.only(right: CustomPadding.mediumSpace), // add Padding between categories
           child: GestureDetector(
             onTap: () {
-              setState(() {
-                selectedIndex = index; // Update the selected index
-              });
-              widget.onCategorySelected(categories[index].categoryName);
+              setState(() => selectedIndex = index);
+              widget.onCategorySelected(Categories.values[index].categoryName);
             },
             child: Opacity(
               // Reduce opacity for non-selected categories
               opacity: selectedIndex == null || selectedIndex == index ? 1.0 : 0.5,
-              child: categories[index],
+              child: Container(
+                padding: EdgeInsets.symmetric(
+                  horizontal: CustomPadding.categoryWidthSpace,
+                  vertical: CustomPadding.categoryHeightSpace,
+                ),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(7),
+                  color: Categories.values[index].color,
+                ),
+                child: Row(
+                  children: [
+                    Categories.values[index].icon, // Display category icon
+                    Gap(CustomPadding.smallSpace),
+                    Text(Categories.values[index].categoryName), // Display category name
+                  ],
+                ),
+              ),
             ),
           ),
         ),
@@ -334,13 +296,6 @@ class _CategoriesIncomeState extends State<CategoriesIncome> {
   // Index of the currently selected category
   int? selectedIndex;
 
-  // List of categories
-  List categories = [
-    CustomCategory(color: CustomColor.unterkunft, icon: AssetImport.gehalt, categoryName: AppTexts.loan),
-    CustomCategory(color: CustomColor.geschenk, icon: AssetImport.gift, categoryName: AppTexts.geschenke),
-    CustomCategory(color: CustomColor.sonstiges, icon: AssetImport.other, categoryName: AppTexts.sonstiges),
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -348,7 +303,7 @@ class _CategoriesIncomeState extends State<CategoriesIncome> {
       height: MediaQuery.sizeOf(context).height * Constants.categoryHeight,
       child: ListView.builder(
         scrollDirection: Axis.horizontal, // Make the list scroll horizontally
-        itemCount: categories.length,
+        itemCount: Categories.values.length,
         itemBuilder: (context, index) => Padding(
           padding: EdgeInsets.only(right: CustomPadding.mediumSpace), // add Padding between categories
           child: GestureDetector(
@@ -356,12 +311,28 @@ class _CategoriesIncomeState extends State<CategoriesIncome> {
               setState(() {
                 selectedIndex = index; // Update the selected index
               });
-              widget.onCategorySelected(categories[index].categoryName);
+              widget.onCategorySelected(Categories.values[index].categoryName);
             },
             child: Opacity(
               // Reduce opacity for non-selected categories
               opacity: selectedIndex == null || selectedIndex == index ? 1.0 : 0.5,
-              child: categories[index],
+              child: Container(
+                padding: EdgeInsets.symmetric(
+                  horizontal: CustomPadding.categoryWidthSpace,
+                  vertical: CustomPadding.categoryHeightSpace,
+                ),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(7),
+                  color: Categories.values[index].color,
+                ),
+                child: Row(
+                  children: [
+                    Categories.values[index].icon, // Display category icon
+                    Gap(CustomPadding.smallSpace),
+                    Text(Categories.values[index].categoryName), // Display category name
+                  ],
+                ),
+              ),
             ),
           ),
         ),
