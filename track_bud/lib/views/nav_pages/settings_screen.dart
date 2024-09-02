@@ -159,198 +159,196 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Padding(
-            // spacing between content and screen
-            padding: EdgeInsets.only(
-                top: MediaQuery.sizeOf(context).height * CustomPadding.topSpaceSettingsScreen,
-                left: CustomPadding.defaultSpace,
-                right: CustomPadding.defaultSpace),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Center(
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(100.0),
-                    child: Container(
-                      width: Constants.profilePictureSettingPage,
-                      height: Constants.profilePictureSettingPage,
-                      child: _profileImageUrl != null && _profileImageUrl!.isNotEmpty
-                          ? Image.network(
-                              _profileImageUrl!,
-                              fit: BoxFit.cover,
-                              errorBuilder: (context, error, stackTrace) {
-                                return Icon(Icons.person, size: 100, color: Colors.grey);
-                              },
-                            )
-                          : Icon(Icons.person, size: 50, color: Colors.grey),
-                    ),
+    return SingleChildScrollView(
+      child: Padding(
+          // spacing between content and screen
+          padding: EdgeInsets.only(
+              top: MediaQuery.sizeOf(context).height * CustomPadding.topSpaceSettingsScreen,
+              left: CustomPadding.defaultSpace,
+              right: CustomPadding.defaultSpace),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(100.0),
+                  child: Container(
+                    width: Constants.profilePictureSettingPage,
+                    height: Constants.profilePictureSettingPage,
+                    child: _profileImageUrl != null && _profileImageUrl!.isNotEmpty
+                        ? Image.network(
+                            _profileImageUrl!,
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) {
+                              return Icon(Icons.person, size: 100, color: Colors.grey);
+                            },
+                          )
+                        : Icon(Icons.person, size: 50, color: Colors.grey),
                   ),
                 ),
-                Gap(
-                  CustomPadding.mediumSpace,
-                ),
-                Center(
-                    child: Text(
-                  // FirstName
-                  currentUserName,
-                  style: TextStyles.titleStyleMedium,
-                )),
-                Gap(
-                  CustomPadding.smallSpace,
-                ),
-                Center(
-                    child: Text(
-                  //email
-                  currentUserEmail,
-                  style: TextStyles.hintStyleDefault,
-                )),
-                Gap(
-                  CustomPadding.bigbigSpace,
-                ),
-                Text(
-                  AppTexts.preferences,
-                  style: TextStyles.regularStyleMedium,
-                ),
-                Gap(
-                  CustomPadding.defaultSpace,
-                ),
-                CustomShadow(
-                  // edit Profile Button
-                  child: TextButton.icon(
-                    onPressed: () async {},
-                    label: Text(
-                      AppTexts.editProfile,
-                      style: TextStyles.regularStyleDefault,
-                    ),
-                    icon: SvgPicture.asset(AssetImport.userEdit),
-                    style: ButtonStyle(
-                      alignment: Alignment.centerLeft,
-                    ),
+              ),
+              Gap(
+                CustomPadding.mediumSpace,
+              ),
+              Center(
+                  child: Text(
+                // FirstName
+                currentUserName,
+                style: TextStyles.titleStyleMedium,
+              )),
+              Gap(
+                CustomPadding.smallSpace,
+              ),
+              Center(
+                  child: Text(
+                //email
+                currentUserEmail,
+                style: TextStyles.hintStyleDefault,
+              )),
+              Gap(
+                CustomPadding.bigbigSpace,
+              ),
+              Text(
+                AppTexts.preferences,
+                style: TextStyles.regularStyleMedium,
+              ),
+              Gap(
+                CustomPadding.defaultSpace,
+              ),
+              CustomShadow(
+                // edit Profile Button
+                child: TextButton.icon(
+                  onPressed: () async {},
+                  label: Text(
+                    AppTexts.editProfile,
+                    style: TextStyles.regularStyleDefault,
+                  ),
+                  icon: SvgPicture.asset(AssetImport.userEdit),
+                  style: ButtonStyle(
+                    alignment: Alignment.centerLeft,
                   ),
                 ),
-                Gap(
-                  CustomPadding.mediumSpace,
-                ),
-                CustomShadow(
-                  // accAdjustment button
-                  child: TextButton.icon(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => AccountSettingsScreen(),
-                        ),
-                      );
-                    },
-                    label: Text(
-                      AppTexts.accAdjustments,
-                      style: TextStyles.regularStyleDefault,
-                    ),
-                    icon: SvgPicture.asset(AssetImport.settings),
-                    style: ButtonStyle(
-                      alignment: Alignment.centerLeft,
-                    ),
-                  ),
-                ),
-                Gap(
-                  CustomPadding.mediumSpace,
-                ),
-                CustomShadow(
-                  // notification button
-                  child: TextButton.icon(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => NotificationsSettingsScreen(),
-                        ),
-                      );
-                    },
-                    label: Text(
-                      AppTexts.notifications,
-                      style: TextStyles.regularStyleDefault,
-                    ),
-                    icon: SvgPicture.asset(AssetImport.bell),
-                    style: ButtonStyle(
-                      alignment: Alignment.centerLeft,
-                    ),
-                  ),
-                ),
-                Gap(
-                  CustomPadding.mediumSpace,
-                ),
-                CustomShadow(
-                  // aboutTrackbut button
-                  child: TextButton.icon(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => AboutTrackbudScreen(),
-                        ),
-                      );
-                    },
-                    label: Text(
-                      AppTexts.abouTrackBud,
-                      style: TextStyles.regularStyleDefault,
-                    ),
-                    icon: SvgPicture.asset(AssetImport.info),
-                    style: ButtonStyle(
-                      alignment: Alignment.centerLeft,
-                    ),
-                  ),
-                ),
-                Gap(
-                  CustomPadding.mediumSpace,
-                ),
-                CustomShadow(
-                  // Logout Button
-                  child: TextButton.icon(
-                    onPressed: () {
-                      logout();
-                    },
-                    label: Text(
-                      AppTexts.logout,
-                      style: TextStyles.regularStyleDefault,
-                    ),
-                    icon: SvgPicture.asset(AssetImport.logout),
-                    style: ButtonStyle(
-                      alignment: Alignment.centerLeft,
-                    ),
-                  ),
-                ),
-                Gap(
-                  CustomPadding.mediumSpace,
-                ),
-                CustomShadow(
-                  // delete Account Button
-                  child: TextButton.icon(
-                    onPressed: () {
-                      openPopUp();
-                    }, //_handleAccountDeletion,
-                    label: Text(
-                      AppTexts.deleteAcc,
-                      style: TextStyle(
-                        fontFamily: TextStyles.fontFamily,
-                        fontSize: TextStyles.fontSizeDefault,
-                        fontWeight: TextStyles.fontWeightDefault,
-                        color: CustomColor.red,
+              ),
+              Gap(
+                CustomPadding.mediumSpace,
+              ),
+              CustomShadow(
+                // accAdjustment button
+                child: TextButton.icon(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => AccountSettingsScreen(),
                       ),
-                    ),
-                    icon: SvgPicture.asset(
-                      AssetImport.trash,
+                    );
+                  },
+                  label: Text(
+                    AppTexts.accAdjustments,
+                    style: TextStyles.regularStyleDefault,
+                  ),
+                  icon: SvgPicture.asset(AssetImport.settings),
+                  style: ButtonStyle(
+                    alignment: Alignment.centerLeft,
+                  ),
+                ),
+              ),
+              Gap(
+                CustomPadding.mediumSpace,
+              ),
+              CustomShadow(
+                // notification button
+                child: TextButton.icon(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => NotificationsSettingsScreen(),
+                      ),
+                    );
+                  },
+                  label: Text(
+                    AppTexts.notifications,
+                    style: TextStyles.regularStyleDefault,
+                  ),
+                  icon: SvgPicture.asset(AssetImport.bell),
+                  style: ButtonStyle(
+                    alignment: Alignment.centerLeft,
+                  ),
+                ),
+              ),
+              Gap(
+                CustomPadding.mediumSpace,
+              ),
+              CustomShadow(
+                // aboutTrackbut button
+                child: TextButton.icon(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => AboutTrackbudScreen(),
+                      ),
+                    );
+                  },
+                  label: Text(
+                    AppTexts.abouTrackBud,
+                    style: TextStyles.regularStyleDefault,
+                  ),
+                  icon: SvgPicture.asset(AssetImport.info),
+                  style: ButtonStyle(
+                    alignment: Alignment.centerLeft,
+                  ),
+                ),
+              ),
+              Gap(
+                CustomPadding.mediumSpace,
+              ),
+              CustomShadow(
+                // Logout Button
+                child: TextButton.icon(
+                  onPressed: () {
+                    logout();
+                  },
+                  label: Text(
+                    AppTexts.logout,
+                    style: TextStyles.regularStyleDefault,
+                  ),
+                  icon: SvgPicture.asset(AssetImport.logout),
+                  style: ButtonStyle(
+                    alignment: Alignment.centerLeft,
+                  ),
+                ),
+              ),
+              Gap(
+                CustomPadding.mediumSpace,
+              ),
+              CustomShadow(
+                // delete Account Button
+                child: TextButton.icon(
+                  onPressed: () {
+                    openPopUp();
+                  }, //_handleAccountDeletion,
+                  label: Text(
+                    AppTexts.deleteAcc,
+                    style: TextStyle(
+                      fontFamily: TextStyles.fontFamily,
+                      fontSize: TextStyles.fontSizeDefault,
+                      fontWeight: TextStyles.fontWeightDefault,
                       color: CustomColor.red,
                     ),
-                    style: ButtonStyle(
-                      alignment: Alignment.centerLeft,
-                    ),
+                  ),
+                  icon: SvgPicture.asset(
+                    AssetImport.trash,
+                    colorFilter: ColorFilter.mode(CustomColor.red, BlendMode.srcIn),
+                  ),
+                  style: ButtonStyle(
+                    alignment: Alignment.centerLeft,
                   ),
                 ),
-              ],
-            )),
-      ),
+              ),
+            ],
+          )),
     );
   }
 }

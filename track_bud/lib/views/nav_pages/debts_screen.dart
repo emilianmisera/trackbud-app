@@ -22,8 +22,7 @@ class _DebtsScreenState extends State<DebtsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: SingleChildScrollView(
+    return SingleChildScrollView(
       child: Padding(
         // spacing between content and screen
         padding: EdgeInsets.only(
@@ -40,18 +39,16 @@ class _DebtsScreenState extends State<DebtsScreen> {
                     title: AppTexts.debts,
                     amount: 'amount',
                     color: CustomColor.red,
-                    width: MediaQuery.sizeOf(context).width / 2 -
-                        Constants.infoTileSpace),
+                    width: MediaQuery.sizeOf(context).width / 2 - Constants.infoTileSpace),
                 InfoTile(
                     title: AppTexts.credits,
                     amount: 'amount',
                     color: CustomColor.green,
-                    width: MediaQuery.sizeOf(context).width / 2 -
-                        Constants.infoTileSpace),
+                    width: MediaQuery.sizeOf(context).width / 2 - Constants.infoTileSpace),
               ],
             ),
             Gap(
-           CustomPadding.defaultSpace,
+              CustomPadding.defaultSpace,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -69,9 +66,7 @@ class _DebtsScreenState extends State<DebtsScreen> {
                       ),
                     );
                   },
-                  child: Text(AppTexts.showAll,
-                      style: TextStyles.regularStyleMedium
-                          .copyWith(color: CustomColor.bluePrimary)),
+                  child: Text(AppTexts.showAll, style: TextStyles.regularStyleMedium.copyWith(color: CustomColor.bluePrimary)),
                 ),
               ],
             ),
@@ -88,15 +83,13 @@ class _DebtsScreenState extends State<DebtsScreen> {
                     .map((friend) => Column(
                           children: [
                             FriendCard(friend: friend),
-                            Gap(
-                         CustomPadding
-                                    .smallSpace), // Abstand zwischen den Karten
+                            Gap(CustomPadding.smallSpace), // Abstand zwischen den Karten
                           ],
                         ))
                     .toList(),
               ),
             Gap(
-            CustomPadding.defaultSpace,
+              CustomPadding.defaultSpace,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -114,19 +107,17 @@ class _DebtsScreenState extends State<DebtsScreen> {
                       ),
                     );
                   },
-                  child: Text(AppTexts.showAll,
-                      style: TextStyles.regularStyleMedium
-                          .copyWith(color: CustomColor.bluePrimary)),
+                  child: Text(AppTexts.showAll, style: TextStyles.regularStyleMedium.copyWith(color: CustomColor.bluePrimary)),
                 ),
               ],
             ),
             Gap(
-          CustomPadding.mediumSpace,
+              CustomPadding.mediumSpace,
             ),
             GroupCard()
           ],
         ),
       ),
-    ));
+    );
   }
 }
