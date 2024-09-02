@@ -29,7 +29,7 @@ class ColorTheme {
         ),
         shape: WidgetStateProperty.resolveWith<OutlinedBorder>(
           (_) {
-            return const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(Constants.buttonBorderRadius)));
+            return const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(Constants.contentBorderRadius)));
           },
         ),
         overlayColor: WidgetStateProperty.resolveWith<Color?>(
@@ -62,7 +62,7 @@ class ColorTheme {
           const Size(double.infinity, Constants.height),
         ),
         shape: WidgetStateProperty.resolveWith<OutlinedBorder>((_) {
-          return const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(Constants.buttonBorderRadius)));
+          return const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(Constants.contentBorderRadius)));
         }),
         foregroundColor: WidgetStateProperty.all<Color>(CustomColor.black),
         side: WidgetStateProperty.all(BorderSide(color: CustomColor.hintColor, width: 2.0, style: BorderStyle.solid)),
@@ -99,7 +99,7 @@ class ColorTheme {
           (states) => (TextStyles.regularStyleMedium),
         ),
         shape: WidgetStateProperty.resolveWith<OutlinedBorder>((_) {
-          return const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(Constants.buttonBorderRadius)));
+          return const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(Constants.contentBorderRadius)));
         }),
         minimumSize: WidgetStateProperty.all(
           const Size(double.infinity, Constants.height),

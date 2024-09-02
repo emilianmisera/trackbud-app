@@ -18,7 +18,7 @@ class ChartTile extends StatelessWidget {
       padding: EdgeInsets.only(top: CustomPadding.bigSpace, bottom: CustomPadding.defaultSpace),
       decoration: BoxDecoration(
         color: CustomColor.white,
-        borderRadius: BorderRadius.circular(Constants.buttonBorderRadius),
+        borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
       ),
       child: chartChild,
     );
@@ -298,7 +298,7 @@ class CategoryTile extends StatelessWidget {
       onTap: onTap,
       child: Container(
         width: MediaQuery.sizeOf(context).width,
-        decoration: BoxDecoration(color: CustomColor.white, borderRadius: BorderRadius.circular(Constants.buttonBorderRadius)),
+        decoration: BoxDecoration(color: CustomColor.white, borderRadius: BorderRadius.circular(Constants.contentBorderRadius)),
         child: ListTile(
           leading: CategoryIcon(
               color: color,

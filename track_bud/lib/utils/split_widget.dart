@@ -55,7 +55,7 @@ class _SplitButtonState extends State<SplitButton> {
         ),
         style: ElevatedButton.styleFrom(
           backgroundColor: CustomColor.white,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(Constants.buttonBorderRadius))),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(Constants.contentBorderRadius))),
           minimumSize: Size(25, 10),
           padding: EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace, vertical: CustomPadding.contentHeightSpace),
           elevation: 0,
@@ -147,7 +147,7 @@ class _EqualTileState extends State<EqualTile> {
   Widget build(BuildContext context) {
     return CustomShadow(
       child: Container(
-        decoration: BoxDecoration(color: CustomColor.white, borderRadius: BorderRadius.circular(Constants.buttonBorderRadius)),
+        decoration: BoxDecoration(color: CustomColor.white, borderRadius: BorderRadius.circular(Constants.contentBorderRadius)),
         child: ListTile(
           leading: ClipRRect(
             borderRadius: BorderRadius.circular(100.0),
@@ -172,7 +172,7 @@ class _EqualTileState extends State<EqualTile> {
                         padding: EdgeInsets.all(10),
                         decoration: BoxDecoration(
                           color: CustomColor.white,
-                          borderRadius: BorderRadius.circular(Constants.buttonBorderRadius),
+                          borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
                           border: Border.all(color: CustomColor.grey),
                         ),
                         child: Text('${widget.splitAmount}€', style: TextStyles.hintStyleDefault),
@@ -200,7 +200,7 @@ class _EqualTileState extends State<EqualTile> {
                   padding: EdgeInsets.all(10),
                   decoration: BoxDecoration(
                     color: CustomColor.white,
-                    borderRadius: BorderRadius.circular(Constants.buttonBorderRadius),
+                    borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
                     border: Border.all(color: CustomColor.grey),
                   ),
                   child: Text('${widget.splitAmount}€', style: TextStyles.hintStyleDefault),
@@ -274,7 +274,7 @@ class PercentTile extends StatelessWidget {
         child: Container(
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(Constants.buttonBorderRadius),
+        borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
         color: CustomColor.white,
       ),
       child: Column(
@@ -393,7 +393,7 @@ class _ByAmountTileState extends State<ByAmountTile> {
   Widget build(BuildContext context) {
     return CustomShadow(
       child: Container(
-        decoration: BoxDecoration(color: CustomColor.white, borderRadius: BorderRadius.circular(Constants.buttonBorderRadius)),
+        decoration: BoxDecoration(color: CustomColor.white, borderRadius: BorderRadius.circular(Constants.contentBorderRadius)),
         child: ListTile(
           leading: ClipRRect(
             borderRadius: BorderRadius.circular(100.0),
@@ -410,7 +410,7 @@ class _ByAmountTileState extends State<ByAmountTile> {
           trailing: Container(
               width: 80,
               decoration: BoxDecoration(
-                  border: Border.all(color: CustomColor.grey), borderRadius: BorderRadius.circular(Constants.buttonBorderRadius)),
+                  border: Border.all(color: CustomColor.grey), borderRadius: BorderRadius.circular(Constants.contentBorderRadius)),
               child: TextFieldByAmount(
                 controller: _inputController,
                 inputStyle: TextStyles.regularStyleDefault,

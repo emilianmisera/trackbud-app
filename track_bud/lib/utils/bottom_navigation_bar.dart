@@ -126,7 +126,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> w
           surfaceTintColor: CustomColor.backgroundPrimary,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(
-              Radius.circular(Constants.buttonBorderRadius),
+              Radius.circular(Constants.contentBorderRadius),
             ),
           ),
         ),
@@ -140,7 +140,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> w
               width: MediaQuery.sizeOf(context).width,
               decoration: BoxDecoration(
                 color: CustomColor.backgroundPrimary,
-                borderRadius: BorderRadius.circular(Constants.buttonBorderRadius),
+                borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
               ),
               child: Padding(
                 padding: const EdgeInsets.only(left: CustomPadding.defaultSpace, right: CustomPadding.defaultSpace, bottom: 50),

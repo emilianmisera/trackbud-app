@@ -133,7 +133,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           surfaceTintColor: CustomColor.backgroundPrimary,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(
-              Radius.circular(Constants.buttonBorderRadius),
+              Radius.circular(Constants.contentBorderRadius),
             ),
           ),
         ),

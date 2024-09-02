@@ -52,7 +52,7 @@ class DynamicBottomSheet extends StatelessWidget {
         return Container(
           decoration: BoxDecoration(
             color: CustomColor.backgroundPrimary,
-            borderRadius: BorderRadius.vertical(top: Radius.circular(Constants.buttonBorderRadius)),
+            borderRadius: BorderRadius.vertical(top: Radius.circular(Constants.contentBorderRadius)),
           ),
           child: Column(
             children: [

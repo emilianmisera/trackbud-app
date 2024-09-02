@@ -25,7 +25,7 @@ class GroupCard extends StatelessWidget {
           child: Container(
         width: MediaQuery.sizeOf(context).width,
         padding: EdgeInsets.all(CustomPadding.defaultSpace),
-        decoration: BoxDecoration(color: CustomColor.white, borderRadius: BorderRadius.circular(Constants.buttonBorderRadius)),
+        decoration: BoxDecoration(color: CustomColor.white, borderRadius: BorderRadius.circular(Constants.contentBorderRadius)),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -177,7 +177,7 @@ class _DebtsOverviewState extends State<DebtsOverview> {
             padding: EdgeInsets.all(CustomPadding.defaultSpace),
             decoration: BoxDecoration(
               color: CustomColor.backgroundPrimary,
-              borderRadius: BorderRadius.circular(Constants.buttonBorderRadius),
+              borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
             ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -214,7 +214,7 @@ class _DebtsOverviewState extends State<DebtsOverview> {
       child: Container(
         width: MediaQuery.sizeOf(context).width,
         padding: EdgeInsets.all(CustomPadding.defaultSpace),
-        decoration: BoxDecoration(color: CustomColor.white, borderRadius: BorderRadius.circular(Constants.buttonBorderRadius)),
+        decoration: BoxDecoration(color: CustomColor.white, borderRadius: BorderRadius.circular(Constants.contentBorderRadius)),
         child: Column(
           children: [
             ListTile(
@@ -275,7 +275,7 @@ class Group extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace, vertical: CustomPadding.mediumSpace),
         decoration: BoxDecoration(
           color: CustomColor.white,
-          borderRadius: BorderRadius.circular(Constants.buttonBorderRadius),
+          borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
         ),
         child: ListTile(
           contentPadding: EdgeInsets.zero,

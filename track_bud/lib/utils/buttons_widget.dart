@@ -95,11 +95,11 @@ class _CustomDropDownState extends State<CustomDropDown> {
             maxHeight: 200,
             width: widget.dropdownWidth ?? 150,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(Constants.buttonBorderRadius),
+              borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
               color: CustomColor.white,
             ),
             scrollbarTheme: ScrollbarThemeData(
-              radius: const Radius.circular(Constants.buttonBorderRadius),
+              radius: const Radius.circular(Constants.contentBorderRadius),
               thickness: WidgetStateProperty.all(6),
               thumbVisibility: WidgetStateProperty.all(true),
             ),

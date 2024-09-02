@@ -28,7 +28,7 @@ class _YourGroupsScreenState extends State<YourGroupsScreen> {
               width: MediaQuery.sizeOf(context).width,
               decoration: BoxDecoration(
                 color: CustomColor.backgroundPrimary,
-                borderRadius: BorderRadius.circular(Constants.buttonBorderRadius),
+                borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
               ),
               child: Padding(
                 padding: const EdgeInsets.only(left: CustomPadding.defaultSpace, right: CustomPadding.defaultSpace, bottom: 50),
@@ -175,7 +175,7 @@ class GroupTitle extends StatelessWidget {
                   fillColor: CustomColor.white,
                   border: OutlineInputBorder(
                     borderSide: BorderSide.none,
-                    borderRadius: BorderRadius.circular(Constants.buttonBorderRadius),
+                    borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
                   ),
                 ),
               ),

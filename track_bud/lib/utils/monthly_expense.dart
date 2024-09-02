@@ -35,7 +35,7 @@ class _MonthlyExpenseState extends State<MonthlyExpense> {
         padding: EdgeInsets.all(CustomPadding.defaultSpace),
         decoration: BoxDecoration(
           color: CustomColor.white,
-          borderRadius: BorderRadius.circular(Constants.buttonBorderRadius),
+          borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

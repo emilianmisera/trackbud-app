@@ -73,7 +73,7 @@ class CustomTextfield extends StatelessWidget {
                 fillColor: CustomColor.white,
                 border: OutlineInputBorder(
                   borderSide: BorderSide.none,
-                  borderRadius: BorderRadius.circular(Constants.buttonBorderRadius),
+                  borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
                 ),
               ),
             ),
@@ -136,7 +136,7 @@ class TextFieldAmountOfMoney extends StatelessWidget {
           fillColor: CustomColor.white,
           border: OutlineInputBorder(
             borderSide: BorderSide.none,
-            borderRadius: BorderRadius.circular(Constants.buttonBorderRadius),
+            borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
           ),
         ),
       ),
@@ -184,7 +184,7 @@ class SearchTextfield extends StatelessWidget {
             fillColor: CustomColor.white,
             border: OutlineInputBorder(
               borderSide: BorderSide.none,
-              borderRadius: BorderRadius.circular(Constants.buttonBorderRadius),
+              borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
             ),
           ),
           onChanged: onChanged,
@@ -234,7 +234,7 @@ class TextFieldByAmount extends StatelessWidget {
         fillColor: CustomColor.white,
         border: OutlineInputBorder(
           borderSide: BorderSide.none,
-          borderRadius: BorderRadius.circular(Constants.buttonBorderRadius),
+          borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
         ),
       ),
     );

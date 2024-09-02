@@ -80,7 +80,7 @@ class _YourFriendsScreenState extends State<YourFriendsScreen> {
               width: MediaQuery.sizeOf(context).width,
               decoration: BoxDecoration(
                 color: CustomColor.backgroundPrimary,
-                borderRadius: BorderRadius.circular(Constants.buttonBorderRadius),
+                borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
               ),
               child: Padding(
                 padding: const EdgeInsets.only(left: CustomPadding.defaultSpace, right: CustomPadding.defaultSpace, bottom: 50),

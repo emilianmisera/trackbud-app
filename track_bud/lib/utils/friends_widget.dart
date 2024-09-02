@@ -16,7 +16,7 @@ class FriendCard extends StatelessWidget {
     return CustomShadow(
       child: Container(
         width: MediaQuery.sizeOf(context).width,
-        decoration: BoxDecoration(color: CustomColor.white, borderRadius: BorderRadius.circular(Constants.buttonBorderRadius)),
+        decoration: BoxDecoration(color: CustomColor.white, borderRadius: BorderRadius.circular(Constants.contentBorderRadius)),
         child: ListTile(
           // Friend's profile picture
           leading: ClipRRect(
@@ -74,7 +74,7 @@ class FriendProfileDetails extends StatelessWidget {
       width: MediaQuery.sizeOf(context).width,
       decoration: BoxDecoration(
         color: CustomColor.white,
-        borderRadius: BorderRadius.circular(Constants.buttonBorderRadius),
+        borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
       ),
       padding: EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace, vertical: CustomPadding.defaultSpace),
       child: Column(

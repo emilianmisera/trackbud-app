@@ -85,7 +85,7 @@ class TransactionOverview extends StatelessWidget {
               padding: EdgeInsets.all(CustomPadding.defaultSpace),
               decoration: BoxDecoration(
                 color: CustomColor.white,
-                borderRadius: BorderRadius.circular(Constants.buttonBorderRadius),
+                borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
               ),
               child: Column(
                 children: [
