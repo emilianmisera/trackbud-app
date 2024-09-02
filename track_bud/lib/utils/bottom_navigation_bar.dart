@@ -107,7 +107,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> w
             height: 235,
             child: Column(
               children: [
-                Group(
+                ChooseGroup(
                   onTap: () {
                     Navigator.pop(context); // Close the window
                     showModalBottomSheet(

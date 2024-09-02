@@ -263,9 +263,9 @@ class _DebtsOverviewState extends State<DebtsOverview> {
   }
 }
 
-class Group extends StatelessWidget {
+class ChooseGroup extends StatelessWidget {
   final void Function() onTap;
-  const Group({super.key, required this.onTap});
+  const ChooseGroup({super.key, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
