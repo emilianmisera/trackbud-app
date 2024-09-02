@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:gap/gap.dart';
-import 'package:track_bud/utils/adding_options.dart';
+import 'package:track_bud/utils/add/add_type_selector.dart';
 import 'package:track_bud/utils/constants.dart';
-import 'package:track_bud/utils/group_widget.dart';
-import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfield_widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -53,16 +50,6 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> w
     super.dispose();
   }
 
-  // Handle tab tap event
-  void _onTap(int index) {
-    setState(() => _currentIndex = index);
-    // Reset and start the animation
-    _animationController.reset();
-    _animationController.forward();
-    // Call the onTap callback
-    widget.onTap(index);
-  }
-
   // Build a single navigation item
   Widget _buildNavItem(int index, String active, String inactive) {
     return AnimatedBuilder(
@@ -72,7 +59,14 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> w
           // Scale the active tab
           scale: _currentIndex == index ? _animations[index].value : 1.0,
           child: InkWell(
-            onTap: () => _onTap(index),
+            onTap: () {
+              setState(() => _currentIndex = index);
+              // Reset and start the animation
+              _animationController.reset();
+              _animationController.forward();
+              // Call the onTap callback
+              widget.onTap(index);
+            },
             child: Container(
               // Increased touch area
               width: MediaQuery.of(context).size.width * CustomPadding.navbarButtonwidth,
@@ -88,110 +82,6 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> w
         );
       },
     );
-  }
-
-  // Method to open a popup window to choose Split Group
-  Future _chooseSplitGroup() => showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: Text(
-            'Gruppe auswählen',
-            style: TextStyles.titleStyleMedium,
-          ),
-          content: Container(
-            width: double.maxFinite,
-            height: 235,
-            child: Column(
-              children: [
-                GroupChoice(
-                  onTap: () {
-                    Navigator.pop(context); // Close the window
-                    showModalBottomSheet(
-                      context: context,
-                      isScrollControlled: true,
-                      builder: (context) => AddSplit(
-                        isGroup: true,
-                      ),
-                    );
-                  },
-                )
-              ],
-            ),
-          ),
-          insetPadding: EdgeInsets.all(CustomPadding.defaultSpace),
-          backgroundColor: CustomColor.backgroundPrimary,
-          surfaceTintColor: CustomColor.backgroundPrimary,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(
-              Radius.circular(Constants.contentBorderRadius),
-            ),
-          ),
-        ),
-      );
-
-  Future _displayBottomSheet(BuildContext context) {
-    return showModalBottomSheet(
-        context: context,
-        builder: (context) => Container(
-              height: MediaQuery.sizeOf(context).height * Constants.addBottomSheetHeight,
-              width: MediaQuery.sizeOf(context).width,
-              decoration: BoxDecoration(
-                color: CustomColor.backgroundPrimary,
-                borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.only(left: CustomPadding.defaultSpace, right: CustomPadding.defaultSpace, bottom: 50),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Gap(CustomPadding.mediumSpace),
-                    Center(
-                      child: Container(
-                        // grabber
-                        width: 36,
-                        height: 5,
-                        decoration: BoxDecoration(
-                          color: CustomColor.grabberColor,
-                          borderRadius: BorderRadius.all(Radius.circular(100)),
-                        ),
-                      ),
-                    ),
-                    Gap(CustomPadding.defaultSpace),
-                    ElevatedButton(
-                        onPressed: () {
-                          Navigator.pop(context); // Close the bottom sheet
-                          showModalBottomSheet(
-                            context: context,
-                            isScrollControlled: true,
-                            builder: (context) => AddTransaction(),
-                          );
-                        },
-                        child: Text(AppTexts.addNewTransaction)),
-                    Gap(CustomPadding.mediumSpace),
-                    ElevatedButton(
-                        onPressed: () {
-                          Navigator.pop(context); // Close the bottom sheet
-                          showModalBottomSheet(
-                            context: context,
-                            isScrollControlled: true,
-                            builder: (context) => AddSplit(
-                              isGroup: false,
-                            ),
-                          );
-                        },
-                        child: Text(AppTexts.addNewFriendSplit)),
-                    Gap(CustomPadding.mediumSpace),
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                        _chooseSplitGroup();
-                      },
-                      child: Text(AppTexts.addNewGroupSplit),
-                    ),
-                  ],
-                ),
-              ),
-            ));
   }
 
   @override
@@ -211,9 +101,10 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> w
             _buildNavItem(1, AssetImport.debtsActive, AssetImport.debts),
             // Add button (center)
             GestureDetector(
-              onTap: () {
-                _displayBottomSheet(context);
-              },
+              onTap: () => showModalBottomSheet(
+                context: context,
+                builder: (context) => AddTypeSelector(),
+              ),
               child: Container(
                 width: MediaQuery.of(context).size.width * CustomPadding.navbarButtonwidth,
                 child: SvgPicture.asset(AssetImport.addButton),

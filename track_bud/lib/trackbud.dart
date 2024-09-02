@@ -16,10 +16,10 @@ class TrackBud extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       // Custom bottom navigation bar
       bottomNavigationBar: CustomBottomNavigationBar(
-        // Update the current index when a navigation item is tapped
         onTap: (value) => _pageController.jumpToPage(value),
       ),
       // Display the screen corresponding to the current index
