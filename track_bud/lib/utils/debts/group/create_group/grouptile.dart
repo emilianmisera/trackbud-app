@@ -24,17 +24,17 @@ class GroupTitle extends StatelessWidget {
             color: Colors.red,
           ),
         ),
-        Gap(CustomPadding.mediumSpace),
+        const Gap(CustomPadding.mediumSpace),
         Expanded(
           child: CustomShadow(
-            child: Container(
+            child: SizedBox(
               height: Constants.height, // choose height of Textfield Box
               child: TextFormField(
                 controller: _createGroupController,
                 cursorColor: CustomColor.bluePrimary,
                 decoration: InputDecoration(
                   hintText: AppTexts.groupNameHint,
-                  contentPadding: EdgeInsets.symmetric(
+                  contentPadding: const EdgeInsets.symmetric(
                     horizontal: CustomPadding.defaultSpace,
                     vertical: CustomPadding.contentHeightSpace,
                   ),

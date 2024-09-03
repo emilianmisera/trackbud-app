@@ -17,7 +17,9 @@ class DebtsScreen extends StatefulWidget {
 }
 
 class _DebtsScreenState extends State<DebtsScreen> {
+  // ignore: prefer_final_fields
   List<UserModel> _friends = [];
+  // ignore: prefer_final_fields
   bool _isLoading = true;
 
   @override
@@ -47,9 +49,7 @@ class _DebtsScreenState extends State<DebtsScreen> {
                     width: MediaQuery.sizeOf(context).width / 2 - Constants.infoTileSpace),
               ],
             ),
-            Gap(
-              CustomPadding.defaultSpace,
-            ),
+            const Gap(CustomPadding.defaultSpace),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -62,7 +62,7 @@ class _DebtsScreenState extends State<DebtsScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => YourFriendsScreen(),
+                        builder: (context) => const YourFriendsScreen(),
                       ),
                     );
                   },
@@ -70,23 +70,24 @@ class _DebtsScreenState extends State<DebtsScreen> {
                 ),
               ],
             ),
-            Gap(CustomPadding.mediumSpace),
+            const Gap(CustomPadding.mediumSpace),
+            //TODO: Use FutureBuilder instead of isLoading check
             if (_isLoading)
-              Center(child: CircularProgressIndicator())
+              const Center(child: CircularProgressIndicator())
             else if (_friends.isEmpty)
-              Center(child: Text("Keine Freunde gefunden."))
+              const Center(child: Text("Keine Freunde gefunden."))
             else
               Column(
                 children: _friends
                     .map((friend) => Column(
                           children: [
                             FriendCard(friend: friend),
-                            Gap(CustomPadding.smallSpace), // Abstand zwischen den Karten
+                            const Gap(CustomPadding.smallSpace), // Abstand zwischen den Karten
                           ],
                         ))
                     .toList(),
               ),
-            Gap(CustomPadding.defaultSpace),
+            const Gap(CustomPadding.defaultSpace),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -96,7 +97,7 @@ class _DebtsScreenState extends State<DebtsScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => YourGroupsScreen(),
+                        builder: (context) => const YourGroupsScreen(),
                       ),
                     );
                   },
@@ -104,8 +105,8 @@ class _DebtsScreenState extends State<DebtsScreen> {
                 ),
               ],
             ),
-            Gap(CustomPadding.mediumSpace),
-            GroupCard()
+            const Gap(CustomPadding.mediumSpace),
+            const GroupCard()
           ],
         ),
       ),

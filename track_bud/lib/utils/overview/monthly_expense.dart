@@ -14,7 +14,7 @@ class MonthlyExpenseTile extends StatefulWidget {
 
 class _MonthlyExpenseTileState extends State<MonthlyExpenseTile> {
   // Progress percentage (0.0 to 1.0)
-  double _percentage = 0.6;
+  final double _percentage = 0.6;
 
   // Function to determine progress color based on percentage
   Color getProgressColor(double percentage) {
@@ -33,7 +33,7 @@ class _MonthlyExpenseTileState extends State<MonthlyExpenseTile> {
   Widget build(BuildContext context) {
     return CustomShadow(
       child: Container(
-        padding: EdgeInsets.all(CustomPadding.defaultSpace),
+        padding: const EdgeInsets.all(CustomPadding.defaultSpace),
         decoration: BoxDecoration(
           color: CustomColor.white,
           borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
@@ -44,7 +44,7 @@ class _MonthlyExpenseTileState extends State<MonthlyExpenseTile> {
             // Remaining amount
             Text('50,00€', style: TextStyles.headingStyle),
             Text(AppTexts.remainingText, style: TextStyles.hintStyleDefault),
-            Gap(CustomPadding.smallSpace),
+            const Gap(CustomPadding.smallSpace),
 
             // Progress bar
             LinearPercentIndicator(
@@ -58,17 +58,17 @@ class _MonthlyExpenseTileState extends State<MonthlyExpenseTile> {
               animateFromLastPercent: true,
               animation: true,
             ),
-            Gap(CustomPadding.smallSpace),
+            const Gap(CustomPadding.smallSpace),
 
             // Expense details
             Row(
               children: [
                 Text('250€', style: TextStyles.regularStyleMedium),
-                Gap(3),
+                const Gap(3),
                 Text(AppTexts.of, style: TextStyles.hintStyleDefault),
-                Gap(3),
+                const Gap(3),
                 Text('400€', style: TextStyles.regularStyleMedium),
-                Gap(3),
+                const Gap(3),
                 Text(AppTexts.spent, style: TextStyles.hintStyleDefault),
               ],
             )

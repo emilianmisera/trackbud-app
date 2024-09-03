@@ -17,7 +17,7 @@ class CustomTextfield extends StatelessWidget {
   final List<TextInputFormatter>? inputFormatters;
 
   const CustomTextfield({
-    Key? key,
+    super.key,
     required this.name,
     required this.hintText,
     required this.controller,
@@ -28,7 +28,7 @@ class CustomTextfield extends StatelessWidget {
     this.isMultiline = false,
     this.type,
     this.inputFormatters, // default false
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -36,9 +36,9 @@ class CustomTextfield extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(name, style: TextStyles.regularStyleMedium),
-        Gap(CustomPadding.mediumSpace),
+        const Gap(CustomPadding.mediumSpace),
         CustomShadow(
-          child: Container(
+          child: SizedBox(
             width: width ?? double.infinity,
             height: isMultiline ? 120 : Constants.height, // choose height of Textfield Box
             child: TextFormField(
@@ -56,7 +56,7 @@ class CustomTextfield extends StatelessWidget {
                   child: prefix,
                 ),
                 hintText: hintText,
-                contentPadding: EdgeInsets.symmetric(
+                contentPadding: const EdgeInsets.symmetric(
                   horizontal: CustomPadding.defaultSpace,
                   vertical: CustomPadding.contentHeightSpace,
                 ),

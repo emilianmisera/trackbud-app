@@ -28,15 +28,12 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title:
-            Text(AppTexts.accAdjustments, style: TextStyles.regularStyleMedium),
+        title: Text(AppTexts.accAdjustments, style: TextStyles.regularStyleMedium),
       ),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.only(
-              top: MediaQuery.sizeOf(context).height *
-                      CustomPadding.topSpaceAuth -
-                  Constants.defaultAppBarHeight,
+              top: MediaQuery.sizeOf(context).height * CustomPadding.topSpaceAuth - Constants.defaultAppBarHeight,
               left: CustomPadding.defaultSpace,
               right: CustomPadding.defaultSpace),
           child: Column(
@@ -46,9 +43,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                 AppTexts.budget,
                 style: TextStyles.regularStyleMedium,
               ),
-              Gap(
-             CustomPadding.mediumSpace,
-              ),
+              const Gap(CustomPadding.mediumSpace),
               AccAdjustmentButton(
                   //BankAccount
                   icon: AssetImport.changeAmount,
@@ -57,13 +52,11 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => ChangeBankaccountScreen(),
+                        builder: (context) => const ChangeBankaccountScreen(),
                       ),
                     );
                   }),
-              Gap(
-                CustomPadding.mediumSpace,
-              ),
+              const Gap(CustomPadding.mediumSpace),
               AccAdjustmentButton(
                   // Budget Goal
                   icon: AssetImport.target,
@@ -72,27 +65,23 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => ChangeBudgetGoalScreen(),
+                        builder: (context) => const ChangeBudgetGoalScreen(),
                       ),
                     );
                   }),
-              Gap(
-                CustomPadding.mediumSpace,
-              ),
+              const Gap(CustomPadding.mediumSpace),
               AccAdjustmentWidget(
                 // Currency
                 icon: AssetImport.settings,
                 name: AppTexts.changeCurrency,
-                widget: CurrencyDropdown(), // Dropdown for changing currency
+                widget: const CurrencyDropdown(), // Dropdown for changing currency
               ),
-              Gap(CustomPadding.defaultSpace),
+              const Gap(CustomPadding.defaultSpace),
               Text(
                 AppTexts.appearance,
                 style: TextStyles.regularStyleMedium,
               ),
-              Gap(
-              CustomPadding.mediumSpace,
-              ),
+              const Gap(CustomPadding.mediumSpace),
               AccAdjustmentWidget(
                 // DarkMode
                 icon: AssetImport.mode,
@@ -139,7 +128,7 @@ class _CurrencyDropdownState extends State<CurrencyDropdown> {
         border: Border.all(
           color: CustomColor.grey,
         ),
-        borderRadius: BorderRadius.all(Radius.circular(10)),
+        borderRadius: const BorderRadius.all(Radius.circular(10)),
       ),
       child: Center(
         child: DropdownButton<String>(

@@ -41,17 +41,17 @@ class _YourFriendsScreenState extends State<YourFriendsScreen> {
   }
 
   Future<void> _loadFriends() async {
-    String _currentUserId = getCurrentUserId();
+    String currentUserId = getCurrentUserId();
     try {
       // Lade die Freunde des aktuellen Nutzers
-      List<UserModel> friends = await _firestoreService.getFriends(_currentUserId);
+      List<UserModel> friends = await _firestoreService.getFriends(currentUserId);
 
       setState(() {
         _friends = friends;
         _isLoading = false;
       });
     } catch (e) {
-      print('Fehler beim Laden der Freunde: $e');
+      debugPrint('Fehler beim Laden der Freunde: $e');
       setState(() {
         _isLoading = false;
       });
@@ -64,7 +64,7 @@ class _YourFriendsScreenState extends State<YourFriendsScreen> {
       String inviteLink = await _inviteService.createInviteLink(userId);
       Share.share('Füge mich zu deinen Freunden in TrackBud hinzu: $inviteLink');
     } catch (e) {
-      print("Fehler beim Teilen des Links: $e");
+      debugPrint("Fehler beim Teilen des Links: $e");
     }
   }
 
@@ -80,10 +80,9 @@ class _YourFriendsScreenState extends State<YourFriendsScreen> {
         title: Text(AppTexts.yourFriends, style: TextStyles.regularStyleMedium),
         actions: [
           IconButton(
-              onPressed: () => showModalBottomSheet(
-        context: context,
-        builder: (context) => AddFriendBottomSheet(onPressed: () => _shareInviteLink())) ,
-              icon: Icon(
+              onPressed: () =>
+                  showModalBottomSheet(context: context, builder: (context) => AddFriendBottomSheet(onPressed: () => _shareInviteLink())),
+              icon: const Icon(
                 Icons.add,
                 color: CustomColor.bluePrimary,
                 size: 30,
@@ -91,12 +90,12 @@ class _YourFriendsScreenState extends State<YourFriendsScreen> {
         ],
       ),
       body: _isLoading
-          ? Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator())
           : SingleChildScrollView(
               child: Padding(
                 // spacing between content and screen
-                padding:
-                    EdgeInsets.only(top: CustomPadding.defaultSpace, left: CustomPadding.defaultSpace, right: CustomPadding.defaultSpace),
+                padding: const EdgeInsets.only(
+                    top: CustomPadding.defaultSpace, left: CustomPadding.defaultSpace, right: CustomPadding.defaultSpace),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -106,10 +105,10 @@ class _YourFriendsScreenState extends State<YourFriendsScreen> {
                       controller: _searchController,
                       onChanged: _searchFriend,
                     ),
-                    Gap(CustomPadding.defaultSpace),
+                    const Gap(CustomPadding.defaultSpace),
                     // List of Friends
                     if (_friends.isEmpty)
-                      Center(child: Text("Keine Freunde gefunden."))
+                      const Center(child: Text("Keine Freunde gefunden."))
                     else
                       Column(
                         children: _friends

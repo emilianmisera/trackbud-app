@@ -29,18 +29,10 @@ class _LoginScreenState extends State<LoginScreen> {
       await _authService.signInWithGoogle(context);
 
       // Zeige eine Erfolgsmeldung an
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(AppTexts.successfulLogin),
-        ),
-      );
+      if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(AppTexts.successfulLogin)));
     } catch (error) {
       // Zeige eine Fehlermeldung an, falls die Google-Anmeldung fehlgeschlagen ist
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text("Google-Anmeldung fehlgeschlagen: $error"),
-        ),
-      );
+      if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Google-Anmeldung fehlgeschlagen: $error")));
     }
   }
 
@@ -52,7 +44,7 @@ class _LoginScreenState extends State<LoginScreen> {
     if (email.isEmpty || password.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text("${AppTexts.emptyLoginInput}"),
+          content: Text(AppTexts.emptyLoginInput),
         ),
       );
       return;
@@ -71,11 +63,7 @@ class _LoginScreenState extends State<LoginScreen> {
       }
     } catch (e) {
       debugPrint('login_screen: _loginUser -> user login failed');
-      showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-                title: Text('Fehler: ${e.toString()}'),
-              ));
+      if (mounted) showDialog(context: context, builder: (context) => AlertDialog(title: Text('Fehler: ${e.toString()}')));
     }
 
     // catch any errors
@@ -95,47 +83,47 @@ class _LoginScreenState extends State<LoginScreen> {
             crossAxisAlignment: CrossAxisAlignment.start, //alignment to left
             children: [
               Text(AppTexts.signIn, style: TextStyles.headingStyle),
-              Gap(CustomPadding.mediumSpace),
+              const Gap(CustomPadding.mediumSpace),
               Text(AppTexts.signInDescription, style: TextStyles.hintStyleDefault),
-              Gap(CustomPadding.defaultSpace),
+              const Gap(CustomPadding.defaultSpace),
               CustomTextfield(
                 controller: _email,
                 name: AppTexts.email,
                 hintText: AppTexts.hintEmail,
                 obscureText: false,
               ), //email
-              Gap(CustomPadding.defaultSpace),
+              const Gap(CustomPadding.defaultSpace),
               CustomTextfield(
                 controller: _password,
                 name: AppTexts.password,
                 hintText: AppTexts.hintPassword,
                 obscureText: true,
               ),
-              Gap(CustomPadding.mediumSpace),
+              const Gap(CustomPadding.mediumSpace),
               Align(
                 alignment: Alignment.centerRight,
                 child: GestureDetector(
                   // forgot Password
                   onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => ForgotPasswordScreen()));
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => const ForgotPasswordScreen()));
                   },
                   child: Text(AppTexts.forgotPassword, style: TextStyles.hintStyleMedium),
                 ),
               ),
-              Gap(CustomPadding.bigSpace),
+              const Gap(CustomPadding.bigSpace),
               ElevatedButton(
                 //sign in button
                 onPressed: () => _loginUser(),
                 child: Text(AppTexts.signIn),
               ),
-              Gap(CustomPadding.bigSpace),
+              const Gap(CustomPadding.bigSpace),
               Row(
                 // Divider
                 children: [
                   Expanded(
                     child: Container(
                         margin: const EdgeInsets.only(right: CustomPadding.mediumSpace),
-                        child: Divider(
+                        child: const Divider(
                           color: CustomColor.grey,
                         )),
                   ),
@@ -143,13 +131,13 @@ class _LoginScreenState extends State<LoginScreen> {
                   Expanded(
                     child: Container(
                         margin: const EdgeInsets.only(left: CustomPadding.mediumSpace),
-                        child: Divider(
+                        child: const Divider(
                           color: CustomColor.grey,
                         )),
                   ),
                 ],
               ),
-              Gap(CustomPadding.bigSpace),
+              const Gap(CustomPadding.bigSpace),
               CustomShadow(
                 // Google Sign In
                 child: TextButton.icon(
@@ -158,7 +146,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   icon: SvgPicture.asset(AssetImport.googleLogo),
                 ),
               ),
-              Gap(CustomPadding.defaultSpace),
+              const Gap(CustomPadding.defaultSpace),
               CustomShadow(
                 // Apple Sign In
                 child: TextButton.icon(
@@ -175,20 +163,20 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ),
-              Gap(CustomPadding.bigSpace),
+              const Gap(CustomPadding.bigSpace),
               Row(
                 // Redirection to sign up page if user doesn't have an account
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(AppTexts.newHere, style: TextStyles.hintStyleMedium),
-                  Gap(CustomPadding.smallSpace),
+                  const Gap(CustomPadding.smallSpace),
                   GestureDetector(
                     onTap: () {
-                      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => SignUpScreen()));
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const SignUpScreen()));
                     },
                     child: Text(
                       AppTexts.signUp,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: TextStyles.fontSizeDefault,
                         fontWeight: TextStyles.fontWeightMedium,
                         color: CustomColor.bluePrimary,
@@ -199,7 +187,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   )
                 ],
               ),
-              Gap(CustomPadding.smallSpace),
+              const Gap(CustomPadding.smallSpace),
             ],
           ),
         ),

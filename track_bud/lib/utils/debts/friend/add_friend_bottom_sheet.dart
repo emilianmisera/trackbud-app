@@ -10,7 +10,7 @@ class AddFriendBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController _emailFriendController = TextEditingController();
+    final TextEditingController emailFriendController = TextEditingController();
     return Container(
               height: MediaQuery.sizeOf(context).height * Constants.modalBottomSheetHeight,
               width: MediaQuery.sizeOf(context).width,
@@ -23,26 +23,26 @@ class AddFriendBottomSheet extends StatelessWidget {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Gap(CustomPadding.mediumSpace),
+                    const Gap(CustomPadding.mediumSpace),
                     Center(
                       child: Container(
                         // grabber
                         width: 36,
                         height: 5,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           color: CustomColor.grabberColor,
                           borderRadius: BorderRadius.all(Radius.circular(100)),
                         ),
                       ),
                     ),
-                    Gap(CustomPadding.defaultSpace),
+                    const Gap(CustomPadding.defaultSpace),
                     Text(
                       AppTexts.addFriend,
                       style: TextStyles.regularStyleMedium,
                     ),
-                    Gap(CustomPadding.mediumSpace),
-                    CustomTextfield(name: AppTexts.email, hintText: AppTexts.hintEmail, controller: _emailFriendController),
-                    Spacer(),
+                    const Gap(CustomPadding.mediumSpace),
+                    CustomTextfield(name: AppTexts.email, hintText: AppTexts.hintEmail, controller: emailFriendController),
+                    const Spacer(),
                     ElevatedButton(
                         onPressed: onPressed,
                         child: Text(AppTexts.addFriend)),

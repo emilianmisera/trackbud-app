@@ -11,18 +11,18 @@ class InfoTile extends StatelessWidget {
   final double? width; // Optional width of the tile
 
   const InfoTile({
-    Key? key,
+    super.key,
     required this.title,
     required this.amount,
     required this.color,
     this.width,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     return CustomShadow(
       child: Container(
-        padding: EdgeInsets.symmetric(
+        padding: const EdgeInsets.symmetric(
           vertical: CustomPadding.defaultSpace,
           horizontal: CustomPadding.defaultSpace,
         ),
@@ -36,7 +36,7 @@ class InfoTile extends StatelessWidget {
           children: [
             // Display the amount
             Text('$amount€', style: TextStyles.headingStyle.copyWith(color: color)),
-            Gap(CustomPadding.mediumSpace),
+            const Gap(CustomPadding.mediumSpace),
             // Display the title
             Text(title, style: TextStyles.regularStyleDefault),
           ],

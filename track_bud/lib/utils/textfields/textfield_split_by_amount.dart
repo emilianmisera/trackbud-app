@@ -10,19 +10,19 @@ class TextFieldByAmount extends StatelessWidget {
   final String? hintText;
   final TextStyle? suffixStyle;
   final TextStyle? inputStyle;
-  TextFieldByAmount({
-    Key? key,
+  const TextFieldByAmount({
+    super.key,
     required this.controller,
     this.hintText,
     this.suffixStyle,
     this.inputStyle,
-  }) : super(key: key);
+  });
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controller,
       style: inputStyle ?? TextStyles.headingStyle,
-      keyboardType: TextInputType.numberWithOptions(),
+      keyboardType: const TextInputType.numberWithOptions(),
       textAlign: TextAlign.center,
       inputFormatters: [
         FilteringTextInputFormatter
@@ -34,7 +34,7 @@ class TextFieldByAmount extends StatelessWidget {
           "€",
           style: suffixStyle ?? TextStyles.headingStyle,
         ),
-        contentPadding: EdgeInsets.only(
+        contentPadding: const EdgeInsets.only(
             left: CustomPadding.defaultSpace,
             right: CustomPadding.defaultSpace,
             top: CustomPadding.contentHeightSpace,

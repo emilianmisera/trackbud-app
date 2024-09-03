@@ -25,19 +25,19 @@ class OverviewScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Tile showing Expenses with column chart
-            ExpensesOverviewTile(),
-            Gap(CustomPadding.defaultSpace),
+            const ExpensesOverviewTile(),
+            const Gap(CustomPadding.defaultSpace),
 
             // Tile showing with Progress Bar how much money User has left to reach his budget goal
-            MonthlyExpenseTile(),
-            Gap(CustomPadding.defaultSpace),
+            const MonthlyExpenseTile(),
+            const Gap(CustomPadding.defaultSpace),
 
             // Tile showing Information if User has debts or credits left
-            OverviewDebtsTile(),
-            Gap(CustomPadding.defaultSpace),
+            const OverviewDebtsTile(),
+            const Gap(CustomPadding.defaultSpace),
 
             Text(AppTexts.history, style: TextStyles.regularStyleMedium),
-            TransactionHistoryList()
+            const TransactionHistoryList()
           ],
         ),
       ),

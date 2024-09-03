@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:track_bud/utils/add/split/split_methods/by_amount/by_amount_tile.dart';
+import 'package:track_bud/utils/plus_button/split/split_methods/by_amount/by_amount_tile.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/strings.dart';
 
@@ -12,7 +12,7 @@ class PayOffDebts extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width - 32,
-      padding: EdgeInsets.all(CustomPadding.defaultSpace),
+      padding: const EdgeInsets.all(CustomPadding.defaultSpace),
       decoration: BoxDecoration(
         color: CustomColor.backgroundPrimary,
         borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
@@ -22,11 +22,11 @@ class PayOffDebts extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(AppTexts.payOffDebts, style: TextStyles.titleStyleMedium),
-          Gap(CustomPadding.defaultSpace),
+          const Gap(CustomPadding.defaultSpace),
           Text(AppTexts.payOffDebts, style: TextStyles.hintStyleDefault),
-          Gap(CustomPadding.defaultSpace),
-          ByAmountTile(),
-          Gap(CustomPadding.defaultSpace),
+          const Gap(CustomPadding.defaultSpace),
+          const ByAmountTile(),
+          const Gap(CustomPadding.defaultSpace),
           ElevatedButton(
             onPressed: () {
               Navigator.pop(context);

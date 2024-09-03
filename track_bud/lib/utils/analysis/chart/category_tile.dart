@@ -14,7 +14,7 @@ class CategoryTile extends StatelessWidget {
   final int transactionCount;
 
   const CategoryTile({
-    Key? key,
+    super.key,
     required this.color,
     required this.title,
     required this.amount,
@@ -22,7 +22,7 @@ class CategoryTile extends StatelessWidget {
     required this.onTap,
     required this.totalAmount,
     required this.transactionCount,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -30,12 +30,12 @@ class CategoryTile extends StatelessWidget {
       onTap: onTap,
       child: Container(
         width: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.all(CustomPadding.defaultSpace),
+        padding: const EdgeInsets.all(CustomPadding.defaultSpace),
         decoration: BoxDecoration(color: CustomColor.white, borderRadius: BorderRadius.circular(Constants.contentBorderRadius)),
         child: Row(
           children: [
             CategoryIcon(color: color, iconWidget: icon),
-            Gap(CustomPadding.mediumSpace),
+            const Gap(CustomPadding.mediumSpace),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -53,7 +53,7 @@ class CategoryTile extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text('${amount.toStringAsFixed(2)}€', style: TextStyles.regularStyleMedium),
-                Gap(CustomPadding.mediumSpace),
+                const Gap(CustomPadding.mediumSpace),
                 Text(
                   '$transactionCount Transaktionen',
                   style: TextStyles.hintStyleDefault.copyWith(fontSize: TextStyles.fontSizeHint),

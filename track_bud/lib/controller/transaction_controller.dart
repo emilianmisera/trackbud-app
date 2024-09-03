@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class TransactionController {
   // Cache to store previously fetched data to avoid redundant network calls
-  Map<String, Map<String, dynamic>> _cache = {};
+  final Map<String, Map<String, dynamic>> _cache = {};
 
   /// Fetches and returns category totals for a given user and transaction type.
   ///

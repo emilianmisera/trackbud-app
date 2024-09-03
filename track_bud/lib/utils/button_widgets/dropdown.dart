@@ -76,7 +76,7 @@ class _CustomDropDownState extends State<CustomDropDown> {
               color: CustomColor.white,
               borderRadius: BorderRadius.circular(10),
             ),
-            padding: widget.padding ?? EdgeInsets.symmetric(horizontal: 16),
+            padding: widget.padding ?? const EdgeInsets.symmetric(horizontal: 16),
           ),
           isExpanded: true,
         ),

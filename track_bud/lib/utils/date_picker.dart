@@ -7,7 +7,7 @@ import 'package:track_bud/utils/strings.dart';
 
 class DatePicker extends StatefulWidget {
   final Function(DateTime) onDateTimeChanged;
-  const DatePicker({Key? key, required this.onDateTimeChanged}) : super(key: key);
+  const DatePicker({super.key, required this.onDateTimeChanged});
 
   @override
   State<DatePicker> createState() => _DatePickerState();
@@ -21,7 +21,7 @@ class _DatePickerState extends State<DatePicker> {
   String _getDateText(DateTime date) {
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
-    final yesterday = today.subtract(Duration(days: 1));
+    final yesterday = today.subtract(const Duration(days: 1));
     final selectedDate = DateTime(date.year, date.month, date.day);
 
     // Return 'heute' for today, 'gestern' for yesterday, or the date string
@@ -57,7 +57,7 @@ class _DatePickerState extends State<DatePicker> {
       children: [
         // Date label
         Text(AppTexts.date, style: TextStyles.regularStyleMedium),
-        Gap(CustomPadding.mediumSpace),
+        const Gap(CustomPadding.mediumSpace),
         Row(
           children: [
             // Date picker button
@@ -67,7 +67,7 @@ class _DatePickerState extends State<DatePicker> {
                 showCupertinoModalPopup(
                   context: context,
                   builder: (BuildContext context) => Center(
-                    child: Container(
+                    child: SizedBox(
                       width: MediaQuery.sizeOf(context).width,
                       height: MediaQuery.sizeOf(context).height / 3,
                       child: CupertinoDatePicker(
@@ -81,10 +81,11 @@ class _DatePickerState extends State<DatePicker> {
                   ),
                 );
               },
+              style: TextButton.styleFrom(padding: EdgeInsets.zero, minimumSize: const Size(Constants.height, Constants.height)),
               child: CustomShadow(
                 child: Container(
                   height: Constants.height,
-                  padding: EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace),
+                  padding: const EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace),
                   decoration: BoxDecoration(
                     color: CustomColor.white,
                     borderRadius: BorderRadius.circular(10),
@@ -97,9 +98,8 @@ class _DatePickerState extends State<DatePicker> {
                   ),
                 ),
               ),
-              style: TextButton.styleFrom(padding: EdgeInsets.zero, minimumSize: Size(Constants.height, Constants.height)),
             ),
-            Gap(CustomPadding.mediumSpace),
+            const Gap(CustomPadding.mediumSpace),
             // Time picker button
             TextButton(
               onPressed: () {
@@ -124,10 +124,11 @@ class _DatePickerState extends State<DatePicker> {
                   ),
                 );
               },
+              style: TextButton.styleFrom(padding: EdgeInsets.zero, minimumSize: const Size(Constants.height, Constants.height)),
               child: CustomShadow(
                 child: Container(
                   height: Constants.height,
-                  padding: EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace),
+                  padding: const EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace),
                   decoration: BoxDecoration(
                     color: CustomColor.white,
                     borderRadius: BorderRadius.circular(10),
@@ -139,7 +140,6 @@ class _DatePickerState extends State<DatePicker> {
                   ),
                 ),
               ),
-              style: TextButton.styleFrom(padding: EdgeInsets.zero, minimumSize: Size(Constants.height, Constants.height)),
             ),
           ],
         ),

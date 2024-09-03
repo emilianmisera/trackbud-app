@@ -12,7 +12,7 @@ class GroupChoice extends StatelessWidget {
     return CustomShadow(
       child: Container(
         width: double.infinity,
-        padding: EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace, vertical: CustomPadding.mediumSpace),
+        padding: const EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace, vertical: CustomPadding.mediumSpace),
         decoration: BoxDecoration(
           color: CustomColor.white,
           borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
@@ -28,7 +28,7 @@ class GroupChoice extends StatelessWidget {
             ),
           ),
           title: Text('Gruppenname', style: TextStyles.regularStyleMedium),
-          trailing: Container(
+          trailing: SizedBox(
             width: 65,
             height: 30,
             child: Stack(

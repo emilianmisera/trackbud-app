@@ -23,7 +23,7 @@ class AccAdjustmentButton extends StatelessWidget {
             name,
             style: TextStyles.regularStyleDefault,
           ),
-          Icon(Icons.arrow_forward_ios_rounded),
+          const Icon(Icons.arrow_forward_ios_rounded),
         ],
       ),
       onPressed: onPressed,
@@ -33,7 +33,7 @@ class AccAdjustmentButton extends StatelessWidget {
           fixedSize: const Size(double.infinity, Constants.height),
           elevation: 0,
           surfaceTintColor: CustomColor.backgroundPrimary,
-          padding: padding ?? EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace)),
+          padding: padding ?? const EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace)),
     );
   }
 }

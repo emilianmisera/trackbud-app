@@ -11,7 +11,7 @@ class ColorTheme {
     scaffoldBackgroundColor: CustomColor.backgroundPrimary,
     fontFamily: TextStyles.fontFamily,
     hintColor: CustomColor.hintColor,
-    appBarTheme: AppBarTheme(
+    appBarTheme: const AppBarTheme(
         backgroundColor: CustomColor.backgroundPrimary,
         surfaceTintColor: CustomColor.backgroundPrimary),
     elevatedButtonTheme: ElevatedButtonThemeData(
@@ -38,7 +38,7 @@ class ColorTheme {
           borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
         )),
         foregroundColor: WidgetStateProperty.all(CustomColor.black),
-        side: WidgetStateProperty.all(BorderSide(
+        side: WidgetStateProperty.all(const BorderSide(
             color: CustomColor.hintColor,
             width: 2.0,
             style: BorderStyle.solid)),

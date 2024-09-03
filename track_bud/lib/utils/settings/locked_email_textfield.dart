@@ -22,7 +22,7 @@ class LockedEmailTextfield extends StatelessWidget {
           AppTexts.email,
           style: TextStyles.regularStyleMedium,
         ),
-        Gap(
+        const Gap(
           CustomPadding.mediumSpace,
         ),
         // Custom shadow container for email display
@@ -30,11 +30,11 @@ class LockedEmailTextfield extends StatelessWidget {
           child: Container(
             width: double.infinity,
             height: 65,
-            padding: EdgeInsets.only(
+            padding: const EdgeInsets.only(
               left: CustomPadding.defaultSpace,
               right: CustomPadding.defaultSpace,
             ),
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(10)),
               color: CustomColor.white,
             ),

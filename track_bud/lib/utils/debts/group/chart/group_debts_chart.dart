@@ -26,7 +26,7 @@ class TransactionOverview extends StatelessWidget {
         : CustomShadow(
             child: Container(
               width: MediaQuery.sizeOf(context).width,
-              padding: EdgeInsets.all(CustomPadding.defaultSpace),
+              padding: const EdgeInsets.all(CustomPadding.defaultSpace),
               decoration: BoxDecoration(
                 color: CustomColor.white,
                 borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
@@ -34,7 +34,7 @@ class TransactionOverview extends StatelessWidget {
               child: Column(
                 children: [
                   buildCategoryBar(),
-                  Gap(CustomPadding.bigSpace),
+                  const Gap(CustomPadding.bigSpace),
                   buildCategoryList(),
                 ],
               ),

@@ -23,28 +23,28 @@ class OnboardingScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start, //alignment to left
           children: [
             SvgPicture.asset(AssetImport.textLogo),
-            Gap(
+            const Gap(
               CustomPadding.defaultSpace,
             ),
             Text(
               AppTexts.onboardingTitle,
               style: TextStyles.introductionStyle,
             ),
-            Gap(
+            const Gap(
               CustomPadding.mediumSpace,
             ),
             Text(
               AppTexts.onboardingDescription,
               style: TextStyles.regularStyleDefault,
             ),
-            Gap(
+            const Gap(
               CustomPadding.defaultSpace,
             ),
             ElevatedButton(
               //sign in button
               onPressed: () {
                 Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (context) => LoginScreen()));
+                    MaterialPageRoute(builder: (context) => const LoginScreen()));
               },
               child: Text(
                 AppTexts.start,

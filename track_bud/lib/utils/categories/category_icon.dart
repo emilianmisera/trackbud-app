@@ -15,7 +15,7 @@ class CategoryIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(
+      padding: const EdgeInsets.all(
         CustomPadding.categoryIconSpace,
       ),
       decoration: BoxDecoration(

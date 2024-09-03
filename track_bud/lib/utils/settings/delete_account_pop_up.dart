@@ -10,28 +10,28 @@ class DeleteAccountPopUp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController _passwordController = TextEditingController();
+    final TextEditingController passwordController = TextEditingController();
 
     return AlertDialog(
       title: Text(
         AppTexts.deleteAcc,
         style: TextStyles.titleStyleMedium,
       ),
-      content: Container(
+      content: SizedBox(
         width: double.infinity,
         height: 235,
         child: Column(
           children: [
             Text(AppTexts.deleteAccDescribtion, style: TextStyles.hintStyleDefault),
-            Gap(CustomPadding.defaultSpace),
+            const Gap(CustomPadding.defaultSpace),
             CustomTextfield(
               name: AppTexts.password,
               obscureText: true,
               hintText: AppTexts.hintPassword,
-              controller: _passwordController,
+              controller: passwordController,
               autofocus: true,
             ),
-            Gap(CustomPadding.defaultSpace),
+            const Gap(CustomPadding.defaultSpace),
             ElevatedButton(
               onPressed: onPressed,
               style: ElevatedButton.styleFrom(backgroundColor: CustomColor.red),
@@ -40,10 +40,10 @@ class DeleteAccountPopUp extends StatelessWidget {
           ],
         ),
       ),
-      insetPadding: EdgeInsets.all(CustomPadding.defaultSpace),
+      insetPadding: const EdgeInsets.all(CustomPadding.defaultSpace),
       backgroundColor: CustomColor.backgroundPrimary,
       surfaceTintColor: CustomColor.backgroundPrimary,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(
           Radius.circular(Constants.contentBorderRadius),
         ),

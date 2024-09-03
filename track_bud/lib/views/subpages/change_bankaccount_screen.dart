@@ -63,7 +63,7 @@ class _ChangeBankaccountScreenState extends State<ChangeBankaccountScreen> {
     if (userId.isEmpty) {
       // Handle the case when user ID is not available
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text("Benutzer nicht angemeldet."),
         ),
       );
@@ -73,7 +73,7 @@ class _ChangeBankaccountScreenState extends State<ChangeBankaccountScreen> {
     final String amountText = _moneyController.text.trim().replaceAll(',', '.');
     if (amountText.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text("Bitte geben Sie den Betrag ein."),
         ),
       );
@@ -83,9 +83,7 @@ class _ChangeBankaccountScreenState extends State<ChangeBankaccountScreen> {
     final double amount = double.tryParse(amountText) ?? -1;
     if (amount < 0) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text("Ungültiger Betrag."),
-        ),
+        const SnackBar(content: Text("Ungültiger Betrag.")),
       );
       return;
     }
@@ -94,18 +92,14 @@ class _ChangeBankaccountScreenState extends State<ChangeBankaccountScreen> {
       // Call the UserController to update the bank account information
       await UserController().updateBankAccountBalance(userId, amount);
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text("Bankkonto erfolgreich aktualisiert."),
-        ),
-      );
-      Navigator.pop(context);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Bankkonto erfolgreich aktualisiert.")));
+        Navigator.pop(context);
+      }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text("Fehler beim Speichern der Bankkonto-Informationen: $e"),
-        ),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Fehler beim Speichern der Bankkonto-Informationen: $e")));
+      }
     }
   }
 
@@ -129,14 +123,14 @@ class _ChangeBankaccountScreenState extends State<ChangeBankaccountScreen> {
                 AppTexts.changeBankAccHeading, // The heading text
                 style: TextStyles.headingStyle, // The text style for the heading.
               ),
-              Gap(
+              const Gap(
                 CustomPadding.mediumSpace, // Adds vertical space between the heading and the next element.
               ),
               Text(
                 AppTexts.changeBankAccDescribtion, // The description text
                 style: TextStyles.hintStyleDefault, // The text style for the description.
               ),
-              Gap(
+              const Gap(
                 CustomPadding.bigSpace, // Adds more vertical space before the next element.
               ),
               // A custom TextField widget for entering the amount of money, using the controller defined above.

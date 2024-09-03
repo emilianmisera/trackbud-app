@@ -26,13 +26,19 @@ class _ChangeEmailScreenState extends State<ChangeEmailScreen> {
         _newEmailController.text,
         _passwordController.text,
       );
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('Ein Verifizierungslink wurde an die neue E-Mail gesendet.'),
-      ));
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Ein Verifizierungslink wurde an die neue E-Mail gesendet.'),
+          ),
+        );
+      }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('Fehler beim Senden des Verifizierungslinks: $e'),
-      ));
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Fehler beim Senden des Verifizierungslinks: $e'),
+        ));
+      }
     }
   }
 
@@ -54,18 +60,18 @@ class _ChangeEmailScreenState extends State<ChangeEmailScreen> {
             children: [
               // The heading text
               Text(AppTexts.changeEmail, style: TextStyles.headingStyle),
-              Gap(CustomPadding.mediumSpace),
+              const Gap(CustomPadding.mediumSpace),
               // The description text
               Text(AppTexts.changeEmailDesscribtion, style: TextStyles.hintStyleDefault),
-              Gap(
+              const Gap(
                 CustomPadding.bigSpace,
               ),
               // Current email text field
               CustomTextfield(name: AppTexts.currentEmail, hintText: AppTexts.currentEmailHint, controller: _currentEmailController),
-              Gap(CustomPadding.defaultSpace),
+              const Gap(CustomPadding.defaultSpace),
               // new email text field
               CustomTextfield(name: AppTexts.newEmail, hintText: AppTexts.newEmailHint, controller: _newEmailController),
-              Gap(CustomPadding.defaultSpace),
+              const Gap(CustomPadding.defaultSpace),
               // Confirm Password text field
               CustomTextfield(name: AppTexts.password, obscureText: true, hintText: AppTexts.hintPassword, controller: _passwordController),
             ],

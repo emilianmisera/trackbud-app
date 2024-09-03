@@ -11,20 +11,20 @@ class TextFieldAmountOfMoney extends StatelessWidget {
   final String? hintText;
   final TextStyle? suffixStyle;
   final TextStyle? inputStyle;
-  TextFieldAmountOfMoney({
-    Key? key,
+  const TextFieldAmountOfMoney({
+    super.key,
     required this.controller,
     this.hintText,
     this.suffixStyle,
     this.inputStyle,
-  }) : super(key: key);
+  });
   @override
   Widget build(BuildContext context) {
     return CustomShadow(
       child: TextFormField(
         controller: controller,
         style: TextStyles.headingStyle,
-        keyboardType: TextInputType.numberWithOptions(decimal: true),
+        keyboardType: const TextInputType.numberWithOptions(decimal: true),
         textAlign: TextAlign.center,
         inputFormatters: [
           FilteringTextInputFormatter.allow(RegExp(
@@ -36,7 +36,7 @@ class TextFieldAmountOfMoney extends StatelessWidget {
             "€",
             style: suffixStyle ?? TextStyles.headingStyle,
           ),
-          contentPadding: EdgeInsets.only(
+          contentPadding: const EdgeInsets.only(
               left: CustomPadding.defaultSpace,
               right: CustomPadding.defaultSpace,
               top: CustomPadding.contentHeightSpace,

@@ -6,8 +6,8 @@ import 'package:track_bud/utils/tiles/transaction/transaction_tile.dart';
 
 class TransactionHistoryList extends StatelessWidget {
   const TransactionHistoryList({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -32,18 +32,18 @@ class TransactionHistoryList extends StatelessWidget {
 
         if (snapshot.connectionState == ConnectionState.waiting) {
           debugPrint('StreamBuilder: Waiting for data');
-          return CircularProgressIndicator();
+          return const CircularProgressIndicator();
         }
 
         if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
           debugPrint('StreamBuilder: No data available');
-          return Text('Keine Transaktionen vorhanden');
+          return const Text('Keine Transaktionen vorhanden');
         }
 
         debugPrint('StreamBuilder: Data received, doc count: ${snapshot.data!.docs.length}');
         return ListView.builder(
           shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           padding: EdgeInsets.zero,
           itemCount: snapshot.data!.docs.length,
           itemBuilder: (context, index) {
@@ -52,7 +52,7 @@ class TransactionHistoryList extends StatelessWidget {
             debugPrint('Building item $index: ${data['title']}');
 
             return Padding(
-              padding: EdgeInsets.only(bottom: CustomPadding.mediumSpace),
+              padding: const EdgeInsets.only(bottom: CustomPadding.mediumSpace),
               child: TransactionTile(
                 title: data['title'] ?? 'Unbekannter Titel',
                 amount: (data['amount'] as num?)?.toDouble() ?? 0.0,

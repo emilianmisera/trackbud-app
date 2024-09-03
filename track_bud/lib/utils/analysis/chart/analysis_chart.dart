@@ -12,10 +12,10 @@ import 'package:track_bud/utils/enum/categories.dart';
 class DonutChart extends StatefulWidget {
   final String selectedOption;
 
-  const DonutChart({Key? key, required this.selectedOption}) : super(key: key);
+  const DonutChart({super.key, required this.selectedOption});
 
   @override
-  _DonutChartState createState() => _DonutChartState();
+  State<DonutChart> createState() => _DonutChartState();
 }
 
 class _DonutChartState extends State<DonutChart> {
@@ -134,7 +134,7 @@ class _DonutChartState extends State<DonutChart> {
             ),
           ),
         ),
-        Gap(CustomPadding.defaultSpace),
+        const Gap(CustomPadding.defaultSpace),
         Column(children: _buildCategoryTiles(sections)),
       ],
     );

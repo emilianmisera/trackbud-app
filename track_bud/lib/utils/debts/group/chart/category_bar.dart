@@ -7,11 +7,11 @@ class CategoryBar extends StatelessWidget {
   final double? height;
 
   const CategoryBar({
-    Key? key,
+    super.key,
     required this.categoryExpenses,
     required this.categoryColors,
     this.height,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +35,7 @@ class CategoryBar extends StatelessWidget {
     }
     return ClipRRect(
       borderRadius: BorderRadius.circular(5),
-      child: Container(
+      child: SizedBox(
         height: height ?? 20,
         child: Row(
           children: sortedExpenses.map((entry) {

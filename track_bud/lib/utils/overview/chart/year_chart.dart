@@ -23,7 +23,7 @@ class _YearChartState extends State<YearChart> with SingleTickerProviderStateMix
 
     _animationController = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 500),
     );
 
     // Create height animation
@@ -87,7 +87,7 @@ class _YearChartState extends State<YearChart> with SingleTickerProviderStateMix
                   ),
                 ),
               ),
-              Gap(4),
+              const Gap(4),
               Text(
                 months[index],
                 style: TextStyles.hintStyleDefault.copyWith(
@@ -100,7 +100,7 @@ class _YearChartState extends State<YearChart> with SingleTickerProviderStateMix
                 Container(
                   height: 10,
                   width: 10,
-                  decoration: BoxDecoration(color: CustomColor.bluePrimary, shape: BoxShape.circle),
+                  decoration: const BoxDecoration(color: CustomColor.bluePrimary, shape: BoxShape.circle),
                 ),
             ],
           );

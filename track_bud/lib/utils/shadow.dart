@@ -13,7 +13,7 @@ class CustomShadow extends StatelessWidget {
     return SimpleShadow(
         color: CustomColor.black,
         opacity: 0.084,
-        offset: Offset(0, 0),
+        offset: const Offset(0, 0),
         sigma: 2,
         child: child);
   }

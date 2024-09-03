@@ -23,7 +23,7 @@ class CategoryInfo extends StatelessWidget {
     return Row(
       children: [
         CategoryIcon(color: iconColor, iconWidget: icon),
-        Gap(CustomPadding.mediumSpace),
+        const Gap(CustomPadding.mediumSpace),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:track_bud/models/transaction_model.dart';
 import 'package:track_bud/models/user_model.dart';
 
@@ -17,10 +18,10 @@ class FirestoreService {
         // Wenn kein Benutzer mit dieser E-Mail existiert, füge ihn hinzu
         await addUser(user);
       } else {
-        print("Benutzer mit dieser E-Mail existiert bereits.");
+        debugPrint("Benutzer mit dieser E-Mail existiert bereits.");
       }
     } catch (e) {
-      print("Fehler beim Hinzufügen des Benutzers: $e");
+      debugPrint("Fehler beim Hinzufügen des Benutzers: $e");
     }
   }
 
@@ -53,7 +54,7 @@ class FirestoreService {
         return null;
       }
     } catch (e) {
-      print('Fehler beim Abrufen der Benutzerdaten: $e');
+      debugPrint('Fehler beim Abrufen der Benutzerdaten: $e');
       return null;
     }
   }
@@ -62,7 +63,7 @@ class FirestoreService {
     try {
       await _db.collection('users').doc(userId).update({'name': newName});
     } catch (e) {
-      print("Fehler beim Aktualisieren des Nutzernamens in Firestore: $e");
+      debugPrint("Fehler beim Aktualisieren des Nutzernamens in Firestore: $e");
     }
   }
 
@@ -74,8 +75,8 @@ class FirestoreService {
           .doc(userId)
           .update({'profilePictureUrl': imageUrl});
     } catch (e) {
-      print("Fehler beim Aktualisieren des Profilbildes in Firestore: $e");
-      throw e; // Werfen Sie den Fehler, um ihn in der aufrufenden Methode zu behandeln
+      debugPrint("Fehler beim Aktualisieren des Profilbildes in Firestore: $e");
+      rethrow; // Werfen Sie den Fehler, um ihn in der aufrufenden Methode zu behandeln
     }
   }
 
@@ -132,16 +133,16 @@ class FirestoreService {
               });
             }
           }
-          print("Freund erfolgreich hinzugefügt");
+          debugPrint("Freund erfolgreich hinzugefügt");
         } else {
-          print("Freundschaft besteht bereits.");
+          debugPrint("Freundschaft besteht bereits.");
         }
       } else {
-        print("Benutzer nicht gefunden.");
+        debugPrint("Benutzer nicht gefunden.");
       }
     } catch (e) {
-      print("Fehler beim Hinzufügen des Freundes: $e");
-      throw e;
+      debugPrint("Fehler beim Hinzufügen des Freundes: $e");
+      rethrow;
     }
   }
 
@@ -166,11 +167,11 @@ class FirestoreService {
 
         return friends;
       } else {
-        print("Benutzer nicht gefunden.");
+        debugPrint("Benutzer nicht gefunden.");
         return [];
       }
     } catch (e) {
-      print("Fehler beim Abrufen der Freunde: $e");
+      debugPrint("Fehler beim Abrufen der Freunde: $e");
       return [];
     }
   }

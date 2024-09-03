@@ -11,17 +11,17 @@ class SearchTextfield extends StatelessWidget {
   final void Function(String) onChanged;
 
   const SearchTextfield({
-    Key? key,
+    super.key,
     required this.hintText,
     required this.controller,
     this.autofocus,
     required this.onChanged,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     return CustomShadow(
-      child: Container(
+      child: SizedBox(
         width: double.infinity,
         height: Constants.height,
         child: TextFormField(
@@ -34,7 +34,7 @@ class SearchTextfield extends StatelessWidget {
               fit: BoxFit.scaleDown,
             ),
             hintText: hintText,
-            contentPadding: EdgeInsets.symmetric(
+            contentPadding: const EdgeInsets.symmetric(
               horizontal: CustomPadding.defaultSpace,
               vertical: CustomPadding.contentHeightSpace,
             ),

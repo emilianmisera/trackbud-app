@@ -8,7 +8,7 @@ import 'package:track_bud/views/subpages/friend_profile_screen.dart';
 class FriendCard extends StatelessWidget {
   final UserModel friend;
 
-  const FriendCard({Key? key, required this.friend}) : super(key: key);
+  const FriendCard({super.key, required this.friend});
 
   @override
   Widget build(BuildContext context) {
@@ -20,12 +20,12 @@ class FriendCard extends StatelessWidget {
           // Friend's profile picture
           leading: ClipRRect(
             borderRadius: BorderRadius.circular(100.0),
-            child: Container(
+            child: SizedBox(
               width: 40,
               height: 40,
               child: friend.profilePictureUrl != ""
                   ? Image.network(friend.profilePictureUrl, fit: BoxFit.cover)
-                  : Icon(Icons.person, color: Colors.grey),
+                  : const Icon(Icons.person, color: Colors.grey),
             ),
           ),
           // Friend's name
@@ -33,7 +33,7 @@ class FriendCard extends StatelessWidget {
           // Debt or credit information
           subtitle: Text('bekommt insgesamt ...', style: TextStyles.hintStyleDefault.copyWith(fontSize: TextStyles.fontSizeHint)),
           // Navigation arrow
-          trailing: Icon(Icons.arrow_forward_ios_rounded, color: CustomColor.black),
+          trailing: const Icon(Icons.arrow_forward_ios_rounded, color: CustomColor.black),
           minVerticalPadding: CustomPadding.defaultSpace,
           // Navigate to FriendDetailScreen when tapped
           onTap: () {

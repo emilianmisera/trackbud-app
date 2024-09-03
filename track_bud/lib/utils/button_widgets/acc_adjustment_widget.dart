@@ -19,8 +19,8 @@ class _AccAdjustmentWidgetState extends State<AccAdjustmentWidget> {
     return Container(
       width: double.infinity,
       height: Constants.height,
-      padding: EdgeInsets.only(left: CustomPadding.defaultSpace, right: CustomPadding.defaultSpace),
-      decoration: BoxDecoration(
+      padding: const EdgeInsets.only(left: CustomPadding.defaultSpace, right: CustomPadding.defaultSpace),
+      decoration: const BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(5)),
         color: CustomColor.backgroundPrimary,
       ),
@@ -31,7 +31,7 @@ class _AccAdjustmentWidgetState extends State<AccAdjustmentWidget> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               SvgPicture.asset(widget.icon),
-              Gap(
+              const Gap(
                 8,
               ),
               Text(
@@ -40,7 +40,7 @@ class _AccAdjustmentWidgetState extends State<AccAdjustmentWidget> {
               ),
             ],
           ),
-          widget.widget ?? Icon(Icons.arrow_forward_ios),
+          widget.widget ?? const Icon(Icons.arrow_forward_ios),
         ],
       ),
     );

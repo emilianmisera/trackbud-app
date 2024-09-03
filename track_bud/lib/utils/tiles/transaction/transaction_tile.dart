@@ -20,7 +20,7 @@ class TransactionTile extends StatefulWidget {
   final Function(String) onEdit;
 
   const TransactionTile(
-      {Key? key,
+      {super.key,
       required this.title,
       required this.amount,
       required this.date,
@@ -30,8 +30,7 @@ class TransactionTile extends StatefulWidget {
       required this.recurrenceType,
       required this.type,
       required this.onDelete,
-      required this.onEdit})
-      : super(key: key);
+      required this.onEdit});
 
   @override
   State<TransactionTile> createState() => _TransactionTileState();
@@ -42,6 +41,14 @@ class _TransactionTileState extends State<TransactionTile> {
   Future _openTransaction() => showDialog(
         context: context,
         builder: (context) => Dialog(
+          insetPadding: const EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace),
+          backgroundColor: CustomColor.backgroundPrimary,
+          surfaceTintColor: CustomColor.backgroundPrimary,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(Constants.contentBorderRadius),
+            ),
+          ),
           child: Padding(
             padding: const EdgeInsets.all(CustomPadding.defaultSpace),
             child: TransactionDetail(
@@ -55,14 +62,6 @@ class _TransactionTileState extends State<TransactionTile> {
               type: widget.type,
               onDelete: widget.onDelete,
               onEdit: widget.onEdit,
-            ),
-          ),
-          insetPadding: EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace),
-          backgroundColor: CustomColor.backgroundPrimary,
-          surfaceTintColor: CustomColor.backgroundPrimary,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(
-              Radius.circular(Constants.contentBorderRadius),
             ),
           ),
         ),

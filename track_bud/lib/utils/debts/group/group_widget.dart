@@ -20,7 +20,7 @@ class _DebtsOverviewState extends State<DebtsOverview> {
     return CustomShadow(
       child: Container(
         width: MediaQuery.sizeOf(context).width,
-        padding: EdgeInsets.all(CustomPadding.defaultSpace),
+        padding: const EdgeInsets.all(CustomPadding.defaultSpace),
         decoration: BoxDecoration(color: CustomColor.white, borderRadius: BorderRadius.circular(Constants.contentBorderRadius)),
         child: Column(
           children: [
@@ -39,7 +39,7 @@ class _DebtsOverviewState extends State<DebtsOverview> {
               // Debt or credit information
 
               // Navigation arrow
-              trailing: BalanceState(
+              trailing: const BalanceState(
                 //TODO: Change ColorScheme based on amount
                 colorScheme: DebtsColorScheme.red,
                 amount: '-120€',
@@ -47,7 +47,7 @@ class _DebtsOverviewState extends State<DebtsOverview> {
               minVerticalPadding: 0,
               contentPadding: EdgeInsets.zero,
             ),
-            Gap(CustomPadding.smallSpace),
+            const Gap(CustomPadding.smallSpace),
             GestureDetector(
               // popup window to pay off debts
               onTap: () => PayOffDebts(

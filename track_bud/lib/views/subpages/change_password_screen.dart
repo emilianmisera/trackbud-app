@@ -36,11 +36,11 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
             children: [
               // Heading text
               Text(AppTexts.changePassword, style: TextStyles.headingStyle),
-              Gap(CustomPadding.mediumSpace),
+              const Gap(CustomPadding.mediumSpace),
 
               // Description text
               Text(AppTexts.changePasswordDesscribtion, style: TextStyles.hintStyleDefault),
-              Gap(CustomPadding.bigSpace),
+              const Gap(CustomPadding.bigSpace),
 
               // Current password text field
               CustomTextfield(
@@ -48,7 +48,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 hintText: AppTexts.currentPasswordHint,
                 controller: _currentPasswordController,
               ),
-              Gap(CustomPadding.mediumSpace),
+              const Gap(CustomPadding.mediumSpace),
 
               // Forgot password link
               Align(
@@ -56,13 +56,13 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 child: GestureDetector(
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => ForgotPasswordScreen(),
+                      builder: (context) => const ForgotPasswordScreen(),
                     ));
                   },
                   child: Text(AppTexts.forgotPassword, style: TextStyles.hintStyleMedium),
                 ),
               ),
-              Gap(CustomPadding.defaultSpace),
+              const Gap(CustomPadding.defaultSpace),
 
               // New password text field
               CustomTextfield(
@@ -70,7 +70,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 hintText: AppTexts.hintPassword,
                 controller: _passwordController,
               ),
-              Gap(CustomPadding.defaultSpace),
+              const Gap(CustomPadding.defaultSpace),
 
               // Confirm new password text field
               CustomTextfield(

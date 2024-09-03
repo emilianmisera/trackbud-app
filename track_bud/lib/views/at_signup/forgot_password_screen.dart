@@ -24,7 +24,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     // Validate email input
     if (email.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text("Please enter your email."),
         ),
       );
@@ -35,23 +35,15 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       debugPrint('Attempt to send a password reset email');
       await _authService.sendPasswordResetEmail(email);
       debugPrint('email successfull sent!');
-
-      // Show success message
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text("Password reset email sent."),
-        ),
-      );
-
-      // Optionally navigate back to login screen
-      Navigator.of(context).pop();
+      if (mounted) {
+        // Show success message
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Password reset email sent.")));
+        // Optionally navigate back to login screen
+        Navigator.of(context).pop();
+      }
     } on FirebaseAuthException catch (e) {
       // Handle error and show error message
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text("Error: ${e.message}"),
-        ),
-      );
+      if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Error: ${e.message}")));
     }
   }
 
@@ -83,9 +75,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
             crossAxisAlignment: CrossAxisAlignment.start, //alignment to left
             children: [
               Text(AppTexts.resetPassword, style: TextStyles.headingStyle),
-              Gap(CustomPadding.mediumSpace),
+              const Gap(CustomPadding.mediumSpace),
               Text(AppTexts.resetPasswordDescription, style: TextStyles.hintStyleDefault),
-              Gap(CustomPadding.defaultSpace),
+              const Gap(CustomPadding.defaultSpace),
               CustomTextfield(
                 controller: _emailController,
                 name: AppTexts.email,

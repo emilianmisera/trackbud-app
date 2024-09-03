@@ -86,7 +86,7 @@ class _ExpensesOverviewTileState extends State<ExpensesOverviewTile> {
   Widget build(BuildContext context) {
     return CustomShadow(
       child: Container(
-        padding: EdgeInsets.all(CustomPadding.defaultSpace),
+        padding: const EdgeInsets.all(CustomPadding.defaultSpace),
         decoration: BoxDecoration(
           color: CustomColor.white,
           borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
@@ -102,11 +102,11 @@ class _ExpensesOverviewTileState extends State<ExpensesOverviewTile> {
                 });
               },
             ),
-            Gap(CustomPadding.defaultSpace),
+            const Gap(CustomPadding.defaultSpace),
             // Display current time period and total expense
             Row(
               children: [
-                Icon(
+                const Icon(
                   Icons.arrow_back_ios_new_rounded,
                   color: CustomColor.hintColor,
                   size: 15,
@@ -118,16 +118,16 @@ class _ExpensesOverviewTileState extends State<ExpensesOverviewTile> {
               ],
             ),
             Text(
-              '${_calculateTotalExpenses().toStringAsFixed(2)}',
+              _calculateTotalExpenses().toStringAsFixed(2),
               style: TextStyles.headingStyle,
             ),
-            Gap(CustomPadding.mediumSpace),
+            const Gap(CustomPadding.mediumSpace),
             // Display overview of transactions by category
             TransactionOverview(
               isOverview: true,
               categoryAmounts: categoryAmounts,
             ),
-            Gap(CustomPadding.defaultSpace),
+            const Gap(CustomPadding.defaultSpace),
             // Display animated expenses chart
             ExpensesChart(
               currentTimeUnit: _currentTimeUnit,

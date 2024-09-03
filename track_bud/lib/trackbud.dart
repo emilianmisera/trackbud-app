@@ -12,7 +12,7 @@ class TrackBud extends StatelessWidget {
   // Constructor with optional parameter for initial index
   TrackBud({super.key});
 
-  PageController _pageController = PageController();
+  final PageController _pageController = PageController();
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class TrackBud extends StatelessWidget {
       // Display the screen corresponding to the current index
       body: PageView(
         controller: _pageController,
-        children: [
+        children: const [
           OverviewScreen(),
           DebtsScreen(),
           AnalysisScreen(),

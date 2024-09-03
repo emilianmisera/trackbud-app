@@ -29,7 +29,7 @@ class _WeekChartState extends State<WeekChart> with SingleTickerProviderStateMix
 
     _animationController = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 500),
     );
 
     // Create height animation
@@ -75,7 +75,7 @@ class _WeekChartState extends State<WeekChart> with SingleTickerProviderStateMix
                 ),
               ),
             ),
-            Gap(CustomPadding.smallSpace),
+            const Gap(CustomPadding.smallSpace),
             Text(
               days[index],
               style: TextStyles.hintStyleDefault.copyWith(
@@ -88,7 +88,7 @@ class _WeekChartState extends State<WeekChart> with SingleTickerProviderStateMix
               Container(
                 height: 10,
                 width: 10,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: CustomColor.bluePrimary,
                   shape: BoxShape.circle,
                 ),

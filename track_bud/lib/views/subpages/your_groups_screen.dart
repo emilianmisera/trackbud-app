@@ -29,8 +29,8 @@ class _YourGroupsScreenState extends State<YourGroupsScreen> {
         title: Text(AppTexts.yourGroups, style: TextStyles.regularStyleMedium),
         actions: [
           IconButton(
-            onPressed: () => showModalBottomSheet(context: context, builder: (context) => CreateGroupSheet()),
-            icon: Icon(
+            onPressed: () => showModalBottomSheet(context: context, builder: (context) => const CreateGroupSheet()),
+            icon: const Icon(
               Icons.add,
               color: CustomColor.bluePrimary,
               size: 30,
@@ -41,7 +41,7 @@ class _YourGroupsScreenState extends State<YourGroupsScreen> {
       body: SingleChildScrollView(
         child: Padding(
           // spacing between content and screen
-          padding: EdgeInsets.only(top: CustomPadding.defaultSpace, left: CustomPadding.defaultSpace, right: CustomPadding.defaultSpace),
+          padding: const EdgeInsets.only(top: CustomPadding.defaultSpace, left: CustomPadding.defaultSpace, right: CustomPadding.defaultSpace),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -51,7 +51,7 @@ class _YourGroupsScreenState extends State<YourGroupsScreen> {
                 controller: _searchController,
                 onChanged: _searchGroup,
               ),
-              Gap(CustomPadding.defaultSpace),
+              const Gap(CustomPadding.defaultSpace),
               // List of Friends
               /*
               Expanded(

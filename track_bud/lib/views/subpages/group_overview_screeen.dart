@@ -28,12 +28,12 @@ class _GroupOverviewScreenState extends State<GroupOverviewScreen> {
       body: SingleChildScrollView(
         child: Padding(
           // spacing between content and screen
-          padding: EdgeInsets.only(top: CustomPadding.defaultSpace, left: CustomPadding.defaultSpace, right: CustomPadding.defaultSpace),
+          padding: const EdgeInsets.only(top: CustomPadding.defaultSpace, left: CustomPadding.defaultSpace, right: CustomPadding.defaultSpace),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               InfoTile(title: AppTexts.overall, amount: 'amount', color: CustomColor.black),
-              Gap(
+              const Gap(
                 CustomPadding.mediumSpace,
               ),
               Row(
@@ -51,24 +51,24 @@ class _GroupOverviewScreenState extends State<GroupOverviewScreen> {
                       width: MediaQuery.sizeOf(context).width / 2 - Constants.infoTileSpace),
                 ],
               ),
-              Gap(CustomPadding.defaultSpace),
+              const Gap(CustomPadding.defaultSpace),
               Text(
                 AppTexts.debtsOverview,
                 style: TextStyles.regularStyleMedium,
               ),
-              Gap(
+              const Gap(
                 CustomPadding.mediumSpace,
               ),
-              DebtsOverview(),
-              Gap(CustomPadding.defaultSpace),
+              const DebtsOverview(),
+              const Gap(CustomPadding.defaultSpace),
               Text(
                 AppTexts.transactionOverview,
                 style: TextStyles.regularStyleMedium,
               ),
-              Gap(
+              const Gap(
                 CustomPadding.mediumSpace,
               ),
-              TransactionOverview(
+              const TransactionOverview(
                 categoryAmounts: {
                   Categories.lebensmittel: 3.0,
                   Categories.drogerie: 2.0,
@@ -81,14 +81,14 @@ class _GroupOverviewScreenState extends State<GroupOverviewScreen> {
                   Categories.sonstiges: 0.0,
                 },
               ),
-              Gap(
+              const Gap(
                 CustomPadding.defaultSpace,
               ),
               Text(
                 AppTexts.history,
                 style: TextStyles.regularStyleMedium,
               ),
-              Gap(
+              const Gap(
                 CustomPadding.mediumSpace,
               ),
               //TODO: Add Listview with all Transactions

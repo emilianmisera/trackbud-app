@@ -17,14 +17,14 @@ class AnalysisScreen extends StatefulWidget {
 }
 
 class _AnalysisScreenState extends State<AnalysisScreen> {
-  double _currentBalance = 0.00;
+  final double _currentBalance = 0.00;
   String _selectedOption = 'Ausgaben'; // Default option is 'Expenses'
 
   @override
   Widget build(BuildContext context) {
     // Determine the title and color for the InfoTile based on the selected option
-    String _infoTileTitle = _selectedOption == 'Ausgaben' ? 'ausgegeben' : 'erhalten';
-    Color _infoTileColor = _selectedOption == 'Ausgaben' ? CustomColor.red : CustomColor.green;
+    String infoTileTitle = _selectedOption == 'Ausgaben' ? 'ausgegeben' : 'erhalten';
+    Color infoTileColor = _selectedOption == 'Ausgaben' ? CustomColor.red : CustomColor.green;
 
     return SingleChildScrollView(
       child: Padding(
@@ -36,19 +36,19 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            InfoTile(title: AppTexts.balance, amount: '${_currentBalance.toStringAsFixed(2)}', color: CustomColor.bluePrimary),
-            Gap(CustomPadding.mediumSpace),
+            InfoTile(title: AppTexts.balance, amount: _currentBalance.toStringAsFixed(2), color: CustomColor.bluePrimary),
+            const Gap(CustomPadding.mediumSpace),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 InfoTile(
-                  title: _infoTileTitle,
+                  title: infoTileTitle,
                   amount: 'amount', // Placeholder text, replace with actual amount
-                  color: _infoTileColor,
+                  color: infoTileColor,
                   width: MediaQuery.sizeOf(context).width / 2 - Constants.infoTileSpace,
                 ),
                 CustomDropDown(
-                  list: ['Ausgaben', 'Einnahmen'],
+                  list: const ['Ausgaben', 'Einnahmen'],
                   width: MediaQuery.sizeOf(context).width / 2 - Constants.infoTileSpace,
                   height: 88,
                   onChanged: (value) {
@@ -59,12 +59,12 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
                 ),
               ],
             ),
-            Gap(CustomPadding.defaultSpace),
+            const Gap(CustomPadding.defaultSpace),
             DonutChart(selectedOption: _selectedOption),
-            Gap(CustomPadding.defaultSpace),
+            const Gap(CustomPadding.defaultSpace),
             Text(AppTexts.history, style: TextStyles.regularStyleMedium),
-            Gap(CustomPadding.mediumSpace),
-            TransactionHistoryList(),
+            const Gap(CustomPadding.mediumSpace),
+            const TransactionHistoryList(),
           ],
         ),
       ),

@@ -23,7 +23,7 @@ class TransactionDetail extends StatefulWidget {
   final Function(String) onEdit;
 
   const TransactionDetail({
-    Key? key,
+    super.key,
     required this.title,
     required this.amount,
     required this.date,
@@ -34,7 +34,7 @@ class TransactionDetail extends StatefulWidget {
     required this.type,
     required this.onDelete,
     required this.onEdit,
-  }) : super(key: key);
+  });
 
   @override
   State<TransactionDetail> createState() => _TransactionDetailState();
@@ -66,7 +66,7 @@ class _TransactionDetailState extends State<TransactionDetail> {
                       child: Row(
                         children: [
                           SvgPicture.asset(AssetImport.edit),
-                          Gap(CustomPadding.mediumSpace),
+                          const Gap(CustomPadding.mediumSpace),
                           Text('Bearbeiten', style: TextStyles.regularStyleDefault),
                         ],
                       ),
@@ -78,9 +78,9 @@ class _TransactionDetailState extends State<TransactionDetail> {
                         children: [
                           SvgPicture.asset(
                             AssetImport.trash,
-                            colorFilter: ColorFilter.mode(CustomColor.red, BlendMode.srcIn),
+                            colorFilter: const ColorFilter.mode(CustomColor.red, BlendMode.srcIn),
                           ),
-                          Gap(CustomPadding.mediumSpace),
+                          const Gap(CustomPadding.mediumSpace),
                           Text('Löschen', style: TextStyles.regularStyleDefault.copyWith(color: CustomColor.red)),
                         ],
                       ),
@@ -103,9 +103,9 @@ class _TransactionDetailState extends State<TransactionDetail> {
                       color: Colors.white,
                     ),
                   ),
-                  menuItemStyleData: MenuItemStyleData(
+                  menuItemStyleData: const MenuItemStyleData(
                     customHeights: [48, 48],
-                    padding: const EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace),
+                    padding: EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace),
                   ),
                 ),
               ),
@@ -122,11 +122,11 @@ class _TransactionDetailState extends State<TransactionDetail> {
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                icon: Icon(Icons.close_rounded),
+                icon: const Icon(Icons.close_rounded),
               ),
             ],
           ),
-          Gap(CustomPadding.defaultSpace),
+          const Gap(CustomPadding.defaultSpace),
           // Transaction details
           Row(
             children: [
@@ -144,27 +144,27 @@ class _TransactionDetailState extends State<TransactionDetail> {
                     )
                     .icon,
               ),
-              Gap(CustomPadding.mediumSpace),
+              const Gap(CustomPadding.mediumSpace),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(widget.title, style: TextStyles.titleStyleMedium),
-                  Gap(CustomPadding.smallSpace),
+                  const Gap(CustomPadding.smallSpace),
                   Text(DateFormat('dd.MM.yyyy, HH:mm').format(widget.date), style: TextStyles.hintStyleDefault),
                 ],
               ),
             ],
           ),
-          Gap(CustomPadding.defaultSpace),
+          const Gap(CustomPadding.defaultSpace),
           // Amount section
           Text(AppTexts.amount, style: TextStyles.regularStyleDefault),
-          Gap(CustomPadding.mediumSpace),
+          const Gap(CustomPadding.mediumSpace),
           Row(
             children: [
               // Amount display
               CustomShadow(
                 child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace, vertical: CustomPadding.contentHeightSpace),
+                  padding: const EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace, vertical: CustomPadding.contentHeightSpace),
                   decoration: BoxDecoration(
                     color: CustomColor.white,
                     borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
@@ -172,11 +172,11 @@ class _TransactionDetailState extends State<TransactionDetail> {
                   child: Text('${widget.amount.toStringAsFixed(2)}€', style: TextStyles.regularStyleMedium),
                 ),
               ),
-              Gap(CustomPadding.defaultSpace),
+              const Gap(CustomPadding.defaultSpace),
               // Transaction type
               CustomShadow(
                 child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace, vertical: CustomPadding.contentHeightSpace),
+                  padding: const EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace, vertical: CustomPadding.contentHeightSpace),
                   decoration: BoxDecoration(
                     color: CustomColor.white,
                     borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
@@ -186,14 +186,14 @@ class _TransactionDetailState extends State<TransactionDetail> {
               ),
             ],
           ),
-          Gap(CustomPadding.defaultSpace),
+          const Gap(CustomPadding.defaultSpace),
           // Note section
           Text(AppTexts.note, style: TextStyles.regularStyleDefault),
-          Gap(CustomPadding.mediumSpace),
+          const Gap(CustomPadding.mediumSpace),
           CustomShadow(
             child: Container(
               width: double.infinity,
-              padding: EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace, vertical: CustomPadding.contentHeightSpace),
+              padding: const EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace, vertical: CustomPadding.contentHeightSpace),
               decoration: BoxDecoration(
                 color: CustomColor.white,
                 borderRadius: BorderRadius.circular(Constants.contentBorderRadius),

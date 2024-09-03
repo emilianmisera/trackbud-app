@@ -32,11 +32,14 @@ class _BudgetGoalScreenState extends State<BudgetGoalScreen> {
       } catch (e) {
         debugPrint("Error updating bank account: $e");
         // Handle the error
-        showDialog(
+        if (mounted) {
+          showDialog(
             context: context,
             builder: (context) => const AlertDialog(
-                  title: Text('Fehler :('),
-                ));
+              title: Text('Fehler :('),
+            ),
+          );
+        }
       }
     } else {
       debugPrint("No authenticated user found");
@@ -55,7 +58,7 @@ class _BudgetGoalScreenState extends State<BudgetGoalScreen> {
 
     if (amount! < 0) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text("Ungültiger Betrag."),
         ),
       );
@@ -66,10 +69,12 @@ class _BudgetGoalScreenState extends State<BudgetGoalScreen> {
       debugPrint("Correct Number Input");
       await addUserBankAccount(amount);
       debugPrint("Navigating to Overview Screen...");
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => TrackBud()),
-      );
+      if (context.mounted) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => TrackBud()),
+        );
+      }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Please enter a valid number')),
@@ -107,10 +112,10 @@ class _BudgetGoalScreenState extends State<BudgetGoalScreen> {
             children: [
               // The heading text
               Text(AppTexts.budgetGoalHeading, style: TextStyles.headingStyle),
-              Gap(CustomPadding.mediumSpace),
+              const Gap(CustomPadding.mediumSpace),
               // The description text
               Text(AppTexts.budgetGoalDescription, style: TextStyles.hintStyleDefault),
-              Gap(CustomPadding.bigSpace),
+              const Gap(CustomPadding.bigSpace),
               // entering the amount of money
               TextFieldAmountOfMoney(controller: _moneyController),
             ],

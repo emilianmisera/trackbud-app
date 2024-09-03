@@ -15,7 +15,7 @@ class OverviewDebtsTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomShadow(
       child: Container(
-        padding: EdgeInsets.all(CustomPadding.defaultSpace),
+        padding: const EdgeInsets.all(CustomPadding.defaultSpace),
         decoration: BoxDecoration(
           color: CustomColor.white,
           borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
@@ -28,13 +28,13 @@ class OverviewDebtsTile extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(AppTexts.inTotal, style: TextStyles.regularStyleMedium),
-                BalanceState(
+                const BalanceState(
                     //TODO: Change ColorScheme based on amount
                     colorScheme: DebtsColorScheme.green,
                     amount: '100,00€')
               ],
             ),
-            Gap(CustomPadding.mediumSpace),
+            const Gap(CustomPadding.mediumSpace),
             // Row to display debt to friends
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -43,7 +43,7 @@ class OverviewDebtsTile extends StatelessWidget {
                 Text('10€', style: TextStyles.regularStyleDefault.copyWith(color: CustomColor.red))
               ],
             ),
-            Gap(CustomPadding.mediumSpace),
+            const Gap(CustomPadding.mediumSpace),
             // Row to display friend's avatar and name (for debt to friends)
             Row(
               children: [
@@ -55,11 +55,11 @@ class OverviewDebtsTile extends StatelessWidget {
                     color: Colors.red,
                   ),
                 ),
-                Gap(CustomPadding.mediumSpace),
+                const Gap(CustomPadding.mediumSpace),
                 Text('Freund', style: TextStyles.regularStyleDefault.copyWith(fontSize: TextStyles.fontSizeHint))
               ],
             ),
-            Gap(CustomPadding.defaultSpace),
+            const Gap(CustomPadding.defaultSpace),
             // Row to display debt owed to you
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -68,7 +68,7 @@ class OverviewDebtsTile extends StatelessWidget {
                 Text('110€', style: TextStyles.regularStyleDefault.copyWith(color: CustomColor.green))
               ],
             ),
-            Gap(CustomPadding.mediumSpace),
+            const Gap(CustomPadding.mediumSpace),
             // Row to display friend's avatar and name (for debt owed to you)
             Row(
               children: [
@@ -80,7 +80,7 @@ class OverviewDebtsTile extends StatelessWidget {
                     color: Colors.red,
                   ),
                 ),
-                Gap(CustomPadding.mediumSpace),
+                const Gap(CustomPadding.mediumSpace),
                 Text('Freund', style: TextStyles.regularStyleDefault.copyWith(fontSize: TextStyles.fontSizeHint))
               ],
             ),

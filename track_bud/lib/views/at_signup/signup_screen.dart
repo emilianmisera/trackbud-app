@@ -56,7 +56,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           debugPrint('signup_screen: signUp -> trying to move to BankAccountInfoScreen');
           if (mounted) {
             Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => BankAccountInfoScreen()),
+              MaterialPageRoute(builder: (context) => const BankAccountInfoScreen()),
             );
             debugPrint('signup_screen: signUp -> trying to move to BankAccountInfoScreen -> moving succeed');
           }
@@ -64,14 +64,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
         }
       } catch (e) {
         // Show error dialog if registration fails
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Regristration fehlgeschlagen: ${e.toString()}')),
-        );
+        if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Regristration fehlgeschlagen: ${e.toString()}')));
       }
     } else {
       // Show error dialog if passwords don't match
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Passwörter stimmen nicht überein!')),
+        const SnackBar(content: Text('Passwörter stimmen nicht überein!')),
       );
     }
   }
@@ -99,9 +97,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
             crossAxisAlignment: CrossAxisAlignment.start, //alignment to left
             children: [
               Text(AppTexts.signUp, style: TextStyles.headingStyle),
-              Gap(CustomPadding.mediumSpace),
+              const Gap(CustomPadding.mediumSpace),
               Text(AppTexts.signUpDescription, style: TextStyles.hintStyleDefault),
-              Gap(CustomPadding.defaultSpace),
+              const Gap(CustomPadding.defaultSpace),
               //first name
               CustomTextfield(
                 controller: _name,
@@ -109,7 +107,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 hintText: AppTexts.hintFirstName,
                 obscureText: false,
               ),
-              Gap(CustomPadding.defaultSpace),
+              const Gap(CustomPadding.defaultSpace),
               //email
               CustomTextfield(
                 controller: _email,
@@ -117,7 +115,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 hintText: AppTexts.hintEmail,
                 obscureText: false,
               ),
-              Gap(CustomPadding.defaultSpace),
+              const Gap(CustomPadding.defaultSpace),
               //password
               CustomTextfield(
                 controller: _password,
@@ -125,7 +123,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 hintText: AppTexts.hintPassword,
                 obscureText: true,
               ),
-              Gap(CustomPadding.defaultSpace),
+              const Gap(CustomPadding.defaultSpace),
               //confirm Password
               CustomTextfield(
                 controller: _confirmPassword,
@@ -133,26 +131,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 hintText: AppTexts.confirmPassword,
                 obscureText: true,
               ), //password
-              Gap(CustomPadding.bigSpace),
+              const Gap(CustomPadding.bigSpace),
               //sign up button
               ElevatedButton(
                 onPressed: () => signUp(),
                 child: Text(AppTexts.signUp),
               ),
-              Gap(CustomPadding.bigSpace),
+              const Gap(CustomPadding.bigSpace),
               Row(
                 // Redirection to sign in page if user does have an account
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(AppTexts.notNew, style: TextStyles.hintStyleMedium),
-                  Gap(CustomPadding.smallSpace),
+                  const Gap(CustomPadding.smallSpace),
                   GestureDetector(
                     onTap: () {
-                      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => LoginScreen()));
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const LoginScreen()));
                     },
                     child: Text(
                       AppTexts.signIn,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: TextStyles.fontSizeDefault,
                         fontWeight: TextStyles.fontWeightMedium,
                         color: CustomColor.bluePrimary,
@@ -163,7 +161,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   )
                 ],
               ),
-              Gap(CustomPadding.smallSpace),
+              const Gap(CustomPadding.smallSpace),
             ],
           ),
         ),

@@ -6,7 +6,7 @@ import 'package:track_bud/utils/enum/categories.dart';
 
 class CategoriesExpense extends StatefulWidget {
   final Function(String) onCategorySelected;
-  CategoriesExpense({super.key, required this.onCategorySelected});
+  const CategoriesExpense({super.key, required this.onCategorySelected});
 
   @override
   State<CategoriesExpense> createState() => _CategoriesExpenseState();
@@ -18,14 +18,14 @@ class _CategoriesExpenseState extends State<CategoriesExpense> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       // Set the height of the category list to a fraction of the screen height
       height: MediaQuery.sizeOf(context).height * Constants.categoryHeight,
       child: ListView.builder(
         scrollDirection: Axis.horizontal, // Make the list scroll horizontally
         itemCount: Categories.values.length,
         itemBuilder: (context, index) => Padding(
-          padding: EdgeInsets.only(right: CustomPadding.mediumSpace), // add Padding between categories
+          padding: const EdgeInsets.only(right: CustomPadding.mediumSpace), // add Padding between categories
           child: GestureDetector(
             onTap: () {
               setState(() => selectedIndex = index);
@@ -35,7 +35,7 @@ class _CategoriesExpenseState extends State<CategoriesExpense> {
               // Reduce opacity for non-selected categories
               opacity: selectedIndex == null || selectedIndex == index ? 1.0 : 0.5,
               child: Container(
-                padding: EdgeInsets.symmetric(
+                padding: const EdgeInsets.symmetric(
                   horizontal: CustomPadding.categoryWidthSpace,
                   vertical: CustomPadding.categoryHeightSpace,
                 ),
@@ -46,7 +46,7 @@ class _CategoriesExpenseState extends State<CategoriesExpense> {
                 child: Row(
                   children: [
                     Categories.values[index].icon, // Display category icon
-                    Gap(CustomPadding.smallSpace),
+                    const Gap(CustomPadding.smallSpace),
                     Text(Categories.values[index].categoryName), // Display category name
                   ],
                 ),

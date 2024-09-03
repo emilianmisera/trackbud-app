@@ -7,7 +7,7 @@ import 'package:track_bud/views/at_signup/bank_account_info_screen.dart';
 import 'package:track_bud/views/at_signup/firestore_service.dart';
 
 class AuthService {
-  FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final FirestoreService _firestoreService = FirestoreService();
   final GoogleSignIn _googleSignIn = GoogleSignIn();
 
@@ -62,10 +62,10 @@ class AuthService {
 
       UserCredential userCredential = await _firebaseAuth.signInWithCredential(credential);
       await _handleNewGoogleUser(userCredential);
-      await handlePostLogin(context, userCredential);
+      if (context.mounted) await handlePostLogin(context, userCredential);
     } catch (error) {
-      print('Error during Google sign in: $error');
-      _showErrorSnackBar(context, error.toString());
+      debugPrint('Error during Google sign in: $error');
+      if (context.mounted) (context, error.toString());
     }
   }
 
@@ -75,8 +75,8 @@ class AuthService {
       AuthCredential credential = EmailAuthProvider.credential(email: user.email!, password: password);
       await user.reauthenticateWithCredential(credential);
     } catch (error) {
-      print('Error during re-authentication: $error');
-      throw error;
+      debugPrint('Error during re-authentication: $error');
+      rethrow;
     }
   }
 
@@ -85,8 +85,8 @@ class AuthService {
     try {
       await user.delete();
     } catch (error) {
-      print('Error deleting user: $error');
-      throw error;
+      debugPrint('Error deleting user: $error');
+      rethrow;
     }
   }
 
@@ -106,16 +106,12 @@ class AuthService {
 
     if (userData != null) {
       if (userData.bankAccountBalance == -1 || userData.monthlySpendingGoal == -1) {
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => BankAccountInfoScreen()),
-        );
+        if (context.mounted) Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const BankAccountInfoScreen()));
       } else {
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => TrackBud()),
-        );
+        if (context.mounted) Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => TrackBud()));
       }
     } else {
-      _showErrorSnackBar(context, "Benutzerinformationen konnten nicht abgerufen werden.");
+      if (context.mounted) _showErrorSnackBar(context, "Benutzerinformationen konnten nicht abgerufen werden.");
     }
   }
 
@@ -162,10 +158,10 @@ class AuthService {
         // Send a verification email to the new email address
         await user.verifyBeforeUpdateEmail(newEmail, actionCodeSettings);
 
-        print('Verification email sent to $newEmail.');
+        debugPrint('Verification email sent to $newEmail.');
       } on FirebaseAuthException catch (e) {
-        print('Error sending verification email: $e');
-        throw e;
+        debugPrint('Error sending verification email: $e');
+        rethrow;
       }
     } else {
       throw FirebaseAuthException(
@@ -187,19 +183,19 @@ class AuthService {
         if (newEmail != null) {
           // Update the email in Firebase Auth
           await user.updateEmail(newEmail);
-          print('Email successfully updated to $newEmail.');
+          debugPrint('Email successfully updated to $newEmail.');
 
           // Optionally, clear the pending email in Firestore
           await _firestoreService.clearPendingNewEmail(userId);
         } else {
-          print('No pending email found.');
+          debugPrint('No pending email found.');
         }
       } on FirebaseAuthException catch (e) {
-        print('Error updating email: $e');
-        throw e;
+        debugPrint('Error updating email: $e');
+        rethrow;
       }
     } else {
-      print('User has not verified their email.');
+      debugPrint('User has not verified their email.');
     }
   }
 
@@ -250,8 +246,8 @@ class AuthService {
   Future<void> sendPasswordResetEmail(String email) async {
     try {
       await _firebaseAuth.sendPasswordResetEmail(email: email);
-    } on FirebaseAuthException catch (error) {
-      throw error;
+    } on FirebaseAuthException {
+      rethrow;
     }
   }
 
@@ -262,10 +258,10 @@ class AuthService {
       try {
         await _reauthenticateUser(user, password);
         await _deleteUserFromAuth(user);
-        print('User account deleted successfully.');
+        debugPrint('User account deleted successfully.');
       } catch (error) {
-        print('Error deleting user account: $error');
-        throw error;
+        debugPrint('Error deleting user account: $error');
+        rethrow;
       }
     }
   }

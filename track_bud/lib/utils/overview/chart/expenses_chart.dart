@@ -10,14 +10,14 @@ class ExpensesChart extends StatefulWidget {
   final double budgetGoal;
 
   const ExpensesChart({
-    Key? key,
+    super.key,
     required this.currentTimeUnit,
     required this.expenses,
     this.budgetGoal = 400.00,
-  }) : super(key: key);
+  });
 
   @override
-  _ExpensesChartState createState() => _ExpensesChartState();
+  State<ExpensesChart> createState() => _ExpensesChartState();
 }
 
 class _ExpensesChartState extends State<ExpensesChart> with SingleTickerProviderStateMixin {
@@ -26,7 +26,7 @@ class _ExpensesChartState extends State<ExpensesChart> with SingleTickerProvider
     // Build appropriate chart based on current time unit
     switch (widget.currentTimeUnit) {
       case 0:
-        return SizedBox(); // Day view, show nothing
+        return const SizedBox(); // Day view, show nothing
       case 1:
         return WeekChart(
           expenses: widget.expenses,
@@ -41,7 +41,7 @@ class _ExpensesChartState extends State<ExpensesChart> with SingleTickerProvider
           budgetGoal: widget.budgetGoal,
         );
       default:
-        return SizedBox();
+        return const SizedBox();
     }
   }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:track_bud/utils/add/add_type_selector.dart';
+import 'package:track_bud/utils/plus_button/add_type_selector.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:track_bud/utils/shadow.dart';
@@ -29,7 +29,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> w
     // Initialize the animation controller
     _animationController = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 300),
     );
     // Create animations for each tab
     _animations = List.generate(
@@ -37,7 +37,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> w
       (index) => Tween<double>(begin: 1.0, end: 1.1).animate(
         CurvedAnimation(
           parent: _animationController,
-          curve: Interval(0.0, 1.0, curve: Curves.easeInOut),
+          curve: const Interval(0.0, 1.0, curve: Curves.easeInOut),
         ),
       ),
     );
@@ -67,7 +67,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> w
               // Call the onTap callback
               widget.onTap(index);
             },
-            child: Container(
+            child: SizedBox(
               // Increased touch area
               width: MediaQuery.of(context).size.width * CustomPadding.navbarButtonwidth,
               height: Constants.height,
@@ -103,9 +103,9 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> w
             GestureDetector(
               onTap: () => showModalBottomSheet(
                 context: context,
-                builder: (context) => AddTypeSelector(),
+                builder: (context) => const AddTypeSelector(),
               ),
-              child: Container(
+              child: SizedBox(
                 width: MediaQuery.of(context).size.width * CustomPadding.navbarButtonwidth,
                 child: SvgPicture.asset(AssetImport.addButton),
               ),

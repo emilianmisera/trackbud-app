@@ -7,15 +7,15 @@ class BalanceState extends StatelessWidget {
   final String? amount;
 
   const BalanceState({
-    Key? key,
+    super.key,
     required this.colorScheme,
     this.amount,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: CustomPadding.mediumSpace, vertical: CustomPadding.smallSpace),
+      padding: const EdgeInsets.symmetric(horizontal: CustomPadding.mediumSpace, vertical: CustomPadding.smallSpace),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5),
         color: colorScheme.color,

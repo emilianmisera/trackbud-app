@@ -33,7 +33,7 @@ class _MonthChartState extends State<MonthChart> with SingleTickerProviderStateM
 
     _animationController = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 500),
     );
 
     // Create height animation
@@ -59,7 +59,7 @@ class _MonthChartState extends State<MonthChart> with SingleTickerProviderStateM
               Container(
                 height: 75,
                 width: 8,
-                margin: EdgeInsets.symmetric(horizontal: 1),
+                margin: const EdgeInsets.symmetric(horizontal: 1),
                 decoration: BoxDecoration(
                   color: CustomColor.grey,
                   borderRadius: BorderRadius.circular(5),
@@ -81,13 +81,13 @@ class _MonthChartState extends State<MonthChart> with SingleTickerProviderStateM
                   ),
                 ),
               ),
-              Gap(CustomPadding.smallSpace),
+              const Gap(CustomPadding.smallSpace),
               // Blue circle indicator for current day
               if (isCurrentDay)
                 Container(
                   height: 10,
                   width: 10,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     color: CustomColor.bluePrimary,
                     shape: BoxShape.circle,
                   ),

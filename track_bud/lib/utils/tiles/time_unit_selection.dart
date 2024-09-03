@@ -21,7 +21,7 @@ class _SelectTimeUnitState extends State<SelectTimeUnit> {
   @override
   Widget build(BuildContext context) {
     return CustomShadow(
-      child: Container(
+      child: SizedBox(
         width: double.infinity, // Ensures the control spans the full width
         child: CupertinoSlidingSegmentedControl(
           children: {

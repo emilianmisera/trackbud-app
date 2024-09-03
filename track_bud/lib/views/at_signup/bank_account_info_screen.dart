@@ -26,27 +26,30 @@ class _BankAccountInfoScreenState extends State<BankAccountInfoScreen> {
     final double amount = double.tryParse(amountText) ?? -1;
     if (amount < 0) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text("Ungültiger Betrag."),
         ),
       );
       return;
     }
 
-      try {
-        debugPrint("trying to update users bankaccount");
-        await UserController().updateBankAccountBalance(userId, amount);
-        debugPrint("successfully updated users bankaccount");
-      } catch (e) {
-        debugPrint("Error updating bank account: $e");
-        // Handle the error
+    try {
+      debugPrint("trying to update users bankaccount");
+      await UserController().updateBankAccountBalance(userId, amount);
+      debugPrint("successfully updated users bankaccount");
+    } catch (e) {
+      debugPrint("Error updating bank account: $e");
+      // Handle the error
+      if (mounted) {
         showDialog(
-            context: context,
-            builder: (context) => AlertDialog(
-                  title: Text('Fehler beim Spiechern der Bankkonto-Informationen $e')
-                ));
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text('Fehler beim Spiechern der Bankkonto-Informationen $e'),
+          ),
+        );
       }
     }
+  }
 
   // Convert comma-separated string to double
   double? parseCommaDecimal(String value) {
@@ -59,10 +62,12 @@ class _BankAccountInfoScreenState extends State<BankAccountInfoScreen> {
     double? amount = parseCommaDecimal(_moneyController.text);
     if (amount != null) {
       await addUserBankAccount(amount);
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => BudgetGoalScreen()),
-      );
+      if (context.mounted) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const BudgetGoalScreen()),
+        );
+      }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Gib eine valide Zahl an')),
@@ -100,10 +105,10 @@ class _BankAccountInfoScreenState extends State<BankAccountInfoScreen> {
             children: [
               // The heading text
               Text(AppTexts.bankAccInfoHeading, style: TextStyles.headingStyle),
-              Gap(CustomPadding.mediumSpace),
+              const Gap(CustomPadding.mediumSpace),
               // The description text
               Text(AppTexts.bankAccInfoDescription, style: TextStyles.hintStyleDefault),
-              Gap(CustomPadding.bigSpace),
+              const Gap(CustomPadding.bigSpace),
               // entering the amount of money
               TextFieldAmountOfMoney(controller: _moneyController),
             ],

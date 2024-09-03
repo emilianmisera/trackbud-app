@@ -9,7 +9,7 @@ class CreateGroupSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController _createGroupController = TextEditingController();
+    final TextEditingController createGroupController = TextEditingController();
     return Container(
               height: MediaQuery.sizeOf(context).height * Constants.modalBottomSheetHeight,
               width: MediaQuery.sizeOf(context).width,
@@ -21,27 +21,27 @@ class CreateGroupSheet extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Gap(CustomPadding.mediumSpace),
+                    const Gap(CustomPadding.mediumSpace),
                     Center(
                       child:
                           // grabber
                           Container(
                         width: 36,
                         height: 5,
-                        decoration: BoxDecoration(color: CustomColor.grabberColor, borderRadius: BorderRadius.all(Radius.circular(100))),
+                        decoration: const BoxDecoration(color: CustomColor.grabberColor, borderRadius: BorderRadius.all(Radius.circular(100))),
                       ),
                     ),
-                    Gap(CustomPadding.defaultSpace),
+                    const Gap(CustomPadding.defaultSpace),
                     Center(
                       child: Text(AppTexts.addGroup, style: TextStyles.regularStyleMedium),
                     ),
-                    Gap(CustomPadding.mediumSpace),
-                    GroupTitle(createGroupController: _createGroupController),
-                    Gap(CustomPadding.defaultSpace),
+                    const Gap(CustomPadding.mediumSpace),
+                    GroupTitle(createGroupController: createGroupController),
+                    const Gap(CustomPadding.defaultSpace),
                     Text(AppTexts.addMembers, style: TextStyles.regularStyleMedium),
-                    Gap(CustomPadding.mediumSpace),
+                    const Gap(CustomPadding.mediumSpace),
                     //TODO: add ListView with Friends
-                    Spacer(),
+                    const Spacer(),
                     ElevatedButton(
                         onPressed: ()=> Navigator.pop(context) ,
                         child: Text(AppTexts.addGroup)),

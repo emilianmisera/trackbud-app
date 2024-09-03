@@ -14,7 +14,7 @@ import 'package:track_bud/views/subpages/notifications_settings_screen.dart';
 import 'package:track_bud/views/subpages/profile_settings_screen.dart';
 
 class SettingsScreen extends StatefulWidget {
-  SettingsScreen({super.key});
+  const SettingsScreen({super.key});
 
   @override
   State<SettingsScreen> createState() => _SettingsScreenState();
@@ -48,21 +48,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
       submit();
 
       // Show success message and navigate away or logout the user
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Konto erfolgreich gelöscht.')),
-      );
+      if (context.mounted) ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Konto erfolgreich gelöscht.')));
 
       // navigate the user to a login or home screen after deletion
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const OnboardingScreen()),
-      );
+      if (context.mounted) Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const OnboardingScreen()));
     } catch (e) {
       submit();
       // Show error message if something goes wrong
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Fehler beim Löschen des Kontos: $e')),
-      );
+      if (context.mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Fehler beim Löschen des Kontos: $e')));
     }
   }
 
@@ -122,7 +115,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       if (mounted) {
         // Navigieren Sie zur Login-Seite und entfernen Sie alle vorherigen Routen
         Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (context) => OnboardingScreen()),
+          MaterialPageRoute(builder: (context) => const OnboardingScreen()),
           (Route<dynamic> route) => false,
         );
       }
@@ -151,7 +144,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               Center(
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(100.0),
-                  child: Container(
+                  child: SizedBox(
                     width: Constants.profilePictureSettingPage,
                     height: Constants.profilePictureSettingPage,
                     child: _profileImageUrl != null && _profileImageUrl!.isNotEmpty
@@ -159,76 +152,76 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             _profileImageUrl!,
                             fit: BoxFit.cover,
                             errorBuilder: (context, error, stackTrace) {
-                              return Icon(Icons.person, size: 100, color: Colors.grey);
+                              return const Icon(Icons.person, size: 100, color: Colors.grey);
                             },
                           )
-                        : Icon(Icons.person, size: 50, color: Colors.grey),
+                        : const Icon(Icons.person, size: 50, color: Colors.grey),
                   ),
                 ),
               ),
-              Gap(CustomPadding.mediumSpace),
+              const Gap(CustomPadding.mediumSpace),
               Center(
                   // Username
                   child: Text(currentUserName, style: TextStyles.titleStyleMedium)),
-              Gap(CustomPadding.smallSpace),
+              const Gap(CustomPadding.smallSpace),
               Center(
                   //email
                   child: Text(currentUserEmail, style: TextStyles.hintStyleDefault)),
-              Gap(CustomPadding.bigbigSpace),
+              const Gap(CustomPadding.bigbigSpace),
               Text(AppTexts.preferences, style: TextStyles.regularStyleMedium),
-              Gap(CustomPadding.defaultSpace),
+              const Gap(CustomPadding.defaultSpace),
               CustomShadow(
                 // edit Profile Button
                 child: TextButton.icon(
-                  onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileSettingsScreen())),
+                  onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const ProfileSettingsScreen())),
                   label: Text(AppTexts.editProfile, style: TextStyles.regularStyleDefault),
                   icon: SvgPicture.asset(AssetImport.userEdit),
-                  style: ButtonStyle(
+                  style: const ButtonStyle(
                     alignment: Alignment.centerLeft,
                   ),
                 ),
               ),
-              Gap(CustomPadding.mediumSpace),
+              const Gap(CustomPadding.mediumSpace),
               CustomShadow(
                 // accAdjustment button
                 child: TextButton.icon(
-                  onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => AccountSettingsScreen())),
+                  onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const AccountSettingsScreen())),
                   label: Text(AppTexts.accAdjustments, style: TextStyles.regularStyleDefault),
                   icon: SvgPicture.asset(AssetImport.settings),
-                  style: ButtonStyle(alignment: Alignment.centerLeft),
+                  style: const ButtonStyle(alignment: Alignment.centerLeft),
                 ),
               ),
-              Gap(CustomPadding.mediumSpace),
+              const Gap(CustomPadding.mediumSpace),
               CustomShadow(
                 // notification button
                 child: TextButton.icon(
-                  onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => NotificationsSettingsScreen())),
+                  onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const NotificationsSettingsScreen())),
                   label: Text(AppTexts.notifications, style: TextStyles.regularStyleDefault),
                   icon: SvgPicture.asset(AssetImport.bell),
-                  style: ButtonStyle(alignment: Alignment.centerLeft),
+                  style: const ButtonStyle(alignment: Alignment.centerLeft),
                 ),
               ),
-              Gap(CustomPadding.mediumSpace),
+              const Gap(CustomPadding.mediumSpace),
               CustomShadow(
                 // aboutTrackbut button
                 child: TextButton.icon(
-                  onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => AboutTrackbudScreen())),
+                  onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const AboutTrackbudScreen())),
                   label: Text(AppTexts.abouTrackBud, style: TextStyles.regularStyleDefault),
                   icon: SvgPicture.asset(AssetImport.info),
-                  style: ButtonStyle(alignment: Alignment.centerLeft),
+                  style: const ButtonStyle(alignment: Alignment.centerLeft),
                 ),
               ),
-              Gap(CustomPadding.mediumSpace),
+              const Gap(CustomPadding.mediumSpace),
               CustomShadow(
                 // Logout Button
                 child: TextButton.icon(
                   onPressed: () => logout(),
                   label: Text(AppTexts.logout, style: TextStyles.regularStyleDefault),
                   icon: SvgPicture.asset(AssetImport.logout),
-                  style: ButtonStyle(alignment: Alignment.centerLeft),
+                  style: const ButtonStyle(alignment: Alignment.centerLeft),
                 ),
               ),
-              Gap(CustomPadding.mediumSpace),
+              const Gap(CustomPadding.mediumSpace),
               CustomShadow(
                 // delete Account Button
                 child: TextButton.icon(
@@ -237,7 +230,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       builder: (context) => DeleteAccountPopUp(onPressed: () => _handleAccountDeletion(context))), //_handleAccountDeletion,
                   label: Text(
                     AppTexts.deleteAcc,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontFamily: TextStyles.fontFamily,
                       fontSize: TextStyles.fontSizeDefault,
                       fontWeight: TextStyles.fontWeightDefault,
@@ -246,9 +239,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                   icon: SvgPicture.asset(
                     AssetImport.trash,
-                    colorFilter: ColorFilter.mode(CustomColor.red, BlendMode.srcIn),
+                    colorFilter: const ColorFilter.mode(CustomColor.red, BlendMode.srcIn),
                   ),
-                  style: ButtonStyle(
+                  style: const ButtonStyle(
                     alignment: Alignment.centerLeft,
                   ),
                 ),

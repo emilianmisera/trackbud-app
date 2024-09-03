@@ -16,7 +16,7 @@ class GroupCard extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => GroupOverviewScreen(
+            builder: (context) => const GroupOverviewScreen(
               groupName: '**group**',
             ), // '**FriendName**'
           ),
@@ -25,7 +25,7 @@ class GroupCard extends StatelessWidget {
       child: CustomShadow(
           child: Container(
         width: MediaQuery.sizeOf(context).width,
-        padding: EdgeInsets.all(CustomPadding.defaultSpace),
+        padding: const EdgeInsets.all(CustomPadding.defaultSpace),
         decoration: BoxDecoration(color: CustomColor.white, borderRadius: BorderRadius.circular(Constants.contentBorderRadius)),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -49,13 +49,13 @@ class GroupCard extends StatelessWidget {
               minVerticalPadding: 0,
               contentPadding: EdgeInsets.zero,
             ),
-            Container(child: Divider(color: CustomColor.grey)),
-            Gap(CustomPadding.mediumSpace),
+            Container(child: const Divider(color: CustomColor.grey)),
+            const Gap(CustomPadding.mediumSpace),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
-                  child: Container(
+                  child: SizedBox(
                     height: 44,
                     child: Stack(
                       children: List.generate(4, (index) {
@@ -75,7 +75,7 @@ class GroupCard extends StatelessWidget {
                     ),
                   ),
                 ),
-                BalanceState(colorScheme: DebtsColorScheme.blue)
+                const BalanceState(colorScheme: DebtsColorScheme.blue)
               ],
             ),
           ],
