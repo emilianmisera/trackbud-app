@@ -70,9 +70,7 @@ class _DebtsScreenState extends State<DebtsScreen> {
                 ),
               ],
             ),
-            Gap(
-              CustomPadding.mediumSpace,
-            ),
+            Gap(CustomPadding.mediumSpace),
             if (_isLoading)
               Center(child: CircularProgressIndicator())
             else if (_friends.isEmpty)
@@ -88,16 +86,11 @@ class _DebtsScreenState extends State<DebtsScreen> {
                         ))
                     .toList(),
               ),
-            Gap(
-              CustomPadding.defaultSpace,
-            ),
+            Gap(CustomPadding.defaultSpace),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  AppTexts.groups,
-                  style: TextStyles.regularStyleMedium,
-                ),
+                Text(AppTexts.groups, style: TextStyles.regularStyleMedium),
                 GestureDetector(
                   onTap: () {
                     Navigator.push(
@@ -111,9 +104,7 @@ class _DebtsScreenState extends State<DebtsScreen> {
                 ),
               ],
             ),
-            Gap(
-              CustomPadding.mediumSpace,
-            ),
+            Gap(CustomPadding.mediumSpace),
             GroupCard()
           ],
         ),
