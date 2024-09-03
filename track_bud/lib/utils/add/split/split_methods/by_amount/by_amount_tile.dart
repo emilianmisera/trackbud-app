@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:track_bud/utils/constants.dart';
+import 'package:track_bud/utils/shadow.dart';
 import 'package:track_bud/utils/textfield_widgets.dart';
 
 /// Widget for displaying split by amount tile

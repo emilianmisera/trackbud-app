@@ -3,7 +3,7 @@ import 'package:gap/gap.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/debts/balance_state.dart';
 import 'package:track_bud/utils/enum/debts_box.dart';
-import 'package:track_bud/utils/textfield_widgets.dart';
+import 'package:track_bud/utils/shadow.dart';
 import 'package:track_bud/views/subpages/group_overview_screeen.dart';
 /// This Widget dispalys a single Group in DebtsScreen or YourGroupScreen
 class GroupCard extends StatelessWidget {

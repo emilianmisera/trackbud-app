@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:track_bud/utils/constants.dart';
-import 'package:track_bud/utils/textfield_widgets.dart';
+import 'package:track_bud/utils/shadow.dart';
 
 /// This Widget dispalys a Group that must be selected before adding a new GroupSplit
 class GroupChoice extends StatelessWidget {

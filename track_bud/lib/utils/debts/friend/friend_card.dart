@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:track_bud/models/user_model.dart';
 import 'package:track_bud/utils/constants.dart';
-import 'package:track_bud/utils/textfield_widgets.dart';
+import 'package:track_bud/utils/shadow.dart';
 import 'package:track_bud/views/subpages/friend_profile_screen.dart';
 
 // Widget to display a friend's card in a list

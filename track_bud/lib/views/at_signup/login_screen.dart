@@ -6,6 +6,7 @@ import 'package:gap/gap.dart';
 import 'package:track_bud/services/auth/firebase_service.dart';
 import 'package:track_bud/trackbud.dart';
 import 'package:track_bud/utils/constants.dart';
+import 'package:track_bud/utils/shadow.dart';
 import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfield_widgets.dart';
 import 'package:track_bud/views/at_signup/forgot_password_screen.dart';

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:track_bud/utils/categories/category_icon.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/enum/categories.dart';
-import 'package:track_bud/utils/textfield_widgets.dart';
 import 'package:intl/intl.dart';
+import 'package:track_bud/utils/shadow.dart';
 import 'package:track_bud/utils/tiles/transaction/transaction_detail.dart';
 
 // Widget for displaying individual transactions

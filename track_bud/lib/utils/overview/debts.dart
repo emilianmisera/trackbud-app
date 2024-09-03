@@ -3,8 +3,9 @@ import 'package:gap/gap.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/debts/balance_state.dart';
 import 'package:track_bud/utils/enum/debts_box.dart';
+import 'package:track_bud/utils/shadow.dart';
 import 'package:track_bud/utils/strings.dart';
-import 'package:track_bud/utils/textfield_widgets.dart';
+
 
 // Widget to display an overview of debts
 class OverviewDebtsTile extends StatelessWidget {

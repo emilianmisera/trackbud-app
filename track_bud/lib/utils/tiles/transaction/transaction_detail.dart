@@ -5,8 +5,8 @@ import 'package:gap/gap.dart';
 import 'package:track_bud/utils/categories/category_icon.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/enum/categories.dart';
+import 'package:track_bud/utils/shadow.dart';
 import 'package:track_bud/utils/strings.dart';
-import 'package:track_bud/utils/textfield_widgets.dart';
 import 'package:intl/intl.dart';
 
 // Widget for displaying detailed transaction information

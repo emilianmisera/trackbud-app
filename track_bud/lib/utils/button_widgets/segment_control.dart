@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:track_bud/utils/constants.dart';
+import 'package:track_bud/utils/shadow.dart';
 import 'package:track_bud/utils/strings.dart';
-import 'package:track_bud/utils/textfield_widgets.dart';
+
 
 class CustomSegmentControl extends StatefulWidget {
   final Function(int?) onValueChanged; // callback

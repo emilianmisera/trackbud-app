@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
-import 'package:simple_shadow/simple_shadow.dart';
 import 'package:track_bud/utils/constants.dart';
+import 'package:track_bud/utils/shadow.dart';
 import 'package:track_bud/utils/strings.dart';
 
 class CustomTextfield extends StatelessWidget {
@@ -88,21 +88,7 @@ class CustomTextfield extends StatelessWidget {
   }
 }
 
-//Custom Shadow Widget which is used for all TextFields and Tiles
-class CustomShadow extends StatelessWidget {
-  final Widget child;
-  const CustomShadow({super.key, required this.child});
 
-  @override
-  Widget build(BuildContext context) {
-    return SimpleShadow(
-        color: CustomColor.black,
-        opacity: 0.084,
-        offset: Offset(0, 0),
-        sigma: 2,
-        child: child);
-  }
-}
 
 // Custom Textfield for BankAccountInfo Page & BudgetGoalPage
 class TextFieldAmountOfMoney extends StatelessWidget {
