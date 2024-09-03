@@ -11,6 +11,7 @@ import 'package:track_bud/views/at_signup/onboarding_screen.dart';
 import 'package:track_bud/views/subpages/about_trackbud_screen.dart';
 import 'package:track_bud/views/subpages/account_settings_screen.dart';
 import 'package:track_bud/views/subpages/notifications_settings_screen.dart';
+import 'package:track_bud/views/subpages/profile_settings_screen.dart';
 
 class SettingsScreen extends StatefulWidget {
   SettingsScreen({super.key});
@@ -165,140 +166,69 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                 ),
               ),
-              Gap(
-                CustomPadding.mediumSpace,
-              ),
+              Gap(CustomPadding.mediumSpace),
               Center(
-                  child: Text(
-                // FirstName
-                currentUserName,
-                style: TextStyles.titleStyleMedium,
-              )),
-              Gap(
-                CustomPadding.smallSpace,
-              ),
+                  // Username
+                  child: Text(currentUserName, style: TextStyles.titleStyleMedium)),
+              Gap(CustomPadding.smallSpace),
               Center(
-                  child: Text(
-                //email
-                currentUserEmail,
-                style: TextStyles.hintStyleDefault,
-              )),
-              Gap(
-                CustomPadding.bigbigSpace,
-              ),
-              Text(
-                AppTexts.preferences,
-                style: TextStyles.regularStyleMedium,
-              ),
-              Gap(
-                CustomPadding.defaultSpace,
-              ),
+                  //email
+                  child: Text(currentUserEmail, style: TextStyles.hintStyleDefault)),
+              Gap(CustomPadding.bigbigSpace),
+              Text(AppTexts.preferences, style: TextStyles.regularStyleMedium),
+              Gap(CustomPadding.defaultSpace),
               CustomShadow(
                 // edit Profile Button
                 child: TextButton.icon(
-                  onPressed: () async {},
-                  label: Text(
-                    AppTexts.editProfile,
-                    style: TextStyles.regularStyleDefault,
-                  ),
+                  onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileSettingsScreen())),
+                  label: Text(AppTexts.editProfile, style: TextStyles.regularStyleDefault),
                   icon: SvgPicture.asset(AssetImport.userEdit),
                   style: ButtonStyle(
                     alignment: Alignment.centerLeft,
                   ),
                 ),
               ),
-              Gap(
-                CustomPadding.mediumSpace,
-              ),
+              Gap(CustomPadding.mediumSpace),
               CustomShadow(
                 // accAdjustment button
                 child: TextButton.icon(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => AccountSettingsScreen(),
-                      ),
-                    );
-                  },
-                  label: Text(
-                    AppTexts.accAdjustments,
-                    style: TextStyles.regularStyleDefault,
-                  ),
+                  onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => AccountSettingsScreen())),
+                  label: Text(AppTexts.accAdjustments, style: TextStyles.regularStyleDefault),
                   icon: SvgPicture.asset(AssetImport.settings),
-                  style: ButtonStyle(
-                    alignment: Alignment.centerLeft,
-                  ),
+                  style: ButtonStyle(alignment: Alignment.centerLeft),
                 ),
               ),
-              Gap(
-                CustomPadding.mediumSpace,
-              ),
+              Gap(CustomPadding.mediumSpace),
               CustomShadow(
                 // notification button
                 child: TextButton.icon(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => NotificationsSettingsScreen(),
-                      ),
-                    );
-                  },
-                  label: Text(
-                    AppTexts.notifications,
-                    style: TextStyles.regularStyleDefault,
-                  ),
+                  onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => NotificationsSettingsScreen())),
+                  label: Text(AppTexts.notifications, style: TextStyles.regularStyleDefault),
                   icon: SvgPicture.asset(AssetImport.bell),
-                  style: ButtonStyle(
-                    alignment: Alignment.centerLeft,
-                  ),
+                  style: ButtonStyle(alignment: Alignment.centerLeft),
                 ),
               ),
-              Gap(
-                CustomPadding.mediumSpace,
-              ),
+              Gap(CustomPadding.mediumSpace),
               CustomShadow(
                 // aboutTrackbut button
                 child: TextButton.icon(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => AboutTrackbudScreen(),
-                      ),
-                    );
-                  },
-                  label: Text(
-                    AppTexts.abouTrackBud,
-                    style: TextStyles.regularStyleDefault,
-                  ),
+                  onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => AboutTrackbudScreen())),
+                  label: Text(AppTexts.abouTrackBud, style: TextStyles.regularStyleDefault),
                   icon: SvgPicture.asset(AssetImport.info),
-                  style: ButtonStyle(
-                    alignment: Alignment.centerLeft,
-                  ),
+                  style: ButtonStyle(alignment: Alignment.centerLeft),
                 ),
               ),
-              Gap(
-                CustomPadding.mediumSpace,
-              ),
+              Gap(CustomPadding.mediumSpace),
               CustomShadow(
                 // Logout Button
                 child: TextButton.icon(
                   onPressed: () => logout(),
-                  label: Text(
-                    AppTexts.logout,
-                    style: TextStyles.regularStyleDefault,
-                  ),
+                  label: Text(AppTexts.logout, style: TextStyles.regularStyleDefault),
                   icon: SvgPicture.asset(AssetImport.logout),
-                  style: ButtonStyle(
-                    alignment: Alignment.centerLeft,
-                  ),
+                  style: ButtonStyle(alignment: Alignment.centerLeft),
                 ),
               ),
-              Gap(
-                CustomPadding.mediumSpace,
-              ),
+              Gap(CustomPadding.mediumSpace),
               CustomShadow(
                 // delete Account Button
                 child: TextButton.icon(
