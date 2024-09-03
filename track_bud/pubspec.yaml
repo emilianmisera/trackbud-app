@@ -30,6 +30,7 @@ dependencies:
   percent_indicator: ^4.2.3
   gap: ^3.0.1
 
+  intl: any
 dev_dependencies:
   flutter_test:
     sdk: flutter
