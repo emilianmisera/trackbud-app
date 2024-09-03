@@ -5,7 +5,7 @@ import 'package:track_bud/utils/button_widgets/dropdown.dart';
 import 'package:track_bud/utils/categories/category_expenses.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/enum/split_methods.dart';
-import 'package:track_bud/utils/split_widget.dart';
+import 'package:track_bud/utils/debts/split_widget.dart';
 import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfield_widgets.dart';
 import 'package:track_bud/utils/textinput_format.dart';

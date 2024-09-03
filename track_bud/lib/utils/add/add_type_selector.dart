@@ -3,7 +3,7 @@ import 'package:gap/gap.dart';
 import 'package:track_bud/utils/add/add_split.dart';
 import 'package:track_bud/utils/add/add_transaction.dart';
 import 'package:track_bud/utils/constants.dart';
-import 'package:track_bud/utils/group_widget.dart';
+import 'package:track_bud/utils/debts/group_widget.dart';
 import 'package:track_bud/utils/strings.dart';
 
 class AddTypeSelector extends StatelessWidget {

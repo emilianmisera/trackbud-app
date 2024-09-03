@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/enum/debts_box.dart';
-import 'package:track_bud/utils/split_widget.dart';
+import 'package:track_bud/utils/debts/split_widget.dart';
 import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfield_widgets.dart';
 import 'package:track_bud/views/subpages/group_overview_screeen.dart';

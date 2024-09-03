@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/enum/categories.dart';
-import 'package:track_bud/utils/group_debts_chart.dart';
-import 'package:track_bud/utils/group_widget.dart';
+import 'package:track_bud/utils/debts/group_debts_chart.dart';
+import 'package:track_bud/utils/debts/group_widget.dart';
 import 'package:track_bud/utils/tiles/information_tiles.dart';
 import 'package:track_bud/utils/strings.dart';
 
