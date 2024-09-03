@@ -3,7 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:gap/gap.dart';
+// ignore: unused_import
 import 'package:track_bud/utils/button_widgets/buttons_widget.dart';
+import 'package:track_bud/utils/categories/category_icon.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/enum/categories.dart';
 

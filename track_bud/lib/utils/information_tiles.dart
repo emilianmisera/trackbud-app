@@ -3,7 +3,7 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
-import 'package:track_bud/utils/button_widgets/buttons_widget.dart';
+import 'package:track_bud/utils/categories/category_icon.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/enum/categories.dart';
 import 'package:track_bud/utils/strings.dart';
