@@ -5,9 +5,11 @@ import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
 import 'package:track_bud/services/auth/firebase_service.dart';
 import 'package:track_bud/utils/constants.dart';
+import 'package:track_bud/utils/settings/delete_account_pop_up.dart';
 import 'package:track_bud/utils/shadow.dart';
 import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfields/textfield.dart';
+import 'package:track_bud/views/at_signup/login_screen.dart';
 import 'package:track_bud/views/at_signup/onboarding_screen.dart';
 import 'package:track_bud/views/subpages/about_trackbud_screen.dart';
 import 'package:track_bud/views/subpages/account_settings_screen.dart';
@@ -24,6 +26,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   final TextEditingController _passwordController = TextEditingController();
   // State variables to hold user info
   final User? user = FirebaseAuth.instance.currentUser;
+  final AuthService _authService = AuthService();
   String currentUserName = '';
   String currentUserEmail = '';
   String? _profileImageUrl;
@@ -32,51 +35,84 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   void initState() {
     super.initState();
-    _loadUserData();
+    //_loadCurrentUserInfo();
   }
 
-  Future<Map<String, dynamic>> getCurrentUserData() async {
-    if (user != null) {
-      try {
-        debugPrint('Attempting to fetch data for user ID: ${user!.uid}');
-        DocumentSnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore.instance.collection('users').doc(user!.uid).get();
-
-        if (snapshot.exists) {
-          debugPrint('Document data: ${snapshot.data()}');
-          return snapshot.data() ?? {};
-        } else {
-          debugPrint('User document does not exist');
-          return {};
-        }
-      } catch (e) {
-        debugPrint('Error fetching user data: $e');
-        return {};
-      }
-    }
-    debugPrint('null');
-    return {};
-  }
-
-  Future<void> _loadUserData() async {
+// DELETE USER ACCOUNT (dont delete from firestore DB yet, so friends still see shared costs etc)
+  Future<void> _handleAccountDeletion(BuildContext context) async {
     try {
-      Map<String, dynamic> userData = await getCurrentUserData();
-      debugPrint('Received user data: $userData');
-      setState(() {
-        currentUserName = userData['name'] ?? 'Unbekannter Benutzer';
-        currentUserName == 'Unbekannter Benutzer' ? debugPrint('Name field not found in user data') : null;
+      // Get the password entered by the user
+      String password = _passwordController.text;
 
-        currentUserEmail = userData['email'] ?? '';
-        currentUserEmail == '' ? debugPrint('email field not found in user data') : null;
-        isLoading = false;
-      });
+      // Attempt to delete the user account
+      await _authService.deleteUserAccount(password);
+
+      submit();
+
+      // Show success message and navigate away or logout the user
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Konto erfolgreich gelöscht.')),
+      );
+
+      // navigate the user to a login or home screen after deletion
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const OnboardingScreen()),
+      );
     } catch (e) {
-      debugPrint('Error in _loadUserData: $e');
-      setState(() {
-        currentUserName = 'Fehler beim Laden der Benutzerdaten: $e';
-        isLoading = false;
-      });
+      submit();
+      // Show error message if something goes wrong
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Fehler beim Löschen des Kontos: $e')),
+      );
     }
   }
+
+  void submit() {
+    // hide allert dialog when button is pressed
+    _passwordController.clear();
+    Navigator.of(context).pop();
+  }
+
+/*
+  Future<void> _loadCurrentUserInfo() async {
+    final String userId = FirebaseAuth.instance.currentUser?.uid ?? '';
+
+    if (userId.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Benutzer nicht angemeldet."),
+        ),
+      );
+      return;
+    }
+
+    try {
+      print("User ID: $userId");
+
+      UserModel? localUser = await SQLiteService().getUserById(userId);
+      print("Local User: ${localUser?.toMap()}");
+
+      await DependencyInjector.syncService.syncData(userId);
+      print("Synchronization complete");
+
+      if (localUser != null) {
+        setState(() {
+          currentUserName = localUser.name;
+          currentUserEmail = localUser.email;
+          _profileImageUrl = localUser.profilePictureUrl;
+        });
+      }
+    } catch (e, stackTrace) {
+      print("Fehler beim Laden der Nutzerdaten: $e");
+      print("Stacktrace: $stackTrace");
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Fehler beim Laden der Nutzerdaten: $e")),
+      );
+    }
+  }
+*/
 
   Future<void> logout() async {
     final AuthService authService = AuthService();
@@ -100,62 +136,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
         );
       }
     }
-  }
-
-  Future openPopUp() => showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: Text(
-            AppTexts.deleteAcc,
-            style: TextStyles.titleStyleMedium,
-          ),
-          content: Container(
-            width: double.infinity,
-            height: 235,
-            child: Column(
-              children: [
-                Text(
-                  AppTexts.deleteAccDescribtion,
-                  style: TextStyles.hintStyleDefault,
-                ),
-                Gap(
-                  CustomPadding.defaultSpace,
-                ),
-                CustomTextfield(
-                  name: AppTexts.password,
-                  obscureText: true,
-                  hintText: AppTexts.hintPassword,
-                  controller: _passwordController,
-                  autofocus: true,
-                ),
-                Gap(
-                  CustomPadding.defaultSpace,
-                ),
-                ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(backgroundColor: CustomColor.red),
-                  child: Text(
-                    AppTexts.deleteAcc,
-                  ),
-                )
-              ],
-            ),
-          ),
-          insetPadding: EdgeInsets.all(CustomPadding.defaultSpace),
-          backgroundColor: CustomColor.backgroundPrimary,
-          surfaceTintColor: CustomColor.backgroundPrimary,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(
-              Radius.circular(Constants.contentBorderRadius),
-            ),
-          ),
-        ),
-      );
-
-  void submit() {
-    // hide allert dialog when button is pressed
-    _passwordController.clear();
-    Navigator.of(context).pop();
   }
 
   @override
@@ -308,9 +288,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               CustomShadow(
                 // Logout Button
                 child: TextButton.icon(
-                  onPressed: () {
-                    logout();
-                  },
+                  onPressed: () => logout(),
                   label: Text(
                     AppTexts.logout,
                     style: TextStyles.regularStyleDefault,
@@ -327,9 +305,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
               CustomShadow(
                 // delete Account Button
                 child: TextButton.icon(
-                  onPressed: () {
-                    openPopUp();
-                  }, //_handleAccountDeletion,
+                  onPressed: () => showDialog(
+                      context: context,
+                      builder: (context) => DeleteAccountPopUp(onPressed: () => _handleAccountDeletion(context))), //_handleAccountDeletion,
                   label: Text(
                     AppTexts.deleteAcc,
                     style: TextStyle(
