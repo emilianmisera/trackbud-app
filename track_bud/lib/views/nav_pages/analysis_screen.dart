@@ -4,7 +4,7 @@ import 'package:gap/gap.dart';
 import 'package:track_bud/utils/analysis_chart.dart';
 import 'package:track_bud/utils/button_widgets/dropdown.dart';
 import 'package:track_bud/utils/constants.dart';
-import 'package:track_bud/utils/information_tiles.dart';
+import 'package:track_bud/utils/tiles/information_tiles.dart';
 import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/widgets/transaction_list.dart';
 
@@ -37,9 +37,7 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             InfoTile(title: AppTexts.balance, amount: '${_currentBalance.toStringAsFixed(2)}', color: CustomColor.bluePrimary),
-            Gap(
-              CustomPadding.mediumSpace,
-            ),
+            Gap(CustomPadding.mediumSpace),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -9,162 +8,6 @@ import 'package:track_bud/utils/enum/categories.dart';
 import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfield_widgets.dart';
 import 'package:intl/intl.dart';
-
-// Widget for displaying amount and title information
-class InfoTile extends StatelessWidget {
-  final String title; // The title of the info tile
-  final String amount; // The amount to be displayed
-  final Color color; // The color of the amount text
-  final double? width; // Optional width of the tile
-
-  const InfoTile({
-    Key? key,
-    required this.title,
-    required this.amount,
-    required this.color,
-    this.width,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return CustomShadow(
-      child: Container(
-        padding: EdgeInsets.symmetric(
-          vertical: CustomPadding.defaultSpace,
-          horizontal: CustomPadding.defaultSpace,
-        ),
-        width: width ?? MediaQuery.sizeOf(context).width,
-        decoration: BoxDecoration(
-          color: CustomColor.white,
-          borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Display the amount
-            Text(
-              '$amount€',
-              style: TextStyles.headingStyle.copyWith(color: color),
-            ),
-            Gap(CustomPadding.mediumSpace),
-            // Display the title
-            Text(
-              title,
-              style: TextStyles.regularStyleDefault,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-// Widget for displaying individual transactions
-class TransactionTile extends StatefulWidget {
-  final String title;
-  final double amount;
-  final DateTime date;
-  final String category;
-  final String transactionId;
-  final String notes;
-  final String recurrenceType;
-  final String type;
-  final Function(String) onDelete;
-  final Function(String) onEdit;
-
-  const TransactionTile(
-      {Key? key,
-      required this.title,
-      required this.amount,
-      required this.date,
-      required this.category,
-      required this.transactionId,
-      required this.notes,
-      required this.recurrenceType,
-      required this.type,
-      required this.onDelete,
-      required this.onEdit})
-      : super(key: key);
-
-  @override
-  State<TransactionTile> createState() => _TransactionTileState();
-}
-
-class _TransactionTileState extends State<TransactionTile> {
-  // Method to open a popup window with transaction details
-  Future _openTransaction() => showDialog(
-        context: context,
-        builder: (context) => Dialog(
-          child: Padding(
-            padding: const EdgeInsets.all(CustomPadding.defaultSpace),
-            child: TransactionDetail(
-              title: widget.title,
-              amount: widget.amount,
-              date: widget.date,
-              category: widget.category,
-              transactionId: widget.transactionId,
-              notes: widget.notes,
-              recurrenceType: widget.recurrenceType,
-              type: widget.type,
-              onDelete: widget.onDelete,
-              onEdit: widget.onEdit,
-            ),
-          ),
-          insetPadding: EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace),
-          backgroundColor: CustomColor.backgroundPrimary,
-          surfaceTintColor: CustomColor.backgroundPrimary,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(
-              Radius.circular(Constants.contentBorderRadius),
-            ),
-          ),
-        ),
-      );
-
-  @override
-  Widget build(BuildContext context) {
-    return CustomShadow(
-      child: Container(
-        width: MediaQuery.sizeOf(context).width,
-        decoration: BoxDecoration(color: CustomColor.white, borderRadius: BorderRadius.circular(Constants.contentBorderRadius)),
-        child: ListTile(
-          // Transaction category icon
-          leading: CategoryIcon(
-            color: Categories.values
-                .firstWhere(
-                  (c) => c.categoryName.toLowerCase() == widget.category.toLowerCase(),
-                  orElse: () => Categories.sonstiges,
-                )
-                .color,
-            iconWidget: Categories.values
-                .firstWhere(
-                  (c) => c.categoryName.toLowerCase() == widget.category.toLowerCase(),
-                  orElse: () => Categories.sonstiges,
-                )
-                .icon,
-          ),
-          // Transaction title
-          title: Text(
-            widget.title,
-            style: TextStyles.regularStyleMedium,
-          ),
-          // Transaction timestamp
-          subtitle: Text(
-            DateFormat('dd.MM.yyyy, HH:mm').format(widget.date),
-            style: TextStyles.hintStyleDefault.copyWith(fontSize: TextStyles.fontSizeHint),
-          ),
-          // Transaction amount
-          trailing: Text(
-            '${widget.amount.toStringAsFixed(2)}€',
-            style: TextStyles.regularStyleMedium,
-          ),
-          minVerticalPadding: CustomPadding.defaultSpace,
-          onTap: _openTransaction,
-        ),
-      ),
-    );
-  }
-}
 
 // Widget for displaying detailed transaction information
 class TransactionDetail extends StatefulWidget {
@@ -305,25 +148,16 @@ class _TransactionDetailState extends State<TransactionDetail> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    widget.title,
-                    style: TextStyles.titleStyleMedium,
-                  ),
+                  Text(widget.title, style: TextStyles.titleStyleMedium),
                   Gap(CustomPadding.smallSpace),
-                  Text(
-                    DateFormat('dd.MM.yyyy, HH:mm').format(widget.date),
-                    style: TextStyles.hintStyleDefault,
-                  ),
+                  Text(DateFormat('dd.MM.yyyy, HH:mm').format(widget.date), style: TextStyles.hintStyleDefault),
                 ],
               ),
             ],
           ),
           Gap(CustomPadding.defaultSpace),
           // Amount section
-          Text(
-            AppTexts.amount,
-            style: TextStyles.regularStyleDefault,
-          ),
+          Text(AppTexts.amount, style: TextStyles.regularStyleDefault),
           Gap(CustomPadding.mediumSpace),
           Row(
             children: [
@@ -335,10 +169,7 @@ class _TransactionDetailState extends State<TransactionDetail> {
                     color: CustomColor.white,
                     borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
                   ),
-                  child: Text(
-                    '${widget.amount.toStringAsFixed(2)}€',
-                    style: TextStyles.regularStyleMedium,
-                  ),
+                  child: Text('${widget.amount.toStringAsFixed(2)}€', style: TextStyles.regularStyleMedium),
                 ),
               ),
               Gap(CustomPadding.defaultSpace),
@@ -350,20 +181,14 @@ class _TransactionDetailState extends State<TransactionDetail> {
                     color: CustomColor.white,
                     borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
                   ),
-                  child: Text(
-                    widget.recurrenceType,
-                    style: TextStyles.regularStyleDefault.copyWith(color: CustomColor.bluePrimary),
-                  ),
+                  child: Text(widget.recurrenceType, style: TextStyles.regularStyleDefault.copyWith(color: CustomColor.bluePrimary)),
                 ),
               ),
             ],
           ),
           Gap(CustomPadding.defaultSpace),
           // Note section
-          Text(
-            AppTexts.note,
-            style: TextStyles.regularStyleDefault,
-          ),
+          Text(AppTexts.note, style: TextStyles.regularStyleDefault),
           Gap(CustomPadding.mediumSpace),
           CustomShadow(
             child: Container(
@@ -373,10 +198,7 @@ class _TransactionDetailState extends State<TransactionDetail> {
                 color: CustomColor.white,
                 borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
               ),
-              child: Text(
-                widget.notes,
-                style: TextStyles.regularStyleDefault,
-              ),
+              child: Text(widget.notes, style: TextStyles.regularStyleDefault),
             ),
           ),
         ],

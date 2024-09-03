@@ -4,7 +4,7 @@ import 'package:track_bud/models/user_model.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/friends_widget.dart';
 import 'package:track_bud/utils/group_widget.dart';
-import 'package:track_bud/utils/information_tiles.dart';
+import 'package:track_bud/utils/tiles/information_tiles.dart';
 import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/views/subpages/your_friends_screen.dart';
 import 'package:track_bud/views/subpages/your_groups_screen.dart';
