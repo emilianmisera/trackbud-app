@@ -14,11 +14,9 @@ class ChangePasswordScreen extends StatefulWidget {
 
 class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   // Controllers for the text fields
-  final TextEditingController _currentPasswordController =
-      TextEditingController();
+  final TextEditingController _currentPasswordController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController =
-      TextEditingController();
+  final TextEditingController _confirmPasswordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -29,8 +27,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
           // Padding adds spacing around the content inside the screen
           padding: EdgeInsets.only(
             top: MediaQuery.sizeOf(context).height * CustomPadding.topSpace -
-                Constants
-                    .defaultAppBarHeight, // Top padding based on screen height
+                Constants.defaultAppBarHeight, // Top padding based on screen height
             left: CustomPadding.defaultSpace, // Left padding
             right: CustomPadding.defaultSpace, // Right padding
           ),
@@ -38,17 +35,11 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Heading text
-              Text(
-                AppTexts.changePassword,
-                style: TextStyles.headingStyle,
-              ),
+              Text(AppTexts.changePassword, style: TextStyles.headingStyle),
               Gap(CustomPadding.mediumSpace),
 
               // Description text
-              Text(
-                AppTexts.changePasswordDesscribtion,
-                style: TextStyles.hintStyleDefault,
-              ),
+              Text(AppTexts.changePasswordDesscribtion, style: TextStyles.hintStyleDefault),
               Gap(CustomPadding.bigSpace),
 
               // Current password text field
@@ -68,10 +59,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                       builder: (context) => ForgotPasswordScreen(),
                     ));
                   },
-                  child: Text(
-                    AppTexts.forgotPassword,
-                    style: TextStyles.hintStyleMedium,
-                  ),
+                  child: Text(AppTexts.forgotPassword, style: TextStyles.hintStyleMedium),
                 ),
               ),
               Gap(CustomPadding.defaultSpace),
