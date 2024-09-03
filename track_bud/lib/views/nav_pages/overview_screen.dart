@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/overview/monthly_expense.dart';
-import 'package:track_bud/utils/overview/overview_chart.dart';
+import 'package:track_bud/utils/overview/chart/overview_chart.dart';
 import 'package:track_bud/utils/overview/debts.dart';
 import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/widgets/transaction_list.dart';
