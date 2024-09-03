@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:track_bud/utils/constants.dart';
+import 'package:track_bud/utils/enum/categories.dart';
 import 'package:track_bud/utils/group_debts_chart.dart';
 import 'package:track_bud/utils/group_widget.dart';
 import 'package:track_bud/utils/information_tiles.dart';
@@ -27,17 +28,11 @@ class _GroupOverviewScreenState extends State<GroupOverviewScreen> {
       body: SingleChildScrollView(
         child: Padding(
           // spacing between content and screen
-          padding: EdgeInsets.only(
-              top: CustomPadding.defaultSpace,
-              left: CustomPadding.defaultSpace,
-              right: CustomPadding.defaultSpace),
+          padding: EdgeInsets.only(top: CustomPadding.defaultSpace, left: CustomPadding.defaultSpace, right: CustomPadding.defaultSpace),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              InfoTile(
-                  title: AppTexts.overall,
-                  amount: 'amount',
-                  color: CustomColor.black),
+              InfoTile(title: AppTexts.overall, amount: 'amount', color: CustomColor.black),
               Gap(
                 CustomPadding.mediumSpace,
               ),
@@ -48,14 +43,12 @@ class _GroupOverviewScreenState extends State<GroupOverviewScreen> {
                       title: AppTexts.perPerson,
                       amount: 'amount',
                       color: CustomColor.bluePrimary,
-                      width: MediaQuery.sizeOf(context).width / 2 -
-                          Constants.infoTileSpace),
+                      width: MediaQuery.sizeOf(context).width / 2 - Constants.infoTileSpace),
                   InfoTile(
                       title: AppTexts.debts,
                       amount: 'amount',
                       color: CustomColor.red,
-                      width: MediaQuery.sizeOf(context).width / 2 -
-                          Constants.infoTileSpace),
+                      width: MediaQuery.sizeOf(context).width / 2 - Constants.infoTileSpace),
                 ],
               ),
               Gap(CustomPadding.defaultSpace),
@@ -64,7 +57,7 @@ class _GroupOverviewScreenState extends State<GroupOverviewScreen> {
                 style: TextStyles.regularStyleMedium,
               ),
               Gap(
-               CustomPadding.mediumSpace,
+                CustomPadding.mediumSpace,
               ),
               DebtsOverview(),
               Gap(CustomPadding.defaultSpace),
@@ -77,19 +70,19 @@ class _GroupOverviewScreenState extends State<GroupOverviewScreen> {
               ),
               TransactionOverview(
                 categoryAmounts: {
-                  'Lebensmittel': 3.0,
-                  'Drogerie': 2.0,
-                  'Restaurant': 1.00,
-                  'Mobilität': 0.0,
-                  'Shopping': 0.0,
-                  'Unterkunft': 0.0,
-                  'Entertainment': 0.0,
-                  'Geschenk': 0.0,
-                  'Sonstiges': 0.0,
+                  Categories.lebensmittel: 3.0,
+                  Categories.drogerie: 2.0,
+                  Categories.restaurant: 1.00,
+                  Categories.mobility: 0.0,
+                  Categories.shopping: 0.0,
+                  Categories.unterkunft: 0.0,
+                  Categories.entertainment: 0.0,
+                  Categories.geschenk: 0.0,
+                  Categories.sonstiges: 0.0,
                 },
               ),
               Gap(
-               CustomPadding.defaultSpace,
+                CustomPadding.defaultSpace,
               ),
               Text(
                 AppTexts.history,
@@ -100,9 +93,7 @@ class _GroupOverviewScreenState extends State<GroupOverviewScreen> {
               ),
               //TODO: Add Listview with all Transactions
               Gap(
-               MediaQuery.sizeOf(context).height *
-                        CustomPadding.bottomSpace +
-                    CustomPadding.bigbigSpace,
+                MediaQuery.sizeOf(context).height * CustomPadding.bottomSpace + CustomPadding.bigbigSpace,
               )
             ],
           ),
@@ -111,8 +102,7 @@ class _GroupOverviewScreenState extends State<GroupOverviewScreen> {
       bottomSheet: Container(
         // Margin is applied to the bottom of the button and the sides for proper spacing.
         margin: EdgeInsets.only(
-          bottom: MediaQuery.sizeOf(context).height *
-              CustomPadding.bottomSpace, // Bottom margin based on screen height
+          bottom: MediaQuery.sizeOf(context).height * CustomPadding.bottomSpace, // Bottom margin based on screen height
           left: CustomPadding.defaultSpace, // Left margin
           right: CustomPadding.defaultSpace, // Right margin
         ),

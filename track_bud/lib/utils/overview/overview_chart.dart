@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/date_picker.dart';
+import 'package:track_bud/utils/enum/categories.dart';
 import 'package:track_bud/utils/group_debts_chart.dart';
 import 'package:track_bud/utils/overview/chart/expenses_chart.dart';
 import 'package:track_bud/utils/textfield_widgets.dart';
@@ -35,16 +36,16 @@ class _ExpensesOverviewTileState extends State<ExpensesOverviewTile> {
     _yearlyExpenses = List.generate(12, (index) => index == 0 ? _weeklyExpenses.reduce((a, b) => a + b) : 0);
   }
 
-  Map<String, double> categoryAmounts = {
-    'Lebensmittel': 3.0,
-    'Drogerie': 2.0,
-    'Restaurant': 1.00,
-    'Mobilität': 0.0,
-    'Shopping': 0.0,
-    'Unterkunft': 0.0,
-    'Entertainment': 0.0,
-    'Geschenk': 0.0,
-    'Sonstiges': 0.0,
+  Map<Categories, double> categoryAmounts = {
+    Categories.lebensmittel: 3.0,
+    Categories.drogerie: 2.0,
+    Categories.restaurant: 1.00,
+    Categories.mobility: 0.0,
+    Categories.shopping: 0.0,
+    Categories.unterkunft: 0.0,
+    Categories.entertainment: 0.0,
+    Categories.geschenk: 0.0,
+    Categories.sonstiges: 0.0,
   };
 
   List<double> _getCurrentExpenses() {
