@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:track_bud/utils/add/add_split.dart';
+import 'package:track_bud/utils/add/split/add_split.dart';
 import 'package:track_bud/utils/add/add_transaction.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/debts/group/group_choice.dart';
