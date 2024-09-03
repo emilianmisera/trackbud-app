@@ -5,90 +5,92 @@ PODS:
   - AppAuth/Core (1.7.5)
   - AppAuth/ExternalUserAgent (1.7.5):
     - AppAuth/Core
-  - cloud_firestore (5.2.1):
-    - Firebase/Firestore (= 10.29.0)
+  - cloud_firestore (5.4.0):
+    - Firebase/Firestore (= 11.0.0)
     - firebase_core
     - Flutter
   - connectivity_plus (0.0.1):
     - Flutter
     - FlutterMacOS
-  - Firebase/Auth (10.29.0):
+  - Firebase/Auth (11.0.0):
     - Firebase/CoreOnly
-    - FirebaseAuth (~> 10.29.0)
-  - Firebase/CoreOnly (10.29.0):
-    - FirebaseCore (= 10.29.0)
-  - Firebase/DynamicLinks (10.29.0):
+    - FirebaseAuth (~> 11.0.0)
+  - Firebase/CoreOnly (11.0.0):
+    - FirebaseCore (= 11.0.0)
+  - Firebase/DynamicLinks (11.0.0):
     - Firebase/CoreOnly
-    - FirebaseDynamicLinks (~> 10.29.0)
-  - Firebase/Firestore (10.29.0):
+    - FirebaseDynamicLinks (~> 11.0.0)
+  - Firebase/Firestore (11.0.0):
     - Firebase/CoreOnly
-    - FirebaseFirestore (~> 10.29.0)
-  - Firebase/Storage (10.29.0):
+    - FirebaseFirestore (~> 11.0.0)
+  - Firebase/Storage (11.0.0):
     - Firebase/CoreOnly
-    - FirebaseStorage (~> 10.29.0)
-  - firebase_auth (5.1.4):
-    - Firebase/Auth (= 10.29.0)
+    - FirebaseStorage (~> 11.0.0)
+  - firebase_auth (5.2.0):
+    - Firebase/Auth (= 11.0.0)
     - firebase_core
     - Flutter
-  - firebase_core (3.3.0):
-    - Firebase/CoreOnly (= 10.29.0)
+  - firebase_core (3.4.0):
+    - Firebase/CoreOnly (= 11.0.0)
     - Flutter
-  - firebase_dynamic_links (6.0.4):
-    - Firebase/DynamicLinks (= 10.29.0)
+  - firebase_dynamic_links (6.0.5):
+    - Firebase/DynamicLinks (= 11.0.0)
     - firebase_core
     - Flutter
-  - firebase_storage (12.1.3):
-    - Firebase/Storage (= 10.29.0)
+  - firebase_storage (12.2.0):
+    - Firebase/Storage (= 11.0.0)
     - firebase_core
     - Flutter
-  - FirebaseAppCheckInterop (10.29.0)
-  - FirebaseAuth (10.29.0):
-    - FirebaseAppCheckInterop (~> 10.17)
-    - FirebaseCore (~> 10.0)
-    - GoogleUtilities/AppDelegateSwizzler (~> 7.8)
-    - GoogleUtilities/Environment (~> 7.8)
-    - GTMSessionFetcher/Core (< 4.0, >= 2.1)
+  - FirebaseAppCheckInterop (11.1.0)
+  - FirebaseAuth (11.0.0):
+    - FirebaseAppCheckInterop (~> 11.0)
+    - FirebaseAuthInterop (~> 11.0)
+    - FirebaseCore (~> 11.0)
+    - FirebaseCoreExtension (~> 11.0)
+    - GoogleUtilities/AppDelegateSwizzler (~> 8.0)
+    - GoogleUtilities/Environment (~> 8.0)
+    - GTMSessionFetcher/Core (~> 3.4)
     - RecaptchaInterop (~> 100.0)
-  - FirebaseAuthInterop (10.29.0)
-  - FirebaseCore (10.29.0):
-    - FirebaseCoreInternal (~> 10.0)
-    - GoogleUtilities/Environment (~> 7.12)
-    - GoogleUtilities/Logger (~> 7.12)
-  - FirebaseCoreExtension (10.29.0):
-    - FirebaseCore (~> 10.0)
-  - FirebaseCoreInternal (10.29.0):
-    - "GoogleUtilities/NSData+zlib (~> 7.8)"
-  - FirebaseDynamicLinks (10.29.0):
-    - FirebaseCore (~> 10.0)
-  - FirebaseFirestore (10.29.0):
-    - FirebaseFirestoreBinary (= 10.29.0)
-  - FirebaseFirestoreAbseilBinary (1.2024011601.0)
-  - FirebaseFirestoreBinary (10.29.0):
-    - FirebaseCore (= 10.29.0)
-    - FirebaseCoreExtension (= 10.29.0)
-    - FirebaseFirestoreInternalBinary (= 10.29.0)
-    - FirebaseSharedSwift (= 10.29.0)
-  - FirebaseFirestoreGRPCBoringSSLBinary (1.62.1)
-  - FirebaseFirestoreGRPCCoreBinary (1.62.1):
-    - FirebaseFirestoreAbseilBinary (= 1.2024011601.0)
-    - FirebaseFirestoreGRPCBoringSSLBinary (= 1.62.1)
-  - FirebaseFirestoreGRPCCPPBinary (1.62.1):
-    - FirebaseFirestoreAbseilBinary (= 1.2024011601.0)
-    - FirebaseFirestoreGRPCCoreBinary (= 1.62.1)
-  - FirebaseFirestoreInternalBinary (10.29.0):
-    - FirebaseCore (= 10.29.0)
-    - FirebaseFirestoreAbseilBinary (= 1.2024011601.0)
-    - FirebaseFirestoreGRPCCPPBinary (= 1.62.1)
+  - FirebaseAuthInterop (11.1.0)
+  - FirebaseCore (11.0.0):
+    - FirebaseCoreInternal (~> 11.0)
+    - GoogleUtilities/Environment (~> 8.0)
+    - GoogleUtilities/Logger (~> 8.0)
+  - FirebaseCoreExtension (11.0.0):
+    - FirebaseCore (~> 11.0)
+  - FirebaseCoreInternal (11.1.0):
+    - "GoogleUtilities/NSData+zlib (~> 8.0)"
+  - FirebaseDynamicLinks (11.0.0):
+    - FirebaseCore (~> 11.0)
+  - FirebaseFirestore (11.0.0):
+    - FirebaseFirestoreBinary (= 11.0.0)
+  - FirebaseFirestoreAbseilBinary (1.2024011602.0)
+  - FirebaseFirestoreBinary (11.0.0):
+    - FirebaseCore (= 11.0.0)
+    - FirebaseCoreExtension (= 11.0.0)
+    - FirebaseFirestoreInternalBinary (= 11.0.0)
+    - FirebaseSharedSwift (= 11.0.0)
+  - FirebaseFirestoreGRPCBoringSSLBinary (1.65.1)
+  - FirebaseFirestoreGRPCCoreBinary (1.65.1):
+    - FirebaseFirestoreAbseilBinary (= 1.2024011602.0)
+    - FirebaseFirestoreGRPCBoringSSLBinary (= 1.65.1)
+  - FirebaseFirestoreGRPCCPPBinary (1.65.1):
+    - FirebaseFirestoreAbseilBinary (= 1.2024011602.0)
+    - FirebaseFirestoreGRPCCoreBinary (= 1.65.1)
+  - FirebaseFirestoreInternalBinary (11.0.0):
+    - FirebaseCore (= 11.0.0)
+    - FirebaseFirestoreAbseilBinary (= 1.2024011602.0)
+    - FirebaseFirestoreGRPCCPPBinary (= 1.65.1)
     - leveldb-library (~> 1.22)
-    - nanopb (< 2.30911.0, >= 2.30908.0)
-  - FirebaseSharedSwift (10.29.0)
-  - FirebaseStorage (10.29.0):
-    - FirebaseAppCheckInterop (~> 10.0)
-    - FirebaseAuthInterop (~> 10.25)
-    - FirebaseCore (~> 10.0)
-    - FirebaseCoreExtension (~> 10.0)
-    - GoogleUtilities/Environment (~> 7.12)
-    - GTMSessionFetcher/Core (< 4.0, >= 2.1)
+    - nanopb (~> 3.30910.0)
+  - FirebaseSharedSwift (11.0.0)
+  - FirebaseStorage (11.0.0):
+    - FirebaseAppCheckInterop (~> 11.0)
+    - FirebaseAuthInterop (~> 11.0)
+    - FirebaseCore (~> 11.0)
+    - FirebaseCoreExtension (~> 11.0)
+    - GoogleUtilities/Environment (~> 8.0)
+    - GTMSessionFetcher/Core (~> 3.4)
   - Flutter (1.0.0)
   - google_sign_in_ios (0.0.1):
     - AppAuth (>= 1.7.4)
@@ -100,26 +102,25 @@ PODS:
     - AppAuth (< 2.0, >= 1.7.3)
     - GTMAppAuth (< 5.0, >= 4.1.1)
     - GTMSessionFetcher/Core (~> 3.3)
-  - GoogleUtilities/AppDelegateSwizzler (7.13.3):
+  - GoogleUtilities/AppDelegateSwizzler (8.0.2):
     - GoogleUtilities/Environment
     - GoogleUtilities/Logger
     - GoogleUtilities/Network
     - GoogleUtilities/Privacy
-  - GoogleUtilities/Environment (7.13.3):
+  - GoogleUtilities/Environment (8.0.2):
     - GoogleUtilities/Privacy
-    - PromisesObjC (< 3.0, >= 1.2)
-  - GoogleUtilities/Logger (7.13.3):
+  - GoogleUtilities/Logger (8.0.2):
     - GoogleUtilities/Environment
     - GoogleUtilities/Privacy
-  - GoogleUtilities/Network (7.13.3):
+  - GoogleUtilities/Network (8.0.2):
     - GoogleUtilities/Logger
     - "GoogleUtilities/NSData+zlib"
     - GoogleUtilities/Privacy
     - GoogleUtilities/Reachability
-  - "GoogleUtilities/NSData+zlib (7.13.3)":
+  - "GoogleUtilities/NSData+zlib (8.0.2)":
     - GoogleUtilities/Privacy
-  - GoogleUtilities/Privacy (7.13.3)
-  - GoogleUtilities/Reachability (7.13.3):
+  - GoogleUtilities/Privacy (8.0.2)
+  - GoogleUtilities/Reachability (8.0.2):
     - GoogleUtilities/Logger
     - GoogleUtilities/Privacy
   - GTMAppAuth (4.1.1):
@@ -133,14 +134,16 @@ PODS:
   - image_picker_ios (0.0.1):
     - Flutter
   - leveldb-library (1.22.5)
-  - nanopb (2.30910.0):
-    - nanopb/decode (= 2.30910.0)
-    - nanopb/encode (= 2.30910.0)
-  - nanopb/decode (2.30910.0)
-  - nanopb/encode (2.30910.0)
-  - PromisesObjC (2.4.0)
+  - nanopb (3.30910.0):
+    - nanopb/decode (= 3.30910.0)
+    - nanopb/encode (= 3.30910.0)
+  - nanopb/decode (3.30910.0)
+  - nanopb/encode (3.30910.0)
+  - path_provider_foundation (0.0.1):
+    - Flutter
+    - FlutterMacOS
   - RecaptchaInterop (100.0.0)
-  - share (0.0.1):
+  - share_plus (0.0.1):
     - Flutter
   - sqflite (0.0.3):
     - Flutter
@@ -153,11 +156,12 @@ DEPENDENCIES:
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - firebase_dynamic_links (from `.symlinks/plugins/firebase_dynamic_links/ios`)
   - firebase_storage (from `.symlinks/plugins/firebase_storage/ios`)
-  - FirebaseFirestore (from `https://github.com/invertase/firestore-ios-sdk-frameworks.git`, tag `10.29.0`)
+  - FirebaseFirestore (from `https://github.com/invertase/firestore-ios-sdk-frameworks.git`, tag `11.0.0`)
   - Flutter (from `Flutter`)
   - google_sign_in_ios (from `.symlinks/plugins/google_sign_in_ios/darwin`)
   - image_picker_ios (from `.symlinks/plugins/image_picker_ios/ios`)
-  - share (from `.symlinks/plugins/share/ios`)
+  - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
+  - share_plus (from `.symlinks/plugins/share_plus/ios`)
   - sqflite (from `.symlinks/plugins/sqflite/darwin`)
 
 SPEC REPOS:
@@ -185,7 +189,6 @@ SPEC REPOS:
     - GTMSessionFetcher
     - leveldb-library
     - nanopb
-    - PromisesObjC
     - RecaptchaInterop
 
 EXTERNAL SOURCES:
@@ -203,62 +206,64 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/firebase_storage/ios"
   FirebaseFirestore:
     :git: https://github.com/invertase/firestore-ios-sdk-frameworks.git
-    :tag: 10.29.0
+    :tag: 11.0.0
   Flutter:
     :path: Flutter
   google_sign_in_ios:
     :path: ".symlinks/plugins/google_sign_in_ios/darwin"
   image_picker_ios:
     :path: ".symlinks/plugins/image_picker_ios/ios"
-  share:
-    :path: ".symlinks/plugins/share/ios"
+  path_provider_foundation:
+    :path: ".symlinks/plugins/path_provider_foundation/darwin"
+  share_plus:
+    :path: ".symlinks/plugins/share_plus/ios"
   sqflite:
     :path: ".symlinks/plugins/sqflite/darwin"
 
 CHECKOUT OPTIONS:
   FirebaseFirestore:
     :git: https://github.com/invertase/firestore-ios-sdk-frameworks.git
-    :tag: 10.29.0
+    :tag: 11.0.0
 
 SPEC CHECKSUMS:
   AppAuth: 501c04eda8a8d11f179dbe8637b7a91bb7e5d2fa
-  cloud_firestore: 8a2ff2bb050f87d0ca996866625cefbe2395a83b
+  cloud_firestore: c44f5943a6f7fc1775cfa4a1e980a0024ed565ee
   connectivity_plus: ddd7f30999e1faaef5967c23d5b6d503d10434db
-  Firebase: cec914dab6fd7b1bd8ab56ea07ce4e03dd251c2d
-  firebase_auth: 8dbfcdd635cc4fb2ea213aeee8c9a979b3d3373b
-  firebase_core: 57aeb91680e5d5e6df6b888064be7c785f146efb
-  firebase_dynamic_links: 550e8cefbdee7b6e74adfebb3cc4d340fa72f6c8
-  firebase_storage: a099c6305aead7bed5dc7272db64c57195cd8fea
-  FirebaseAppCheckInterop: 6a1757cfd4067d8e00fccd14fcc1b8fd78cfac07
-  FirebaseAuth: e2ebfaf9fb4638a1c9a3b0efd17d1b90943987cd
-  FirebaseAuthInterop: 17db81e9b198afb0f95ce48c133825727eed55d3
-  FirebaseCore: 30e9c1cbe3d38f5f5e75f48bfcea87d7c358ec16
-  FirebaseCoreExtension: 705ca5b14bf71d2564a0ddc677df1fc86ffa600f
-  FirebaseCoreInternal: df84dd300b561c27d5571684f389bf60b0a5c934
-  FirebaseDynamicLinks: 83c278fcae48ac2cf8c3fb10f64f3d469dadcf9b
-  FirebaseFirestore: 288ad1fd0a8000d1ccd60dd2f0397b332357c045
-  FirebaseFirestoreAbseilBinary: bd0451946879e0e01327c8efc35896bb273009c4
-  FirebaseFirestoreBinary: 293e2ff417ba7ae027424e18746a3789b32348c0
-  FirebaseFirestoreGRPCBoringSSLBinary: c3007e61593e4583ec3bb8b34ce654663663b690
-  FirebaseFirestoreGRPCCoreBinary: 1243fc6604a52912694635f891916976924931ed
-  FirebaseFirestoreGRPCCPPBinary: e447b3a7c060c0abfc4e2c9f6fb53bf7635ded66
-  FirebaseFirestoreInternalBinary: 8a6fe5f91269d3482f253c7a936e341389bfd52e
-  FirebaseSharedSwift: 20530f495084b8d840f78a100d8c5ee613375f6e
-  FirebaseStorage: 436c30aa46f2177ba152f268fe4452118b8a4856
+  Firebase: 9f574c08c2396885b5e7e100ed4293d956218af9
+  firebase_auth: 16ac5db3d064db837ecd845080d7e18e4be7c66d
+  firebase_core: ceec591a66629daaee82d3321551692c4a871493
+  firebase_dynamic_links: b0b61a7d3f23d0f9d06c3c3134f07f952e14b83c
+  firebase_storage: 3b166e39a19e95b6a2d1c33b4ebff41e12a7615b
+  FirebaseAppCheckInterop: e59b52f2c0e188e6ba77b9e3f6acead2117f2abf
+  FirebaseAuth: d5cf28be74d7e82257f6a3f717509eff70d3cf4a
+  FirebaseAuthInterop: 49e8faefaf254ce578e278a84a8fe0aebe23b546
+  FirebaseCore: 3cf438f431f18c12cdf2aaf64434648b63f7e383
+  FirebaseCoreExtension: 6928a0a34219af2bfe853810d7e6ba785ffb9ed6
+  FirebaseCoreInternal: adefedc9a88dbe393c4884640a73ec9e8e790f8c
+  FirebaseDynamicLinks: fe442c573e116434d7e0f7937d4f9e2b5e49b557
+  FirebaseFirestore: 72f82b3da84d14865fe21607cb584fb17d9e6598
+  FirebaseFirestoreAbseilBinary: fa2ebd2ed02cadef5382e4f7c93f1b265c812c85
+  FirebaseFirestoreBinary: b8a9976eb3ce68ba41abee2e0182db5275baa38b
+  FirebaseFirestoreGRPCBoringSSLBinary: d86ebbe2adc8d15d7ebf305fff7d6358385327f8
+  FirebaseFirestoreGRPCCoreBinary: 472bd808e1886a5efb2fd03dd09b98d34641a335
+  FirebaseFirestoreGRPCCPPBinary: db76d83d2b7517623f8426ed7f7a17bad2478084
+  FirebaseFirestoreInternalBinary: 9b233680572ca2bc2c3654c3c3b22b2699cb14eb
+  FirebaseSharedSwift: 9d0e7130af2f0cf162ecd136971f9661f2a3f769
+  FirebaseStorage: f9e2bf027d549db18b6195a37b31c85f56e40200
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   google_sign_in_ios: 07375bfbf2620bc93a602c0e27160d6afc6ead38
   GoogleSignIn: d4281ab6cf21542b1cfaff85c191f230b399d2db
-  GoogleUtilities: ea963c370a38a8069cc5f7ba4ca849a60b6d7d15
+  GoogleUtilities: 26a3abef001b6533cf678d3eb38fd3f614b7872d
   GTMAppAuth: f69bd07d68cd3b766125f7e072c45d7340dea0de
   GTMSessionFetcher: 5aea5ba6bd522a239e236100971f10cb71b96ab6
   image_picker_ios: c560581cceedb403a6ff17f2f816d7fea1421fc1
   leveldb-library: e8eadf9008a61f9e1dde3978c086d2b6d9b9dc28
-  nanopb: 438bc412db1928dac798aa6fd75726007be04262
-  PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
+  nanopb: fad817b59e0457d11a5dfbde799381cd727c1275
+  path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46
   RecaptchaInterop: 7d1a4a01a6b2cb1610a47ef3f85f0c411434cb21
-  share: 0b2c3e82132f5888bccca3351c504d0003b3b410
+  share_plus: 8875f4f2500512ea181eef553c3e27dba5135aad
   sqflite: 673a0e54cc04b7d6dba8d24fb8095b31c3a99eec
 
-PODFILE CHECKSUM: 79a44665c2e641aa936f5cffb9a8a5586f178ab0
+PODFILE CHECKSUM: 8fdc6b89b3f4f8655036765d20a0185e1a3de17f
 
 COCOAPODS: 1.15.2

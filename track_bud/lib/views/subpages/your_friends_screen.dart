@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:share_plus/share_plus.dart';
 import 'package:track_bud/models/user_model.dart';
 import 'package:track_bud/services/invite_services.dart';
 import 'package:track_bud/utils/constants.dart';
@@ -10,6 +9,7 @@ import 'package:track_bud/utils/debts/friend/friend_card.dart';
 import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfields/searchfield.dart';
 import 'package:track_bud/views/at_signup/firestore_service.dart';
+import 'package:share_plus/share_plus.dart';
 
 class YourFriendsScreen extends StatefulWidget {
   const YourFriendsScreen({super.key});
