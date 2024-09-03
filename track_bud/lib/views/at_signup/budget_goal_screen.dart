@@ -1,7 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:track_bud/controller/user_controller.dart';
 import 'package:track_bud/trackbud.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/strings.dart';
@@ -22,15 +22,13 @@ class _BudgetGoalScreenState extends State<BudgetGoalScreen> {
   // Add or update user's bank account balance in Firestore
   Future<void> addUserBankAccount(double amount) async {
     User? user = FirebaseAuth.instance.currentUser;
+    final String userId = FirebaseAuth.instance.currentUser!.uid;
 
     if (user != null) {
       try {
-        await FirebaseFirestore.instance
-            .collection("users")
-            .doc(user.uid)
-            .update({
-          'budgetgoal': amount,
-        });
+        debugPrint("trying updating BudgetGoal...");
+        await UserController().updateBudgetGoal(userId, amount);
+        debugPrint("updating BudgetGoal successfull!");
       } catch (e) {
         debugPrint("Error updating bank account: $e");
         // Handle the error
@@ -54,8 +52,20 @@ class _BudgetGoalScreenState extends State<BudgetGoalScreen> {
   // method for saving information input from user
   Future<void> handleSubmission(BuildContext context) async {
     double? amount = parseCommaDecimal(_moneyController.text);
-    if (amount != null) {
+
+    if (amount! < 0) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Ungültiger Betrag."),
+        ),
+      );
+      return;
+    }
+
+    if (amount > 0) {
+      debugPrint("Correct Number Input");
       await addUserBankAccount(amount);
+      debugPrint("Navigating to Overview Screen...");
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => TrackBud()),
@@ -74,56 +84,34 @@ class _BudgetGoalScreenState extends State<BudgetGoalScreen> {
       bottomSheet: Container(
         // Margin is applied to the bottom of the button and the sides for proper spacing.
         margin: EdgeInsets.only(
-          bottom: MediaQuery.sizeOf(context).height *
-              CustomPadding.bottomSpace, // Bottom margin based on screen height
-          left: CustomPadding.defaultSpace, // Left margin
-          right: CustomPadding.defaultSpace, // Right margin
+          bottom: MediaQuery.sizeOf(context).height * CustomPadding.bottomSpace,
+          left: CustomPadding.defaultSpace,
+          right: CustomPadding.defaultSpace,
         ),
-        width: MediaQuery.of(context)
-            .size
-            .width, // Set the button width to match the screen width
+        width: MediaQuery.of(context).size.width, // Set the button width to match the screen width
         child: ElevatedButton(
-          onPressed: () {
-            handleSubmission(context);
-          },
-          child: Text(
-            AppTexts.continueText,
-          ),
+          onPressed: () => handleSubmission(context),
+          child: Text(AppTexts.continueText),
         ),
       ),
-      // The main content of the screen is wrapped in a SingleChildScrollView to make it scrollable.
       body: SingleChildScrollView(
         child: Padding(
           // Padding adds spacing around the content inside the screen.
           padding: EdgeInsets.only(
-            top: MediaQuery.sizeOf(context).height *
-                CustomPadding
-                    .topSpaceAuth, // Top padding based on screen height
-            left: CustomPadding.defaultSpace, // Left padding
-            right: CustomPadding.defaultSpace, // Right padding
+            top: MediaQuery.sizeOf(context).height * CustomPadding.topSpaceAuth,
+            left: CustomPadding.defaultSpace,
+            right: CustomPadding.defaultSpace,
           ),
           child: Column(
             // Column to organize the content vertically.
             children: [
-              Text(
-                AppTexts.budgetGoalHeading, // The heading text
-                style:
-                    TextStyles.headingStyle, // The text style for the heading.
-              ),
-              Gap(
-                CustomPadding
-                    .mediumSpace, // Adds vertical space between the heading and the next element.
-              ),
-              Text(
-                AppTexts.budgetGoalDescription, // The description text
-                style: TextStyles
-                    .hintStyleDefault, // The text style for the description.
-              ),
-              Gap(
-                CustomPadding
-                    .bigSpace, // Adds more vertical space before the next element.
-              ),
-              // A custom TextField widget for entering the amount of money, using the controller defined above.
+              // The heading text
+              Text(AppTexts.budgetGoalHeading, style: TextStyles.headingStyle),
+              Gap(CustomPadding.mediumSpace),
+              // The description text
+              Text(AppTexts.budgetGoalDescription, style: TextStyles.hintStyleDefault),
+              Gap(CustomPadding.bigSpace),
+              // entering the amount of money
               TextFieldAmountOfMoney(controller: _moneyController),
             ],
           ),
