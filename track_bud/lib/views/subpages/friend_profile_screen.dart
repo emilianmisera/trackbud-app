@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:track_bud/models/user_model.dart';
 import 'package:track_bud/utils/constants.dart';
-import 'package:track_bud/utils/friends_widget.dart';
+import 'package:track_bud/utils/debts/friend/friend_profile.dart';
 import 'package:track_bud/utils/strings.dart';
 
 class FriendProfileScreen extends StatefulWidget {
@@ -26,30 +26,27 @@ class _FriendProfileScreenState extends State<FriendProfileScreen> {
       body: SingleChildScrollView(
         child: Padding(
           // spacing between content and screen
-          padding: EdgeInsets.only(top: CustomPadding.defaultSpace, left: CustomPadding.defaultSpace, right: CustomPadding.defaultSpace),
+          padding: const EdgeInsets.only(top: CustomPadding.defaultSpace, left: CustomPadding.defaultSpace, right: CustomPadding.defaultSpace),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Center(
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(100.0),
-                  child: Container(
+                  child: SizedBox(
                     width: Constants.profilePictureAccountEdit,
                     height: Constants.profilePictureAccountEdit,
                     child: widget.friend.profilePictureUrl != ""
                         ? Image.network(widget.friend.profilePictureUrl, fit: BoxFit.cover)
-                        : Icon(Icons.person, color: Colors.grey),
+                        : const Icon(Icons.person, color: Colors.grey),
                   ),
                 ),
               ),
-              Gap(CustomPadding.bigSpace),
-              FriendProfileDetails(),
-              Gap(CustomPadding.defaultSpace),
-              Text(
-                AppTexts.history,
-                style: TextStyles.regularStyleMedium,
-              ),
-              Gap(CustomPadding.mediumSpace),
+              const Gap(CustomPadding.bigSpace),
+              const FriendProfileDetails(),
+              const Gap(CustomPadding.defaultSpace),
+              Text(AppTexts.history, style: TextStyles.regularStyleMedium),
+              const Gap(CustomPadding.mediumSpace),
             ],
           ),
         ),

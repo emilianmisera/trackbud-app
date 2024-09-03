@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/strings.dart';
-import 'package:track_bud/utils/textfield_widget.dart';
+import 'package:track_bud/utils/textfields/textfield.dart';
 import 'package:track_bud/views/at_signup/forgot_password_screen.dart';
 
 class ChangePasswordScreen extends StatefulWidget {
@@ -35,18 +35,12 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Heading text
-              Text(
-                AppTexts.changePassword,
-                style: TextStyles.headingStyle,
-              ),
-              Gap(CustomPadding.mediumSpace),
+              Text(AppTexts.changePassword, style: TextStyles.headingStyle),
+              const Gap(CustomPadding.mediumSpace),
 
               // Description text
-              Text(
-                AppTexts.changePasswordDesscribtion,
-                style: TextStyles.hintStyleDefault,
-              ),
-              Gap(CustomPadding.bigSpace),
+              Text(AppTexts.changePasswordDesscribtion, style: TextStyles.hintStyleDefault),
+              const Gap(CustomPadding.bigSpace),
 
               // Current password text field
               CustomTextfield(
@@ -54,7 +48,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 hintText: AppTexts.currentPasswordHint,
                 controller: _currentPasswordController,
               ),
-              Gap(CustomPadding.mediumSpace),
+              const Gap(CustomPadding.mediumSpace),
 
               // Forgot password link
               Align(
@@ -62,16 +56,13 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 child: GestureDetector(
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => ForgotPasswordScreen(),
+                      builder: (context) => const ForgotPasswordScreen(),
                     ));
                   },
-                  child: Text(
-                    AppTexts.forgotPassword,
-                    style: TextStyles.hintStyleMedium,
-                  ),
+                  child: Text(AppTexts.forgotPassword, style: TextStyles.hintStyleMedium),
                 ),
               ),
-              Gap(CustomPadding.defaultSpace),
+              const Gap(CustomPadding.defaultSpace),
 
               // New password text field
               CustomTextfield(
@@ -79,7 +70,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 hintText: AppTexts.hintPassword,
                 controller: _passwordController,
               ),
-              Gap(CustomPadding.defaultSpace),
+              const Gap(CustomPadding.defaultSpace),
 
               // Confirm new password text field
               CustomTextfield(

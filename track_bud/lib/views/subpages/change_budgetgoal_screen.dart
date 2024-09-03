@@ -4,7 +4,7 @@ import 'package:gap/gap.dart';
 import 'package:track_bud/controller/user_controller.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/strings.dart';
-import 'package:track_bud/utils/textfield_widget.dart';
+import 'package:track_bud/utils/textfields/textfield_amount_of_money.dart';
 
 class ChangeBudgetGoalScreen extends StatefulWidget {
   const ChangeBudgetGoalScreen({super.key});
@@ -63,7 +63,7 @@ class _ChangeBudgetGoalScreenState extends State<ChangeBudgetGoalScreen> {
     if (userId.isEmpty) {
       // Handle the case when user ID is not available
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text("Benutzer nicht angemeldet."),
         ),
       );
@@ -73,7 +73,7 @@ class _ChangeBudgetGoalScreenState extends State<ChangeBudgetGoalScreen> {
     final String amountText = _moneyController.text.trim().replaceAll(',', '.');
     if (amountText.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text("Bitte geben Sie den Betrag ein."),
         ),
       );
@@ -83,7 +83,7 @@ class _ChangeBudgetGoalScreenState extends State<ChangeBudgetGoalScreen> {
     final double amount = double.tryParse(amountText) ?? -1;
     if (amount < 0) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text("Ungültiger Betrag."),
         ),
       );
@@ -94,18 +94,14 @@ class _ChangeBudgetGoalScreenState extends State<ChangeBudgetGoalScreen> {
       // Call the UserController to update the bank account information
       await UserController().updateBudgetGoal(userId, amount);
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text("Budget erfolgreich aktualisiert."),
-        ),
-      );
-      Navigator.pop(context);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Budget erfolgreich aktualisiert.")),
+        );
+        Navigator.pop(context);
+      }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text("Fehler beim Speichern des Budgets: $e"),
-        ),
-      );
+      if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Fehler beim Speichern des Budgets: $e")));
     }
   }
 
@@ -129,20 +125,20 @@ class _ChangeBudgetGoalScreenState extends State<ChangeBudgetGoalScreen> {
                 AppTexts.changeBudgetGoalHeading, // The heading text
                 style: TextStyles.headingStyle, // The text style for the heading.
               ),
-              Gap(
+              const Gap(
                 CustomPadding.mediumSpace, // Adds vertical space between the heading and the next element.
               ),
               Text(
                 AppTexts.changeBudgetGoalDescribtion, // The description text
                 style: TextStyles.hintStyleDefault, // The text style for the description.
               ),
-              Gap(
+              const Gap(
                 CustomPadding.bigSpace, // Adds more vertical space before the next element.
               ),
               // A custom TextField widget for entering the amount of money, using the controller defined above.
               TextFieldAmountOfMoney(
                 controller: _moneyController,
-                hintText: '0000',
+                hintText: AppTexts.lines,
               ),
             ],
           ),
@@ -158,12 +154,8 @@ class _ChangeBudgetGoalScreenState extends State<ChangeBudgetGoalScreen> {
         width: MediaQuery.of(context).size.width, // Set the button width to match the screen width
         child: ElevatedButton(
           // Saving Button
-          onPressed: () {
-            _saveBudgetGoal();
-          },
-          child: Text(
-            AppTexts.save,
-          ),
+          onPressed: () => _saveBudgetGoal(),
+          child: Text(AppTexts.save),
         ),
       ),
     );

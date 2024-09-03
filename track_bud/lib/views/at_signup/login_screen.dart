@@ -1,11 +1,12 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
-import 'package:track_bud/services/auth/auth_service.dart';
+import 'package:track_bud/services/auth/firebase_service.dart';
+import 'package:track_bud/trackbud.dart';
 import 'package:track_bud/utils/constants.dart';
+import 'package:track_bud/utils/shadow.dart';
 import 'package:track_bud/utils/strings.dart';
-import 'package:track_bud/utils/textfield_widget.dart';
+import 'package:track_bud/utils/textfields/textfield.dart';
 import 'package:track_bud/views/at_signup/forgot_password_screen.dart';
 import 'package:track_bud/views/at_signup/signup_screen.dart';
 
@@ -17,42 +18,10 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _email = TextEditingController();
+  final TextEditingController _password = TextEditingController();
+
   final AuthService _authService = AuthService();
-
-  Future<void> _handleSignIn() async {
-    String email = _emailController.text.trim();
-    String password = _passwordController.text.trim();
-
-    if (email.isEmpty || password.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text("${AppTexts.emptyLoginInput}"),
-        ),
-      );
-      return;
-    }
-
-    try {
-      // Versuche, den Benutzer mit E-Mail und Passwort anzumelden
-      await _authService.signInWithEmailAndPassword(context, email, password);
-
-      // Zeige eine Erfolgsmeldung an
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(AppTexts.successfulLogin),
-        ),
-      );
-    } on FirebaseAuthException catch (e) {
-      // Zeige eine Fehlermeldung an, falls die Anmeldung fehlgeschlagen ist
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text("${AppTexts.loginFailedSnackbar}: ${e.message ?? e.code}"),
-        ),
-      );
-    }
-  }
 
   Future<void> _handleGoogleSignIn() async {
     try {
@@ -60,19 +29,44 @@ class _LoginScreenState extends State<LoginScreen> {
       await _authService.signInWithGoogle(context);
 
       // Zeige eine Erfolgsmeldung an
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(AppTexts.successfulLogin),
-        ),
-      );
+      if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(AppTexts.successfulLogin)));
     } catch (error) {
       // Zeige eine Fehlermeldung an, falls die Google-Anmeldung fehlgeschlagen ist
+      if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Google-Anmeldung fehlgeschlagen: $error")));
+    }
+  }
+
+  void _loginUser() async {
+    final AuthService authService = AuthService();
+    String email = _email.text.trim();
+    String password = _password.text.trim();
+
+    if (email.isEmpty || password.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text("Google-Anmeldung fehlgeschlagen: $error"),
+          content: Text(AppTexts.emptyLoginInput),
         ),
       );
+      return;
     }
+
+    // try login
+    try {
+      debugPrint('login_screen: _loginUser -> trying to login...');
+      await authService.signInWithEmailAndPassword(_email.text, _password.text);
+
+      debugPrint('login_screen: _loginUser -> sucess! -> redirecting to Overview');
+      if (mounted) {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => TrackBud()),
+        );
+      }
+    } catch (e) {
+      debugPrint('login_screen: _loginUser -> user login failed');
+      if (mounted) showDialog(context: context, builder: (context) => AlertDialog(title: Text('Fehler: ${e.toString()}')));
+    }
+
+    // catch any errors
   }
 
   @override
@@ -88,107 +82,71 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start, //alignment to left
             children: [
-              Text(
-                AppTexts.signIn,
-                style: TextStyles.headingStyle,
-              ),
-              Gap(
-                CustomPadding.mediumSpace,
-              ),
-              Text(
-                AppTexts.signInDescription,
-                style: TextStyles.hintStyleDefault,
-              ),
-              Gap(
-                CustomPadding.defaultSpace,
-              ),
+              Text(AppTexts.signIn, style: TextStyles.headingStyle),
+              const Gap(CustomPadding.mediumSpace),
+              Text(AppTexts.signInDescription, style: TextStyles.hintStyleDefault),
+              const Gap(CustomPadding.defaultSpace),
               CustomTextfield(
-                controller: _emailController,
+                controller: _email,
                 name: AppTexts.email,
                 hintText: AppTexts.hintEmail,
                 obscureText: false,
               ), //email
-              Gap(
-                CustomPadding.defaultSpace,
-              ),
+              const Gap(CustomPadding.defaultSpace),
               CustomTextfield(
-                controller: _passwordController,
+                controller: _password,
                 name: AppTexts.password,
                 hintText: AppTexts.hintPassword,
                 obscureText: true,
               ),
-              Gap(
-                CustomPadding.mediumSpace,
-              ),
+              const Gap(CustomPadding.mediumSpace),
               Align(
                 alignment: Alignment.centerRight,
                 child: GestureDetector(
                   // forgot Password
                   onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => ForgotPasswordScreen()));
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => const ForgotPasswordScreen()));
                   },
-                  child: Text(
-                    AppTexts.forgotPassword,
-                    style: TextStyles.hintStyleMedium,
-                  ),
+                  child: Text(AppTexts.forgotPassword, style: TextStyles.hintStyleMedium),
                 ),
               ),
-              Gap(
-                CustomPadding.bigSpace,
-              ),
+              const Gap(CustomPadding.bigSpace),
               ElevatedButton(
                 //sign in button
-                onPressed: _handleSignIn,
-                child: Text(
-                  AppTexts.signIn,
-                ),
+                onPressed: () => _loginUser(),
+                child: Text(AppTexts.signIn),
               ),
-              Gap(
-                CustomPadding.bigSpace,
-              ),
+              const Gap(CustomPadding.bigSpace),
               Row(
                 // Divider
                 children: [
                   Expanded(
                     child: Container(
                         margin: const EdgeInsets.only(right: CustomPadding.mediumSpace),
-                        child: Divider(
+                        child: const Divider(
                           color: CustomColor.grey,
                         )),
                   ),
-                  Text(
-                    AppTexts.or,
-                    style: TextStyles.hintStyleMedium,
-                  ),
+                  Text(AppTexts.or, style: TextStyles.hintStyleMedium),
                   Expanded(
                     child: Container(
                         margin: const EdgeInsets.only(left: CustomPadding.mediumSpace),
-                        child: Divider(
+                        child: const Divider(
                           color: CustomColor.grey,
                         )),
                   ),
                 ],
               ),
-              Gap(
-                CustomPadding.bigSpace,
-              ),
+              const Gap(CustomPadding.bigSpace),
               CustomShadow(
                 // Google Sign In
                 child: TextButton.icon(
-                  onPressed: () async {
-                    try {
-                      _handleGoogleSignIn();
-                    } on FirebaseAuthException {
-                      //error handling
-                    } catch (e) {}
-                  },
+                  onPressed: () => _handleGoogleSignIn(),
                   label: Text(AppTexts.signInWithGoogle),
                   icon: SvgPicture.asset(AssetImport.googleLogo),
                 ),
               ),
-              Gap(
-                CustomPadding.defaultSpace,
-              ),
+              const Gap(CustomPadding.defaultSpace),
               CustomShadow(
                 // Apple Sign In
                 child: TextButton.icon(
@@ -205,24 +163,20 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ),
-              Gap(
-                CustomPadding.bigSpace,
-              ),
+              const Gap(CustomPadding.bigSpace),
               Row(
                 // Redirection to sign up page if user doesn't have an account
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(AppTexts.newHere, style: TextStyles.hintStyleMedium),
-                  Gap(
-                    CustomPadding.smallSpace,
-                  ),
+                  const Gap(CustomPadding.smallSpace),
                   GestureDetector(
                     onTap: () {
-                      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => SignUpScreen()));
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const SignUpScreen()));
                     },
                     child: Text(
                       AppTexts.signUp,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: TextStyles.fontSizeDefault,
                         fontWeight: TextStyles.fontWeightMedium,
                         color: CustomColor.bluePrimary,
@@ -233,7 +187,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   )
                 ],
               ),
-              Gap(CustomPadding.smallSpace),
+              const Gap(CustomPadding.smallSpace),
             ],
           ),
         ),

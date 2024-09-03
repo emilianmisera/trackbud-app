@@ -14,7 +14,8 @@ class OnboardingScreen extends StatelessWidget {
       body: Padding(
         //Padding for space between Screen
         padding: EdgeInsets.only(
-            bottom: MediaQuery.sizeOf(context).height * CustomPadding.bottomSpace,
+            bottom:
+                MediaQuery.sizeOf(context).height * CustomPadding.bottomSpace,
             left: CustomPadding.defaultSpace,
             right: CustomPadding.defaultSpace),
         child: Column(
@@ -22,21 +23,28 @@ class OnboardingScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start, //alignment to left
           children: [
             SvgPicture.asset(AssetImport.textLogo),
-            Gap(CustomPadding.defaultSpace),
+            const Gap(
+              CustomPadding.defaultSpace,
+            ),
             Text(
               AppTexts.onboardingTitle,
               style: TextStyles.introductionStyle,
             ),
-            Gap(CustomPadding.mediumSpace),
+            const Gap(
+              CustomPadding.mediumSpace,
+            ),
             Text(
               AppTexts.onboardingDescription,
               style: TextStyles.regularStyleDefault,
             ),
-            Gap(CustomPadding.defaultSpace),
+            const Gap(
+              CustomPadding.defaultSpace,
+            ),
             ElevatedButton(
               //sign in button
               onPressed: () {
-                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => LoginScreen()));
+                Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: (context) => const LoginScreen()));
               },
               child: Text(
                 AppTexts.start,

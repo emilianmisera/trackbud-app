@@ -5,14 +5,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
-import 'package:track_bud/models/user_model.dart';
-import 'package:track_bud/services/dependency_injector.dart';
-import 'package:track_bud/services/firestore_service.dart';
-import 'package:track_bud/services/sqlite_service.dart';
-import 'package:track_bud/utils/buttons_widget.dart';
+import 'package:track_bud/utils/button_widgets/acc_adjustment_button.dart';
 import 'package:track_bud/utils/constants.dart';
+import 'package:track_bud/utils/settings/locked_email_textfield.dart';
 import 'package:track_bud/utils/strings.dart';
-import 'package:track_bud/utils/textfield_widget.dart';
+import 'package:track_bud/utils/textfields/textfield.dart';
+import 'package:track_bud/views/at_signup/firestore_service.dart';
 import 'package:track_bud/views/subpages/change_email_screen.dart';
 import 'package:track_bud/views/subpages/change_password_screen.dart';
 import 'package:image_picker/image_picker.dart';
@@ -32,11 +30,11 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
 
   // State variables to track changes
   bool _isProfileChanged = false;
-  String _initialName = '';
+  final String _initialName = '';
   bool _isProfilePictureChanged = false;
   // State variables to hold user info
   String currentUserEmail = '';
-  String _initialProfileImagePath = '';
+  final String _initialProfileImagePath = '';
   File? _profileImage;
 
   final ImagePicker _picker = ImagePicker();
@@ -116,12 +114,10 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
         // Sync data
         //await DependencyInjector.syncService.syncData(userId);
 
-        Navigator.pop(context, true);
+        if (mounted) Navigator.pop(context, true);
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Fehler beim Aktualisieren des Profils: $e")),
-      );
+      if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Fehler beim Aktualisieren des Profils: $e")));
     }
   }
 
@@ -154,7 +150,7 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
       // Return the download URL
       return downloadUrl;
     } catch (e) {
-      print("Fehler beim Hochladen des Bildes: $e");
+      debugPrint("Fehler beim Hochladen des Bildes: $e");
       return null;
     }
   }
@@ -170,13 +166,11 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
       });
 
       // Optional: Show a success message
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Profilbild erfolgreich hochgeladen und gespeichert.")),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Profilbild erfolgreich hochgeladen und gespeichert.")));
+      }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Fehler beim Speichern der Bild-URL: $e")),
-      );
+      if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Fehler beim Speichern der Bild-URL: $e")));
     }
   }
 
@@ -213,7 +207,7 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                       // Main profile picture
                       ClipRRect(
                         borderRadius: BorderRadius.circular(100.0),
-                        child: Container(
+                        child: SizedBox(
                           width: Constants.profilePictureAccountEdit,
                           height: Constants.profilePictureAccountEdit,
                           child: _profileImage != null
@@ -226,7 +220,7 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                                       _initialProfileImagePath,
                                       fit: BoxFit.cover,
                                     )
-                                  : Icon(Icons.person, size: 100, color: Colors.grey),
+                                  : const Icon(Icons.person, size: 100, color: Colors.grey),
                         ),
                       ),
                       // Camera icon overlay
@@ -246,26 +240,19 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                   ),
                 ),
               ),
-              Gap(CustomPadding.bigSpace),
+              const Gap(CustomPadding.bigSpace),
               // First Name text field
               CustomTextfield(name: AppTexts.firstName, hintText: '', controller: _nameController),
-              Gap(CustomPadding.defaultSpace),
+              const Gap(CustomPadding.defaultSpace),
               // Email text field (locked)
               LockedEmailTextfield(email: currentUserEmail),
-              Gap(CustomPadding.defaultSpace),
+              const Gap(CustomPadding.defaultSpace),
               // Change Email button
               AccAdjustmentButton(
                 icon: AssetImport.email,
                 name: AppTexts.changeEmail,
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ChangeEmailScreen(),
-                    ),
-                  );
-                },
-                padding: EdgeInsets.symmetric(horizontal: CustomPadding.mediumSpace),
+                onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const ChangeEmailScreen())),
+                padding: const EdgeInsets.symmetric(horizontal: CustomPadding.mediumSpace),
               ),
               // Change Password button
               AccAdjustmentButton(
@@ -275,11 +262,11 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => ChangePasswordScreen(),
+                      builder: (context) => const ChangePasswordScreen(),
                     ),
                   );
                 },
-                padding: EdgeInsets.symmetric(horizontal: CustomPadding.mediumSpace),
+                padding: const EdgeInsets.symmetric(horizontal: CustomPadding.mediumSpace),
               ),
             ],
           ),
@@ -287,7 +274,7 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
       ),
       // Bottom sheet with Save button
       bottomSheet: AnimatedContainer(
-        duration: Duration(milliseconds: 100),
+        duration: const Duration(milliseconds: 100),
         curve: Curves.easeInOut,
         margin: EdgeInsets.only(
           bottom: min(MediaQuery.of(context).viewInsets.bottom > 0 ? 0 : MediaQuery.of(context).size.height * CustomPadding.bottomSpace,
@@ -306,56 +293,6 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
           child: Text(AppTexts.save),
         ),
       ),
-    );
-  }
-}
-
-// Widget for displaying a locked email field
-class LockedEmailTextfield extends StatelessWidget {
-  final String email;
-  const LockedEmailTextfield({super.key, required this.email});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // Email label
-        Text(
-          AppTexts.email,
-          style: TextStyles.regularStyleMedium,
-        ),
-        Gap(
-          CustomPadding.mediumSpace,
-        ),
-        // Custom shadow container for email display
-        CustomShadow(
-          child: Container(
-            width: double.infinity,
-            height: 65,
-            padding: EdgeInsets.only(
-              left: CustomPadding.defaultSpace,
-              right: CustomPadding.defaultSpace,
-            ),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(10)),
-              color: CustomColor.white,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                // Display the email
-                Text(
-                  email,
-                  style: TextStyles.hintStyleDefault,
-                ),
-                // Lock icon to indicate the field is not editable
-                SvgPicture.asset(AssetImport.lock)
-              ],
-            ),
-          ),
-        ),
-      ],
     );
   }
 }

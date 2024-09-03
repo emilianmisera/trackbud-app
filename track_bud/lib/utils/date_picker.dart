@@ -2,12 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:track_bud/utils/constants.dart';
+import 'package:track_bud/utils/shadow.dart';
 import 'package:track_bud/utils/strings.dart';
-import 'package:track_bud/utils/textfield_widget.dart';
 
 class DatePicker extends StatefulWidget {
   final Function(DateTime) onDateTimeChanged;
-  const DatePicker({Key? key, required this.onDateTimeChanged}) : super(key: key);
+  const DatePicker({super.key, required this.onDateTimeChanged});
 
   @override
   State<DatePicker> createState() => _DatePickerState();
@@ -21,7 +21,7 @@ class _DatePickerState extends State<DatePicker> {
   String _getDateText(DateTime date) {
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
-    final yesterday = today.subtract(Duration(days: 1));
+    final yesterday = today.subtract(const Duration(days: 1));
     final selectedDate = DateTime(date.year, date.month, date.day);
 
     // Return 'heute' for today, 'gestern' for yesterday, or the date string
@@ -44,7 +44,7 @@ class _DatePickerState extends State<DatePicker> {
 
   void _updateTime(DateTime newTime) {
     setState(() {
-      // Behalte das aktuelle Datum bei, aber aktualisiere die Zeit
+      //keep the date when time gets changed
       _dateTime = DateTime(_dateTime.year, _dateTime.month, _dateTime.day, newTime.hour, newTime.minute);
     });
     widget.onDateTimeChanged(_dateTime);
@@ -56,13 +56,8 @@ class _DatePickerState extends State<DatePicker> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // Date label
-        Text(
-          AppTexts.date,
-          style: TextStyles.regularStyleMedium,
-        ),
-        Gap(
-          CustomPadding.mediumSpace,
-        ),
+        Text(AppTexts.date, style: TextStyles.regularStyleMedium),
+        const Gap(CustomPadding.mediumSpace),
         Row(
           children: [
             // Date picker button
@@ -72,13 +67,11 @@ class _DatePickerState extends State<DatePicker> {
                 showCupertinoModalPopup(
                   context: context,
                   builder: (BuildContext context) => Center(
-                    child: Container(
+                    child: SizedBox(
                       width: MediaQuery.sizeOf(context).width,
                       height: MediaQuery.sizeOf(context).height / 3,
                       child: CupertinoDatePicker(
-                        onDateTimeChanged: (DateTime newDate) {
-                          _updateDate(newDate);
-                        },
+                        onDateTimeChanged: (DateTime newDate) => _updateDate(newDate),
                         backgroundColor: CustomColor.white,
                         initialDateTime: _dateTime,
                         use24hFormat: true,
@@ -88,10 +81,11 @@ class _DatePickerState extends State<DatePicker> {
                   ),
                 );
               },
+              style: TextButton.styleFrom(padding: EdgeInsets.zero, minimumSize: const Size(Constants.height, Constants.height)),
               child: CustomShadow(
                 child: Container(
                   height: Constants.height,
-                  padding: EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace),
+                  padding: const EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace),
                   decoration: BoxDecoration(
                     color: CustomColor.white,
                     borderRadius: BorderRadius.circular(10),
@@ -99,21 +93,13 @@ class _DatePickerState extends State<DatePicker> {
                   child: Center(
                     child: Text(
                       _getDateText(_dateTime),
-                      style: TextStyles.regularStyleDefault.copyWith(
-                        color: CustomColor.bluePrimary,
-                      ),
+                      style: TextStyles.regularStyleDefault.copyWith(color: CustomColor.bluePrimary),
                     ),
                   ),
                 ),
               ),
-              style: TextButton.styleFrom(
-                padding: EdgeInsets.zero,
-                minimumSize: Size(Constants.height, Constants.height),
-              ),
             ),
-            Gap(
-              CustomPadding.mediumSpace,
-            ),
+            const Gap(CustomPadding.mediumSpace),
             // Time picker button
             TextButton(
               onPressed: () {
@@ -128,9 +114,7 @@ class _DatePickerState extends State<DatePicker> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: CupertinoDatePicker(
-                        onDateTimeChanged: (DateTime newTime) {
-                          _updateTime(newTime);
-                        },
+                        onDateTimeChanged: (DateTime newTime) => _updateTime(newTime),
                         backgroundColor: CustomColor.white,
                         initialDateTime: _dateTime,
                         use24hFormat: true,
@@ -140,97 +124,26 @@ class _DatePickerState extends State<DatePicker> {
                   ),
                 );
               },
+              style: TextButton.styleFrom(padding: EdgeInsets.zero, minimumSize: const Size(Constants.height, Constants.height)),
               child: CustomShadow(
                 child: Container(
                   height: Constants.height,
-                  padding: EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace),
+                  padding: const EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace),
                   decoration: BoxDecoration(
                     color: CustomColor.white,
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Center(
                     child: Text(
-                      '${_dateTime.hour.toString().padLeft(2, '0')}:${_dateTime.minute.toString().padLeft(2, '0')}', // if time is single digit, 0 gets added
-                      style: TextStyles.regularStyleDefault.copyWith(
-                        color: CustomColor.bluePrimary,
-                      ),
-                    ),
+                        '${_dateTime.hour.toString().padLeft(2, '0')}:${_dateTime.minute.toString().padLeft(2, '0')}', // if time is single digit, 0 gets added
+                        style: TextStyles.regularStyleDefault.copyWith(color: CustomColor.bluePrimary)),
                   ),
                 ),
-              ),
-              style: TextButton.styleFrom(
-                padding: EdgeInsets.zero,
-                minimumSize: Size(Constants.height, Constants.height),
               ),
             ),
           ],
         ),
       ],
-    );
-  }
-}
-
-class SelectTimeUnit extends StatefulWidget {
-  final Function(int?) onValueChanged; // callback
-  const SelectTimeUnit({
-    super.key,
-    required this.onValueChanged,
-  });
-
-  @override
-  State<SelectTimeUnit> createState() => _SelectTimeUnitState();
-}
-
-class _SelectTimeUnitState extends State<SelectTimeUnit> {
-  // _sliding: Tracks the currently selected segment (0 for expense, 1 for income)
-  int? _sliding = 1;
-
-  @override
-  Widget build(BuildContext context) {
-    return CustomShadow(
-      child: Container(
-        width: double.infinity, // Ensures the control spans the full width
-        child: CupertinoSlidingSegmentedControl(
-          children: {
-            // Expense segment
-            0: Container(
-              // Sets the height of the segment relative to screen height
-              height: 28,
-              alignment: Alignment.center,
-              child: Text(AppTexts.day,
-                  // Applies different styles based on selection state
-                  style: _sliding == 0 ? TextStyles.slidingTimeUnitStyleSelected : TextStyles.slidingTimeUnitStyleDefault),
-            ),
-            // Income segment
-            1: Container(
-              height: 28,
-              alignment: Alignment.center,
-              child: Text(AppTexts.week,
-                  style: _sliding == 1 ? TextStyles.slidingTimeUnitStyleSelected : TextStyles.slidingTimeUnitStyleDefault),
-            ),
-            2: Container(
-              height: 28,
-              alignment: Alignment.center,
-              child: Text(AppTexts.month,
-                  style: _sliding == 2 ? TextStyles.slidingTimeUnitStyleSelected : TextStyles.slidingTimeUnitStyleDefault),
-            ),
-            3: Container(
-              height: 28,
-              alignment: Alignment.center,
-              child: Text(AppTexts.year,
-                  style: _sliding == 3 ? TextStyles.slidingTimeUnitStyleSelected : TextStyles.slidingTimeUnitStyleDefault),
-            ),
-          },
-          groupValue: _sliding, // Current selection
-          onValueChanged: (int? newValue) {
-            setState(() {
-              _sliding = newValue;
-            });
-            widget.onValueChanged(newValue); // Call the callback
-          },
-          backgroundColor: CustomColor.white, // Background color of the control
-        ),
-      ),
     );
   }
 }

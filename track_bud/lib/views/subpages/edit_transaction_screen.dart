@@ -2,15 +2,17 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:track_bud/utils/buttons_widget.dart';
+import 'package:track_bud/utils/button_widgets/dropdown.dart';
+import 'package:track_bud/utils/categories/category_expenses.dart';
+import 'package:track_bud/utils/categories/category_income.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/date_picker.dart';
 import 'package:track_bud/utils/strings.dart';
-import 'package:track_bud/utils/textfield_widget.dart';
+import 'package:track_bud/utils/textfields/textfield.dart';
 
 class EditTransactionScreen extends StatefulWidget {
   final String transactionId;
-  const EditTransactionScreen({Key? key, required this.transactionId}) : super(key: key);
+  const EditTransactionScreen({super.key, required this.transactionId});
   @override
   State<EditTransactionScreen> createState() => _EditTransactionScreenState();
 }
@@ -63,7 +65,7 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
       'type': _currentSegment == 0 ? 'expense' : 'income',
     });
 
-    Navigator.pop(context);
+    if (mounted) Navigator.pop(context);
   }
 
   // Updates the selected transaction type
@@ -71,11 +73,6 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
     setState(() {
       _selectedCategory = category;
     });
-  }
-
-  // when Expense is selected, prefix is "-", income is "+"
-  String _getAmountPrefix() {
-    return _currentSegment == 0 ? '–' : '+';
   }
 
   void _onDateTimeChanged(DateTime newDateTime) {
@@ -98,7 +95,7 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
             children: [
               // Text field for transaction title
               CustomTextfield(name: AppTexts.title, hintText: AppTexts.hintTitle, controller: _titleController),
-              Gap(CustomPadding.defaultSpace),
+              const Gap(CustomPadding.defaultSpace),
               // Row containing amount and date fields
               Row(
                 children: [
@@ -108,38 +105,30 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
                     hintText: '',
                     controller: _amountController,
                     width: MediaQuery.sizeOf(context).width / 3,
-                    prefix: Text(
-                      _getAmountPrefix(),
-                      style: TextStyles.titleStyleMedium.copyWith(fontWeight: TextStyles.fontWeightDefault),
-                    ),
-                    type: TextInputType.numberWithOptions(decimal: true),
+                    prefix: Text(_currentSegment == 0 ? '–' : '+',
+                        style: TextStyles.titleStyleMedium.copyWith(fontWeight: TextStyles.fontWeightDefault)),
+                    type: const TextInputType.numberWithOptions(decimal: true),
                   ),
-                  Gap(CustomPadding.defaultSpace),
+                  const Gap(CustomPadding.defaultSpace),
 
                   DatePicker(onDateTimeChanged: _onDateTimeChanged)
                 ],
               ),
-              Gap(CustomPadding.defaultSpace),
+              const Gap(CustomPadding.defaultSpace),
               // Category section
-              Text(
-                AppTexts.categorie,
-                style: TextStyles.regularStyleMedium,
-              ),
-              Gap(CustomPadding.mediumSpace),
+              Text(AppTexts.categorie, style: TextStyles.regularStyleMedium),
+              const Gap(CustomPadding.mediumSpace),
               // Display either expense or income categories based on current segment
               _currentSegment == 0
                   ? CategoriesExpense(onCategorySelected: _onCategorySelected)
                   : CategoriesIncome(onCategorySelected: _onCategorySelected),
-              Gap(CustomPadding.defaultSpace),
+              const Gap(CustomPadding.defaultSpace),
               // Recurrence section
-              Text(
-                AppTexts.recurry,
-                style: TextStyles.regularStyleMedium,
-              ),
-              Gap(CustomPadding.mediumSpace),
+              Text(AppTexts.recurry, style: TextStyles.regularStyleMedium),
+              const Gap(CustomPadding.mediumSpace),
               // Dropdown for selecting recurrence frequency
               CustomDropDown(
-                list: [
+                list: const [
                   'einmalig',
                   'täglich',
                   'wöchentlich',
@@ -158,7 +147,7 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
                   });
                 },
               ),
-              Gap(CustomPadding.defaultSpace),
+              const Gap(CustomPadding.defaultSpace),
               // Note text field
               CustomTextfield(
                 name: AppTexts.note,
@@ -166,13 +155,13 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
                 controller: _noteController,
                 isMultiline: true,
               ),
-              Gap(CustomPadding.defaultSpace),
+              const Gap(CustomPadding.defaultSpace),
             ],
           ),
         ),
       ),
       bottomSheet: AnimatedContainer(
-        duration: Duration(milliseconds: 100),
+        duration: const Duration(milliseconds: 100),
         curve: Curves.easeInOut,
         margin: EdgeInsets.only(
           bottom: min(MediaQuery.of(context).viewInsets.bottom > 0 ? 0 : MediaQuery.of(context).size.height * CustomPadding.bottomSpace,
@@ -183,9 +172,7 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
         width: MediaQuery.of(context).size.width,
         child: ElevatedButton(
           // Enable button only if profile has changed
-          onPressed: () {
-            _updateTransaction();
-          },
+          onPressed: () => _updateTransaction(),
           style: ElevatedButton.styleFrom(
               // Set button color based on whether profile has changed
               disabledBackgroundColor: CustomColor.bluePrimary.withOpacity(0.5),

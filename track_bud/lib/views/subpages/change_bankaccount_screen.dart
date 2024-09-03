@@ -4,7 +4,7 @@ import 'package:gap/gap.dart';
 import 'package:track_bud/controller/user_controller.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/strings.dart';
-import 'package:track_bud/utils/textfield_widget.dart';
+import 'package:track_bud/utils/textfields/textfield_amount_of_money.dart';
 
 class ChangeBankaccountScreen extends StatefulWidget {
   const ChangeBankaccountScreen({super.key});
@@ -58,12 +58,12 @@ class _ChangeBankaccountScreenState extends State<ChangeBankaccountScreen> {
 */
   Future<void> _saveBankAccountInfo() async {
     // Get the current user's ID
-    final String userId = FirebaseAuth.instance.currentUser?.uid ?? '';
+    final String userId = FirebaseAuth.instance.currentUser!.uid;
 
     if (userId.isEmpty) {
       // Handle the case when user ID is not available
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text("Benutzer nicht angemeldet."),
         ),
       );
@@ -73,7 +73,7 @@ class _ChangeBankaccountScreenState extends State<ChangeBankaccountScreen> {
     final String amountText = _moneyController.text.trim().replaceAll(',', '.');
     if (amountText.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text("Bitte geben Sie den Betrag ein."),
         ),
       );
@@ -83,9 +83,7 @@ class _ChangeBankaccountScreenState extends State<ChangeBankaccountScreen> {
     final double amount = double.tryParse(amountText) ?? -1;
     if (amount < 0) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text("Ungültiger Betrag."),
-        ),
+        const SnackBar(content: Text("Ungültiger Betrag.")),
       );
       return;
     }
@@ -94,18 +92,14 @@ class _ChangeBankaccountScreenState extends State<ChangeBankaccountScreen> {
       // Call the UserController to update the bank account information
       await UserController().updateBankAccountBalance(userId, amount);
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text("Bankkonto erfolgreich aktualisiert."),
-        ),
-      );
-      Navigator.pop(context);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Bankkonto erfolgreich aktualisiert.")));
+        Navigator.pop(context);
+      }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text("Fehler beim Speichern der Bankkonto-Informationen: $e"),
-        ),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Fehler beim Speichern der Bankkonto-Informationen: $e")));
+      }
     }
   }
 
@@ -129,19 +123,21 @@ class _ChangeBankaccountScreenState extends State<ChangeBankaccountScreen> {
                 AppTexts.changeBankAccHeading, // The heading text
                 style: TextStyles.headingStyle, // The text style for the heading.
               ),
-              Gap(CustomPadding.mediumSpace // Adds vertical space between the heading and the next element.
-                  ),
+              const Gap(
+                CustomPadding.mediumSpace, // Adds vertical space between the heading and the next element.
+              ),
               Text(
                 AppTexts.changeBankAccDescribtion, // The description text
                 style: TextStyles.hintStyleDefault, // The text style for the description.
               ),
-              Gap(CustomPadding.bigSpace // Adds more vertical space before the next element.
-                  ),
+              const Gap(
+                CustomPadding.bigSpace, // Adds more vertical space before the next element.
+              ),
               // A custom TextField widget for entering the amount of money, using the controller defined above.
               //TODO: insert current BankAccount here
               TextFieldAmountOfMoney(
                 controller: _moneyController,
-                hintText: '0000',
+                hintText: AppTexts.lines,
               ),
             ],
           ),
@@ -156,12 +152,8 @@ class _ChangeBankaccountScreenState extends State<ChangeBankaccountScreen> {
         ),
         child: ElevatedButton(
           // Saving Button
-          onPressed: () {
-            _saveBankAccountInfo();
-          },
-          child: Text(
-            AppTexts.save,
-          ),
+          onPressed: () => _saveBankAccountInfo(),
+          child: Text(AppTexts.save),
         ),
       ),
     );

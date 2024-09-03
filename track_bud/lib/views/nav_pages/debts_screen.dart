@@ -1,12 +1,10 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:track_bud/models/user_model.dart';
-import 'package:track_bud/services/firestore_service.dart';
 import 'package:track_bud/utils/constants.dart';
-import 'package:track_bud/utils/friends_widget.dart';
-import 'package:track_bud/utils/group_widget.dart';
-import 'package:track_bud/utils/information_tiles.dart';
+import 'package:track_bud/utils/debts/friend/friend_card.dart';
+import 'package:track_bud/utils/debts/group/group_card.dart';
+import 'package:track_bud/utils/tiles/information_tiles.dart';
 import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/views/subpages/your_friends_screen.dart';
 import 'package:track_bud/views/subpages/your_groups_screen.dart';
@@ -19,47 +17,14 @@ class DebtsScreen extends StatefulWidget {
 }
 
 class _DebtsScreenState extends State<DebtsScreen> {
-  final FirestoreService _firestoreService = FirestoreService();
+  // ignore: prefer_final_fields
   List<UserModel> _friends = [];
+  // ignore: prefer_final_fields
   bool _isLoading = true;
 
   @override
-  void initState() {
-    super.initState();
-    _loadFriends();
-  }
-
-  String getCurrentUserId() {
-    User? currentUser = FirebaseAuth.instance.currentUser;
-    if (currentUser != null) {
-      return currentUser.uid; // Die eindeutige userId des aktuellen Benutzers
-    } else {
-      throw Exception('Kein Benutzer ist angemeldet');
-    }
-  }
-
-  Future<void> _loadFriends() async {
-    String _currentUserId = getCurrentUserId();
-    try {
-      // Lade die Freunde des aktuellen Nutzers
-      List<UserModel> friends = await _firestoreService.getFriends(_currentUserId);
-
-      setState(() {
-        _friends = friends;
-        _isLoading = false;
-      });
-    } catch (e) {
-      print('Fehler beim Laden der Freunde: $e');
-      setState(() {
-        _isLoading = false;
-      });
-    }
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: SingleChildScrollView(
+    return SingleChildScrollView(
       child: Padding(
         // spacing between content and screen
         padding: EdgeInsets.only(
@@ -84,7 +49,7 @@ class _DebtsScreenState extends State<DebtsScreen> {
                     width: MediaQuery.sizeOf(context).width / 2 - Constants.infoTileSpace),
               ],
             ),
-            Gap(CustomPadding.defaultSpace),
+            const Gap(CustomPadding.defaultSpace),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -97,7 +62,7 @@ class _DebtsScreenState extends State<DebtsScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => YourFriendsScreen(),
+                        builder: (context) => const YourFriendsScreen(),
                       ),
                     );
                   },
@@ -105,36 +70,34 @@ class _DebtsScreenState extends State<DebtsScreen> {
                 ),
               ],
             ),
-            Gap(CustomPadding.mediumSpace),
+            const Gap(CustomPadding.mediumSpace),
+            //TODO: Use FutureBuilder instead of isLoading check
             if (_isLoading)
-              Center(child: CircularProgressIndicator())
+              const Center(child: CircularProgressIndicator())
             else if (_friends.isEmpty)
-              Center(child: Text("Keine Freunde gefunden."))
+              const Center(child: Text("Keine Freunde gefunden."))
             else
               Column(
                 children: _friends
                     .map((friend) => Column(
                           children: [
                             FriendCard(friend: friend),
-                            Gap(CustomPadding.smallSpace), // Abstand zwischen den Karten
+                            const Gap(CustomPadding.smallSpace), // Abstand zwischen den Karten
                           ],
                         ))
                     .toList(),
               ),
-            Gap(CustomPadding.defaultSpace),
+            const Gap(CustomPadding.defaultSpace),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  AppTexts.groups,
-                  style: TextStyles.regularStyleMedium,
-                ),
+                Text(AppTexts.groups, style: TextStyles.regularStyleMedium),
                 GestureDetector(
                   onTap: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => YourGroupsScreen(),
+                        builder: (context) => const YourGroupsScreen(),
                       ),
                     );
                   },
@@ -142,11 +105,11 @@ class _DebtsScreenState extends State<DebtsScreen> {
                 ),
               ],
             ),
-            Gap(CustomPadding.mediumSpace),
-            GroupCard()
+            const Gap(CustomPadding.mediumSpace),
+            const GroupCard()
           ],
         ),
       ),
-    ));
+    );
   }
 }

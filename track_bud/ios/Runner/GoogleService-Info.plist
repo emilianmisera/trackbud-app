@@ -2,24 +2,18 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CLIENT_ID</key>
-	<string>40670581765-jmjv1231p0flj75kbj6gt031hbal960e.apps.googleusercontent.com</string>
-	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.40670581765-jmjv1231p0flj75kbj6gt031hbal960e</string>
-	<key>ANDROID_CLIENT_ID</key>
-	<string>40670581765-mb93imc1ukdjdd7hu28v1k3ngb7e213g.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
-	<string>AIzaSyBIYDO7TY0MIiScoOJlP7aheR7Gkj_L10w</string>
+	<string>AIzaSyDWYofgzQ0tCDtkyuGcrfbJLd65xcMrMgU</string>
 	<key>GCM_SENDER_ID</key>
-	<string>40670581765</string>
+	<string>396460984054</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.example.trackBud</string>
 	<key>PROJECT_ID</key>
-	<string>trackbud-43f8a</string>
+	<string>trackbud-privat-test</string>
 	<key>STORAGE_BUCKET</key>
-	<string>trackbud-43f8a.appspot.com</string>
+	<string>trackbud-privat-test.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -31,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:40670581765:ios:7a8260df1007ee95f1f86c</string>
+	<string>1:396460984054:ios:3aa88bf4ef0a53d4520ed7</string>
 </dict>
 </plist>

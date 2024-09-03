@@ -2,13 +2,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:track_bud/models/user_model.dart';
-import 'package:track_bud/services/firestore_service.dart';
-import 'package:track_bud/services/invite_service.dart';
+import 'package:track_bud/services/invite_services.dart';
 import 'package:track_bud/utils/constants.dart';
-import 'package:track_bud/utils/friends_widget.dart';
+import 'package:track_bud/utils/debts/friend/add_friend_bottom_sheet.dart';
+import 'package:track_bud/utils/debts/friend/friend_card.dart';
 import 'package:track_bud/utils/strings.dart';
-import 'package:track_bud/utils/textfield_widget.dart';
-import 'package:share/share.dart';
+import 'package:track_bud/utils/textfields/searchfield.dart';
+import 'package:track_bud/views/at_signup/firestore_service.dart';
+import 'package:share_plus/share_plus.dart';
 
 class YourFriendsScreen extends StatefulWidget {
   const YourFriendsScreen({super.key});
@@ -19,7 +20,6 @@ class YourFriendsScreen extends StatefulWidget {
 
 class _YourFriendsScreenState extends State<YourFriendsScreen> {
   final TextEditingController _searchController = TextEditingController();
-  final TextEditingController _emailFriendController = TextEditingController();
   final InviteService _inviteService = InviteService();
   final FirestoreService _firestoreService = FirestoreService();
   List<UserModel> _friends = [];
@@ -41,17 +41,17 @@ class _YourFriendsScreenState extends State<YourFriendsScreen> {
   }
 
   Future<void> _loadFriends() async {
-    String _currentUserId = getCurrentUserId();
+    String currentUserId = getCurrentUserId();
     try {
       // Lade die Freunde des aktuellen Nutzers
-      List<UserModel> friends = await _firestoreService.getFriends(_currentUserId);
+      List<UserModel> friends = await _firestoreService.getFriends(currentUserId);
 
       setState(() {
         _friends = friends;
         _isLoading = false;
       });
     } catch (e) {
-      print('Fehler beim Laden der Freunde: $e');
+      debugPrint('Fehler beim Laden der Freunde: $e');
       setState(() {
         _isLoading = false;
       });
@@ -64,7 +64,7 @@ class _YourFriendsScreenState extends State<YourFriendsScreen> {
       String inviteLink = await _inviteService.createInviteLink(userId);
       Share.share('Füge mich zu deinen Freunden in TrackBud hinzu: $inviteLink');
     } catch (e) {
-      print("Fehler beim Teilen des Links: $e");
+      debugPrint("Fehler beim Teilen des Links: $e");
     }
   }
 
@@ -73,66 +73,16 @@ class _YourFriendsScreenState extends State<YourFriendsScreen> {
     // https://youtu.be/ZHdg2kfKmjI?si=ufWetKZ8HdE6OyjQ&t=49
   }
 
-  Future _displayBottomSheet(BuildContext context) {
-    return showModalBottomSheet(
-        context: context,
-        builder: (context) => Container(
-              height: MediaQuery.sizeOf(context).height * Constants.modalBottomSheetHeight,
-              width: MediaQuery.sizeOf(context).width,
-              decoration: BoxDecoration(
-                color: CustomColor.backgroundPrimary,
-                borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.only(left: CustomPadding.defaultSpace, right: CustomPadding.defaultSpace, bottom: 50),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Gap(CustomPadding.mediumSpace),
-                    Center(
-                      child: Container(
-                        // grabber
-                        width: 36,
-                        height: 5,
-                        decoration: BoxDecoration(
-                          color: CustomColor.grabberColor,
-                          borderRadius: BorderRadius.all(Radius.circular(100)),
-                        ),
-                      ),
-                    ),
-                    Gap(CustomPadding.defaultSpace),
-                    Text(
-                      AppTexts.addFriend,
-                      style: TextStyles.regularStyleMedium,
-                    ),
-                    Gap(CustomPadding.mediumSpace),
-                    CustomTextfield(name: AppTexts.email, hintText: AppTexts.hintEmail, controller: _emailFriendController),
-                    Spacer(),
-                    ElevatedButton(
-                        onPressed: () {
-                          _shareInviteLink();
-                        },
-                        child: Text(AppTexts.addFriend)),
-                  ],
-                ),
-              ),
-            ));
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          AppTexts.yourFriends,
-          style: TextStyles.regularStyleMedium,
-        ),
+        title: Text(AppTexts.yourFriends, style: TextStyles.regularStyleMedium),
         actions: [
           IconButton(
-              onPressed: () {
-                _displayBottomSheet(context);
-              },
-              icon: Icon(
+              onPressed: () =>
+                  showModalBottomSheet(context: context, builder: (context) => AddFriendBottomSheet(onPressed: () => _shareInviteLink())),
+              icon: const Icon(
                 Icons.add,
                 color: CustomColor.bluePrimary,
                 size: 30,
@@ -140,12 +90,12 @@ class _YourFriendsScreenState extends State<YourFriendsScreen> {
         ],
       ),
       body: _isLoading
-          ? Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator())
           : SingleChildScrollView(
               child: Padding(
                 // spacing between content and screen
-                padding:
-                    EdgeInsets.only(top: CustomPadding.defaultSpace, left: CustomPadding.defaultSpace, right: CustomPadding.defaultSpace),
+                padding: const EdgeInsets.only(
+                    top: CustomPadding.defaultSpace, left: CustomPadding.defaultSpace, right: CustomPadding.defaultSpace),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -155,10 +105,10 @@ class _YourFriendsScreenState extends State<YourFriendsScreen> {
                       controller: _searchController,
                       onChanged: _searchFriend,
                     ),
-                    Gap(CustomPadding.defaultSpace),
+                    const Gap(CustomPadding.defaultSpace),
                     // List of Friends
                     if (_friends.isEmpty)
-                      Center(child: Text("Keine Freunde gefunden."))
+                      const Center(child: Text("Keine Freunde gefunden."))
                     else
                       Column(
                         children: _friends

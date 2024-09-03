@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:track_bud/utils/buttons_widget.dart';
+import 'package:track_bud/utils/button_widgets/acc_adjustment_widget.dart';
+import 'package:track_bud/utils/button_widgets/acc_adjustment_button.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/views/subpages/change_bankaccount_screen.dart';
@@ -42,7 +43,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                 AppTexts.budget,
                 style: TextStyles.regularStyleMedium,
               ),
-              Gap(CustomPadding.mediumSpace),
+              const Gap(CustomPadding.mediumSpace),
               AccAdjustmentButton(
                   //BankAccount
                   icon: AssetImport.changeAmount,
@@ -51,11 +52,11 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => ChangeBankaccountScreen(),
+                        builder: (context) => const ChangeBankaccountScreen(),
                       ),
                     );
                   }),
-              Gap(CustomPadding.mediumSpace),
+              const Gap(CustomPadding.mediumSpace),
               AccAdjustmentButton(
                   // Budget Goal
                   icon: AssetImport.target,
@@ -64,23 +65,23 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => ChangeBudgetGoalScreen(),
+                        builder: (context) => const ChangeBudgetGoalScreen(),
                       ),
                     );
                   }),
-              Gap(CustomPadding.mediumSpace),
+              const Gap(CustomPadding.mediumSpace),
               AccAdjustmentWidget(
                 // Currency
                 icon: AssetImport.settings,
                 name: AppTexts.changeCurrency,
-                widget: CurrencyDropdown(), // Dropdown for changing currency
+                widget: const CurrencyDropdown(), // Dropdown for changing currency
               ),
-              Gap(CustomPadding.defaultSpace),
+              const Gap(CustomPadding.defaultSpace),
               Text(
                 AppTexts.appearance,
                 style: TextStyles.regularStyleMedium,
               ),
-              Gap(CustomPadding.mediumSpace),
+              const Gap(CustomPadding.mediumSpace),
               AccAdjustmentWidget(
                 // DarkMode
                 icon: AssetImport.mode,
@@ -127,7 +128,7 @@ class _CurrencyDropdownState extends State<CurrencyDropdown> {
         border: Border.all(
           color: CustomColor.grey,
         ),
-        borderRadius: BorderRadius.all(Radius.circular(10)),
+        borderRadius: const BorderRadius.all(Radius.circular(10)),
       ),
       child: Center(
         child: DropdownButton<String>(
