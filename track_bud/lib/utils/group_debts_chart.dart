@@ -3,7 +3,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:track_bud/utils/buttons_widget.dart';
+import 'package:track_bud/utils/button_widgets/buttons_widget.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/textfield_widgets.dart';
 

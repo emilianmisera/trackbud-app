@@ -3,6 +3,7 @@ import 'package:gap/gap.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/date_picker.dart';
 import 'package:track_bud/utils/group_debts_chart.dart';
+import 'package:track_bud/utils/overview/chart/month_chart.dart';
 import 'package:track_bud/utils/overview/chart/year_chart.dart';
 import 'package:track_bud/utils/textfield_widgets.dart';
 
@@ -211,7 +212,7 @@ class _ExpensesChartState extends State<ExpensesChart> with SingleTickerProvider
       case 1:
         return _buildWeekChart();
       case 2:
-        return _buildMonthChart();
+        return MonthChart(expenses: widget.expenses,);
       case 3:
         return YearChart(
           expenses: widget.expenses,
@@ -281,61 +282,7 @@ class _ExpensesChartState extends State<ExpensesChart> with SingleTickerProvider
     );
   }
 
-  // Build chart for monthly expenses
-  Widget _buildMonthChart() {
-    int daysInMonth = 31;
-    final List<double> monthExpenses = _getMonthExpenses();
-    double maxExpense = monthExpenses.reduce((a, b) => a > b ? a : b);
-
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
-        children: List.generate(daysInMonth, (index) {
-          bool isCurrentDay = index == _currentDayOfMonth;
-          return Column(
-            children: [
-              Container(
-                height: 75,
-                width: 8,
-                margin: EdgeInsets.symmetric(horizontal: 1),
-                decoration: BoxDecoration(
-                  color: CustomColor.grey,
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: AnimatedBuilder(
-                    animation: _heightAnimation,
-                    builder: (context, child) {
-                      return Container(
-                        width: 8,
-                        height: maxExpense > 0 ? (monthExpenses[index] / maxExpense) * 75 * _heightAnimation.value : 0,
-                        decoration: BoxDecoration(
-                          color: CustomColor.bluePrimary,
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              ),
-              Gap(4),
-              // Blue circle indicator for current day
-              if (isCurrentDay)
-                Container(
-                  height: 10,
-                  width: 10,
-                  decoration: BoxDecoration(
-                    color: CustomColor.bluePrimary,
-                    shape: BoxShape.circle,
-                  ),
-                ),
-            ],
-          );
-        }),
-      ),
-    );
-  }
+  
 
   // Get expenses for a week
   List<double> _getWeekExpenses() {
@@ -343,13 +290,5 @@ class _ExpensesChartState extends State<ExpensesChart> with SingleTickerProvider
     return widget.expenses.length >= 7 ? widget.expenses.sublist(0, 7) : List.filled(7, 0.0);
   }
 
-  // Get expenses for a month
-  List<double> _getMonthExpenses() {
-    List<double> monthExpenses = List.filled(31, 0.0);
-    // Fill with available expenses, leaving the rest as zeros
-    for (int i = 0; i < widget.expenses.length && i < 31; i++) {
-      monthExpenses[i] = widget.expenses[i];
-    }
-    return monthExpenses;
-  }
+  
 }
