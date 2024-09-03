@@ -3,9 +3,7 @@ import 'package:gap/gap.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/date_picker.dart';
 import 'package:track_bud/utils/group_debts_chart.dart';
-import 'package:track_bud/utils/overview/chart/month_chart.dart';
-import 'package:track_bud/utils/overview/chart/week_chart.dart';
-import 'package:track_bud/utils/overview/chart/year_chart.dart';
+import 'package:track_bud/utils/overview/chart/expenses_chart.dart';
 import 'package:track_bud/utils/textfield_widgets.dart';
 
 // Main widget for displaying the expenses overview
@@ -138,48 +136,5 @@ class _ExpensesOverviewTileState extends State<ExpensesOverviewTile> {
         ),
       ),
     );
-  }
-}
-
-// Widget for displaying an animated chart of expenses
-class ExpensesChart extends StatefulWidget {
-  final int currentTimeUnit;
-  final List<double> expenses;
-  final double budgetGoal;
-
-  const ExpensesChart({
-    Key? key,
-    required this.currentTimeUnit,
-    required this.expenses,
-    this.budgetGoal = 400.00,
-  }) : super(key: key);
-
-  @override
-  _ExpensesChartState createState() => _ExpensesChartState();
-}
-
-class _ExpensesChartState extends State<ExpensesChart> with SingleTickerProviderStateMixin {
-  @override
-  Widget build(BuildContext context) {
-    // Build appropriate chart based on current time unit
-    switch (widget.currentTimeUnit) {
-      case 0:
-        return SizedBox(); // Day view, show nothing
-      case 1:
-        return WeekChart(
-          expenses: widget.expenses,
-        );
-      case 2:
-        return MonthChart(
-          expenses: widget.expenses,
-        );
-      case 3:
-        return YearChart(
-          expenses: widget.expenses,
-          budgetGoal: widget.budgetGoal,
-        );
-      default:
-        return SizedBox();
-    }
   }
 }
