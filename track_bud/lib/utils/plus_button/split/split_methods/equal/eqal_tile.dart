@@ -28,7 +28,7 @@ class _EqualTileState extends State<EqualTile> {
       child: Container(
         decoration: BoxDecoration(color: CustomColor.white, borderRadius: BorderRadius.circular(Constants.contentBorderRadius)),
         child: ListTile(
-          contentPadding: EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace, vertical: CustomPadding.defaultSpace),
+          contentPadding: const EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace, vertical: CustomPadding.defaultSpace),
           leading: ClipRRect(
             borderRadius: BorderRadius.circular(100.0),
             child: Container(
@@ -46,7 +46,7 @@ class _EqualTileState extends State<EqualTile> {
                     children: [
                       // Display split amount
                       Container(
-                        padding: EdgeInsets.all(10),
+                        padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
                           color: CustomColor.white,
                           borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
@@ -70,7 +70,7 @@ class _EqualTileState extends State<EqualTile> {
                   ),
                 )
               : Container(
-                  padding: EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
                     color: CustomColor.white,
                     borderRadius: BorderRadius.circular(Constants.contentBorderRadius),

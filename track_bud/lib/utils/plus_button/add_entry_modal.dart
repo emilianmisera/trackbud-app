@@ -43,25 +43,25 @@ class AddEntryModal extends StatelessWidget {
       expand: false,
       builder: (context, scrollController) {
         return Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             color: CustomColor.backgroundPrimary,
             borderRadius: BorderRadius.vertical(top: Radius.circular(Constants.contentBorderRadius)),
           ),
           child: Column(
             children: [
-              Gap(CustomPadding.mediumSpace),
+              const Gap(CustomPadding.mediumSpace),
               Center(
                 child: Container(
                   // grabber
                   width: 36,
                   height: 5,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     color: CustomColor.grabberColor,
                     borderRadius: BorderRadius.all(Radius.circular(100)),
                   ),
                 ),
               ),
-              Gap(CustomPadding.defaultSpace),
+              const Gap(CustomPadding.defaultSpace),
               Expanded(
                 child: SingleChildScrollView(
                   controller: scrollController,

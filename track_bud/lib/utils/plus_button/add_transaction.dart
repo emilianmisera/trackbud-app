@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:track_bud/utils/add/add_entry_modal.dart';
+import 'package:track_bud/utils/plus_button/add_entry_modal.dart';
 import 'package:track_bud/utils/button_widgets/dropdown.dart';
 import 'package:track_bud/utils/button_widgets/segment_control.dart';
 import 'package:track_bud/utils/categories/category_expenses.dart';
@@ -16,7 +16,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 // Widget for adding a new transaction
 class AddTransaction extends StatefulWidget {
-  AddTransaction({Key? key}) : super(key: key);
+  const AddTransaction({super.key});
 
   @override
   State<AddTransaction> createState() => _AddTransactionState();
@@ -59,17 +59,14 @@ class _AddTransactionState extends State<AddTransaction> {
       });
 
       // Show success message
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Transaktion erfolgreich hinzugefügt.')),
-      );
-
-      // Clear the form or navigate back
-      Navigator.pop(context);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Transaktion erfolgreich hinzugefügt.')));
+        // Clear the form or navigate back
+        Navigator.pop(context);
+      }
     } catch (e) {
       // Handle any errors
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Fehler beim Hinzufügen der Transaktion: $e')),
-      );
+      if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Fehler beim Hinzufügen der Transaktion: $e')));
     }
   }
 
@@ -119,7 +116,7 @@ class _AddTransactionState extends State<AddTransaction> {
                 style: TextStyles.regularStyleMedium,
               ),
             ),
-            Gap(CustomPadding.defaultSpace),
+            const Gap(CustomPadding.defaultSpace),
             // Segment control for switching between expense and income
             CustomSegmentControl(
               onValueChanged: (int? newValue) {
@@ -128,10 +125,10 @@ class _AddTransactionState extends State<AddTransaction> {
                 });
               },
             ),
-            Gap(CustomPadding.bigSpace),
+            const Gap(CustomPadding.bigSpace),
             // Text field for transaction title
             CustomTextfield(name: AppTexts.title, hintText: AppTexts.hintTitle, controller: _titleController),
-            Gap(CustomPadding.defaultSpace),
+            const Gap(CustomPadding.defaultSpace),
             // Row containing amount and date fields
             Row(
               children: [
@@ -145,33 +142,33 @@ class _AddTransactionState extends State<AddTransaction> {
                     _currentSegment == 0 ? '–' : '+',
                     style: TextStyles.titleStyleMedium.copyWith(fontWeight: TextStyles.fontWeightDefault),
                   ),
-                  type: TextInputType.numberWithOptions(decimal: true),
+                  type: const TextInputType.numberWithOptions(decimal: true),
                   inputFormatters: [GermanNumericTextFormatter()],
                 ),
-                Gap(CustomPadding.defaultSpace),
+                const Gap(CustomPadding.defaultSpace),
                 // Date
                 DatePicker(onDateTimeChanged: (dateTime) => setState(() => _selectedDateTime = dateTime)),
               ],
             ),
-            Gap(CustomPadding.defaultSpace),
+            const Gap(CustomPadding.defaultSpace),
             Text(
               AppTexts.categorie,
               style: TextStyles.regularStyleMedium,
             ),
-            Gap(CustomPadding.mediumSpace),
+            const Gap(CustomPadding.mediumSpace),
             // Category section
             // Display either expense or income categories based on current segment
             _currentSegment == 0
                 ? CategoriesExpense(onCategorySelected: _onCategorySelected)
                 : CategoriesIncome(onCategorySelected: _onCategorySelected),
-            Gap(CustomPadding.defaultSpace),
+            const Gap(CustomPadding.defaultSpace),
             Text(
               AppTexts.recurry,
               style: TextStyles.regularStyleMedium,
             ),
-            Gap(CustomPadding.mediumSpace),
+            const Gap(CustomPadding.mediumSpace),
             // Dropdown for selecting recurrence frequency
-            CustomDropDown(list: [
+            CustomDropDown(list: const [
               'einmalig',
               'täglich',
               'wöchentlich',
@@ -182,7 +179,7 @@ class _AddTransactionState extends State<AddTransaction> {
               'halb-jährlich',
               'jährlich'
             ], dropdownWidth: MediaQuery.sizeOf(context).width - 32, onChanged: (value) => setState(() => _selectedRecurrence = value)),
-            Gap(CustomPadding.defaultSpace),
+            const Gap(CustomPadding.defaultSpace),
             // Note text field
             CustomTextfield(
               name: AppTexts.note,
@@ -190,7 +187,7 @@ class _AddTransactionState extends State<AddTransaction> {
               controller: _noteController,
               isMultiline: true,
             ),
-            Gap(CustomPadding.defaultSpace),
+            const Gap(CustomPadding.defaultSpace),
           ],
         ),
       ),

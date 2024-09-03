@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:track_bud/utils/add/split/split_methods/by_amount/by_amount_tile.dart';
+import 'package:track_bud/utils/plus_button/split/split_methods/by_amount/by_amount_tile.dart';
 import 'package:track_bud/utils/constants.dart';
 
 
@@ -10,17 +10,17 @@ class ByAmountSplitWidget extends StatelessWidget {
   final List<String> names;
 
   const ByAmountSplitWidget({
-    Key? key,
+    super.key,
     required this.names,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
       shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       itemCount: names.length,
-      separatorBuilder: (context, index) => Gap(CustomPadding.mediumSpace),
+      separatorBuilder: (context, index) => const Gap(CustomPadding.mediumSpace),
       itemBuilder: (context, index) {
         return ByAmountTile(name: names[index]);
       },

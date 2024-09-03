@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:track_bud/utils/constants.dart';
-import 'package:track_bud/utils/add/split/split_button.dart';
+import 'package:track_bud/utils/plus_button/split/split_button.dart';
 import 'package:track_bud/utils/enum/split_methods.dart';
 import 'package:track_bud/utils/strings.dart';
 
@@ -13,10 +13,10 @@ class SplitMethodSelector extends StatefulWidget {
   final SplitMethod selectedMethod;
 
   const SplitMethodSelector({
-    Key? key,
+    super.key,
     required this.onSplitMethodChanged,
     required this.selectedMethod,
-  }) : super(key: key);
+  });
 
   @override
   State<SplitMethodSelector> createState() => _SplitMethodSelectorState();
@@ -29,7 +29,7 @@ class _SplitMethodSelectorState extends State<SplitMethodSelector> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(AppTexts.distribution, style: TextStyles.regularStyleMedium),
-        Gap(CustomPadding.mediumSpace),
+        const Gap(CustomPadding.mediumSpace),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

@@ -15,12 +15,12 @@ class PercentTile extends StatelessWidget {
   final Function(double) onChanged;
 
   const PercentTile({
-    Key? key,
+    super.key,
     required this.amount,
     this.name,
     required this.sliderValue,
     required this.onChanged,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +35,7 @@ class PercentTile extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ListTile(
-            contentPadding: EdgeInsets.only(left: CustomPadding.defaultSpace),
+            contentPadding: const EdgeInsets.only(left: CustomPadding.defaultSpace),
             leading: ClipRRect(
               borderRadius: BorderRadius.circular(100.0),
               child: Container(

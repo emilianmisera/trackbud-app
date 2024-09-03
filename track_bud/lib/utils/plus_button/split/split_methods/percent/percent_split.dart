@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:track_bud/utils/add/split/split_methods/percent/percent_tile.dart';
+import 'package:track_bud/utils/plus_button/split/split_methods/percent/percent_tile.dart';
 import 'package:track_bud/utils/constants.dart';
 
 /// Widget for displaying percentage split for multiple people
@@ -11,13 +11,13 @@ class PercentalSplitWidget extends StatefulWidget {
   final List<String> names;
 
   const PercentalSplitWidget({
-    Key? key,
+    super.key,
     required this.amount,
     required this.names,
-  }) : super(key: key);
+  });
 
   @override
-  _PercentalSplitWidgetState createState() => _PercentalSplitWidgetState();
+  State<PercentalSplitWidget> createState() => _PercentalSplitWidgetState();
 }
 
 class _PercentalSplitWidgetState extends State<PercentalSplitWidget> {
@@ -49,9 +49,9 @@ class _PercentalSplitWidgetState extends State<PercentalSplitWidget> {
   Widget build(BuildContext context) {
     return ListView.separated(
       shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       itemCount: widget.names.length,
-      separatorBuilder: (context, index) => Gap(CustomPadding.mediumSpace),
+      separatorBuilder: (context, index) => const Gap(CustomPadding.mediumSpace),
       itemBuilder: (context, index) {
         return PercentTile(
           amount: widget.amount,

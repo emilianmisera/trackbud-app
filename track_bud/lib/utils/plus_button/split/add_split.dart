@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:track_bud/utils/add/add_entry_modal.dart';
-import 'package:track_bud/utils/add/split/split_methods/equal/equal_split.dart';
-import 'package:track_bud/utils/add/split/split_methods/percent/percent_split.dart';
-import 'package:track_bud/utils/add/split/split_methods/split_method_selector.dart';
+import 'package:track_bud/utils/plus_button/add_entry_modal.dart';
+import 'package:track_bud/utils/plus_button/split/split_methods/equal/equal_split.dart';
+import 'package:track_bud/utils/plus_button/split/split_methods/percent/percent_split.dart';
+import 'package:track_bud/utils/plus_button/split/split_methods/split_method_selector.dart';
 import 'package:track_bud/utils/button_widgets/dropdown.dart';
 import 'package:track_bud/utils/categories/category_expenses.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/enum/split_methods.dart';
-import 'package:track_bud/utils/add/split/split_methods/by_amount/by_amount_split.dart';
+import 'package:track_bud/utils/plus_button/split/split_methods/by_amount/by_amount_split.dart';
 import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfields/textfield.dart';
 import 'package:track_bud/utils/textinput_format.dart';
@@ -91,7 +91,7 @@ class _AddSplitState extends State<AddSplit> {
       isButtonEnabled: _isFormValid,
       onButtonPressed: () async {
         await _saveNewSplit();
-        Navigator.pop(context);
+        if (context.mounted) Navigator.pop(context);
       },
       child: Padding(
         padding: CustomPadding.screenWidth,
@@ -105,11 +105,11 @@ class _AddSplitState extends State<AddSplit> {
                 style: TextStyles.regularStyleMedium,
               ),
             ),
-            Gap(CustomPadding.defaultSpace),
+            const Gap(CustomPadding.defaultSpace),
 
             // Text field for transaction title
             CustomTextfield(name: AppTexts.title, hintText: AppTexts.hintTitle, controller: _titleController),
-            Gap(CustomPadding.defaultSpace),
+            const Gap(CustomPadding.defaultSpace),
 
             // Row containing amount and date fields
             Row(
@@ -121,31 +121,31 @@ class _AddSplitState extends State<AddSplit> {
                   controller: _amountController,
                   width: MediaQuery.sizeOf(context).width / 3,
                   prefix: Text('-', style: TextStyles.titleStyleMedium.copyWith(fontWeight: TextStyles.fontWeightDefault)),
-                  type: TextInputType.numberWithOptions(decimal: true),
+                  type: const TextInputType.numberWithOptions(decimal: true),
                   inputFormatters: [GermanNumericTextFormatter()],
                 ),
-                Gap(CustomPadding.defaultSpace),
+                const Gap(CustomPadding.defaultSpace),
                 // Add DatePicker here if needed
               ],
             ),
-            Gap(CustomPadding.defaultSpace),
+            const Gap(CustomPadding.defaultSpace),
 
             Text(AppTexts.categorie, style: TextStyles.regularStyleMedium),
-            Gap(CustomPadding.mediumSpace),
+            const Gap(CustomPadding.mediumSpace),
             // choose category
             CategoriesExpense(onCategorySelected: _onCategorySelected),
-            Gap(CustomPadding.defaultSpace),
+            const Gap(CustomPadding.defaultSpace),
 
             // choosing who payed
             Text(AppTexts.payedBy, style: TextStyles.regularStyleMedium),
-            Gap(CustomPadding.mediumSpace),
+            const Gap(CustomPadding.mediumSpace),
 
             // Dropdown for selecting person who paid bill
             CustomDropDown(
               list: widget.list ?? ['Dir', widget.friendName ?? '**Friend Name**'],
               dropdownWidth: MediaQuery.sizeOf(context).width - 32,
             ),
-            Gap(CustomPadding.defaultSpace),
+            const Gap(CustomPadding.defaultSpace),
 
             // choose between 3 split options
             SplitMethodSelector(
@@ -156,7 +156,7 @@ class _AddSplitState extends State<AddSplit> {
                 });
               },
             ),
-            Gap(CustomPadding.defaultSpace),
+            const Gap(CustomPadding.defaultSpace),
 
             if (_selectedSplitMethod == SplitMethod.equal)
               EqualSplitWidget(

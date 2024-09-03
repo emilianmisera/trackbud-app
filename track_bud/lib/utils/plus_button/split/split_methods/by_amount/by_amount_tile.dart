@@ -16,7 +16,7 @@ class ByAmountTile extends StatefulWidget {
 
 class _ByAmountTileState extends State<ByAmountTile> {
   // Controller for the input text field
-  TextEditingController _inputController = TextEditingController();
+  final TextEditingController _inputController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class _ByAmountTileState extends State<ByAmountTile> {
       child: Container(
         decoration: BoxDecoration(color: CustomColor.white, borderRadius: BorderRadius.circular(Constants.contentBorderRadius)),
         child: ListTile(
-          contentPadding: EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace, vertical: CustomPadding.defaultSpace),
+          contentPadding: const EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace, vertical: CustomPadding.defaultSpace),
           leading: ClipRRect(
             borderRadius: BorderRadius.circular(100.0),
             child: Container(

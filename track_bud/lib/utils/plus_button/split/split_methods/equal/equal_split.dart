@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:track_bud/utils/add/split/split_methods/equal/eqal_tile.dart';
+import 'package:track_bud/utils/plus_button/split/split_methods/equal/eqal_tile.dart';
 import 'package:track_bud/utils/constants.dart';
 
 
@@ -14,11 +14,11 @@ class EqualSplitWidget extends StatelessWidget {
   final bool? isGroup;
 
   const EqualSplitWidget({
-    Key? key,
+    super.key,
     required this.amount,
     required this.names,
     this.isGroup,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -27,9 +27,9 @@ class EqualSplitWidget extends StatelessWidget {
 
     return ListView.separated(
       shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       itemCount: names.length,
-      separatorBuilder: (context, index) => Gap(CustomPadding.mediumSpace),
+      separatorBuilder: (context, index) => const Gap(CustomPadding.mediumSpace),
       itemBuilder: (context, index) {
         return EqualTile(
           name: names[index],
