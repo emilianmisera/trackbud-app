@@ -1,3 +1,4 @@
+// ignore: unused_import
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -45,57 +46,7 @@ class AccAdjustmentButton extends StatelessWidget {
 
 
 
-class CustomSegmentControl extends StatefulWidget {
-  final Function(int?) onValueChanged; // callback
-  const CustomSegmentControl({
-    super.key,
-    required this.onValueChanged,
-  });
 
-  @override
-  State<CustomSegmentControl> createState() => _CustomSegmentControlState();
-}
-
-class _CustomSegmentControlState extends State<CustomSegmentControl> {
-  // _sliding: Tracks the currently selected segment (0 for expense, 1 for income)
-  int? _sliding = 0;
-
-  @override
-  Widget build(BuildContext context) {
-    return CustomShadow(
-      child: Container(
-        width: double.infinity, // Ensures the control spans the full width
-        child: CupertinoSlidingSegmentedControl(
-          children: {
-            // Expense segment
-            0: Container(
-              // Sets the height of the segment relative to screen height
-              height: MediaQuery.sizeOf(context).height * Constants.segmentedControlHeight,
-              alignment: Alignment.center,
-              child: Text(AppTexts.expense,
-                  // Applies different styles based on selection state
-                  style: _sliding == 0 ? TextStyles.slidingStyleExpense : TextStyles.slidingStyleDefault),
-            ),
-            // Income segment
-            1: Container(
-              height: MediaQuery.sizeOf(context).height * Constants.segmentedControlHeight,
-              alignment: Alignment.center,
-              child: Text(AppTexts.income, style: _sliding == 1 ? TextStyles.slidingStyleIncome : TextStyles.slidingStyleDefault),
-            ),
-          },
-          groupValue: _sliding, // Current selection
-          onValueChanged: (int? newValue) {
-            setState(() {
-              _sliding = newValue;
-            });
-            widget.onValueChanged(newValue); // Call the callback
-          },
-          backgroundColor: CustomColor.white, // Background color of the control
-        ),
-      ),
-    );
-  }
-}
 
 // Widget to display a horizontal list of expense categories
 class CategoriesExpense extends StatefulWidget {
