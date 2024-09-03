@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -8,8 +7,6 @@ import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/settings/delete_account_pop_up.dart';
 import 'package:track_bud/utils/shadow.dart';
 import 'package:track_bud/utils/strings.dart';
-import 'package:track_bud/utils/textfields/textfield.dart';
-import 'package:track_bud/views/at_signup/login_screen.dart';
 import 'package:track_bud/views/at_signup/onboarding_screen.dart';
 import 'package:track_bud/views/subpages/about_trackbud_screen.dart';
 import 'package:track_bud/views/subpages/account_settings_screen.dart';
