@@ -3,7 +3,7 @@ import 'package:gap/gap.dart';
 import 'package:track_bud/models/user_model.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/debts/friend/friend_card.dart';
-import 'package:track_bud/utils/debts/group_widget.dart';
+import 'package:track_bud/utils/debts/group/group_card.dart';
 import 'package:track_bud/utils/tiles/information_tiles.dart';
 import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/views/subpages/your_friends_screen.dart';
