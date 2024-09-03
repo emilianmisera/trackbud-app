@@ -3,7 +3,7 @@ import 'package:gap/gap.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/shadow.dart';
 import 'package:track_bud/utils/strings.dart';
-import 'package:track_bud/utils/textfield_widgets.dart';
+import 'package:track_bud/utils/textfields/searchfield.dart';
 
 class YourGroupsScreen extends StatefulWidget {
   const YourGroupsScreen({super.key});

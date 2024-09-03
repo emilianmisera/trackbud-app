@@ -5,7 +5,7 @@ import 'package:track_bud/utils/button_widgets/acc_adjustment_button.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/shadow.dart';
 import 'package:track_bud/utils/strings.dart';
-import 'package:track_bud/utils/textfield_widgets.dart';
+import 'package:track_bud/utils/textfields/textfield.dart';
 import 'package:track_bud/views/subpages/change_email_screen.dart';
 import 'package:track_bud/views/subpages/change_password_screen.dart';
 import 'dart:math' show min;

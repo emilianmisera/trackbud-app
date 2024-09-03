@@ -10,7 +10,7 @@ import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/enum/split_methods.dart';
 import 'package:track_bud/utils/add/split/split_methods/by_amount/by_amount_split.dart';
 import 'package:track_bud/utils/strings.dart';
-import 'package:track_bud/utils/textfield_widgets.dart';
+import 'package:track_bud/utils/textfields/textfield.dart';
 import 'package:track_bud/utils/textinput_format.dart';
 
 // Widget for adding new split

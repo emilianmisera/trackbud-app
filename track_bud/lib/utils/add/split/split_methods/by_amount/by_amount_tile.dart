@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/shadow.dart';
-import 'package:track_bud/utils/textfield_widgets.dart';
+import 'package:track_bud/utils/textfields/textfield_split_by_amount.dart';
 
 /// Widget for displaying split by amount tile
 class ByAmountTile extends StatefulWidget {
