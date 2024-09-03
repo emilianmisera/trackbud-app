@@ -11,9 +11,9 @@ class TransactionHistoryList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('TransactionHistoryList: Building widget');
+    debugPrint('TransactionHistoryList: Building widget');
     final user = FirebaseAuth.instance.currentUser;
-    print('Current user UID: ${user?.uid}');
+    debugPrint('Current user UID: ${user?.uid}');
 
     return StreamBuilder<QuerySnapshot>(
       stream: FirebaseFirestore.instance
