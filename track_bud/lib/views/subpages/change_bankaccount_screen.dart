@@ -1,7 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:track_bud/controller/user_controller.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfields/textfield_amount_of_money.dart';
@@ -10,7 +10,8 @@ class ChangeBankaccountScreen extends StatefulWidget {
   const ChangeBankaccountScreen({super.key});
 
   @override
-  State<ChangeBankaccountScreen> createState() => _ChangeBankaccountScreenState();
+  State<ChangeBankaccountScreen> createState() =>
+      _ChangeBankaccountScreenState();
 }
 
 class _ChangeBankaccountScreenState extends State<ChangeBankaccountScreen> {
@@ -20,16 +21,15 @@ class _ChangeBankaccountScreenState extends State<ChangeBankaccountScreen> {
   @override
   void initState() {
     super.initState();
-    //_loadCurrentBankAccountInfo(); // Load bank account info when screen is initialized
+    _loadCurrentBankAccountInfo(); // Load bank account info when screen is initialized
   }
 
-/*
   Future<void> _loadCurrentBankAccountInfo() async {
     final String userId = FirebaseAuth.instance.currentUser?.uid ?? '';
 
     if (userId.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text("Benutzer nicht angemeldet."),
         ),
       );
@@ -37,15 +37,34 @@ class _ChangeBankaccountScreenState extends State<ChangeBankaccountScreen> {
     }
 
     try {
-      UserModel? localUser = await SQLiteService().getUserById(userId);
-      print(
-          'Loaded user bankaccount from SQLite: ${localUser?.bankAccountBalance}');
-      await DependencyInjector.syncService.syncData(userId);
-      if (localUser != null) {
-        setState(() {
-          _moneyController.text =
-              localUser.bankAccountBalance.toStringAsFixed(2);
-        });
+      // Fetch user data directly from Firestore
+      final userDoc = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userId)
+          .get();
+
+      if (userDoc.exists) {
+        final userData = userDoc.data();
+        if (userData != null && userData.containsKey('bankAccountBalance'))
+ {
+          setState(() {
+            _moneyController.text = userData['bankAccountBalance'].toStringAsFixed(2);
+          });
+        } else {
+          // Handle case where bank account balance is not found in Firestore
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text("Bankkontostand nicht gefunden."),
+            ),
+          );
+        }
+      } else {
+        // Handle case where user document is not found in Firestore
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Benutzerdaten nicht gefunden."),
+          ),
+        );
       }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -55,13 +74,11 @@ class _ChangeBankaccountScreenState extends State<ChangeBankaccountScreen> {
       );
     }
   }
-*/
+
   Future<void> _saveBankAccountInfo() async {
-    // Get the current user's ID
-    final String userId = FirebaseAuth.instance.currentUser!.uid;
+    final String userId = FirebaseAuth.instance.currentUser?.uid ?? '';
 
     if (userId.isEmpty) {
-      // Handle the case when user ID is not available
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text("Benutzer nicht angemeldet."),
@@ -83,23 +100,32 @@ class _ChangeBankaccountScreenState extends State<ChangeBankaccountScreen> {
     final double amount = double.tryParse(amountText) ?? -1;
     if (amount < 0) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Ungültiger Betrag.")),
+        const SnackBar(
+          content: Text("Ungültiger Betrag."),
+        ),
       );
       return;
     }
 
     try {
-      // Call the UserController to update the bank account information
-      await UserController().updateBankAccountBalance(userId, amount);
+      // Update bank account balance directly in Firestore
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userId)
+          .update({'bankAccountBalance': amount});
 
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Bankkonto erfolgreich aktualisiert.")));
-        Navigator.pop(context);
-      }
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Bankkonto erfolgreich aktualisiert."),
+        ),
+      );
+      Navigator.pop(context);
     } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Fehler beim Speichern der Bankkonto-Informationen: $e")));
-      }
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Fehler beim Speichern der Bankkonto-Informationen: $e"),
+        ),
+      );
     }
   }
 
@@ -112,7 +138,8 @@ class _ChangeBankaccountScreenState extends State<ChangeBankaccountScreen> {
           // Padding adds spacing around the content inside the screen.
           padding: EdgeInsets.only(
             top: MediaQuery.sizeOf(context).height * CustomPadding.topSpace -
-                Constants.defaultAppBarHeight, // Top padding based on screen height
+                Constants
+                    .defaultAppBarHeight, // Top padding based on screen height
             left: CustomPadding.defaultSpace, // Left padding
             right: CustomPadding.defaultSpace, // Right padding
           ),
@@ -121,20 +148,23 @@ class _ChangeBankaccountScreenState extends State<ChangeBankaccountScreen> {
             children: [
               Text(
                 AppTexts.changeBankAccHeading, // The heading text
-                style: TextStyles.headingStyle, // The text style for the heading.
+                style:
+                    TextStyles.headingStyle, // The text style for the heading.
               ),
               const Gap(
-                CustomPadding.mediumSpace, // Adds vertical space between the heading and the next element.
+          CustomPadding
+                    .mediumSpace, // Adds vertical space between the heading and the next element.
               ),
               Text(
                 AppTexts.changeBankAccDescribtion, // The description text
-                style: TextStyles.hintStyleDefault, // The text style for the description.
+                style: TextStyles
+                    .hintStyleDefault, // The text style for the description.
               ),
               const Gap(
-                CustomPadding.bigSpace, // Adds more vertical space before the next element.
+            CustomPadding
+                    .bigSpace, // Adds more vertical space before the next element.
               ),
               // A custom TextField widget for entering the amount of money, using the controller defined above.
-              //TODO: insert current BankAccount here
               TextFieldAmountOfMoney(
                 controller: _moneyController,
                 hintText: AppTexts.lines,
@@ -146,14 +176,17 @@ class _ChangeBankaccountScreenState extends State<ChangeBankaccountScreen> {
       bottomSheet: Container(
         // Margin is applied to the bottom of the button and the sides for proper spacing.
         margin: EdgeInsets.only(
-          bottom: MediaQuery.sizeOf(context).height * CustomPadding.bottomSpace, // Bottom margin based on screen height
+          bottom: MediaQuery.sizeOf(context).height *
+              CustomPadding.bottomSpace, // Bottom margin based on screen height
           left: CustomPadding.defaultSpace, // Left margin
           right: CustomPadding.defaultSpace, // Right margin
         ),
         child: ElevatedButton(
           // Saving Button
-          onPressed: () => _saveBankAccountInfo(),
-          child: Text(AppTexts.save),
+          onPressed: _saveBankAccountInfo,
+          child: Text(
+            AppTexts.save,
+          ),
         ),
       ),
     );
