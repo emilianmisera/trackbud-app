@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:track_bud/models/user_model.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/shadow.dart';
-
 
 // Widget for displaying percentage split tile
 class PercentTile extends StatelessWidget {
   // Total amount to be split
   final double amount;
   // Name of the person (null for 'Du')
-  final String? name;
-  // Current value of the slider (percentage)
+  final UserModel user; // Add this  // Current value of the slider (percentage)
   final double sliderValue;
   // Callback function when slider value changes
   final Function(double) onChanged;
@@ -17,7 +16,7 @@ class PercentTile extends StatelessWidget {
   const PercentTile({
     super.key,
     required this.amount,
-    this.name,
+    required this.user,
     required this.sliderValue,
     required this.onChanged,
   });
@@ -35,18 +34,24 @@ class PercentTile extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ListTile(
-            contentPadding: const EdgeInsets.only(left: CustomPadding.defaultSpace),
+            contentPadding:
+                const EdgeInsets.only(left: CustomPadding.defaultSpace),
             leading: ClipRRect(
               borderRadius: BorderRadius.circular(100.0),
-              child: Container(
+              child: SizedBox(
                 width: 40,
                 height: 40,
-                color: Colors.red, // TODO: Replace with profile picture
+                // Use profilePictureUrl from UserModel
+                child: user.profilePictureUrl.isNotEmpty
+                    ? Image.network(user.profilePictureUrl, fit: BoxFit.cover)
+                    : const Icon(Icons.person, color: Colors.grey),
               ),
             ),
-            title: Text(name ?? 'Du', style: TextStyles.regularStyleMedium),
-            subtitle: Text('${sliderValue.round()}% = ${(amount * (sliderValue / 100)).toStringAsFixed(2)}€',
-                style: TextStyles.regularStyleDefault.copyWith(fontSize: TextStyles.fontSizeHint)),
+            title: Text(user.name, style: TextStyles.regularStyleMedium),
+            subtitle: Text(
+                '${sliderValue.round()}% = ${(amount * (sliderValue / 100)).toStringAsFixed(2)}€',
+                style: TextStyles.regularStyleDefault
+                    .copyWith(fontSize: TextStyles.fontSizeHint)),
           ),
           Slider(
             onChanged: onChanged,
