@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/tiles/transaction/transaction_tile.dart';
+import 'package:track_bud/views/subpages/edit_transaction_screen.dart';
 
 class TransactionHistoryList extends StatelessWidget {
   final String transactionType;
@@ -27,7 +28,8 @@ class TransactionHistoryList extends StatelessWidget {
           .limit(10)
           .snapshots(),
       builder: (context, snapshot) {
-        debugPrint('StreamBuilder: Connection state: ${snapshot.connectionState}');
+        debugPrint(
+            'StreamBuilder: Connection state: ${snapshot.connectionState}');
         if (snapshot.hasError) {
           debugPrint('StreamBuilder Error: ${snapshot.error}');
           return Text('Etwas ist schiefgelaufen: ${snapshot.error}');
@@ -40,7 +42,8 @@ class TransactionHistoryList extends StatelessWidget {
           debugPrint('StreamBuilder: No data available');
           return const Text('Keine Transaktionen vorhanden');
         }
-        debugPrint('StreamBuilder: Data received, doc count: ${snapshot.data!.docs.length}');
+        debugPrint(
+            'StreamBuilder: Data received, doc count: ${snapshot.data!.docs.length}');
 
         return ListView.builder(
           shrinkWrap: true,
@@ -59,16 +62,26 @@ class TransactionHistoryList extends StatelessWidget {
                 date: (data['date'] as Timestamp?)?.toDate() ?? DateTime.now(),
                 category: data['category'] ?? 'Keine Kategorie',
                 transactionId: doc.id,
-                notes: data['note'] ?? '',
-                recurrenceType: data['recurrence'] ?? 'Einmalig',
+                note: data['notes'] ?? '',
+                recurrence: data['recurrence'] ?? 'Einmalig',
                 type: transactionType == 'expense' ? 'Ausgabe' : 'Einnahme',
                 onDelete: (String id) {
                   debugPrint('Deleting transaction: $id');
-                  FirebaseFirestore.instance.collection('transactions').doc(id).delete();
+                  FirebaseFirestore.instance
+                      .collection('transactions')
+                      .doc(id)
+                      .delete();
                 },
                 onEdit: (String id) {
                   debugPrint('Editing transaction: $id');
-                  //TODO: Implement edit functionality
+                  // Navigate to the edit screen, passing the transaction ID
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          EditTransactionScreen(transactionId: id),
+                    ),
+                  );
                 },
               ),
             );
