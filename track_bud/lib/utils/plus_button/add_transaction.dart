@@ -9,7 +9,6 @@ import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/date_picker.dart';
 import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfields/textfield.dart';
-import 'package:track_bud/utils/textinput_format.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 //___________________________________________________________________________________________________________________
@@ -49,9 +48,10 @@ class _AddTransactionState extends State<AddTransaction> {
       await FirebaseFirestore.instance.collection('transactions').add({
         'userId': user!.uid,
         'title': _titleController.text,
+        'type': _currentSegment == 0 ? 'expense' : 'income',
         // Parse amount from comma-separated string to double
         'amount':
-            double.tryParse(_amountController.text.replaceAll(',', '.')) ?? 0.0 * (_currentSegment == 0 ? -1 : 1), // Negative for expenses
+            double.tryParse(_amountController.text.replaceAll(',', '.')),
         'category': _selectedCategory,
         'date': _selectedDateTime,
         'recurrence': _selectedRecurrence,
@@ -143,7 +143,7 @@ class _AddTransactionState extends State<AddTransaction> {
                     style: TextStyles.titleStyleMedium.copyWith(fontWeight: TextStyles.fontWeightDefault),
                   ),
                   type: const TextInputType.numberWithOptions(decimal: true),
-                  inputFormatters: [GermanNumericTextFormatter()],
+                  //inputFormatters: [GermanNumericTextFormatter()],
                 ),
                 const Gap(CustomPadding.defaultSpace),
                 // Date

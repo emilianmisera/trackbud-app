@@ -15,7 +15,7 @@ class ForgotPasswordScreen extends StatefulWidget {
 
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   final TextEditingController _emailController = TextEditingController();
-  final AuthService _authService = AuthService(); // Create an instance of AuthService
+  final FirebaseService _firebaseService = FirebaseService(); // Create an instance of AuthService
 
   void _handleSubmission() async {
     // Retrieve email input from the text controller
@@ -33,7 +33,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     try {
       // Attempt to send a password reset email
       debugPrint('Attempt to send a password reset email');
-      await _authService.sendPasswordResetEmail(email);
+      await _firebaseService.sendPasswordResetEmail(email);
       debugPrint('email successfull sent!');
       if (mounted) {
         // Show success message

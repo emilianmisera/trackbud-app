@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:provider/provider.dart';
+import 'package:track_bud/provider/group_provider.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/debts/group/create_group/create_group_sheet.dart';
+import 'package:track_bud/utils/debts/group/group_card.dart';
 import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfields/searchfield.dart';
 
@@ -23,13 +26,26 @@ class _YourGroupsScreenState extends State<YourGroupsScreen> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    _loadGroups();
+  }
+
+  Future<void> _loadGroups() async {
+    final groupProvider = Provider.of<GroupProvider>(context, listen: false);
+    await groupProvider.loadGroups();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(AppTexts.yourGroups, style: TextStyles.regularStyleMedium),
         actions: [
           IconButton(
-            onPressed: () => showModalBottomSheet(context: context, builder: (context) => const CreateGroupSheet()),
+            onPressed: () => showModalBottomSheet(
+                context: context,
+                builder: (context) => const CreateGroupSheet()),
             icon: const Icon(
               Icons.add,
               color: CustomColor.bluePrimary,
@@ -41,7 +57,10 @@ class _YourGroupsScreenState extends State<YourGroupsScreen> {
       body: SingleChildScrollView(
         child: Padding(
           // spacing between content and screen
-          padding: const EdgeInsets.only(top: CustomPadding.defaultSpace, left: CustomPadding.defaultSpace, right: CustomPadding.defaultSpace),
+          padding: const EdgeInsets.only(
+              top: CustomPadding.defaultSpace,
+              left: CustomPadding.defaultSpace,
+              right: CustomPadding.defaultSpace),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -52,18 +71,26 @@ class _YourGroupsScreenState extends State<YourGroupsScreen> {
                 onChanged: _searchGroup,
               ),
               const Gap(CustomPadding.defaultSpace),
-              // List of Friends
-              /*
-              Expanded(
-                child: ListView.builder(
-                  itemCount: friendList.length,
-                  itemBuilder: (context, index){
-                    final friend = friendList[index];
-                    return FriendCard();
-                  },
-                  ),
+              // List of Groups (using Consumer)
+              Consumer<GroupProvider>(
+                builder: (context, groupProvider, child) {
+                  if (groupProvider.isLoading) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (groupProvider.groups.isEmpty) {
+                    return const Center(child: Text("Keine Gruppen gefunden."));
+                  } else {
+                    return Column(
+                      children: groupProvider.groups
+                          .map((group) => Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: CustomPadding.smallSpace),
+                                child: GroupCard(group: group),
+                              ))
+                          .toList(),
+                    );
+                  }
+                },
               ),
-              */
             ],
           ),
         ),

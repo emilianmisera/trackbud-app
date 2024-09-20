@@ -4,18 +4,20 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:track_bud/models/user_model.dart';
 import 'package:track_bud/trackbud.dart';
 import 'package:track_bud/views/at_signup/bank_account_info_screen.dart';
-import 'package:track_bud/views/at_signup/firestore_service.dart';
+import 'package:track_bud/services/firestore_service.dart';
 
-class AuthService {
+class FirebaseService {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  final FirestoreService _firestoreService = FirestoreService();
+  final FirestoreService firestoreService = FirestoreService();
   final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   //sign in
-  Future<UserCredential> signInWithEmailAndPassword(String email, String password) async {
+  Future<UserCredential> signInWithEmailAndPassword(
+      String email, String password) async {
     try {
       debugPrint('firebase_service: signing in...');
-      UserCredential userCredential = await _firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
+      UserCredential userCredential = await _firebaseAuth
+          .signInWithEmailAndPassword(email: email, password: password);
       debugPrint('firebase_service: successful sign in');
       return userCredential;
     } on FirebaseAuthException catch (e) {
@@ -25,11 +27,17 @@ class AuthService {
   }
 
   // sign up
-  Future<UserCredential> signUpWithEmailAndPassword(String email, String password) async {
+  Future<UserCredential> signUpWithEmailAndPassword(
+      String email, String password, String name) async {
     try {
       debugPrint('firebase_service: try to sign up');
-      UserCredential userCredential = await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
+      UserCredential userCredential = await _firebaseAuth
+          .createUserWithEmailAndPassword(email: email, password: password);
       debugPrint('firebase_service: successful sign Up');
+
+      // Erstellen Sie den Firestore-Datensatz für den neuen Benutzer
+      await _createUserRecord(userCredential, name);
+
       return userCredential;
     } on FirebaseAuthException catch (e) {
       debugPrint('firebase_service: signUpWithEmailAndPassword sign up failed');
@@ -54,25 +62,34 @@ class AuthService {
         );
       }
 
-      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
       final credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
 
-      UserCredential userCredential = await _firebaseAuth.signInWithCredential(credential);
-      await _handleNewGoogleUser(userCredential);
+      UserCredential userCredential =
+          await _firebaseAuth.signInWithCredential(credential);
+
+      // Überprüfen Sie, ob der Benutzer neu ist und erstellen Sie gegebenenfalls einen Firestore-Datensatz
+      if (userCredential.additionalUserInfo?.isNewUser ?? false) {
+        await _createUserRecord(
+            userCredential, userCredential.user?.displayName ?? '');
+      }
+
       if (context.mounted) await handlePostLogin(context, userCredential);
     } catch (error) {
       debugPrint('Error during Google sign in: $error');
-      if (context.mounted) (context, error.toString());
+      if (context.mounted) _showErrorSnackBar(context, error.toString());
     }
   }
 
   // Re-authenticate user
   Future<void> _reauthenticateUser(User user, String password) async {
     try {
-      AuthCredential credential = EmailAuthProvider.credential(email: user.email!, password: password);
+      AuthCredential credential =
+          EmailAuthProvider.credential(email: user.email!, password: password);
       await user.reauthenticateWithCredential(credential);
     } catch (error) {
       debugPrint('Error during re-authentication: $error');
@@ -91,27 +108,36 @@ class AuthService {
   }
 
   // Handle post-login actions
-  Future<void> handlePostLogin(BuildContext context, UserCredential userCredential) async {
+  Future<void> handlePostLogin(
+      BuildContext context, UserCredential userCredential) async {
     String userId = userCredential.user!.uid;
 
-    /*SyncService syncService = SyncService(
-      SQLiteService(),
-      FirestoreService(),
-      CacheService(),
-    ); //create instance of syncService
+    bool userExists = await checkUserExists(userId);
+    if (!userExists) {
+      await _createUserRecord(
+          userCredential, userCredential.user?.displayName ?? '');
+    }
 
-    await syncService.syncData(userId); //syncs data from firestore and local DB
-*/
-    UserModel? userData = await _firestoreService.getUserData(userId);
+    UserModel? userData = await firestoreService.getUserData(userId);
 
     if (userData != null) {
-      if (userData.bankAccountBalance == -1 || userData.monthlySpendingGoal == -1) {
-        if (context.mounted) Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const BankAccountInfoScreen()));
+      if (userData.bankAccountBalance == -1 ||
+          userData.monthlySpendingGoal == -1) {
+        if (context.mounted) {
+          Navigator.of(context).pushReplacement(MaterialPageRoute(
+              builder: (context) => const BankAccountInfoScreen()));
+        }
       } else {
-        if (context.mounted) Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => TrackBud()));
+        if (context.mounted) {
+          Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => TrackBud()));
+        }
       }
     } else {
-      if (context.mounted) _showErrorSnackBar(context, "Benutzerinformationen konnten nicht abgerufen werden.");
+      if (context.mounted) {
+        _showErrorSnackBar(
+            context, "Benutzerinformationen konnten nicht abgerufen werden.");
+      }
     }
   }
 
@@ -134,7 +160,8 @@ class AuthService {
   }
 
   // Method to send a verification link for email update
-  Future<void> sendEmailUpdateVerificationLink(String newEmail, String password) async {
+  Future<void> sendEmailUpdateVerificationLink(
+      String newEmail, String password) async {
     User? user = _firebaseAuth.currentUser;
 
     if (user != null) {
@@ -143,16 +170,17 @@ class AuthService {
         await _reauthenticateUser(user, password);
 
         // Temporarily store the new email in Firestore
-        await _firestoreService.storeNewEmail(user.uid, newEmail);
+        await firestoreService.storeNewEmail(user.uid, newEmail);
 
         // Create an action code settings to control the verification process
         ActionCodeSettings actionCodeSettings = ActionCodeSettings(
-          url: 'https://yourapp.page.link/verify-email', // Replace with your dynamic link or app link
+          url:
+              'https://trackbud2.page.link/verify-email', // Replace with your dynamic link or app link
           handleCodeInApp: true,
-          androidPackageName: 'com.yourapp.package',
-          androidInstallApp: true,
+          androidPackageName: 'com.example.track_bud',
+          androidInstallApp: false,
           androidMinimumVersion: '12',
-          iOSBundleId: 'com.yourapp.bundleid',
+          iOSBundleId: 'com.example.trackBud',
         );
 
         // Send a verification email to the new email address
@@ -172,21 +200,29 @@ class AuthService {
   }
 
   // After verification, update the user's email
-  Future<void> updateEmailAfterVerification(String userId) async {
+  Future<void> updateEmailAfterVerification(
+      String userId, String enteredPassword) async {
     User? user = _firebaseAuth.currentUser;
 
     if (user != null && user.emailVerified) {
       try {
         // Retrieve the stored email from Firestore
-        String? newEmail = await _firestoreService.getPendingNewEmail(userId);
+        String? newEmail = await firestoreService.getPendingNewEmail(userId);
 
         if (newEmail != null) {
+          // Re-authenticate the user before updating the email in Firebase Auth
+          await _reauthenticateUser(user, enteredPassword);
+
           // Update the email in Firebase Auth
-          await user.updateEmail(newEmail);
+          await user.verifyBeforeUpdateEmail(newEmail);
           debugPrint('Email successfully updated to $newEmail.');
 
-          // Optionally, clear the pending email in Firestore
-          await _firestoreService.clearPendingNewEmail(userId);
+          // Update the email in Firestore
+          await firestoreService.updateEmailInFirestore(userId, newEmail);
+          debugPrint('Email successfully updated to $newEmail in Firestore.');
+
+          // Clear the pending email in Firestore
+          await firestoreService.clearPendingNewEmail(userId);
         } else {
           debugPrint('No pending email found.');
         }
@@ -200,19 +236,24 @@ class AuthService {
   }
 
   // Create user record in Firestore
-  Future<void> _createUserRecord(UserCredential userCredential, String name) async {
+  Future<void> _createUserRecord(
+      UserCredential userCredential, String name) async {
     UserModel newUser = UserModel(
       userId: userCredential.user!.uid,
       email: userCredential.user!.email!,
       name: name,
-      profilePictureUrl: '', // Initial value, could be updated later
+      profilePictureUrl: userCredential.user!.photoURL ?? '',
       bankAccountBalance: -1,
       monthlySpendingGoal: -1,
-      settings: {}, // Default settings or get from user input
+      settings: {}, // Default settings oder vom Benutzer eingeben lassen
       friends: [],
     );
 
-    await _firestoreService.addUserIfNotExists(newUser);
+    await firestoreService.addUserIfNotExists(newUser);
+  }
+
+  Future<bool> checkUserExists(String userId) async {
+    return await firestoreService.checkUserExists(userId);
   }
 
   // Handle new Google user
@@ -229,7 +270,7 @@ class AuthService {
         friends: [],
       );
 
-      await _firestoreService.addUserIfNotExists(newUser);
+      await firestoreService.addUserIfNotExists(newUser);
     }
   }
 

@@ -24,10 +24,7 @@ class DefaultFirebaseOptions {
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for android - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return android;
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
@@ -53,11 +50,20 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDWYofgzQ0tCDtkyuGcrfbJLd65xcMrMgU',
-    appId: '1:396460984054:ios:3aa88bf4ef0a53d4520ed7',
-    messagingSenderId: '396460984054',
-    projectId: 'trackbud-privat-test',
-    storageBucket: 'trackbud-privat-test.appspot.com',
+    apiKey: 'AIzaSyBW4H597p54xPzbv7xXCXIpoN2H5DuvkqI',
+    appId: '1:82149486118:ios:8b8dc1dc3a73462d2780e7',
+    messagingSenderId: '82149486118',
+    projectId: 'trackbud-a5d20',
+    storageBucket: 'trackbud-a5d20.appspot.com',
     iosBundleId: 'com.example.trackBud',
   );
+
+  static const FirebaseOptions android = FirebaseOptions(
+    apiKey: 'AIzaSyCwNpwhY1UcNu_0raoOn0k1i7hKH2m8eSc',
+    appId: '1:82149486118:android:fb150e9d6032a84b2780e7',
+    messagingSenderId: '82149486118',
+    projectId: 'trackbud-a5d20',
+    storageBucket: 'trackbud-a5d20.appspot.com',
+  );
+
 }

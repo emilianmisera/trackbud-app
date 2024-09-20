@@ -24,7 +24,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   // signup user
   Future<void> signUp() async {
-    final AuthService auth = AuthService();
+    final FirebaseService firebase = FirebaseService();
     // Retrieve user inputs
     String name = _name.text.trim();
     String email = _email.text.trim();
@@ -46,7 +46,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       try {
         debugPrint('signup_screen: signUp -> try to create user');
         // Create user in Firebase Authentication
-        UserCredential userCredential = await auth.signUpWithEmailAndPassword(_email.text, _password.text);
+        UserCredential userCredential = await firebase.signUpWithEmailAndPassword(email, password, name);
         debugPrint('signup_screen: signUp -> try to create user -> sucess!');
         if (userCredential.user != null) {
           debugPrint('signup_screen: signUp -> adding user data');

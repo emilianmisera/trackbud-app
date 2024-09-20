@@ -21,12 +21,12 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _email = TextEditingController();
   final TextEditingController _password = TextEditingController();
 
-  final AuthService _authService = AuthService();
+  final FirebaseService _firebaseService = FirebaseService();
 
   Future<void> _handleGoogleSignIn() async {
     try {
       // Versuche, den Benutzer mit Google anzumelden
-      await _authService.signInWithGoogle(context);
+      await _firebaseService.signInWithGoogle(context);
 
       // Zeige eine Erfolgsmeldung an
       if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(AppTexts.successfulLogin)));
@@ -37,7 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _loginUser() async {
-    final AuthService authService = AuthService();
+    final FirebaseService authService = FirebaseService();
     String email = _email.text.trim();
     String password = _password.text.trim();
 

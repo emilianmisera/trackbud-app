@@ -14,17 +14,19 @@ import 'package:track_bud/utils/textfields/textfield.dart';
 import 'package:track_bud/utils/textinput_format.dart';
 
 // Widget for adding new split
-class AddSplit extends StatefulWidget {
+class AddGroupSplit extends StatefulWidget {
   final List<String>? list;
+  final String? friendId;
   final String? friendName;
   final bool? isGroup;
-  const AddSplit({this.list, this.friendName, this.isGroup, super.key});
+  final String? groupId;
+  const AddGroupSplit({this.list,this.friendId, this.friendName, this.isGroup, this.groupId, super.key});
 
   @override
-  State<AddSplit> createState() => _AddSplitState();
+  State<AddGroupSplit> createState() => _AddSplitState();
 }
 
-class _AddSplitState extends State<AddSplit> {
+class _AddSplitState extends State<AddGroupSplit> {
   final TextEditingController _titleController = TextEditingController(); // title input
   final TextEditingController _amountController = TextEditingController(); // amount input
   String? _selectedCategory;
@@ -158,10 +160,10 @@ class _AddSplitState extends State<AddSplit> {
             ),
             const Gap(CustomPadding.defaultSpace),
 
-            if (_selectedSplitMethod == SplitMethod.equal)
+            /*if (_selectedSplitMethod == SplitMethod.equal)
               EqualSplitWidget(
                 amount: _inputNumber,
-                names: widget.list ?? ['Dir', widget.friendName ?? '**Friend Name**'],
+                users: [widget.currentUser, widget.selectedFriend],
                 isGroup: widget.isGroup ?? true,
               ),
             if (_selectedSplitMethod == SplitMethod.percent)
@@ -172,7 +174,7 @@ class _AddSplitState extends State<AddSplit> {
             if (_selectedSplitMethod == SplitMethod.amount)
               ByAmountSplitWidget(
                 names: widget.list ?? ['Dir', widget.friendName ?? '**Friend Name**'],
-              )
+              )*/
           ],
         ),
       ),

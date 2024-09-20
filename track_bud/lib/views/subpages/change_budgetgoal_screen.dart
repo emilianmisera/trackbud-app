@@ -1,7 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:track_bud/controller/user_controller.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfields/textfield_amount_of_money.dart';
@@ -20,16 +20,15 @@ class _ChangeBudgetGoalScreenState extends State<ChangeBudgetGoalScreen> {
   @override
   void initState() {
     super.initState();
-    //_loadCurrentBudgetGoal(); // Load bank account info when screen is initialized
+    _loadCurrentBudgetGoal(); 
   }
 
-/*
   Future<void> _loadCurrentBudgetGoal() async {
     final String userId = FirebaseAuth.instance.currentUser?.uid ?? '';
 
     if (userId.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text("Benutzer nicht angemeldet."),
         ),
       );
@@ -37,31 +36,48 @@ class _ChangeBudgetGoalScreenState extends State<ChangeBudgetGoalScreen> {
     }
 
     try {
-      UserModel? localUser = await SQLiteService().getUserById(userId);
-      print(
-          'Loaded user budgetgoal from SQLite: ${localUser?.monthlySpendingGoal}');
-      await DependencyInjector.syncService.syncData(userId);
-      if (localUser != null) {
-        setState(() {
-          _moneyController.text =
-              localUser.monthlySpendingGoal.toStringAsFixed(2);
-        });
+      // Fetch user data directly from Firestore
+      final userDoc = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userId)
+          .get();
+
+      if (userDoc.exists) {
+        final userData = userDoc.data();
+        if (userData != null && userData.containsKey('monthlySpendingGoal'))
+ {
+          setState(() {
+            _moneyController.text = userData['monthlySpendingGoal'].toStringAsFixed(2);
+          });
+        } else {
+          // Handle case where budget goal is not found in Firestore
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text("Budgetziel nicht gefunden."),
+            ),
+          );
+        }
+      } else {
+        // Handle case where user document is not found in Firestore
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Benutzerdaten nicht gefunden."),
+          ),
+        );
       }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text("Fehler beim Laden des Bankkontostands: $e"),
+          content: Text("Fehler beim Laden des Budgetziels: $e"),
         ),
       );
     }
   }
-*/
+
   Future<void> _saveBudgetGoal() async {
-    // Get the current user's ID
     final String userId = FirebaseAuth.instance.currentUser?.uid ?? '';
 
     if (userId.isEmpty) {
-      // Handle the case when user ID is not available
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text("Benutzer nicht angemeldet."),
@@ -91,19 +107,30 @@ class _ChangeBudgetGoalScreenState extends State<ChangeBudgetGoalScreen> {
     }
 
     try {
-      // Call the UserController to update the bank account information
-      await UserController().updateBudgetGoal(userId, amount);
+      // Update budget goal directly in Firestore
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userId)
+          .update({'monthlySpendingGoal': amount});
 
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Budget erfolgreich aktualisiert.")),
-        );
-        Navigator.pop(context);
-      }
+      // If you have a UserController, you might want to update it as well
+      // await UserController().updateBudgetGoal(userId, amount); 
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Budget erfolgreich aktualisiert."),
+        ),
+      );
+      Navigator.pop(context);
     } catch (e) {
-      if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Fehler beim Speichern des Budgets: $e")));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Fehler beim Speichern des Budgets: $e"),
+        ),
+      );
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -114,7 +141,8 @@ class _ChangeBudgetGoalScreenState extends State<ChangeBudgetGoalScreen> {
           // Padding adds spacing around the content inside the screen.
           padding: EdgeInsets.only(
             top: MediaQuery.sizeOf(context).height * CustomPadding.topSpace -
-                Constants.defaultAppBarHeight, // Top padding based on screen height
+                Constants
+                    .defaultAppBarHeight, // Top padding based on screen height
             left: CustomPadding.defaultSpace, // Left padding
             right: CustomPadding.defaultSpace, // Right padding
           ),
@@ -123,17 +151,21 @@ class _ChangeBudgetGoalScreenState extends State<ChangeBudgetGoalScreen> {
             children: [
               Text(
                 AppTexts.changeBudgetGoalHeading, // The heading text
-                style: TextStyles.headingStyle, // The text style for the heading.
+                style:
+                    TextStyles.headingStyle, // The text style for the heading.
               ),
               const Gap(
-                CustomPadding.mediumSpace, // Adds vertical space between the heading and the next element.
+                CustomPadding
+                    .mediumSpace, // Adds vertical space between the heading and the next element.
               ),
               Text(
                 AppTexts.changeBudgetGoalDescribtion, // The description text
-                style: TextStyles.hintStyleDefault, // The text style for the description.
+                style: TextStyles
+                    .hintStyleDefault, // The text style for the description.
               ),
               const Gap(
-                CustomPadding.bigSpace, // Adds more vertical space before the next element.
+                CustomPadding
+                    .bigSpace, // Adds more vertical space before the next element.
               ),
               // A custom TextField widget for entering the amount of money, using the controller defined above.
               TextFieldAmountOfMoney(
@@ -147,15 +179,20 @@ class _ChangeBudgetGoalScreenState extends State<ChangeBudgetGoalScreen> {
       bottomSheet: Container(
         // Margin is applied to the bottom of the button and the sides for proper spacing.
         margin: EdgeInsets.only(
-          bottom: MediaQuery.sizeOf(context).height * CustomPadding.bottomSpace, // Bottom margin based on screen height
+          bottom: MediaQuery.sizeOf(context).height *
+              CustomPadding.bottomSpace, // Bottom margin based on screen height
           left: CustomPadding.defaultSpace, // Left margin
           right: CustomPadding.defaultSpace, // Right margin
         ),
-        width: MediaQuery.of(context).size.width, // Set the button width to match the screen width
+        width: MediaQuery.of(context)
+            .size
+            .width, // Set the button width to match the screen width
         child: ElevatedButton(
           // Saving Button
-          onPressed: () => _saveBudgetGoal(),
-          child: Text(AppTexts.save),
+          onPressed: _saveBudgetGoal,
+          child: Text(
+            AppTexts.save,
+          ),
         ),
       ),
     );
