@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "40670581765",
-    "project_id": "trackbud-43f8a",
-    "storage_bucket": "trackbud-43f8a.appspot.com"
+    "project_number": "82149486118",
+    "project_id": "trackbud-a5d20",
+    "storage_bucket": "trackbud-a5d20.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:40670581765:android:38fdf4a8e879d5ddf1f86c",
+        "mobilesdk_app_id": "1:82149486118:android:fb150e9d6032a84b2780e7",
         "android_client_info": {
           "package_name": "com.example.track_bud"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAeQREZD_X5VHjks-Zj9wwidIe9yvZ79hQ"
+          "current_key": "AIzaSyCwNpwhY1UcNu_0raoOn0k1i7hKH2m8eSc"
         }
       ],
       "services": {
