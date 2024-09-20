@@ -5,13 +5,13 @@ class TransactionModel {
   String userId;
   String title;
   double amount;
-  String type;  // 'expense' or 'income'
+  String type; // 'expense' or 'income'
   String category;
-  String notes;
+  String note;
   DateTime date;
   String billImageUrl;
   String currency;
-  String recurrenceType;  // 'daily', 'weekly', 'monthly', 'one-time'
+  String recurrence; // 'daily', 'weekly', 'monthly', 'one-time'
 
   TransactionModel({
     required this.transactionId,
@@ -20,11 +20,11 @@ class TransactionModel {
     required this.amount,
     required this.type,
     required this.category,
-    required this.notes,
+    required this.note,
     required this.date,
     required this.billImageUrl,
     required this.currency,
-    required this.recurrenceType,
+    required this.recurrence,
   });
 
   factory TransactionModel.fromMap(Map<String, dynamic> map) {
@@ -35,11 +35,13 @@ class TransactionModel {
       amount: map['amount'].toDouble(),
       type: map['type'],
       category: map['category'],
-      notes: map['notes'],
-      date: map['date'] is Timestamp ? (map['date'] as Timestamp).toDate() : DateTime.fromMillisecondsSinceEpoch(map['date'] as int),
+      note: map['note'],
+      date: map['date'] is Timestamp
+          ? (map['date'] as Timestamp).toDate()
+          : DateTime.fromMillisecondsSinceEpoch(map['date'] as int),
       billImageUrl: map['billImageUrl'],
       currency: map['currency'],
-      recurrenceType: map['recurrenceType'],
+      recurrence: map['recurrence'],
     );
   }
 
@@ -51,11 +53,11 @@ class TransactionModel {
       'amount': amount,
       'type': type,
       'category': category,
-      'notes': notes,
+      'note': note,
       'date': date.millisecondsSinceEpoch,
       'billImageUrl': billImageUrl,
       'currency': currency,
-      'recurrenceType': recurrenceType,
+      'recurrence': recurrence,
     };
   }
 
