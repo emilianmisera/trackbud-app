@@ -37,7 +37,7 @@ class OverviewScreen extends StatelessWidget {
             const Gap(CustomPadding.defaultSpace),
 
             Text(AppTexts.history, style: TextStyles.regularStyleMedium),
-            const TransactionHistoryList()
+            const TransactionHistoryList(transactionType: 'expense')
           ],
         ),
       ),
