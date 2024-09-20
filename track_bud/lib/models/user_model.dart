@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 class UserModel {
   String userId;
   String email;
@@ -23,22 +21,14 @@ class UserModel {
 
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
-      userId: map['userId'],
-      email: map['email'],
-      name: map['name'],
+      userId: map['userId'] ?? '',
+      email: map['email'] ?? '',
+      name: map['name'] ?? '',
       profilePictureUrl: map['profilePictureUrl'] ?? '',
-      bankAccountBalance: map['bankAccountBalance']?.toDouble() ?? 0.0,
-      monthlySpendingGoal: map['monthlySpendingGoal']?.toDouble() ?? 0.0,
-      
-      // Check if settings is a valid JSON string
-      settings: map['settings'] != null && map['settings'] is String && map['settings'].isNotEmpty
-          ? jsonDecode(map['settings']) as Map<String, dynamic>
-          : {}, // Default to an empty Map if null or invalid
-      
-      // Check if friends is a valid JSON string
-      friends: map['friends'] != null && map['friends'] is String && map['friends'].isNotEmpty
-          ? List<String>.from(jsonDecode(map['friends']))
-          : [], // Default to an empty List if null or invalid
+      bankAccountBalance: (map['bankAccountBalance'] ?? 0.0).toDouble(),
+      monthlySpendingGoal: (map['monthlySpendingGoal'] ?? 0.0).toDouble(),
+      settings: map['settings'] is Map ? Map<String, dynamic>.from(map['settings']) : {},
+      friends: map['friends'] is List ? List<String>.from(map['friends']) : [],
     );
   }
 
@@ -50,8 +40,8 @@ class UserModel {
       'profilePictureUrl': profilePictureUrl,
       'bankAccountBalance': bankAccountBalance,
       'monthlySpendingGoal': monthlySpendingGoal,
-      'settings': jsonEncode(settings),
-      'friends': jsonEncode(friends),
+      'settings': settings,
+      'friends': friends,
     };
   }
 }
