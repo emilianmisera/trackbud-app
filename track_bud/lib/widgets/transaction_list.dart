@@ -5,8 +5,11 @@ import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/tiles/transaction/transaction_tile.dart';
 
 class TransactionHistoryList extends StatelessWidget {
+  final String transactionType;
+
   const TransactionHistoryList({
     super.key,
+    required this.transactionType,
   });
 
   @override
@@ -19,28 +22,26 @@ class TransactionHistoryList extends StatelessWidget {
       stream: FirebaseFirestore.instance
           .collection('transactions')
           .where('userId', isEqualTo: user?.uid)
+          .where('type', isEqualTo: transactionType)
           .orderBy('date', descending: true)
           .limit(10)
           .snapshots(),
       builder: (context, snapshot) {
         debugPrint('StreamBuilder: Connection state: ${snapshot.connectionState}');
-
         if (snapshot.hasError) {
           debugPrint('StreamBuilder Error: ${snapshot.error}');
           return Text('Etwas ist schiefgelaufen: ${snapshot.error}');
         }
-
         if (snapshot.connectionState == ConnectionState.waiting) {
           debugPrint('StreamBuilder: Waiting for data');
           return const CircularProgressIndicator();
         }
-
         if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
           debugPrint('StreamBuilder: No data available');
           return const Text('Keine Transaktionen vorhanden');
         }
-
         debugPrint('StreamBuilder: Data received, doc count: ${snapshot.data!.docs.length}');
+
         return ListView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
@@ -50,7 +51,6 @@ class TransactionHistoryList extends StatelessWidget {
             DocumentSnapshot doc = snapshot.data!.docs[index];
             Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
             debugPrint('Building item $index: ${data['title']}');
-
             return Padding(
               padding: const EdgeInsets.only(bottom: CustomPadding.mediumSpace),
               child: TransactionTile(
@@ -61,14 +61,14 @@ class TransactionHistoryList extends StatelessWidget {
                 transactionId: doc.id,
                 notes: data['note'] ?? '',
                 recurrenceType: data['recurrence'] ?? 'Einmalig',
-                type: (data['amount'] as num? ?? 0) < 0 ? 'Ausgabe' : 'Einnahme',
+                type: transactionType == 'expense' ? 'Ausgabe' : 'Einnahme',
                 onDelete: (String id) {
                   debugPrint('Deleting transaction: $id');
                   FirebaseFirestore.instance.collection('transactions').doc(id).delete();
                 },
                 onEdit: (String id) {
                   debugPrint('Editing transaction: $id');
-                  //TODO:  Implement edit functionality
+                  //TODO: Implement edit functionality
                 },
               ),
             );
