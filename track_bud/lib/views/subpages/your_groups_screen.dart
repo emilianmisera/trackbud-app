@@ -28,7 +28,9 @@ class _YourGroupsScreenState extends State<YourGroupsScreen> {
   @override
   void initState() {
     super.initState();
-    _loadGroups();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _loadGroups();
+    });
   }
 
   Future<void> _loadGroups() async {
