@@ -5,18 +5,17 @@ import 'package:track_bud/utils/shadow.dart';
 import 'package:track_bud/utils/textfields/textfield_split_by_amount.dart';
 
 /// Widget for displaying split by amount tile
-class ByAmountTile extends StatefulWidget {
-  // Name of the person (null for 'Du')
-  final UserModel user; // Add this to receive UserModel
+class ByAmountTile extends StatelessWidget {
+  final UserModel user;
+  final TextEditingController controller;
+  final ValueChanged<String> onAmountChanged;
 
-  const ByAmountTile({super.key, required this.user});
-  @override
-  State<ByAmountTile> createState() => _ByAmountTileState();
-}
-
-class _ByAmountTileState extends State<ByAmountTile> {
-  // Controller for the input text field
-  final TextEditingController _inputController = TextEditingController();
+  const ByAmountTile({
+    super.key,
+    required this.user,
+    required this.controller,
+    required this.onAmountChanged, // Accepting a ValueChanged<String> callback
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -34,25 +33,24 @@ class _ByAmountTileState extends State<ByAmountTile> {
             child: SizedBox(
               width: 40,
               height: 40,
-              // Use profilePictureUrl from UserModel
-              child: widget.user.profilePictureUrl.isNotEmpty
-                  ? Image.network(widget.user.profilePictureUrl,
-                      fit: BoxFit.cover)
+              child: user.profilePictureUrl.isNotEmpty
+                  ? Image.network(user.profilePictureUrl, fit: BoxFit.cover)
                   : const Icon(Icons.person, color: Colors.grey),
             ),
           ),
-          title: Text(widget.user.name, style: TextStyles.regularStyleDefault),
+          title: Text(user.name, style: TextStyles.regularStyleDefault),
           trailing: Container(
-              width: 80,
-              decoration: BoxDecoration(
-                  border: Border.all(color: CustomColor.grey),
-                  borderRadius:
-                      BorderRadius.circular(Constants.contentBorderRadius)),
-              child: TextFieldByAmount(
-                controller: _inputController,
-                inputStyle: TextStyles.regularStyleDefault,
-                suffixStyle: TextStyles.regularStyleDefault,
-              )),
+            width: 80,
+            decoration: BoxDecoration(
+                border: Border.all(color: CustomColor.grey),
+                borderRadius: BorderRadius.circular(Constants.contentBorderRadius)),
+            child: TextFieldByAmount(
+              controller: controller,
+              inputStyle: TextStyles.regularStyleDefault,
+              suffixStyle: TextStyles.regularStyleDefault,
+              onChanged: onAmountChanged, // Passing the callback here
+            ),
+          ),
         ),
       ),
     );
