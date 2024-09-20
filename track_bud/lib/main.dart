@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:track_bud/firebase_options.dart';
 import 'package:track_bud/provider/group_provider.dart';
+import 'package:track_bud/provider/transaction_provider.dart';
 import 'package:track_bud/provider/user_provider.dart';
 import 'package:track_bud/trackbud.dart';
 import 'package:track_bud/utils/color_theme.dart';
@@ -37,6 +38,7 @@ void main() async {
       providers: [
         ChangeNotifierProvider(create: (_) => UserProvider()),
         ChangeNotifierProvider(create: (_) => GroupProvider()),
+        ChangeNotifierProvider(create: (_) => TransactionProvider()),
       ],
       child: const MainApp(),
     ),
