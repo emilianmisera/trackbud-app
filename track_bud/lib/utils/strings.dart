@@ -141,7 +141,7 @@ class AppTexts {
   //edit transaction page
   static String editTransaction = "Transaktion bearbeiten";
   //new split
-  static String newSplit = 'Neuer Split';
+  static String newFriendSplit = 'Split mit: ';
   static String newGroupSplit = 'Neuer Gruppensplit';
   static String debt = 'Schulde';
   static String giveOut = 'Ausgegeben';
@@ -158,7 +158,8 @@ class AppTexts {
   //your_friends_screen & your_groups_screen
   static String yourFriends = 'Deine Freunde';
   static String search = 'Suchen...';
-  static String addFriend = 'Freund hinzufügen';
+  static String shareFriendLink = 'Link teilen';
+  static String addFriend = 'Freund suchen';
   static String yourGroups = 'Deine Gruppen';
   static String addGroup = 'Gruppe erstellen';
   static String groupNameHint = 'Gruppenname';
