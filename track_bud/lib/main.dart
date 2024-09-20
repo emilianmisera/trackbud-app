@@ -38,7 +38,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => UserProvider()),
         ChangeNotifierProvider(create: (_) => GroupProvider()),
       ],
-      child: MainApp(),
+      child: const MainApp(),
     ),
   );
 }
