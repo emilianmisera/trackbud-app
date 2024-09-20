@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:track_bud/models/user_model.dart';
 import 'package:track_bud/utils/plus_button/split/split_methods/percent/percent_tile.dart';
 import 'package:track_bud/utils/constants.dart';
 
@@ -8,12 +9,12 @@ class PercentalSplitWidget extends StatefulWidget {
   // Total amount to be split
   final double amount;
   // List of names of people involved in the split
-  final List<String> names;
+final List<UserModel> users; // Change to List<UserModel>
 
   const PercentalSplitWidget({
     super.key,
     required this.amount,
-    required this.names,
+    required this.users,
   });
 
   @override
@@ -28,13 +29,13 @@ class _PercentalSplitWidgetState extends State<PercentalSplitWidget> {
   void initState() {
     super.initState();
     // Initialize slider values equally among all people
-    _sliderValues = List.filled(widget.names.length, 100 / widget.names.length);
+    _sliderValues = List.filled(widget.users.length, 100 / widget.users.length);
   }
 
   // Method to update slider values
   void updateSlider(int index, double value) {
     setState(() {
-      if (widget.names.length == 2) {
+      if (widget.users.length == 2) {
         // For two people: automatic adjustment
         _sliderValues[index] = value;
         _sliderValues[1 - index] = 100 - value;
@@ -50,12 +51,12 @@ class _PercentalSplitWidgetState extends State<PercentalSplitWidget> {
     return ListView.separated(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      itemCount: widget.names.length,
+      itemCount: widget.users.length,
       separatorBuilder: (context, index) => const Gap(CustomPadding.mediumSpace),
       itemBuilder: (context, index) {
         return PercentTile(
           amount: widget.amount,
-          name: widget.names[index],
+          user: widget.users[index], // Pass the UserModel
           sliderValue: _sliderValues[index],
           onChanged: (value) => updateSlider(index, value),
         );
