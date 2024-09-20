@@ -5,8 +5,8 @@ class InviteService {
   Future<String> createInviteLink(String userId) async {
     try {
       final DynamicLinkParameters parameters = DynamicLinkParameters(
-        uriPrefix: 'https://trackbud.page.link', // Prüfe deine URI-Präfix
-        link: Uri.parse('https://trackbud.com/friend_invite?userId=$userId'),
+        uriPrefix: 'https://trackbud2.page.link', // Prüfe deine URI-Präfix
+        link: Uri.parse('https://trackbud2.com/friend_invite?userId=$userId'),
         androidParameters: const AndroidParameters(
           packageName: 'com.example.track_bud',
         ),
