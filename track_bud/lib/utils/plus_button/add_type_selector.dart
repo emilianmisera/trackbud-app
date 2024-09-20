@@ -26,8 +26,10 @@ class _AddTypeSelectorState extends State<AddTypeSelector> {
   @override
   void initState() {
     super.initState();
-    _loadUserData();
-    _loadGroups();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _loadUserData();
+      _loadGroups();
+    });
   }
 
   Future<void> _loadUserData() async {
@@ -132,6 +134,11 @@ class _AddTypeSelectorState extends State<AddTypeSelector> {
                     return Text('Error: ${snapshot.error}');
                   } else {
                     final friends = snapshot.data!;
+                    if (friends.isEmpty) {
+                      // Display "Keine Freunde gefunden" message
+                      return const Center(
+                          child: Text("Keine Freunde gefunden."));
+                    }
                     return ListView.builder(
                       itemCount: friends.length,
                       itemBuilder: (context, index) {
