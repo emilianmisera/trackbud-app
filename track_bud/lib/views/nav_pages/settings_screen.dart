@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -24,7 +25,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   final TextEditingController _passwordController = TextEditingController();
   // State variables to hold user info
   final User? user = FirebaseAuth.instance.currentUser;
-  final AuthService _authService = AuthService();
+  final FirebaseService _firebaseService = FirebaseService();
   String currentUserName = '';
   String currentUserEmail = '';
   String? _profileImageUrl;
@@ -33,7 +34,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   void initState() {
     super.initState();
-    //_loadCurrentUserInfo();
+    _loadUserData();
   }
 
 // DELETE USER ACCOUNT (dont delete from firestore DB yet, so friends still see shared costs etc)
@@ -43,19 +44,28 @@ class _SettingsScreenState extends State<SettingsScreen> {
       String password = _passwordController.text;
 
       // Attempt to delete the user account
-      await _authService.deleteUserAccount(password);
+      await _firebaseService.deleteUserAccount(password);
 
       submit();
 
       // Show success message and navigate away or logout the user
-      if (context.mounted) ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Konto erfolgreich gelöscht.')));
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Konto erfolgreich gelöscht.')));
+      }
 
       // navigate the user to a login or home screen after deletion
-      if (context.mounted) Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const OnboardingScreen()));
+      if (context.mounted) {
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => const OnboardingScreen()));
+      }
     } catch (e) {
       submit();
       // Show error message if something goes wrong
-      if (context.mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Fehler beim Löschen des Kontos: $e')));
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Fehler beim Löschen des Kontos: $e')));
+      }
     }
   }
 
@@ -65,52 +75,68 @@ class _SettingsScreenState extends State<SettingsScreen> {
     Navigator.of(context).pop();
   }
 
-/*
-  Future<void> _loadCurrentUserInfo() async {
-    final String userId = FirebaseAuth.instance.currentUser?.uid ?? '';
+  Future<Map<String, dynamic>> getCurrentUserData() async {
+    if (user != null) {
+      try {
+        debugPrint('Attempting to fetch data for user ID: ${user!.uid}');
+        DocumentSnapshot<Map<String, dynamic>> snapshot =
+            await FirebaseFirestore.instance
+                .collection('users')
+                .doc(user!.uid)
+                .get();
 
-    if (userId.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text("Benutzer nicht angemeldet."),
-        ),
-      );
-      return;
-    }
-
-    try {
-      print("User ID: $userId");
-
-      UserModel? localUser = await SQLiteService().getUserById(userId);
-      print("Local User: ${localUser?.toMap()}");
-
-      await DependencyInjector.syncService.syncData(userId);
-      print("Synchronization complete");
-
-      if (localUser != null) {
-        setState(() {
-          currentUserName = localUser.name;
-          currentUserEmail = localUser.email;
-          _profileImageUrl = localUser.profilePictureUrl;
-        });
+        if (snapshot.exists) {
+          debugPrint('Document data: ${snapshot.data()}');
+          return snapshot.data() ?? {};
+        } else {
+          debugPrint('User document does not exist');
+          return {};
+        }
+      } catch (e) {
+        debugPrint('Error fetching user data: $e');
+        return {};
       }
-    } catch (e, stackTrace) {
-      print("Fehler beim Laden der Nutzerdaten: $e");
-      print("Stacktrace: $stackTrace");
+    }
+    debugPrint('null');
+    return {};
+  }
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Fehler beim Laden der Nutzerdaten: $e")),
-      );
+  Future<void> _loadUserData() async {
+    try {
+      Map<String, dynamic> userData = await getCurrentUserData();
+      debugPrint('Received user data: $userData');
+      setState(() {
+        currentUserName = userData['name'] ?? 'Unbekannter Benutzer';
+        currentUserName == 'Unbekannter Benutzer'
+            ? debugPrint('Name field not found in user data')
+            : null;
+
+        currentUserEmail = userData['email'] ?? '';
+        currentUserEmail == ''
+            ? debugPrint('email field not found in user data')
+            : null;
+
+        _profileImageUrl = userData['profilePictureUrl'] ?? '';
+        _profileImageUrl == ''
+            ? debugPrint('email field not found in user data')
+            : null;
+        isLoading = false;
+      });
+    } catch (e) {
+      debugPrint('Error in _loadUserData: $e');
+      setState(() {
+        currentUserName = 'Fehler beim Laden der Benutzerdaten: $e';
+        isLoading = false;
+      });
     }
   }
-*/
 
   Future<void> logout() async {
-    final AuthService authService = AuthService();
+    final FirebaseService firebaseService = FirebaseService();
 
     try {
       debugPrint('logout: Versuche, den Benutzer abzumelden...');
-      await authService.signOut();
+      await firebaseService.signOut();
       debugPrint('logout: Benutzer erfolgreich abgemeldet');
       if (mounted) {
         // Navigieren Sie zur Login-Seite und entfernen Sie alle vorherigen Routen
@@ -135,7 +161,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
       child: Padding(
           // spacing between content and screen
           padding: EdgeInsets.only(
-              top: MediaQuery.sizeOf(context).height * CustomPadding.topSpaceSettingsScreen,
+              top: MediaQuery.sizeOf(context).height *
+                  CustomPadding.topSpaceSettingsScreen,
               left: CustomPadding.defaultSpace,
               right: CustomPadding.defaultSpace),
           child: Column(
@@ -147,34 +174,50 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   child: SizedBox(
                     width: Constants.profilePictureSettingPage,
                     height: Constants.profilePictureSettingPage,
-                    child: _profileImageUrl != null && _profileImageUrl!.isNotEmpty
-                        ? Image.network(
-                            _profileImageUrl!,
-                            fit: BoxFit.cover,
-                            errorBuilder: (context, error, stackTrace) {
-                              return const Icon(Icons.person, size: 100, color: Colors.grey);
-                            },
-                          )
-                        : const Icon(Icons.person, size: 50, color: Colors.grey),
+                    child:
+                        _profileImageUrl != null && _profileImageUrl!.isNotEmpty
+                            ? Image.network(
+                                _profileImageUrl!,
+                                fit: BoxFit.cover,
+                                errorBuilder: (context, error, stackTrace) {
+                                  return const Icon(Icons.person,
+                                      size: 100, color: Colors.grey);
+                                },
+                              )
+                            : const Icon(Icons.person,
+                                size: 50, color: Colors.grey),
                   ),
                 ),
               ),
               const Gap(CustomPadding.mediumSpace),
               Center(
                   // Username
-                  child: Text(currentUserName, style: TextStyles.titleStyleMedium)),
+                  child: Text(currentUserName,
+                      style: TextStyles.titleStyleMedium)),
               const Gap(CustomPadding.smallSpace),
               Center(
                   //email
-                  child: Text(currentUserEmail, style: TextStyles.hintStyleDefault)),
+                  child: Text(currentUserEmail,
+                      style: TextStyles.hintStyleDefault)),
               const Gap(CustomPadding.bigbigSpace),
               Text(AppTexts.preferences, style: TextStyles.regularStyleMedium),
               const Gap(CustomPadding.defaultSpace),
               CustomShadow(
                 // edit Profile Button
                 child: TextButton.icon(
-                  onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const ProfileSettingsScreen())),
-                  label: Text(AppTexts.editProfile, style: TextStyles.regularStyleDefault),
+                  onPressed: () async {
+                    final bool? result = await Navigator.push<bool>(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const ProfileSettingsScreen()),
+                    );
+                    if (result == true) {
+                      // Reload user data if changes were made
+                      _loadUserData();
+                    }
+                  },
+                  label: Text(AppTexts.editProfile,
+                      style: TextStyles.regularStyleDefault),
                   icon: SvgPicture.asset(AssetImport.userEdit),
                   style: const ButtonStyle(
                     alignment: Alignment.centerLeft,
@@ -185,8 +228,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
               CustomShadow(
                 // accAdjustment button
                 child: TextButton.icon(
-                  onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const AccountSettingsScreen())),
-                  label: Text(AppTexts.accAdjustments, style: TextStyles.regularStyleDefault),
+                  onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const AccountSettingsScreen())),
+                  label: Text(AppTexts.accAdjustments,
+                      style: TextStyles.regularStyleDefault),
                   icon: SvgPicture.asset(AssetImport.settings),
                   style: const ButtonStyle(alignment: Alignment.centerLeft),
                 ),
@@ -195,8 +242,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
               CustomShadow(
                 // notification button
                 child: TextButton.icon(
-                  onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const NotificationsSettingsScreen())),
-                  label: Text(AppTexts.notifications, style: TextStyles.regularStyleDefault),
+                  onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              const NotificationsSettingsScreen())),
+                  label: Text(AppTexts.notifications,
+                      style: TextStyles.regularStyleDefault),
                   icon: SvgPicture.asset(AssetImport.bell),
                   style: const ButtonStyle(alignment: Alignment.centerLeft),
                 ),
@@ -205,8 +257,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
               CustomShadow(
                 // aboutTrackbut button
                 child: TextButton.icon(
-                  onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const AboutTrackbudScreen())),
-                  label: Text(AppTexts.abouTrackBud, style: TextStyles.regularStyleDefault),
+                  onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const AboutTrackbudScreen())),
+                  label: Text(AppTexts.abouTrackBud,
+                      style: TextStyles.regularStyleDefault),
                   icon: SvgPicture.asset(AssetImport.info),
                   style: const ButtonStyle(alignment: Alignment.centerLeft),
                 ),
@@ -216,7 +272,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 // Logout Button
                 child: TextButton.icon(
                   onPressed: () => logout(),
-                  label: Text(AppTexts.logout, style: TextStyles.regularStyleDefault),
+                  label: Text(AppTexts.logout,
+                      style: TextStyles.regularStyleDefault),
                   icon: SvgPicture.asset(AssetImport.logout),
                   style: const ButtonStyle(alignment: Alignment.centerLeft),
                 ),
@@ -227,7 +284,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 child: TextButton.icon(
                   onPressed: () => showDialog(
                       context: context,
-                      builder: (context) => DeleteAccountPopUp(onPressed: () => _handleAccountDeletion(context))), //_handleAccountDeletion,
+                      builder: (context) => DeleteAccountPopUp(
+                          onPressed: () => _handleAccountDeletion(
+                              context))), //_handleAccountDeletion,
                   label: Text(
                     AppTexts.deleteAcc,
                     style: const TextStyle(
@@ -239,7 +298,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                   icon: SvgPicture.asset(
                     AssetImport.trash,
-                    colorFilter: const ColorFilter.mode(CustomColor.red, BlendMode.srcIn),
+                    colorFilter: const ColorFilter.mode(
+                        CustomColor.red, BlendMode.srcIn),
                   ),
                   style: const ButtonStyle(
                     alignment: Alignment.centerLeft,
