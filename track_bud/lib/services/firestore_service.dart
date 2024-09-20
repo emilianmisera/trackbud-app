@@ -75,10 +75,11 @@ class FirestoreService {
   Future<bool> checkUserExists(String userId) async {
     try {
       final userDoc = await _db.collection('users').doc(userId).get();
-      return userDoc.exists; // Return true if the document exists, false otherwise
+      return userDoc
+          .exists; // Return true if the document exists, false otherwise
     } catch (e) {
       debugPrint("Error checking if user exists: $e");
-      return false; 
+      return false;
     }
   }
 
@@ -222,9 +223,53 @@ class FirestoreService {
   ------------------------------ FRIEND SPLIT ------------------------------------
   */
 
+  Future<void> addFriendSplit(FriendSplitModel split) async {
+    try {
+      await _db
+          .collection('friend_splits')
+          .doc(split.splitId)
+          .set(split.toMap());
+      debugPrint("Friend split added successfully: ${split.splitId}");
+    } catch (e) {
+      debugPrint("Error adding friend split: $e");
+      rethrow;
+    }
+  }
 
-  Future<void> addFriendSplit(FriendSplitModel split) {
-    return _db.collection('splits').doc(split.splitId).set(split.toMap());
+  // Get Friend Splits for a User
+  Future<List<FriendSplitModel>> getFriendSplits(String userId) async {
+    try {
+      QuerySnapshot splitSnapshot = await _db
+          .collection('friend_splits')
+          .where('creditorId', isEqualTo: userId)
+          .get();
+
+      List<FriendSplitModel> splits = splitSnapshot.docs.map((doc) {
+        Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+        data['splitId'] = doc.id; // Ensure splitId is included in the data
+        return FriendSplitModel.fromMap(data);
+      }).toList();
+
+      debugPrint("Retrieved ${splits.length} friend splits for user $userId");
+      return splits;
+    } catch (e) {
+      debugPrint("Error fetching friend splits: $e");
+      return [];
+    }
+  }
+
+  // Update Friend Split Status
+  Future<void> updateFriendSplitStatus(String splitId, String newStatus) async {
+    try {
+      await _db
+          .collection('friend_splits')
+          .doc(splitId)
+          .update({'status': newStatus});
+      debugPrint("Friend split status updated successfully");
+    } catch (e) {
+      debugPrint("Error updating friend split status: $e");
+      rethrow;
+    }
   }
 
   /*
@@ -252,24 +297,6 @@ class FirestoreService {
     }
   }
 
-  Future<List<GroupModel>> getGroups() async {
-    try {
-      QuerySnapshot groupsSnapshot = await _db.collection('groups').get();
-
-      List<GroupModel> groups = groupsSnapshot.docs.map((doc) {
-        Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
-        data['groupId'] = doc.id; // Ensure groupId is included in the data
-        return GroupModel.fromMap(data);
-      }).toList();
-
-      debugPrint("Retrieved ${groups.length} groups");
-      return groups;
-    } catch (e) {
-      debugPrint("Error fetching groups: $e");
-      return [];
-    }
-  }
-
   Future<List<GroupModel>> getUserGroups(String userId) async {
     try {
       QuerySnapshot groupsSnapshot = await _db
@@ -277,11 +304,15 @@ class FirestoreService {
           .where('members', arrayContains: userId)
           .get();
 
+      if (groupsSnapshot.docs.isEmpty) {
+        debugPrint("No groups found for userId: $userId");
+      }
+
       return groupsSnapshot.docs
           .map((doc) => GroupModel.fromMap(doc.data() as Map<String, dynamic>))
           .toList();
     } catch (e) {
-      debugPrint("Fehler beim Abrufen der Gruppen: $e");
+      debugPrint("Error fetching groups for userId $userId: $e");
       return [];
     }
   }
