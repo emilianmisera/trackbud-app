@@ -26,7 +26,7 @@ class FriendProfileDetails extends StatelessWidget {
           const Gap(CustomPadding.mediumSpace),
 
           // TODO: add Amount Box to display debt amount
-          // This should be implemented to show the actual debt amount
+          // This should be implemented to show the current debt amount
 
           const Gap(CustomPadding.defaultSpace),
 
