@@ -3,19 +3,20 @@ import 'package:flutter/services.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/strings.dart';
 
-
 /// Custom Textfield for Split ByAmount option in MethodSplitSelector (AddSplit)
 class TextFieldByAmount extends StatelessWidget {
   final TextEditingController controller;
   final String? hintText;
   final TextStyle? suffixStyle;
   final TextStyle? inputStyle;
+  final ValueChanged<String>? onChanged;
   const TextFieldByAmount({
     super.key,
     required this.controller,
     this.hintText,
     this.suffixStyle,
     this.inputStyle,
+    this.onChanged,
   });
   @override
   Widget build(BuildContext context) {
