@@ -10,7 +10,7 @@ import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/settings/locked_email_textfield.dart';
 import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfields/textfield.dart';
-import 'package:track_bud/views/at_signup/firestore_service.dart';
+import 'package:track_bud/services/firestore_service.dart';
 import 'package:track_bud/views/subpages/change_email_screen.dart';
 import 'package:track_bud/views/subpages/change_password_screen.dart';
 import 'package:image_picker/image_picker.dart';
@@ -26,23 +26,26 @@ class ProfileSettingsScreen extends StatefulWidget {
 
 class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
   // Controller for the name text field
-  final TextEditingController _nameController = TextEditingController();
+  TextEditingController _nameController = TextEditingController();
 
   // State variables to track changes
   bool _isProfileChanged = false;
-  final String _initialName = '';
+  String currentUserName = '';
   bool _isProfilePictureChanged = false;
   // State variables to hold user info
   String currentUserEmail = '';
-  final String _initialProfileImagePath = '';
+  String _profileImageUrl = '';
   File? _profileImage;
+  bool isLoading = true;
 
   final ImagePicker _picker = ImagePicker();
+
+  final User? user = FirebaseAuth.instance.currentUser;
 
   @override
   void initState() {
     super.initState();
-    //_loadCurrentUserInfo();
+    _loadUserData();
     // Add listener to name controller to detect changes
     _nameController.addListener(_checkIfProfileChanged);
   }
@@ -50,76 +53,103 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
   // Function to check if profile has been modified
   void _checkIfProfileChanged() {
     setState(() {
-      _isProfileChanged = _nameController.text.trim() != _initialName.trim() || _isProfilePictureChanged;
+      _isProfileChanged =
+          _nameController.text.trim() != currentUserName.trim() ||
+              _isProfilePictureChanged;
     });
   }
 
-/*
-  Future<void> _loadCurrentUserInfo() async {
-    final String userId = FirebaseAuth.instance.currentUser?.uid ?? '';
+  Future<Map<String, dynamic>> getCurrentUserData() async {
+    if (user != null) {
+      try {
+        debugPrint('Attempting to fetch data for user ID: ${user!.uid}');
+        DocumentSnapshot<Map<String, dynamic>> snapshot =
+            await FirebaseFirestore.instance
+                .collection('users')
+                .doc(user!.uid)
+                .get();
 
-    if (userId.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text("Benutzer nicht angemeldet."),
-        ),
-      );
-      return;
-    }
-
-    try {
-      UserModel? localUser = await SQLiteService().getUserById(userId);
-      print('Loaded user name from SQLite: ${localUser?.name}');
-      await DependencyInjector.syncService.syncData(userId);
-      if (localUser != null) {
-        setState(() {
-          _initialName = localUser.name;
-          _nameController.text = localUser.name;
-          currentUserEmail = localUser.email;
-          _initialProfileImagePath = localUser.profilePictureUrl;
-        });
+        if (snapshot.exists) {
+          debugPrint('Document data: ${snapshot.data()}');
+          return snapshot.data() ?? {};
+        } else {
+          debugPrint('User document does not exist');
+          return {};
+        }
+      } catch (e) {
+        debugPrint('Error fetching user data: $e');
+        return {};
       }
+    }
+    debugPrint('null');
+    return {};
+  }
+
+  Future<void> _loadUserData() async {
+    try {
+      Map<String, dynamic> userData = await getCurrentUserData();
+      debugPrint('Received user data: $userData');
+      setState(() {
+        currentUserName = userData['name'] ?? 'Unbekannter Benutzer';
+        currentUserName == 'Unbekannter Benutzer'
+            ? debugPrint('Name field not found in user data')
+            : null;
+
+        _nameController.text = currentUserName;
+
+        currentUserEmail = userData['email'] ?? '';
+        currentUserEmail == ''
+            ? debugPrint('email field not found in user data')
+            : null;
+
+        _profileImageUrl = userData['profilePictureUrl'] ?? '';
+        _profileImageUrl == ''
+            ? debugPrint('email field not found in user data')
+            : null;
+        isLoading = false;
+      });
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Fehler beim Laden der Nutzerdaten: $e")),
-      );
+      debugPrint('Error in _loadUserData: $e');
+      setState(() {
+        currentUserName = 'Fehler beim Laden der Benutzerdaten: $e';
+        isLoading = false;
+      });
     }
   }
-*/
+
   // New method to save profile changes
   Future<void> _saveProfileChanges() async {
-    try {
-      final String userId = FirebaseAuth.instance.currentUser?.uid ?? '';
-      if (userId.isNotEmpty) {
-        final updatedName = _nameController.text.trim();
+  try {
+    final String userId = FirebaseAuth.instance.currentUser?.uid ?? '';
+    if (userId.isNotEmpty) {
+      final updatedName = _nameController.text.trim();
 
-        if (_isProfilePictureChanged && _profileImage != null) {
-          final String? profileImageUrl = await uploadProfileImage(_profileImage!, userId);
+      if (_isProfilePictureChanged && _profileImage != null) {
+        final String? profileImageUrl =
+            await uploadProfileImage(_profileImage!, userId);
 
-          if (profileImageUrl != null) {
-            // Update Firestore
-            await FirestoreService().updateUserProfileImageInFirestore(userId, profileImageUrl);
-
-            // Update local database
-            //await SQLiteService().updateUserProfileImage(userId, profileImageUrl);
-          }
+        if (profileImageUrl != null) {
+          // Update Firestore
+          await FirestoreService()
+              .updateUserProfileImageInFirestore(userId, profileImageUrl);
         }
-
-        // Update name in Firestore
-        await FirestoreService().updateUserNameInFirestore(userId, updatedName);
-
-        // Update local database
-        //await SQLiteService().updateUserName(userId, updatedName);
-
-        // Sync data
-        //await DependencyInjector.syncService.syncData(userId);
-
-        if (mounted) Navigator.pop(context, true);
       }
-    } catch (e) {
-      if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Fehler beim Aktualisieren des Profils: $e")));
+
+      // Update name in Firestore
+      await FirestoreService().updateUserNameInFirestore(userId, updatedName);
+
+      if (mounted) {
+        // Pop the current screen and return true to indicate changes were made
+        Navigator.of(context).pop(true);
+      }
+    }
+  } catch (e) {
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text("Fehler beim Aktualisieren des Profils: $e")));
     }
   }
+}
 
   // Function to pick an image from the gallery
   Future<void> _pickImage() async {
@@ -136,7 +166,8 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
   Future<String?> uploadProfileImage(File imageFile, String userId) async {
     try {
       // Create a reference to the location where the file will be stored
-      final storageRef = FirebaseStorage.instance.ref().child('profile_images/$userId');
+      final storageRef =
+          FirebaseStorage.instance.ref().child('profile_images/$userId');
 
       // Upload the image file to Firebase Storage
       final uploadTask = storageRef.putFile(imageFile);
@@ -158,7 +189,8 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
   Future<void> saveProfileImageUrl(String userId, String imageUrl) async {
     try {
       // Reference to the Firestore collection where you store user profiles
-      final userRef = FirebaseFirestore.instance.collection('users').doc(userId);
+      final userRef =
+          FirebaseFirestore.instance.collection('users').doc(userId);
 
       // Update the profile image URL
       await userRef.update({
@@ -167,10 +199,14 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
 
       // Optional: Show a success message
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Profilbild erfolgreich hochgeladen und gespeichert.")));
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content:
+                Text("Profilbild erfolgreich hochgeladen und gespeichert.")));
       }
     } catch (e) {
-      if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Fehler beim Speichern der Bild-URL: $e")));
+      if (mounted)
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("Fehler beim Speichern der Bild-URL: $e")));
     }
   }
 
@@ -185,10 +221,13 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
         child: Padding(
           // add Space
           padding: EdgeInsets.only(
-              top: MediaQuery.sizeOf(context).height * CustomPadding.topSpaceAuth - Constants.defaultAppBarHeight,
+              top: MediaQuery.sizeOf(context).height *
+                      CustomPadding.topSpaceAuth -
+                  Constants.defaultAppBarHeight,
               left: CustomPadding.defaultSpace,
               right: CustomPadding.defaultSpace,
-              bottom: MediaQuery.sizeOf(context).height * CustomPadding.bottomSpace),
+              bottom: MediaQuery.sizeOf(context).height *
+                  CustomPadding.bottomSpace),
 
           child: Column(
             children: [
@@ -215,12 +254,13 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                                   _profileImage!,
                                   fit: BoxFit.cover,
                                 )
-                              : _initialProfileImagePath.isNotEmpty
+                              : _profileImageUrl.isNotEmpty
                                   ? Image.network(
-                                      _initialProfileImagePath,
+                                      _profileImageUrl,
                                       fit: BoxFit.cover,
                                     )
-                                  : const Icon(Icons.person, size: 100, color: Colors.grey),
+                                  : const Icon(Icons.person,
+                                      size: 100, color: Colors.grey),
                         ),
                       ),
                       // Camera icon overlay
@@ -242,7 +282,10 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
               ),
               const Gap(CustomPadding.bigSpace),
               // First Name text field
-              CustomTextfield(name: AppTexts.firstName, hintText: '', controller: _nameController),
+              CustomTextfield(
+                  name: AppTexts.firstName,
+                  hintText: '',
+                  controller: _nameController),
               const Gap(CustomPadding.defaultSpace),
               // Email text field (locked)
               LockedEmailTextfield(email: currentUserEmail),
@@ -251,8 +294,12 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
               AccAdjustmentButton(
                 icon: AssetImport.email,
                 name: AppTexts.changeEmail,
-                onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const ChangeEmailScreen())),
-                padding: const EdgeInsets.symmetric(horizontal: CustomPadding.mediumSpace),
+                onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ChangeEmailScreen())),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: CustomPadding.mediumSpace),
               ),
               // Change Password button
               AccAdjustmentButton(
@@ -266,7 +313,8 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                     ),
                   );
                 },
-                padding: const EdgeInsets.symmetric(horizontal: CustomPadding.mediumSpace),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: CustomPadding.mediumSpace),
               ),
             ],
           ),
@@ -277,7 +325,11 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
         duration: const Duration(milliseconds: 100),
         curve: Curves.easeInOut,
         margin: EdgeInsets.only(
-          bottom: min(MediaQuery.of(context).viewInsets.bottom > 0 ? 0 : MediaQuery.of(context).size.height * CustomPadding.bottomSpace,
+          bottom: min(
+              MediaQuery.of(context).viewInsets.bottom > 0
+                  ? 0
+                  : MediaQuery.of(context).size.height *
+                      CustomPadding.bottomSpace,
               MediaQuery.of(context).size.height * CustomPadding.bottomSpace),
           left: CustomPadding.defaultSpace,
           right: CustomPadding.defaultSpace,
