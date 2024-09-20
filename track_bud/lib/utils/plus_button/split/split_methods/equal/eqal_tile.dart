@@ -3,7 +3,6 @@ import 'package:track_bud/models/user_model.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/shadow.dart';
 
-
 // Widget for displaying equal split tile
 class EqualTile extends StatefulWidget {
   // User involved in the split
@@ -48,7 +47,8 @@ class _EqualTileState extends State<EqualTile> {
               height: 40,
               // Check if the profile picture URL is not empty, and display it
               child: widget.user.profilePictureUrl.isNotEmpty
-                  ? Image.network(widget.user.profilePictureUrl, fit: BoxFit.cover)
+                  ? Image.network(widget.user.profilePictureUrl,
+                      fit: BoxFit.cover)
                   : const Icon(Icons.person, size: 30), // Fallback icon
             ),
           ),
@@ -64,24 +64,29 @@ class _EqualTileState extends State<EqualTile> {
                         padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
                           color: CustomColor.white,
-                          borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
+                          borderRadius: BorderRadius.circular(
+                              Constants.contentBorderRadius),
                           border: Border.all(color: CustomColor.grey),
                         ),
-                        child: Text('${widget.splitAmount}€', style: TextStyles.hintStyleDefault),
+                        child: Text('${widget.splitAmount}€',
+                            style: TextStyles.hintStyleDefault),
                       ),
                       // Checkbox for friend's split
                       Checkbox(
                         hoverColor: CustomColor.bluePrimary,
                         checkColor: CustomColor.white,
-                        fillColor: WidgetStateProperty.resolveWith<Color>((Set<WidgetState> states) {
+                        fillColor: WidgetStateProperty.resolveWith<Color>(
+                            (Set<WidgetState> states) {
                           return states.contains(WidgetState.selected)
                               ? CustomColor.bluePrimary
                               : CustomColor.white;
                         }),
                         shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(10.0))),
                         value: _checkBox,
-                        onChanged: (value) => setState(() => _checkBox = value!),
+                        onChanged: (value) =>
+                            setState(() => _checkBox = value!),
                         activeColor: Colors.blueAccent,
                       ),
                     ],
@@ -91,10 +96,12 @@ class _EqualTileState extends State<EqualTile> {
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
                     color: CustomColor.white,
-                    borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
+                    borderRadius:
+                        BorderRadius.circular(Constants.contentBorderRadius),
                     border: Border.all(color: CustomColor.grey),
                   ),
-                  child: Text('${widget.splitAmount}€', style: TextStyles.hintStyleDefault),
+                  child: Text('${widget.splitAmount}€',
+                      style: TextStyles.hintStyleDefault),
                 ),
         ),
       ),

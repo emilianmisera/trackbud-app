@@ -4,25 +4,29 @@ import 'package:track_bud/models/user_model.dart';
 import 'package:track_bud/utils/plus_button/split/split_methods/equal/eqal_tile.dart';
 import 'package:track_bud/utils/constants.dart';
 
-// Widget for displaying equal split for multiple people
 class EqualSplitWidget extends StatelessWidget {
-  // Total amount to be split
   final double amount;
-  // List of names of people involved in the split
-  final List<UserModel> users; // Whether this is a group split
+  final List<UserModel> users;
   final bool? isGroup;
+  final ValueChanged<List<double>> onAmountsChanged;
 
   const EqualSplitWidget({
     super.key,
     required this.amount,
     required this.users,
     this.isGroup,
+    required this.onAmountsChanged,
   });
 
   @override
   Widget build(BuildContext context) {
-    // Calculate the split amount for each person
     final double splitAmount = amount / users.length;
+    final List<double> amounts = List.filled(users.length, splitAmount);
+
+    // Call onAmountsChanged with the calculated split amounts
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      onAmountsChanged(amounts);
+    });
 
     return ListView.separated(
       shrinkWrap: true,
