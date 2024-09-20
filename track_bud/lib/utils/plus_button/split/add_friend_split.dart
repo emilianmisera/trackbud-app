@@ -1,18 +1,22 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:track_bud/models/user_model.dart';
+import 'package:track_bud/models/friend_split_model.dart';
+import 'package:track_bud/services/firestore_service.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/plus_button/add_entry_modal.dart';
+import 'package:track_bud/utils/plus_button/split/split_methods/by_amount/by_amount_split.dart';
 import 'package:track_bud/utils/plus_button/split/split_methods/equal/equal_split.dart';
 import 'package:track_bud/utils/plus_button/split/split_methods/percent/percent_split.dart';
 import 'package:track_bud/utils/plus_button/split/split_methods/split_method_selector.dart';
 import 'package:track_bud/utils/button_widgets/dropdown.dart';
 import 'package:track_bud/utils/categories/category_expenses.dart';
 import 'package:track_bud/utils/enum/split_methods.dart';
-import 'package:track_bud/utils/plus_button/split/split_methods/by_amount/by_amount_split.dart';
 import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfields/textfield.dart';
 import 'package:track_bud/utils/textinput_format.dart';
+import 'package:uuid/uuid.dart';
 
 class AddFriendSplit extends StatefulWidget {
   final bool? isGroup;
@@ -37,12 +41,16 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
   SplitMethod _selectedSplitMethod = SplitMethod.equal;
   double _inputNumber = 0.00;
   bool _isFormValid = false;
+  String _payedBy = '';
+  final FirestoreService _firestoreService = FirestoreService();
+  List<double> _splitAmounts = [0.0, 0.0];
 
   @override
   void initState() {
     super.initState();
     _titleController.addListener(_validateForm);
     _amountController.addListener(_onInputChanged);
+    _payedBy = widget.currentUser.name;
   }
 
   @override
@@ -76,14 +84,56 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
     });
   }
 
+  void _onSplitAmountsChanged(List<double> amounts) {
+    setState(() {
+      _splitAmounts = amounts;
+    });
+  }
+
   double _parseAmount() {
     String amountText = _amountController.text.replaceAll(',', '.');
     return double.tryParse(amountText) ?? 0.0;
   }
 
   Future<void> _saveNewFriendSplit() async {
-    // Implement split saving logic here
-    // Use widget.selectedFriend and widget.currentUser to create the split
+    double totalAmount = _parseAmount();
+
+    // Retrieve the creditor and debtor amounts based on the split amounts calculated by the widget
+    double creditorAmount =
+        _payedBy == widget.currentUser.name ? totalAmount : _splitAmounts[0];
+    double debtorAmount =
+        _payedBy == widget.currentUser.name ? _splitAmounts[1] : totalAmount;
+
+    FriendSplitModel newSplit = FriendSplitModel(
+      splitId: const Uuid().v4(),
+      creditorId: _payedBy == widget.currentUser.name
+          ? widget.currentUser.userId
+          : widget.selectedFriend.userId,
+      debtorId: _payedBy == widget.currentUser.name
+          ? widget.selectedFriend.userId
+          : widget.currentUser.userId,
+      creditorAmount: creditorAmount,
+      debtorAmount: debtorAmount,
+      title: _titleController.text,
+      type: 'expense',
+      date: Timestamp.fromDate(DateTime.now()),
+      status: 'pending',
+    );
+
+    try {
+      await _firestoreService.addFriendSplit(newSplit);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Friend split added successfully')),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error adding friend split: $e')),
+        );
+      }
+    }
   }
 
   @override
@@ -147,10 +197,12 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
             Text(AppTexts.payedBy, style: TextStyles.regularStyleMedium),
             const Gap(CustomPadding.mediumSpace),
             CustomDropDown(
-              list: ['Dir', widget.selectedFriend.name],
+              list: [widget.currentUser.name, widget.selectedFriend.name],
               dropdownWidth: MediaQuery.sizeOf(context).width - 32,
               onChanged: (String? value) {
-                setState(() {});
+                setState(() {
+                  _payedBy = value ?? widget.currentUser.name;
+                });
               },
             ),
             const Gap(CustomPadding.defaultSpace),
@@ -163,20 +215,32 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
               },
             ),
             const Gap(CustomPadding.defaultSpace),
+            // Display the appropriate split widget based on _selectedSplitMethod
             if (_selectedSplitMethod == SplitMethod.equal)
               EqualSplitWidget(
                 amount: _inputNumber,
                 users: [widget.currentUser, widget.selectedFriend],
-                isGroup: widget.isGroup ?? false,
+                onAmountsChanged: _onSplitAmountsChanged,
+                isGroup: widget.isGroup,
               ),
             if (_selectedSplitMethod == SplitMethod.percent)
               PercentalSplitWidget(
                 amount: _inputNumber,
                 users: [widget.currentUser, widget.selectedFriend],
+                onAmountsChanged: (amounts) {
+                  setState(() {
+                    _splitAmounts = amounts;
+                  });
+                },
               ),
             if (_selectedSplitMethod == SplitMethod.amount)
               ByAmountSplitWidget(
                 users: [widget.currentUser, widget.selectedFriend],
+                onAmountsChanged: (amounts) {
+                  setState(() {
+                    _splitAmounts = amounts;
+                  });
+                },
               ),
           ],
         ),
