@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:provider/provider.dart';
+import 'package:track_bud/provider/transaction_provider.dart';
 import 'package:track_bud/utils/plus_button/add_entry_modal.dart';
 import 'package:track_bud/utils/button_widgets/dropdown.dart';
 import 'package:track_bud/utils/button_widgets/segment_control.dart';
@@ -9,6 +11,7 @@ import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/date_picker.dart';
 import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfields/textfield.dart';
+import 'package:track_bud/utils/textinput_format.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 //___________________________________________________________________________________________________________________
@@ -57,6 +60,8 @@ class _AddTransactionState extends State<AddTransaction> {
         'recurrence': _selectedRecurrence,
         'note': _noteController.text,
       });
+
+      Provider.of<TransactionProvider>(context, listen: false).notifyTransactionAdded();
 
       // Show success message
       if (mounted) {
