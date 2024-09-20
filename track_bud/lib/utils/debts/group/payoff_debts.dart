@@ -25,7 +25,7 @@ class PayOffDebts extends StatelessWidget {
           const Gap(CustomPadding.defaultSpace),
           Text(AppTexts.payOffDebts, style: TextStyles.hintStyleDefault),
           const Gap(CustomPadding.defaultSpace),
-          const ByAmountTile(),
+          //const ByAmountTile(),
           const Gap(CustomPadding.defaultSpace),
           ElevatedButton(
             onPressed: () {
