@@ -12,7 +12,6 @@ class TransactionModel {
   String billImageUrl;
   String currency;
   String recurrenceType;  // 'daily', 'weekly', 'monthly', 'one-time'
-  bool isSynced;
 
   TransactionModel({
     required this.transactionId,
@@ -26,7 +25,6 @@ class TransactionModel {
     required this.billImageUrl,
     required this.currency,
     required this.recurrenceType,
-    this.isSynced = false,
   });
 
   factory TransactionModel.fromMap(Map<String, dynamic> map) {
@@ -42,7 +40,6 @@ class TransactionModel {
       billImageUrl: map['billImageUrl'],
       currency: map['currency'],
       recurrenceType: map['recurrenceType'],
-      isSynced: map['isSynced'] == 1,
     );
   }
 
@@ -59,7 +56,6 @@ class TransactionModel {
       'billImageUrl': billImageUrl,
       'currency': currency,
       'recurrenceType': recurrenceType,
-      'isSynced': isSynced ? 1 : 0,
     };
   }
 
