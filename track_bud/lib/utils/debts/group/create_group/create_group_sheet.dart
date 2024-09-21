@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
 import 'package:track_bud/models/group_model.dart';
@@ -54,9 +55,29 @@ class _CreateGroupSheetState extends State<CreateGroupSheet> {
       createdAt: DateTime.now().toIso8601String(),
     );
 
+    // Compress the image before passing it to createGroup
+    File? compressedImage =
+        _selectedImage != null ? await compressImage(_selectedImage!) : null;
+
     // Pass the image file along with the group creation
-    await groupProvider.createGroup(newGroup, _selectedImage);
+    await groupProvider.createGroup(newGroup, compressedImage);
     Navigator.pop(context);
+  }
+
+  // Image compression function
+  Future<File> compressImage(File file) async {
+    final filePath = file.absolute.path;
+    final lastIndex = filePath.lastIndexOf(RegExp(r'.png|.jpg'));
+    final splitName = filePath.substring(0, (lastIndex));
+    final outPath = "${splitName}_compressed.jpg";
+
+    var result = await FlutterImageCompress.compressAndGetFile(
+      file.absolute.path,
+      outPath,
+      quality: 70,
+    );
+
+    return File(result!.path);
   }
 
   @override
