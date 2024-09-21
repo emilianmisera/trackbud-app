@@ -19,14 +19,12 @@ import 'package:track_bud/utils/textinput_format.dart';
 import 'package:uuid/uuid.dart';
 
 class AddFriendSplit extends StatefulWidget {
-  final bool? isGroup;
   final UserModel selectedFriend;
   final UserModel currentUser;
 
   const AddFriendSplit({
     required this.selectedFriend,
     required this.currentUser,
-    this.isGroup,
     super.key,
   });
 
@@ -142,7 +140,7 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
   Widget build(BuildContext context) {
     return AddEntryModal(
       buttonText: AppTexts.addSplit,
-      initialChildSize: 0.62,
+      initialChildSize: 0.76,
       maxChildSize: 0.95,
       isButtonEnabled: _isFormValid,
       onButtonPressed: () async {
@@ -227,7 +225,6 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
                     _splitAmounts = amounts;
                   });
                 },
-                isGroup: widget.isGroup,
               ),
             if (_selectedSplitMethod == SplitMethod.percent)
               PercentalSplitWidget(
