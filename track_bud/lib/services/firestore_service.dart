@@ -100,7 +100,7 @@ class FirestoreService {
           .update({'profilePictureUrl': imageUrl});
     } catch (e) {
       debugPrint("Fehler beim Aktualisieren des Profilbildes in Firestore: $e");
-      rethrow; // Werfen Sie den Fehler, um ihn in der aufrufenden Methode zu behandeln
+      rethrow;
     }
   }
 
@@ -237,7 +237,8 @@ class FirestoreService {
   }
 
   // Get Friend Splits for a User
-  Future<List<FriendSplitModel>> getFriendSplits(String userId, String friendId) async {
+  Future<List<FriendSplitModel>> getFriendSplits(
+      String userId, String friendId) async {
     try {
       QuerySnapshot splitSnapshot = await _db
           .collection('friend_splits')
@@ -298,10 +299,14 @@ class FirestoreService {
       }
 
       for (var splitId in splitIdsToUpdate) {
-        await _db.collection('friend_splits').doc(splitId).update({'status': 'paid'});
+        await _db
+            .collection('friend_splits')
+            .doc(splitId)
+            .update({'status': 'paid'});
       }
 
-      debugPrint("All pending splits between $currentUserId and $friendId have been marked as paid.");
+      debugPrint(
+          "All pending splits between $currentUserId and $friendId have been marked as paid.");
     } catch (e) {
       debugPrint("Error paying off friend splits: $e");
       rethrow;

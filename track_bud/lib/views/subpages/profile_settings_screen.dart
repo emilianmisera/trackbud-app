@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
 import 'package:track_bud/utils/button_widgets/acc_adjustment_button.dart';
@@ -26,7 +27,7 @@ class ProfileSettingsScreen extends StatefulWidget {
 
 class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
   // Controller for the name text field
-  TextEditingController _nameController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
 
   // State variables to track changes
   bool _isProfileChanged = false;
@@ -104,7 +105,7 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
 
         _profileImageUrl = userData['profilePictureUrl'] ?? '';
         _profileImageUrl == ''
-            ? debugPrint('email field not found in user data')
+            ? debugPrint('profilePictureUrl not found in user data')
             : null;
         isLoading = false;
       });
@@ -117,74 +118,111 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
     }
   }
 
-  // New method to save profile changes
+  // method to save profile changes
   Future<void> _saveProfileChanges() async {
-  try {
-    final String userId = FirebaseAuth.instance.currentUser?.uid ?? '';
-    if (userId.isNotEmpty) {
-      final updatedName = _nameController.text.trim();
+    try {
+      final String userId = FirebaseAuth.instance.currentUser?.uid ?? '';
+      if (userId.isNotEmpty) {
+        final updatedName = _nameController.text.trim();
 
-      if (_isProfilePictureChanged && _profileImage != null) {
-        final String? profileImageUrl =
-            await uploadProfileImage(_profileImage!, userId);
+        if (_isProfilePictureChanged && _profileImage != null) {
+          // If there was an existing profile image, delete it first
+          if (_profileImageUrl.isNotEmpty) {
+            await deleteProfileImage(userId);
+          }
 
-        if (profileImageUrl != null) {
-          // Update Firestore
-          await FirestoreService()
-              .updateUserProfileImageInFirestore(userId, profileImageUrl);
+          final String? profileImageUrl =
+              await uploadProfileImage(_profileImage!, userId);
+
+          if (profileImageUrl != null) {
+            // Update Firestore
+            await FirestoreService()
+                .updateUserProfileImageInFirestore(userId, profileImageUrl);
+          }
+        }
+
+        // Update name in Firestore
+        await FirestoreService().updateUserNameInFirestore(userId, updatedName);
+
+        if (mounted) {
+          // Pop the current screen and return true to indicate changes were made
+          Navigator.of(context).pop(true);
         }
       }
-
-      // Update name in Firestore
-      await FirestoreService().updateUserNameInFirestore(userId, updatedName);
-
+    } catch (e) {
       if (mounted) {
-        // Pop the current screen and return true to indicate changes were made
-        Navigator.of(context).pop(true);
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text("Fehler beim Aktualisieren des Profils: $e")));
       }
     }
-  } catch (e) {
-    if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text("Fehler beim Aktualisieren des Profils: $e")));
+  }
+
+  Future<void> deleteProfileImage(String userId) async {
+    try {
+      final storageRef =
+          FirebaseStorage.instance.ref().child('profile_images/$userId');
+      await storageRef.delete();
+      debugPrint("Old profile image deleted successfully");
+    } catch (e) {
+      debugPrint("Error deleting old profile image: $e");
+      // You might want to handle this error more gracefully, perhaps by showing a message to the user
     }
   }
-}
 
   // Function to pick an image from the gallery
   Future<void> _pickImage() async {
-    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
-    if (image != null) {
-      setState(() {
-        _profileImage = File(image.path); // Store the selected image
-        _isProfilePictureChanged = true;
-        _checkIfProfileChanged();
-      });
-    }
+  final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+  if (image != null) {
+    // Compress the image
+    final compressedImage = await compressImage(File(image.path));
+    
+    setState(() {
+      _profileImage = compressedImage;
+      _isProfilePictureChanged = true;
+      _checkIfProfileChanged();
+    });
   }
+}
 
-  Future<String?> uploadProfileImage(File imageFile, String userId) async {
-    try {
-      // Create a reference to the location where the file will be stored
-      final storageRef =
-          FirebaseStorage.instance.ref().child('profile_images/$userId');
+Future<File> compressImage(File file) async {
+  final filePath = file.absolute.path;
+  final lastIndex = filePath.lastIndexOf(RegExp(r'.png|.jpg'));
+  final splitName = filePath.substring(0, (lastIndex));
+  final outPath = "${splitName}_compressed.jpg";
 
-      // Upload the image file to Firebase Storage
-      final uploadTask = storageRef.putFile(imageFile);
+  var result = await FlutterImageCompress.compressAndGetFile(
+    file.absolute.path,
+    outPath,
+    quality: 70,
+  );
 
-      // Wait for the upload to complete
-      final snapshot = await uploadTask.whenComplete(() => null);
+  return File(result!.path);
+}
 
-      // Get the download URL
-      final downloadUrl = await snapshot.ref.getDownloadURL();
+Future<String?> uploadProfileImage(File imageFile, String userId) async {
+  try {
+    // Create a reference to the location where the file will be stored
+    final storageRef = FirebaseStorage.instance.ref().child('profile_images/$userId');
 
-      // Return the download URL
-      return downloadUrl;
-    } catch (e) {
-      debugPrint("Fehler beim Hochladen des Bildes: $e");
-      return null;
-    }
+    // Compress the image before uploading
+    final compressedImage = await compressImage(imageFile);
+
+    // Upload the compressed image file to Firebase Storage
+    final uploadTask = storageRef.putFile(compressedImage);
+
+    // Wait for the upload to complete
+    final snapshot = await uploadTask.whenComplete(() => null);
+
+    // Get the download URL
+    final downloadUrl = await snapshot.ref.getDownloadURL();
+
+    // Return the download URL
+    return downloadUrl;
+  } catch (e) {
+    debugPrint("Fehler beim Hochladen des Bildes: $e");
+    return null;
   }
+}
 
   Future<void> saveProfileImageUrl(String userId, String imageUrl) async {
     try {
@@ -204,9 +242,10 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                 Text("Profilbild erfolgreich hochgeladen und gespeichert.")));
       }
     } catch (e) {
-      if (mounted)
+      if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text("Fehler beim Speichern der Bild-URL: $e")));
+      }
     }
   }
 
