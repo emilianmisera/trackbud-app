@@ -7,14 +7,14 @@ import 'package:track_bud/utils/constants.dart';
 class EqualSplitWidget extends StatelessWidget {
   final double amount;
   final List<UserModel> users;
-  final bool? isGroup;
+  final bool isGroup;
   final ValueChanged<List<double>> onAmountsChanged;
 
   const EqualSplitWidget({
     super.key,
     required this.amount,
     required this.users,
-    this.isGroup,
+    this.isGroup = false,
     required this.onAmountsChanged,
   });
 
@@ -38,7 +38,7 @@ class EqualSplitWidget extends StatelessWidget {
         return EqualTile(
           user: users[index],
           splitAmount: splitAmount,
-          friendSplit: isGroup ?? false,
+          isGroup: isGroup,
         );
       },
     );
