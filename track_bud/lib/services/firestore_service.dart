@@ -237,20 +237,34 @@ class FirestoreService {
   }
 
   // Get Friend Splits for a User
-  Future<List<FriendSplitModel>> getFriendSplits(String userId) async {
+  Future<List<FriendSplitModel>> getFriendSplits(String userId, String friendId) async {
     try {
       QuerySnapshot splitSnapshot = await _db
           .collection('friend_splits')
           .where('creditorId', isEqualTo: userId)
+          .where('debtorId', isEqualTo: friendId)
+          .get();
+
+      QuerySnapshot reverseSplitSnapshot = await _db
+          .collection('friend_splits')
+          .where('creditorId', isEqualTo: friendId)
+          .where('debtorId', isEqualTo: userId)
           .get();
 
       List<FriendSplitModel> splits = splitSnapshot.docs.map((doc) {
         Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
-        data['splitId'] = doc.id; // Ensure splitId is included in the data
+        data['splitId'] = doc.id;
         return FriendSplitModel.fromMap(data);
       }).toList();
 
-      debugPrint("Retrieved ${splits.length} friend splits for user $userId");
+      splits.addAll(reverseSplitSnapshot.docs.map((doc) {
+        Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+        data['splitId'] = doc.id;
+        return FriendSplitModel.fromMap(data);
+      }));
+
+      splits.sort((a, b) => b.date.compareTo(a.date));
+
       return splits;
     } catch (e) {
       debugPrint("Error fetching friend splits: $e");
@@ -258,16 +272,38 @@ class FirestoreService {
     }
   }
 
-  // Update Friend Split Status
-  Future<void> updateFriendSplitStatus(String splitId, String newStatus) async {
+  Future<void> payOffFriendSplits(String currentUserId, String friendId) async {
     try {
-      await _db
+      QuerySnapshot splitSnapshot = await _db
           .collection('friend_splits')
-          .doc(splitId)
-          .update({'status': newStatus});
-      debugPrint("Friend split status updated successfully");
+          .where('creditorId', isEqualTo: currentUserId)
+          .where('debtorId', isEqualTo: friendId)
+          .where('status', isEqualTo: 'pending')
+          .get();
+
+      QuerySnapshot reverseSplitSnapshot = await _db
+          .collection('friend_splits')
+          .where('creditorId', isEqualTo: friendId)
+          .where('debtorId', isEqualTo: currentUserId)
+          .where('status', isEqualTo: 'pending')
+          .get();
+
+      List<String> splitIdsToUpdate = [];
+
+      for (var doc in splitSnapshot.docs) {
+        splitIdsToUpdate.add(doc.id);
+      }
+      for (var doc in reverseSplitSnapshot.docs) {
+        splitIdsToUpdate.add(doc.id);
+      }
+
+      for (var splitId in splitIdsToUpdate) {
+        await _db.collection('friend_splits').doc(splitId).update({'status': 'paid'});
+      }
+
+      debugPrint("All pending splits between $currentUserId and $friendId have been marked as paid.");
     } catch (e) {
-      debugPrint("Error updating friend split status: $e");
+      debugPrint("Error paying off friend splits: $e");
       rethrow;
     }
   }
