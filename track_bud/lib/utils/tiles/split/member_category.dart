@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:track_bud/utils/constants.dart';
 
+/// This Widget shows the information which user payed and in which category it has been assigned
 class MemberCategory extends StatelessWidget {
   final String member;
   final String? imageURL;
@@ -23,12 +24,14 @@ class MemberCategory extends StatelessWidget {
       padding: const EdgeInsets.only(right: CustomPadding.defaultSpace),
       child: Row(
         children: [
+          // Profile Picture
           const SizedBox(
             width: 25,
             height: 25,
             child: /* Image.network(imageURL, fit: BoxFit.cover) */ Icon(Icons.person, size: 25, color: Colors.grey),
           ),
           const Gap(CustomPadding.mediumSpace),
+          // Category
           categoryIcon,
           const Gap(CustomPadding.smallSpace),
           Text(member, style: TextStyles.regularStyleDefault.copyWith(fontSize: TextStyles.fontSizeHint)),
