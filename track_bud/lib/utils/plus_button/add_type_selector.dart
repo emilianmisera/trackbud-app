@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
+import 'package:track_bud/provider/group_provider.dart';
 import 'package:track_bud/services/firestore_service.dart';
 import 'package:track_bud/utils/plus_button/split/add_friend_split.dart';
 import 'package:track_bud/utils/plus_button/add_transaction.dart';
@@ -21,6 +22,26 @@ class AddTypeSelector extends StatefulWidget {
 
 class _AddTypeSelectorState extends State<AddTypeSelector> {
   final FirestoreService _firestoreService = FirestoreService();
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _loadUserData();
+      _loadGroups();
+    });
+  }
+
+  Future<void> _loadUserData() async {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    await userProvider.loadCurrentUser();
+  }
+
+  Future<void> _loadGroups() async {
+    final groupProvider = Provider.of<GroupProvider>(context, listen: false);
+    await groupProvider
+        .loadGroups(); // Assume this method exists to load groups
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -113,6 +134,11 @@ class _AddTypeSelectorState extends State<AddTypeSelector> {
                     return Text('Error: ${snapshot.error}');
                   } else {
                     final friends = snapshot.data!;
+                    if (friends.isEmpty) {
+                      // Display "Keine Freunde gefunden" message
+                      return const Center(
+                          child: Text("Keine Freunde gefunden."));
+                    }
                     return ListView.builder(
                       itemCount: friends.length,
                       itemBuilder: (context, index) {

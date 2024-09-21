@@ -52,7 +52,6 @@ class FriendChoice extends StatelessWidget {
                   child:
                       Text(friend.name, style: TextStyles.regularStyleMedium),
                 ),
-                // Additional icons or buttons can be added here if needed
               ],
             ),
           ),

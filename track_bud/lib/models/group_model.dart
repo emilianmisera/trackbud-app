@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 class GroupModel {
   String groupId;
   String name;
@@ -22,7 +20,7 @@ class GroupModel {
       groupId: map['groupId'],
       name: map['name'],
       profilePictureUrl: map['profilePictureUrl'],
-      members: List<String>.from(jsonDecode(map['members'])),
+      members: List<String>.from(map['members']),
       createdBy: map['createdBy'],
       createdAt: map['createdAt'],
     );
@@ -33,7 +31,7 @@ class GroupModel {
       'groupId': groupId,
       'name': name,
       'profilePictureUrl': profilePictureUrl,
-      'members': jsonEncode(members),
+      'members': members,
       'createdBy': createdBy,
       'createdAt': createdAt,
     };

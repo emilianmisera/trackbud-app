@@ -20,12 +20,13 @@ class DebtsScreen extends StatefulWidget {
 }
 
 class _DebtsScreenState extends State<DebtsScreen> {
-
   @override
   void initState() {
     super.initState();
-    _loadUserData();
-    _loadGroups();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _loadUserData();
+      _loadGroups();
+    });
   }
 
   String getCurrentUserId() {

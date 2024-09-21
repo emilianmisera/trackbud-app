@@ -1,6 +1,6 @@
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:track_bud/models/group_model.dart';
@@ -9,6 +9,7 @@ import 'package:track_bud/services/firestore_service.dart'; // Import Firebase S
 class GroupProvider with ChangeNotifier {
   final List<GroupModel> _groups = [];
   bool _isLoading = false;
+  final FirestoreService _firestoreService = FirestoreService();
 
   List<GroupModel> get groups => _groups;
   bool get isLoading => _isLoading;
@@ -18,10 +19,20 @@ class GroupProvider with ChangeNotifier {
     notifyListeners();
 
     try {
-      // Fetch groups from Firestore
-      final groups = await FirestoreService().getGroups();
-      _groups.clear();
-      _groups.addAll(groups);
+      final user = FirebaseAuth.instance.currentUser;
+      if (user != null) {
+        debugPrint("Loading groups for user ID: ${user.uid}");
+        final groups = await _firestoreService.getUserGroups(user.uid);
+        debugPrint("Retrieved ${groups.length} groups for the user.");
+        if (groups.isEmpty) {
+          debugPrint("No groups found for user ${user.uid}");
+        }
+        _groups.clear();
+        _groups.addAll(groups);
+      } else {
+        debugPrint("No user found, clearing groups.");
+        _groups.clear();
+      }
     } catch (e) {
       debugPrint("Error loading groups: $e");
     } finally {
