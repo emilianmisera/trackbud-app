@@ -7,6 +7,7 @@ class FriendSplitModel {
   double creditorAmount;
   double debtorAmount;
   String title;
+  String category;
   String type;  // 'expense' or 'income'
   Timestamp date;
   String status;  // 'pending' or 'paid'
@@ -18,6 +19,7 @@ class FriendSplitModel {
     required this.creditorAmount,
     required this.debtorAmount,
     required this.title,
+    required this.category,
     required this.type,
     required this.date,
     required this.status,
@@ -31,6 +33,7 @@ class FriendSplitModel {
       creditorAmount: map['creditorAmount'].toDouble(),
       debtorAmount: map['debtorAmount'].toDouble(),
       title: map['title'],
+      category: map['category'],
       type: map['type'],
       date: map['date'],
       status: map['status'],
@@ -45,6 +48,7 @@ class FriendSplitModel {
       'creditorAmount': creditorAmount,
       'debtorAmount': debtorAmount,
       'title': title,
+      'category': category,
       'type': type,
       'date': date,
       'status': status,
