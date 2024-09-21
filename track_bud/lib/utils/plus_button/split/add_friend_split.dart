@@ -66,7 +66,7 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
     setState(() {
       _isFormValid = _titleController.text.isNotEmpty &&
           _amountController.text.isNotEmpty &&
-          _selectedCategory != null;
+          _selectedCategory.isNotEmpty;
     });
   }
 
