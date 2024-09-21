@@ -16,8 +16,8 @@ class TransactionDetail extends StatefulWidget {
   final DateTime date;
   final String category;
   final String transactionId;
-  final String notes;
-  final String recurrenceType;
+  final String note;
+  final String recurrence;
   final String type;
   final Function(String) onDelete;
   final Function(String) onEdit;
@@ -29,8 +29,8 @@ class TransactionDetail extends StatefulWidget {
     required this.date,
     required this.category,
     required this.transactionId,
-    required this.notes,
-    required this.recurrenceType,
+    required this.note,
+    required this.recurrence,
     required this.type,
     required this.onDelete,
     required this.onEdit,
@@ -181,7 +181,7 @@ class _TransactionDetailState extends State<TransactionDetail> {
                     color: CustomColor.white,
                     borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
                   ),
-                  child: Text(widget.recurrenceType, style: TextStyles.regularStyleDefault.copyWith(color: CustomColor.bluePrimary)),
+                  child: Text(widget.recurrence, style: TextStyles.regularStyleDefault.copyWith(color: CustomColor.bluePrimary)),
                 ),
               ),
             ],
@@ -198,7 +198,7 @@ class _TransactionDetailState extends State<TransactionDetail> {
                 color: CustomColor.white,
                 borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
               ),
-              child: Text(widget.notes, style: TextStyles.regularStyleDefault),
+              child: Text(widget.note, style: TextStyles.regularStyleDefault),
             ),
           ),
         ],

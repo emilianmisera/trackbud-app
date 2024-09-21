@@ -111,6 +111,8 @@ class _DonutChartState extends State<DonutChart> {
   Widget build(BuildContext context) {
     final showingSectionsMap = showingSections();
 
+    fetchTransactionData();
+
     return Column(
       children: [
         AspectRatio(
@@ -138,7 +140,7 @@ class _DonutChartState extends State<DonutChart> {
             ),
           ),
         ),
-        Gap(CustomPadding.defaultSpace),
+        const Gap(CustomPadding.defaultSpace),
         Column(children: _buildCategoryTiles()),
       ],
     );
@@ -206,7 +208,7 @@ class CategoryTile extends StatelessWidget {
       onTap: onTap,
       child: Container(
         width: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.all(CustomPadding.defaultSpace),
+        padding: const EdgeInsets.all(CustomPadding.defaultSpace),
         decoration: BoxDecoration(
           color: CustomColor.white,
           borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
@@ -214,7 +216,7 @@ class CategoryTile extends StatelessWidget {
         child: Row(
           children: [
             CategoryIcon(color: color, iconWidget: icon),
-            Gap(CustomPadding.mediumSpace),
+            const Gap(CustomPadding.mediumSpace),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -234,7 +236,7 @@ class CategoryTile extends StatelessWidget {
               children: [
                 Text('${amount.toStringAsFixed(2)}€',
                     style: TextStyles.regularStyleMedium),
-                Gap(CustomPadding.mediumSpace),
+                const Gap(CustomPadding.mediumSpace),
                 Text(
                   '$transactionCount Transaktionen',
                   style: TextStyles.hintStyleDefault

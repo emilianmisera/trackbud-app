@@ -13,8 +13,8 @@ class TransactionTile extends StatefulWidget {
   final DateTime date;
   final String category;
   final String transactionId;
-  final String notes;
-  final String recurrenceType;
+  final String note;
+  final String recurrence;
   final String type;
   final Function(String) onDelete;
   final Function(String) onEdit;
@@ -26,8 +26,8 @@ class TransactionTile extends StatefulWidget {
       required this.date,
       required this.category,
       required this.transactionId,
-      required this.notes,
-      required this.recurrenceType,
+      required this.note,
+      required this.recurrence,
       required this.type,
       required this.onDelete,
       required this.onEdit});
@@ -57,8 +57,8 @@ class _TransactionTileState extends State<TransactionTile> {
               date: widget.date,
               category: widget.category,
               transactionId: widget.transactionId,
-              notes: widget.notes,
-              recurrenceType: widget.recurrenceType,
+              note: widget.note,
+              recurrence: widget.recurrence,
               type: widget.type,
               onDelete: widget.onDelete,
               onEdit: widget.onEdit,
