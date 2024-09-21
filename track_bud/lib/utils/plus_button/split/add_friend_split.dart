@@ -37,7 +37,7 @@ class AddFriendSplit extends StatefulWidget {
 class _AddFriendSplitState extends State<AddFriendSplit> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _amountController = TextEditingController();
-  String? _selectedCategory;
+  late String _selectedCategory;
   SplitMethod _selectedSplitMethod = SplitMethod.equal;
   double _inputNumber = 0.00;
   bool _isFormValid = false;
@@ -84,12 +84,6 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
     });
   }
 
-  void _onSplitAmountsChanged(List<double> amounts) {
-    setState(() {
-      _splitAmounts = amounts;
-    });
-  }
-
   double _parseAmount() {
     String amountText = _amountController.text.replaceAll(',', '.');
     return double.tryParse(amountText) ?? 0.0;
@@ -98,11 +92,18 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
   Future<void> _saveNewFriendSplit() async {
     double totalAmount = _parseAmount();
 
-    // Retrieve the creditor and debtor amounts based on the split amounts calculated by the widget
-    double creditorAmount =
-        _payedBy == widget.currentUser.name ? totalAmount : _splitAmounts[0];
-    double debtorAmount =
-        _payedBy == widget.currentUser.name ? _splitAmounts[1] : totalAmount;
+    double creditorAmount, debtorAmount;
+
+// Determine who is the creditor (payer)
+    if (_payedBy == widget.currentUser.name) {
+      // Current user is the creditor (payer)
+      creditorAmount = totalAmount;
+      debtorAmount = _splitAmounts[1]; // Friend owes part of the split
+    } else {
+      // Friend is the creditor (payer)
+      creditorAmount = totalAmount;
+      debtorAmount = _splitAmounts[0]; // Current user owes part of the split
+    }
 
     FriendSplitModel newSplit = FriendSplitModel(
       splitId: const Uuid().v4(),
@@ -116,6 +117,7 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
       debtorAmount: debtorAmount,
       title: _titleController.text,
       type: 'expense',
+      category: _selectedCategory,
       date: Timestamp.fromDate(DateTime.now()),
       status: 'pending',
     );
@@ -220,7 +222,11 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
               EqualSplitWidget(
                 amount: _inputNumber,
                 users: [widget.currentUser, widget.selectedFriend],
-                onAmountsChanged: _onSplitAmountsChanged,
+                onAmountsChanged: (amounts) {
+                  setState(() {
+                    _splitAmounts = amounts;
+                  });
+                },
                 isGroup: widget.isGroup,
               ),
             if (_selectedSplitMethod == SplitMethod.percent)
