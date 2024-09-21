@@ -51,7 +51,7 @@ class _GroupTileState extends State<GroupTile> {
               color: _image != null ? null : Colors.grey,
               child: _image != null
                   ? Image.file(_image!, fit: BoxFit.cover)
-                  : const Icon(Icons.group, color: Colors.white),
+                  : const Icon(Icons.groups, color: Colors.white),
             ),
           ),
         ),
@@ -75,7 +75,8 @@ class _GroupTileState extends State<GroupTile> {
                   fillColor: CustomColor.white,
                   border: OutlineInputBorder(
                     borderSide: BorderSide.none,
-                    borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
+                    borderRadius:
+                        BorderRadius.circular(Constants.contentBorderRadius),
                   ),
                 ),
               ),
