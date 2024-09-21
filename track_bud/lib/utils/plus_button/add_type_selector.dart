@@ -43,70 +43,6 @@ class _AddTypeSelectorState extends State<AddTypeSelector> {
         .loadGroups(); // Assume this method exists to load groups
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height:
-          MediaQuery.of(context).size.height * Constants.addBottomSheetHeight,
-      width: MediaQuery.of(context).size.width,
-      decoration: BoxDecoration(
-        color: CustomColor.backgroundPrimary,
-        borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.only(
-          left: CustomPadding.defaultSpace,
-          right: CustomPadding.defaultSpace,
-          bottom: 50,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Gap(CustomPadding.mediumSpace),
-            Center(
-              child: Container(
-                width: 36,
-                height: 5,
-                decoration: const BoxDecoration(
-                  color: CustomColor.grabberColor,
-                  borderRadius: BorderRadius.all(Radius.circular(100)),
-                ),
-              ),
-            ),
-            const Gap(CustomPadding.defaultSpace),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pop(context);
-                showModalBottomSheet(
-                  context: context,
-                  isScrollControlled: true,
-                  builder: (context) => const AddTransaction(),
-                );
-              },
-              child: Text(AppTexts.addNewTransaction),
-            ),
-            const Gap(CustomPadding.mediumSpace),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pop(context);
-                _showFriendSelectionDialog(context);
-              },
-              child: Text(AppTexts.addNewFriendSplit),
-            ),
-            const Gap(CustomPadding.mediumSpace),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pop(context);
-                _showGroupSelectionDialog(context);
-              },
-              child: Text(AppTexts.addNewGroupSplit),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
   void _showFriendSelectionDialog(BuildContext context) {
     showDialog(
       context: context,
@@ -152,7 +88,6 @@ class _AddTypeSelectorState extends State<AddTypeSelector> {
                                 context: context,
                                 isScrollControlled: true,
                                 builder: (context) => AddFriendSplit(
-                                  isGroup: false,
                                   selectedFriend: friends[index],
                                   currentUser: userProvider.currentUser!,
                                 ),
@@ -191,17 +126,37 @@ class _AddTypeSelectorState extends State<AddTypeSelector> {
         content: SizedBox(
           width: double.maxFinite,
           height: 235,
-          child: GroupChoice(
-            onGroupSelected: (group) {
-              Navigator.pop(context); // Close the dialog
-              showModalBottomSheet(
-                context: context,
-                isScrollControlled: true,
-                builder: (context) => AddGroupSplit(
-                  isGroup: true,
-                  groupId: group.groupId, // Pass the selected group's ID
-                ),
-              );
+          child: Consumer<GroupProvider>(
+            builder: (context, groupProvider, child) {
+              if (groupProvider.isLoading) {
+                return const Center(child: CircularProgressIndicator());
+              } else if (groupProvider.groups.isEmpty) {
+                return const Center(child: Text("Keine Gruppen gefunden."));
+              } else {
+                return ListView.builder(
+                  itemCount: groupProvider.groups.length,
+                  itemBuilder: (context, index) {
+                    final group = groupProvider.groups[index];
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 8.0),
+                      child: GroupChoice(
+                        group: group,
+                        onTap: (selectedGroup, memberNames) {
+                          Navigator.pop(context);
+                          showModalBottomSheet(
+                            context: context,
+                            isScrollControlled: true,
+                            builder: (context) => AddGroupSplit(
+                              selectedGroup: selectedGroup,
+                              memberNames: memberNames,
+                            ),
+                          );
+                        },
+                      ),
+                    );
+                  },
+                );
+              }
             },
           ),
         ),
@@ -212,6 +167,94 @@ class _AddTypeSelectorState extends State<AddTypeSelector> {
           borderRadius: BorderRadius.all(
             Radius.circular(Constants.contentBorderRadius),
           ),
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height:
+          MediaQuery.of(context).size.height * Constants.addBottomSheetHeight,
+      width: MediaQuery.of(context).size.width,
+      decoration: BoxDecoration(
+        color: CustomColor.backgroundPrimary,
+        borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.only(
+          left: CustomPadding.defaultSpace,
+          right: CustomPadding.defaultSpace,
+          bottom: 50,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Gap(CustomPadding.mediumSpace),
+            Center(
+              child: Container(
+                width: 36,
+                height: 5,
+                decoration: const BoxDecoration(
+                  color: CustomColor.grabberColor,
+                  borderRadius: BorderRadius.all(Radius.circular(100)),
+                ),
+              ),
+            ),
+            const Gap(CustomPadding.defaultSpace),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+                showModalBottomSheet(
+                  context: context,
+                  isScrollControlled: true,
+                  builder: (context) => const AddTransaction(),
+                );
+              },
+              child: Row(
+                mainAxisSize:
+                    MainAxisSize.min, // Passt die Größe an den Inhalt an
+                children: [
+                  const Icon(Icons.person), // Icon mit einer Person
+                  const SizedBox(width: 8), // Abstand zwischen Icon und Text
+                  Text(AppTexts.addNewTransaction),
+                ],
+              ),
+            ),
+            const Gap(CustomPadding.mediumSpace),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+                _showFriendSelectionDialog(context);
+              },
+              child: Row(
+                mainAxisSize:
+                    MainAxisSize.min, // Passt die Größe an den Inhalt an
+                children: [
+                  const Icon(Icons.people), // Icon mit einer Person
+                  const SizedBox(width: 8), // Abstand zwischen Icon und Text
+                  Text(AppTexts.addNewFriendSplit),
+                ],
+              ),
+            ),
+            const Gap(CustomPadding.mediumSpace),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+                _showGroupSelectionDialog(context);
+              },
+              child: Row(
+                mainAxisSize:
+                    MainAxisSize.min, // Passt die Größe an den Inhalt an
+                children: [
+                  const Icon(Icons.groups), // Icon mit einer Person
+                  const SizedBox(width: 8), // Abstand zwischen Icon und Text
+                  Text(AppTexts.addNewGroupSplit),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );
