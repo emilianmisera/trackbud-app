@@ -8,6 +8,7 @@ import 'package:track_bud/firebase_options.dart';
 import 'package:track_bud/provider/group_provider.dart';
 import 'package:track_bud/provider/transaction_provider.dart';
 import 'package:track_bud/provider/user_provider.dart';
+import 'package:track_bud/services/firebase_api.dart';
 import 'package:track_bud/trackbud.dart';
 import 'package:track_bud/utils/color_theme.dart';
 import 'package:track_bud/utils/constants.dart';
@@ -18,6 +19,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await FirebaseApi().initNotifications();
   FirebaseFirestore.instance.settings = const Settings(
       persistenceEnabled: true); // Offline-Persistence deaktivieren
 

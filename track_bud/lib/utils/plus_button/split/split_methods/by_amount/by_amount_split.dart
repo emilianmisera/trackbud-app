@@ -7,9 +7,14 @@ import 'package:track_bud/utils/constants.dart';
 class ByAmountSplitWidget extends StatefulWidget {
   final List<UserModel> users;
   final ValueChanged<List<double>> onAmountsChanged;
+  final bool isGroup;
 
-  const ByAmountSplitWidget(
-      {super.key, required this.users, required this.onAmountsChanged});
+  const ByAmountSplitWidget({
+    super.key,
+    required this.users,
+    required this.onAmountsChanged,
+    this.isGroup = false,
+  });
 
   @override
   State<ByAmountSplitWidget> createState() => _ByAmountSplitWidgetState();

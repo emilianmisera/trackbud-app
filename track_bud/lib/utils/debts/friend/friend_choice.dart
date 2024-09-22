@@ -24,7 +24,6 @@ class FriendChoice extends StatelessWidget {
           color: CustomColor.white,
           elevation: 2.0,
           margin: const EdgeInsets.symmetric(
-            vertical: CustomPadding.mediumSpace,
             horizontal: CustomPadding.defaultSpace,
           ), // Margin to space the card
           shape: RoundedRectangleBorder(

@@ -122,9 +122,9 @@ class AppTexts {
 
 // ADD ITEM
   //
-  static String addNewTransaction = 'Neue Transaktion hinzufügen';
-  static String addNewFriendSplit = 'Neuen Freundessplit hinzufügen';
-  static String addNewGroupSplit = 'Neuen Gruppensplit hinzufügen';
+  static String addNewTransaction = 'Neue Transaktion';
+  static String addNewFriendSplit = 'Neuer Freundesplit';
+  static String addNewGroupSplit = 'Neuer Gruppensplit';
   //new transaction
   static String newTransaction = 'Neue Transaktion';
   static String expense = 'Ausgabe';
@@ -141,8 +141,8 @@ class AppTexts {
   //edit transaction page
   static String editTransaction = "Transaktion bearbeiten";
   //new split
-  static String newFriendSplit = 'Split mit: ';
-  static String newGroupSplit = 'Neuer Gruppensplit';
+  static String newFriendSplit = 'Split mit:';
+  static String newGroupSplit = 'Gruppensplit in:';
   static String debt = 'Schulde';
   static String giveOut = 'Ausgegeben';
   static String payedBy = 'Bezahlt von';

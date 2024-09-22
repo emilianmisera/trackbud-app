@@ -8,20 +8,25 @@ class PercentalSplitWidget extends StatefulWidget {
   final double amount;
   final List<UserModel> users;
   final ValueChanged<List<double>> onAmountsChanged;
+  final bool isGroup;
 
   const PercentalSplitWidget({
     super.key,
     required this.amount,
     required this.users,
     required this.onAmountsChanged,
+    this.isGroup = false,
   });
 
   @override
-  State<PercentalSplitWidget> createState() => _PercentalSplitWidgetState();
+  State<PercentalSplitWidget> createState() => _PercentalSplitWidgetState(isGroup: isGroup);
 }
 
 class _PercentalSplitWidgetState extends State<PercentalSplitWidget> {
   late List<double> _sliderValues;
+  final bool isGroup;
+
+  _PercentalSplitWidgetState({required this.isGroup}); // Constructor to initialize isGroup
 
   @override
   void initState() {
@@ -32,24 +37,19 @@ class _PercentalSplitWidgetState extends State<PercentalSplitWidget> {
 
   void updateSlider(int index, double value) {
     setState(() {
-      if (widget.users.length == 2) {
-        _sliderValues[index] = value;
-        _sliderValues[1 - index] = 100 - value;
-      } else {
-        // For more than 2 users, adjust all sliders proportionally
-        double totalOthers =
-            _sliderValues.reduce((a, b) => a + b) - _sliderValues[index];
-        double newTotal = totalOthers + value;
-        double factor = 100 / newTotal;
-
-        for (int i = 0; i < _sliderValues.length; i++) {
-          if (i == index) {
-            _sliderValues[i] = value * factor;
-          } else {
-            _sliderValues[i] = _sliderValues[i] * factor;
-          }
+      double totalOthers = _sliderValues.reduce((a, b) => a + b) - _sliderValues[index];
+      double remaining = 100 - value;
+      
+      _sliderValues[index] = value;
+      
+      for (int i = 0; i < _sliderValues.length; i++) {
+        if (i != index) {
+          _sliderValues[i] = totalOthers > 0 
+              ? (_sliderValues[i] / totalOthers) * remaining
+              : remaining / (widget.users.length - 1);
         }
       }
+      
       _updateAmounts();
     });
   }
@@ -79,6 +79,7 @@ class _PercentalSplitWidgetState extends State<PercentalSplitWidget> {
       itemBuilder: (context, index) {
         return PercentTile(
           amount: widget.amount,
+          isGroup: isGroup,
           user: widget.users[index],
           sliderValue: _sliderValues[index],
           onChanged: (value) => updateSlider(index, value),
