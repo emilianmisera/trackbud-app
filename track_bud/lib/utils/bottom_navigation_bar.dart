@@ -5,19 +5,25 @@ import 'package:track_bud/utils/constants.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:track_bud/utils/shadow.dart';
 
-// custom bottom navigation bar
 // ignore: must_be_immutable
+// custom bottom navigation bar
 class CustomBottomNavigationBar extends StatefulWidget {
-  void Function(int) onTap;
+  // Callback function when a tab is tapped
+  final void Function(int) onTap;
+  // Index of the currently selected tab
+  final int currentIndex;
 
-  CustomBottomNavigationBar({required this.onTap, super.key});
+  const CustomBottomNavigationBar({
+    required this.onTap,
+    required this.currentIndex,
+    super.key,
+  });
 
   @override
   State<CustomBottomNavigationBar> createState() => _CustomBottomNavigationBarState();
 }
 
 class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> with SingleTickerProviderStateMixin {
-  int _currentIndex = 0;
   // Animation controller for managing the animation of tab icons
   late AnimationController _animationController;
   // List of animations for each tab
@@ -57,15 +63,13 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> w
       builder: (context, child) {
         return Transform.scale(
           // Scale the active tab
-          scale: _currentIndex == index ? _animations[index].value : 1.0,
+          scale: widget.currentIndex == index ? _animations[index].value : 1.0,
           child: InkWell(
             onTap: () {
-              setState(() => _currentIndex = index);
+              widget.onTap(index);
               // Reset and start the animation
               _animationController.reset();
               _animationController.forward();
-              // Call the onTap callback
-              widget.onTap(index);
             },
             child: SizedBox(
               // Increased touch area
@@ -74,7 +78,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> w
               child: Center(
                 child: SvgPicture.asset(
                   // Change icon based on whether this tab is selected
-                  _currentIndex == index ? active : inactive,
+                  widget.currentIndex == index ? active : inactive,
                 ),
               ),
             ),
