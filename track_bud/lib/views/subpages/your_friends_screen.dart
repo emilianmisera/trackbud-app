@@ -51,6 +51,7 @@ class _YourFriendsScreenState extends State<YourFriendsScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(AppTexts.yourFriends, style: TextStyles.regularStyleMedium),
+        centerTitle: true,
         actions: [
           IconButton(
             onPressed: () => showModalBottomSheet(
@@ -66,7 +67,7 @@ class _YourFriendsScreenState extends State<YourFriendsScreen> {
           if (userProvider.isLoading) {
             return const Center(child: CircularProgressIndicator());
           }
-          
+
           List<UserModel> friends = userProvider.friends;
 
           return SingleChildScrollView(

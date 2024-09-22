@@ -20,15 +20,14 @@ class _GroupOverviewScreenState extends State<GroupOverviewScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          widget.groupName,
-          style: TextStyles.regularStyleMedium,
-        ),
+        title: Text(widget.groupName, style: TextStyles.regularStyleMedium),
+        centerTitle: true,
       ),
       body: SingleChildScrollView(
         child: Padding(
           // spacing between content and screen
-          padding: const EdgeInsets.only(top: CustomPadding.defaultSpace, left: CustomPadding.defaultSpace, right: CustomPadding.defaultSpace),
+          padding:
+              const EdgeInsets.only(top: CustomPadding.defaultSpace, left: CustomPadding.defaultSpace, right: CustomPadding.defaultSpace),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

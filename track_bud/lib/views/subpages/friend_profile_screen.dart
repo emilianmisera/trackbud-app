@@ -21,10 +21,8 @@ class FriendProfileScreen extends StatefulWidget {
 class _FriendProfileScreenState extends State<FriendProfileScreen> {
   final FirestoreService _firestoreService = FirestoreService();
 
-  Future<double> calculateTotalDebt(
-      String currentUserId, String friendId) async {
-    List<FriendSplitModel> splits =
-        await _firestoreService.getFriendSplits(currentUserId, friendId);
+  Future<double> calculateTotalDebt(String currentUserId, String friendId) async {
+    List<FriendSplitModel> splits = await _firestoreService.getFriendSplits(currentUserId, friendId);
     double totalDebt = 0.0;
 
     for (var split in splits) {
@@ -47,10 +45,8 @@ class _FriendProfileScreenState extends State<FriendProfileScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          widget.friend.name,
-          style: TextStyles.regularStyleMedium,
-        ),
+        title: Text(widget.friend.name, style: TextStyles.regularStyleMedium),
+        centerTitle: true,
       ),
       body: Column(
         children: [
@@ -73,19 +69,16 @@ class _FriendProfileScreenState extends State<FriendProfileScreen> {
                           width: Constants.profilePictureAccountEdit,
                           height: Constants.profilePictureAccountEdit,
                           child: widget.friend.profilePictureUrl != ""
-                              ? Image.network(widget.friend.profilePictureUrl,
-                                  fit: BoxFit.cover)
+                              ? Image.network(widget.friend.profilePictureUrl, fit: BoxFit.cover)
                               : const Icon(Icons.person, color: Colors.grey),
                         ),
                       ),
                     ),
                     const Gap(CustomPadding.bigSpace),
                     FutureBuilder<double>(
-                      future: calculateTotalDebt(
-                          currentUserId, widget.friend.userId),
+                      future: calculateTotalDebt(currentUserId, widget.friend.userId),
                       builder: (context, snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
+                        if (snapshot.connectionState == ConnectionState.waiting) {
                           return const CircularProgressIndicator();
                         } else if (snapshot.hasError) {
                           return Text('Error: ${snapshot.error}');
@@ -98,20 +91,16 @@ class _FriendProfileScreenState extends State<FriendProfileScreen> {
                       },
                     ),
                     const Gap(CustomPadding.defaultSpace),
-                    Text(AppTexts.history,
-                        style: TextStyles.regularStyleMedium),
+                    Text(AppTexts.history, style: TextStyles.regularStyleMedium),
                     const Gap(CustomPadding.mediumSpace),
                     FutureBuilder<List<FriendSplitModel>>(
-                      future: _firestoreService.getFriendSplits(
-                          currentUserId, widget.friend.userId),
+                      future: _firestoreService.getFriendSplits(currentUserId, widget.friend.userId),
                       builder: (context, snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
+                        if (snapshot.connectionState == ConnectionState.waiting) {
                           return const CircularProgressIndicator();
                         } else if (snapshot.hasError) {
                           return Text('Error: ${snapshot.error}');
-                        } else if (!snapshot.hasData ||
-                            snapshot.data!.isEmpty) {
+                        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                           return const Text('keine Splits gefunden.');
                         } else {
                           return ListView.builder(
@@ -120,8 +109,7 @@ class _FriendProfileScreenState extends State<FriendProfileScreen> {
                             itemCount: snapshot.data!.length,
                             itemBuilder: (context, index) {
                               return Padding(
-                                padding: const EdgeInsets.only(
-                                    bottom: CustomPadding.mediumSpace),
+                                padding: const EdgeInsets.only(bottom: CustomPadding.mediumSpace),
                                 child: FriendSplitTile(
                                   split: snapshot.data![index],
                                   currentUserId: currentUserId,
@@ -140,21 +128,17 @@ class _FriendProfileScreenState extends State<FriendProfileScreen> {
           ),
           Container(
             margin: EdgeInsets.only(
-              bottom:
-                  MediaQuery.sizeOf(context).height * CustomPadding.bottomSpace,
+              bottom: MediaQuery.sizeOf(context).height * CustomPadding.bottomSpace,
               left: CustomPadding.defaultSpace,
               right: CustomPadding.defaultSpace,
             ),
             child: ElevatedButton(
               onPressed: () async {
                 try {
-                  await _firestoreService.payOffFriendSplits(
-                      currentUserId, widget.friend.userId);
+                  await _firestoreService.payOffFriendSplits(currentUserId, widget.friend.userId);
                   // Optionally, you might want to show a success message to the user.
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                        content: Text(
-                            'Schulden mit ${widget.friend.name} wurden beglichen.')),
+                    SnackBar(content: Text('Schulden mit ${widget.friend.name} wurden beglichen.')),
                   );
                   // You may also want to refresh the state or navigate back, etc.
                   setState(() {}); // Refresh the screen if necessary
@@ -164,8 +148,7 @@ class _FriendProfileScreenState extends State<FriendProfileScreen> {
                 }
               },
               style: ElevatedButton.styleFrom(
-                disabledBackgroundColor:
-                    CustomColor.bluePrimary.withOpacity(0.5),
+                disabledBackgroundColor: CustomColor.bluePrimary.withOpacity(0.5),
                 backgroundColor: CustomColor.bluePrimary,
               ),
               child: Text(AppTexts.payOffDebts),

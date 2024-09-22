@@ -29,6 +29,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(AppTexts.accAdjustments, style: TextStyles.regularStyleMedium),
+        centerTitle: true,
       ),
       body: SingleChildScrollView(
         child: Padding(

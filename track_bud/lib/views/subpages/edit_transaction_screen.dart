@@ -38,10 +38,7 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
 
   Future<void> _loadTransactionData() async {
     // Laden Sie die Transaktionsdaten aus Firestore
-    DocumentSnapshot doc = await FirebaseFirestore.instance
-        .collection('transactions')
-        .doc(widget.transactionId)
-        .get();
+    DocumentSnapshot doc = await FirebaseFirestore.instance.collection('transactions').doc(widget.transactionId).get();
 
     if (doc.exists) {
       Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
@@ -58,10 +55,7 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
   }
 
   Future<void> _updateTransaction() async {
-    await FirebaseFirestore.instance
-        .collection('transactions')
-        .doc(widget.transactionId)
-        .update({
+    await FirebaseFirestore.instance.collection('transactions').doc(widget.transactionId).update({
       'title': _titleController.text.trim(),
       'amount': double.parse(_amountController.text.replaceAll(',', '.')),
       'category': _selectedCategory,
@@ -91,22 +85,17 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppTexts.editTransaction,
-            style: TextStyles.regularStyleMedium),
+        title: Text(AppTexts.editTransaction, style: TextStyles.regularStyleMedium),
+        centerTitle: true,
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(
-            horizontal: CustomPadding.defaultSpace,
-            vertical: CustomPadding.defaultSpace),
+        padding: const EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace, vertical: CustomPadding.defaultSpace),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Text field for transaction title
-              CustomTextfield(
-                  name: AppTexts.title,
-                  hintText: AppTexts.hintTitle,
-                  controller: _titleController),
+              CustomTextfield(name: AppTexts.title, hintText: AppTexts.hintTitle, controller: _titleController),
               const Gap(CustomPadding.defaultSpace),
               // Row containing amount and date fields
               Row(
@@ -118,8 +107,7 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
                     controller: _amountController,
                     width: MediaQuery.sizeOf(context).width / 3,
                     prefix: Text(_currentSegment == 0 ? '–' : '+',
-                        style: TextStyles.titleStyleMedium.copyWith(
-                            fontWeight: TextStyles.fontWeightDefault)),
+                        style: TextStyles.titleStyleMedium.copyWith(fontWeight: TextStyles.fontWeightDefault)),
                     type: const TextInputType.numberWithOptions(decimal: true),
                   ),
                   const Gap(CustomPadding.defaultSpace),
@@ -177,11 +165,7 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
         duration: const Duration(milliseconds: 100),
         curve: Curves.easeInOut,
         margin: EdgeInsets.only(
-          bottom: min(
-              MediaQuery.of(context).viewInsets.bottom > 0
-                  ? 0
-                  : MediaQuery.of(context).size.height *
-                      CustomPadding.bottomSpace,
+          bottom: min(MediaQuery.of(context).viewInsets.bottom > 0 ? 0 : MediaQuery.of(context).size.height * CustomPadding.bottomSpace,
               MediaQuery.of(context).size.height * CustomPadding.bottomSpace),
           left: CustomPadding.defaultSpace,
           right: CustomPadding.defaultSpace,

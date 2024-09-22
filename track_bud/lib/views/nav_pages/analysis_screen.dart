@@ -66,7 +66,7 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
                             Constants.infoTileSpace,
                       ),
                       CustomDropDown(
-                        list: ['Ausgaben', 'Einnahmen'],
+                        list: const ['Ausgaben', 'Einnahmen'],
                         width: MediaQuery.sizeOf(context).width / 2 -
                             Constants.infoTileSpace,
                         height: 88,

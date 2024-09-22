@@ -43,11 +43,10 @@ class _YourGroupsScreenState extends State<YourGroupsScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(AppTexts.yourGroups, style: TextStyles.regularStyleMedium),
+        centerTitle: true,
         actions: [
           IconButton(
-            onPressed: () => showModalBottomSheet(
-                context: context,
-                builder: (context) => const CreateGroupSheet()),
+            onPressed: () => showModalBottomSheet(context: context, builder: (context) => const CreateGroupSheet()),
             icon: const Icon(
               Icons.add,
               color: CustomColor.bluePrimary,
@@ -59,10 +58,8 @@ class _YourGroupsScreenState extends State<YourGroupsScreen> {
       body: SingleChildScrollView(
         child: Padding(
           // spacing between content and screen
-          padding: const EdgeInsets.only(
-              top: CustomPadding.defaultSpace,
-              left: CustomPadding.defaultSpace,
-              right: CustomPadding.defaultSpace),
+          padding:
+              const EdgeInsets.only(top: CustomPadding.defaultSpace, left: CustomPadding.defaultSpace, right: CustomPadding.defaultSpace),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -84,8 +81,7 @@ class _YourGroupsScreenState extends State<YourGroupsScreen> {
                     return Column(
                       children: groupProvider.groups
                           .map((group) => Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: CustomPadding.smallSpace),
+                                padding: const EdgeInsets.symmetric(vertical: CustomPadding.smallSpace),
                                 child: GroupCard(group: group),
                               ))
                           .toList(),
