@@ -28,8 +28,7 @@ class TransactionHistoryList extends StatelessWidget {
           .limit(10)
           .snapshots(),
       builder: (context, snapshot) {
-        debugPrint(
-            'StreamBuilder: Connection state: ${snapshot.connectionState}');
+        debugPrint('StreamBuilder: Connection state: ${snapshot.connectionState}');
         if (snapshot.hasError) {
           debugPrint('StreamBuilder Error: ${snapshot.error}');
           return Text('Etwas ist schiefgelaufen: ${snapshot.error}');
@@ -42,8 +41,7 @@ class TransactionHistoryList extends StatelessWidget {
           debugPrint('StreamBuilder: No data available');
           return const Text('Keine Transaktionen vorhanden');
         }
-        debugPrint(
-            'StreamBuilder: Data received, doc count: ${snapshot.data!.docs.length}');
+        debugPrint('StreamBuilder: Data received, doc count: ${snapshot.data!.docs.length}');
 
         return ListView.builder(
           shrinkWrap: true,
@@ -51,7 +49,9 @@ class TransactionHistoryList extends StatelessWidget {
           padding: EdgeInsets.zero,
           itemCount: snapshot.data!.docs.length,
           itemBuilder: (context, index) {
-            DocumentSnapshot doc = snapshot.data!.docs[index];
+            // reverse List to show the most recent transaction at the top of ListView
+            final reversedDocs = snapshot.data!.docs.reversed.toList();
+            DocumentSnapshot doc = reversedDocs[index];
             Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
             debugPrint('Building item $index: ${data['title']}');
             return Padding(
@@ -67,10 +67,7 @@ class TransactionHistoryList extends StatelessWidget {
                 type: transactionType == 'expense' ? 'Ausgabe' : 'Einnahme',
                 onDelete: (String id) {
                   debugPrint('Deleting transaction: $id');
-                  FirebaseFirestore.instance
-                      .collection('transactions')
-                      .doc(id)
-                      .delete();
+                  FirebaseFirestore.instance.collection('transactions').doc(id).delete();
                 },
                 onEdit: (String id) {
                   debugPrint('Editing transaction: $id');
@@ -78,8 +75,7 @@ class TransactionHistoryList extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) =>
-                          EditTransactionScreen(transactionId: id),
+                      builder: (context) => EditTransactionScreen(transactionId: id),
                     ),
                   );
                 },
