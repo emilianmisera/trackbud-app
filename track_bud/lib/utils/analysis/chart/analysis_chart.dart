@@ -3,14 +3,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:gap/gap.dart';
-import 'package:track_bud/utils/categories/category_icon.dart';
+import 'package:track_bud/utils/analysis/chart/category_tile.dart';
+import 'package:track_bud/utils/analysis/chart/chart_section_data.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/enum/categories.dart';
 
 class DonutChart extends StatefulWidget {
   final String selectedOption;
 
-  const DonutChart({Key? key, required this.selectedOption}) : super(key: key);
+  const DonutChart({super.key, required this.selectedOption});
 
   @override
   _DonutChartState createState() => _DonutChartState();
@@ -37,8 +38,7 @@ class _DonutChartState extends State<DonutChart> {
   }
 
   void calculateTotalAmount() {
-    totalAmount = sections.fold(
-        0.0, (sum, section) => sum + section.sectionData.value.abs());
+    totalAmount = sections.fold(0.0, (summary, section) => summary + section.sectionData.value.abs());
   }
 
   Future<void> fetchTransactionData() async {
@@ -46,9 +46,7 @@ class _DonutChartState extends State<DonutChart> {
     final snapshot = await FirebaseFirestore.instance
         .collection('transactions')
         .where('userId', isEqualTo: user!.uid)
-        .where('type',
-            isEqualTo:
-                widget.selectedOption == 'Ausgaben' ? 'expense' : 'income')
+        .where('type', isEqualTo: widget.selectedOption == 'Ausgaben' ? 'expense' : 'income')
         .get();
 
     Map<String, double> categories = {};
@@ -88,14 +86,10 @@ class _DonutChartState extends State<DonutChart> {
   }
 
   Map<int, PieChartSectionData> showingSections() {
-    return {
-      for (var entry in sections.asMap().entries)
-        entry.key: _generatePieChartSectionData(entry.key, entry.value)
-    };
+    return {for (var entry in sections.asMap().entries) entry.key: _generatePieChartSectionData(entry.key, entry.value)};
   }
 
-  PieChartSectionData _generatePieChartSectionData(
-      int index, ChartSectionData section) {
+  PieChartSectionData _generatePieChartSectionData(int index, ChartSectionData section) {
     final isTouched = index == selectedIndex;
     final opacity = selectedIndex == null || isTouched ? 1.0 : 0.5;
 
@@ -125,14 +119,10 @@ class _DonutChartState extends State<DonutChart> {
               sections: showingSectionsMap.values.toList(),
               pieTouchData: PieTouchData(
                 touchCallback: (FlTouchEvent event, pieTouchResponse) {
-                  if (event is FlTapUpEvent &&
-                      pieTouchResponse?.touchedSection != null) {
+                  if (event is FlTapUpEvent && pieTouchResponse?.touchedSection != null) {
                     setState(() {
-                      final touchedIndex = showingSectionsMap.keys.elementAt(
-                          pieTouchResponse!
-                              .touchedSection!.touchedSectionIndex);
-                      selectedIndex =
-                          selectedIndex == touchedIndex ? null : touchedIndex;
+                      final touchedIndex = showingSectionsMap.keys.elementAt(pieTouchResponse!.touchedSection!.touchedSectionIndex);
+                      selectedIndex = selectedIndex == touchedIndex ? null : touchedIndex;
                     });
                   }
                 },
@@ -150,11 +140,7 @@ class _DonutChartState extends State<DonutChart> {
     if (selectedIndex != null && selectedIndex! < sections.length) {
       return [_buildCategoryTile(sections[selectedIndex!], selectedIndex!)];
     } else {
-      return sections
-          .asMap()
-          .entries
-          .map((entry) => _buildCategoryTile(entry.value, entry.key))
-          .toList();
+      return sections.asMap().entries.map((entry) => _buildCategoryTile(entry.value, entry.key)).toList();
     }
   }
 
@@ -166,86 +152,9 @@ class _DonutChartState extends State<DonutChart> {
         title: section.sectionData.title,
         amount: section.sectionData.value,
         icon: section.icon,
-        onTap: () => setState(
-            () => selectedIndex = selectedIndex == index ? null : index),
+        onTap: () => setState(() => selectedIndex = selectedIndex == index ? null : index),
         totalAmount: totalAmount,
         transactionCount: transactionCounts[section.sectionData.title] ?? 0,
-      ),
-    );
-  }
-}
-
-class ChartSectionData {
-  final PieChartSectionData sectionData;
-  final Image icon;
-
-  ChartSectionData({required this.sectionData, required this.icon});
-}
-
-class CategoryTile extends StatelessWidget {
-  final Color color;
-  final String title;
-  final double amount;
-  final double totalAmount;
-  final Image icon;
-  final VoidCallback onTap;
-  final int transactionCount;
-
-  const CategoryTile({
-    Key? key,
-    required this.color,
-    required this.title,
-    required this.amount,
-    required this.icon,
-    required this.onTap,
-    required this.totalAmount,
-    required this.transactionCount,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: MediaQuery.of(context).size.width,
-        padding: const EdgeInsets.all(CustomPadding.defaultSpace),
-        decoration: BoxDecoration(
-          color: CustomColor.white,
-          borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
-        ),
-        child: Row(
-          children: [
-            CategoryIcon(color: color, iconWidget: icon),
-            const Gap(CustomPadding.mediumSpace),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(title, style: TextStyles.regularStyleMedium),
-                  Text(
-                    '${((amount / totalAmount) * 100).toStringAsFixed(1)}%',
-                    style: TextStyles.hintStyleDefault
-                        .copyWith(fontSize: TextStyles.fontSizeHint),
-                  ),
-                ],
-              ),
-            ),
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Text('${amount.toStringAsFixed(2)}€',
-                    style: TextStyles.regularStyleMedium),
-                const Gap(CustomPadding.mediumSpace),
-                Text(
-                  '$transactionCount Transaktionen',
-                  style: TextStyles.hintStyleDefault
-                      .copyWith(fontSize: TextStyles.fontSizeHint),
-                ),
-              ],
-            )
-          ],
-        ),
       ),
     );
   }
