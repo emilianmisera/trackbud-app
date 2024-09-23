@@ -188,5 +188,4 @@ class AppTexts {
   static String emilianEmail = 'emilian.misera@stud.uni-regensburg.de';
   static String madeWithLove = 'Made with ❤ by Emilian & Laurenz';
   static String supportUs = 'Buy us a coffee ☕';
-  static String paypal = '';
 }
