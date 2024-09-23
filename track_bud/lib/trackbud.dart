@@ -11,7 +11,6 @@ import 'package:track_bud/views/nav_pages/settings_screen.dart';
 // TrackBud: Main widget for the app, managing navigation between screens
 // ignore: must_be_immutable
 class TrackBud extends StatefulWidget {
- 
   // Constructor with optional parameter for initial index
   TrackBud({super.key});
 
@@ -22,8 +21,7 @@ class TrackBud extends StatefulWidget {
 class _TrackBudState extends State<TrackBud> {
   final PageController _pageController = PageController();
 
-  final FirestoreService _firestoreService =
-      FirestoreService();
+  final FirestoreService _firestoreService = FirestoreService();
 
   @override
   void initState() {
@@ -37,8 +35,8 @@ class _TrackBudState extends State<TrackBud> {
       final Uri deepLink = dynamicLinkData.link;
 
       _handleDynamicLink(deepLink);
-        }).onError((error) {
-      print('Fehler beim Empfangen des dynamischen Links: $error');
+    }).onError((error) {
+      debugPrint('Fehler beim Empfangen des dynamischen Links: $error');
     });
   }
 
@@ -56,7 +54,10 @@ class _TrackBudState extends State<TrackBud> {
 
     if (invitedUserId != null) {
       String currentUserId = getCurrentUserId();
-      _addFriend(currentUserId, invitedUserId);
+      if (currentUserId != invitedUserId) {
+        _addFriend(currentUserId, invitedUserId);
+        debugPrint('You can not add yourself as a friend, i\'m sorry.');
+      }
     }
   }
 
@@ -70,7 +71,6 @@ class _TrackBudState extends State<TrackBud> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       // Custom bottom navigation bar
       bottomNavigationBar: CustomBottomNavigationBar(
