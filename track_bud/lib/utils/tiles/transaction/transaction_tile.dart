@@ -16,7 +16,6 @@ class TransactionTile extends StatefulWidget {
   final String note;
   final String recurrence;
   final String type;
-  final Function(String) onDelete;
   final Function(String) onEdit;
 
   const TransactionTile(
@@ -29,7 +28,6 @@ class TransactionTile extends StatefulWidget {
       required this.note,
       required this.recurrence,
       required this.type,
-      required this.onDelete,
       required this.onEdit});
 
   @override
@@ -60,7 +58,6 @@ class _TransactionTileState extends State<TransactionTile> {
               note: widget.note,
               recurrence: widget.recurrence,
               type: widget.type,
-              onDelete: widget.onDelete,
               onEdit: widget.onEdit,
             ),
           ),
