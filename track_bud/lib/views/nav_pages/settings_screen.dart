@@ -50,21 +50,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
       // Show success message and navigate away or logout the user
       if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Konto erfolgreich gelöscht.')));
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Konto erfolgreich gelöscht.')));
       }
 
       // navigate the user to a login or home screen after deletion
       if (context.mounted) {
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => const OnboardingScreen()));
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const OnboardingScreen()));
       }
     } catch (e) {
       submit();
       // Show error message if something goes wrong
       if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Fehler beim Löschen des Kontos: $e')));
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Fehler beim Löschen des Kontos: $e')));
       }
     }
   }
@@ -79,11 +76,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     if (user != null) {
       try {
         debugPrint('Attempting to fetch data for user ID: ${user!.uid}');
-        DocumentSnapshot<Map<String, dynamic>> snapshot =
-            await FirebaseFirestore.instance
-                .collection('users')
-                .doc(user!.uid)
-                .get();
+        DocumentSnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore.instance.collection('users').doc(user!.uid).get();
 
         if (snapshot.exists) {
           debugPrint('Document data: ${snapshot.data()}');
@@ -107,19 +100,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
       debugPrint('Received user data: $userData');
       setState(() {
         currentUserName = userData['name'] ?? 'Unbekannter Benutzer';
-        currentUserName == 'Unbekannter Benutzer'
-            ? debugPrint('Name field not found in user data')
-            : null;
+        currentUserName == 'Unbekannter Benutzer' ? debugPrint('Name field not found in user data') : null;
 
         currentUserEmail = userData['email'] ?? '';
-        currentUserEmail == ''
-            ? debugPrint('email field not found in user data')
-            : null;
+        currentUserEmail == '' ? debugPrint('email field not found in user data') : null;
 
         _profileImageUrl = userData['profilePictureUrl'] ?? '';
-        _profileImageUrl == ''
-            ? debugPrint('email field not found in user data')
-            : null;
+        _profileImageUrl == '' ? debugPrint('email field not found in user data') : null;
         isLoading = false;
       });
     } catch (e) {
@@ -161,8 +148,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       child: Padding(
           // spacing between content and screen
           padding: EdgeInsets.only(
-              top: MediaQuery.sizeOf(context).height *
-                  CustomPadding.topSpaceSettingsScreen,
+              top: MediaQuery.sizeOf(context).height * CustomPadding.topSpaceSettingsScreen,
               left: CustomPadding.defaultSpace,
               right: CustomPadding.defaultSpace),
           child: Column(
@@ -174,31 +160,26 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   child: SizedBox(
                     width: Constants.profilePictureSettingPage,
                     height: Constants.profilePictureSettingPage,
-                    child:
-                        _profileImageUrl != null && _profileImageUrl!.isNotEmpty
-                            ? Image.network(
-                                _profileImageUrl!,
-                                fit: BoxFit.cover,
-                                errorBuilder: (context, error, stackTrace) {
-                                  return const Icon(Icons.person,
-                                      size: 100, color: Colors.grey);
-                                },
-                              )
-                            : const Icon(Icons.person,
-                                size: 50, color: Colors.grey),
+                    child: _profileImageUrl != null && _profileImageUrl!.isNotEmpty
+                        ? Image.network(
+                            _profileImageUrl!,
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) {
+                              return const Icon(Icons.person, size: 100, color: Colors.grey);
+                            },
+                          )
+                        : const Icon(Icons.person, size: 50, color: Colors.grey),
                   ),
                 ),
               ),
               const Gap(CustomPadding.mediumSpace),
               Center(
                   // Username
-                  child: Text(currentUserName,
-                      style: TextStyles.titleStyleMedium)),
+                  child: Text(currentUserName, style: TextStyles.titleStyleMedium)),
               const Gap(CustomPadding.smallSpace),
               Center(
                   //email
-                  child: Text(currentUserEmail,
-                      style: TextStyles.hintStyleDefault)),
+                  child: Text(currentUserEmail, style: TextStyles.hintStyleDefault)),
               const Gap(CustomPadding.bigbigSpace),
               Text(AppTexts.preferences, style: TextStyles.regularStyleMedium),
               const Gap(CustomPadding.defaultSpace),
@@ -208,16 +189,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   onPressed: () async {
                     final bool? result = await Navigator.push<bool>(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) => const ProfileSettingsScreen()),
+                      MaterialPageRoute(builder: (context) => const ProfileSettingsScreen()),
                     );
                     if (result == true) {
                       // Reload user data if changes were made
                       _loadUserData();
                     }
                   },
-                  label: Text(AppTexts.editProfile,
-                      style: TextStyles.regularStyleDefault),
+                  label: Text(AppTexts.editProfile, style: TextStyles.regularStyleDefault),
                   icon: SvgPicture.asset(AssetImport.userEdit),
                   style: const ButtonStyle(
                     alignment: Alignment.centerLeft,
@@ -228,17 +207,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
               CustomShadow(
                 // accAdjustment button
                 child: TextButton.icon(
-                  onPressed: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const AccountSettingsScreen())),
-                  label: Text(AppTexts.accAdjustments,
-                      style: TextStyles.regularStyleDefault),
+                  onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const AccountSettingsScreen())),
+                  label: Text(AppTexts.accAdjustments, style: TextStyles.regularStyleDefault),
                   icon: SvgPicture.asset(AssetImport.settings),
                   style: const ButtonStyle(alignment: Alignment.centerLeft),
                 ),
               ),
               const Gap(CustomPadding.mediumSpace),
+              /*
               CustomShadow(
                 // notification button
                 child: TextButton.icon(
@@ -254,15 +230,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
               ),
               const Gap(CustomPadding.mediumSpace),
+              */
               CustomShadow(
                 // aboutTrackbut button
                 child: TextButton.icon(
-                  onPressed: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const AboutTrackbudScreen())),
-                  label: Text(AppTexts.abouTrackBud,
-                      style: TextStyles.regularStyleDefault),
+                  onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const AboutTrackbudScreen())),
+                  label: Text(AppTexts.abouTrackBud, style: TextStyles.regularStyleDefault),
                   icon: SvgPicture.asset(AssetImport.info),
                   style: const ButtonStyle(alignment: Alignment.centerLeft),
                 ),
@@ -272,8 +245,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 // Logout Button
                 child: TextButton.icon(
                   onPressed: () => logout(),
-                  label: Text(AppTexts.logout,
-                      style: TextStyles.regularStyleDefault),
+                  label: Text(AppTexts.logout, style: TextStyles.regularStyleDefault),
                   icon: SvgPicture.asset(AssetImport.logout),
                   style: const ButtonStyle(alignment: Alignment.centerLeft),
                 ),
@@ -284,9 +256,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 child: TextButton.icon(
                   onPressed: () => showDialog(
                       context: context,
-                      builder: (context) => DeleteAccountPopUp(
-                          onPressed: () => _handleAccountDeletion(
-                              context))), //_handleAccountDeletion,
+                      builder: (context) => DeleteAccountPopUp(onPressed: () => _handleAccountDeletion(context))), //_handleAccountDeletion,
                   label: Text(
                     AppTexts.deleteAcc,
                     style: const TextStyle(
@@ -298,8 +268,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                   icon: SvgPicture.asset(
                     AssetImport.trash,
-                    colorFilter: const ColorFilter.mode(
-                        CustomColor.red, BlendMode.srcIn),
+                    colorFilter: const ColorFilter.mode(CustomColor.red, BlendMode.srcIn),
                   ),
                   style: const ButtonStyle(
                     alignment: Alignment.centerLeft,

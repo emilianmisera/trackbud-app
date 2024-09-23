@@ -70,6 +70,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                       ),
                     );
                   }),
+              /*
               const Gap(CustomPadding.mediumSpace),
               AccAdjustmentWidget(
                 // Currency
@@ -77,6 +78,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                 name: AppTexts.changeCurrency,
                 widget: const CurrencyDropdown(), // Dropdown for changing currency
               ),
+              */
               const Gap(CustomPadding.defaultSpace),
               Text(
                 AppTexts.appearance,
