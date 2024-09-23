@@ -5,15 +5,12 @@ class AppTexts {
   static String start = "Beginnen";
   static String signIn = "Anmelden";
   static String signUp = "Registrieren";
-  static String onboardingTitle =
-      "Verwalte deine Finanzen einfach und effizient an einem Ort.";
+  static String onboardingTitle = "Verwalte deine Finanzen einfach und effizient an einem Ort.";
   static String onboardingDescription =
       "Tracke mühelos deine Ein-/Ausgaben, behalte deine Schulden mit Freunden im Blick und Teile deine Ausgaben in Freundesgruppen.";
   // sign in & sign up
-  static String signInDescription =
-      "Melde dich an, um deine Finanzen im Blick zu behalten.";
-  static String signUpDescription =
-      "Beginne jetzt, deine Finanzen mühelos zu verwalten.";
+  static String signInDescription = "Melde dich an, um deine Finanzen im Blick zu behalten.";
+  static String signUpDescription = "Beginne jetzt, deine Finanzen mühelos zu verwalten.";
   static String email = "Email";
   static String hintEmail = "Email eingeben";
   static String password = "Passwort";
@@ -28,18 +25,14 @@ class AppTexts {
   static String confirmPassword = "Passwort bestätigen";
   static String forgotPassword = "Passwort vergessen?";
   static String resetPassword = "Passwort zurücksetzen";
-  static String resetPasswordDescription =
-      "Gib deine E-Mail Adresse an, um dein Passwort zurückzusetzen.";
+  static String resetPasswordDescription = "Gib deine E-Mail Adresse an, um dein Passwort zurückzusetzen.";
   static String continueText = "Weiter";
   static String loginFailedSnackbar = "Anmeldung fehlgeschlagen";
   static String successfulLogin = "Erfolgreiche Anmeldung!";
-  static String emptyLoginInput =
-      "Bitte gib deine E-Mail und dein Passwort an.";
+  static String emptyLoginInput = "Bitte gib deine E-Mail und dein Passwort an.";
   static String signupEmptyField = "Bitte fülle alle Felder aus.";
-  static String signupPasswordsDontMatch =
-      "Deine Passwörter unterscheiden sich.";
-  static String signupSucessful =
-      "Bestätige die gesendete Verifizierungs E-Mail um dich anzumelden.";
+  static String signupPasswordsDontMatch = "Deine Passwörter unterscheiden sich.";
+  static String signupSucessful = "Bestätige die gesendete Verifizierungs E-Mail um dich anzumelden.";
   static String signupFailedSnackbar = "Registrierung fehlgeschlagen";
   // bank acc info screen & budget goal
   static String bankAccInfoHeading = "Wieviel befindet sich auf deinem Konto?";
@@ -61,8 +54,7 @@ class AppTexts {
   static String abouTrackBud = "über TrackBud";
   static String logout = "Ausloggen";
   static String deleteAcc = "Konto löschen";
-  static String deleteAccDescribtion =
-      "Gib dein Passwort ein um dein Konto zu löschen.";
+  static String deleteAccDescribtion = "Gib dein Passwort ein um dein Konto zu löschen.";
   //analysis page
   static String balance = 'Kontostand';
   static String history = 'Verlauf';
@@ -111,12 +103,10 @@ class AppTexts {
   static String darkMode = 'Dunkles Design';
   //change bankaccount
   static String changeBankAccHeading = "Ändere deinen Kontostand";
-  static String changeBankAccDescribtion =
-      "Stimmt dein angegebener Kontostand nicht mehr? Ändere ihn, um auf Kurs zu bleiben!";
+  static String changeBankAccDescribtion = "Stimmt dein angegebener Kontostand nicht mehr? Ändere ihn, um auf Kurs zu bleiben!";
   //change budgetgoal
   static String changeBudgetGoalHeading = "Ändere dein Budget Ziel";
-  static String changeBudgetGoalDescribtion =
-      "Zu sparsam oder doch eher zu optimistisch gewesen? Bearbeite dein Budgetziel.";
+  static String changeBudgetGoalDescribtion = "Zu sparsam oder doch eher zu optimistisch gewesen? Bearbeite dein Budgetziel.";
 
 //----------------------------------------------------------------------------------
 
@@ -191,4 +181,12 @@ class AppTexts {
   static String loan = 'Gehalt';
 
 //----------------------------------------------------------------------------------
+
+  static String aboutTrackBudText =
+      'Wir sind ein motiviertes Team von zwei Studierenden, die es satt hatten, ständig den Überblick über unsere Finanzen zu verlieren (und ehrlich gesagt auch keine Lust auf überteuerte Premium-Apps hatten). Also dachten wir uns: Warum nicht einfach selbst eine App bauen? Gesagt, getan!\nUnsere Mission? Dein Geld im Griff zu bekommen – und das ohne ständige Panikattacken vor Monatsende. Mit unserer App kannst du ganz entspannt deine Ausgaben im Blick behalten und Schulden unter Freunden regeln (kein böses Blut mehr bei den geteilten Pizzarechnungen!). Wir wollen, dass Finanzen wieder Spaß machen… na ja, so viel Spaß, wie Finanzen eben machen können. 😅\nWenn du Fragen hast oder uns einfach sagen möchtest, wie genial wir sind – schreib uns! Wir beißen nicht, nur unsere Prüfungen tun das.';
+  static String laurenzEmail = 'laurenz.ueckert@stud.uni-regensburg.de';
+  static String emilianEmail = 'emilian.misera@stud.uni-regensburg.de';
+  static String madeWithLove = 'Made with ❤ by Emilian & Laurenz';
+  static String supportUs = 'Buy us a coffee ☕';
+  static String paypal = '';
 }
