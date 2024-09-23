@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:gap/gap.dart';
@@ -12,7 +13,7 @@ import 'package:track_bud/utils/textfields/searchfield.dart';
 import 'package:share_plus/share_plus.dart';
 
 class YourFriendsScreen extends StatefulWidget {
-  const YourFriendsScreen({Key? key}) : super(key: key);
+  const YourFriendsScreen({super.key});
 
   @override
   State<YourFriendsScreen> createState() => _YourFriendsScreenState();
@@ -21,29 +22,29 @@ class YourFriendsScreen extends StatefulWidget {
 class _YourFriendsScreenState extends State<YourFriendsScreen> {
   final TextEditingController _searchController = TextEditingController();
   final InviteService _inviteService = InviteService();
+// List to store filtered friends based on search
+  List<UserModel> _filteredFriends = [];
 
   @override
   void initState() {
     super.initState();
+    // Load friends when the widget is first created
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Provider.of<UserProvider>(context, listen: false).loadFriends();
     });
   }
 
+  // Function to share invite link
   Future<void> _shareInviteLink() async {
     try {
       final userId = Provider.of<UserProvider>(context, listen: false).currentUser?.userId;
       if (userId != null) {
         String inviteLink = await _inviteService.createInviteLink(userId);
-        Share.share('Füge mich zu deinen Freunden in TrackBud hinzu: $inviteLink');
+        Share.share('Add me to your friends in TrackBud: $inviteLink');
       }
     } catch (e) {
-      debugPrint("Fehler beim Teilen des Links: $e");
+      debugPrint("Error sharing invite link: $e");
     }
-  }
-
-  void _searchFriend(String query) {
-    // TODO: Implement search functionality
   }
 
   @override
@@ -68,7 +69,11 @@ class _YourFriendsScreenState extends State<YourFriendsScreen> {
             return const Center(child: CircularProgressIndicator(color: CustomColor.bluePrimary));
           }
 
-          List<UserModel> friends = userProvider.friends;
+          // Filter friends based on search text
+          List<UserModel> filteredFriends = userProvider.friends.where((friend) {
+            final searchTerm = _searchController.text.toLowerCase();
+            return friend.name.toLowerCase().contains(searchTerm) || friend.email.toLowerCase().contains(searchTerm);
+          }).toList();
 
           return SingleChildScrollView(
             child: Padding(
@@ -83,14 +88,14 @@ class _YourFriendsScreenState extends State<YourFriendsScreen> {
                   SearchTextfield(
                     hintText: AppTexts.search,
                     controller: _searchController,
-                    onChanged: _searchFriend,
+                    onChanged: (_) => setState(() {}), // Trigger rebuild on search
                   ),
                   const Gap(CustomPadding.defaultSpace),
-                  if (friends.isEmpty)
+                  if (filteredFriends.isEmpty)
                     const Center(child: Text("Keine Freunde gefunden."))
                   else
                     Column(
-                      children: friends
+                      children: filteredFriends
                           .map((friend) => Padding(
                                 padding: const EdgeInsets.symmetric(vertical: CustomPadding.smallSpace),
                                 child: FriendCard(friend: friend),
