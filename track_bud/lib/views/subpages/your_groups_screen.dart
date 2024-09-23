@@ -74,7 +74,7 @@ class _YourGroupsScreenState extends State<YourGroupsScreen> {
               Consumer<GroupProvider>(
                 builder: (context, groupProvider, child) {
                   if (groupProvider.isLoading) {
-                    return const Center(child: CircularProgressIndicator());
+                    return const Center(child: CircularProgressIndicator(color: CustomColor.bluePrimary));
                   } else if (groupProvider.groups.isEmpty) {
                     return const Center(child: Text("Keine Gruppen gefunden."));
                   } else {

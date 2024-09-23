@@ -44,8 +44,7 @@ class _ChangeEmailScreenState extends State<ChangeEmailScreen> {
 
     try {
       // Check if new email is already in use
-      final signInMethods = await FirebaseAuth.instance
-          .fetchSignInMethodsForEmail(_newEmailController.text);
+      final signInMethods = await FirebaseAuth.instance.fetchSignInMethodsForEmail(_newEmailController.text);
       if (signInMethods.isNotEmpty) {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -111,8 +110,7 @@ class _ChangeEmailScreenState extends State<ChangeEmailScreen> {
                 content: Text('E-Mail-Adresse erfolgreich aktualisiert!'),
               ),
             );
-            Navigator.of(context)
-                .pop(); // Navigate back after successful update
+            Navigator.of(context).pop(); // Navigate back after successful update
           }
         }
       }
@@ -144,8 +142,7 @@ class _ChangeEmailScreenState extends State<ChangeEmailScreen> {
           // Padding adds spacing around the content inside the screen.
           padding: EdgeInsets.only(
             top: MediaQuery.sizeOf(context).height * CustomPadding.topSpace -
-                Constants
-                    .defaultAppBarHeight, // Top padding based on screen height
+                Constants.defaultAppBarHeight, // Top padding based on screen height
             left: CustomPadding.defaultSpace, // Left padding
             right: CustomPadding.defaultSpace, // Right padding
           ),
@@ -169,23 +166,13 @@ class _ChangeEmailScreenState extends State<ChangeEmailScreen> {
                 CustomPadding.bigSpace,
               ),
               // Current email text field
-              CustomTextfield(
-                  name: AppTexts.currentEmail,
-                  hintText: AppTexts.currentEmailHint,
-                  controller: _currentEmailController),
+              CustomTextfield(name: AppTexts.currentEmail, hintText: AppTexts.currentEmailHint, controller: _currentEmailController),
               const Gap(CustomPadding.defaultSpace),
               // new email text field
-              CustomTextfield(
-                  name: AppTexts.newEmail,
-                  hintText: AppTexts.newEmailHint,
-                  controller: _newEmailController),
+              CustomTextfield(name: AppTexts.newEmail, hintText: AppTexts.newEmailHint, controller: _newEmailController),
               const Gap(CustomPadding.defaultSpace),
               // Confirm Password text field
-              CustomTextfield(
-                  name: AppTexts.password,
-                  obscureText: true,
-                  hintText: AppTexts.hintPassword,
-                  controller: _passwordController),
+              CustomTextfield(name: AppTexts.password, obscureText: true, hintText: AppTexts.hintPassword, controller: _passwordController),
             ],
           ),
         ),
@@ -199,10 +186,9 @@ class _ChangeEmailScreenState extends State<ChangeEmailScreen> {
         ),
         width: MediaQuery.of(context).size.width,
         child: ElevatedButton(
-          onPressed:
-              _isLoading ? null : _changeEmail, // Disable button while loading
+          onPressed: _isLoading ? null : _changeEmail, // Disable button while loading
           child: _isLoading
-              ? const CircularProgressIndicator() // Show loading indicator
+              ? const CircularProgressIndicator(color: CustomColor.bluePrimary) // Show loading indicator
               : Text(AppTexts.save),
         ),
       ),

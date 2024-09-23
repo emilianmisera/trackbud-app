@@ -45,8 +45,7 @@ class _DebtsScreenState extends State<DebtsScreen> {
 
   Future<void> _loadGroups() async {
     final groupProvider = Provider.of<GroupProvider>(context, listen: false);
-    await groupProvider
-        .loadGroups(); // Assume this method exists to load groups
+    await groupProvider.loadGroups(); // Assume this method exists to load groups
   }
 
   @override
@@ -69,14 +68,12 @@ class _DebtsScreenState extends State<DebtsScreen> {
                       title: AppTexts.debts,
                       amount: 'amount',
                       color: CustomColor.red,
-                      width: MediaQuery.sizeOf(context).width / 2 -
-                          Constants.infoTileSpace),
+                      width: MediaQuery.sizeOf(context).width / 2 - Constants.infoTileSpace),
                   InfoTile(
                       title: AppTexts.credits,
                       amount: 'amount',
                       color: CustomColor.green,
-                      width: MediaQuery.sizeOf(context).width / 2 -
-                          Constants.infoTileSpace),
+                      width: MediaQuery.sizeOf(context).width / 2 - Constants.infoTileSpace),
                 ],
               ),
               const Gap(
@@ -98,9 +95,7 @@ class _DebtsScreenState extends State<DebtsScreen> {
                         ),
                       );
                     },
-                    child: Text(AppTexts.showAll,
-                        style: TextStyles.regularStyleMedium
-                            .copyWith(color: CustomColor.bluePrimary)),
+                    child: Text(AppTexts.showAll, style: TextStyles.regularStyleMedium.copyWith(color: CustomColor.bluePrimary)),
                   ),
                 ],
               ),
@@ -111,7 +106,7 @@ class _DebtsScreenState extends State<DebtsScreen> {
               Consumer<UserProvider>(
                 builder: (context, userProvider, child) {
                   if (userProvider.isLoading) {
-                    return const Center(child: CircularProgressIndicator());
+                    return const Center(child: CircularProgressIndicator(color: CustomColor.bluePrimary));
                   } else if (userProvider.friends.isEmpty) {
                     return const Center(child: Text("Keine Freunde gefunden."));
                   } else {
@@ -119,8 +114,7 @@ class _DebtsScreenState extends State<DebtsScreen> {
                       children: userProvider.friends
                           .take(5) // Limit to 5 friends
                           .map((friend) => Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: CustomPadding.smallSpace),
+                                padding: const EdgeInsets.symmetric(vertical: CustomPadding.smallSpace),
                                 child: FriendCard(friend: friend),
                               ))
                           .toList(),
@@ -149,8 +143,7 @@ class _DebtsScreenState extends State<DebtsScreen> {
                     },
                     child: Text(
                       AppTexts.showAll,
-                      style: TextStyles.regularStyleMedium
-                          .copyWith(color: CustomColor.bluePrimary),
+                      style: TextStyles.regularStyleMedium.copyWith(color: CustomColor.bluePrimary),
                     ),
                   ),
                 ],
@@ -159,7 +152,7 @@ class _DebtsScreenState extends State<DebtsScreen> {
               Consumer<GroupProvider>(
                 builder: (context, groupProvider, child) {
                   if (groupProvider.isLoading) {
-                    return const Center(child: CircularProgressIndicator());
+                    return const Center(child: CircularProgressIndicator(color: CustomColor.bluePrimary));
                   } else if (groupProvider.groups.isEmpty) {
                     return const Center(child: Text("Keine Gruppen gefunden."));
                   } else {

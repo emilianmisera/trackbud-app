@@ -35,7 +35,7 @@ class TransactionHistoryList extends StatelessWidget {
         }
         if (snapshot.connectionState == ConnectionState.waiting) {
           debugPrint('StreamBuilder: Waiting for data');
-          return const CircularProgressIndicator();
+          return const CircularProgressIndicator(color: CustomColor.bluePrimary);
         }
         if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
           debugPrint('StreamBuilder: No data available');

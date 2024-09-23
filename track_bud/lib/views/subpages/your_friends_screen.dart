@@ -65,7 +65,7 @@ class _YourFriendsScreenState extends State<YourFriendsScreen> {
       body: Consumer<UserProvider>(
         builder: (context, userProvider, child) {
           if (userProvider.isLoading) {
-            return const Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator(color: CustomColor.bluePrimary));
           }
 
           List<UserModel> friends = userProvider.friends;

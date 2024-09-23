@@ -79,7 +79,7 @@ class _FriendProfileScreenState extends State<FriendProfileScreen> {
                       future: calculateTotalDebt(currentUserId, widget.friend.userId),
                       builder: (context, snapshot) {
                         if (snapshot.connectionState == ConnectionState.waiting) {
-                          return const CircularProgressIndicator();
+                          return const CircularProgressIndicator(color: CustomColor.bluePrimary);
                         } else if (snapshot.hasError) {
                           return Text('Error: ${snapshot.error}');
                         } else if (!snapshot.hasData) {
@@ -97,7 +97,7 @@ class _FriendProfileScreenState extends State<FriendProfileScreen> {
                       future: _firestoreService.getFriendSplits(currentUserId, widget.friend.userId),
                       builder: (context, snapshot) {
                         if (snapshot.connectionState == ConnectionState.waiting) {
-                          return const CircularProgressIndicator();
+                          return const CircularProgressIndicator(color: CustomColor.bluePrimary);
                         } else if (snapshot.hasError) {
                           return Text('Error: ${snapshot.error}');
                         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
