@@ -17,8 +17,18 @@ class AnalysisScreen extends StatefulWidget {
 }
 
 class _AnalysisScreenState extends State<AnalysisScreen> {
-  double _currentBalance = 0.0;
   String _selectedOption = 'Ausgaben'; // Default option is 'Expenses'
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final transactionProvider =
+          Provider.of<TransactionProvider>(context, listen: false);
+      transactionProvider.initializeBalance();
+      transactionProvider.calculateTotalAmount('expense');
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,15 +40,6 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
     return Scaffold(
       body: Consumer<TransactionProvider>(
         builder: (context, transactionProvider, child) {
-          if (transactionProvider.shouldReloadChart) {
-            // Reset the flag
-            transactionProvider.resetReloadFlag();
-            // Trigger a rebuild of the DonutChart
-            WidgetsBinding.instance.addPostFrameCallback((_) {
-              setState(() {});
-            });
-          }
-
           return SingleChildScrollView(
             child: Padding(
               padding: EdgeInsets.only(
@@ -51,7 +52,8 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
                 children: [
                   InfoTile(
                       title: AppTexts.balance,
-                      amount: '${_currentBalance.toStringAsFixed(2)}',
+                      amount:
+                          '${transactionProvider.currentBalance.toStringAsFixed(2)}',
                       color: CustomColor.bluePrimary),
                   const Gap(CustomPadding.mediumSpace),
                   Row(
@@ -60,7 +62,7 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
                       InfoTile(
                         title: infoTileTitle,
                         amount:
-                            'amount', // Placeholder text, replace with actual amount
+                            '${transactionProvider.totalAmount.toStringAsFixed(2)}',
                         color: infoTileColor,
                         width: MediaQuery.sizeOf(context).width / 2 -
                             Constants.infoTileSpace,
@@ -73,6 +75,10 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
                         onChanged: (value) {
                           setState(() {
                             _selectedOption = value;
+                            transactionProvider.calculateTotalAmount(
+                                _selectedOption == 'Ausgaben'
+                                    ? 'expense'
+                                    : 'income');
                           });
                         },
                       ),
