@@ -11,8 +11,6 @@ import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/date_picker.dart';
 import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfields/textfield.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 //___________________________________________________________________________________________________________________
 
 // Widget for adding a new transaction
@@ -43,41 +41,38 @@ class _AddTransactionState extends State<AddTransaction> {
   // Function to add a new transaction to Firestore
   Future<void> _addTransactionToDB() async {
     try {
-      // Get the current user
-      final user = FirebaseAuth.instance.currentUser;
+      final transactionProvider =
+          Provider.of<TransactionProvider>(context, listen: false);
 
-      // Create a new transaction document
-      await FirebaseFirestore.instance.collection('transactions').add({
-        'userId': user!.uid,
-        'title': _titleController.text,
-        'type': _currentSegment == 0 ? 'expense' : 'income',
-        // Parse amount from comma-separated string to double
-        'amount':
-            double.tryParse(_amountController.text.replaceAll(',', '.')),
-        'category': _selectedCategory,
-        'date': _selectedDateTime,
-        'recurrence': _selectedRecurrence,
-        'note': _noteController.text,
-      });
+      await transactionProvider.addTransaction(
+        _currentSegment == 0 ? 'expense' : 'income',
+        double.tryParse(_amountController.text.replaceAll(',', '.')) ?? 0.0,
+        {
+          'title': _titleController.text,
+          'category': _selectedCategory,
+          'recurrence': _selectedRecurrence,
+          'note': _noteController.text,
+          'date': _selectedDateTime,
+        },
+      );
 
-      Provider.of<TransactionProvider>(context, listen: false).notifyTransactionAdded();
-
-      // Show success message
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Transaktion erfolgreich hinzugefügt.')));
-        // Clear the form or navigate back
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text('Transaktion erfolgreich hinzugefügt.')));
         Navigator.pop(context);
       }
     } catch (e) {
-      // Handle any errors
-      if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Fehler beim Hinzufügen der Transaktion: $e')));
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text('Fehler beim Hinzufügen der Transaktion: $e')));
+      }
     }
   }
 
   @override
   void dispose() {
-    // _titleController.removeListener(_validateForm);
-    // _amountController.removeListener(_validateForm);
+    _titleController.removeListener(_validateForm);
+    _amountController.removeListener(_validateForm);
     _titleController.dispose();
     _amountController.dispose();
     _noteController.dispose();
@@ -87,7 +82,9 @@ class _AddTransactionState extends State<AddTransaction> {
   // Validate form inputs
   void _validateForm() {
     setState(() {
-      _isFormValid = _titleController.text.isNotEmpty && _amountController.text.isNotEmpty && _selectedCategory != null;
+      _isFormValid = _titleController.text.isNotEmpty &&
+          _amountController.text.isNotEmpty &&
+          _selectedCategory != null;
     });
   }
 
@@ -131,7 +128,10 @@ class _AddTransactionState extends State<AddTransaction> {
             ),
             const Gap(CustomPadding.bigSpace),
             // Text field for transaction title
-            CustomTextfield(name: AppTexts.title, hintText: AppTexts.hintTitle, controller: _titleController),
+            CustomTextfield(
+                name: AppTexts.title,
+                hintText: AppTexts.hintTitle,
+                controller: _titleController),
             const Gap(CustomPadding.defaultSpace),
             // Row containing amount and date fields
             Row(
@@ -139,19 +139,23 @@ class _AddTransactionState extends State<AddTransaction> {
                 // Amount text field
                 CustomTextfield(
                   name: AppTexts.amount,
-                  hintText: '',
+                  hintText: '00.00',
                   controller: _amountController,
                   width: MediaQuery.sizeOf(context).width / 3,
                   prefix: Text(
-                    _currentSegment == 0 ? '–' : '+',
-                    style: TextStyles.titleStyleMedium.copyWith(fontWeight: TextStyles.fontWeightDefault),
+                    _currentSegment == 0 ? '– ' : '+ ',
+                    style: TextStyles.titleStyleMedium
+                        .copyWith(fontWeight: TextStyles.fontWeightDefault),
                   ),
+                  suffix: const Text('€'),
                   type: const TextInputType.numberWithOptions(decimal: true),
                   //inputFormatters: [GermanNumericTextFormatter()],
                 ),
                 const Gap(CustomPadding.defaultSpace),
                 // Date
-                DatePicker(onDateTimeChanged: (dateTime) => setState(() => _selectedDateTime = dateTime)),
+                DatePicker(
+                    onDateTimeChanged: (dateTime) =>
+                        setState(() => _selectedDateTime = dateTime)),
               ],
             ),
             const Gap(CustomPadding.defaultSpace),
@@ -172,17 +176,21 @@ class _AddTransactionState extends State<AddTransaction> {
             ),
             const Gap(CustomPadding.mediumSpace),
             // Dropdown for selecting recurrence frequency
-            CustomDropDown(list: const [
-              'einmalig',
-              'täglich',
-              'wöchentlich',
-              'zweiwöchentlich',
-              'halb-monatlich',
-              'monatlich',
-              'vierteljährlich',
-              'halb-jährlich',
-              'jährlich'
-            ], dropdownWidth: MediaQuery.sizeOf(context).width - 32, onChanged: (value) => setState(() => _selectedRecurrence = value)),
+            CustomDropDown(
+                list: const [
+                  'einmalig',
+                  'täglich',
+                  'wöchentlich',
+                  'zweiwöchentlich',
+                  'halb-monatlich',
+                  'monatlich',
+                  'vierteljährlich',
+                  'halb-jährlich',
+                  'jährlich'
+                ],
+                dropdownWidth: MediaQuery.sizeOf(context).width - 32,
+                onChanged: (value) =>
+                    setState(() => _selectedRecurrence = value)),
             const Gap(CustomPadding.defaultSpace),
             // Note text field
             CustomTextfield(
