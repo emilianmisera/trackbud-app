@@ -57,36 +57,42 @@ class _YourGroupsScreenState extends State<YourGroupsScreen> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          // spacing between content and screen
           padding:
               const EdgeInsets.only(top: CustomPadding.defaultSpace, left: CustomPadding.defaultSpace, right: CustomPadding.defaultSpace),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              //SearchField
               SearchTextfield(
                 hintText: AppTexts.search,
                 controller: _searchController,
-                onChanged: _searchGroup,
+                onChanged: (_) => setState(() {}), // Trigger rebuild on search
               ),
               const Gap(CustomPadding.defaultSpace),
-              // List of Groups (using Consumer)
               Consumer<GroupProvider>(
                 builder: (context, groupProvider, child) {
                   if (groupProvider.isLoading) {
                     return const Center(child: CircularProgressIndicator(color: CustomColor.bluePrimary));
-                  } else if (groupProvider.groups.isEmpty) {
-                    return const Center(child: Text("Keine Gruppen gefunden."));
-                  } else {
-                    return Column(
-                      children: groupProvider.groups
-                          .map((group) => Padding(
-                                padding: const EdgeInsets.symmetric(vertical: CustomPadding.smallSpace),
-                                child: GroupCard(group: group),
-                              ))
-                          .toList(),
-                    );
                   }
+
+                  // Filter groups based on search text
+                  final filteredGroups = groupProvider.groups.where((group) {
+                    final searchTerm = _searchController.text.toLowerCase();
+                    // Assuming group has a name property. Adjust as needed.
+                    return group.name.toLowerCase().contains(searchTerm);
+                  }).toList();
+
+                  if (filteredGroups.isEmpty) {
+                    return const Center(child: Text("Keine Gruppen gefunden."));
+                  }
+
+                  return Column(
+                    children: filteredGroups
+                        .map((group) => Padding(
+                              padding: const EdgeInsets.symmetric(vertical: CustomPadding.smallSpace),
+                              child: GroupCard(group: group),
+                            ))
+                        .toList(),
+                  );
                 },
               ),
             ],
