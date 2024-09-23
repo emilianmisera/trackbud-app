@@ -147,6 +147,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               const Gap(CustomPadding.defaultSpace),
+              /*
               CustomShadow(
                 // Apple Sign In
                 child: TextButton.icon(
@@ -163,6 +164,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ),
+              */
               const Gap(CustomPadding.bigSpace),
               Row(
                 // Redirection to sign up page if user doesn't have an account
