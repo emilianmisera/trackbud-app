@@ -215,7 +215,7 @@ class Constants {
   static const Padding screenWidth = Padding(padding: EdgeInsets.only(left: 16, right: 16));
   static const double defaultAppBarHeight = 56;
   static const Duration buttonAnimationDuration = Duration(milliseconds: 200);
-  static const double profilePictureSettingPage = 65;
+  static const double profilePictureSettingPage = 95;
   static const double profilePictureAccountEdit = 115;
   static const double segmentedControlHeight = 0.05;
   static const double timeUnitHeight = 0.03;
