@@ -124,7 +124,7 @@ class AppTexts {
   static String amount = 'Betrag';
   static String date = 'Datum';
   static String categorie = 'Kategorie';
-  static String recurry = 'Wiederkehrende Transaktion';
+  static String recurrency = 'Wiederkehrende Transaktion';
   static String note = 'Notiz';
   static String noteHint = 'Notiz hinzufügen';
   static String addTransaction = 'Transaktion hinzufügen';
@@ -151,7 +151,7 @@ class AppTexts {
   static String shareFriendLink = 'Link teilen';
   static String addFriend = 'Freund suchen';
   static String yourGroups = 'Deine Gruppen';
-  static String addGroup = 'Gruppe erstellen';
+  static String createGroup = 'Gruppe erstellen';
   static String groupNameHint = 'Gruppenname';
   static String addMembers = 'Mitglieder hinzufügen';
   // friendProfile screen
