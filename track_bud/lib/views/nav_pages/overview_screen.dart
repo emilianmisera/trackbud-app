@@ -22,9 +22,9 @@ class _OverviewScreenState extends State<OverviewScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      // Using context.read to access providers without listening for changes
-      final userProvider = context.read<UserProvider>();
-      final transactionProvider = context.read<TransactionProvider>();
+      final userProvider = Provider.of<UserProvider>(context, listen: false);
+      final transactionProvider =
+          Provider.of<TransactionProvider>(context, listen: false);
 
       userProvider.loadCurrentUser();
       transactionProvider.initializeBalance();
@@ -51,9 +51,11 @@ class _OverviewScreenState extends State<OverviewScreen> {
             const Gap(CustomPadding.defaultSpace),
             const OverviewDebtsTile(),
             const Gap(CustomPadding.defaultSpace),
-
-            Text(AppTexts.history, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
-
+            Text(
+              AppTexts.history,
+              style: TextStyles.regularStyleMedium
+                  .copyWith(color: defaultColorScheme.primary),
+            ),
             const Gap(CustomPadding.mediumSpace),
             const TransactionHistoryList(transactionType: 'expense')
           ],
