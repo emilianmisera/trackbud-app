@@ -16,6 +16,18 @@ class _CategoriesExpenseState extends State<CategoriesExpense> {
   // Index of the currently selected category
   int? selectedIndex;
 
+  final List<Categories> filteredCategories = [
+    Categories.lebensmittel,
+    Categories.drogerie,
+    Categories.restaurant,
+    Categories.shopping,
+    Categories.unterkunft,
+    Categories.mobility,
+    Categories.entertainment,
+    Categories.geschenk,
+    Categories.sonstiges,
+  ];
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -23,17 +35,20 @@ class _CategoriesExpenseState extends State<CategoriesExpense> {
       height: MediaQuery.sizeOf(context).height * Constants.categoryHeight,
       child: ListView.builder(
         scrollDirection: Axis.horizontal, // Make the list scroll horizontally
-        itemCount: Categories.values.length,
+        itemCount: filteredCategories.length,
         itemBuilder: (context, index) => Padding(
-          padding: const EdgeInsets.only(right: CustomPadding.mediumSpace), // add Padding between categories
+          padding: const EdgeInsets.only(
+              right:
+                  CustomPadding.mediumSpace), // add Padding between categories
           child: GestureDetector(
             onTap: () {
               setState(() => selectedIndex = index);
-              widget.onCategorySelected(Categories.values[index].categoryName);
+              widget.onCategorySelected(filteredCategories[index].categoryName);
             },
             child: Opacity(
               // Reduce opacity for non-selected categories
-              opacity: selectedIndex == null || selectedIndex == index ? 1.0 : 0.5,
+              opacity:
+                  selectedIndex == null || selectedIndex == index ? 1.0 : 0.5,
               child: Container(
                 padding: const EdgeInsets.symmetric(
                   horizontal: CustomPadding.categoryWidthSpace,
@@ -41,13 +56,14 @@ class _CategoriesExpenseState extends State<CategoriesExpense> {
                 ),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(7),
-                  color: Categories.values[index].color,
+                  color: filteredCategories[index].color,
                 ),
                 child: Row(
                   children: [
-                    Categories.values[index].icon, // Display category icon
+                    filteredCategories[index].icon, // Display category icon
                     const Gap(CustomPadding.smallSpace),
-                    Text(Categories.values[index].categoryName), // Display category name
+                    Text(filteredCategories[index]
+                        .categoryName), // Display category name
                   ],
                 ),
               ),

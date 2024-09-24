@@ -64,7 +64,6 @@ class _TransactionDetailState extends State<TransactionDetail> {
                     size: 25,
                     color: defaultColorScheme.primary,
                   ),
-
                   items: options.map((String option) {
                     return DropdownMenuItem<String>(
                       value: option,
@@ -76,7 +75,7 @@ class _TransactionDetailState extends State<TransactionDetail> {
                                 : AssetImport.trash,
                             colorFilter: ColorFilter.mode(
                                 option == 'Bearbeiten'
-                                    ? CustomColor.black
+                                    ? defaultColorScheme.primary
                                     : CustomColor.red,
                                 BlendMode.srcIn),
                           ),
@@ -85,7 +84,7 @@ class _TransactionDetailState extends State<TransactionDetail> {
                             option,
                             style: TextStyles.regularStyleDefault.copyWith(
                               color: option == 'Bearbeiten'
-                                  ? CustomColor.black
+                                  ? defaultColorScheme.primary
                                   : CustomColor.red,
                             ),
                           ),
@@ -107,9 +106,9 @@ class _TransactionDetailState extends State<TransactionDetail> {
                     width: 160,
                     padding: const EdgeInsets.symmetric(vertical: 6),
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
+                      borderRadius:
+                          BorderRadius.circular(Constants.contentBorderRadius),
                       color: defaultColorScheme.surface,
-
                     ),
                   ),
                   menuItemStyleData: const MenuItemStyleData(
@@ -123,7 +122,8 @@ class _TransactionDetailState extends State<TransactionDetail> {
                 child: Center(
                   child: Text(
                     AppTexts.expense,
-                    style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary),
+                    style: TextStyles.regularStyleMedium
+                        .copyWith(color: defaultColorScheme.primary),
                   ),
                 ),
               ),
@@ -132,7 +132,8 @@ class _TransactionDetailState extends State<TransactionDetail> {
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                icon: Icon(Icons.close_rounded, color: defaultColorScheme.primary),
+                icon: Icon(Icons.close_rounded,
+                    color: defaultColorScheme.primary),
               ),
             ],
           ),
@@ -162,18 +163,22 @@ class _TransactionDetailState extends State<TransactionDetail> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(widget.title, style: TextStyles.titleStyleMedium.copyWith(color: defaultColorScheme.primary)),
+                  Text(widget.title,
+                      style: TextStyles.titleStyleMedium
+                          .copyWith(color: defaultColorScheme.primary)),
                   const Gap(CustomPadding.smallSpace),
                   Text(DateFormat('dd.MM.yyyy, HH:mm').format(widget.date),
-                      style: TextStyles.hintStyleDefault.copyWith(color: defaultColorScheme.secondary)),
-
+                      style: TextStyles.hintStyleDefault
+                          .copyWith(color: defaultColorScheme.secondary)),
                 ],
               ),
             ],
           ),
           const Gap(CustomPadding.defaultSpace),
           // Amount section
-          Text(AppTexts.amount, style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary)),
+          Text(AppTexts.amount,
+              style: TextStyles.regularStyleDefault
+                  .copyWith(color: defaultColorScheme.primary)),
           const Gap(CustomPadding.mediumSpace),
           Row(
             children: [
@@ -185,11 +190,12 @@ class _TransactionDetailState extends State<TransactionDetail> {
                       vertical: CustomPadding.contentHeightSpace),
                   decoration: BoxDecoration(
                     color: defaultColorScheme.surface,
-                    borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
+                    borderRadius:
+                        BorderRadius.circular(Constants.contentBorderRadius),
                   ),
                   child: Text('${widget.amount.toStringAsFixed(2)}€',
-                      style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
-
+                      style: TextStyles.regularStyleMedium
+                          .copyWith(color: defaultColorScheme.primary)),
                 ),
               ),
               const Gap(CustomPadding.defaultSpace),
@@ -201,8 +207,8 @@ class _TransactionDetailState extends State<TransactionDetail> {
                       vertical: CustomPadding.contentHeightSpace),
                   decoration: BoxDecoration(
                     color: defaultColorScheme.surface,
-                    borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
-
+                    borderRadius:
+                        BorderRadius.circular(Constants.contentBorderRadius),
                   ),
                   child: Text(widget.recurrence,
                       style: TextStyles.regularStyleDefault
@@ -213,7 +219,9 @@ class _TransactionDetailState extends State<TransactionDetail> {
           ),
           const Gap(CustomPadding.defaultSpace),
           // Note section
-          Text(AppTexts.note, style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary)),
+          Text(AppTexts.note,
+              style: TextStyles.regularStyleDefault
+                  .copyWith(color: defaultColorScheme.primary)),
           const Gap(CustomPadding.mediumSpace),
           CustomShadow(
             child: Container(
@@ -223,10 +231,12 @@ class _TransactionDetailState extends State<TransactionDetail> {
                   vertical: CustomPadding.contentHeightSpace),
               decoration: BoxDecoration(
                 color: defaultColorScheme.surface,
-                borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
-
+                borderRadius:
+                    BorderRadius.circular(Constants.contentBorderRadius),
               ),
-              child: Text(widget.note, style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary)),
+              child: Text(widget.note,
+                  style: TextStyles.regularStyleDefault
+                      .copyWith(color: defaultColorScheme.primary)),
             ),
           ),
         ],
