@@ -52,7 +52,7 @@ class MonthlyExpenseTile extends StatelessWidget {
                   lineHeight: 7,
                   percent: percentage,
                   barRadius: const Radius.circular(180),
-                  backgroundColor: defaultColorScheme.secondary,
+                  backgroundColor: defaultColorScheme.outline,
                   progressColor: getProgressColor(percentage),
                   animateFromLastPercent: true,
                   animation: true,
