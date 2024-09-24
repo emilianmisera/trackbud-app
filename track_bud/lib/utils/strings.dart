@@ -100,7 +100,7 @@ class AppTexts {
   static String changeBudgetGoal = 'Budgetziel ändern';
   static String changeCurrency = 'Standardwährung';
   static String appearance = 'Erscheinungsbild';
-  static String darkMode = 'Dunkles Design';
+  static String systemMode = 'automatisch (System)';
   //change bankaccount
   static String changeBankAccHeading = "Ändere deinen Kontostand";
   static String changeBankAccDescribtion = "Stimmt dein angegebener Kontostand nicht mehr? Ändere ihn, um auf Kurs zu bleiben!";
@@ -182,6 +182,7 @@ class AppTexts {
 
 //----------------------------------------------------------------------------------
 
+// ABOUT TRACKBUD
   static String aboutTrackBudText =
       'Wir sind ein motiviertes Team von zwei Studierenden, die es satt hatten, ständig den Überblick über unsere Finanzen zu verlieren (und ehrlich gesagt auch keine Lust auf überteuerte Premium-Apps hatten). Also dachten wir uns: Warum nicht einfach selbst eine App bauen? Gesagt, getan!\nUnsere Mission? Dein Geld im Griff zu bekommen – und das ohne ständige Panikattacken vor Monatsende. Mit unserer App kannst du ganz entspannt deine Ausgaben im Blick behalten und Schulden unter Freunden regeln (kein böses Blut mehr bei den geteilten Pizzarechnungen!). Wir wollen, dass Finanzen wieder Spaß machen… na ja, so viel Spaß, wie Finanzen eben machen können. 😅\nWenn du Fragen hast oder uns einfach sagen möchtest, wie genial wir sind – schreib uns! Wir beißen nicht, nur unsere Prüfungen tun das.';
   static String laurenzEmail = 'laurenz.ueckert@stud.uni-regensburg.de';

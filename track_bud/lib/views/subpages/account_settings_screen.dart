@@ -81,22 +81,13 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
               ),
               */
               const Gap(CustomPadding.defaultSpace),
-              Text(
-                AppTexts.appearance,
-                style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary),
-              ),
+              Text(AppTexts.sonstiges, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
               const Gap(CustomPadding.mediumSpace),
               AccAdjustmentWidget(
-                color: defaultColorScheme.onSurface,
-                icon: AssetImport.mode,
-                name: AppTexts.darkMode,
-                widget: Switch(
-                  // Switch Widget
-                  value: isActive,
-                  onChanged: _toggleSwitch,
-                  activeColor: CustomColor.bluePrimary,
-                ),
-              ),
+                  color: defaultColorScheme.onSurface,
+                  icon: AssetImport.mode,
+                  name: AppTexts.appearance,
+                  widget: Text(AppTexts.systemMode, style: TextStyles.hintStyleMedium.copyWith(color: defaultColorScheme.secondary))),
             ],
           ),
         ),
