@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:track_bud/models/friend_split_model.dart';
 import 'package:track_bud/models/group_model.dart';
-import 'package:track_bud/models/transaction_model.dart';
 import 'package:track_bud/models/user_model.dart';
 
 class FirestoreService {
@@ -27,14 +26,6 @@ class FirestoreService {
 
   Future<void> addUser(UserModel user) {
     return _db.collection('users').doc(user.userId).set(user.toMap());
-  }
-
-  // Add Transaction
-  Future<void> addTransaction(TransactionModel transaction) {
-    return _db
-        .collection('transactions')
-        .doc(transaction.transactionId)
-        .set(transaction.toFirestoreMap());
   }
 
   // Fetch User
@@ -100,6 +91,15 @@ class FirestoreService {
           .update({'profilePictureUrl': imageUrl});
     } catch (e) {
       debugPrint("Fehler beim Aktualisieren des Profilbildes in Firestore: $e");
+      rethrow;
+    }
+  }
+
+  Future<void> updateUser(UserModel user) async {
+    try {
+      await _db.collection('users').doc(user.userId).update(user.toMap());
+    } catch (e) {
+      debugPrint("Error updating user: $e");
       rethrow;
     }
   }
