@@ -12,11 +12,11 @@ class UserProvider extends ChangeNotifier {
   UserModel? get currentUser => _currentUser;
   List<UserModel> get friends => _friends;
   bool get isLoading => _isLoading;
+  double get monthlyBudgetGoal => _currentUser?.monthlySpendingGoal ?? 0.0;
 
   Future<void> loadCurrentUser() async {
     _isLoading = true;
     notifyListeners();
-
     try {
       User? firebaseUser = FirebaseAuth.instance.currentUser;
       if (firebaseUser != null) {
@@ -33,7 +33,6 @@ class UserProvider extends ChangeNotifier {
 
   Future<void> loadFriends() async {
     if (_currentUser == null) return;
-
     try {
       _friends = await _firestoreService.getFriends(_currentUser!.userId);
       notifyListeners();
@@ -44,7 +43,6 @@ class UserProvider extends ChangeNotifier {
 
   Future<void> addFriend(String friendUserId) async {
     if (_currentUser == null) return;
-
     try {
       await _firestoreService.addFriend(_currentUser!.userId, friendUserId);
       await loadFriends(); // Reload friends list after adding a new friend
@@ -56,5 +54,13 @@ class UserProvider extends ChangeNotifier {
   void updateCurrentUser(UserModel updatedUser) {
     _currentUser = updatedUser;
     notifyListeners();
+  }
+
+  Future<void> setMonthlyBudgetGoal(double goal) async {
+    if (_currentUser != null) {
+      _currentUser!.monthlySpendingGoal = goal;
+      await _firestoreService.updateUser(_currentUser!);
+      notifyListeners();
+    }
   }
 }
