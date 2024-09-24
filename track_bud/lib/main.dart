@@ -19,13 +19,13 @@ void main() async {
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   //await FirebaseApi().initNotifications();
-  FirebaseFirestore.instance.settings = const Settings(persistenceEnabled: true); // Offline-Persistence deaktivieren
+  FirebaseFirestore.instance.settings = const Settings(persistenceEnabled: true); // Offline-Persistence
 
-  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+  /*SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: CustomColor.backgroundPrimary, // StatusBar (android)
     statusBarIconBrightness: Brightness.dark, //shows dark icons in status bar (Allways) -> change for dark mode (android)
     systemNavigationBarColor: CustomColor.backgroundPrimary, //shows same color as background in the NavigationBar (android)
-  ));
+  ));*/
 
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp, // Portrait mode only (android)
