@@ -54,7 +54,9 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
   // Function to check if profile has been modified
   void _checkIfProfileChanged() {
     setState(() {
-      _isProfileChanged = _nameController.text.trim() != currentUserName.trim() || _isProfilePictureChanged;
+      _isProfileChanged =
+          _nameController.text.trim() != currentUserName.trim() ||
+              _isProfilePictureChanged;
     });
   }
 
@@ -62,7 +64,11 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
     if (user != null) {
       try {
         debugPrint('Attempting to fetch data for user ID: ${user!.uid}');
-        DocumentSnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore.instance.collection('users').doc(user!.uid).get();
+        DocumentSnapshot<Map<String, dynamic>> snapshot =
+            await FirebaseFirestore.instance
+                .collection('users')
+                .doc(user!.uid)
+                .get();
 
         if (snapshot.exists) {
           debugPrint('Document data: ${snapshot.data()}');
@@ -86,15 +92,21 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
       debugPrint('Received user data: $userData');
       setState(() {
         currentUserName = userData['name'] ?? 'Unbekannter Benutzer';
-        currentUserName == 'Unbekannter Benutzer' ? debugPrint('Name field not found in user data') : null;
+        currentUserName == 'Unbekannter Benutzer'
+            ? debugPrint('Name field not found in user data')
+            : null;
 
         _nameController.text = currentUserName;
 
         currentUserEmail = userData['email'] ?? '';
-        currentUserEmail == '' ? debugPrint('email field not found in user data') : null;
+        currentUserEmail == ''
+            ? debugPrint('email field not found in user data')
+            : null;
 
         _profileImageUrl = userData['profilePictureUrl'] ?? '';
-        _profileImageUrl == '' ? debugPrint('profilePictureUrl not found in user data') : null;
+        _profileImageUrl == ''
+            ? debugPrint('profilePictureUrl not found in user data')
+            : null;
         isLoading = false;
       });
     } catch (e) {
@@ -119,11 +131,13 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
             await deleteProfileImage(userId);
           }
 
-          final String? profileImageUrl = await uploadProfileImage(_profileImage!, userId);
+          final String? profileImageUrl =
+              await uploadProfileImage(_profileImage!, userId);
 
           if (profileImageUrl != null) {
             // Update Firestore
-            await FirestoreService().updateUserProfileImageInFirestore(userId, profileImageUrl);
+            await FirestoreService()
+                .updateUserProfileImageInFirestore(userId, profileImageUrl);
           }
         }
 
@@ -137,14 +151,16 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Fehler beim Aktualisieren des Profils: $e")));
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text("Fehler beim Aktualisieren des Profils: $e")));
       }
     }
   }
 
   Future<void> deleteProfileImage(String userId) async {
     try {
-      final storageRef = FirebaseStorage.instance.ref().child('profile_images/$userId');
+      final storageRef =
+          FirebaseStorage.instance.ref().child('profile_images/$userId');
       await storageRef.delete();
       debugPrint("Old profile image deleted successfully");
     } catch (e) {
@@ -186,7 +202,8 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
   Future<String?> uploadProfileImage(File imageFile, String userId) async {
     try {
       // Create a reference to the location where the file will be stored
-      final storageRef = FirebaseStorage.instance.ref().child('profile_images/$userId');
+      final storageRef =
+          FirebaseStorage.instance.ref().child('profile_images/$userId');
 
       // Compress the image before uploading
       final compressedImage = await compressImage(imageFile);
@@ -211,7 +228,8 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
   Future<void> saveProfileImageUrl(String userId, String imageUrl) async {
     try {
       // Reference to the Firestore collection where you store user profiles
-      final userRef = FirebaseFirestore.instance.collection('users').doc(userId);
+      final userRef =
+          FirebaseFirestore.instance.collection('users').doc(userId);
 
       // Update the profile image URL
       await userRef.update({
@@ -220,11 +238,14 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
 
       // Optional: Show a success message
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Profilbild erfolgreich hochgeladen und gespeichert.")));
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content:
+                Text("Profilbild erfolgreich hochgeladen und gespeichert.")));
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Fehler beim Speichern der Bild-URL: $e")));
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("Fehler beim Speichern der Bild-URL: $e")));
       }
     }
   }
@@ -235,17 +256,22 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
     return Scaffold(
         // App bar with title
         appBar: AppBar(
-          title: Text(AppTexts.editProfile, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
+          title: Text(AppTexts.editProfile,
+              style: TextStyles.regularStyleMedium
+                  .copyWith(color: defaultColorScheme.primary)),
           centerTitle: true,
         ),
         body: SingleChildScrollView(
           child: Padding(
             // add Space
             padding: EdgeInsets.only(
-                top: MediaQuery.sizeOf(context).height * CustomPadding.topSpaceAuth - Constants.defaultAppBarHeight,
+                top: MediaQuery.sizeOf(context).height *
+                        CustomPadding.topSpaceAuth -
+                    Constants.defaultAppBarHeight,
                 left: CustomPadding.defaultSpace,
                 right: CustomPadding.defaultSpace,
-                bottom: MediaQuery.sizeOf(context).height * CustomPadding.bottomSpace),
+                bottom: MediaQuery.sizeOf(context).height *
+                    CustomPadding.bottomSpace),
 
             child: Column(
               children: [
@@ -277,7 +303,8 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                                         _profileImageUrl,
                                         fit: BoxFit.cover,
                                       )
-                                    : const Icon(Icons.person, size: 100, color: Colors.grey),
+                                    : const Icon(Icons.person,
+                                        size: 100, color: Colors.grey),
                           ),
                         ),
                         // Camera icon overlay
@@ -299,7 +326,10 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                 ),
                 const Gap(CustomPadding.bigSpace),
                 // First Name text field
-                CustomTextfield(name: AppTexts.firstName, hintText: '', controller: _nameController),
+                CustomTextfield(
+                    name: AppTexts.firstName,
+                    hintText: '',
+                    controller: _nameController),
                 const Gap(CustomPadding.defaultSpace),
                 // Email text field (locked)
                 LockedEmailTextfield(email: currentUserEmail),
@@ -308,8 +338,12 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                 AccAdjustmentButton(
                   icon: AssetImport.email,
                   name: AppTexts.changeEmail,
-                  onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const ChangeEmailScreen())),
-                  padding: const EdgeInsets.symmetric(horizontal: CustomPadding.mediumSpace),
+                  onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const ChangeEmailScreen())),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: CustomPadding.mediumSpace),
                 ),
                 // Change Password button
                 AccAdjustmentButton(
@@ -323,7 +357,8 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                       ),
                     );
                   },
-                  padding: const EdgeInsets.symmetric(horizontal: CustomPadding.mediumSpace),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: CustomPadding.mediumSpace),
                 ),
               ],
             ),
@@ -336,8 +371,13 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
             duration: const Duration(milliseconds: 100),
             curve: Curves.easeInOut,
             margin: EdgeInsets.only(
-              bottom: min(MediaQuery.of(context).viewInsets.bottom > 0 ? 0 : MediaQuery.of(context).size.height * CustomPadding.bottomSpace,
-                  MediaQuery.of(context).size.height * CustomPadding.bottomSpace),
+              bottom: min(
+                  MediaQuery.of(context).viewInsets.bottom > 0
+                      ? 0
+                      : MediaQuery.of(context).size.height *
+                          CustomPadding.bottomSpace,
+                  MediaQuery.of(context).size.height *
+                      CustomPadding.bottomSpace),
               left: CustomPadding.defaultSpace,
               right: CustomPadding.defaultSpace,
             ),
@@ -345,7 +385,8 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
             child: ElevatedButton(
               onPressed: _isProfileChanged ? _saveProfileChanges : null,
               style: ElevatedButton.styleFrom(
-                disabledBackgroundColor: CustomColor.bluePrimary.withOpacity(0.5),
+                disabledBackgroundColor:
+                    CustomColor.bluePrimary.withOpacity(0.5),
                 backgroundColor: CustomColor.bluePrimary,
                 elevation: 0, // Remove shadow
               ),
