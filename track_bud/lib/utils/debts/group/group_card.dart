@@ -18,6 +18,7 @@ class GroupCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     // Access the GroupProvider using Provider.of
     final firestoreService = FirestoreService();
     DateTime createdAt = DateTime.parse(group.createdAt);
@@ -38,9 +39,7 @@ class GroupCard extends StatelessWidget {
           child: Container(
         width: MediaQuery.sizeOf(context).width,
         padding: const EdgeInsets.all(CustomPadding.defaultSpace),
-        decoration: BoxDecoration(
-            color: CustomColor.white,
-            borderRadius: BorderRadius.circular(Constants.contentBorderRadius)),
+        decoration: BoxDecoration(color: defaultColorScheme.surface, borderRadius: BorderRadius.circular(Constants.contentBorderRadius)),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -52,23 +51,21 @@ class GroupCard extends StatelessWidget {
                   width: 40,
                   height: 40,
                   child: group.profilePictureUrl.isNotEmpty
-                      ? Image.network(group.profilePictureUrl,
-                          fit: BoxFit.cover)
+                      ? Image.network(group.profilePictureUrl, fit: BoxFit.cover)
                       : const Icon(Icons.group, color: Colors.grey),
                 ),
               ),
               // Group's name
-              title: Text(group.name, style: TextStyles.regularStyleMedium),
+              title: Text(group.name, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
               // Creation date information
               subtitle: Text('Erstellt am: $formattedDate',
-                  style: TextStyles.hintStyleDefault
-                      .copyWith(fontSize: TextStyles.fontSizeHint)),
+                  style: TextStyles.hintStyleDefault.copyWith(fontSize: TextStyles.fontSizeHint, color: defaultColorScheme.secondary)),
               // Placeholder for balance - you'll need to calculate this based on your app's logic
-              trailing: Text('0.00€', style: TextStyles.regularStyleMedium),
+              trailing: Text('0.00€', style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
               minVerticalPadding: 0,
               contentPadding: EdgeInsets.zero,
             ),
-            const Divider(color: CustomColor.grey),
+            Divider(color: defaultColorScheme.outline),
             const Gap(CustomPadding.mediumSpace),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -80,18 +77,13 @@ class GroupCard extends StatelessWidget {
                       children: List.generate(group.members.length, (index) {
                         // Fetch user data for each member to get their profile picture
                         return FutureBuilder<UserModel?>(
-                          future:
-                              firestoreService.getUser(group.members[index]),
+                          future: firestoreService.getUser(group.members[index]),
                           builder: (context, snapshot) {
-                            if (snapshot.connectionState ==
-                                ConnectionState.waiting) {
-                              return const SizedBox
-                                  .shrink(); // Or a placeholder widget while loading
+                            if (snapshot.connectionState == ConnectionState.waiting) {
+                              return const SizedBox.shrink(); // Or a placeholder widget while loading
                             }
                             if (snapshot.hasError || snapshot.data == null) {
-                              return const Icon(Icons.person,
-                                  color:
-                                      Colors.grey); // Error or user not found
+                              return const Icon(Icons.person, color: Colors.grey); // Error or user not found
                             }
                             final member = snapshot.data!;
                             return Positioned(
@@ -102,10 +94,8 @@ class GroupCard extends StatelessWidget {
                                   width: 40,
                                   height: 40,
                                   child: member.profilePictureUrl.isNotEmpty
-                                      ? Image.network(member.profilePictureUrl,
-                                          fit: BoxFit.cover)
-                                      : const Icon(Icons.person,
-                                          color: Colors.grey),
+                                      ? Image.network(member.profilePictureUrl, fit: BoxFit.cover)
+                                      : const Icon(Icons.person, color: Colors.grey),
                                 ),
                               ),
                             );

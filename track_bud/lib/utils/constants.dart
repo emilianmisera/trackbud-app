@@ -117,15 +117,15 @@ class CustomColor {
   static const Color pastelRed = Color.fromRGBO(254, 226, 228, 1);
 
 //darkmode colors
-  static const Color darkModebackgroundPrimary = Color.fromRGBO(24, 26, 27, 1);
-  static const Color darkModeBlack = Color.fromRGBO(34, 36, 38, 1);
-  static const Color darkModeGrey = Color.fromRGBO(74, 79, 74, 1);
+  static const Color darkModebackgroundPrimary = Color.fromRGBO(18, 18, 18, 1);
+  static const Color darkModeBlack = Color.fromRGBO(30, 30, 30, 1);
+  static const Color darkModeGrey = Color.fromRGBO(54, 54, 54, 1);
   static const Color darkModeNavBar = Color.fromRGBO(160, 162, 175, 1);
-  static const Color darkModeHint = Color.fromRGBO(169, 169, 169, 1);
+  static const Color darkModeHint = Color.fromRGBO(142, 142, 144, 1);
   static const Color darkModeWhite = Color.fromRGBO(237, 237, 237, 1);
-  static const Color darkModePastelBlue = Color.fromRGBO(42, 51, 72, 1);
-  static const Color darkModePastelGreen = Color.fromRGBO(26, 61, 47, 1);
-  static const Color darkModePastelRed = Color.fromRGBO(79, 27, 31, 1);
+  static const Color darkModePastelBlue = Color.fromRGBO(27, 36, 57, 1);
+  static const Color darkModePastelGreen = Color.fromRGBO(36, 48, 40, 1);
+  static const Color darkModePastelRed = Color.fromRGBO(48, 30, 31, 1);
   //categorie colors
   //expenses
   static const Color unterkunft = Color.fromRGBO(242, 201, 76, 1);

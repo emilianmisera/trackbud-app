@@ -49,6 +49,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: AppBar(),
       bottomSheet: Container(
@@ -74,9 +75,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start, //alignment to left
             children: [
-              Text(AppTexts.resetPassword, style: TextStyles.headingStyle),
+              Text(AppTexts.resetPassword, style: TextStyles.headingStyle.copyWith(color: defaultColorScheme.primary)),
               const Gap(CustomPadding.mediumSpace),
-              Text(AppTexts.resetPasswordDescription, style: TextStyles.hintStyleDefault),
+              Text(AppTexts.resetPasswordDescription, style: TextStyles.hintStyleDefault.copyWith(color: defaultColorScheme.secondary)),
               const Gap(CustomPadding.defaultSpace),
               CustomTextfield(
                 controller: _emailController,

@@ -13,6 +13,7 @@ class OverviewScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     return SingleChildScrollView(
       child: Padding(
         // spacing between content and screen
@@ -36,7 +37,7 @@ class OverviewScreen extends StatelessWidget {
             const OverviewDebtsTile(),
             const Gap(CustomPadding.defaultSpace),
 
-            Text(AppTexts.history, style: TextStyles.regularStyleMedium),
+            Text(AppTexts.history, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
             const Gap(CustomPadding.mediumSpace),
             const TransactionHistoryList(transactionType: 'expense')
           ],

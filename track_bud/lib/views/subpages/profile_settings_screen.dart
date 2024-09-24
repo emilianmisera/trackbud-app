@@ -231,124 +231,127 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     return Scaffold(
-      // App bar with title
-      appBar: AppBar(
-        title: Text(AppTexts.editProfile, style: TextStyles.regularStyleMedium),
-        centerTitle: true,
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          // add Space
-          padding: EdgeInsets.only(
-              top: MediaQuery.sizeOf(context).height * CustomPadding.topSpaceAuth - Constants.defaultAppBarHeight,
-              left: CustomPadding.defaultSpace,
-              right: CustomPadding.defaultSpace,
-              bottom: MediaQuery.sizeOf(context).height * CustomPadding.bottomSpace),
+        // App bar with title
+        appBar: AppBar(
+          title: Text(AppTexts.editProfile, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
+          centerTitle: true,
+        ),
+        body: SingleChildScrollView(
+          child: Padding(
+            // add Space
+            padding: EdgeInsets.only(
+                top: MediaQuery.sizeOf(context).height * CustomPadding.topSpaceAuth - Constants.defaultAppBarHeight,
+                left: CustomPadding.defaultSpace,
+                right: CustomPadding.defaultSpace,
+                bottom: MediaQuery.sizeOf(context).height * CustomPadding.bottomSpace),
 
-          child: Column(
-            children: [
-              // Profile picture widget
-              Center(
-                child: GestureDetector(
-                  onTap: () {
-                    _pickImage();
-                    setState(() {
-                      _checkIfProfileChanged();
-                    });
-                  },
-                  child: Stack(
-                    alignment: Alignment.bottomRight,
-                    children: [
-                      // Main profile picture
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(100.0),
-                        child: SizedBox(
-                          width: Constants.profilePictureAccountEdit,
-                          height: Constants.profilePictureAccountEdit,
-                          child: _profileImage != null
-                              ? Image.file(
-                                  _profileImage!,
-                                  fit: BoxFit.cover,
-                                )
-                              : _profileImageUrl.isNotEmpty
-                                  ? Image.network(
-                                      _profileImageUrl,
-                                      fit: BoxFit.cover,
-                                    )
-                                  : const Icon(Icons.person, size: 100, color: Colors.grey),
-                        ),
-                      ),
-                      // Camera icon overlay
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(100.0),
-                        child: Container(
-                          width: 30,
-                          height: 30,
-                          color: CustomColor.grey,
-                          child: SvgPicture.asset(
-                            AssetImport.camera,
-                            fit: BoxFit.scaleDown,
+            child: Column(
+              children: [
+                // Profile picture widget
+                Center(
+                  child: GestureDetector(
+                    onTap: () {
+                      _pickImage();
+                      setState(() {
+                        _checkIfProfileChanged();
+                      });
+                    },
+                    child: Stack(
+                      alignment: Alignment.bottomRight,
+                      children: [
+                        // Main profile picture
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(100.0),
+                          child: SizedBox(
+                            width: Constants.profilePictureAccountEdit,
+                            height: Constants.profilePictureAccountEdit,
+                            child: _profileImage != null
+                                ? Image.file(
+                                    _profileImage!,
+                                    fit: BoxFit.cover,
+                                  )
+                                : _profileImageUrl.isNotEmpty
+                                    ? Image.network(
+                                        _profileImageUrl,
+                                        fit: BoxFit.cover,
+                                      )
+                                    : const Icon(Icons.person, size: 100, color: Colors.grey),
                           ),
                         ),
-                      ),
-                    ],
+                        // Camera icon overlay
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(100.0),
+                          child: Container(
+                            width: 30,
+                            height: 30,
+                            color: defaultColorScheme.outline,
+                            child: SvgPicture.asset(
+                              AssetImport.camera,
+                              fit: BoxFit.scaleDown,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              const Gap(CustomPadding.bigSpace),
-              // First Name text field
-              CustomTextfield(name: AppTexts.firstName, hintText: '', controller: _nameController),
-              const Gap(CustomPadding.defaultSpace),
-              // Email text field (locked)
-              LockedEmailTextfield(email: currentUserEmail),
-              const Gap(CustomPadding.defaultSpace),
-              // Change Email button
-              AccAdjustmentButton(
-                icon: AssetImport.email,
-                name: AppTexts.changeEmail,
-                onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const ChangeEmailScreen())),
-                padding: const EdgeInsets.symmetric(horizontal: CustomPadding.mediumSpace),
-              ),
-              // Change Password button
-              AccAdjustmentButton(
-                icon: AssetImport.userEdit,
-                name: AppTexts.changePassword,
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const ChangePasswordScreen(),
-                    ),
-                  );
-                },
-                padding: const EdgeInsets.symmetric(horizontal: CustomPadding.mediumSpace),
-              ),
-            ],
+                const Gap(CustomPadding.bigSpace),
+                // First Name text field
+                CustomTextfield(name: AppTexts.firstName, hintText: '', controller: _nameController),
+                const Gap(CustomPadding.defaultSpace),
+                // Email text field (locked)
+                LockedEmailTextfield(email: currentUserEmail),
+                const Gap(CustomPadding.defaultSpace),
+                // Change Email button
+                AccAdjustmentButton(
+                  icon: AssetImport.email,
+                  name: AppTexts.changeEmail,
+                  onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const ChangeEmailScreen())),
+                  padding: const EdgeInsets.symmetric(horizontal: CustomPadding.mediumSpace),
+                ),
+                // Change Password button
+                AccAdjustmentButton(
+                  icon: AssetImport.userEdit,
+                  name: AppTexts.changePassword,
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const ChangePasswordScreen(),
+                      ),
+                    );
+                  },
+                  padding: const EdgeInsets.symmetric(horizontal: CustomPadding.mediumSpace),
+                ),
+              ],
+            ),
           ),
         ),
-      ),
-      // Bottom sheet with Save button
-      bottomSheet: AnimatedContainer(
-        duration: const Duration(milliseconds: 100),
-        curve: Curves.easeInOut,
-        margin: EdgeInsets.only(
-          bottom: min(MediaQuery.of(context).viewInsets.bottom > 0 ? 0 : MediaQuery.of(context).size.height * CustomPadding.bottomSpace,
-              MediaQuery.of(context).size.height * CustomPadding.bottomSpace),
-          left: CustomPadding.defaultSpace,
-          right: CustomPadding.defaultSpace,
-        ),
-        width: MediaQuery.of(context).size.width,
-        child: ElevatedButton(
-          // Enable button only if profile has changed
-          onPressed: _isProfileChanged ? _saveProfileChanges : null,
-          style: ElevatedButton.styleFrom(
-              // Set button color based on whether profile has changed
-              disabledBackgroundColor: CustomColor.bluePrimary.withOpacity(0.5),
-              backgroundColor: CustomColor.bluePrimary),
-          child: Text(AppTexts.save),
-        ),
-      ),
-    );
+        // Bottom sheet with Save button
+        bottomSheet: Container(
+          color: defaultColorScheme.onSurface,
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 100),
+            curve: Curves.easeInOut,
+            margin: EdgeInsets.only(
+              bottom: min(MediaQuery.of(context).viewInsets.bottom > 0 ? 0 : MediaQuery.of(context).size.height * CustomPadding.bottomSpace,
+                  MediaQuery.of(context).size.height * CustomPadding.bottomSpace),
+              left: CustomPadding.defaultSpace,
+              right: CustomPadding.defaultSpace,
+            ),
+            width: MediaQuery.of(context).size.width,
+            child: ElevatedButton(
+              onPressed: _isProfileChanged ? _saveProfileChanges : null,
+              style: ElevatedButton.styleFrom(
+                disabledBackgroundColor: CustomColor.bluePrimary.withOpacity(0.5),
+                backgroundColor: CustomColor.bluePrimary,
+                elevation: 0, // Remove shadow
+              ),
+              child: Text(AppTexts.save),
+            ),
+          ),
+        ));
   }
 }

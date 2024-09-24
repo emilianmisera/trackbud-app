@@ -20,30 +20,30 @@ class TextFieldByAmount extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     return TextFormField(
       controller: controller,
-      style: inputStyle ?? TextStyles.headingStyle,
+      style: inputStyle ?? TextStyles.headingStyle.copyWith(color: defaultColorScheme.primary),
       keyboardType: const TextInputType.numberWithOptions(),
       textAlign: TextAlign.center,
       inputFormatters: [
-        FilteringTextInputFormatter
-            .digitsOnly, // textinput has to have only numbers
+        FilteringTextInputFormatter.digitsOnly, // textinput has to have only numbers
       ],
       decoration: InputDecoration(
         hintText: hintText ?? AppTexts.lines,
         suffix: Text(
           "€",
-          style: suffixStyle ?? TextStyles.headingStyle,
+          style: suffixStyle ?? TextStyles.headingStyle.copyWith(color: defaultColorScheme.primary),
         ),
         contentPadding: const EdgeInsets.only(
             left: CustomPadding.defaultSpace,
             right: CustomPadding.defaultSpace,
             top: CustomPadding.contentHeightSpace,
             bottom: CustomPadding.contentHeightSpace),
-        hintStyle: TextStyles.hintStyleHeading,
+        hintStyle: TextStyles.hintStyleHeading.copyWith(color: defaultColorScheme.secondary),
         floatingLabelBehavior: FloatingLabelBehavior.never,
         filled: true,
-        fillColor: CustomColor.white,
+        fillColor: defaultColorScheme.surface,
         border: OutlineInputBorder(
           borderSide: BorderSide.none,
           borderRadius: BorderRadius.circular(Constants.contentBorderRadius),

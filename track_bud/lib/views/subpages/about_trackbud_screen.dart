@@ -30,6 +30,7 @@ class _AboutTrackbudScreenState extends State<AboutTrackbudScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: AppBar(),
       body: SingleChildScrollView(
@@ -38,7 +39,8 @@ class _AboutTrackbudScreenState extends State<AboutTrackbudScreen> {
           children: [
             SvgPicture.asset(AssetImport.textLogo),
             const Gap(CustomPadding.bigSpace),
-            Text(AppTexts.aboutTrackBudText, style: TextStyles.regularStyleDefault, textAlign: TextAlign.center),
+            Text(AppTexts.aboutTrackBudText,
+                style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary), textAlign: TextAlign.center),
             const Gap(CustomPadding.bigSpace),
             GestureDetector(
               onTap: () => _launchInBrowser(_emailLaurenz),
@@ -49,7 +51,7 @@ class _AboutTrackbudScreenState extends State<AboutTrackbudScreen> {
               child: Text(AppTexts.emilianEmail, style: TextStyles.hintStyleDefault.copyWith(color: CustomColor.bluePrimary)),
             ),
             const Gap(CustomPadding.bigSpace),
-            Text(AppTexts.madeWithLove, style: TextStyles.regularStyleDefault),
+            Text(AppTexts.madeWithLove, style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary)),
             const Gap(CustomPadding.mediumSpace),
             GestureDetector(
               onTap: () => _launchInBrowser(_url),

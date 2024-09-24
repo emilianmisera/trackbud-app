@@ -144,6 +144,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     return SingleChildScrollView(
       child: Padding(
           // spacing between content and screen
@@ -175,13 +176,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
               const Gap(CustomPadding.mediumSpace),
               Center(
                   // Username
-                  child: Text(currentUserName, style: TextStyles.titleStyleMedium)),
+                  child: Text(currentUserName, style: TextStyles.titleStyleMedium.copyWith(color: defaultColorScheme.primary))),
               const Gap(CustomPadding.smallSpace),
               Center(
                   //email
-                  child: Text(currentUserEmail, style: TextStyles.hintStyleDefault)),
+                  child: Text(currentUserEmail, style: TextStyles.hintStyleDefault.copyWith(color: defaultColorScheme.secondary))),
               const Gap(CustomPadding.bigbigSpace),
-              Text(AppTexts.preferences, style: TextStyles.regularStyleMedium),
+              Text(AppTexts.preferences, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
               const Gap(CustomPadding.defaultSpace),
               CustomShadow(
                 // edit Profile Button
@@ -196,8 +197,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       _loadUserData();
                     }
                   },
-                  label: Text(AppTexts.editProfile, style: TextStyles.regularStyleDefault),
-                  icon: SvgPicture.asset(AssetImport.userEdit),
+                  label: Text(AppTexts.editProfile, style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary)),
+                  icon: SvgPicture.asset(
+                    AssetImport.userEdit,
+                    colorFilter: ColorFilter.mode(defaultColorScheme.primary, BlendMode.srcIn),
+                  ),
                   style: const ButtonStyle(
                     alignment: Alignment.centerLeft,
                   ),
@@ -208,8 +212,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 // accAdjustment button
                 child: TextButton.icon(
                   onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const AccountSettingsScreen())),
-                  label: Text(AppTexts.accAdjustments, style: TextStyles.regularStyleDefault),
-                  icon: SvgPicture.asset(AssetImport.settings),
+                  label: Text(AppTexts.accAdjustments, style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary)),
+                  icon: SvgPicture.asset(
+                    AssetImport.settings,
+                    colorFilter: ColorFilter.mode(defaultColorScheme.primary, BlendMode.srcIn),
+                  ),
                   style: const ButtonStyle(alignment: Alignment.centerLeft),
                 ),
               ),
@@ -235,8 +242,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 // aboutTrackbut button
                 child: TextButton.icon(
                   onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const AboutTrackbudScreen())),
-                  label: Text(AppTexts.abouTrackBud, style: TextStyles.regularStyleDefault),
-                  icon: SvgPicture.asset(AssetImport.info),
+                  label: Text(AppTexts.abouTrackBud, style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary)),
+                  icon: SvgPicture.asset(
+                    AssetImport.info,
+                    colorFilter: ColorFilter.mode(defaultColorScheme.primary, BlendMode.srcIn),
+                  ),
                   style: const ButtonStyle(alignment: Alignment.centerLeft),
                 ),
               ),
@@ -245,8 +255,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 // Logout Button
                 child: TextButton.icon(
                   onPressed: () => logout(),
-                  label: Text(AppTexts.logout, style: TextStyles.regularStyleDefault),
-                  icon: SvgPicture.asset(AssetImport.logout),
+                  label: Text(AppTexts.logout, style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary)),
+                  icon: SvgPicture.asset(
+                    AssetImport.logout,
+                    colorFilter: ColorFilter.mode(defaultColorScheme.primary, BlendMode.srcIn),
+                  ),
                   style: const ButtonStyle(alignment: Alignment.centerLeft),
                 ),
               ),

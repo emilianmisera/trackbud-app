@@ -83,9 +83,10 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppTexts.editTransaction, style: TextStyles.regularStyleMedium),
+        title: Text(AppTexts.editTransaction, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
         centerTitle: true,
       ),
       body: Padding(
@@ -107,7 +108,8 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
                     controller: _amountController,
                     width: MediaQuery.sizeOf(context).width / 3,
                     prefix: Text(_currentSegment == 0 ? '–' : '+',
-                        style: TextStyles.titleStyleMedium.copyWith(fontWeight: TextStyles.fontWeightDefault)),
+                        style: TextStyles.titleStyleMedium
+                            .copyWith(fontWeight: TextStyles.fontWeightDefault, color: defaultColorScheme.primary)),
                     type: const TextInputType.numberWithOptions(decimal: true),
                   ),
                   const Gap(CustomPadding.defaultSpace),
@@ -117,7 +119,7 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
               ),
               const Gap(CustomPadding.defaultSpace),
               // Category section
-              Text(AppTexts.categorie, style: TextStyles.regularStyleMedium),
+              Text(AppTexts.categorie, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
               const Gap(CustomPadding.mediumSpace),
               // Display either expense or income categories based on current segment
               _currentSegment == 0
@@ -125,7 +127,7 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
                   : CategoriesIncome(onCategorySelected: _onCategorySelected),
               const Gap(CustomPadding.defaultSpace),
               // Recurrence section
-              Text(AppTexts.recurry, style: TextStyles.regularStyleMedium),
+              Text(AppTexts.recurry, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
               const Gap(CustomPadding.mediumSpace),
               // Dropdown for selecting recurrence frequency
               CustomDropDown(

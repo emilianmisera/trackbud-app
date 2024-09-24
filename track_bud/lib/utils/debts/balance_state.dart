@@ -14,11 +14,12 @@ class BalanceState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: CustomPadding.mediumSpace, vertical: CustomPadding.smallSpace),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5),
-        color: colorScheme.color,
+        color: colorScheme.getColor(context),
       ),
       child: Text(amount ?? 'quitt', style: TextStyles.regularStyleMedium.copyWith(color: colorScheme.textColor)),
     );

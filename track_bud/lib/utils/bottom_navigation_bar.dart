@@ -90,11 +90,12 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> w
 
   @override
   Widget build(BuildContext context) {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     return CustomShadow(
       child: BottomAppBar(
         // Styling properties for BottomNavigationBar
-        surfaceTintColor: CustomColor.white,
-        color: CustomColor.white,
+        surfaceTintColor: defaultColorScheme.surface,
+        color: defaultColorScheme.surface,
         height: 80,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

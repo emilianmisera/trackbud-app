@@ -36,6 +36,7 @@ class AddEntryModal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     return DraggableScrollableSheet(
       initialChildSize: initialChildSize,
       minChildSize: minChildSize,
@@ -43,9 +44,9 @@ class AddEntryModal extends StatelessWidget {
       expand: false,
       builder: (context, scrollController) {
         return Container(
-          decoration: const BoxDecoration(
-            color: CustomColor.backgroundPrimary,
-            borderRadius: BorderRadius.vertical(top: Radius.circular(Constants.contentBorderRadius)),
+          decoration: BoxDecoration(
+            color: defaultColorScheme.onSurface,
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(Constants.contentBorderRadius)),
           ),
           child: Column(
             children: [

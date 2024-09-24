@@ -50,6 +50,7 @@ class _DebtsScreenState extends State<DebtsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -84,7 +85,7 @@ class _DebtsScreenState extends State<DebtsScreen> {
                 children: [
                   Text(
                     AppTexts.friends,
-                    style: TextStyles.regularStyleMedium,
+                    style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary),
                   ),
                   GestureDetector(
                     onTap: () {
@@ -130,7 +131,7 @@ class _DebtsScreenState extends State<DebtsScreen> {
                 children: [
                   Text(
                     AppTexts.groups,
-                    style: TextStyles.regularStyleMedium,
+                    style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary),
                   ),
                   GestureDetector(
                     onTap: () {

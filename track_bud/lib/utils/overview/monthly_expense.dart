@@ -31,19 +31,20 @@ class _MonthlyExpenseTileState extends State<MonthlyExpenseTile> {
 
   @override
   Widget build(BuildContext context) {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     return CustomShadow(
       child: Container(
         padding: const EdgeInsets.all(CustomPadding.defaultSpace),
         decoration: BoxDecoration(
-          color: CustomColor.white,
+          color: defaultColorScheme.surface,
           borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Remaining amount
-            Text('50,00€', style: TextStyles.headingStyle),
-            Text(AppTexts.remainingText, style: TextStyles.hintStyleDefault),
+            Text('50,00€', style: TextStyles.headingStyle.copyWith(color: defaultColorScheme.primary)),
+            Text(AppTexts.remainingText, style: TextStyles.hintStyleDefault.copyWith(color: defaultColorScheme.secondary)),
             const Gap(CustomPadding.smallSpace),
 
             // Progress bar
@@ -52,9 +53,8 @@ class _MonthlyExpenseTileState extends State<MonthlyExpenseTile> {
               lineHeight: 7,
               percent: _percentage,
               barRadius: const Radius.circular(180),
-              backgroundColor: CustomColor.grey,
-              progressColor: getProgressColor(
-                  _percentage), // Dynamic color based on percentage
+              backgroundColor: defaultColorScheme.outline,
+              progressColor: getProgressColor(_percentage), // Dynamic color based on percentage
               animateFromLastPercent: true,
               animation: true,
             ),
@@ -63,13 +63,13 @@ class _MonthlyExpenseTileState extends State<MonthlyExpenseTile> {
             // Expense details
             Row(
               children: [
-                Text('250€', style: TextStyles.regularStyleMedium),
+                Text('250€', style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
                 const Gap(3),
-                Text(AppTexts.of, style: TextStyles.hintStyleDefault),
+                Text(AppTexts.of, style: TextStyles.hintStyleDefault.copyWith(color: defaultColorScheme.secondary)),
                 const Gap(3),
-                Text('400€', style: TextStyles.regularStyleMedium),
+                Text('400€', style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
                 const Gap(3),
-                Text(AppTexts.spent, style: TextStyles.hintStyleDefault),
+                Text(AppTexts.spent, style: TextStyles.hintStyleDefault.copyWith(color: defaultColorScheme.secondary)),
               ],
             )
           ],

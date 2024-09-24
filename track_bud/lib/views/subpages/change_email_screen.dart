@@ -135,6 +135,7 @@ class _ChangeEmailScreenState extends State<ChangeEmailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: AppBar(),
       body: SingleChildScrollView(
@@ -152,7 +153,7 @@ class _ChangeEmailScreenState extends State<ChangeEmailScreen> {
               // The heading text
               Text(
                 AppTexts.changeEmail,
-                style: TextStyles.headingStyle,
+                style: TextStyles.headingStyle.copyWith(color: defaultColorScheme.primary),
               ),
               const Gap(
                 CustomPadding.mediumSpace,
@@ -160,7 +161,7 @@ class _ChangeEmailScreenState extends State<ChangeEmailScreen> {
               // The description text
               Text(
                 AppTexts.changeEmailDesscribtion,
-                style: TextStyles.hintStyleDefault,
+                style: TextStyles.hintStyleDefault.copyWith(color: defaultColorScheme.secondary),
               ),
               const Gap(
                 CustomPadding.bigSpace,
@@ -179,17 +180,20 @@ class _ChangeEmailScreenState extends State<ChangeEmailScreen> {
       ),
       // Bottom sheet with Save button
       bottomSheet: Container(
-        margin: EdgeInsets.only(
-          bottom: MediaQuery.sizeOf(context).height * CustomPadding.bottomSpace,
-          left: CustomPadding.defaultSpace,
-          right: CustomPadding.defaultSpace,
-        ),
-        width: MediaQuery.of(context).size.width,
-        child: ElevatedButton(
-          onPressed: _isLoading ? null : _changeEmail, // Disable button while loading
-          child: _isLoading
-              ? const CircularProgressIndicator(color: CustomColor.bluePrimary) // Show loading indicator
-              : Text(AppTexts.save),
+        color: defaultColorScheme.onSurface,
+        child: Container(
+          margin: EdgeInsets.only(
+            bottom: MediaQuery.sizeOf(context).height * CustomPadding.bottomSpace,
+            left: CustomPadding.defaultSpace,
+            right: CustomPadding.defaultSpace,
+          ),
+          width: MediaQuery.of(context).size.width,
+          child: ElevatedButton(
+            onPressed: _isLoading ? null : _changeEmail, // Disable button while loading
+            child: _isLoading
+                ? const CircularProgressIndicator(color: CustomColor.bluePrimary) // Show loading indicator
+                : Text(AppTexts.save),
+          ),
         ),
       ),
     );

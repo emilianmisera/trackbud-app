@@ -20,7 +20,7 @@ class _ChangeBudgetGoalScreenState extends State<ChangeBudgetGoalScreen> {
   @override
   void initState() {
     super.initState();
-    _loadCurrentBudgetGoal(); 
+    _loadCurrentBudgetGoal();
   }
 
   Future<void> _loadCurrentBudgetGoal() async {
@@ -37,15 +37,11 @@ class _ChangeBudgetGoalScreenState extends State<ChangeBudgetGoalScreen> {
 
     try {
       // Fetch user data directly from Firestore
-      final userDoc = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(userId)
-          .get();
+      final userDoc = await FirebaseFirestore.instance.collection('users').doc(userId).get();
 
       if (userDoc.exists) {
         final userData = userDoc.data();
-        if (userData != null && userData.containsKey('monthlySpendingGoal'))
- {
+        if (userData != null && userData.containsKey('monthlySpendingGoal')) {
           setState(() {
             _moneyController.text = userData['monthlySpendingGoal'].toStringAsFixed(2);
           });
@@ -108,13 +104,10 @@ class _ChangeBudgetGoalScreenState extends State<ChangeBudgetGoalScreen> {
 
     try {
       // Update budget goal directly in Firestore
-      await FirebaseFirestore.instance
-          .collection('users')
-          .doc(userId)
-          .update({'monthlySpendingGoal': amount});
+      await FirebaseFirestore.instance.collection('users').doc(userId).update({'monthlySpendingGoal': amount});
 
       // If you have a UserController, you might want to update it as well
-      // await UserController().updateBudgetGoal(userId, amount); 
+      // await UserController().updateBudgetGoal(userId, amount);
 
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -131,9 +124,9 @@ class _ChangeBudgetGoalScreenState extends State<ChangeBudgetGoalScreen> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: AppBar(),
       body: SingleChildScrollView(
@@ -141,8 +134,7 @@ class _ChangeBudgetGoalScreenState extends State<ChangeBudgetGoalScreen> {
           // Padding adds spacing around the content inside the screen.
           padding: EdgeInsets.only(
             top: MediaQuery.sizeOf(context).height * CustomPadding.topSpace -
-                Constants
-                    .defaultAppBarHeight, // Top padding based on screen height
+                Constants.defaultAppBarHeight, // Top padding based on screen height
             left: CustomPadding.defaultSpace, // Left padding
             right: CustomPadding.defaultSpace, // Right padding
           ),
@@ -151,21 +143,17 @@ class _ChangeBudgetGoalScreenState extends State<ChangeBudgetGoalScreen> {
             children: [
               Text(
                 AppTexts.changeBudgetGoalHeading, // The heading text
-                style:
-                    TextStyles.headingStyle, // The text style for the heading.
+                style: TextStyles.headingStyle.copyWith(color: defaultColorScheme.primary), // The text style for the heading.
               ),
               const Gap(
-                CustomPadding
-                    .mediumSpace, // Adds vertical space between the heading and the next element.
+                CustomPadding.mediumSpace, // Adds vertical space between the heading and the next element.
               ),
               Text(
                 AppTexts.changeBudgetGoalDescribtion, // The description text
-                style: TextStyles
-                    .hintStyleDefault, // The text style for the description.
+                style: TextStyles.hintStyleDefault, // The text style for the description.
               ),
               const Gap(
-                CustomPadding
-                    .bigSpace, // Adds more vertical space before the next element.
+                CustomPadding.bigSpace, // Adds more vertical space before the next element.
               ),
               // A custom TextField widget for entering the amount of money, using the controller defined above.
               TextFieldAmountOfMoney(
@@ -179,14 +167,11 @@ class _ChangeBudgetGoalScreenState extends State<ChangeBudgetGoalScreen> {
       bottomSheet: Container(
         // Margin is applied to the bottom of the button and the sides for proper spacing.
         margin: EdgeInsets.only(
-          bottom: MediaQuery.sizeOf(context).height *
-              CustomPadding.bottomSpace, // Bottom margin based on screen height
+          bottom: MediaQuery.sizeOf(context).height * CustomPadding.bottomSpace, // Bottom margin based on screen height
           left: CustomPadding.defaultSpace, // Left margin
           right: CustomPadding.defaultSpace, // Right margin
         ),
-        width: MediaQuery.of(context)
-            .size
-            .width, // Set the button width to match the screen width
+        width: MediaQuery.of(context).size.width, // Set the button width to match the screen width
         child: ElevatedButton(
           // Saving Button
           onPressed: _saveBudgetGoal,

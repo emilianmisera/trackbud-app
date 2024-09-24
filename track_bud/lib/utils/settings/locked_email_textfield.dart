@@ -1,11 +1,10 @@
-
 import 'package:flutter/material.dart';
+import 'package:flutter_launcher_icons/main.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/shadow.dart';
 import 'package:track_bud/utils/strings.dart';
-
 
 // Widget for displaying a locked email field
 class LockedEmailTextfield extends StatelessWidget {
@@ -14,13 +13,14 @@ class LockedEmailTextfield extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // Email label
         Text(
           AppTexts.email,
-          style: TextStyles.regularStyleMedium,
+          style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary),
         ),
         const Gap(
           CustomPadding.mediumSpace,
@@ -34,9 +34,9 @@ class LockedEmailTextfield extends StatelessWidget {
               left: CustomPadding.defaultSpace,
               right: CustomPadding.defaultSpace,
             ),
-            decoration: const BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(10)),
-              color: CustomColor.white,
+            decoration: BoxDecoration(
+              borderRadius: const BorderRadius.all(Radius.circular(10)),
+              color: defaultColorScheme.surface,
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -44,10 +44,13 @@ class LockedEmailTextfield extends StatelessWidget {
                 // Display the email
                 Text(
                   email,
-                  style: TextStyles.hintStyleDefault,
+                  style: TextStyles.hintStyleDefault.copyWith(color: defaultColorScheme.secondary),
                 ),
                 // Lock icon to indicate the field is not editable
-                SvgPicture.asset(AssetImport.lock)
+                SvgPicture.asset(
+                  AssetImport.lock,
+                  colorFilter: ColorFilter.mode(defaultColorScheme.secondary, BlendMode.srcIn),
+                )
               ],
             ),
           ),

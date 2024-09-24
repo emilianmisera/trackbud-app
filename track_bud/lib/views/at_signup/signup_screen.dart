@@ -85,6 +85,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -96,9 +97,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start, //alignment to left
             children: [
-              Text(AppTexts.signUp, style: TextStyles.headingStyle),
+              Text(AppTexts.signUp, style: TextStyles.headingStyle.copyWith(color: defaultColorScheme.primary)),
               const Gap(CustomPadding.mediumSpace),
-              Text(AppTexts.signUpDescription, style: TextStyles.hintStyleDefault),
+              Text(AppTexts.signUpDescription, style: TextStyles.hintStyleDefault.copyWith(color: defaultColorScheme.secondary)),
               const Gap(CustomPadding.defaultSpace),
               //first name
               CustomTextfield(
@@ -142,7 +143,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 // Redirection to sign in page if user does have an account
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(AppTexts.notNew, style: TextStyles.hintStyleMedium),
+                  Text(AppTexts.notNew, style: TextStyles.hintStyleMedium.copyWith(color: defaultColorScheme.secondary)),
                   const Gap(CustomPadding.smallSpace),
                   GestureDetector(
                     onTap: () {

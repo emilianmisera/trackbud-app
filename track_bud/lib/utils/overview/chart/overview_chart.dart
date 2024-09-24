@@ -84,11 +84,12 @@ class _ExpensesOverviewTileState extends State<ExpensesOverviewTile> {
 
   @override
   Widget build(BuildContext context) {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     return CustomShadow(
       child: Container(
         padding: const EdgeInsets.all(CustomPadding.defaultSpace),
         decoration: BoxDecoration(
-          color: CustomColor.white,
+          color: defaultColorScheme.surface,
           borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
         ),
         child: Column(
@@ -106,20 +107,20 @@ class _ExpensesOverviewTileState extends State<ExpensesOverviewTile> {
             // Display current time period and total expense
             Row(
               children: [
-                const Icon(
+                Icon(
                   Icons.arrow_back_ios_new_rounded,
-                  color: CustomColor.hintColor,
+                  color: defaultColorScheme.secondary,
                   size: 15,
                 ),
                 Text(
                   _getTimeUnitText(),
-                  style: TextStyles.hintStyleDefault,
+                  style: TextStyles.hintStyleDefault.copyWith(color: defaultColorScheme.secondary),
                 ),
               ],
             ),
             Text(
               _calculateTotalExpenses().toStringAsFixed(2),
-              style: TextStyles.headingStyle,
+              style: TextStyles.headingStyle.copyWith(color: defaultColorScheme.primary),
             ),
             const Gap(CustomPadding.mediumSpace),
             // Display overview of transactions by category

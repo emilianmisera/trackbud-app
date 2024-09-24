@@ -84,19 +84,23 @@ class _BudgetGoalScreenState extends State<BudgetGoalScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     return Scaffold(
       // The bottomSheet contains a button that is fixed at the bottom of the screen.
       bottomSheet: Container(
-        // Margin is applied to the bottom of the button and the sides for proper spacing.
-        margin: EdgeInsets.only(
-          bottom: MediaQuery.sizeOf(context).height * CustomPadding.bottomSpace,
-          left: CustomPadding.defaultSpace,
-          right: CustomPadding.defaultSpace,
-        ),
-        width: MediaQuery.of(context).size.width, // Set the button width to match the screen width
-        child: ElevatedButton(
-          onPressed: () => handleSubmission(context),
-          child: Text(AppTexts.continueText),
+        color: defaultColorScheme.onSurface,
+        child: Container(
+          // Margin is applied to the bottom of the button and the sides for proper spacing.
+          margin: EdgeInsets.only(
+            bottom: MediaQuery.sizeOf(context).height * CustomPadding.bottomSpace,
+            left: CustomPadding.defaultSpace,
+            right: CustomPadding.defaultSpace,
+          ),
+          width: MediaQuery.of(context).size.width, // Set the button width to match the screen width
+          child: ElevatedButton(
+            onPressed: () => handleSubmission(context),
+            child: Text(AppTexts.continueText),
+          ),
         ),
       ),
       body: SingleChildScrollView(
@@ -111,10 +115,10 @@ class _BudgetGoalScreenState extends State<BudgetGoalScreen> {
             // Column to organize the content vertically.
             children: [
               // The heading text
-              Text(AppTexts.budgetGoalHeading, style: TextStyles.headingStyle),
+              Text(AppTexts.budgetGoalHeading, style: TextStyles.headingStyle.copyWith(color: defaultColorScheme.primary)),
               const Gap(CustomPadding.mediumSpace),
               // The description text
-              Text(AppTexts.budgetGoalDescription, style: TextStyles.hintStyleDefault),
+              Text(AppTexts.budgetGoalDescription, style: TextStyles.hintStyleDefault.copyWith(color: defaultColorScheme.secondary)),
               const Gap(CustomPadding.bigSpace),
               // entering the amount of money
               TextFieldAmountOfMoney(controller: _moneyController),

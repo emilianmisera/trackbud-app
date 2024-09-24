@@ -17,11 +17,12 @@ class DebtsOverview extends StatefulWidget {
 class _DebtsOverviewState extends State<DebtsOverview> {
   @override
   Widget build(BuildContext context) {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     return CustomShadow(
       child: Container(
         width: MediaQuery.sizeOf(context).width,
         padding: const EdgeInsets.all(CustomPadding.defaultSpace),
-        decoration: BoxDecoration(color: CustomColor.white, borderRadius: BorderRadius.circular(Constants.contentBorderRadius)),
+        decoration: BoxDecoration(color: defaultColorScheme.surface, borderRadius: BorderRadius.circular(Constants.contentBorderRadius)),
         child: Column(
           children: [
             ListTile(
@@ -35,7 +36,7 @@ class _DebtsOverviewState extends State<DebtsOverview> {
                 ),
               ),
               // Friend's name
-              title: Text('Name', style: TextStyles.regularStyleMedium),
+              title: Text('Name', style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
               // Debt or credit information
 
               // Navigation arrow

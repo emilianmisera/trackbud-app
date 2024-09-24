@@ -40,9 +40,10 @@ class _YourGroupsScreenState extends State<YourGroupsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppTexts.yourGroups, style: TextStyles.regularStyleMedium),
+        title: Text(AppTexts.yourGroups, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
         centerTitle: true,
         actions: [
           IconButton(

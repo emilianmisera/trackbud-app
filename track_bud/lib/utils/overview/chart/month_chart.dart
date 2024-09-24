@@ -48,6 +48,7 @@ class _MonthChartState extends State<MonthChart> with SingleTickerProviderStateM
   Widget build(BuildContext context) {
     final List<double> monthExpenses = _getMonthExpenses();
     double maxExpense = monthExpenses.reduce((a, b) => a > b ? a : b);
+    final defaultColorScheme = Theme.of(context).colorScheme;
 
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
@@ -61,7 +62,7 @@ class _MonthChartState extends State<MonthChart> with SingleTickerProviderStateM
                 width: 8,
                 margin: const EdgeInsets.symmetric(horizontal: 1),
                 decoration: BoxDecoration(
-                  color: CustomColor.grey,
+                  color: defaultColorScheme.outline,
                   borderRadius: BorderRadius.circular(5),
                 ),
                 child: Align(

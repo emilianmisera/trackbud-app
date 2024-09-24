@@ -52,8 +52,7 @@ class _AddTransactionState extends State<AddTransaction> {
         'title': _titleController.text,
         'type': _currentSegment == 0 ? 'expense' : 'income',
         // Parse amount from comma-separated string to double
-        'amount':
-            double.tryParse(_amountController.text.replaceAll(',', '.')),
+        'amount': double.tryParse(_amountController.text.replaceAll(',', '.')),
         'category': _selectedCategory,
         'date': _selectedDateTime,
         'recurrence': _selectedRecurrence,
@@ -100,6 +99,7 @@ class _AddTransactionState extends State<AddTransaction> {
 
   @override
   Widget build(BuildContext context) {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     return AddEntryModal(
       buttonText: AppTexts.addTransaction,
       initialChildSize: 0.76,
@@ -117,7 +117,7 @@ class _AddTransactionState extends State<AddTransaction> {
             Center(
               child: Text(
                 AppTexts.newTransaction,
-                style: TextStyles.regularStyleMedium,
+                style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary),
               ),
             ),
             const Gap(CustomPadding.defaultSpace),
@@ -144,7 +144,8 @@ class _AddTransactionState extends State<AddTransaction> {
                   width: MediaQuery.sizeOf(context).width / 3,
                   prefix: Text(
                     _currentSegment == 0 ? '–' : '+',
-                    style: TextStyles.titleStyleMedium.copyWith(fontWeight: TextStyles.fontWeightDefault),
+                    style:
+                        TextStyles.titleStyleMedium.copyWith(fontWeight: TextStyles.fontWeightDefault, color: defaultColorScheme.primary),
                   ),
                   type: const TextInputType.numberWithOptions(decimal: true),
                   //inputFormatters: [GermanNumericTextFormatter()],
@@ -157,7 +158,7 @@ class _AddTransactionState extends State<AddTransaction> {
             const Gap(CustomPadding.defaultSpace),
             Text(
               AppTexts.categorie,
-              style: TextStyles.regularStyleMedium,
+              style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary),
             ),
             const Gap(CustomPadding.mediumSpace),
             // Category section
@@ -168,7 +169,7 @@ class _AddTransactionState extends State<AddTransaction> {
             const Gap(CustomPadding.defaultSpace),
             Text(
               AppTexts.recurry,
-              style: TextStyles.regularStyleMedium,
+              style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary),
             ),
             const Gap(CustomPadding.mediumSpace),
             // Dropdown for selecting recurrence frequency

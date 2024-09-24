@@ -8,15 +8,16 @@ enum DebtsColorScheme {
 }
 
 extension BoxColor on DebtsColorScheme {
-  Color get color {
+  Color getColor(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    
     switch (this) {
       case DebtsColorScheme.blue:
-        return CustomColor.pastelBlue;
+        return isDarkMode ? CustomColor.darkModePastelBlue : CustomColor.pastelBlue;
       case DebtsColorScheme.red:
-        return CustomColor.pastelRed;
+        return isDarkMode ? CustomColor.darkModePastelRed : CustomColor.pastelRed;
       case DebtsColorScheme.green:
-        return CustomColor.pastelGreen;
-      
+        return isDarkMode ? CustomColor.darkModePastelGreen : CustomColor.pastelGreen;
     }
   }
 }
@@ -30,7 +31,6 @@ extension TextColor on DebtsColorScheme {
         return CustomColor.red;
       case DebtsColorScheme.green:
         return CustomColor.green;
-      
     }
   }
 }

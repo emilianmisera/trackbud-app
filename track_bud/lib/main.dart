@@ -50,7 +50,9 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'TrackBud',
+      themeMode: ThemeMode.system,
       theme: ColorTheme.lightTheme,
+      darkTheme: ColorTheme.darkTheme,
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,

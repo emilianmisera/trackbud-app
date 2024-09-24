@@ -42,10 +42,11 @@ class _FriendProfileScreenState extends State<FriendProfileScreen> {
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context);
     final currentUserId = userProvider.currentUser?.userId ?? '';
+    final defaultColorScheme = Theme.of(context).colorScheme;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.friend.name, style: TextStyles.regularStyleMedium),
+        title: Text(widget.friend.name, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
         centerTitle: true,
       ),
       body: Column(
@@ -91,7 +92,7 @@ class _FriendProfileScreenState extends State<FriendProfileScreen> {
                       },
                     ),
                     const Gap(CustomPadding.defaultSpace),
-                    Text(AppTexts.history, style: TextStyles.regularStyleMedium),
+                    Text(AppTexts.history, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
                     const Gap(CustomPadding.mediumSpace),
                     FutureBuilder<List<FriendSplitModel>>(
                       future: _firestoreService.getFriendSplits(currentUserId, widget.friend.userId),

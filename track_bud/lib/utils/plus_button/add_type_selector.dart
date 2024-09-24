@@ -43,12 +43,13 @@ class _AddTypeSelectorState extends State<AddTypeSelector> {
   }
 
   void _showFriendSelectionDialog(BuildContext context) {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
         title: Text(
           'Freund auswählen',
-          style: TextStyles.titleStyleMedium,
+          style: TextStyles.titleStyleMedium.copyWith(color: defaultColorScheme.primary),
         ),
         content: SizedBox(
           width: double.maxFinite,
@@ -101,8 +102,8 @@ class _AddTypeSelectorState extends State<AddTypeSelector> {
           ),
         ),
         insetPadding: const EdgeInsets.all(CustomPadding.defaultSpace),
-        backgroundColor: CustomColor.backgroundPrimary,
-        surfaceTintColor: CustomColor.backgroundPrimary,
+        backgroundColor: defaultColorScheme.surface,
+        surfaceTintColor: defaultColorScheme.surface,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(
             Radius.circular(Constants.contentBorderRadius),
@@ -113,12 +114,13 @@ class _AddTypeSelectorState extends State<AddTypeSelector> {
   }
 
   void _showGroupSelectionDialog(BuildContext context) {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
         title: Text(
           'Gruppe auswählen',
-          style: TextStyles.titleStyleMedium,
+          style: TextStyles.titleStyleMedium.copyWith(color: defaultColorScheme.primary),
         ),
         content: SizedBox(
           width: double.maxFinite,
@@ -158,8 +160,8 @@ class _AddTypeSelectorState extends State<AddTypeSelector> {
           ),
         ),
         insetPadding: const EdgeInsets.all(CustomPadding.defaultSpace),
-        backgroundColor: CustomColor.backgroundPrimary,
-        surfaceTintColor: CustomColor.backgroundPrimary,
+        backgroundColor: defaultColorScheme.surface,
+        surfaceTintColor: defaultColorScheme.surface,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(
             Radius.circular(Constants.contentBorderRadius),
@@ -171,11 +173,12 @@ class _AddTypeSelectorState extends State<AddTypeSelector> {
 
   @override
   Widget build(BuildContext context) {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     return Container(
       height: MediaQuery.of(context).size.height * Constants.addBottomSheetHeight,
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
-        color: CustomColor.backgroundPrimary,
+        color: defaultColorScheme.surface,
         borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
       ),
       child: Padding(

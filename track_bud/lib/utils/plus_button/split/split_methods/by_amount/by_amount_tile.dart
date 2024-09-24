@@ -19,15 +19,12 @@ class ByAmountTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     return CustomShadow(
       child: Container(
-        decoration: BoxDecoration(
-            color: CustomColor.white,
-            borderRadius: BorderRadius.circular(Constants.contentBorderRadius)),
+        decoration: BoxDecoration(color: defaultColorScheme.surface, borderRadius: BorderRadius.circular(Constants.contentBorderRadius)),
         child: ListTile(
-          contentPadding: const EdgeInsets.symmetric(
-              horizontal: CustomPadding.defaultSpace,
-              vertical: CustomPadding.defaultSpace),
+          contentPadding: const EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace, vertical: CustomPadding.defaultSpace),
           leading: ClipRRect(
             borderRadius: BorderRadius.circular(100.0),
             child: SizedBox(
@@ -38,16 +35,15 @@ class ByAmountTile extends StatelessWidget {
                   : const Icon(Icons.person, color: Colors.grey),
             ),
           ),
-          title: Text(user.name, style: TextStyles.regularStyleDefault),
+          title: Text(user.name, style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary)),
           trailing: Container(
             width: 80,
             decoration: BoxDecoration(
-                border: Border.all(color: CustomColor.grey),
-                borderRadius: BorderRadius.circular(Constants.contentBorderRadius)),
+                border: Border.all(color: defaultColorScheme.outline), borderRadius: BorderRadius.circular(Constants.contentBorderRadius)),
             child: TextFieldByAmount(
               controller: controller,
-              inputStyle: TextStyles.regularStyleDefault,
-              suffixStyle: TextStyles.regularStyleDefault,
+              inputStyle: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary),
+              suffixStyle: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary),
               onChanged: onAmountChanged, // Passing the callback here
             ),
           ),

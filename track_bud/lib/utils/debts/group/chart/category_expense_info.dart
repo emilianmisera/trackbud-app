@@ -20,6 +20,7 @@ class CategoryInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     return Row(
       children: [
         CategoryIcon(color: iconColor, iconWidget: icon),
@@ -27,8 +28,8 @@ class CategoryInfo extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(categoryName, style: TextStyles.regularStyleMedium),
-            Text(_formatAmount(amount), style: TextStyles.hintStyleDefault),
+            Text(categoryName, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
+            Text(_formatAmount(amount), style: TextStyles.hintStyleDefault.copyWith(color: defaultColorScheme.secondary)),
           ],
         )
       ],

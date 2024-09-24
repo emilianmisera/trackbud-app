@@ -30,11 +30,12 @@ class SplitButton extends StatefulWidget {
 class _SplitButtonState extends State<SplitButton> {
   @override
   Widget build(BuildContext context) {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     return CustomShadow(
       child: ElevatedButton(
         onPressed: widget.onPressed,
         style: ElevatedButton.styleFrom(
-          backgroundColor: CustomColor.white,
+          backgroundColor: defaultColorScheme.surface,
           shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(Constants.contentBorderRadius))),
           minimumSize: const Size(25, 10),
           padding: const EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace, vertical: CustomPadding.contentHeightSpace),
@@ -44,11 +45,12 @@ class _SplitButtonState extends State<SplitButton> {
           children: [
             // Display the icon
             SvgPicture.asset(widget.icon,
-                colorFilter: ColorFilter.mode(widget.isSelected ? CustomColor.bluePrimary : CustomColor.hintColor, BlendMode.srcIn)),
+                colorFilter: ColorFilter.mode(widget.isSelected ? CustomColor.bluePrimary : defaultColorScheme.secondary, BlendMode.srcIn)),
             const Gap(CustomPadding.smallSpace),
             // Display the text
             Text(widget.text,
-                style: TextStyles.hintStyleDefault.copyWith(color: widget.isSelected ? CustomColor.bluePrimary : CustomColor.hintColor)),
+                style: TextStyles.hintStyleDefault
+                    .copyWith(color: widget.isSelected ? CustomColor.bluePrimary : defaultColorScheme.secondary)),
           ],
         ),
       ),

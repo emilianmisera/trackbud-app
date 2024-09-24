@@ -4,7 +4,6 @@ import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/shadow.dart';
 import 'package:track_bud/utils/strings.dart';
 
-
 /// Custom Textfield for BankAccountInfo Page & BudgetGoalPage
 class TextFieldAmountOfMoney extends StatelessWidget {
   final TextEditingController controller;
@@ -20,31 +19,31 @@ class TextFieldAmountOfMoney extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     return CustomShadow(
       child: TextFormField(
         controller: controller,
-        style: TextStyles.headingStyle,
+        style: TextStyles.headingStyle.copyWith(color: defaultColorScheme.primary),
         keyboardType: const TextInputType.numberWithOptions(decimal: true),
         textAlign: TextAlign.center,
         inputFormatters: [
-          FilteringTextInputFormatter.allow(RegExp(
-              r'[0-9.,]')), // textinput has to have only numbers or a dot or a comma
+          FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]')), // textinput has to have only numbers or a dot or a comma
         ],
         decoration: InputDecoration(
           hintText: hintText ?? AppTexts.lines,
           suffix: Text(
             "€",
-            style: suffixStyle ?? TextStyles.headingStyle,
+            style: suffixStyle ?? TextStyles.headingStyle.copyWith(color: defaultColorScheme.primary),
           ),
           contentPadding: const EdgeInsets.only(
               left: CustomPadding.defaultSpace,
               right: CustomPadding.defaultSpace,
               top: CustomPadding.contentHeightSpace,
               bottom: CustomPadding.contentHeightSpace),
-          hintStyle: TextStyles.hintStyleHeading,
+          hintStyle: TextStyles.hintStyleHeading.copyWith(color: defaultColorScheme.secondary),
           floatingLabelBehavior: FloatingLabelBehavior.never,
           filled: true,
-          fillColor: CustomColor.white,
+          fillColor: defaultColorScheme.surface,
           border: OutlineInputBorder(
             borderSide: BorderSide.none,
             borderRadius: BorderRadius.circular(Constants.contentBorderRadius),

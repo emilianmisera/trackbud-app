@@ -49,9 +49,10 @@ class _YourFriendsScreenState extends State<YourFriendsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppTexts.yourFriends, style: TextStyles.regularStyleMedium),
+        title: Text(AppTexts.yourFriends, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
         centerTitle: true,
         actions: [
           IconButton(

@@ -16,12 +16,13 @@ class FriendChoice extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     return CustomShadow(
       // Apply shadow for consistency with GroupChoice
       child: GestureDetector(
         onTap: onTap,
         child: Card(
-          color: CustomColor.white,
+          color: defaultColorScheme.surface,
           elevation: 2.0,
           margin: const EdgeInsets.symmetric(
             horizontal: CustomPadding.defaultSpace,
@@ -40,16 +41,14 @@ class FriendChoice extends StatelessWidget {
                     width: 40,
                     height: 40,
                     child: friend.profilePictureUrl.isNotEmpty
-                        ? Image.network(friend.profilePictureUrl,
-                            fit: BoxFit.cover)
+                        ? Image.network(friend.profilePictureUrl, fit: BoxFit.cover)
                         : const Icon(Icons.person, color: Colors.grey),
                   ),
                 ),
                 const Gap(CustomPadding.mediumSpace),
                 // Friend's name
                 Expanded(
-                  child:
-                      Text(friend.name, style: TextStyles.regularStyleMedium),
+                  child: Text(friend.name, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
                 ),
               ],
             ),

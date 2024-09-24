@@ -11,7 +11,7 @@ class GroupChoice extends StatelessWidget {
   final void Function(GroupModel, List<String>) onTap;
   final FirestoreService _firestoreService = FirestoreService();
 
-   GroupChoice({
+  GroupChoice({
     Key? key,
     required this.group,
     required this.onTap,
@@ -19,19 +19,18 @@ class GroupChoice extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     return CustomShadow(
       child: GestureDetector(
         onTap: () async {
-          List<String> memberNames = await Future.wait(
-            group.members.map((memberId) async {
-              UserModel? user = await _firestoreService.getUser(memberId);
-              return user?.name ?? 'Unknown User';
-            })
-          );
+          List<String> memberNames = await Future.wait(group.members.map((memberId) async {
+            UserModel? user = await _firestoreService.getUser(memberId);
+            return user?.name ?? 'Unknown User';
+          }));
           onTap(group, memberNames);
         },
         child: Card(
-          color: CustomColor.white,
+          color: defaultColorScheme.surface,
           elevation: 2.0,
           margin: const EdgeInsets.symmetric(
             horizontal: CustomPadding.defaultSpace,
@@ -55,7 +54,7 @@ class GroupChoice extends StatelessWidget {
                 ),
                 const Gap(CustomPadding.mediumSpace),
                 Expanded(
-                  child: Text(group.name, style: TextStyles.regularStyleMedium),
+                  child: Text(group.name, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
                 ),
                 SizedBox(
                   width: 65,
