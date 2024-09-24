@@ -10,20 +10,21 @@ class PayOffDebts extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     return Container(
       width: MediaQuery.of(context).size.width - 32,
       padding: const EdgeInsets.all(CustomPadding.defaultSpace),
       decoration: BoxDecoration(
-        color: CustomColor.backgroundPrimary,
+        color: defaultColorScheme.surface,
         borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(AppTexts.payOffDebts, style: TextStyles.titleStyleMedium),
+          Text(AppTexts.payOffDebts, style: TextStyles.titleStyleMedium.copyWith(color: defaultColorScheme.primary)),
           const Gap(CustomPadding.defaultSpace),
-          Text(AppTexts.payOffDebts, style: TextStyles.hintStyleDefault),
+          Text(AppTexts.payOffDebts, style: TextStyles.hintStyleDefault.copyWith(color: defaultColorScheme.secondary)),
           const Gap(CustomPadding.defaultSpace),
           //const ByAmountTile(),
           const Gap(CustomPadding.defaultSpace),

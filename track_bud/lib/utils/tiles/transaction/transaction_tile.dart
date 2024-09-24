@@ -37,11 +37,13 @@ class TransactionTile extends StatefulWidget {
 class _TransactionTileState extends State<TransactionTile> {
   // Method to open a popup window with transaction details
   Future _openTransaction() => showDialog(
-        context: context,
-        builder: (context) => Dialog(
+      context: context,
+      builder: (context) {
+        final defaultColorScheme = Theme.of(context).colorScheme;
+        return Dialog(
           insetPadding: const EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace),
-          backgroundColor: CustomColor.backgroundPrimary,
-          surfaceTintColor: CustomColor.backgroundPrimary,
+          backgroundColor: defaultColorScheme.onSurface,
+          surfaceTintColor: defaultColorScheme.onSurface,
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(
               Radius.circular(Constants.contentBorderRadius),
@@ -61,15 +63,16 @@ class _TransactionTileState extends State<TransactionTile> {
               onEdit: widget.onEdit,
             ),
           ),
-        ),
-      );
+        );
+      });
 
   @override
   Widget build(BuildContext context) {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     return CustomShadow(
       child: Container(
         width: MediaQuery.sizeOf(context).width,
-        decoration: BoxDecoration(color: CustomColor.white, borderRadius: BorderRadius.circular(Constants.contentBorderRadius)),
+        decoration: BoxDecoration(color: defaultColorScheme.surface, borderRadius: BorderRadius.circular(Constants.contentBorderRadius)),
         child: ListTile(
           // Transaction category icon
           leading: CategoryIcon(
@@ -89,17 +92,17 @@ class _TransactionTileState extends State<TransactionTile> {
           // Transaction title
           title: Text(
             widget.title,
-            style: TextStyles.regularStyleMedium,
+            style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary),
           ),
           // Transaction timestamp
           subtitle: Text(
             DateFormat('dd.MM.yyyy, HH:mm').format(widget.date),
-            style: TextStyles.hintStyleDefault.copyWith(fontSize: TextStyles.fontSizeHint),
+            style: TextStyles.hintStyleDefault.copyWith(fontSize: TextStyles.fontSizeHint, color: defaultColorScheme.secondary),
           ),
           // Transaction amount
           trailing: Text(
             '${widget.amount.toStringAsFixed(2)}€',
-            style: TextStyles.regularStyleMedium,
+            style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary),
           ),
           minVerticalPadding: CustomPadding.defaultSpace,
           onTap: _openTransaction,

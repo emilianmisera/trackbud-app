@@ -34,6 +34,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     return SingleChildScrollView(
       child: Padding(
         padding: EdgeInsets.only(
@@ -50,7 +51,9 @@ class _OverviewScreenState extends State<OverviewScreen> {
             const Gap(CustomPadding.defaultSpace),
             const OverviewDebtsTile(),
             const Gap(CustomPadding.defaultSpace),
-            Text(AppTexts.history, style: TextStyles.regularStyleMedium),
+
+            Text(AppTexts.history, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
+
             const Gap(CustomPadding.mediumSpace),
             const TransactionHistoryList(transactionType: 'expense')
           ],

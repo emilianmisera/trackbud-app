@@ -20,6 +20,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: AppBar(),
       body: SingleChildScrollView(
@@ -35,11 +36,11 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Heading text
-              Text(AppTexts.changePassword, style: TextStyles.headingStyle),
+              Text(AppTexts.changePassword, style: TextStyles.headingStyle.copyWith(color: defaultColorScheme.primary)),
               const Gap(CustomPadding.mediumSpace),
 
               // Description text
-              Text(AppTexts.changePasswordDesscribtion, style: TextStyles.hintStyleDefault),
+              Text(AppTexts.changePasswordDesscribtion, style: TextStyles.hintStyleDefault.copyWith(color: defaultColorScheme.secondary)),
               const Gap(CustomPadding.bigSpace),
 
               // Current password text field
@@ -59,7 +60,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                       builder: (context) => const ForgotPasswordScreen(),
                     ));
                   },
-                  child: Text(AppTexts.forgotPassword, style: TextStyles.hintStyleMedium),
+                  child: Text(AppTexts.forgotPassword, style: TextStyles.hintStyleMedium.copyWith(color: defaultColorScheme.secondary)),
                 ),
               ),
               const Gap(CustomPadding.defaultSpace),
@@ -84,17 +85,20 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
       ),
       // Bottom sheet with Save button
       bottomSheet: Container(
-        margin: EdgeInsets.only(
-          bottom: MediaQuery.sizeOf(context).height * CustomPadding.bottomSpace,
-          left: CustomPadding.defaultSpace,
-          right: CustomPadding.defaultSpace,
-        ),
-        width: MediaQuery.of(context).size.width,
-        child: ElevatedButton(
-          onPressed: () async {
-            // TODO: Implement save functionality
-          },
-          child: Text(AppTexts.save),
+        color: defaultColorScheme.onSurface,
+        child: Container(
+          margin: EdgeInsets.only(
+            bottom: MediaQuery.sizeOf(context).height * CustomPadding.bottomSpace,
+            left: CustomPadding.defaultSpace,
+            right: CustomPadding.defaultSpace,
+          ),
+          width: MediaQuery.of(context).size.width,
+          child: ElevatedButton(
+            onPressed: () async {
+              // TODO: Implement save functionality
+            },
+            child: Text(AppTexts.save),
+          ),
         ),
       ),
     );

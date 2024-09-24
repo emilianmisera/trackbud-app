@@ -20,6 +20,7 @@ class SearchTextfield extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     return CustomShadow(
       child: SizedBox(
         width: double.infinity,
@@ -38,14 +39,13 @@ class SearchTextfield extends StatelessWidget {
               horizontal: CustomPadding.defaultSpace,
               vertical: CustomPadding.contentHeightSpace,
             ),
-            hintStyle: TextStyles.hintStyleDefault,
+            hintStyle: TextStyles.hintStyleDefault.copyWith(color: defaultColorScheme.secondary),
             floatingLabelBehavior: FloatingLabelBehavior.never,
             filled: true,
-            fillColor: CustomColor.white,
+            fillColor: defaultColorScheme.surface,
             border: OutlineInputBorder(
               borderSide: BorderSide.none,
-              borderRadius:
-                  BorderRadius.circular(Constants.contentBorderRadius),
+              borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
             ),
           ),
           onChanged: onChanged,

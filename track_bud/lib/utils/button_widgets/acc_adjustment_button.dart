@@ -14,25 +14,29 @@ class AccAdjustmentButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     return ElevatedButton.icon(
-      icon: SvgPicture.asset(icon),
+      icon: SvgPicture.asset(
+        icon,
+        colorFilter: ColorFilter.mode(defaultColorScheme.primary, BlendMode.srcIn),
+      ),
       label: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
             name,
-            style: TextStyles.regularStyleDefault,
+            style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary),
           ),
           const Icon(Icons.arrow_forward_ios_rounded),
         ],
       ),
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
-          backgroundColor: CustomColor.backgroundPrimary,
-          foregroundColor: CustomColor.black,
+          backgroundColor: defaultColorScheme.onSurface,
+          foregroundColor: defaultColorScheme.primary,
           fixedSize: const Size(double.infinity, Constants.height),
           elevation: 0,
-          surfaceTintColor: CustomColor.backgroundPrimary,
+          surfaceTintColor: defaultColorScheme.surface,
           padding: padding ?? const EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace)),
     );
   }

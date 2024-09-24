@@ -40,14 +40,14 @@ class _YourGroupsScreenState extends State<YourGroupsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppTexts.yourGroups, style: TextStyles.regularStyleMedium),
+        title: Text(AppTexts.yourGroups, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
+        centerTitle: true,
         actions: [
           IconButton(
-            onPressed: () => showModalBottomSheet(
-                context: context,
-                builder: (context) => const CreateGroupSheet()),
+            onPressed: () => showModalBottomSheet(context: context, builder: (context) => const CreateGroupSheet()),
             icon: const Icon(
               Icons.add,
               color: CustomColor.bluePrimary,
@@ -58,39 +58,42 @@ class _YourGroupsScreenState extends State<YourGroupsScreen> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          // spacing between content and screen
-          padding: const EdgeInsets.only(
-              top: CustomPadding.defaultSpace,
-              left: CustomPadding.defaultSpace,
-              right: CustomPadding.defaultSpace),
+          padding:
+              const EdgeInsets.only(top: CustomPadding.defaultSpace, left: CustomPadding.defaultSpace, right: CustomPadding.defaultSpace),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              //SearchField
               SearchTextfield(
                 hintText: AppTexts.search,
                 controller: _searchController,
-                onChanged: _searchGroup,
+                onChanged: (_) => setState(() {}), // Trigger rebuild on search
               ),
               const Gap(CustomPadding.defaultSpace),
-              // List of Groups (using Consumer)
               Consumer<GroupProvider>(
                 builder: (context, groupProvider, child) {
                   if (groupProvider.isLoading) {
-                    return const Center(child: CircularProgressIndicator());
-                  } else if (groupProvider.groups.isEmpty) {
-                    return const Center(child: Text("Keine Gruppen gefunden."));
-                  } else {
-                    return Column(
-                      children: groupProvider.groups
-                          .map((group) => Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: CustomPadding.smallSpace),
-                                child: GroupCard(group: group),
-                              ))
-                          .toList(),
-                    );
+                    return const Center(child: CircularProgressIndicator(color: CustomColor.bluePrimary));
                   }
+
+                  // Filter groups based on search text
+                  final filteredGroups = groupProvider.groups.where((group) {
+                    final searchTerm = _searchController.text.toLowerCase();
+                    // Assuming group has a name property. Adjust as needed.
+                    return group.name.toLowerCase().contains(searchTerm);
+                  }).toList();
+
+                  if (filteredGroups.isEmpty) {
+                    return const Center(child: Text("Keine Gruppen gefunden."));
+                  }
+
+                  return Column(
+                    children: filteredGroups
+                        .map((group) => Padding(
+                              padding: const EdgeInsets.symmetric(vertical: CustomPadding.smallSpace),
+                              child: GroupCard(group: group),
+                            ))
+                        .toList(),
+                  );
                 },
               ),
             ],

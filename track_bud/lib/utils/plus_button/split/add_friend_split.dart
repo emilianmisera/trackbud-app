@@ -61,9 +61,7 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
 
   void _validateForm() {
     setState(() {
-      _isFormValid = _titleController.text.isNotEmpty &&
-          _amountController.text.isNotEmpty &&
-          _selectedCategory.isNotEmpty;
+      _isFormValid = _titleController.text.isNotEmpty && _amountController.text.isNotEmpty && _selectedCategory.isNotEmpty;
     });
   }
 
@@ -104,12 +102,8 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
 
     FriendSplitModel newSplit = FriendSplitModel(
       splitId: const Uuid().v4(),
-      creditorId: _payedBy == widget.currentUser.name
-          ? widget.currentUser.userId
-          : widget.selectedFriend.userId,
-      debtorId: _payedBy == widget.currentUser.name
-          ? widget.selectedFriend.userId
-          : widget.currentUser.userId,
+      creditorId: _payedBy == widget.currentUser.name ? widget.currentUser.userId : widget.selectedFriend.userId,
+      debtorId: _payedBy == widget.currentUser.name ? widget.selectedFriend.userId : widget.currentUser.userId,
       creditorAmount: creditorAmount,
       debtorAmount: debtorAmount,
       title: _titleController.text,
@@ -137,6 +131,7 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
 
   @override
   Widget build(BuildContext context) {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     return AddEntryModal(
       buttonText: AppTexts.addSplit,
       initialChildSize: 0.76,
@@ -156,11 +151,11 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
                 children: [
                   Text(
                     AppTexts.newFriendSplit,
-                    style: TextStyles.regularStyleMedium,
+                    style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary),
                   ),
                   Text(
                     widget.selectedFriend.name,
-                    style: TextStyles.titleStyleMedium,
+                    style: TextStyles.titleStyleMedium.copyWith(color: defaultColorScheme.primary),
                   ),
                 ],
               ),
@@ -179,6 +174,7 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
                   hintText: '00.00',
                   controller: _amountController,
                   width: MediaQuery.sizeOf(context).width / 3,
+
                   prefix: Text(
                     '- ',
                     style: TextStyles.titleStyleMedium
@@ -192,11 +188,11 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
               ],
             ),
             const Gap(CustomPadding.defaultSpace),
-            Text(AppTexts.categorie, style: TextStyles.regularStyleMedium),
+            Text(AppTexts.categorie, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
             const Gap(CustomPadding.mediumSpace),
             CategoriesExpense(onCategorySelected: _onCategorySelected),
             const Gap(CustomPadding.defaultSpace),
-            Text(AppTexts.payedBy, style: TextStyles.regularStyleMedium),
+            Text(AppTexts.payedBy, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
             const Gap(CustomPadding.mediumSpace),
             CustomDropDown(
               list: [widget.currentUser.name, widget.selectedFriend.name],

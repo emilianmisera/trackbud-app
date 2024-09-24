@@ -49,19 +49,23 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: AppBar(),
       bottomSheet: Container(
-        // Margin is applied to the bottom of the button and the sides for proper spacing.
-        margin: EdgeInsets.only(
-          bottom: MediaQuery.sizeOf(context).height * CustomPadding.bottomSpace, // Bottom margin based on screen height
-          left: CustomPadding.defaultSpace, // Left margin
-          right: CustomPadding.defaultSpace, // Right margin
-        ),
-        width: MediaQuery.of(context).size.width, // Set the button width to match the screen width
-        child: ElevatedButton(
-          onPressed: () => _handleSubmission(),
-          child: Text(AppTexts.continueText),
+        color: defaultColorScheme.onSurface,
+        child: Container(
+          // Margin is applied to the bottom of the button and the sides for proper spacing.
+          margin: EdgeInsets.only(
+            bottom: MediaQuery.sizeOf(context).height * CustomPadding.bottomSpace, // Bottom margin based on screen height
+            left: CustomPadding.defaultSpace, // Left margin
+            right: CustomPadding.defaultSpace, // Right margin
+          ),
+          width: MediaQuery.of(context).size.width, // Set the button width to match the screen width
+          child: ElevatedButton(
+            onPressed: () => _handleSubmission(),
+            child: Text(AppTexts.continueText),
+          ),
         ),
       ),
       body: SingleChildScrollView(
@@ -74,9 +78,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start, //alignment to left
             children: [
-              Text(AppTexts.resetPassword, style: TextStyles.headingStyle),
+              Text(AppTexts.resetPassword, style: TextStyles.headingStyle.copyWith(color: defaultColorScheme.primary)),
               const Gap(CustomPadding.mediumSpace),
-              Text(AppTexts.resetPasswordDescription, style: TextStyles.hintStyleDefault),
+              Text(AppTexts.resetPasswordDescription, style: TextStyles.hintStyleDefault.copyWith(color: defaultColorScheme.secondary)),
               const Gap(CustomPadding.defaultSpace),
               CustomTextfield(
                 controller: _emailController,

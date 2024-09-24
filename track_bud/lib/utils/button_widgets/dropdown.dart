@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/shadow.dart';
 
-
-
 class CustomDropDown extends StatefulWidget {
   final List<String> list;
   final double? width;
@@ -40,6 +38,7 @@ class _CustomDropDownState extends State<CustomDropDown> {
 
   @override
   Widget build(BuildContext context) {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     return CustomShadow(
       child: DropdownButtonHideUnderline(
         child: DropdownButton2<String>(
@@ -55,13 +54,13 @@ class _CustomDropDownState extends State<CustomDropDown> {
             }
           },
           value: value,
-          style: TextStyles.regularStyleMedium,
+          style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary),
           dropdownStyleData: DropdownStyleData(
             maxHeight: 200,
             width: widget.dropdownWidth ?? 150,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
-              color: CustomColor.white,
+              color: defaultColorScheme.surface,
             ),
             scrollbarTheme: ScrollbarThemeData(
               radius: const Radius.circular(Constants.contentBorderRadius),
@@ -73,7 +72,7 @@ class _CustomDropDownState extends State<CustomDropDown> {
             width: widget.width ?? double.infinity,
             height: widget.height ?? Constants.height,
             decoration: BoxDecoration(
-              color: CustomColor.white,
+              color: defaultColorScheme.surface,
               borderRadius: BorderRadius.circular(10),
             ),
             padding: widget.padding ?? const EdgeInsets.symmetric(horizontal: 16),
@@ -84,13 +83,16 @@ class _CustomDropDownState extends State<CustomDropDown> {
     );
   }
 
-  DropdownMenuItem<String> buildMenuItem(String item) => DropdownMenuItem(
-        value: item,
-        child: Text(
-          item,
-          style: TextStyles.regularStyleDefault.copyWith(
-            color: value == item ? CustomColor.bluePrimary : null,
-          ),
+  DropdownMenuItem<String> buildMenuItem(String item) {
+    final defaultColorScheme = Theme.of(context).colorScheme;
+    return DropdownMenuItem(
+      value: item,
+      child: Text(
+        item,
+        style: TextStyles.regularStyleDefault.copyWith(
+          color: value == item ? CustomColor.bluePrimary : defaultColorScheme.primary,
         ),
-      );
+      ),
+    );
+  }
 }

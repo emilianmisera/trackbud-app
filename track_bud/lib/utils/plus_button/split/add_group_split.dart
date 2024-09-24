@@ -56,9 +56,7 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
 
   void _validateForm() {
     setState(() {
-      _isFormValid = _titleController.text.isNotEmpty &&
-          _amountController.text.isNotEmpty &&
-          _selectedCategory != null;
+      _isFormValid = _titleController.text.isNotEmpty && _amountController.text.isNotEmpty && _selectedCategory != null;
     });
   }
 
@@ -88,6 +86,7 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
 
   @override
   Widget build(BuildContext context) {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     return AddEntryModal(
       buttonText: AppTexts.addSplit,
       initialChildSize: 0.76,
@@ -107,11 +106,11 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
                 children: [
                   Text(
                     AppTexts.newGroupSplit,
-                    style: TextStyles.regularStyleMedium,
+                    style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary),
                   ),
                   Text(
                     widget.selectedGroup.name,
-                    style: TextStyles.titleStyleMedium,
+                    style: TextStyles.titleStyleMedium.copyWith(color: defaultColorScheme.primary),
                   ),
                 ],
               ),
@@ -130,6 +129,7 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
                   hintText: '00.00',
                   controller: _amountController,
                   width: MediaQuery.of(context).size.width / 3,
+
                   prefix: Text(
                     '- ',
                     style: TextStyles.titleStyleMedium
@@ -143,11 +143,11 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
               ],
             ),
             const Gap(CustomPadding.defaultSpace),
-            Text(AppTexts.categorie, style: TextStyles.regularStyleMedium),
+            Text(AppTexts.categorie, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
             const Gap(CustomPadding.mediumSpace),
             CategoriesExpense(onCategorySelected: _onCategorySelected),
             const Gap(CustomPadding.defaultSpace),
-            Text(AppTexts.payedBy, style: TextStyles.regularStyleMedium),
+            Text(AppTexts.payedBy, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
             const Gap(CustomPadding.mediumSpace),
             CustomDropDown(
               list: widget.memberNames,

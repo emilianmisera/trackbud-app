@@ -18,21 +18,21 @@ class GroupOverviewScreen extends StatefulWidget {
 class _GroupOverviewScreenState extends State<GroupOverviewScreen> {
   @override
   Widget build(BuildContext context) {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          widget.groupName,
-          style: TextStyles.regularStyleMedium,
-        ),
+        title: Text(widget.groupName, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
+        centerTitle: true,
       ),
       body: SingleChildScrollView(
         child: Padding(
           // spacing between content and screen
-          padding: const EdgeInsets.only(top: CustomPadding.defaultSpace, left: CustomPadding.defaultSpace, right: CustomPadding.defaultSpace),
+          padding:
+              const EdgeInsets.only(top: CustomPadding.defaultSpace, left: CustomPadding.defaultSpace, right: CustomPadding.defaultSpace),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              InfoTile(title: AppTexts.overall, amount: 'amount', color: CustomColor.black),
+              InfoTile(title: AppTexts.overall, amount: 'amount', color: defaultColorScheme.primary),
               const Gap(
                 CustomPadding.mediumSpace,
               ),
@@ -54,7 +54,7 @@ class _GroupOverviewScreenState extends State<GroupOverviewScreen> {
               const Gap(CustomPadding.defaultSpace),
               Text(
                 AppTexts.debtsOverview,
-                style: TextStyles.regularStyleMedium,
+                style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary),
               ),
               const Gap(
                 CustomPadding.mediumSpace,
@@ -63,7 +63,7 @@ class _GroupOverviewScreenState extends State<GroupOverviewScreen> {
               const Gap(CustomPadding.defaultSpace),
               Text(
                 AppTexts.transactionOverview,
-                style: TextStyles.regularStyleMedium,
+                style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary),
               ),
               const Gap(
                 CustomPadding.mediumSpace,
@@ -86,7 +86,7 @@ class _GroupOverviewScreenState extends State<GroupOverviewScreen> {
               ),
               Text(
                 AppTexts.history,
-                style: TextStyles.regularStyleMedium,
+                style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary),
               ),
               const Gap(
                 CustomPadding.mediumSpace,
@@ -100,20 +100,23 @@ class _GroupOverviewScreenState extends State<GroupOverviewScreen> {
         ),
       ),
       bottomSheet: Container(
-        // Margin is applied to the bottom of the button and the sides for proper spacing.
-        margin: EdgeInsets.only(
-          bottom: MediaQuery.sizeOf(context).height * CustomPadding.bottomSpace, // Bottom margin based on screen height
-          left: CustomPadding.defaultSpace, // Left margin
-          right: CustomPadding.defaultSpace, // Right margin
-        ),
-        child: ElevatedButton(
-          // Enable button only if profile has changed
-          onPressed: () {},
-          style: ElevatedButton.styleFrom(
-              // Set button color based on whether profile has changed
-              disabledBackgroundColor: CustomColor.bluePrimary.withOpacity(0.5),
-              backgroundColor: CustomColor.bluePrimary),
-          child: Text(AppTexts.addDebt),
+        color: defaultColorScheme.onSurface,
+        child: Container(
+          // Margin is applied to the bottom of the button and the sides for proper spacing.
+          margin: EdgeInsets.only(
+            bottom: MediaQuery.sizeOf(context).height * CustomPadding.bottomSpace, // Bottom margin based on screen height
+            left: CustomPadding.defaultSpace, // Left margin
+            right: CustomPadding.defaultSpace, // Right margin
+          ),
+          child: ElevatedButton(
+            // Enable button only if profile has changed
+            onPressed: () {},
+            style: ElevatedButton.styleFrom(
+                // Set button color based on whether profile has changed
+                disabledBackgroundColor: CustomColor.bluePrimary.withOpacity(0.5),
+                backgroundColor: CustomColor.bluePrimary),
+            child: Text(AppTexts.addDebt),
+          ),
         ),
       ),
     );

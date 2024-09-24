@@ -52,11 +52,12 @@ class _DatePickerState extends State<DatePicker> {
 
   @override
   Widget build(BuildContext context) {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // Date label
-        Text(AppTexts.date, style: TextStyles.regularStyleMedium),
+        Text(AppTexts.date, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
         const Gap(CustomPadding.mediumSpace),
         Row(
           children: [
@@ -72,7 +73,7 @@ class _DatePickerState extends State<DatePicker> {
                       height: MediaQuery.sizeOf(context).height / 3,
                       child: CupertinoDatePicker(
                         onDateTimeChanged: (DateTime newDate) => _updateDate(newDate),
-                        backgroundColor: CustomColor.white,
+                        backgroundColor: defaultColorScheme.surface,
                         initialDateTime: _dateTime,
                         use24hFormat: true,
                         mode: CupertinoDatePickerMode.date,
@@ -87,7 +88,7 @@ class _DatePickerState extends State<DatePicker> {
                   height: Constants.height,
                   padding: const EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace),
                   decoration: BoxDecoration(
-                    color: CustomColor.white,
+                    color: defaultColorScheme.surface,
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Center(
@@ -115,7 +116,7 @@ class _DatePickerState extends State<DatePicker> {
                       ),
                       child: CupertinoDatePicker(
                         onDateTimeChanged: (DateTime newTime) => _updateTime(newTime),
-                        backgroundColor: CustomColor.white,
+                        backgroundColor: defaultColorScheme.surface,
                         initialDateTime: _dateTime,
                         use24hFormat: true,
                         mode: CupertinoDatePickerMode.time,
@@ -130,7 +131,7 @@ class _DatePickerState extends State<DatePicker> {
                   height: Constants.height,
                   padding: const EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace),
                   decoration: BoxDecoration(
-                    color: CustomColor.white,
+                    color: defaultColorScheme.surface,
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Center(

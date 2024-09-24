@@ -32,10 +32,9 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
 
   @override
   Widget build(BuildContext context) {
-    String infoTileTitle =
-        _selectedOption == 'Ausgaben' ? 'ausgegeben' : 'erhalten';
-    Color infoTileColor =
-        _selectedOption == 'Ausgaben' ? CustomColor.red : CustomColor.green;
+    String infoTileTitle = _selectedOption == 'Ausgaben' ? 'ausgegeben' : 'erhalten';
+    Color infoTileColor = _selectedOption == 'Ausgaben' ? CustomColor.red : CustomColor.green;
+    final defaultColorScheme = Theme.of(context).colorScheme;
 
     return Scaffold(
       body: Consumer<TransactionProvider>(
@@ -43,13 +42,13 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
           return SingleChildScrollView(
             child: Padding(
               padding: EdgeInsets.only(
-                  top: MediaQuery.sizeOf(context).height *
-                      CustomPadding.topSpace,
+                  top: MediaQuery.sizeOf(context).height * CustomPadding.topSpace,
                   left: CustomPadding.defaultSpace,
                   right: CustomPadding.defaultSpace),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+
                   InfoTile(
                       title: AppTexts.balance,
                       amount:
@@ -61,16 +60,15 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
                     children: [
                       InfoTile(
                         title: infoTileTitle,
+
                         amount:
                             '${transactionProvider.totalAmount.toStringAsFixed(2)}',
                         color: infoTileColor,
-                        width: MediaQuery.sizeOf(context).width / 2 -
-                            Constants.infoTileSpace,
+                        width: MediaQuery.sizeOf(context).width / 2 - Constants.infoTileSpace,
                       ),
                       CustomDropDown(
-                        list: ['Ausgaben', 'Einnahmen'],
-                        width: MediaQuery.sizeOf(context).width / 2 -
-                            Constants.infoTileSpace,
+                        list: const ['Ausgaben', 'Einnahmen'],
+                        width: MediaQuery.sizeOf(context).width / 2 - Constants.infoTileSpace,
                         height: 88,
                         onChanged: (value) {
                           setState(() {
@@ -87,11 +85,9 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
                   const Gap(CustomPadding.defaultSpace),
                   DonutChart(selectedOption: _selectedOption),
                   const Gap(CustomPadding.defaultSpace),
-                  Text(AppTexts.history, style: TextStyles.regularStyleMedium),
+                  Text(AppTexts.history, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
                   const Gap(CustomPadding.mediumSpace),
-                  TransactionHistoryList(
-                      transactionType:
-                          _selectedOption == 'Ausgaben' ? 'expense' : 'income'),
+                  TransactionHistoryList(transactionType: _selectedOption == 'Ausgaben' ? 'expense' : 'income'),
                 ],
               ),
             ),

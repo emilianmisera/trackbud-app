@@ -54,6 +54,7 @@ class _YearChartState extends State<YearChart> with SingleTickerProviderStateMix
   Widget build(BuildContext context) {
     final List<double> yearExpenses = _getYearExpenses();
     double maxExpense = yearExpenses.reduce((a, b) => a > b ? a : b);
+    final defaultColorScheme = Theme.of(context).colorScheme;
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -67,7 +68,7 @@ class _YearChartState extends State<YearChart> with SingleTickerProviderStateMix
                 height: 75,
                 width: 20,
                 decoration: BoxDecoration(
-                  color: CustomColor.grey,
+                  color: defaultColorScheme.outline,
                   borderRadius: BorderRadius.circular(5),
                 ),
                 child: Align(

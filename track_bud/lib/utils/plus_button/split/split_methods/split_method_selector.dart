@@ -25,10 +25,11 @@ class SplitMethodSelector extends StatefulWidget {
 class _SplitMethodSelectorState extends State<SplitMethodSelector> {
   @override
   Widget build(BuildContext context) {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(AppTexts.distribution, style: TextStyles.regularStyleMedium),
+        Text(AppTexts.distribution, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
         const Gap(CustomPadding.mediumSpace),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

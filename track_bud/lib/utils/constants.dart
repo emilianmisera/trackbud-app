@@ -116,6 +116,16 @@ class CustomColor {
   static const Color pastelGreen = Color.fromRGBO(216, 255, 236, 1);
   static const Color pastelRed = Color.fromRGBO(254, 226, 228, 1);
 
+//darkmode colors
+  static const Color darkModebackgroundPrimary = Color.fromRGBO(18, 18, 18, 1);
+  static const Color darkModeBlack = Color.fromRGBO(30, 30, 30, 1);
+  static const Color darkModeGrey = Color.fromRGBO(54, 54, 54, 1);
+  static const Color darkModeNavBar = Color.fromRGBO(160, 162, 175, 1);
+  static const Color darkModeHint = Color.fromRGBO(142, 142, 144, 1);
+  static const Color darkModeWhite = Color.fromRGBO(237, 237, 237, 1);
+  static const Color darkModePastelBlue = Color.fromRGBO(27, 36, 57, 1);
+  static const Color darkModePastelGreen = Color.fromRGBO(36, 48, 40, 1);
+  static const Color darkModePastelRed = Color.fromRGBO(48, 30, 31, 1);
   //categorie colors
   //expenses
   static const Color unterkunft = Color.fromRGBO(242, 201, 76, 1);
@@ -152,7 +162,9 @@ class CustomPadding {
 }
 
 class AssetImport {
-  static const String textLogo = "assets/icons/logo.svg";
+  static const String textLogoLightMode = "assets/icons/logo.svg";
+  static const String textLogoDarkMode = "assets/icons/logo_darkmode.svg";
+  static const String iconLogo = "assets/icons/logo_icon.svg";
   static const String googleLogo = 'assets/icons/Google_Logo.svg';
   static const String appleLogo = 'assets/icons/Apple_Logo.svg';
   static const String returnIcon = 'assets/icons/return_icon.svg';
@@ -203,7 +215,7 @@ class Constants {
   static const Padding screenWidth = Padding(padding: EdgeInsets.only(left: 16, right: 16));
   static const double defaultAppBarHeight = 56;
   static const Duration buttonAnimationDuration = Duration(milliseconds: 200);
-  static const double profilePictureSettingPage = 65;
+  static const double profilePictureSettingPage = 95;
   static const double profilePictureAccountEdit = 115;
   static const double segmentedControlHeight = 0.05;
   static const double timeUnitHeight = 0.03;

@@ -20,6 +20,7 @@ class TransactionOverview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     // Render the category bar differently based on the isOverview flag
     return isOverview
         ? buildCategoryBar(height: 7.0)
@@ -28,7 +29,7 @@ class TransactionOverview extends StatelessWidget {
               width: MediaQuery.sizeOf(context).width,
               padding: const EdgeInsets.all(CustomPadding.defaultSpace),
               decoration: BoxDecoration(
-                color: CustomColor.white,
+                color: defaultColorScheme.surface,
                 borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
               ),
               child: Column(
@@ -83,5 +84,3 @@ class TransactionOverview extends StatelessWidget {
     );
   }
 }
-
-

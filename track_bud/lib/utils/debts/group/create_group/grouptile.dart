@@ -39,6 +39,7 @@ class _GroupTileState extends State<GroupTile> {
 
   @override
   Widget build(BuildContext context) {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     return Row(
       children: [
         GestureDetector(
@@ -49,9 +50,7 @@ class _GroupTileState extends State<GroupTile> {
               width: 60,
               height: 60,
               color: _image != null ? null : Colors.grey,
-              child: _image != null
-                  ? Image.file(_image!, fit: BoxFit.cover)
-                  : const Icon(Icons.groups, color: Colors.white),
+              child: _image != null ? Image.file(_image!, fit: BoxFit.cover) : const Icon(Icons.groups, color: Colors.white),
             ),
           ),
         ),
@@ -69,14 +68,13 @@ class _GroupTileState extends State<GroupTile> {
                     horizontal: CustomPadding.defaultSpace,
                     vertical: CustomPadding.contentHeightSpace,
                   ),
-                  hintStyle: TextStyles.hintStyleDefault,
+                  hintStyle: TextStyles.hintStyleDefault.copyWith(color: defaultColorScheme.secondary),
                   floatingLabelBehavior: FloatingLabelBehavior.never,
                   filled: true,
-                  fillColor: CustomColor.white,
+                  fillColor: defaultColorScheme.surface,
                   border: OutlineInputBorder(
                     borderSide: BorderSide.none,
-                    borderRadius:
-                        BorderRadius.circular(Constants.contentBorderRadius),
+                    borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
                   ),
                 ),
               ),

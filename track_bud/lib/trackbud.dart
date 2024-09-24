@@ -20,8 +20,10 @@ class TrackBud extends StatefulWidget {
 
 class _TrackBudState extends State<TrackBud> {
   final PageController _pageController = PageController();
-
   final FirestoreService _firestoreService = FirestoreService();
+  // Current index to keep track of the selected page
+  int _currentIndex = 0;
+
 
   @override
   void initState() {
@@ -30,13 +32,13 @@ class _TrackBudState extends State<TrackBud> {
   }
 
   Future<void> _retrieveDynamicLink() async {
-    FirebaseDynamicLinks.instance.onLink
-        .listen((PendingDynamicLinkData dynamicLinkData) {
+    FirebaseDynamicLinks.instance.onLink.listen((PendingDynamicLinkData dynamicLinkData) {
       final Uri deepLink = dynamicLinkData.link;
 
       _handleDynamicLink(deepLink);
     }).onError((error) {
-      debugPrint('Fehler beim Empfangen des dynamischen Links: $error');
+      print('Fehler beim Empfangen des dynamischen Links: $error');
+
     });
   }
 
@@ -74,11 +76,16 @@ class _TrackBudState extends State<TrackBud> {
     return Scaffold(
       // Custom bottom navigation bar
       bottomNavigationBar: CustomBottomNavigationBar(
-        onTap: (value) => _pageController.jumpToPage(value),
+        onTap: (index) => _pageController.jumpToPage(index),
+        currentIndex: _currentIndex, // Pass the current index
       ),
       // Display the screen corresponding to the current index
       body: PageView(
         controller: _pageController,
+        onPageChanged: (index) {
+          // Update current index when page changes
+          setState(() => _currentIndex = index);
+        },
         children: const [
           OverviewScreen(),
           DebtsScreen(),

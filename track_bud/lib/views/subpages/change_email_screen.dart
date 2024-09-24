@@ -44,8 +44,7 @@ class _ChangeEmailScreenState extends State<ChangeEmailScreen> {
 
     try {
       // Check if new email is already in use
-      final signInMethods = await FirebaseAuth.instance
-          .fetchSignInMethodsForEmail(_newEmailController.text);
+      final signInMethods = await FirebaseAuth.instance.fetchSignInMethodsForEmail(_newEmailController.text);
       if (signInMethods.isNotEmpty) {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -111,8 +110,7 @@ class _ChangeEmailScreenState extends State<ChangeEmailScreen> {
                 content: Text('E-Mail-Adresse erfolgreich aktualisiert!'),
               ),
             );
-            Navigator.of(context)
-                .pop(); // Navigate back after successful update
+            Navigator.of(context).pop(); // Navigate back after successful update
           }
         }
       }
@@ -137,6 +135,7 @@ class _ChangeEmailScreenState extends State<ChangeEmailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: AppBar(),
       body: SingleChildScrollView(
@@ -144,8 +143,7 @@ class _ChangeEmailScreenState extends State<ChangeEmailScreen> {
           // Padding adds spacing around the content inside the screen.
           padding: EdgeInsets.only(
             top: MediaQuery.sizeOf(context).height * CustomPadding.topSpace -
-                Constants
-                    .defaultAppBarHeight, // Top padding based on screen height
+                Constants.defaultAppBarHeight, // Top padding based on screen height
             left: CustomPadding.defaultSpace, // Left padding
             right: CustomPadding.defaultSpace, // Right padding
           ),
@@ -155,7 +153,7 @@ class _ChangeEmailScreenState extends State<ChangeEmailScreen> {
               // The heading text
               Text(
                 AppTexts.changeEmail,
-                style: TextStyles.headingStyle,
+                style: TextStyles.headingStyle.copyWith(color: defaultColorScheme.primary),
               ),
               const Gap(
                 CustomPadding.mediumSpace,
@@ -163,47 +161,39 @@ class _ChangeEmailScreenState extends State<ChangeEmailScreen> {
               // The description text
               Text(
                 AppTexts.changeEmailDesscribtion,
-                style: TextStyles.hintStyleDefault,
+                style: TextStyles.hintStyleDefault.copyWith(color: defaultColorScheme.secondary),
               ),
               const Gap(
                 CustomPadding.bigSpace,
               ),
               // Current email text field
-              CustomTextfield(
-                  name: AppTexts.currentEmail,
-                  hintText: AppTexts.currentEmailHint,
-                  controller: _currentEmailController),
+              CustomTextfield(name: AppTexts.currentEmail, hintText: AppTexts.currentEmailHint, controller: _currentEmailController),
               const Gap(CustomPadding.defaultSpace),
               // new email text field
-              CustomTextfield(
-                  name: AppTexts.newEmail,
-                  hintText: AppTexts.newEmailHint,
-                  controller: _newEmailController),
+              CustomTextfield(name: AppTexts.newEmail, hintText: AppTexts.newEmailHint, controller: _newEmailController),
               const Gap(CustomPadding.defaultSpace),
               // Confirm Password text field
-              CustomTextfield(
-                  name: AppTexts.password,
-                  obscureText: true,
-                  hintText: AppTexts.hintPassword,
-                  controller: _passwordController),
+              CustomTextfield(name: AppTexts.password, obscureText: true, hintText: AppTexts.hintPassword, controller: _passwordController),
             ],
           ),
         ),
       ),
       // Bottom sheet with Save button
       bottomSheet: Container(
-        margin: EdgeInsets.only(
-          bottom: MediaQuery.sizeOf(context).height * CustomPadding.bottomSpace,
-          left: CustomPadding.defaultSpace,
-          right: CustomPadding.defaultSpace,
-        ),
-        width: MediaQuery.of(context).size.width,
-        child: ElevatedButton(
-          onPressed:
-              _isLoading ? null : _changeEmail, // Disable button while loading
-          child: _isLoading
-              ? const CircularProgressIndicator() // Show loading indicator
-              : Text(AppTexts.save),
+        color: defaultColorScheme.onSurface,
+        child: Container(
+          margin: EdgeInsets.only(
+            bottom: MediaQuery.sizeOf(context).height * CustomPadding.bottomSpace,
+            left: CustomPadding.defaultSpace,
+            right: CustomPadding.defaultSpace,
+          ),
+          width: MediaQuery.of(context).size.width,
+          child: ElevatedButton(
+            onPressed: _isLoading ? null : _changeEmail, // Disable button while loading
+            child: _isLoading
+                ? const CircularProgressIndicator(color: CustomColor.bluePrimary) // Show loading indicator
+                : Text(AppTexts.save),
+          ),
         ),
       ),
     );

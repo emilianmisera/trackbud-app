@@ -20,6 +20,7 @@ class InfoTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     return CustomShadow(
       child: Container(
         padding: const EdgeInsets.symmetric(
@@ -28,7 +29,7 @@ class InfoTile extends StatelessWidget {
         ),
         width: width ?? MediaQuery.sizeOf(context).width,
         decoration: BoxDecoration(
-          color: CustomColor.white,
+          color: defaultColorScheme.surface,
           borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
         ),
         child: Column(
@@ -38,7 +39,7 @@ class InfoTile extends StatelessWidget {
             Text('$amount€', style: TextStyles.headingStyle.copyWith(color: color)),
             const Gap(CustomPadding.mediumSpace),
             // Display the title
-            Text(title, style: TextStyles.regularStyleDefault),
+            Text(title, style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary)),
           ],
         ),
       ),

@@ -6,18 +6,18 @@ import 'package:track_bud/utils/enum/debts_box.dart';
 import 'package:track_bud/utils/shadow.dart';
 import 'package:track_bud/utils/strings.dart';
 
-
 // Widget to display an overview of debts
 class OverviewDebtsTile extends StatelessWidget {
   const OverviewDebtsTile({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     return CustomShadow(
       child: Container(
         padding: const EdgeInsets.all(CustomPadding.defaultSpace),
         decoration: BoxDecoration(
-          color: CustomColor.white,
+          color: defaultColorScheme.surface,
           borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
         ),
         child: Column(
@@ -27,7 +27,7 @@ class OverviewDebtsTile extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(AppTexts.inTotal, style: TextStyles.regularStyleMedium),
+                Text(AppTexts.inTotal, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
                 const BalanceState(
                     //TODO: Change ColorScheme based on amount
                     colorScheme: DebtsColorScheme.green,
@@ -39,7 +39,7 @@ class OverviewDebtsTile extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(AppTexts.toFriends, style: TextStyles.hintStyleDefault),
+                Text(AppTexts.toFriends, style: TextStyles.hintStyleDefault.copyWith(color: defaultColorScheme.secondary)),
                 Text('10€', style: TextStyles.regularStyleDefault.copyWith(color: CustomColor.red))
               ],
             ),
@@ -56,7 +56,8 @@ class OverviewDebtsTile extends StatelessWidget {
                   ),
                 ),
                 const Gap(CustomPadding.mediumSpace),
-                Text('Freund', style: TextStyles.regularStyleDefault.copyWith(fontSize: TextStyles.fontSizeHint))
+                Text('Freund',
+                    style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary, fontSize: TextStyles.fontSizeHint))
               ],
             ),
             const Gap(CustomPadding.defaultSpace),
@@ -64,7 +65,7 @@ class OverviewDebtsTile extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(AppTexts.toYou, style: TextStyles.hintStyleDefault),
+                Text(AppTexts.toYou, style: TextStyles.hintStyleDefault.copyWith(color: defaultColorScheme.secondary)),
                 Text('110€', style: TextStyles.regularStyleDefault.copyWith(color: CustomColor.green))
               ],
             ),
@@ -81,7 +82,8 @@ class OverviewDebtsTile extends StatelessWidget {
                   ),
                 ),
                 const Gap(CustomPadding.mediumSpace),
-                Text('Freund', style: TextStyles.regularStyleDefault.copyWith(fontSize: TextStyles.fontSizeHint))
+                Text('Freund',
+                    style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary, fontSize: TextStyles.fontSizeHint))
               ],
             ),
           ],

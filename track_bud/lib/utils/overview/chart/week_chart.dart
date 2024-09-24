@@ -44,6 +44,7 @@ class _WeekChartState extends State<WeekChart> with SingleTickerProviderStateMix
   Widget build(BuildContext context) {
     final List<double> weekExpenses = _getWeekExpenses();
     double maxExpense = weekExpenses.reduce((a, b) => a > b ? a : b);
+    final defaultColorScheme = Theme.of(context).colorScheme;
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -55,7 +56,7 @@ class _WeekChartState extends State<WeekChart> with SingleTickerProviderStateMix
               height: 75,
               width: 30,
               decoration: BoxDecoration(
-                color: CustomColor.grey,
+                color: defaultColorScheme.outline,
                 borderRadius: BorderRadius.circular(5),
               ),
               child: Align(
@@ -79,7 +80,7 @@ class _WeekChartState extends State<WeekChart> with SingleTickerProviderStateMix
             Text(
               days[index],
               style: TextStyles.hintStyleDefault.copyWith(
-                fontSize: 14,
+                fontSize: TextStyles.fontSizeHint,
                 color: isCurrentDay ? CustomColor.bluePrimary : null,
               ),
             ),

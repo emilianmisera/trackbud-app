@@ -20,6 +20,7 @@ class MonthlyExpenseTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Consumer2<UserProvider, TransactionProvider>(
       builder: (context, userProvider, transactionProvider, _) {
         final user = userProvider.currentUser;
@@ -39,6 +40,7 @@ class MonthlyExpenseTile extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+
                 Text('${remainingAmount.toStringAsFixed(2)}€', style: TextStyles.headingStyle),
                 Text(AppTexts.remainingText, style: TextStyles.hintStyleDefault),
                 const Gap(CustomPadding.smallSpace),

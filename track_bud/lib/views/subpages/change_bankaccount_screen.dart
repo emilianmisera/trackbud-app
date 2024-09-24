@@ -10,8 +10,7 @@ class ChangeBankaccountScreen extends StatefulWidget {
   const ChangeBankaccountScreen({super.key});
 
   @override
-  State<ChangeBankaccountScreen> createState() =>
-      _ChangeBankaccountScreenState();
+  State<ChangeBankaccountScreen> createState() => _ChangeBankaccountScreenState();
 }
 
 class _ChangeBankaccountScreenState extends State<ChangeBankaccountScreen> {
@@ -38,15 +37,11 @@ class _ChangeBankaccountScreenState extends State<ChangeBankaccountScreen> {
 
     try {
       // Fetch user data directly from Firestore
-      final userDoc = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(userId)
-          .get();
+      final userDoc = await FirebaseFirestore.instance.collection('users').doc(userId).get();
 
       if (userDoc.exists) {
         final userData = userDoc.data();
-        if (userData != null && userData.containsKey('bankAccountBalance'))
- {
+        if (userData != null && userData.containsKey('bankAccountBalance')) {
           setState(() {
             _moneyController.text = userData['bankAccountBalance'].toStringAsFixed(2);
           });
@@ -109,10 +104,7 @@ class _ChangeBankaccountScreenState extends State<ChangeBankaccountScreen> {
 
     try {
       // Update bank account balance directly in Firestore
-      await FirebaseFirestore.instance
-          .collection('users')
-          .doc(userId)
-          .update({'bankAccountBalance': amount});
+      await FirebaseFirestore.instance.collection('users').doc(userId).update({'bankAccountBalance': amount});
 
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -131,6 +123,7 @@ class _ChangeBankaccountScreenState extends State<ChangeBankaccountScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: AppBar(),
       body: SingleChildScrollView(
@@ -138,8 +131,7 @@ class _ChangeBankaccountScreenState extends State<ChangeBankaccountScreen> {
           // Padding adds spacing around the content inside the screen.
           padding: EdgeInsets.only(
             top: MediaQuery.sizeOf(context).height * CustomPadding.topSpace -
-                Constants
-                    .defaultAppBarHeight, // Top padding based on screen height
+                Constants.defaultAppBarHeight, // Top padding based on screen height
             left: CustomPadding.defaultSpace, // Left padding
             right: CustomPadding.defaultSpace, // Right padding
           ),
@@ -148,21 +140,17 @@ class _ChangeBankaccountScreenState extends State<ChangeBankaccountScreen> {
             children: [
               Text(
                 AppTexts.changeBankAccHeading, // The heading text
-                style:
-                    TextStyles.headingStyle, // The text style for the heading.
+                style: TextStyles.headingStyle.copyWith(color: defaultColorScheme.primary), // The text style for the heading.
               ),
               const Gap(
-          CustomPadding
-                    .mediumSpace, // Adds vertical space between the heading and the next element.
+                CustomPadding.mediumSpace, // Adds vertical space between the heading and the next element.
               ),
               Text(
                 AppTexts.changeBankAccDescribtion, // The description text
-                style: TextStyles
-                    .hintStyleDefault, // The text style for the description.
+                style: TextStyles.hintStyleDefault, // The text style for the description.
               ),
               const Gap(
-            CustomPadding
-                    .bigSpace, // Adds more vertical space before the next element.
+                CustomPadding.bigSpace, // Adds more vertical space before the next element.
               ),
               // A custom TextField widget for entering the amount of money, using the controller defined above.
               TextFieldAmountOfMoney(
@@ -176,8 +164,7 @@ class _ChangeBankaccountScreenState extends State<ChangeBankaccountScreen> {
       bottomSheet: Container(
         // Margin is applied to the bottom of the button and the sides for proper spacing.
         margin: EdgeInsets.only(
-          bottom: MediaQuery.sizeOf(context).height *
-              CustomPadding.bottomSpace, // Bottom margin based on screen height
+          bottom: MediaQuery.sizeOf(context).height * CustomPadding.bottomSpace, // Bottom margin based on screen height
           left: CustomPadding.defaultSpace, // Left margin
           right: CustomPadding.defaultSpace, // Right margin
         ),

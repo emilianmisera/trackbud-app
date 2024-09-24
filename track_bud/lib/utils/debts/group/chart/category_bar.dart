@@ -15,6 +15,7 @@ class CategoryBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     // Calculate the total expense by summing up all category expenses
     // fold() to iterate through all values and sum them up
     double totalExpense = categoryExpenses.values.fold(0, (sum, expense) => sum + expense);
@@ -29,7 +30,7 @@ class CategoryBar extends StatelessWidget {
         borderRadius: BorderRadius.circular(5), // apply rounded corners, as borderRadius doesn't work directly on Container
         child: Container(
           height: 20,
-          color: CustomColor.grey,
+          color: defaultColorScheme.outline,
         ),
       );
     }
@@ -48,7 +49,7 @@ class CategoryBar extends StatelessWidget {
               flex: (percentage * 100).round(),
               child: Container(
                 // if color not found, grey is used instead
-                color: categoryColors[category] ?? CustomColor.grey,
+                color: categoryColors[category] ?? defaultColorScheme.outline,
               ),
             );
           }).toList(),

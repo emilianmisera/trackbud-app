@@ -77,19 +77,23 @@ class _BankAccountInfoScreenState extends State<BankAccountInfoScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     return Scaffold(
       // The bottomSheet contains a button that is fixed at the bottom of the screen.
       bottomSheet: Container(
-        // Margin is applied to the bottom of the button and the sides for proper spacing.
-        margin: EdgeInsets.only(
-          bottom: MediaQuery.sizeOf(context).height * CustomPadding.bottomSpace, // Bottom margin based on screen height
-          left: CustomPadding.defaultSpace, // Left margin
-          right: CustomPadding.defaultSpace, // Right margin
-        ),
-        width: MediaQuery.of(context).size.width,
-        child: ElevatedButton(
-          onPressed: () => handleSubmission(context),
-          child: Text(AppTexts.continueText),
+        color: defaultColorScheme.onSurface,
+        child: Container(
+          // Margin is applied to the bottom of the button and the sides for proper spacing.
+          margin: EdgeInsets.only(
+            bottom: MediaQuery.sizeOf(context).height * CustomPadding.bottomSpace, // Bottom margin based on screen height
+            left: CustomPadding.defaultSpace, // Left margin
+            right: CustomPadding.defaultSpace, // Right margin
+          ),
+          width: MediaQuery.of(context).size.width,
+          child: ElevatedButton(
+            onPressed: () => handleSubmission(context),
+            child: Text(AppTexts.continueText),
+          ),
         ),
       ),
       body: SingleChildScrollView(
@@ -104,10 +108,10 @@ class _BankAccountInfoScreenState extends State<BankAccountInfoScreen> {
             // Column to organize the content vertically.
             children: [
               // The heading text
-              Text(AppTexts.bankAccInfoHeading, style: TextStyles.headingStyle),
+              Text(AppTexts.bankAccInfoHeading, style: TextStyles.headingStyle.copyWith(color: defaultColorScheme.primary)),
               const Gap(CustomPadding.mediumSpace),
               // The description text
-              Text(AppTexts.bankAccInfoDescription, style: TextStyles.hintStyleDefault),
+              Text(AppTexts.bankAccInfoDescription, style: TextStyles.hintStyleDefault.copyWith(color: defaultColorScheme.secondary)),
               const Gap(CustomPadding.bigSpace),
               // entering the amount of money
               TextFieldAmountOfMoney(controller: _moneyController),

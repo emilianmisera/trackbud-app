@@ -10,32 +10,33 @@ class OnboardingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final defaultColorScheme = Theme.of(context).colorScheme;
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
       body: Padding(
         //Padding for space between Screen
         padding: EdgeInsets.only(
-            bottom:
-                MediaQuery.sizeOf(context).height * CustomPadding.bottomSpace,
+            bottom: MediaQuery.sizeOf(context).height * CustomPadding.bottomSpace,
             left: CustomPadding.defaultSpace,
             right: CustomPadding.defaultSpace),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end, //alignment to bottom
           crossAxisAlignment: CrossAxisAlignment.start, //alignment to left
           children: [
-            SvgPicture.asset(AssetImport.textLogo),
+            SvgPicture.asset(isDarkMode ? AssetImport.textLogoDarkMode : AssetImport.textLogoLightMode),
             const Gap(
               CustomPadding.defaultSpace,
             ),
             Text(
               AppTexts.onboardingTitle,
-              style: TextStyles.introductionStyle,
+              style: TextStyles.introductionStyle.copyWith(color: defaultColorScheme.primary),
             ),
             const Gap(
               CustomPadding.mediumSpace,
             ),
             Text(
               AppTexts.onboardingDescription,
-              style: TextStyles.regularStyleDefault,
+              style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary),
             ),
             const Gap(
               CustomPadding.defaultSpace,
@@ -43,8 +44,7 @@ class OnboardingScreen extends StatelessWidget {
             ElevatedButton(
               //sign in button
               onPressed: () {
-                Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (context) => const LoginScreen()));
+                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const LoginScreen()));
               },
               child: Text(
                 AppTexts.start,

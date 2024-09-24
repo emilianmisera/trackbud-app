@@ -14,6 +14,7 @@ class FriendProfileDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     // Determine the color scheme based on the totalDebt
     DebtsColorScheme colorScheme;
     if (totalDebt > 0) {
@@ -27,12 +28,10 @@ class FriendProfileDetails extends StatelessWidget {
     return Container(
       width: MediaQuery.sizeOf(context).width,
       decoration: BoxDecoration(
-        color: CustomColor.white,
+        color: defaultColorScheme.surface,
         borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
       ),
-      padding: const EdgeInsets.symmetric(
-          horizontal: CustomPadding.defaultSpace,
-          vertical: CustomPadding.defaultSpace),
+      padding: const EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace, vertical: CustomPadding.defaultSpace),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -40,7 +39,7 @@ class FriendProfileDetails extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(AppTexts.debts, style: TextStyles.regularStyleDefault),
+              Text(AppTexts.debts, style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary)),
               BalanceState(
                 colorScheme: colorScheme,
                 amount: totalDebt == 0
@@ -52,7 +51,7 @@ class FriendProfileDetails extends StatelessWidget {
           const Gap(CustomPadding.defaultSpace),
 
           // Shared groups section
-          Text(AppTexts.sameGroups, style: TextStyles.regularStyleDefault),
+          Text(AppTexts.sameGroups, style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary)),
           const Gap(CustomPadding.mediumSpace),
 
           // TODO: add same Groups

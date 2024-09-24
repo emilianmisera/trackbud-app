@@ -39,17 +39,17 @@ class _AddTypeSelectorState extends State<AddTypeSelector> {
 
   Future<void> _loadGroups() async {
     final groupProvider = Provider.of<GroupProvider>(context, listen: false);
-    await groupProvider
-        .loadGroups(); // Assume this method exists to load groups
+    await groupProvider.loadGroups(); // Assume this method exists to load groups
   }
 
   void _showFriendSelectionDialog(BuildContext context) {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
         title: Text(
           'Freund auswählen',
-          style: TextStyles.titleStyleMedium,
+          style: TextStyles.titleStyleMedium.copyWith(color: defaultColorScheme.primary),
         ),
         content: SizedBox(
           width: double.maxFinite,
@@ -60,20 +60,18 @@ class _AddTypeSelectorState extends State<AddTypeSelector> {
 
               return FutureBuilder<List<UserModel>>(
                 future: Future.wait(
-                  friendsIds
-                      .map((friendId) => _firestoreService.getUser(friendId)),
+                  friendsIds.map((friendId) => _firestoreService.getUser(friendId)),
                 ).then((friends) => friends.whereType<UserModel>().toList()),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(child: CircularProgressIndicator());
+                    return const Center(child: CircularProgressIndicator(color: CustomColor.bluePrimary));
                   } else if (snapshot.hasError) {
                     return Text('Error: ${snapshot.error}');
                   } else {
                     final friends = snapshot.data!;
                     if (friends.isEmpty) {
                       // Display "Keine Freunde gefunden" message
-                      return const Center(
-                          child: Text("Keine Freunde gefunden."));
+                      return const Center(child: Text("Keine Freunde gefunden."));
                     }
                     return ListView.builder(
                       itemCount: friends.length,
@@ -104,8 +102,8 @@ class _AddTypeSelectorState extends State<AddTypeSelector> {
           ),
         ),
         insetPadding: const EdgeInsets.all(CustomPadding.defaultSpace),
-        backgroundColor: CustomColor.backgroundPrimary,
-        surfaceTintColor: CustomColor.backgroundPrimary,
+        backgroundColor: defaultColorScheme.surface,
+        surfaceTintColor: defaultColorScheme.surface,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(
             Radius.circular(Constants.contentBorderRadius),
@@ -116,12 +114,13 @@ class _AddTypeSelectorState extends State<AddTypeSelector> {
   }
 
   void _showGroupSelectionDialog(BuildContext context) {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
         title: Text(
           'Gruppe auswählen',
-          style: TextStyles.titleStyleMedium,
+          style: TextStyles.titleStyleMedium.copyWith(color: defaultColorScheme.primary),
         ),
         content: SizedBox(
           width: double.maxFinite,
@@ -129,7 +128,7 @@ class _AddTypeSelectorState extends State<AddTypeSelector> {
           child: Consumer<GroupProvider>(
             builder: (context, groupProvider, child) {
               if (groupProvider.isLoading) {
-                return const Center(child: CircularProgressIndicator());
+                return const Center(child: CircularProgressIndicator(color: CustomColor.bluePrimary));
               } else if (groupProvider.groups.isEmpty) {
                 return const Center(child: Text("Keine Gruppen gefunden."));
               } else {
@@ -161,8 +160,8 @@ class _AddTypeSelectorState extends State<AddTypeSelector> {
           ),
         ),
         insetPadding: const EdgeInsets.all(CustomPadding.defaultSpace),
-        backgroundColor: CustomColor.backgroundPrimary,
-        surfaceTintColor: CustomColor.backgroundPrimary,
+        backgroundColor: defaultColorScheme.surface,
+        surfaceTintColor: defaultColorScheme.surface,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(
             Radius.circular(Constants.contentBorderRadius),
@@ -174,12 +173,12 @@ class _AddTypeSelectorState extends State<AddTypeSelector> {
 
   @override
   Widget build(BuildContext context) {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     return Container(
-      height:
-          MediaQuery.of(context).size.height * Constants.addBottomSheetHeight,
+      height: MediaQuery.of(context).size.height * Constants.addBottomSheetHeight,
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
-        color: CustomColor.backgroundPrimary,
+        color: defaultColorScheme.surface,
         borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
       ),
       child: Padding(
@@ -213,8 +212,7 @@ class _AddTypeSelectorState extends State<AddTypeSelector> {
                 );
               },
               child: Row(
-                mainAxisSize:
-                    MainAxisSize.min, // Passt die Größe an den Inhalt an
+                mainAxisSize: MainAxisSize.min, // Passt die Größe an den Inhalt an
                 children: [
                   const Icon(Icons.person), // Icon mit einer Person
                   const SizedBox(width: 8), // Abstand zwischen Icon und Text
@@ -229,8 +227,7 @@ class _AddTypeSelectorState extends State<AddTypeSelector> {
                 _showFriendSelectionDialog(context);
               },
               child: Row(
-                mainAxisSize:
-                    MainAxisSize.min, // Passt die Größe an den Inhalt an
+                mainAxisSize: MainAxisSize.min, // Passt die Größe an den Inhalt an
                 children: [
                   const Icon(Icons.people), // Icon mit einer Person
                   const SizedBox(width: 8), // Abstand zwischen Icon und Text
@@ -245,8 +242,7 @@ class _AddTypeSelectorState extends State<AddTypeSelector> {
                 _showGroupSelectionDialog(context);
               },
               child: Row(
-                mainAxisSize:
-                    MainAxisSize.min, // Passt die Größe an den Inhalt an
+                mainAxisSize: MainAxisSize.min, // Passt die Größe an den Inhalt an
                 children: [
                   const Icon(Icons.groups), // Icon mit einer Person
                   const SizedBox(width: 8), // Abstand zwischen Icon und Text

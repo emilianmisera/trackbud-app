@@ -1,5 +1,6 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_launcher_icons/main.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
@@ -45,6 +46,7 @@ class _TransactionDetailState extends State<TransactionDetail> {
 
   @override
   Widget build(BuildContext context) {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     final transactionProvider =
         Provider.of<TransactionProvider>(context, listen: false);
 
@@ -57,11 +59,12 @@ class _TransactionDetailState extends State<TransactionDetail> {
               // Dropdown menu for edit and delete options
               DropdownButtonHideUnderline(
                 child: DropdownButton2(
-                  customButton: const Icon(
+                  customButton: Icon(
                     Icons.more_vert_rounded,
                     size: 25,
-                    color: CustomColor.black,
+                    color: defaultColorScheme.primary,
                   ),
+
                   items: options.map((String option) {
                     return DropdownMenuItem<String>(
                       value: option,
@@ -104,9 +107,9 @@ class _TransactionDetailState extends State<TransactionDetail> {
                     width: 160,
                     padding: const EdgeInsets.symmetric(vertical: 6),
                     decoration: BoxDecoration(
-                      borderRadius:
-                          BorderRadius.circular(Constants.contentBorderRadius),
-                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
+                      color: defaultColorScheme.surface,
+
                     ),
                   ),
                   menuItemStyleData: const MenuItemStyleData(
@@ -120,7 +123,7 @@ class _TransactionDetailState extends State<TransactionDetail> {
                 child: Center(
                   child: Text(
                     AppTexts.expense,
-                    style: TextStyles.regularStyleMedium,
+                    style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary),
                   ),
                 ),
               ),
@@ -129,7 +132,7 @@ class _TransactionDetailState extends State<TransactionDetail> {
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                icon: const Icon(Icons.close_rounded),
+                icon: Icon(Icons.close_rounded, color: defaultColorScheme.primary),
               ),
             ],
           ),
@@ -159,17 +162,18 @@ class _TransactionDetailState extends State<TransactionDetail> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(widget.title, style: TextStyles.titleStyleMedium),
+                  Text(widget.title, style: TextStyles.titleStyleMedium.copyWith(color: defaultColorScheme.primary)),
                   const Gap(CustomPadding.smallSpace),
                   Text(DateFormat('dd.MM.yyyy, HH:mm').format(widget.date),
-                      style: TextStyles.hintStyleDefault),
+                      style: TextStyles.hintStyleDefault.copyWith(color: defaultColorScheme.secondary)),
+
                 ],
               ),
             ],
           ),
           const Gap(CustomPadding.defaultSpace),
           // Amount section
-          Text(AppTexts.amount, style: TextStyles.regularStyleDefault),
+          Text(AppTexts.amount, style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary)),
           const Gap(CustomPadding.mediumSpace),
           Row(
             children: [
@@ -180,12 +184,12 @@ class _TransactionDetailState extends State<TransactionDetail> {
                       horizontal: CustomPadding.defaultSpace,
                       vertical: CustomPadding.contentHeightSpace),
                   decoration: BoxDecoration(
-                    color: CustomColor.white,
-                    borderRadius:
-                        BorderRadius.circular(Constants.contentBorderRadius),
+                    color: defaultColorScheme.surface,
+                    borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
                   ),
                   child: Text('${widget.amount.toStringAsFixed(2)}€',
-                      style: TextStyles.regularStyleMedium),
+                      style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
+
                 ),
               ),
               const Gap(CustomPadding.defaultSpace),
@@ -196,9 +200,9 @@ class _TransactionDetailState extends State<TransactionDetail> {
                       horizontal: CustomPadding.defaultSpace,
                       vertical: CustomPadding.contentHeightSpace),
                   decoration: BoxDecoration(
-                    color: CustomColor.white,
-                    borderRadius:
-                        BorderRadius.circular(Constants.contentBorderRadius),
+                    color: defaultColorScheme.surface,
+                    borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
+
                   ),
                   child: Text(widget.recurrence,
                       style: TextStyles.regularStyleDefault
@@ -209,7 +213,7 @@ class _TransactionDetailState extends State<TransactionDetail> {
           ),
           const Gap(CustomPadding.defaultSpace),
           // Note section
-          Text(AppTexts.note, style: TextStyles.regularStyleDefault),
+          Text(AppTexts.note, style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary)),
           const Gap(CustomPadding.mediumSpace),
           CustomShadow(
             child: Container(
@@ -218,11 +222,11 @@ class _TransactionDetailState extends State<TransactionDetail> {
                   horizontal: CustomPadding.defaultSpace,
                   vertical: CustomPadding.contentHeightSpace),
               decoration: BoxDecoration(
-                color: CustomColor.white,
-                borderRadius:
-                    BorderRadius.circular(Constants.contentBorderRadius),
+                color: defaultColorScheme.surface,
+                borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
+
               ),
-              child: Text(widget.note, style: TextStyles.regularStyleDefault),
+              child: Text(widget.note, style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary)),
             ),
           ),
         ],

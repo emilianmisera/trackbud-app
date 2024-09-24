@@ -26,9 +26,11 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppTexts.accAdjustments, style: TextStyles.regularStyleMedium),
+        title: Text(AppTexts.accAdjustments, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
+        centerTitle: true,
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -41,7 +43,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
             children: [
               Text(
                 AppTexts.budget,
-                style: TextStyles.regularStyleMedium,
+                style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary),
               ),
               const Gap(CustomPadding.mediumSpace),
               AccAdjustmentButton(
@@ -69,6 +71,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                       ),
                     );
                   }),
+              /*
               const Gap(CustomPadding.mediumSpace),
               AccAdjustmentWidget(
                 // Currency
@@ -76,23 +79,15 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                 name: AppTexts.changeCurrency,
                 widget: const CurrencyDropdown(), // Dropdown for changing currency
               ),
+              */
               const Gap(CustomPadding.defaultSpace),
-              Text(
-                AppTexts.appearance,
-                style: TextStyles.regularStyleMedium,
-              ),
+              Text(AppTexts.sonstiges, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
               const Gap(CustomPadding.mediumSpace),
               AccAdjustmentWidget(
-                // DarkMode
-                icon: AssetImport.mode,
-                name: AppTexts.darkMode,
-                widget: Switch(
-                  // Switch Widget
-                  value: isActive,
-                  onChanged: _toggleSwitch,
-                  activeColor: CustomColor.bluePrimary,
-                ),
-              ),
+                  color: defaultColorScheme.onSurface,
+                  icon: AssetImport.mode,
+                  name: AppTexts.appearance,
+                  widget: Text(AppTexts.systemMode, style: TextStyles.hintStyleMedium.copyWith(color: defaultColorScheme.secondary))),
             ],
           ),
         ),
@@ -120,13 +115,14 @@ class _CurrencyDropdownState extends State<CurrencyDropdown> {
 
   @override
   Widget build(BuildContext context) {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     return Container(
       // conatiner decoration
       width: 50,
       height: 50,
       decoration: BoxDecoration(
         border: Border.all(
-          color: CustomColor.grey,
+          color: defaultColorScheme.outline,
         ),
         borderRadius: const BorderRadius.all(Radius.circular(10)),
       ),
@@ -139,19 +135,22 @@ class _CurrencyDropdownState extends State<CurrencyDropdown> {
           }),
           value: value,
           elevation: 0,
-          style: TextStyles.regularStyleMedium,
-          dropdownColor: CustomColor.white,
+          style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary),
+          dropdownColor: defaultColorScheme.surface,
           iconSize: 0.0,
         ),
       ),
     );
   }
 
-  DropdownMenuItem<String> buildMenuItem(String item) => DropdownMenuItem(
-        value: item,
-        child: Text(
-          item,
-          style: TextStyles.titleStyleMedium,
-        ),
-      );
+  DropdownMenuItem<String> buildMenuItem(String item) {
+    final defaultColorScheme = Theme.of(context).colorScheme;
+    return DropdownMenuItem(
+      value: item,
+      child: Text(
+        item,
+        style: TextStyles.titleStyleMedium.copyWith(color: defaultColorScheme.primary),
+      ),
+    );
+  }
 }

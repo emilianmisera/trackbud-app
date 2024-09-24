@@ -34,10 +34,11 @@ class CustomTextfield extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(name, style: TextStyles.regularStyleMedium),
+        Text(name, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
         const Gap(CustomPadding.mediumSpace),
         CustomShadow(
           child: SizedBox(
@@ -53,6 +54,7 @@ class CustomTextfield extends StatelessWidget {
               maxLines: isMultiline ? 3 : 1, // Max 3 Lines if multiline true
               keyboardType: type ?? TextInputType.text,
               inputFormatters: inputFormatters,
+              style: TextStyle(color: defaultColorScheme.primary),
               decoration: InputDecoration(
                 prefix: Align(
                   widthFactor: 1.0,
@@ -69,14 +71,12 @@ class CustomTextfield extends StatelessWidget {
                   horizontal: CustomPadding.defaultSpace,
                   vertical: CustomPadding.contentHeightSpace,
                 ),
-                hintStyle: TextStyles.hintStyleDefault,
+                hintStyle: TextStyles.hintStyleDefault.copyWith(color: defaultColorScheme.secondary),
                 floatingLabelBehavior: FloatingLabelBehavior.never,
                 filled: true,
-                fillColor: CustomColor.white,
-                border: OutlineInputBorder(
-                    borderSide: BorderSide.none,
-                    borderRadius:
-                        BorderRadius.circular(Constants.contentBorderRadius)),
+                fillColor: defaultColorScheme.surface,
+                border: OutlineInputBorder(borderSide: BorderSide.none, borderRadius: BorderRadius.circular(Constants.contentBorderRadius)),
+
               ),
             ),
           ),

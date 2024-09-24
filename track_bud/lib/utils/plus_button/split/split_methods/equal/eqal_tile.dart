@@ -21,10 +21,11 @@ class EqualTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     return CustomShadow(
       child: Container(
         decoration: BoxDecoration(
-          color: CustomColor.white,
+          color: defaultColorScheme.surface,
           borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
         ),
         child: ListTile(
@@ -42,20 +43,19 @@ class EqualTile extends StatelessWidget {
                   : const Icon(Icons.person, size: 30),
             ),
           ),
-          title: Text(user.name, style: TextStyles.regularStyleDefault),
+          title: Text(user.name, style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary)),
           trailing: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
               Container(
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  color: CustomColor.white,
-                  borderRadius:
-                      BorderRadius.circular(Constants.contentBorderRadius),
-                  border: Border.all(color: CustomColor.grey),
+                  color: defaultColorScheme.surface,
+                  borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
+                  border: Border.all(color: defaultColorScheme.outline),
                 ),
                 child: Text('${splitAmount.toStringAsFixed(2)}€',
-                    style: TextStyles.hintStyleDefault),
+                    style: TextStyles.hintStyleDefault.copyWith(color: defaultColorScheme.secondary)),
               ),
               if (isGroup)
                 Checkbox(

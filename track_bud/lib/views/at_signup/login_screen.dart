@@ -71,6 +71,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -82,9 +83,9 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start, //alignment to left
             children: [
-              Text(AppTexts.signIn, style: TextStyles.headingStyle),
+              Text(AppTexts.signIn, style: TextStyles.headingStyle.copyWith(color: defaultColorScheme.primary)),
               const Gap(CustomPadding.mediumSpace),
-              Text(AppTexts.signInDescription, style: TextStyles.hintStyleDefault),
+              Text(AppTexts.signInDescription, style: TextStyles.hintStyleDefault.copyWith(color: defaultColorScheme.secondary)),
               const Gap(CustomPadding.defaultSpace),
               CustomTextfield(
                 controller: _email,
@@ -107,7 +108,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(builder: (context) => const ForgotPasswordScreen()));
                   },
-                  child: Text(AppTexts.forgotPassword, style: TextStyles.hintStyleMedium),
+                  child: Text(AppTexts.forgotPassword, style: TextStyles.hintStyleMedium.copyWith(color: defaultColorScheme.secondary)),
                 ),
               ),
               const Gap(CustomPadding.bigSpace),
@@ -123,16 +124,16 @@ class _LoginScreenState extends State<LoginScreen> {
                   Expanded(
                     child: Container(
                         margin: const EdgeInsets.only(right: CustomPadding.mediumSpace),
-                        child: const Divider(
-                          color: CustomColor.grey,
+                        child: Divider(
+                          color: defaultColorScheme.outline,
                         )),
                   ),
-                  Text(AppTexts.or, style: TextStyles.hintStyleMedium),
+                  Text(AppTexts.or, style: TextStyles.hintStyleMedium.copyWith(color: defaultColorScheme.secondary)),
                   Expanded(
                     child: Container(
                         margin: const EdgeInsets.only(left: CustomPadding.mediumSpace),
-                        child: const Divider(
-                          color: CustomColor.grey,
+                        child: Divider(
+                          color: defaultColorScheme.outline,
                         )),
                   ),
                 ],
@@ -147,6 +148,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               const Gap(CustomPadding.defaultSpace),
+              /*
               CustomShadow(
                 // Apple Sign In
                 child: TextButton.icon(
@@ -163,12 +165,13 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ),
+              */
               const Gap(CustomPadding.bigSpace),
               Row(
                 // Redirection to sign up page if user doesn't have an account
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(AppTexts.newHere, style: TextStyles.hintStyleMedium),
+                  Text(AppTexts.newHere, style: TextStyles.hintStyleMedium.copyWith(color: defaultColorScheme.secondary)),
                   const Gap(CustomPadding.smallSpace),
                   GestureDetector(
                     onTap: () {

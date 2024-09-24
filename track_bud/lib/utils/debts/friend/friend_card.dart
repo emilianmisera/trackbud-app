@@ -12,10 +12,11 @@ class FriendCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     return CustomShadow(
       child: Container(
         width: MediaQuery.sizeOf(context).width,
-        decoration: BoxDecoration(color: CustomColor.white, borderRadius: BorderRadius.circular(Constants.contentBorderRadius)),
+        decoration: BoxDecoration(color: defaultColorScheme.surface, borderRadius: BorderRadius.circular(Constants.contentBorderRadius)),
         child: ListTile(
           // Friend's profile picture
           leading: ClipRRect(
@@ -29,11 +30,12 @@ class FriendCard extends StatelessWidget {
             ),
           ),
           // Friend's name
-          title: Text(friend.name, style: TextStyles.regularStyleMedium),
+          title: Text(friend.name, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
           // Debt or credit information
-          subtitle: Text('bekommt insgesamt ...', style: TextStyles.hintStyleDefault.copyWith(fontSize: TextStyles.fontSizeHint)),
+          subtitle: Text('bekommt insgesamt ...',
+              style: TextStyles.hintStyleDefault.copyWith(fontSize: TextStyles.fontSizeHint, color: defaultColorScheme.secondary)),
           // Navigation arrow
-          trailing: const Icon(Icons.arrow_forward_ios_rounded, color: CustomColor.black),
+          trailing: Icon(Icons.arrow_forward_ios_rounded, color: defaultColorScheme.primary),
           minVerticalPadding: CustomPadding.defaultSpace,
           // Navigate to FriendDetailScreen when tapped
           onTap: () {
