@@ -10,8 +10,14 @@ import 'package:track_bud/utils/enum/categories.dart';
 
 class DonutChart extends StatefulWidget {
   final String selectedOption;
+  final ValueChanged<String?>
+      onCategorySelected; // New callback for the selected category
 
-  const DonutChart({super.key, required this.selectedOption});
+  const DonutChart({
+    super.key,
+    required this.selectedOption,
+    required this.onCategorySelected,
+  });
 
   @override
   _DonutChartState createState() => _DonutChartState();
@@ -126,7 +132,7 @@ class _DonutChartState extends State<DonutChart> {
           child: PieChart(
             PieChartData(
               borderData: FlBorderData(show: false),
-              sectionsSpace: 0,
+              sectionsSpace: 3,
               centerSpaceRadius: 80,
               startDegreeOffset: 270,
               sections: showingSectionsMap.values.toList(),
@@ -140,6 +146,14 @@ class _DonutChartState extends State<DonutChart> {
                               .touchedSection!.touchedSectionIndex);
                       selectedIndex =
                           selectedIndex == touchedIndex ? null : touchedIndex;
+
+                      // Send the selected category to the parent
+                      if (selectedIndex != null) {
+                        widget.onCategorySelected(
+                            sections[selectedIndex!].sectionData.title);
+                      } else {
+                        widget.onCategorySelected(null); // No category selected
+                      }
                     });
                   }
                 },
@@ -173,8 +187,12 @@ class _DonutChartState extends State<DonutChart> {
         title: section.sectionData.title,
         amount: section.sectionData.value,
         icon: section.icon,
-        onTap: () => setState(
-            () => selectedIndex = selectedIndex == index ? null : index),
+        onTap: () => setState(() {
+          selectedIndex = selectedIndex == index ? null : index;
+          widget.onCategorySelected(selectedIndex != null
+              ? sections[selectedIndex!].sectionData.title
+              : null);
+        }),
         totalAmount: totalAmount,
         transactionCount: transactionCounts[section.sectionData.title] ?? 0,
       ),

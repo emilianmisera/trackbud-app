@@ -18,6 +18,7 @@ class AnalysisScreen extends StatefulWidget {
 
 class _AnalysisScreenState extends State<AnalysisScreen> {
   String _selectedOption = 'Ausgaben'; // Default option is 'Expenses'
+  String? _selectedCategory; // Track the selected category
 
   @override
   void initState() {
@@ -32,8 +33,10 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
 
   @override
   Widget build(BuildContext context) {
-    String infoTileTitle = _selectedOption == 'Ausgaben' ? 'ausgegeben' : 'erhalten';
-    Color infoTileColor = _selectedOption == 'Ausgaben' ? CustomColor.red : CustomColor.green;
+    String infoTileTitle =
+        _selectedOption == 'Ausgaben' ? 'ausgegeben' : 'erhalten';
+    Color infoTileColor =
+        _selectedOption == 'Ausgaben' ? CustomColor.red : CustomColor.green;
     final defaultColorScheme = Theme.of(context).colorScheme;
 
     return Scaffold(
@@ -42,17 +45,17 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
           return SingleChildScrollView(
             child: Padding(
               padding: EdgeInsets.only(
-                  top: MediaQuery.sizeOf(context).height * CustomPadding.topSpace,
+                  top: MediaQuery.sizeOf(context).height *
+                      CustomPadding.topSpace,
                   left: CustomPadding.defaultSpace,
                   right: CustomPadding.defaultSpace),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-
                   InfoTile(
                       title: AppTexts.balance,
                       amount:
-                          '${transactionProvider.currentBalance.toStringAsFixed(2)}',
+                          transactionProvider.currentBalance.toStringAsFixed(2),
                       color: CustomColor.bluePrimary),
                   const Gap(CustomPadding.mediumSpace),
                   Row(
@@ -60,16 +63,17 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
                     children: [
                       InfoTile(
                         title: infoTileTitle,
-
                         amount:
-                            '${transactionProvider.totalAmount.toStringAsFixed(2)}',
+                            transactionProvider.totalAmount.toStringAsFixed(2),
                         color: infoTileColor,
-                        width: MediaQuery.sizeOf(context).width / 2 - Constants.infoTileSpace,
+                        width: MediaQuery.sizeOf(context).width / 2 -
+                            Constants.infoTileSpace,
                       ),
                       CustomDropDown(
                         list: const ['Ausgaben', 'Einnahmen'],
-                        width: MediaQuery.sizeOf(context).width / 2 - Constants.infoTileSpace,
-                        height: 88,
+                        width: MediaQuery.sizeOf(context).width / 2 -
+                            Constants.infoTileSpace,
+                        height: 96,
                         onChanged: (value) {
                           setState(() {
                             _selectedOption = value;
@@ -83,11 +87,30 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
                     ],
                   ),
                   const Gap(CustomPadding.defaultSpace),
-                  DonutChart(selectedOption: _selectedOption),
+                  DonutChart(
+                    selectedOption: _selectedOption,
+                    onCategorySelected: (category) {
+                      setState(
+                        () {
+                          _selectedCategory =
+                              category; // Track selected category
+                        },
+                      );
+                    },
+                  ),
                   const Gap(CustomPadding.defaultSpace),
-                  Text(AppTexts.history, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
+                  Text(
+                    AppTexts.history,
+                    style: TextStyles.regularStyleMedium
+                        .copyWith(color: defaultColorScheme.primary),
+                  ),
                   const Gap(CustomPadding.mediumSpace),
-                  TransactionHistoryList(transactionType: _selectedOption == 'Ausgaben' ? 'expense' : 'income'),
+                  TransactionHistoryList(
+                    // Pass the selected category here
+                    transactionType:
+                        _selectedOption == 'Ausgaben' ? 'expense' : 'income',
+                    selectedCategory: _selectedCategory,
+                  ),
                 ],
               ),
             ),
