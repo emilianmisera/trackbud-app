@@ -3,32 +3,73 @@ import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/strings.dart';
 
 // List of all categories
-enum Categories { lebensmittel, drogerie, restaurant, shopping, unterkunft, mobility, entertainment, geschenk, gehalt, sonstiges }
+enum Categories {
+  lebensmittel,
+  drogerie,
+  restaurant,
+  shopping,
+  unterkunft,
+  mobility,
+  entertainment,
+  geschenk,
+  gehalt,
+  sonstiges
+}
 
 // Icon for each category
 extension IconCategory on Categories {
   Image get icon {
     switch (this) {
       case Categories.lebensmittel:
-        return Image.asset(AssetImport.shoppingCart, width: Constants.iconSize, height: Constants.iconSize, fit: BoxFit.scaleDown);
+        return Image.asset(AssetImport.shoppingCart,
+            width: Constants.iconSize,
+            height: Constants.iconSize,
+            fit: BoxFit.scaleDown);
       case Categories.drogerie:
-        return Image.asset(AssetImport.drogerie, width: Constants.iconSize, height: Constants.iconSize, fit: BoxFit.scaleDown);
+        return Image.asset(AssetImport.drogerie,
+            width: Constants.iconSize,
+            height: Constants.iconSize,
+            fit: BoxFit.scaleDown);
       case Categories.restaurant:
-        return Image.asset(AssetImport.restaurant, width: Constants.iconSize, height: Constants.iconSize, fit: BoxFit.scaleDown);
+        return Image.asset(AssetImport.restaurant,
+            width: Constants.iconSize,
+            height: Constants.iconSize,
+            fit: BoxFit.scaleDown);
       case Categories.shopping:
-        return Image.asset(AssetImport.shopping, width: Constants.iconSize, height: Constants.iconSize, fit: BoxFit.scaleDown);
+        return Image.asset(AssetImport.shopping,
+            width: Constants.iconSize,
+            height: Constants.iconSize,
+            fit: BoxFit.scaleDown);
       case Categories.unterkunft:
-        return Image.asset(AssetImport.home, width: Constants.iconSize, height: Constants.iconSize, fit: BoxFit.scaleDown);
+        return Image.asset(AssetImport.home,
+            width: Constants.iconSize,
+            height: Constants.iconSize,
+            fit: BoxFit.scaleDown);
       case Categories.mobility:
-        return Image.asset(AssetImport.mobility, width: Constants.iconSize, height: Constants.iconSize, fit: BoxFit.scaleDown);
+        return Image.asset(AssetImport.mobility,
+            width: Constants.iconSize,
+            height: Constants.iconSize,
+            fit: BoxFit.scaleDown);
       case Categories.entertainment:
-        return Image.asset(AssetImport.entertainment, width: Constants.iconSize, height: Constants.iconSize, fit: BoxFit.scaleDown);
+        return Image.asset(AssetImport.entertainment,
+            width: Constants.iconSize,
+            height: Constants.iconSize,
+            fit: BoxFit.scaleDown);
       case Categories.geschenk:
-        return Image.asset(AssetImport.gift, width: Constants.iconSize, height: Constants.iconSize, fit: BoxFit.scaleDown);
+        return Image.asset(AssetImport.gift,
+            width: Constants.iconSize,
+            height: Constants.iconSize,
+            fit: BoxFit.scaleDown);
       case Categories.gehalt:
-        return Image.asset(AssetImport.gehalt, width: Constants.iconSize, height: Constants.iconSize, fit: BoxFit.scaleDown);
+        return Image.asset(AssetImport.gehalt,
+            width: Constants.iconSize,
+            height: Constants.iconSize,
+            fit: BoxFit.scaleDown);
       case Categories.sonstiges:
-        return Image.asset(AssetImport.other, width: Constants.iconSize, height: Constants.iconSize, fit: BoxFit.scaleDown);
+        return Image.asset(AssetImport.other,
+            width: Constants.iconSize,
+            height: Constants.iconSize,
+            fit: BoxFit.scaleDown);
     }
   }
 }
@@ -82,7 +123,7 @@ extension Name on Categories {
       case Categories.geschenk:
         return AppTexts.geschenke;
       case Categories.gehalt:
-        return AppTexts.income;
+        return AppTexts.workIncome;
       case Categories.sonstiges:
         return AppTexts.sonstiges;
     }
