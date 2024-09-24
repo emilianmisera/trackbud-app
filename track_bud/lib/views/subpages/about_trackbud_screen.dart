@@ -37,7 +37,7 @@ class _AboutTrackbudScreenState extends State<AboutTrackbudScreen> {
         padding: const EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace),
         child: Column(
           children: [
-            SvgPicture.asset(AssetImport.textLogo),
+            SvgPicture.asset(AssetImport.iconLogo),
             const Gap(CustomPadding.bigSpace),
             Text(AppTexts.aboutTrackBudText,
                 style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary), textAlign: TextAlign.center),
