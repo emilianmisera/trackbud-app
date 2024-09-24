@@ -11,7 +11,10 @@ class ColorTheme {
     scaffoldBackgroundColor: CustomColor.backgroundPrimary,
     fontFamily: TextStyles.fontFamily,
     hintColor: CustomColor.hintColor,
-    appBarTheme: const AppBarTheme(backgroundColor: CustomColor.backgroundPrimary, surfaceTintColor: CustomColor.backgroundPrimary),
+    appBarTheme: const AppBarTheme(
+        backgroundColor: CustomColor.backgroundPrimary,
+        surfaceTintColor: CustomColor.backgroundPrimary,
+        iconTheme: IconThemeData(color: CustomColor.black)),
     elevatedButtonTheme: ElevatedButtonThemeData(
       //style for elevated button
       style: ButtonStyle(
@@ -96,8 +99,10 @@ class ColorTheme {
     scaffoldBackgroundColor: CustomColor.darkModebackgroundPrimary,
     fontFamily: TextStyles.fontFamily,
     hintColor: CustomColor.darkModeHint,
-    appBarTheme:
-        const AppBarTheme(backgroundColor: CustomColor.darkModebackgroundPrimary, surfaceTintColor: CustomColor.darkModebackgroundPrimary),
+    appBarTheme: const AppBarTheme(
+        backgroundColor: CustomColor.darkModebackgroundPrimary,
+        surfaceTintColor: CustomColor.darkModebackgroundPrimary,
+        iconTheme: IconThemeData(color: CustomColor.darkModeWhite)),
     elevatedButtonTheme: ElevatedButtonThemeData(
       //style for elevated button
       style: ButtonStyle(
