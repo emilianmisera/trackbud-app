@@ -12,6 +12,7 @@ class CustomTextfield extends StatelessWidget {
   final bool? autofocus;
   final double? width;
   final Widget? prefix;
+  final Widget? suffix;
   final bool isMultiline;
   final TextInputType? type;
   final List<TextInputFormatter>? inputFormatters;
@@ -25,6 +26,7 @@ class CustomTextfield extends StatelessWidget {
     this.autofocus,
     this.width,
     this.prefix,
+    this.suffix,
     this.isMultiline = false,
     this.type,
     this.inputFormatters, // default false
@@ -41,7 +43,9 @@ class CustomTextfield extends StatelessWidget {
         CustomShadow(
           child: SizedBox(
             width: width ?? double.infinity,
-            height: isMultiline ? 120 : Constants.height, // choose height of Textfield Box
+            height: isMultiline
+                ? 120
+                : Constants.height, // choose height of Textfield Box
             child: TextFormField(
               controller: controller,
               obscureText: obscureText,
@@ -57,6 +61,11 @@ class CustomTextfield extends StatelessWidget {
                   heightFactor: 1.0,
                   child: prefix,
                 ),
+                suffix: Align(
+                  widthFactor: 1.0,
+                  heightFactor: 1.0,
+                  child: suffix,
+                ),
                 hintText: hintText,
                 contentPadding: const EdgeInsets.symmetric(
                   horizontal: CustomPadding.defaultSpace,
@@ -67,6 +76,7 @@ class CustomTextfield extends StatelessWidget {
                 filled: true,
                 fillColor: defaultColorScheme.surface,
                 border: OutlineInputBorder(borderSide: BorderSide.none, borderRadius: BorderRadius.circular(Constants.contentBorderRadius)),
+
               ),
             ),
           ),

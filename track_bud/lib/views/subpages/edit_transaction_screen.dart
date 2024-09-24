@@ -2,6 +2,8 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:provider/provider.dart';
+import 'package:track_bud/provider/transaction_provider.dart';
 import 'package:track_bud/utils/button_widgets/dropdown.dart';
 import 'package:track_bud/utils/categories/category_expenses.dart';
 import 'package:track_bud/utils/categories/category_income.dart';
@@ -55,7 +57,8 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
   }
 
   Future<void> _updateTransaction() async {
-    await FirebaseFirestore.instance.collection('transactions').doc(widget.transactionId).update({
+
+    final updatedData = {
       'title': _titleController.text.trim(),
       'amount': double.parse(_amountController.text.replaceAll(',', '.')),
       'category': _selectedCategory,
@@ -63,7 +66,10 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
       'date': Timestamp.fromDate(_selectedDateTime!),
       'recurrence': _selectedRecurrence,
       'type': _currentSegment == 0 ? 'expense' : 'income',
-    });
+    };
+
+    await Provider.of<TransactionProvider>(context, listen: false)
+        .updateTransaction(widget.transactionId, updatedData);
 
     if (mounted) Navigator.pop(context);
   }

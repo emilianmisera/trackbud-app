@@ -15,7 +15,6 @@ import 'package:track_bud/utils/categories/category_expenses.dart';
 import 'package:track_bud/utils/enum/split_methods.dart';
 import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfields/textfield.dart';
-import 'package:track_bud/utils/textinput_format.dart';
 import 'package:uuid/uuid.dart';
 
 class AddFriendSplit extends StatefulWidget {
@@ -172,14 +171,18 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
               children: [
                 CustomTextfield(
                   name: AppTexts.amount,
-                  hintText: AppTexts.lines,
+                  hintText: '00.00',
                   controller: _amountController,
                   width: MediaQuery.sizeOf(context).width / 3,
-                  prefix: Text('-',
-                      style: TextStyles.titleStyleMedium
-                          .copyWith(fontWeight: TextStyles.fontWeightDefault, color: defaultColorScheme.primary)),
+
+                  prefix: Text(
+                    '- ',
+                    style: TextStyles.titleStyleMedium
+                        .copyWith(fontWeight: TextStyles.fontWeightDefault),
+                  ),
+                  suffix: const Text('€'),
                   type: const TextInputType.numberWithOptions(decimal: true),
-                  inputFormatters: [GermanNumericTextFormatter()],
+                  //inputFormatters: [GermanNumericTextFormatter()],
                 ),
                 const Gap(CustomPadding.defaultSpace),
               ],

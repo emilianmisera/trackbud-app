@@ -63,13 +63,10 @@ class TransactionHistoryList extends StatelessWidget {
                 date: (data['date'] as Timestamp?)?.toDate() ?? DateTime.now(),
                 category: data['category'] ?? 'Keine Kategorie',
                 transactionId: doc.id,
-                note: data['notes'] ?? '',
+                note: data['note'] ?? '',
                 recurrence: data['recurrence'] ?? 'Einmalig',
                 type: transactionType == 'expense' ? 'Ausgabe' : 'Einnahme',
-                onDelete: (String id) {
-                  debugPrint('Deleting transaction: $id');
-                  FirebaseFirestore.instance.collection('transactions').doc(id).delete();
-                },
+
                 onEdit: (String id) {
                   debugPrint('Editing transaction: $id');
                   // Navigate to the edit screen, passing the transaction ID

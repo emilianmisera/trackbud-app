@@ -13,7 +13,6 @@ import 'package:track_bud/utils/enum/split_methods.dart';
 import 'package:track_bud/utils/plus_button/split/split_methods/by_amount/by_amount_split.dart';
 import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfields/textfield.dart';
-import 'package:track_bud/utils/textinput_format.dart';
 
 class AddGroupSplit extends StatefulWidget {
   final GroupModel selectedGroup;
@@ -127,14 +126,18 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
               children: [
                 CustomTextfield(
                   name: AppTexts.amount,
-                  hintText: AppTexts.lines,
+                  hintText: '00.00',
                   controller: _amountController,
                   width: MediaQuery.of(context).size.width / 3,
-                  prefix: Text('-',
-                      style: TextStyles.titleStyleMedium
-                          .copyWith(fontWeight: TextStyles.fontWeightDefault, color: defaultColorScheme.primary)),
+
+                  prefix: Text(
+                    '- ',
+                    style: TextStyles.titleStyleMedium
+                        .copyWith(fontWeight: TextStyles.fontWeightDefault),
+                  ),
+                  suffix: const Text('€'),
                   type: const TextInputType.numberWithOptions(decimal: true),
-                  inputFormatters: [GermanNumericTextFormatter()],
+                  //inputFormatters: [GermanNumericTextFormatter()],
                 ),
                 const Gap(CustomPadding.defaultSpace),
               ],
