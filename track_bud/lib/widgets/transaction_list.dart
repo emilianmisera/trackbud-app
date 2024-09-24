@@ -5,14 +5,21 @@ import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/tiles/transaction/transaction_tile.dart';
 import 'package:track_bud/views/subpages/edit_transaction_screen.dart';
 
-class TransactionHistoryList extends StatelessWidget {
+class TransactionHistoryList extends StatefulWidget {
   final String transactionType;
+  final String? selectedCategory; // Accept the selected category
 
   const TransactionHistoryList({
     super.key,
     required this.transactionType,
+    this.selectedCategory,
   });
 
+  @override
+  _TransactionHistoryListState createState() => _TransactionHistoryListState();
+}
+
+class _TransactionHistoryListState extends State<TransactionHistoryList> {
   @override
   Widget build(BuildContext context) {
     debugPrint('TransactionHistoryList: Building widget');
@@ -20,11 +27,18 @@ class TransactionHistoryList extends StatelessWidget {
     debugPrint('Current user UID: ${user?.uid}');
     final defaultColorScheme = Theme.of(context).colorScheme;
 
+    Query transactionsQuery = FirebaseFirestore.instance
+        .collection('transactions')
+        .where('userId', isEqualTo: user?.uid)
+        .where('type', isEqualTo: widget.transactionType);
+
+    if (widget.selectedCategory != null) {
+      transactionsQuery = transactionsQuery.where('category',
+          isEqualTo: widget.selectedCategory);
+    }
+
     return StreamBuilder<QuerySnapshot>(
-      stream: FirebaseFirestore.instance
-          .collection('transactions')
-          .where('userId', isEqualTo: user?.uid)
-          .where('type', isEqualTo: transactionType)
+      stream: transactionsQuery
           .orderBy('date', descending: true)
           .limit(10)
           .snapshots(),
@@ -49,13 +63,14 @@ class TransactionHistoryList extends StatelessWidget {
         debugPrint(
             'StreamBuilder: Data received, doc count: ${snapshot.data!.docs.length}');
 
+        final transactions = snapshot.data!.docs;
+
         return ListView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           padding: EdgeInsets.zero,
-          itemCount: snapshot.data!.docs.length,
+          itemCount: transactions.length,
           itemBuilder: (context, index) {
-            // reverse List to show the most recent transaction at the top of ListView
             DocumentSnapshot doc = snapshot.data!.docs[index];
             Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
             debugPrint('Building item $index: ${data['title']}');
@@ -69,7 +84,9 @@ class TransactionHistoryList extends StatelessWidget {
                 transactionId: doc.id,
                 note: data['note'] ?? '',
                 recurrence: data['recurrence'] ?? 'Einmalig',
-                type: transactionType == 'expense' ? 'Ausgabe' : 'Einnahme',
+                type: widget.transactionType == 'expense'
+                    ? 'Ausgabe'
+                    : 'Einnahme',
                 onEdit: (String id) {
                   debugPrint('Editing transaction: $id');
                   // Navigate to the edit screen, passing the transaction ID

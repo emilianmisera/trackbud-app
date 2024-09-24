@@ -174,7 +174,7 @@ class _AddTransactionState extends State<AddTransaction> {
                 : CategoriesIncome(onCategorySelected: _onCategorySelected),
             const Gap(CustomPadding.defaultSpace),
             Text(
-              AppTexts.recurry,
+              AppTexts.recurrency,
               style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary),
             ),
             const Gap(CustomPadding.mediumSpace),

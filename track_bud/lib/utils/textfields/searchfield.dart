@@ -29,6 +29,7 @@ class SearchTextfield extends StatelessWidget {
           controller: controller,
           cursorColor: CustomColor.bluePrimary,
           autofocus: autofocus ?? false,
+          style: TextStyle(color: defaultColorScheme.primary),
           decoration: InputDecoration(
             prefixIcon: SvgPicture.asset(
               AssetImport.search,
@@ -39,13 +40,15 @@ class SearchTextfield extends StatelessWidget {
               horizontal: CustomPadding.defaultSpace,
               vertical: CustomPadding.contentHeightSpace,
             ),
-            hintStyle: TextStyles.hintStyleDefault.copyWith(color: defaultColorScheme.secondary),
+            hintStyle: TextStyles.hintStyleDefault
+                .copyWith(color: defaultColorScheme.secondary),
             floatingLabelBehavior: FloatingLabelBehavior.never,
             filled: true,
             fillColor: defaultColorScheme.surface,
             border: OutlineInputBorder(
               borderSide: BorderSide.none,
-              borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
+              borderRadius:
+                  BorderRadius.circular(Constants.contentBorderRadius),
             ),
           ),
           onChanged: onChanged,

@@ -8,11 +8,19 @@ class TransactionProvider extends ChangeNotifier {
   double _totalMonthlyExpense = 0.0;
   double _currentBalance = 0.0;
   String _currentTransactionType = 'expense';
+  double _totalExpenseForTimeUnit = 0.0;
+  List<double> _expensesForTimeUnit = [];
+  Map<String, double> _categoryAmounts = {};
+  final List<double> _dailyExpenses = [];
 
   bool get shouldReloadChart => _shouldReloadChart;
   double get totalAmount => _totalAmount;
   double get totalMonthlyExpense => _totalMonthlyExpense;
   double get currentBalance => _currentBalance;
+  double get totalExpenseForTimeUnit => _totalExpenseForTimeUnit;
+  List<double> get expensesForTimeUnit => _expensesForTimeUnit;
+  Map<String, double> get categoryAmounts => _categoryAmounts;
+  List<double> get dailyExpenses => _dailyExpenses;
 
   Future<void> initializeBalance() async {
     final user = FirebaseAuth.instance.currentUser;
@@ -67,8 +75,8 @@ class TransactionProvider extends ChangeNotifier {
       // Recalculate the total amount for the current transaction type
       await calculateTotalAmount(_currentTransactionType);
       if (type == 'expense') {
-      await calculateTotalExpenseForCurrentMonth(); 
-    }
+        await calculateTotalExpenseForCurrentMonth();
+      }
 
       notifyListeners();
     } catch (e) {
@@ -76,7 +84,8 @@ class TransactionProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> updateTransaction(String transactionId, Map<String, dynamic> updatedData) async {
+  Future<void> updateTransaction(
+      String transactionId, Map<String, dynamic> updatedData) async {
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) return;
 
@@ -86,8 +95,9 @@ class TransactionProvider extends ChangeNotifier {
           .collection('transactions')
           .doc(transactionId)
           .get();
-      
-      Map<String, dynamic> oldData = oldTransactionDoc.data() as Map<String, dynamic>;
+
+      Map<String, dynamic> oldData =
+          oldTransactionDoc.data() as Map<String, dynamic>;
 
       // Update the transaction in Firestore
       await FirebaseFirestore.instance
@@ -141,7 +151,7 @@ class TransactionProvider extends ChangeNotifier {
           .collection('transactions')
           .doc(transactionId)
           .get();
-      
+
       Map<String, dynamic> data = transactionDoc.data() as Map<String, dynamic>;
 
       // Delete the transaction from Firestore
@@ -188,6 +198,9 @@ class TransactionProvider extends ChangeNotifier {
           .collection('transactions')
           .where('userId', isEqualTo: user.uid)
           .where('type', isEqualTo: transactionType)
+          // Filter to show only past transactions
+          /*.where('date',
+              isLessThanOrEqualTo: Timestamp.fromDate(DateTime.now()))*/
           .get();
 
       _totalAmount = snapshot.docs.fold(0.0, (sum, doc) {
@@ -223,6 +236,9 @@ class TransactionProvider extends ChangeNotifier {
           .collection('transactions')
           .where('userId', isEqualTo: user.uid)
           .where('type', isEqualTo: 'expense')
+          // Filter to show only past transactions
+          /*.where('date',
+              isLessThanOrEqualTo: Timestamp.fromDate(DateTime.now()))*/
           .where('date', isGreaterThanOrEqualTo: startOfMonth)
           .where('date', isLessThanOrEqualTo: endOfMonth)
           .get();
@@ -241,6 +257,87 @@ class TransactionProvider extends ChangeNotifier {
       notifyListeners();
     } catch (e) {
       debugPrint('Error calculating total amount for current month: $e');
+    }
+  }
+
+  Future<void> calculateTotalExpenseForTimeUnit(int timeUnit) async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) return;
+
+    try {
+      DateTime startDate;
+      DateTime endDate = DateTime.now();
+
+      switch (timeUnit) {
+        case 0: // Day
+          startDate = DateTime(endDate.year, endDate.month, endDate.day);
+          break;
+        case 1: // Week - Focus on the LAST 7 DAYS, not the week of the month
+          startDate =
+              endDate.subtract(const Duration(days: 6)); // Always 7 days back
+          break;
+        case 2: // Month
+          startDate = DateTime(endDate.year, endDate.month, 1);
+          break;
+        case 3: // Year
+          startDate = DateTime(endDate.year, 1, 1);
+          break;
+        default:
+          startDate = endDate.subtract(Duration(days: endDate.weekday - 1));
+      }
+
+      QuerySnapshot snapshot = await FirebaseFirestore.instance
+          .collection('transactions')
+          .where('userId', isEqualTo: user.uid)
+          .where('type', isEqualTo: 'expense')
+          .where('date', isGreaterThanOrEqualTo: startDate)
+          .where('date', isLessThanOrEqualTo: endDate)
+          .orderBy('date', descending: false)
+          .get();
+
+      _totalExpenseForTimeUnit = 0.0;
+      _expensesForTimeUnit = [];
+      _categoryAmounts = {};
+
+      for (var doc in snapshot.docs) {
+        final data = doc.data() as Map<String, dynamic>;
+        final amount = (data['amount'] as num).toDouble();
+        final category = data['category'] as String;
+        final date = (data['date'] as Timestamp).toDate();
+
+        _totalExpenseForTimeUnit += amount;
+        _categoryAmounts[category] = (_categoryAmounts[category] ?? 0) + amount;
+
+        // Aggregate expenses based on the time unit
+        switch (timeUnit) {
+          case 0: // Day
+            _expensesForTimeUnit.add(amount);
+            break;
+          case 1: // Week
+            while (_expensesForTimeUnit.length <
+                date.difference(startDate).inDays + 1) {
+              _expensesForTimeUnit.add(0);
+            }
+            _expensesForTimeUnit[date.difference(startDate).inDays] += amount;
+            break;
+          case 2: // Month
+            while (_expensesForTimeUnit.length < date.day) {
+              _expensesForTimeUnit.add(0);
+            }
+            _expensesForTimeUnit[date.day - 1] += amount;
+            break;
+          case 3: // Year
+            while (_expensesForTimeUnit.length < date.month) {
+              _expensesForTimeUnit.add(0);
+            }
+            _expensesForTimeUnit[date.month - 1] += amount;
+            break;
+        }
+      }
+
+      notifyListeners();
+    } catch (e) {
+      debugPrint('Error calculating total expense for time unit: $e');
     }
   }
 }

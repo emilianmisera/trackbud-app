@@ -10,7 +10,6 @@ import 'package:track_bud/provider/transaction_provider.dart';
 import 'package:track_bud/provider/user_provider.dart';
 import 'package:track_bud/trackbud.dart';
 import 'package:track_bud/utils/color_theme.dart';
-import 'package:track_bud/utils/constants.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:track_bud/views/at_signup/onboarding_screen.dart';
 
@@ -19,7 +18,8 @@ void main() async {
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   //await FirebaseApi().initNotifications();
-  FirebaseFirestore.instance.settings = const Settings(persistenceEnabled: true); // Offline-Persistence
+  FirebaseFirestore.instance.settings =
+      const Settings(persistenceEnabled: true); // Offline-Persistence
 
   /*SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: CustomColor.backgroundPrimary, // StatusBar (android)
@@ -61,7 +61,8 @@ class MainApp extends StatelessWidget {
       // Show Login screen if we aren't logged in, otherwise go to main app.
       home: StreamBuilder(
         stream: FirebaseAuth.instance.authStateChanges(),
-        builder: (context, snapshot) => snapshot.hasData ? TrackBud() : const OnboardingScreen(),
+        builder: (context, snapshot) =>
+            snapshot.hasData ? TrackBud() : const OnboardingScreen(),
       ),
     );
   }

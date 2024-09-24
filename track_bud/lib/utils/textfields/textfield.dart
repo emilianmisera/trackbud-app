@@ -5,7 +5,7 @@ import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/shadow.dart';
 
 class CustomTextfield extends StatelessWidget {
-  final String name;
+  final String? name;
   final String hintText;
   final TextEditingController controller;
   final bool obscureText;
@@ -19,7 +19,7 @@ class CustomTextfield extends StatelessWidget {
 
   const CustomTextfield({
     super.key,
-    required this.name,
+    this.name,
     required this.hintText,
     required this.controller,
     this.obscureText = false,
@@ -38,7 +38,16 @@ class CustomTextfield extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(name, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
+        if (name != null)
+          Padding(
+            padding: const EdgeInsets.only(bottom: CustomPadding.mediumSpace),
+            child: Text(
+              name!,
+              style: TextStyles.regularStyleMedium.copyWith(
+                color: defaultColorScheme.primary,
+              ),
+            ),
+          ),
         const Gap(CustomPadding.mediumSpace),
         CustomShadow(
           child: SizedBox(
@@ -71,12 +80,15 @@ class CustomTextfield extends StatelessWidget {
                   horizontal: CustomPadding.defaultSpace,
                   vertical: CustomPadding.contentHeightSpace,
                 ),
-                hintStyle: TextStyles.hintStyleDefault.copyWith(color: defaultColorScheme.secondary),
+                hintStyle: TextStyles.hintStyleDefault
+                    .copyWith(color: defaultColorScheme.secondary),
                 floatingLabelBehavior: FloatingLabelBehavior.never,
                 filled: true,
                 fillColor: defaultColorScheme.surface,
-                border: OutlineInputBorder(borderSide: BorderSide.none, borderRadius: BorderRadius.circular(Constants.contentBorderRadius)),
-
+                border: OutlineInputBorder(
+                    borderSide: BorderSide.none,
+                    borderRadius:
+                        BorderRadius.circular(Constants.contentBorderRadius)),
               ),
             ),
           ),

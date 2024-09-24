@@ -133,7 +133,7 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
                   : CategoriesIncome(onCategorySelected: _onCategorySelected),
               const Gap(CustomPadding.defaultSpace),
               // Recurrence section
-              Text(AppTexts.recurry, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
+              Text(AppTexts.recurrency, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
               const Gap(CustomPadding.mediumSpace),
               // Dropdown for selecting recurrence frequency
               CustomDropDown(

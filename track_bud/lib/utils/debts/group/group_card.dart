@@ -39,7 +39,9 @@ class GroupCard extends StatelessWidget {
           child: Container(
         width: MediaQuery.sizeOf(context).width,
         padding: const EdgeInsets.all(CustomPadding.defaultSpace),
-        decoration: BoxDecoration(color: defaultColorScheme.surface, borderRadius: BorderRadius.circular(Constants.contentBorderRadius)),
+        decoration: BoxDecoration(
+            color: defaultColorScheme.surface,
+            borderRadius: BorderRadius.circular(Constants.contentBorderRadius)),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -51,17 +53,24 @@ class GroupCard extends StatelessWidget {
                   width: 40,
                   height: 40,
                   child: group.profilePictureUrl.isNotEmpty
-                      ? Image.network(group.profilePictureUrl, fit: BoxFit.cover)
+                      ? Image.network(group.profilePictureUrl,
+                          fit: BoxFit.cover)
                       : const Icon(Icons.group, color: Colors.grey),
                 ),
               ),
               // Group's name
-              title: Text(group.name, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
+              title: Text(group.name,
+                  style: TextStyles.regularStyleMedium
+                      .copyWith(color: defaultColorScheme.primary)),
               // Creation date information
               subtitle: Text('Erstellt am: $formattedDate',
-                  style: TextStyles.hintStyleDefault.copyWith(fontSize: TextStyles.fontSizeHint, color: defaultColorScheme.secondary)),
+                  style: TextStyles.hintStyleDefault.copyWith(
+                      fontSize: TextStyles.fontSizeHint,
+                      color: defaultColorScheme.secondary)),
               // Placeholder for balance - you'll need to calculate this based on your app's logic
-              trailing: Text('0.00€', style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
+              trailing: Text('0.00€',
+                  style: TextStyles.regularStyleMedium
+                      .copyWith(color: defaultColorScheme.primary)),
               minVerticalPadding: 0,
               contentPadding: EdgeInsets.zero,
             ),
@@ -75,27 +84,52 @@ class GroupCard extends StatelessWidget {
                     height: 44,
                     child: Stack(
                       children: List.generate(group.members.length, (index) {
-                        // Fetch user data for each member to get their profile picture
+                        final reverseIndex = group.members.length -
+                            1 -
+                            index; // Umgekehrter Index
                         return FutureBuilder<UserModel?>(
-                          future: firestoreService.getUser(group.members[index]),
+                          future: firestoreService
+                              .getUser(group.members[reverseIndex]),
                           builder: (context, snapshot) {
-                            if (snapshot.connectionState == ConnectionState.waiting) {
-                              return const SizedBox.shrink(); // Or a placeholder widget while loading
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return const SizedBox
+                                  .shrink(); // Platzhalter während des Ladens
                             }
                             if (snapshot.hasError || snapshot.data == null) {
-                              return const Icon(Icons.person, color: Colors.grey); // Error or user not found
+                              return const Icon(Icons.person,
+                                  color: Colors
+                                      .grey); // Fehler oder Nutzer nicht gefunden
                             }
                             final member = snapshot.data!;
                             return Positioned(
-                              left: index * 25,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(100.0),
-                                child: SizedBox(
-                                  width: 40,
-                                  height: 40,
-                                  child: member.profilePictureUrl.isNotEmpty
-                                      ? Image.network(member.profilePictureUrl, fit: BoxFit.cover)
-                                      : const Icon(Icons.person, color: Colors.grey),
+                              left: index *
+                                  30, // Steuerung der Überlappung von links nach rechts
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: defaultColorScheme
+                                        .surface, // Weißer Rahmen um das Profilbild
+                                    width: 1.0, // Rahmenbreite anpassen
+                                  ),
+                                  borderRadius: BorderRadius.circular(
+                                      100.0), // Rundes Bild
+                                ),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(100.0),
+                                  child: SizedBox(
+                                    width: 40,
+                                    height: 40,
+                                    child: member.profilePictureUrl.isNotEmpty
+                                        ? Image.network(
+                                            member.profilePictureUrl,
+                                            fit: BoxFit.cover,
+                                          )
+                                        : const Icon(
+                                            Icons.person,
+                                            color: Colors.grey,
+                                          ),
+                                  ),
                                 ),
                               ),
                             );
@@ -105,7 +139,7 @@ class GroupCard extends StatelessWidget {
                     ),
                   ),
                 ),
-                const BalanceState(colorScheme: DebtsColorScheme.blue)
+                const BalanceState(colorScheme: DebtsColorScheme.blue),
               ],
             ),
           ],
