@@ -18,6 +18,7 @@ class TransactionHistoryList extends StatelessWidget {
     debugPrint('TransactionHistoryList: Building widget');
     final user = FirebaseAuth.instance.currentUser;
     debugPrint('Current user UID: ${user?.uid}');
+    final defaultColorScheme = Theme.of(context).colorScheme;
 
     return StreamBuilder<QuerySnapshot>(
       stream: FirebaseFirestore.instance
@@ -39,7 +40,7 @@ class TransactionHistoryList extends StatelessWidget {
         }
         if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
           debugPrint('StreamBuilder: No data available');
-          return const Text('Keine Transaktionen vorhanden');
+          return Text('Keine Transaktionen vorhanden', style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.secondary));
         }
         debugPrint('StreamBuilder: Data received, doc count: ${snapshot.data!.docs.length}');
 
