@@ -46,7 +46,8 @@ class AddEntryModal extends StatelessWidget {
         return Container(
           decoration: BoxDecoration(
             color: defaultColorScheme.onSurface,
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(Constants.contentBorderRadius)),
+            borderRadius: const BorderRadius.vertical(
+                top: Radius.circular(Constants.contentBorderRadius)),
           ),
           child: Column(
             children: [
@@ -74,8 +75,11 @@ class AddEntryModal extends StatelessWidget {
                 padding: EdgeInsets.only(
                     left: CustomPadding.mediumSpace,
                     right: CustomPadding.mediumSpace,
-                    bottom: MediaQuery.sizeOf(context).height * CustomPadding.bottomSpace),
-                child: ElevatedButton(onPressed: isButtonEnabled ? onButtonPressed : null, child: Text(buttonText)),
+                    bottom: MediaQuery.sizeOf(context).height *
+                        CustomPadding.bottomSpace),
+                child: ElevatedButton(
+                    onPressed: isButtonEnabled ? onButtonPressed : null,
+                    child: Text(buttonText)),
               )
             ],
           ),
