@@ -13,11 +13,17 @@ class TextStyles {
   static const FontWeight fontWeightMedium = FontWeight.w500;
   static const FontWeight fontWeightSemiBold = FontWeight.w600;
 
-  static TextStyle headingStyle =
-      const TextStyle(fontFamily: fontFamily, fontSize: fontSizeHeading, fontWeight: fontWeightSemiBold, color: CustomColor.black);
+  static TextStyle headingStyle = const TextStyle(
+      fontFamily: fontFamily,
+      fontSize: fontSizeHeading,
+      fontWeight: fontWeightSemiBold,
+      color: CustomColor.black);
 
-  static TextStyle introductionStyle =
-      const TextStyle(fontFamily: fontFamily, fontSize: fontSizeHeading, fontWeight: fontWeightMedium, color: CustomColor.black);
+  static TextStyle introductionStyle = const TextStyle(
+      fontFamily: fontFamily,
+      fontSize: fontSizeHeading,
+      fontWeight: fontWeightMedium,
+      color: CustomColor.black);
 
   static TextStyle regularStyleDefault = const TextStyle(
     fontFamily: fontFamily,
@@ -110,8 +116,10 @@ class CustomColor {
   static const Color hintColorNavBar = Color.fromRGBO(103, 104, 118, 1);
   static const Color red = Color.fromRGBO(223, 41, 53, 1);
   static const Color green = Color.fromRGBO(6, 186, 99, 1);
-  static const Color overlayColor = Color.fromRGBO(128, 128, 128, 0.2); //used for button animation
-  static const Color grabberColor = Color.fromRGBO(60, 60, 67, 0.3); // used for grabber in bottomSheet
+  static const Color overlayColor =
+      Color.fromRGBO(128, 128, 128, 0.2); //used for button animation
+  static const Color grabberColor =
+      Color.fromRGBO(60, 60, 67, 0.3); // used for grabber in bottomSheet
   static const Color pastelBlue = Color.fromRGBO(223, 234, 255, 1);
   static const Color pastelGreen = Color.fromRGBO(216, 255, 236, 1);
   static const Color pastelRed = Color.fromRGBO(254, 226, 228, 1);
@@ -136,7 +144,7 @@ class CustomColor {
   static const Color entertainment = Color.fromRGBO(242, 82, 121, 1);
   static const Color mobility = Color.fromRGBO(100, 149, 237, 1);
   static const Color geschenk = Color.fromRGBO(34, 139, 34, 1);
-  static const Color sonstiges = Color.fromRGBO(211, 211, 211, 1);
+  static const Color sonstiges = Color.fromRGBO(190, 190, 190, 1);
 
   //income
   static const Color gehalt = Color.fromRGBO(242, 201, 76, 1);
@@ -144,7 +152,8 @@ class CustomColor {
 
 class CustomPadding {
   static const EdgeInsets screenWidth = EdgeInsets.only(left: 16, right: 16);
-  static const EdgeInsets defaultHeightSpace = EdgeInsets.only(top: 8, bottom: 8);
+  static const EdgeInsets defaultHeightSpace =
+      EdgeInsets.only(top: 8, bottom: 8);
   static const double bottomSpace = 0.05;
   static const double topSpaceSettingsScreen = 0.11;
   static const double topSpace = 0.08;
@@ -212,7 +221,8 @@ class Constants {
   //Button
   static const double contentBorderRadius = 10;
   static const double height = 60;
-  static const Padding screenWidth = Padding(padding: EdgeInsets.only(left: 16, right: 16));
+  static const Padding screenWidth =
+      Padding(padding: EdgeInsets.only(left: 16, right: 16));
   static const double defaultAppBarHeight = 56;
   static const Duration buttonAnimationDuration = Duration(milliseconds: 200);
   static const double profilePictureSettingPage = 95;
