@@ -11,6 +11,7 @@ class OnboardingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final defaultColorScheme = Theme.of(context).colorScheme;
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
       body: Padding(
         //Padding for space between Screen
@@ -22,7 +23,7 @@ class OnboardingScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.end, //alignment to bottom
           crossAxisAlignment: CrossAxisAlignment.start, //alignment to left
           children: [
-            SvgPicture.asset(AssetImport.textLogo),
+            SvgPicture.asset(isDarkMode ? AssetImport.textLogoDarkMode : AssetImport.textLogoLightMode),
             const Gap(
               CustomPadding.defaultSpace,
             ),
