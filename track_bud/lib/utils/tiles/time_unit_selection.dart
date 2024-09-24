@@ -17,7 +17,7 @@ class SelectTimeUnit extends StatefulWidget {
 
 class _SelectTimeUnitState extends State<SelectTimeUnit> {
   // _sliding: Tracks the currently selected segment (0 for expense, 1 for income)
-  int? _sliding = 1;
+  int? _sliding = 2;
 
   @override
   Widget build(BuildContext context) {
