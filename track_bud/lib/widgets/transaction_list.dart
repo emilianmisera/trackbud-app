@@ -29,20 +29,25 @@ class TransactionHistoryList extends StatelessWidget {
           .limit(10)
           .snapshots(),
       builder: (context, snapshot) {
-        debugPrint('StreamBuilder: Connection state: ${snapshot.connectionState}');
+        debugPrint(
+            'StreamBuilder: Connection state: ${snapshot.connectionState}');
         if (snapshot.hasError) {
           debugPrint('StreamBuilder Error: ${snapshot.error}');
           return Text('Etwas ist schiefgelaufen: ${snapshot.error}');
         }
         if (snapshot.connectionState == ConnectionState.waiting) {
           debugPrint('StreamBuilder: Waiting for data');
-          return const CircularProgressIndicator(color: CustomColor.bluePrimary);
+          return const CircularProgressIndicator(
+              color: CustomColor.bluePrimary);
         }
         if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
           debugPrint('StreamBuilder: No data available');
-          return Text('Keine Transaktionen vorhanden', style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.secondary));
+          return Text('Keine Transaktionen vorhanden',
+              style: TextStyles.regularStyleDefault
+                  .copyWith(color: defaultColorScheme.secondary));
         }
-        debugPrint('StreamBuilder: Data received, doc count: ${snapshot.data!.docs.length}');
+        debugPrint(
+            'StreamBuilder: Data received, doc count: ${snapshot.data!.docs.length}');
 
         return ListView.builder(
           shrinkWrap: true,
@@ -51,8 +56,7 @@ class TransactionHistoryList extends StatelessWidget {
           itemCount: snapshot.data!.docs.length,
           itemBuilder: (context, index) {
             // reverse List to show the most recent transaction at the top of ListView
-            final reversedDocs = snapshot.data!.docs.reversed.toList();
-            DocumentSnapshot doc = reversedDocs[index];
+            DocumentSnapshot doc = snapshot.data!.docs[index];
             Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
             debugPrint('Building item $index: ${data['title']}');
             return Padding(
@@ -66,14 +70,14 @@ class TransactionHistoryList extends StatelessWidget {
                 note: data['note'] ?? '',
                 recurrence: data['recurrence'] ?? 'Einmalig',
                 type: transactionType == 'expense' ? 'Ausgabe' : 'Einnahme',
-
                 onEdit: (String id) {
                   debugPrint('Editing transaction: $id');
                   // Navigate to the edit screen, passing the transaction ID
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => EditTransactionScreen(transactionId: id),
+                      builder: (context) =>
+                          EditTransactionScreen(transactionId: id),
                     ),
                   );
                 },
