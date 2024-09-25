@@ -1,11 +1,8 @@
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
 import 'package:track_bud/provider/user_provider.dart';
 import 'package:track_bud/utils/constants.dart';
-import 'package:track_bud/utils/debts/group/chart/group_debts_chart.dart';
-import 'package:track_bud/utils/enum/categories.dart';
 import 'package:track_bud/utils/overview/chart/expenses_charts.dart';
 import 'package:track_bud/utils/shadow.dart';
 import 'package:track_bud/utils/tiles/time_unit_selection.dart';
@@ -26,7 +23,6 @@ class _ExpensesOverviewTileState extends State<ExpensesOverviewTile> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final transactionProvider = context.read<TransactionProvider>();
-      final userProvider = context.read<UserProvider>();
       transactionProvider.calculateTotalExpenseForTimeUnit(_currentTimeUnit);
     });
   }

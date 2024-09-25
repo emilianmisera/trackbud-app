@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:track_bud/utils/plus_button/split/split_methods/by_amount/by_amount_tile.dart';
+import 'package:track_bud/utils/plus_button/split/split_methods/friend_splits/by_amount/by_amount_tile.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/strings.dart';
 

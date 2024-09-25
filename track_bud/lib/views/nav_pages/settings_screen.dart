@@ -11,7 +11,6 @@ import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/views/at_signup/onboarding_screen.dart';
 import 'package:track_bud/views/subpages/about_trackbud_screen.dart';
 import 'package:track_bud/views/subpages/account_settings_screen.dart';
-import 'package:track_bud/views/subpages/notifications_settings_screen.dart';
 import 'package:track_bud/views/subpages/profile_settings_screen.dart';
 
 class SettingsScreen extends StatefulWidget {

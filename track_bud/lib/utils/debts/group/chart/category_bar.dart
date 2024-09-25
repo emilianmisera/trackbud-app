@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:track_bud/utils/constants.dart';
 
 class CategoryBar extends StatelessWidget {
   final Map<String, double> categoryExpenses;
