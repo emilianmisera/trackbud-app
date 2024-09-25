@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:track_bud/models/friend_split_model.dart';
 import 'package:track_bud/models/group_model.dart';
+import 'package:track_bud/models/group_split_model.dart';
 import 'package:track_bud/models/user_model.dart';
 
 class FirestoreService {
@@ -42,6 +43,23 @@ class FirestoreService {
     } catch (e) {
       debugPrint("Error fetching user: $e");
       return null;
+    }
+  }
+
+  Future<List<UserModel>> getUsersByIds(List<String> userIds) async {
+    try {
+      final List<UserModel> users = [];
+      for (final userId in userIds) {
+        final userSnapshot = await _db.collection('users').doc(userId).get();
+        if (userSnapshot.exists) {
+          final userData = userSnapshot.data() as Map<String, dynamic>;
+          users.add(UserModel.fromMap(userData));
+        }
+      }
+      return users;
+    } catch (e) {
+      debugPrint("Error fetching users by IDs: $e");
+      return [];
     }
   }
 
@@ -366,6 +384,23 @@ class FirestoreService {
       debugPrint("Mitglied erfolgreich zur Gruppe hinzugefügt");
     } catch (e) {
       debugPrint("Fehler beim Hinzufügen des Mitglieds zur Gruppe: $e");
+      rethrow;
+    }
+  }
+
+  /*
+------------------------------------------- GROUP SPLITS --------------------------------------------
+  */
+
+  Future<void> saveGroupSplit(GroupSplitModel groupSplit) async {
+    try {
+      await _db
+          .collection('group_splits')
+          .doc(groupSplit.groupSplitId)
+          .set(groupSplit.toMap());
+      debugPrint("Group split added successfully: ${groupSplit.groupSplitId}");
+    } catch (e) {
+      debugPrint("Error adding group split: $e");
       rethrow;
     }
   }
