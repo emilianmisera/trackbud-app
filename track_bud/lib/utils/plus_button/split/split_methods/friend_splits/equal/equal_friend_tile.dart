@@ -3,20 +3,14 @@ import 'package:track_bud/models/user_model.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/shadow.dart';
 
-class EqualTile extends StatelessWidget {
+class EqualFriendTile extends StatelessWidget {
   final UserModel user;
   final double splitAmount;
-  final bool isGroup;
-  final bool isIncluded;
-  final VoidCallback? onToggleInclusion;
 
-  const EqualTile({
+  const EqualFriendTile({
     Key? key,
     required this.user,
     required this.splitAmount,
-    required this.isGroup,
-    this.isIncluded = true,
-    this.onToggleInclusion,
   }) : super(key: key);
 
   @override
@@ -43,7 +37,9 @@ class EqualTile extends StatelessWidget {
                   : const Icon(Icons.person, size: 30),
             ),
           ),
-          title: Text(user.name, style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary)),
+          title: Text(user.name,
+              style: TextStyles.regularStyleDefault
+                  .copyWith(color: defaultColorScheme.primary)),
           trailing: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -51,18 +47,14 @@ class EqualTile extends StatelessWidget {
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
                   color: defaultColorScheme.surface,
-                  borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
+                  borderRadius:
+                      BorderRadius.circular(Constants.contentBorderRadius),
                   border: Border.all(color: defaultColorScheme.outline),
                 ),
                 child: Text('${splitAmount.toStringAsFixed(2)}€',
-                    style: TextStyles.hintStyleDefault.copyWith(color: defaultColorScheme.secondary)),
+                    style: TextStyles.hintStyleDefault
+                        .copyWith(color: defaultColorScheme.secondary)),
               ),
-              if (isGroup)
-                Checkbox(
-                  value: isIncluded,
-                  onChanged: (_) => onToggleInclusion?.call(),
-                  activeColor: CustomColor.bluePrimary,
-                ),
             ],
           ),
         ),

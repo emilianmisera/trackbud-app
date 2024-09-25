@@ -6,9 +6,9 @@ import 'package:track_bud/models/friend_split_model.dart';
 import 'package:track_bud/services/firestore_service.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/plus_button/add_entry_modal.dart';
-import 'package:track_bud/utils/plus_button/split/split_methods/by_amount/by_amount_split.dart';
-import 'package:track_bud/utils/plus_button/split/split_methods/equal/equal_split.dart';
-import 'package:track_bud/utils/plus_button/split/split_methods/percent/percent_split.dart';
+import 'package:track_bud/utils/plus_button/split/split_methods/friend_splits/by_amount/by_amount_split.dart';
+import 'package:track_bud/utils/plus_button/split/split_methods/friend_splits/equal/equal_friend_split.dart';
+import 'package:track_bud/utils/plus_button/split/split_methods/friend_splits/percent/percent_split.dart';
 import 'package:track_bud/utils/plus_button/split/split_methods/split_method_selector.dart';
 import 'package:track_bud/utils/button_widgets/dropdown.dart';
 import 'package:track_bud/utils/categories/category_expenses.dart';
@@ -61,7 +61,9 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
 
   void _validateForm() {
     setState(() {
-      _isFormValid = _titleController.text.isNotEmpty && _amountController.text.isNotEmpty && _selectedCategory.isNotEmpty;
+      _isFormValid = _titleController.text.isNotEmpty &&
+          _amountController.text.isNotEmpty &&
+          _selectedCategory.isNotEmpty;
     });
   }
 
@@ -89,7 +91,12 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
 
     double creditorAmount, debtorAmount;
 
-// Determine who is the creditor (payer)
+    if (_selectedSplitMethod == SplitMethod.equal) {
+      // Ensure _splitAmounts has exactly two elements for friend splits
+      _splitAmounts = [totalAmount / 2, totalAmount / 2];
+    }
+
+    // Determine who is the creditor (payer)
     if (_payedBy == widget.currentUser.name) {
       // Current user is the creditor (payer)
       creditorAmount = totalAmount;
@@ -102,8 +109,12 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
 
     FriendSplitModel newSplit = FriendSplitModel(
       splitId: const Uuid().v4(),
-      creditorId: _payedBy == widget.currentUser.name ? widget.currentUser.userId : widget.selectedFriend.userId,
-      debtorId: _payedBy == widget.currentUser.name ? widget.selectedFriend.userId : widget.currentUser.userId,
+      creditorId: _payedBy == widget.currentUser.name
+          ? widget.currentUser.userId
+          : widget.selectedFriend.userId,
+      debtorId: _payedBy == widget.currentUser.name
+          ? widget.selectedFriend.userId
+          : widget.currentUser.userId,
       creditorAmount: creditorAmount,
       debtorAmount: debtorAmount,
       title: _titleController.text,
@@ -151,11 +162,13 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
                 children: [
                   Text(
                     AppTexts.newFriendSplit,
-                    style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary),
+                    style: TextStyles.regularStyleMedium
+                        .copyWith(color: defaultColorScheme.primary),
                   ),
                   Text(
                     widget.selectedFriend.name,
-                    style: TextStyles.titleStyleMedium.copyWith(color: defaultColorScheme.primary),
+                    style: TextStyles.titleStyleMedium
+                        .copyWith(color: defaultColorScheme.primary),
                   ),
                 ],
               ),
@@ -188,11 +201,15 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
               ],
             ),
             const Gap(CustomPadding.defaultSpace),
-            Text(AppTexts.categorie, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
+            Text(AppTexts.categorie,
+                style: TextStyles.regularStyleMedium
+                    .copyWith(color: defaultColorScheme.primary)),
             const Gap(CustomPadding.mediumSpace),
             CategoriesExpense(onCategorySelected: _onCategorySelected),
             const Gap(CustomPadding.defaultSpace),
-            Text(AppTexts.payedBy, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
+            Text(AppTexts.payedBy,
+                style: TextStyles.regularStyleMedium
+                    .copyWith(color: defaultColorScheme.primary)),
             const Gap(CustomPadding.mediumSpace),
             CustomDropDown(
               list: [widget.currentUser.name, widget.selectedFriend.name],
@@ -215,7 +232,7 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
             const Gap(CustomPadding.defaultSpace),
             // Display the appropriate split widget based on _selectedSplitMethod
             if (_selectedSplitMethod == SplitMethod.equal)
-              EqualSplitWidget(
+              EqualFriendSplitWidget(
                 amount: _inputNumber,
                 users: [widget.currentUser, widget.selectedFriend],
                 onAmountsChanged: (amounts) {
