@@ -19,7 +19,7 @@ class ExpensesOverviewTile extends StatefulWidget {
 }
 
 class _ExpensesOverviewTileState extends State<ExpensesOverviewTile> {
-  int _currentTimeUnit = 1;
+  int _currentTimeUnit = 2;
 
   @override
   void initState() {
@@ -42,7 +42,7 @@ class _ExpensesOverviewTileState extends State<ExpensesOverviewTile> {
       case 3:
         return 'Dieses Jahr';
       default:
-        return 'Diese Woche';
+        return 'Dieser Monat';
     }
   }
 
@@ -73,7 +73,7 @@ class _ExpensesOverviewTileState extends State<ExpensesOverviewTile> {
                 SelectTimeUnit(
                   onValueChanged: (int? newValue) {
                     setState(() {
-                      _currentTimeUnit = newValue ?? 1;
+                      _currentTimeUnit = newValue ?? 2;
                     });
                     context
                         .read<TransactionProvider>()

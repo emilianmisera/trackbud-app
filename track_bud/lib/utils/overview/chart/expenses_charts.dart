@@ -37,7 +37,7 @@ class ExpensesCharts extends StatelessWidget {
 class WeekChart extends StatelessWidget {
   final List<double> expenses;
   final double monthlyBudgetGoal;
-  final List<String> days = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'];
+  final List<String> days = ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'];
 
   WeekChart({
     super.key,
@@ -50,18 +50,23 @@ class WeekChart extends StatelessWidget {
     final now = DateTime.now();
     final defaultColorScheme = Theme.of(context).colorScheme;
 
-    // Calculate the last 7 days, including today
+    // Berechne die letzten 7 Tage, einschließlich heute
     List<DateTime> lastSevenDays =
         List.generate(7, (index) => now.subtract(Duration(days: 6 - index)));
 
-    // Calculate the cumulative expenses for the last 7 days
+    // Berechne kumulative Ausgaben für die letzten 7 Tage
     List<double> weekExpenses = List.filled(7, 0.0);
     double runningTotal = 0;
+
     for (int i = 0; i < 7; i++) {
       final day = lastSevenDays[i];
-      int expenseIndex = day.day - 1; // day.day starts from 1, so subtract 1
-      if (expenseIndex < expenses.length) {
-        runningTotal += expenses[expenseIndex];
+      // Adjusting logic to correctly fetch expenses for the current month
+      if (day.month == now.month) {
+        // Use the day as an index for the expenses list
+        int expenseIndex = day.day - 1; // day.day starts from 1, so subtract 1
+        if (expenseIndex < expenses.length) {
+          runningTotal += expenses[expenseIndex];
+        }
       }
       weekExpenses[i] = runningTotal; // Cumulative total
     }
@@ -76,8 +81,12 @@ class WeekChart extends StatelessWidget {
         bool isCurrentDay =
             index == 6; // The last day (rightmost) is always today
 
+        debugPrint('weekExpenses: $weekExpenses');
+        debugPrint(
+            'fillPercentages: ${weekExpenses.map((e) => (e / monthlyBudgetGoal).clamp(0.0, 1.0)).toList()}');
+
         return _buildBar(
-          label: days[index],
+          label: days[lastSevenDays[index].weekday - 1],
           fillPercentage: fillPercentage,
           isOverBudget: isOverBudget,
           isCurrentDay: isCurrentDay,
