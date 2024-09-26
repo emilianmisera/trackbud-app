@@ -16,6 +16,7 @@ class CustomTextfield extends StatelessWidget {
   final bool isMultiline;
   final TextInputType? type;
   final List<TextInputFormatter>? inputFormatters;
+  final FocusNode? focusNode;
   const CustomTextfield({
     super.key,
     this.name,
@@ -28,7 +29,8 @@ class CustomTextfield extends StatelessWidget {
     this.suffix,
     this.isMultiline = false,
     this.type,
-    this.inputFormatters, // default false
+    this.inputFormatters,
+    this.focusNode, // default false
   });
 
   @override
@@ -58,11 +60,12 @@ class CustomTextfield extends StatelessWidget {
               cursorColor: CustomColor.bluePrimary,
               autofocus: autofocus ?? false,
               maxLines: isMultiline ? 3 : 1, // Max 3 Lines if multiline true
+              focusNode: focusNode,
               keyboardType: type ?? TextInputType.text,
               textInputAction: TextInputAction.next,
               inputFormatters: inputFormatters,
               style: TextStyle(color: defaultColorScheme.primary),
-              
+
               decoration: InputDecoration(
                 prefix: Align(
                   widthFactor: 1.0,
