@@ -162,17 +162,20 @@ class _ChangeBankaccountScreenState extends State<ChangeBankaccountScreen> {
         ),
       ),
       bottomSheet: Container(
-        // Margin is applied to the bottom of the button and the sides for proper spacing.
-        margin: EdgeInsets.only(
-          bottom: MediaQuery.sizeOf(context).height * CustomPadding.bottomSpace, // Bottom margin based on screen height
-          left: CustomPadding.defaultSpace, // Left margin
-          right: CustomPadding.defaultSpace, // Right margin
-        ),
-        child: ElevatedButton(
-          // Saving Button
-          onPressed: _saveBankAccountInfo,
-          child: Text(
-            AppTexts.save,
+        color: defaultColorScheme.onSurface,
+        child: Container(
+          // Margin is applied to the bottom of the button and the sides for proper spacing.
+          margin: EdgeInsets.only(
+            bottom: MediaQuery.sizeOf(context).height * CustomPadding.bottomSpace, // Bottom margin based on screen height
+            left: CustomPadding.defaultSpace, // Left margin
+            right: CustomPadding.defaultSpace, // Right margin
+          ),
+          child: ElevatedButton(
+            // Saving Button
+            onPressed: _saveBankAccountInfo,
+            child: Text(
+              AppTexts.save,
+            ),
           ),
         ),
       ),

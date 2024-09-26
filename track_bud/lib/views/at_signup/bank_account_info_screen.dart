@@ -18,6 +18,8 @@ class BankAccountInfoScreen extends StatefulWidget {
 class _BankAccountInfoScreenState extends State<BankAccountInfoScreen> {
   // Controller to handle the input in the TextField for the amount of money.
   final TextEditingController _moneyController = TextEditingController();
+  // make button active or disabled
+  bool _textInput = false;
 
   // Add or update user's bank account balance in Firestore
   Future<void> addUserBankAccount(double amount) async {
@@ -41,10 +43,12 @@ class _BankAccountInfoScreenState extends State<BankAccountInfoScreen> {
       debugPrint("Error updating bank account: $e");
       // Handle the error
       if (mounted) {
+        final defaultColorScheme = Theme.of(context).colorScheme;
         showDialog(
           context: context,
           builder: (context) => AlertDialog(
-            title: Text('Fehler beim Spiechern der Bankkonto-Informationen $e'),
+            title: Text('Fehler beim Spiechern der Bankkonto-Informationen $e',
+                style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary)),
           ),
         );
       }
@@ -57,22 +61,40 @@ class _BankAccountInfoScreenState extends State<BankAccountInfoScreen> {
     return double.tryParse(normalizedValue);
   }
 
+  void _validateForm() {
+    setState(() {
+      _textInput = _moneyController.text.isNotEmpty;
+    });
+  }
+
   // method for saving information input from user
   Future<void> handleSubmission(BuildContext context) async {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     double? amount = parseCommaDecimal(_moneyController.text);
-    if (amount != null) {
+
+    if (amount! < 0) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Ungültiger Betrag.', style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary))),
+      );
+      return;
+    } else if (amount > 0) {
+      debugPrint("Correct Number Input");
       await addUserBankAccount(amount);
+      debugPrint("Navigating to Budget Goal Screen...");
       if (context.mounted) {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => const BudgetGoalScreen()),
         );
       }
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Gib eine valide Zahl an')),
-      );
     }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    _moneyController.addListener(_validateForm);
+    super.initState();
   }
 
   @override
@@ -91,7 +113,7 @@ class _BankAccountInfoScreenState extends State<BankAccountInfoScreen> {
           ),
           width: MediaQuery.of(context).size.width,
           child: ElevatedButton(
-            onPressed: () => handleSubmission(context),
+            onPressed: _textInput ? () => handleSubmission(context) : null,
             child: Text(AppTexts.continueText),
           ),
         ),
@@ -114,7 +136,9 @@ class _BankAccountInfoScreenState extends State<BankAccountInfoScreen> {
               Text(AppTexts.bankAccInfoDescription, style: TextStyles.hintStyleDefault.copyWith(color: defaultColorScheme.secondary)),
               const Gap(CustomPadding.bigSpace),
               // entering the amount of money
-              TextFieldAmountOfMoney(controller: _moneyController),
+              TextFieldAmountOfMoney(
+                controller: _moneyController,
+              ),
             ],
           ),
         ),

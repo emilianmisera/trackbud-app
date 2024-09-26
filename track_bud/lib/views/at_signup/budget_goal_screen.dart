@@ -65,7 +65,7 @@ class _BudgetGoalScreenState extends State<BudgetGoalScreen> {
       return;
     }
 
-    if (amount > 0) {
+    else if (amount > 0) {
       debugPrint("Correct Number Input");
       await addUserBankAccount(amount);
       debugPrint("Navigating to Overview Screen...");

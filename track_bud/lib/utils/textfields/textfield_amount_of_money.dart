@@ -26,9 +26,8 @@ class TextFieldAmountOfMoney extends StatelessWidget {
         style: TextStyles.headingStyle.copyWith(color: defaultColorScheme.primary),
         keyboardType: const TextInputType.numberWithOptions(decimal: true),
         textAlign: TextAlign.center,
-        inputFormatters: [
-          FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]')), // textinput has to have only numbers or a dot or a comma
-        ],
+        // only numbers with max two decimal places
+        inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'^\d+\,?\d{0,2}'))],
         decoration: InputDecoration(
           hintText: hintText ?? AppTexts.lines,
           suffix: Text(
