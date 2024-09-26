@@ -44,6 +44,7 @@ class _AddTransactionState extends State<AddTransaction> {
 
   // Function to add a new transaction to Firestore
   Future<void> _addTransactionToDB() async {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     try {
       final transactionProvider = Provider.of<TransactionProvider>(context, listen: false);
 
@@ -60,12 +61,16 @@ class _AddTransactionState extends State<AddTransaction> {
       );
 
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Transaktion erfolgreich hinzugefügt.')));
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text('Transaktion erfolgreich hinzugefügt.',
+                style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary))));
         Navigator.pop(context);
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Fehler beim Hinzufügen der Transaktion: $e')));
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text('Fehler beim Hinzufügen der Transaktion: $e',
+                style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary))));
       }
     }
   }

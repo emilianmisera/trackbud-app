@@ -88,6 +88,7 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
   }
 
   Future<void> _saveNewFriendSplit() async {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     double totalAmount = _parseAmount();
 
     double creditorAmount, debtorAmount;
@@ -120,13 +121,17 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
       await _firestoreService.addFriendSplit(newSplit);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Friend split added successfully')),
+          SnackBar(
+              content: Text('Friend split added successfully',
+                  style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary))),
         );
       }
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error adding friend split: $e')),
+          SnackBar(
+              content:
+                  Text('Error adding friend split: $e', style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary))),
         );
       }
     }

@@ -59,11 +59,12 @@ class _BudgetGoalScreenState extends State<BudgetGoalScreen> {
 
   // method for saving information input from user
   Future<void> handleSubmission(BuildContext context) async {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     double? amount = parseCommaDecimal(_moneyController.text);
 
     if (amount! < 0) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Ungültiger Betrag.")),
+        SnackBar(content: Text("Ungültiger Betrag.", style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary))),
       );
       return;
     } else if (amount > 0) {
@@ -75,7 +76,9 @@ class _BudgetGoalScreenState extends State<BudgetGoalScreen> {
       }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please enter a valid number')),
+        SnackBar(
+            content:
+                Text('Please enter a valid number', style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary))),
       );
     }
   }

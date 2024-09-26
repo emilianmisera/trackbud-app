@@ -24,12 +24,13 @@ class _ChangeBudgetGoalScreenState extends State<ChangeBudgetGoalScreen> {
   }
 
   Future<void> _loadCurrentBudgetGoal() async {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     final String userId = FirebaseAuth.instance.currentUser?.uid ?? '';
 
     if (userId.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Benutzer nicht angemeldet."),
+        SnackBar(
+          content: Text("Benutzer nicht angemeldet.", style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary)),
         ),
       );
       return;
@@ -48,16 +49,18 @@ class _ChangeBudgetGoalScreenState extends State<ChangeBudgetGoalScreen> {
         } else {
           // Handle case where budget goal is not found in Firestore
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text("Budgetziel nicht gefunden."),
+            SnackBar(
+              content:
+                  Text("Budgetziel nicht gefunden.", style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary)),
             ),
           );
         }
       } else {
         // Handle case where user document is not found in Firestore
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text("Benutzerdaten nicht gefunden."),
+          SnackBar(
+            content:
+                Text("Benutzerdaten nicht gefunden.", style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary)),
           ),
         );
       }
@@ -71,12 +74,13 @@ class _ChangeBudgetGoalScreenState extends State<ChangeBudgetGoalScreen> {
   }
 
   Future<void> _saveBudgetGoal() async {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     final String userId = FirebaseAuth.instance.currentUser?.uid ?? '';
 
     if (userId.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Benutzer nicht angemeldet."),
+        SnackBar(
+          content: Text("Benutzer nicht angemeldet.", style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary)),
         ),
       );
       return;
@@ -85,8 +89,9 @@ class _ChangeBudgetGoalScreenState extends State<ChangeBudgetGoalScreen> {
     final String amountText = _moneyController.text.trim().replaceAll(',', '.');
     if (amountText.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Bitte geben Sie den Betrag ein."),
+        SnackBar(
+          content:
+              Text("Bitte geben Sie den Betrag ein.", style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary)),
         ),
       );
       return;
@@ -95,8 +100,8 @@ class _ChangeBudgetGoalScreenState extends State<ChangeBudgetGoalScreen> {
     final double amount = double.tryParse(amountText) ?? -1;
     if (amount < 0) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Ungültiger Betrag."),
+        SnackBar(
+          content: Text("Ungültiger Betrag.", style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary)),
         ),
       );
       return;
@@ -110,15 +115,17 @@ class _ChangeBudgetGoalScreenState extends State<ChangeBudgetGoalScreen> {
       // await UserController().updateBudgetGoal(userId, amount);
 
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Budget erfolgreich aktualisiert."),
+        SnackBar(
+          content:
+              Text("Budget erfolgreich aktualisiert.", style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary)),
         ),
       );
       Navigator.pop(context);
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text("Fehler beim Speichern des Budgets: $e"),
+          content: Text("Fehler beim Speichern des Budgets: $e",
+              style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary)),
         ),
       );
     }

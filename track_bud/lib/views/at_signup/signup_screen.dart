@@ -24,6 +24,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   // signup user
   Future<void> signUp() async {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     final FirebaseService firebase = FirebaseService();
     // Retrieve user inputs
     String name = _name.text.trim();
@@ -35,7 +36,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     if (name.isEmpty || email.isEmpty || password.isEmpty || confirmPassword.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(AppTexts.signupEmptyField),
+          content: Text(AppTexts.signupEmptyField, style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary)),
         ),
       );
       return;
@@ -64,12 +65,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
         }
       } catch (e) {
         // Show error dialog if registration fails
-        if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Regristration fehlgeschlagen: ${e.toString()}')));
+        if (mounted)
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text('Regristration fehlgeschlagen: ${e.toString()}',
+                  style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary))));
       }
     } else {
       // Show error dialog if passwords don't match
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Passwörter stimmen nicht überein!')),
+        SnackBar(
+            content: Text('Passwörter stimmen nicht überein!',
+                style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary))),
       );
     }
   }

@@ -49,9 +49,7 @@ class GroupChoice extends StatelessWidget {
                   ),
                 ),
                 const Gap(CustomPadding.mediumSpace),
-                Expanded(
-                  child: Text(group.name, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
-                ),
+                Expanded(child: Text(group.name, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary))),
                 SizedBox(
                   width: 65,
                   height: 30,

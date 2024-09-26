@@ -33,9 +33,12 @@ class _CreateGroupSheetState extends State<CreateGroupSheet> {
   }
 
   void _createGroup(BuildContext context) async {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     if (_groupNameController.text.isEmpty || _selectedFriends.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Bitte Gruppennamen eingeben und mindestens einen Freund auswählen')),
+        SnackBar(
+            content: Text('Bitte Gruppennamen eingeben und mindestens einen Freund auswählen',
+                style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary))),
       );
       return;
     }
