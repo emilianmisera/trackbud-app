@@ -48,11 +48,7 @@ class _YourGroupsScreenState extends State<YourGroupsScreen> {
         actions: [
           IconButton(
             onPressed: () => showModalBottomSheet(context: context, builder: (context) => const CreateGroupSheet()),
-            icon: const Icon(
-              Icons.add,
-              color: CustomColor.bluePrimary,
-              size: 30,
-            ),
+            icon: const Icon(Icons.add, color: CustomColor.bluePrimary, size: 30),
           ),
         ],
       ),
@@ -87,13 +83,10 @@ class _YourGroupsScreenState extends State<YourGroupsScreen> {
                   }
 
                   return Column(
-                    children: filteredGroups
-                        .map((group) => Padding(
-                              padding: const EdgeInsets.symmetric(vertical: CustomPadding.smallSpace),
-                              child: GroupCard(group: group),
-                            ))
-                        .toList(),
-                  );
+                      children: filteredGroups
+                          .map((group) => Padding(
+                              padding: const EdgeInsets.symmetric(vertical: CustomPadding.smallSpace), child: GroupCard(group: group)))
+                          .toList());
                 },
               ),
             ],

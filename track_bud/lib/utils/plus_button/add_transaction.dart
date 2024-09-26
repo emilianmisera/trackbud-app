@@ -41,9 +41,7 @@ class _AddTransactionState extends State<AddTransaction> {
   // Function to add a new transaction to Firestore
   Future<void> _addTransactionToDB() async {
     try {
-      final transactionProvider =
-          Provider.of<TransactionProvider>(context, listen: false);
-
+      final transactionProvider = Provider.of<TransactionProvider>(context, listen: false);
 
       await transactionProvider.addTransaction(
         _currentSegment == 0 ? 'expense' : 'income',
@@ -58,14 +56,12 @@ class _AddTransactionState extends State<AddTransaction> {
       );
 
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            content: Text('Transaktion erfolgreich hinzugefügt.')));
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Transaktion erfolgreich hinzugefügt.')));
         Navigator.pop(context);
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text('Fehler beim Hinzufügen der Transaktion: $e')));
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Fehler beim Hinzufügen der Transaktion: $e')));
       }
     }
   }
@@ -83,9 +79,7 @@ class _AddTransactionState extends State<AddTransaction> {
   // Validate form inputs
   void _validateForm() {
     setState(() {
-      _isFormValid = _titleController.text.isNotEmpty &&
-          _amountController.text.isNotEmpty &&
-          _selectedCategory != null;
+      _isFormValid = _titleController.text.isNotEmpty && _amountController.text.isNotEmpty && _selectedCategory != null;
     });
   }
 
@@ -114,10 +108,7 @@ class _AddTransactionState extends State<AddTransaction> {
           children: [
             // Title of the bottom sheet
             Center(
-              child: Text(
-                AppTexts.newTransaction,
-                style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary),
-              ),
+              child: Text(AppTexts.newTransaction, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
             ),
             const Gap(CustomPadding.defaultSpace),
             // Segment control for switching between expense and income
@@ -130,10 +121,7 @@ class _AddTransactionState extends State<AddTransaction> {
             ),
             const Gap(CustomPadding.bigSpace),
             // Text field for transaction title
-            CustomTextfield(
-                name: AppTexts.title,
-                hintText: AppTexts.hintTitle,
-                controller: _titleController),
+            CustomTextfield(name: AppTexts.title, hintText: AppTexts.hintTitle, controller: _titleController),
             const Gap(CustomPadding.defaultSpace),
             // Row containing amount and date fields
             Row(
@@ -148,7 +136,6 @@ class _AddTransactionState extends State<AddTransaction> {
                     _currentSegment == 0 ? '–' : '+',
                     style:
                         TextStyles.titleStyleMedium.copyWith(fontWeight: TextStyles.fontWeightDefault, color: defaultColorScheme.primary),
-
                   ),
                   suffix: const Text('€'),
                   type: const TextInputType.numberWithOptions(decimal: true),
@@ -156,16 +143,11 @@ class _AddTransactionState extends State<AddTransaction> {
                 ),
                 const Gap(CustomPadding.defaultSpace),
                 // Date
-                DatePicker(
-                    onDateTimeChanged: (dateTime) =>
-                        setState(() => _selectedDateTime = dateTime)),
+                DatePicker(onDateTimeChanged: (dateTime) => setState(() => _selectedDateTime = dateTime)),
               ],
             ),
             const Gap(CustomPadding.defaultSpace),
-            Text(
-              AppTexts.categorie,
-              style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary),
-            ),
+            Text(AppTexts.categorie, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
             const Gap(CustomPadding.mediumSpace),
             // Category section
             // Display either expense or income categories based on current segment
@@ -173,27 +155,20 @@ class _AddTransactionState extends State<AddTransaction> {
                 ? CategoriesExpense(onCategorySelected: _onCategorySelected)
                 : CategoriesIncome(onCategorySelected: _onCategorySelected),
             const Gap(CustomPadding.defaultSpace),
-            Text(
-              AppTexts.recurrency,
-              style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary),
-            ),
+            Text(AppTexts.recurrency, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
             const Gap(CustomPadding.mediumSpace),
             // Dropdown for selecting recurrence frequency
-            CustomDropDown(
-                list: const [
-                  'einmalig',
-                  'täglich',
-                  'wöchentlich',
-                  'zweiwöchentlich',
-                  'halb-monatlich',
-                  'monatlich',
-                  'vierteljährlich',
-                  'halb-jährlich',
-                  'jährlich'
-                ],
-                dropdownWidth: MediaQuery.sizeOf(context).width - 32,
-                onChanged: (value) =>
-                    setState(() => _selectedRecurrence = value)),
+            CustomDropDown(list: const [
+              'einmalig',
+              'täglich',
+              'wöchentlich',
+              'zweiwöchentlich',
+              'halb-monatlich',
+              'monatlich',
+              'vierteljährlich',
+              'halb-jährlich',
+              'jährlich'
+            ], dropdownWidth: MediaQuery.sizeOf(context).width - 32, onChanged: (value) => setState(() => _selectedRecurrence = value)),
             const Gap(CustomPadding.defaultSpace),
             // Note text field
             CustomTextfield(

@@ -61,13 +61,8 @@ class _GroupOverviewScreenState extends State<GroupOverviewScreen> {
               ),
               const DebtsOverview(),
               const Gap(CustomPadding.defaultSpace),
-              Text(
-                AppTexts.transactionOverview,
-                style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary),
-              ),
-              const Gap(
-                CustomPadding.mediumSpace,
-              ),
+              Text(AppTexts.transactionOverview, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
+              const Gap(CustomPadding.mediumSpace),
               const TransactionOverview(
                 categoryAmounts: {
                   Categories.lebensmittel: 3.0,
@@ -81,20 +76,13 @@ class _GroupOverviewScreenState extends State<GroupOverviewScreen> {
                   Categories.sonstiges: 0.0,
                 },
               ),
-              const Gap(
-                CustomPadding.defaultSpace,
-              ),
-              Text(
-                AppTexts.history,
-                style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary),
-              ),
+              const Gap(CustomPadding.defaultSpace),
+              Text(AppTexts.history, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
               const Gap(
                 CustomPadding.mediumSpace,
               ),
               //TODO: Add Listview with all Transactions
-              Gap(
-                MediaQuery.sizeOf(context).height * CustomPadding.bottomSpace + CustomPadding.bigbigSpace,
-              )
+              Gap(MediaQuery.sizeOf(context).height * CustomPadding.bottomSpace + CustomPadding.bigbigSpace)
             ],
           ),
         ),
