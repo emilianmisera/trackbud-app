@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
 import 'package:track_bud/provider/transaction_provider.dart';
@@ -107,9 +108,7 @@ class _AddTransactionState extends State<AddTransaction> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Title of the bottom sheet
-            Center(
-              child: Text(AppTexts.newTransaction, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
-            ),
+            Center(child: Text(AppTexts.newTransaction, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary))),
             const Gap(CustomPadding.defaultSpace),
             // Segment control for switching between expense and income
             CustomSegmentControl(
@@ -139,7 +138,7 @@ class _AddTransactionState extends State<AddTransaction> {
                   ),
                   suffix: const Text('€'),
                   type: const TextInputType.numberWithOptions(decimal: true),
-                  //inputFormatters: [GermanNumericTextFormatter()],
+                  inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'^\d+\,?\d{0,2}'))],
                 ),
                 const Gap(CustomPadding.defaultSpace),
                 // Date

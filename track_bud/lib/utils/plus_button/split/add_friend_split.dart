@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:gap/gap.dart';
 import 'package:track_bud/models/user_model.dart';
 import 'package:track_bud/models/friend_split_model.dart';
@@ -174,7 +175,6 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
                   hintText: '00.00',
                   controller: _amountController,
                   width: MediaQuery.sizeOf(context).width / 3,
-
                   prefix: Text(
                     '- ',
                     style: TextStyles.titleStyleMedium
@@ -182,7 +182,7 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
                   ),
                   suffix: const Text('€'),
                   type: const TextInputType.numberWithOptions(decimal: true),
-                  //inputFormatters: [GermanNumericTextFormatter()],
+                  inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'^\d+\,?\d{0,2}'))],
                 ),
                 const Gap(CustomPadding.defaultSpace),
               ],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:gap/gap.dart';
 import 'package:track_bud/models/group_model.dart';
 import 'package:track_bud/models/user_model.dart';
@@ -129,15 +130,13 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
                   hintText: '00.00',
                   controller: _amountController,
                   width: MediaQuery.of(context).size.width / 3,
-
                   prefix: Text(
                     '- ',
-                    style: TextStyles.titleStyleMedium
-                        .copyWith(fontWeight: TextStyles.fontWeightDefault),
+                    style: TextStyles.titleStyleMedium.copyWith(fontWeight: TextStyles.fontWeightDefault),
                   ),
                   suffix: const Text('€'),
                   type: const TextInputType.numberWithOptions(decimal: true),
-                  //inputFormatters: [GermanNumericTextFormatter()],
+                  inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'^\d+\,?\d{0,2}'))],
                 ),
                 const Gap(CustomPadding.defaultSpace),
               ],
