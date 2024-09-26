@@ -39,16 +39,7 @@ class CustomTextfield extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (name != null)
-          Padding(
-            padding: const EdgeInsets.only(bottom: CustomPadding.mediumSpace),
-            child: Text(
-              name!,
-              style: TextStyles.regularStyleMedium.copyWith(
-                color: defaultColorScheme.primary,
-              ),
-            ),
-          ),
+        if (name != null) Text(name!, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
         const Gap(CustomPadding.mediumSpace),
         CustomShadow(
           child: SizedBox(

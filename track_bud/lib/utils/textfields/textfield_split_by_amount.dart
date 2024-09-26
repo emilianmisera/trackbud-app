@@ -10,6 +10,7 @@ class TextFieldByAmount extends StatelessWidget {
   final TextStyle? suffixStyle;
   final TextStyle? inputStyle;
   final ValueChanged<String>? onChanged;
+  final FocusNode? focusNode;
   const TextFieldByAmount({
     super.key,
     required this.controller,
@@ -17,6 +18,7 @@ class TextFieldByAmount extends StatelessWidget {
     this.suffixStyle,
     this.inputStyle,
     this.onChanged,
+    this.focusNode,
   });
   @override
   Widget build(BuildContext context) {
@@ -26,6 +28,7 @@ class TextFieldByAmount extends StatelessWidget {
       style: inputStyle ?? TextStyles.headingStyle.copyWith(color: defaultColorScheme.primary),
       keyboardType: const TextInputType.numberWithOptions(),
       textAlign: TextAlign.center,
+      focusNode: focusNode,
       inputFormatters: [
         FilteringTextInputFormatter.digitsOnly, // textinput has to have only numbers
       ],
