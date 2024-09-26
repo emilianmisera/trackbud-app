@@ -24,16 +24,6 @@ class _BankAccountInfoScreenState extends State<BankAccountInfoScreen> {
   // Add or update user's bank account balance in Firestore
   Future<void> addUserBankAccount(double amount) async {
     final String userId = FirebaseAuth.instance.currentUser!.uid;
-    final String amountText = _moneyController.text.trim();
-    final double amount = double.tryParse(amountText) ?? -1;
-    if (amount < 0) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Ungültiger Betrag."),
-        ),
-      );
-      return;
-    }
 
     try {
       debugPrint("trying to update users bankaccount");
@@ -82,10 +72,7 @@ class _BankAccountInfoScreenState extends State<BankAccountInfoScreen> {
       await addUserBankAccount(amount);
       debugPrint("Navigating to Budget Goal Screen...");
       if (context.mounted) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const BudgetGoalScreen()),
-        );
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const BudgetGoalScreen()));
       }
     }
   }

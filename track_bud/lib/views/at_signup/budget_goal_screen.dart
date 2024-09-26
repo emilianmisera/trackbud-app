@@ -18,31 +18,30 @@ class BudgetGoalScreen extends StatefulWidget {
 class _BudgetGoalScreenState extends State<BudgetGoalScreen> {
   // Controller to handle the input in the TextField for the amount of money.
   final TextEditingController _moneyController = TextEditingController();
+  // make button active or disabled
+  bool _textInput = false;
 
   // Add or update user's bank account balance in Firestore
   Future<void> addUserBankAccount(double amount) async {
-    User? user = FirebaseAuth.instance.currentUser;
     final String userId = FirebaseAuth.instance.currentUser!.uid;
 
-    if (user != null) {
-      try {
-        debugPrint("trying updating BudgetGoal...");
-        await UserController().updateBudgetGoal(userId, amount);
-        debugPrint("updating BudgetGoal successfull!");
-      } catch (e) {
-        debugPrint("Error updating bank account: $e");
-        // Handle the error
-        if (mounted) {
-          showDialog(
-            context: context,
-            builder: (context) => const AlertDialog(
-              title: Text('Fehler :('),
-            ),
-          );
-        }
+    try {
+      debugPrint("trying updating BudgetGoal...");
+      await UserController().updateBudgetGoal(userId, amount);
+      debugPrint("updating BudgetGoal successfull!");
+    } catch (e) {
+      debugPrint("Error updating bank account: $e");
+      // Handle the error
+      if (mounted) {
+        final defaultColorScheme = Theme.of(context).colorScheme;
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text('Fehler beim Spiechern des Budgetgoals $e',
+                style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary)),
+          ),
+        );
       }
-    } else {
-      debugPrint("No authenticated user found");
     }
   }
 
@@ -52,34 +51,39 @@ class _BudgetGoalScreenState extends State<BudgetGoalScreen> {
     return double.tryParse(normalizedValue);
   }
 
+  void _validateForm() {
+    setState(() {
+      _textInput = _moneyController.text.isNotEmpty;
+    });
+  }
+
   // method for saving information input from user
   Future<void> handleSubmission(BuildContext context) async {
     double? amount = parseCommaDecimal(_moneyController.text);
 
     if (amount! < 0) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Ungültiger Betrag."),
-        ),
+        const SnackBar(content: Text("Ungültiger Betrag.")),
       );
       return;
-    }
-
-    else if (amount > 0) {
+    } else if (amount > 0) {
       debugPrint("Correct Number Input");
       await addUserBankAccount(amount);
       debugPrint("Navigating to Overview Screen...");
       if (context.mounted) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => TrackBud()),
-        );
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => TrackBud()));
       }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Please enter a valid number')),
       );
     }
+  }
+
+  @override
+  void initState() {
+    _moneyController.addListener(_validateForm);
+    super.initState();
   }
 
   @override
@@ -98,7 +102,7 @@ class _BudgetGoalScreenState extends State<BudgetGoalScreen> {
           ),
           width: MediaQuery.of(context).size.width, // Set the button width to match the screen width
           child: ElevatedButton(
-            onPressed: () => handleSubmission(context),
+            onPressed: _textInput ? () => handleSubmission(context) : null,
             child: Text(AppTexts.continueText),
           ),
         ),
