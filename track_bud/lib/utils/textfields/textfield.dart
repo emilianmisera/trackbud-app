@@ -16,7 +16,6 @@ class CustomTextfield extends StatelessWidget {
   final bool isMultiline;
   final TextInputType? type;
   final List<TextInputFormatter>? inputFormatters;
-
   const CustomTextfield({
     super.key,
     this.name,
@@ -52,9 +51,7 @@ class CustomTextfield extends StatelessWidget {
         CustomShadow(
           child: SizedBox(
             width: width ?? double.infinity,
-            height: isMultiline
-                ? 120
-                : Constants.height, // choose height of Textfield Box
+            height: isMultiline ? 120 : Constants.height, // choose height of Textfield Box
             child: TextFormField(
               controller: controller,
               obscureText: obscureText,
@@ -62,8 +59,10 @@ class CustomTextfield extends StatelessWidget {
               autofocus: autofocus ?? false,
               maxLines: isMultiline ? 3 : 1, // Max 3 Lines if multiline true
               keyboardType: type ?? TextInputType.text,
+              textInputAction: TextInputAction.next,
               inputFormatters: inputFormatters,
               style: TextStyle(color: defaultColorScheme.primary),
+              
               decoration: InputDecoration(
                 prefix: Align(
                   widthFactor: 1.0,
@@ -80,15 +79,11 @@ class CustomTextfield extends StatelessWidget {
                   horizontal: CustomPadding.defaultSpace,
                   vertical: CustomPadding.contentHeightSpace,
                 ),
-                hintStyle: TextStyles.hintStyleDefault
-                    .copyWith(color: defaultColorScheme.secondary),
+                hintStyle: TextStyles.hintStyleDefault.copyWith(color: defaultColorScheme.secondary),
                 floatingLabelBehavior: FloatingLabelBehavior.never,
                 filled: true,
                 fillColor: defaultColorScheme.surface,
-                border: OutlineInputBorder(
-                    borderSide: BorderSide.none,
-                    borderRadius:
-                        BorderRadius.circular(Constants.contentBorderRadius)),
+                border: OutlineInputBorder(borderSide: BorderSide.none, borderRadius: BorderRadius.circular(Constants.contentBorderRadius)),
               ),
             ),
           ),
