@@ -69,14 +69,23 @@ class GroupChoice extends StatelessWidget {
                           final member = snapshot.data!;
                           return Positioned(
                             left: index * 18,
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(100.0),
-                              child: SizedBox(
-                                width: 30,
-                                height: 30,
-                                child: member.profilePictureUrl.isNotEmpty
-                                    ? Image.network(member.profilePictureUrl, fit: BoxFit.cover)
-                                    : const Icon(Icons.person, color: Colors.grey),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: defaultColorScheme.surface, // Weißer Rahmen um das Profilbild
+                                  width: 1.0, // Rahmenbreite anpassen
+                                ),
+                                borderRadius: BorderRadius.circular(100.0), // Rundes Bild
+                              ),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(100.0),
+                                child: SizedBox(
+                                  width: 30,
+                                  height: 30,
+                                  child: member.profilePictureUrl.isNotEmpty
+                                      ? Image.network(member.profilePictureUrl, fit: BoxFit.cover)
+                                      : const Icon(Icons.person, color: Colors.grey),
+                                ),
                               ),
                             ),
                           );

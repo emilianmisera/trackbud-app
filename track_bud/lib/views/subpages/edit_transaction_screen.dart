@@ -57,7 +57,6 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
   }
 
   Future<void> _updateTransaction() async {
-
     final updatedData = {
       'title': _titleController.text.trim(),
       'amount': double.parse(_amountController.text.replaceAll(',', '.')),
@@ -68,8 +67,7 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
       'type': _currentSegment == 0 ? 'expense' : 'income',
     };
 
-    await Provider.of<TransactionProvider>(context, listen: false)
-        .updateTransaction(widget.transactionId, updatedData);
+    await Provider.of<TransactionProvider>(context, listen: false).updateTransaction(widget.transactionId, updatedData);
 
     if (mounted) Navigator.pop(context);
   }
@@ -169,24 +167,27 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
           ),
         ),
       ),
-      bottomSheet: AnimatedContainer(
-        duration: const Duration(milliseconds: 100),
-        curve: Curves.easeInOut,
-        margin: EdgeInsets.only(
-          bottom: min(MediaQuery.of(context).viewInsets.bottom > 0 ? 0 : MediaQuery.of(context).size.height * CustomPadding.bottomSpace,
-              MediaQuery.of(context).size.height * CustomPadding.bottomSpace),
-          left: CustomPadding.defaultSpace,
-          right: CustomPadding.defaultSpace,
-        ),
-        width: MediaQuery.of(context).size.width,
-        child: ElevatedButton(
-          // Enable button only if profile has changed
-          onPressed: () => _updateTransaction(),
-          style: ElevatedButton.styleFrom(
-              // Set button color based on whether profile has changed
-              disabledBackgroundColor: CustomColor.bluePrimary.withOpacity(0.5),
-              backgroundColor: CustomColor.bluePrimary),
-          child: Text(AppTexts.save),
+      bottomSheet: Container(
+        color: defaultColorScheme.onSurface,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 100),
+          curve: Curves.easeInOut,
+          margin: EdgeInsets.only(
+            bottom: min(MediaQuery.of(context).viewInsets.bottom > 0 ? 0 : MediaQuery.of(context).size.height * CustomPadding.bottomSpace,
+                MediaQuery.of(context).size.height * CustomPadding.bottomSpace),
+            left: CustomPadding.defaultSpace,
+            right: CustomPadding.defaultSpace,
+          ),
+          width: MediaQuery.of(context).size.width,
+          child: ElevatedButton(
+            // Enable button only if profile has changed
+            onPressed: () => _updateTransaction(),
+            style: ElevatedButton.styleFrom(
+                // Set button color based on whether profile has changed
+                disabledBackgroundColor: CustomColor.bluePrimary.withOpacity(0.5),
+                backgroundColor: CustomColor.bluePrimary),
+            child: Text(AppTexts.save),
+          ),
         ),
       ),
     );

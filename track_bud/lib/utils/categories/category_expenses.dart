@@ -37,9 +37,8 @@ class _CategoriesExpenseState extends State<CategoriesExpense> {
         scrollDirection: Axis.horizontal, // Make the list scroll horizontally
         itemCount: filteredCategories.length,
         itemBuilder: (context, index) => Padding(
-          padding: const EdgeInsets.only(
-              right:
-                  CustomPadding.mediumSpace), // add Padding between categories
+          // add Padding between categories
+          padding: const EdgeInsets.only(right: CustomPadding.mediumSpace),
           child: GestureDetector(
             onTap: () {
               setState(() => selectedIndex = index);
@@ -47,8 +46,7 @@ class _CategoriesExpenseState extends State<CategoriesExpense> {
             },
             child: Opacity(
               // Reduce opacity for non-selected categories
-              opacity:
-                  selectedIndex == null || selectedIndex == index ? 1.0 : 0.5,
+              opacity: selectedIndex == null || selectedIndex == index ? 1.0 : 0.5,
               child: Container(
                 padding: const EdgeInsets.symmetric(
                   horizontal: CustomPadding.categoryWidthSpace,
@@ -62,8 +60,7 @@ class _CategoriesExpenseState extends State<CategoriesExpense> {
                   children: [
                     filteredCategories[index].icon, // Display category icon
                     const Gap(CustomPadding.smallSpace),
-                    Text(filteredCategories[index]
-                        .categoryName), // Display category name
+                    Text(filteredCategories[index].categoryName), // Display category name
                   ],
                 ),
               ),

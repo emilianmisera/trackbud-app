@@ -130,10 +130,9 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
                   hintText: '00.00',
                   controller: _amountController,
                   width: MediaQuery.of(context).size.width / 3,
-                  prefix: Text(
-                    '- ',
-                    style: TextStyles.titleStyleMedium.copyWith(fontWeight: TextStyles.fontWeightDefault),
-                  ),
+                  prefix: Text('- ',
+                      style: TextStyles.titleStyleMedium
+                          .copyWith(fontWeight: TextStyles.fontWeightDefault, color: defaultColorScheme.primary)),
                   suffix: const Text('€'),
                   type: const TextInputType.numberWithOptions(decimal: true),
                   inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'^\d+\,?\d{0,2}'))],
