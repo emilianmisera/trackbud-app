@@ -65,7 +65,6 @@ class _ByAmountSplitWidgetState extends State<ByAmountSplitWidget> {
           user: widget.users[index],
           controller: _controllers[index],
           onAmountChanged: (value) {
-            // No need to call setState here as the controller listener will handle it
             _onAmountChanged();
           },
         );
