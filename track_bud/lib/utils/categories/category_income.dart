@@ -5,7 +5,8 @@ import 'package:track_bud/utils/enum/categories.dart';
 
 class CategoriesIncome extends StatefulWidget {
   final Function(String) onCategorySelected;
-  const CategoriesIncome({super.key, required this.onCategorySelected});
+  final String? selectedCategory;
+  const CategoriesIncome({super.key, required this.onCategorySelected, this.selectedCategory});
 
   @override
   State<CategoriesIncome> createState() => _CategoriesIncomeState();
@@ -14,12 +15,20 @@ class CategoriesIncome extends StatefulWidget {
 class _CategoriesIncomeState extends State<CategoriesIncome> {
   // Index of the currently selected category
   int? selectedIndex;
-  // Filter categories to include only geschenk, gehalt, and sonstiges
   final List<Categories> filteredCategories = [
     Categories.gehalt,
     Categories.geschenk,
     Categories.sonstiges,
   ];
+
+  // checking if there is a selected category (for EditTransactionScreen)
+  @override
+  void initState() {
+    super.initState();
+    if (widget.selectedCategory != null) {
+      selectedIndex = filteredCategories.indexWhere((category) => category.categoryName == widget.selectedCategory);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,40 +36,46 @@ class _CategoriesIncomeState extends State<CategoriesIncome> {
       // Set the height of the category list to a fraction of the screen height
       height: MediaQuery.sizeOf(context).height * Constants.categoryHeight,
       child: ListView.builder(
-        scrollDirection: Axis.horizontal, // Make the list scroll horizontally
+        scrollDirection: Axis.horizontal,
         itemCount: filteredCategories.length,
-        itemBuilder: (context, index) => Padding(
-          padding: const EdgeInsets.only(right: CustomPadding.mediumSpace), // add Padding between categories
-          child: GestureDetector(
-            onTap: () {
-              setState(() {
-                selectedIndex = index; // Update the selected index
-              });
-              widget.onCategorySelected(filteredCategories[index].categoryName);
-            },
-            child: Opacity(
-              // Reduce opacity for non-selected categories
-              opacity: selectedIndex == null || selectedIndex == index ? 1.0 : 0.5,
-              child: Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: CustomPadding.categoryWidthSpace,
-                  vertical: CustomPadding.categoryHeightSpace,
-                ),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(7),
-                  color: filteredCategories[index].color,
-                ),
-                child: Row(
-                  children: [
-                    filteredCategories[index].icon, // Display category icon
-                    const Gap(CustomPadding.smallSpace),
-                    Text(filteredCategories[index].categoryName), // Display category name
-                  ],
+        itemBuilder: (context, index) {
+          final category = filteredCategories[index];
+          final isSelected = widget.selectedCategory != null ? category.categoryName == widget.selectedCategory : selectedIndex == index;
+
+          return Padding(
+            padding: const EdgeInsets.only(right: CustomPadding.mediumSpace),
+            child: GestureDetector(
+              onTap: () {
+                // Update the selected index
+                setState(() {
+                  selectedIndex = index;
+                });
+                widget.onCategorySelected(category.categoryName);
+              },
+              child: Opacity(
+                // Reduce opacity for non-selected categories
+                opacity: widget.selectedCategory != null ? (isSelected ? 1.0 : 0.5) : (selectedIndex == null || isSelected ? 1.0 : 0.5),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: CustomPadding.categoryWidthSpace,
+                    vertical: CustomPadding.categoryHeightSpace,
+                  ),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(7),
+                    color: category.color,
+                  ),
+                  child: Row(
+                    children: [
+                      category.icon,
+                      const Gap(CustomPadding.smallSpace),
+                      Text(category.categoryName),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-        ),
+          );
+        },
       ),
     );
   }

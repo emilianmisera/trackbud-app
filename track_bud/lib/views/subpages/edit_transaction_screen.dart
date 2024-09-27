@@ -127,8 +127,11 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
               const Gap(CustomPadding.mediumSpace),
               // Display either expense or income categories based on current segment
               _currentSegment == 0
-                  ? CategoriesExpense(onCategorySelected: _onCategorySelected)
-                  : CategoriesIncome(onCategorySelected: _onCategorySelected),
+                  ? CategoriesExpense(
+                      onCategorySelected: _onCategorySelected,
+                      selectedCategory: _selectedCategory,
+                    )
+                  : CategoriesIncome(onCategorySelected: _onCategorySelected, selectedCategory: _selectedCategory),
               const Gap(CustomPadding.defaultSpace),
               // Recurrence section
               Text(AppTexts.recurrency, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
