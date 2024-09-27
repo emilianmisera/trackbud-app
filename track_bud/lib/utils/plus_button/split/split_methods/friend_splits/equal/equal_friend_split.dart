@@ -3,7 +3,6 @@ import 'package:gap/gap.dart';
 import 'package:track_bud/models/user_model.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/plus_button/split/split_methods/friend_splits/equal/equal_friend_tile.dart';
-import 'package:track_bud/utils/shadow.dart';
 
 class EqualFriendSplitWidget extends StatelessWidget {
   final double amount;
