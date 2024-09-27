@@ -1,67 +1,70 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:provider/provider.dart';
 import 'package:track_bud/models/group_model.dart';
 import 'package:track_bud/models/group_split_model.dart';
-import 'package:track_bud/models/user_model.dart';
+import 'package:track_bud/provider/group_provider.dart';
 import 'package:track_bud/services/firestore_service.dart';
 import 'package:track_bud/utils/plus_button/add_entry_modal.dart';
 import 'package:track_bud/utils/plus_button/split/split_methods/group_splits/equal_group_split.dart';
-import 'package:track_bud/utils/plus_button/split/split_methods/split_method_selector.dart';
 import 'package:track_bud/utils/button_widgets/dropdown.dart';
 import 'package:track_bud/utils/categories/category_expenses.dart';
 import 'package:track_bud/utils/constants.dart';
-import 'package:track_bud/utils/enum/split_methods.dart';
 import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfields/textfield.dart';
 import 'package:uuid/uuid.dart';
 
+// Widget for adding a group split in an expense tracking application
 class AddGroupSplit extends StatefulWidget {
-  final GroupModel selectedGroup;
-  final List<String> memberNames;
+  final GroupModel selectedGroup; // Group selected for the split
+  final List<String> memberNames; // List of member names in the group
+  final String currentUserId; // ID of the current user
 
   const AddGroupSplit({
-    Key? key,
+    super.key,
     required this.selectedGroup,
     required this.memberNames,
-  }) : super(key: key);
+    required this.currentUserId,
+  });
 
   @override
   State<AddGroupSplit> createState() => _AddGroupSplitState();
 }
 
 class _AddGroupSplitState extends State<AddGroupSplit> {
+  // Controllers for text fields
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _amountController = TextEditingController();
   final FirestoreService _firestoreService = FirestoreService();
-  String? _selectedCategory;
-  SplitMethod _selectedSplitMethod =
-      SplitMethod.equal; // Default is equal split
-  double _inputNumber = 0.00; // The total input amount
-  bool _isFormValid = false; // Tracks if form is valid for submission
-  String _payedBy = ''; // Tracks who is paying
-  List<String> selectedMemberIds = []; // List of selected members (userIds)
-  List<double> _splitAmounts = []; // List of calculated amounts for each user
-  List<UserModel>? _groupMembers; // Store fetched members
+
+  String? _selectedCategory; // Selected category for the split
+  double _inputNumber = 0.00; // Amount input by the user
+  bool _isFormValid = false; // Indicates if the form is valid
+  String _paidByUserId = ''; // ID of the user making the payment
+  List<String> _selectedMembers =
+      []; // List of selected member IDs for the split
+  late Map<String, String> _memberNameToId; // Maps member names to their IDs
 
   @override
   void initState() {
     super.initState();
-    // Set listeners to validate form and handle input changes
     _titleController.addListener(_validateForm);
     _amountController.addListener(_onInputChanged);
-    // Set default payer as the first member if available
-    _payedBy = widget.memberNames.isNotEmpty ? widget.memberNames.first : '';
-    selectedMemberIds = List.from(
-        widget.selectedGroup.members); // Select all members by default
-    _fetchGroupMembers(); // Fetch members once
-    debugPrint("Members in selectedGroup: ${widget.selectedGroup.members}");
-    debugPrint("Initial selected members: $selectedMemberIds");
+    _memberNameToId =
+        _createMemberNameToIdMap(); // Initialize member ID mapping
+    _paidByUserId = widget.currentUserId; // Set the current user as the payer
+    _selectedMembers = [widget.currentUserId]; // Default to current user
+  }
+
+  // Creates a map linking member names to their IDs
+  Map<String, String> _createMemberNameToIdMap() {
+    return Map.fromIterables(widget.memberNames, widget.selectedGroup.members);
   }
 
   @override
   void dispose() {
-    // Remove listeners and dispose of controllers when the widget is removed
+    // Dispose of controllers and remove listeners
     _titleController.removeListener(_validateForm);
     _amountController.removeListener(_onInputChanged);
     _titleController.dispose();
@@ -69,216 +72,245 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
     super.dispose();
   }
 
-  // Validates if the form is complete
+  // Validates the form inputs based on current state
   void _validateForm() {
     setState(() {
       _isFormValid = _titleController.text.isNotEmpty &&
           _amountController.text.isNotEmpty &&
-          _selectedCategory != null; // All fields must be non-empty
-      debugPrint("Form validation status: $_isFormValid");
+          _selectedCategory != null &&
+          _selectedMembers.isNotEmpty; // Must select at least one member
     });
   }
 
-  // Handles changes in the amount input field
+  // Updates the input number and validates the form when the amount changes
   void _onInputChanged() {
     setState(() {
-      _inputNumber = _parseAmount(); // Parses the amount to a double
-      _validateForm();
-      debugPrint("Amount input updated: $_inputNumber");
+      _inputNumber = _parseAmount(); // Update the input number
+      _validateForm(); // Validate the form after input change
     });
   }
 
-  // Callback when member selection changes in EqualGroupSplitWidget
-  void onGroupSplitMemberSelectionChanged(List<String> newSelectedMemberIds) {
-    setState(() {
-      selectedMemberIds = newSelectedMemberIds;
-      debugPrint("Split amounts updated: $_splitAmounts");
-    });
-  }
-
-  Future<void> _fetchGroupMembers() async {
-    try {
-      _groupMembers =
-          await _firestoreService.getUsersByIds(widget.selectedGroup.members);
-      setState(() {}); // Trigger rebuild to display members
-    } catch (e) {
-      // Handle error
-    }
-  }
-
-  // Parses amount input to double, handling commas and dots for decimal values
+  // Parses the input amount from text to double
   double _parseAmount() {
     String amountText = _amountController.text.replaceAll(',', '.');
-    double parsedAmount = double.tryParse(amountText) ?? 0.0;
-    debugPrint("Parsed amount: $parsedAmount");
-    return parsedAmount;
+    return double.tryParse(amountText) ??
+        0.0; // Default to 0.0 if parsing fails
   }
 
-  // Handles category selection change
+  // Handles category selection and updates the state
   void _onCategorySelected(String category) {
     setState(() {
-      _selectedCategory = category;
-      _validateForm(); // Re-validate form
-      debugPrint("Selected category: $_selectedCategory");
+      _selectedCategory = category; // Update the selected category
+      _validateForm(); // Re-validate the form
     });
   }
 
   // Saves the new group split to Firestore
   Future<void> _saveNewGroupSplit() async {
-    // Calculate split amount based on SELECTED members
-    final splitAmount = _inputNumber / selectedMemberIds.length;
-    debugPrint("The memberIds: $selectedMemberIds");
-    debugPrint("Saving group split with splitAmount: $splitAmount");
+    double totalAmount = _parseAmount(); // Get total amount for the split
+    double splitAmount =
+        totalAmount / _selectedMembers.length; // Calculate share amount
 
-    final groupSplit = GroupSplitModel(
-      groupSplitId: const Uuid().v4(),
+    // Create a list of split shares for each member
+    List<Map<String, dynamic>> splitShares = _selectedMembers.map((memberId) {
+      return {
+        'userId': memberId,
+        'amount': splitAmount, // Each member's share
+      };
+    }).toList();
+
+    // Create a new GroupSplitModel instance
+    GroupSplitModel newSplit = GroupSplitModel(
+      groupSplitId: const Uuid().v4(), // Generate a unique ID
       groupId: widget.selectedGroup.groupId,
-      totalAmount: _inputNumber,
+      totalAmount: totalAmount,
       title: _titleController.text,
       category: _selectedCategory!,
       type: 'expense',
-      date: Timestamp.fromDate(DateTime.now()),
-      paidBy: _payedBy,
-      splitShares: selectedMemberIds
-          .map((memberId) => {
-                'memberId': memberId,
-                'amountOwed':
-                    splitAmount, // Use the calculated splitAmount here
-              })
-          .toList(),
+      date: Timestamp.fromDate(DateTime.now()), // Current date
+      paidBy: _paidByUserId,
+      splitShares: splitShares, // Share details
     );
 
     try {
-      await _firestoreService.saveGroupSplit(groupSplit);
-      debugPrint("Group split saved successfully");
+      await _firestoreService
+          .addGroupSplit(newSplit); // Save the split to Firestore
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Group split added successfully'),
+          ),
+        );
+        // Refresh the group data and invalidate the debts overview cache
+        final groupProvider =
+            Provider.of<GroupProvider>(context, listen: false);
+        groupProvider.refreshGroupData(widget.selectedGroup.groupId);
+        groupProvider
+            .invalidateDebtsOverviewCache(widget.selectedGroup.groupId);
+      }
     } catch (e) {
-      debugPrint("Error saving group split: $e");
+      // Handle errors that occur during saving
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error adding group split: $e')),
+        );
+      }
     }
+  }
+
+  // Builds the header section with group information
+  Widget _buildHeader(ColorScheme colorScheme) {
+    return Center(
+      child: Column(
+        children: [
+          Text(
+            AppTexts.newGroupSplit,
+            style: TextStyles.regularStyleMedium
+                .copyWith(color: colorScheme.primary),
+          ),
+          Text(
+            widget.selectedGroup.name,
+            style: TextStyles.titleStyleMedium
+                .copyWith(color: colorScheme.primary),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // Builds the title input field
+  Widget _buildTitleInput() {
+    return CustomTextfield(
+      name: AppTexts.title,
+      hintText: AppTexts.hintTitle,
+      controller: _titleController,
+    );
+  }
+
+  // Builds the amount input field with prefix and suffix
+  Widget _buildAmountInput(ColorScheme colorScheme) {
+    return Row(
+      children: [
+        CustomTextfield(
+          name: AppTexts.amount,
+          hintText: '00.00',
+          controller: _amountController,
+          width: MediaQuery.of(context).size.width / 3,
+          prefix: Text(
+            '-',
+            style: TextStyles.titleStyleMedium.copyWith(
+              fontWeight: TextStyles.fontWeightDefault,
+              color: colorScheme.primary,
+            ),
+          ),
+          suffix: const Text('€'),
+          type: const TextInputType.numberWithOptions(decimal: true),
+        ),
+      ],
+    );
+  }
+
+  // Builds the category selection section
+  Widget _buildCategorySelection(ColorScheme colorScheme) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          AppTexts.categorie,
+          style: TextStyles.regularStyleMedium
+              .copyWith(color: colorScheme.primary),
+        ),
+        const Gap(CustomPadding.mediumSpace),
+        CategoriesExpense(onCategorySelected: _onCategorySelected),
+      ],
+    );
+  }
+
+  // Builds the paying member selection dropdown
+  Widget _buildPayingMemberSelection(ColorScheme colorScheme) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          AppTexts.payedBy,
+          style: TextStyles.regularStyleMedium
+              .copyWith(color: colorScheme.primary),
+        ),
+        const Gap(CustomPadding.mediumSpace),
+        CustomDropDown(
+          list: widget.memberNames,
+          value: widget.memberNames.firstWhere(
+            (name) => _memberNameToId[name] == widget.currentUserId,
+            orElse: () => widget.memberNames.first,
+          ), // Default to current user's name
+          dropdownWidth: MediaQuery.of(context).size.width - 32,
+          onChanged: (String? value) {
+            setState(() {
+              _paidByUserId =
+                  _memberNameToId[value] ?? ''; // Update the payer ID
+            });
+          },
+        ),
+      ],
+    );
+  }
+
+  // Builds the members selection section for the split
+  Widget _buildMembersSelection(ColorScheme colorScheme) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Verteilung',
+          style: TextStyles.regularStyleMedium
+              .copyWith(color: colorScheme.primary),
+        ),
+        const Gap(CustomPadding.mediumSpace),
+        EqualGroupSplitWidget(
+          amount: _inputNumber,
+          members: widget.selectedGroup.members,
+          onMembersSelected: (selectedMembers) {
+            setState(() {
+              _selectedMembers =
+                  selectedMembers; // Update selected members list
+              _validateForm(); // Re-validate form
+            });
+          },
+        ),
+      ],
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    final defaultColorScheme = Theme.of(context).colorScheme;
+    final defaultColorScheme =
+        Theme.of(context).colorScheme; // Get current color scheme
+
     return AddEntryModal(
       buttonText: AppTexts.addSplit,
       initialChildSize: 0.76,
       maxChildSize: 0.95,
-      isButtonEnabled:
-          _isFormValid, // Button is enabled only if the form is valid
+      isButtonEnabled: _isFormValid, // Enable button based on form validity
       onButtonPressed: () async {
-        await _saveNewGroupSplit(); // No need to pass selectedMemberIds here
-        if (context.mounted) Navigator.pop(context);
+        await _saveNewGroupSplit(); // Attempt to save the group split
+        if (context.mounted) Navigator.pop(context); // Close the modal
       },
       child: Padding(
         padding: CustomPadding.screenWidth,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Center(
-              child: Column(
-                children: [
-                  Text(
-                    AppTexts.newGroupSplit,
-                    style: TextStyles.regularStyleMedium
-                        .copyWith(color: defaultColorScheme.primary),
-                  ),
-                  Text(
-                    widget.selectedGroup.name,
-                    style: TextStyles.titleStyleMedium
-                        .copyWith(color: defaultColorScheme.primary),
-                  ),
-                ],
-              ),
-            ),
+            _buildHeader(defaultColorScheme),
             const Gap(CustomPadding.defaultSpace),
-            CustomTextfield(
-              name: AppTexts.title,
-              hintText: AppTexts.hintTitle,
-              controller: _titleController,
-            ),
+            _buildTitleInput(),
             const Gap(CustomPadding.defaultSpace),
-            Row(
-              children: [
-                CustomTextfield(
-                  name: AppTexts.amount,
-                  hintText: '00.00',
-                  controller: _amountController,
-                  width: MediaQuery.of(context).size.width / 3,
-                  prefix: Text(
-                    '- ',
-                    style: TextStyles.titleStyleMedium
-                        .copyWith(fontWeight: TextStyles.fontWeightDefault),
-                  ),
-                  suffix: const Text('€'),
-                  type: const TextInputType.numberWithOptions(decimal: true),
-                ),
-                const Gap(CustomPadding.defaultSpace),
-              ],
-            ),
+            _buildAmountInput(defaultColorScheme),
             const Gap(CustomPadding.defaultSpace),
-            Text(AppTexts.categorie,
-                style: TextStyles.regularStyleMedium
-                    .copyWith(color: defaultColorScheme.primary)),
-            const Gap(CustomPadding.mediumSpace),
-            CategoriesExpense(onCategorySelected: _onCategorySelected),
+            _buildCategorySelection(defaultColorScheme),
             const Gap(CustomPadding.defaultSpace),
-            Text(AppTexts.payedBy,
-                style: TextStyles.regularStyleMedium
-                    .copyWith(color: defaultColorScheme.primary)),
-            const Gap(CustomPadding.mediumSpace),
-            CustomDropDown(
-              list: widget.memberNames,
-              dropdownWidth: MediaQuery.of(context).size.width - 32,
-              onChanged: (String? value) {
-                setState(() {
-                  _payedBy = value ?? widget.memberNames.first;
-                  debugPrint("Payer changed: $_payedBy");
-                });
-              },
-            ),
+            _buildPayingMemberSelection(defaultColorScheme),
             const Gap(CustomPadding.defaultSpace),
-            SplitMethodSelector(
-              selectedMethod: _selectedSplitMethod,
-              onSplitMethodChanged: (SplitMethod method) {
-                setState(() {
-                  _selectedSplitMethod = method;
-                  debugPrint("Selected split method: $_selectedSplitMethod");
-                });
-              },
-            ),
-            const Gap(CustomPadding.defaultSpace),
-            if (_selectedSplitMethod == SplitMethod.equal)
-              _groupMembers != null // Check if members are fetched
-                  ? EqualGroupSplitWidget(
-                      amount: _inputNumber,
-                      users:
-                          _groupMembers!, // Assuming _groupMembers is a List<UserModel>
-                      selectedMemberIds: selectedMemberIds,
-                      onMemberSelectionChanged:
-                          onGroupSplitMemberSelectionChanged, // Pass the callback
-                    )
-                  : const CircularProgressIndicator(), // Or show loading indicator
-            /* if (_selectedSplitMethod == SplitMethod.percent)
-              PercentalSplitWidget(
-                amount: _inputNumber,
-                users: widget.memberNames
-                    .map((name) => UserModel(name: name, userId: ''))
-                    .toList(),
-                onAmountsChanged: (amounts) {
-                  // Handle amounts changed
-                },
-                isGroup: true,
-              ),
-            if (_selectedSplitMethod == SplitMethod.amount)
-              ByAmountSplitWidget(
-                users: widget.memberNames
-                    .map((name) => UserModel(name: name, userId: ''))
-                    .toList(),
-                onAmountsChanged: (amounts) {
-                  // Handle amounts changed
-                },
-                isGroup: true,
-              ),*/
+            _buildMembersSelection(defaultColorScheme),
           ],
         ),
       ),
