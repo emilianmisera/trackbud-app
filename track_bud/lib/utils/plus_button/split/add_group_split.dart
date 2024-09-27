@@ -206,7 +206,12 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
           ),
           suffix: const Text('€'),
           type: const TextInputType.numberWithOptions(decimal: true),
-          inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'\d+\,?\d{0,2}'))],
+          inputFormatters: [
+            // Erlaubt Zahlen und Punkt oder Komma als Dezimaltrennzeichen
+            FilteringTextInputFormatter.allow(
+              RegExp(r'^\d+([.,]\d{0,2})?'),
+            ),
+          ],
         ),
       ],
     );
