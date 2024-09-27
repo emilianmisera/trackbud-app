@@ -30,7 +30,7 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
 
   String? _selectedCategory; //for later when editing the chosen category
   String? _selectedRecurrence;
-  DateTime? _selectedDateTime;
+  late DateTime _selectedDateTime;
 
   @override
   void initState() {
@@ -50,7 +50,8 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
         _noteController.text = data['note'] ?? '';
         _selectedCategory = data['category'];
         _selectedRecurrence = data['recurrence'];
-        _selectedDateTime = (data['date'] as Timestamp).toDate();
+        _selectedDateTime = data['date'].toDate();
+        debugPrint('EditScreen DateTime: $_selectedDateTime');
         _currentSegment = data['type'] == 'expense' ? 0 : 1;
       });
     }
@@ -62,7 +63,7 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
       'amount': double.parse(_amountController.text.replaceAll(',', '.')),
       'category': _selectedCategory,
       'note': _noteController.text,
-      'date': Timestamp.fromDate(_selectedDateTime!),
+      'date': Timestamp.fromDate(_selectedDateTime),
       'recurrence': _selectedRecurrence,
       'type': _currentSegment == 0 ? 'expense' : 'income',
     };
@@ -118,7 +119,10 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
                   ),
                   const Gap(CustomPadding.defaultSpace),
 
-                  DatePicker(onDateTimeChanged: _onDateTimeChanged)
+                  DatePicker(
+                    onDateTimeChanged: _onDateTimeChanged,
+                    initialDateTime: _selectedDateTime,
+                  )
                 ],
               ),
               const Gap(CustomPadding.defaultSpace),
