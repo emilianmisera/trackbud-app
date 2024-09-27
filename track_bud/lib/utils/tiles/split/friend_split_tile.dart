@@ -57,7 +57,7 @@ class FriendSplitTile extends StatelessWidget {
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(100),
-                    color: Categories.sonstiges.color.withOpacity(0.2),
+                    color: categoryData.color.withOpacity(0.2),
                   ),
                   padding:
                       const EdgeInsets.only(right: CustomPadding.defaultSpace),
