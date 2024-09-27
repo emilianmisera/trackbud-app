@@ -3,6 +3,8 @@ import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
 import 'package:track_bud/provider/user_provider.dart';
 import 'package:track_bud/utils/constants.dart';
+import 'package:track_bud/utils/debts/group/chart/category_bar.dart';
+import 'package:track_bud/utils/enum/categories.dart';
 import 'package:track_bud/utils/overview/chart/expenses_charts.dart';
 import 'package:track_bud/utils/shadow.dart';
 import 'package:track_bud/utils/tiles/time_unit_selection.dart';
@@ -17,6 +19,10 @@ class ExpensesOverviewTile extends StatefulWidget {
 
 class _ExpensesOverviewTileState extends State<ExpensesOverviewTile> {
   int _currentTimeUnit = 2;
+  final categoryColors = {
+    for (var category in Categories.values)
+      category.categoryName: category.color,
+  };
 
   @override
   void initState() {
@@ -100,10 +106,12 @@ class _ExpensesOverviewTileState extends State<ExpensesOverviewTile> {
                   },
                 ),
                 const Gap(CustomPadding.mediumSpace),
-                /* TransactionOverview(
-              isOverview: true,
-              categoryAmounts: context.watch<TransactionProvider>().categoryAmounts,
-            ),*/
+                // Pass the categoryAmounts to the CategoryBar
+                CategoryBar(
+                  categoryExpenses: transactionProvider.categoryAmounts,
+                  categoryColors: categoryColors,
+                  height: 8,
+                ),
                 const Gap(CustomPadding.defaultSpace),
                 Consumer<TransactionProvider>(
                     builder: (context, transactionProvider, child) {
