@@ -17,16 +17,20 @@ class CategoryBar extends StatelessWidget {
     final defaultColorScheme = Theme.of(context).colorScheme;
     // Calculate the total expense by summing up all category expenses
     // fold() to iterate through all values and sum them up
-    double totalExpense = categoryExpenses.values.fold(0, (sum, expense) => sum + expense);
+    double totalExpense =
+        categoryExpenses.values.fold(0, (sum, expense) => sum + expense);
 
     // Sort the expenses in descending order
     // convert the map entries to a list to sort
-    List<MapEntry<String, double>> sortedExpenses = categoryExpenses.entries.toList()..sort((a, b) => b.value.compareTo(a.value));
+    List<MapEntry<String, double>> sortedExpenses = categoryExpenses.entries
+        .toList()
+      ..sort((a, b) => b.value.compareTo(a.value));
 
     if (totalExpense == 0) {
       // If there are no expenses, return an empty grey container
       return ClipRRect(
-        borderRadius: BorderRadius.circular(5), // apply rounded corners, as borderRadius doesn't work directly on Container
+        borderRadius: BorderRadius.circular(
+            5), // apply rounded corners, as borderRadius doesn't work directly on Container
         child: Container(
           height: 20,
           color: defaultColorScheme.outline,
@@ -44,11 +48,13 @@ class CategoryBar extends StatelessWidget {
             // Calculate the percentage of this category's expense for width of bar
             double percentage = expense / totalExpense;
             return Expanded(
-              // width of bar will be proportional to percentage
               flex: (percentage * 100).round(),
               child: Container(
-                // if color not found, grey is used instead
-                color: categoryColors[category] ?? defaultColorScheme.outline,
+                margin: const EdgeInsets.symmetric(
+                    horizontal: 1), // 1-pixel margin on each side
+                child: Container(
+                  color: categoryColors[category] ?? defaultColorScheme.outline,
+                ),
               ),
             );
           }).toList(),

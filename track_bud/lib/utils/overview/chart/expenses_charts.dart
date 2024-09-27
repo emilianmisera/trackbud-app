@@ -50,43 +50,32 @@ class WeekChart extends StatelessWidget {
     final now = DateTime.now();
     final defaultColorScheme = Theme.of(context).colorScheme;
 
-    // Berechne die letzten 7 Tage, einschließlich heute
-    List<DateTime> lastSevenDays =
-        List.generate(7, (index) => now.subtract(Duration(days: 6 - index)));
+    // 1. Calculate weekly expenses
+    int startIndex = expenses.length > 7 ? expenses.length - 7 : 0;
+    List<double> weekExpenses = expenses.sublist(startIndex);
+    while (weekExpenses.length < 7) {
+      weekExpenses.insert(0, 0.0);
+    }
 
-    // Berechne kumulative Ausgaben für die letzten 7 Tage
-    List<double> weekExpenses = List.filled(7, 0.0);
+    // 2. Calculate cumulative expenses for the WEEK
+    List<double> cumulativeWeekExpenses = [];
     double runningTotal = 0;
-
     for (int i = 0; i < 7; i++) {
-      final day = lastSevenDays[i];
-      // Adjusting logic to correctly fetch expenses for the current month
-      if (day.month == now.month) {
-        // Use the day as an index for the expenses list
-        int expenseIndex = day.day - 1; // day.day starts from 1, so subtract 1
-        if (expenseIndex < expenses.length) {
-          runningTotal += expenses[expenseIndex];
-        }
-      }
-      weekExpenses[i] = runningTotal; // Cumulative total
+      runningTotal += weekExpenses[i];
+      cumulativeWeekExpenses.add(runningTotal);
     }
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: List.generate(7, (index) {
-        double cumulativeExpense = weekExpenses[index];
+        double cumulativeExpense = cumulativeWeekExpenses[index];
         double fillPercentage =
             (cumulativeExpense / monthlyBudgetGoal).clamp(0.0, 1.0);
         bool isOverBudget = cumulativeExpense > monthlyBudgetGoal;
-        bool isCurrentDay =
-            index == 6; // The last day (rightmost) is always today
-
-        debugPrint('weekExpenses: $weekExpenses');
-        debugPrint(
-            'fillPercentages: ${weekExpenses.map((e) => (e / monthlyBudgetGoal).clamp(0.0, 1.0)).toList()}');
+        bool isCurrentDay = index == 6;
 
         return _buildBar(
-          label: days[lastSevenDays[index].weekday - 1],
+          label: days[(now.weekday - 7 + index) % 7],
           fillPercentage: fillPercentage,
           isOverBudget: isOverBudget,
           isCurrentDay: isCurrentDay,
@@ -101,7 +90,7 @@ class MonthChart extends StatelessWidget {
   final List<double> expenses;
   final double monthlyBudgetGoal;
 
-  MonthChart({
+  const MonthChart({
     super.key,
     required this.expenses,
     required this.monthlyBudgetGoal,
@@ -110,25 +99,28 @@ class MonthChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final now = DateTime.now();
-    final daysInMonth = DateTime(now.year, now.month + 1, 0).day;
     final defaultColorScheme = Theme.of(context).colorScheme;
+    final daysInMonth = DateTime(now.year, now.month + 1, 0).day;
     int currentDay = now.day;
 
-    // Calculate cumulative expenses
-    List<double> cumulativeExpenses = [];
+    // Calculate cumulative expenses with running total
+    List<double> cumulativeExpenses = List.filled(daysInMonth, 0.0);
     double runningTotal = 0;
-    for (int i = 0; i < currentDay && i < expenses.length; i++) {
-      runningTotal += expenses[i];
-      cumulativeExpenses.add(runningTotal);
+    for (int i = 0; i < daysInMonth; i++) {
+      if (i < expenses.length) {
+        runningTotal += expenses[i];
+      }
+      cumulativeExpenses[i] = runningTotal;
     }
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: List.generate(daysInMonth, (index) {
-        double cumulativeExpense =
-            index < cumulativeExpenses.length ? cumulativeExpenses[index] : 0;
-        double fillPercentage =
-            (cumulativeExpense / monthlyBudgetGoal).clamp(0.0, 1.0);
+        double cumulativeExpense = cumulativeExpenses[index];
+        // Calculate fillPercentage only if the day is before or equal to today
+        double fillPercentage = index < currentDay
+            ? (cumulativeExpense / monthlyBudgetGoal).clamp(0.0, 1.0)
+            : 0.0; // Set to 0 for future days
         bool isOverBudget = cumulativeExpense > monthlyBudgetGoal;
         bool isCurrentDay = index == currentDay - 1;
 
@@ -217,7 +209,8 @@ Widget _buildBar({
             width: width,
             height: 75 * fillPercentage,
             decoration: BoxDecoration(
-              color: isOverBudget ? CustomColor.red : CustomColor.bluePrimary,
+              color:
+                  isOverBudget ? CustomColor.darkRed : CustomColor.bluePrimary,
               borderRadius: BorderRadius.circular(5),
             ),
           ),
@@ -228,16 +221,17 @@ Widget _buildBar({
         label,
         style: TextStyles.hintStyleDefault.copyWith(
           fontSize: 12,
-          color:
-              (isCurrentDay || isCurrentMonth) ? CustomColor.bluePrimary : null,
+          color: (isCurrentDay || isCurrentMonth)
+              ? defaultColorScheme.surfaceTint
+              : null,
         ),
       ),
       if (isCurrentDay || isCurrentMonth)
         Container(
-          height: 10,
-          width: 8,
-          decoration: const BoxDecoration(
-            color: CustomColor.bluePrimary,
+          height: 4,
+          width: 4,
+          decoration: BoxDecoration(
+            color: defaultColorScheme.surfaceTint,
             shape: BoxShape.circle,
           ),
         ),
