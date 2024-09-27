@@ -62,9 +62,20 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
 
   void _validateForm() {
     setState(() {
-      _isFormValid = _titleController.text.isNotEmpty &&
-          _amountController.text.isNotEmpty &&
-          _selectedCategory.isNotEmpty;
+      if (_selectedSplitMethod == SplitMethod.amount) {
+        // For "by amount" split, check if the sum of amounts matches the total
+        final totalAmount = _parseAmount();
+        final sumOfAmounts = _splitAmounts.reduce((a, b) => a + b);
+        _isFormValid = _titleController.text.isNotEmpty &&
+            _amountController.text.isNotEmpty &&
+            _selectedCategory.isNotEmpty &&
+            totalAmount == sumOfAmounts;
+      } else {
+        // For other split methods, use the previous validation logic
+        _isFormValid = _titleController.text.isNotEmpty &&
+            _amountController.text.isNotEmpty &&
+            _selectedCategory.isNotEmpty;
+      }
     });
   }
 
