@@ -22,7 +22,7 @@
 - Fixkosten, monatliche Kosten
 - Profileinstellungen 
   - Profil löschen x
-  - Name, E-Mail ändern
+  - Name ändern
   - Eigene Limits setzen x
 - Optional: Design-Einstellungen
 - Optional: Verschiedene Sprachen anbieten
