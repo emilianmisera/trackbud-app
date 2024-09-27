@@ -15,7 +15,7 @@ class MonthlyExpenseTile extends StatelessWidget {
     if (percentage < 0.5) return CustomColor.green;
     if (percentage < 0.75) return CustomColor.unterkunft;
     if (percentage < 1.0) return Colors.orange;
-    return Colors.red[900]!;
+    return CustomColor.darkRed;
   }
 
   @override
@@ -41,10 +41,19 @@ class MonthlyExpenseTile extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('${remainingAmount.toStringAsFixed(2)}€',
-                    style: TextStyles.headingStyle
-                        .copyWith(color: defaultColorScheme.primary)),
-                Text(AppTexts.remainingText,
+                Text(
+                  remainingAmount >= 0
+                      ? '${remainingAmount.toStringAsFixed(2)}€'
+                      : '${remainingAmount.abs().toStringAsFixed(2)}€',
+                  style: TextStyles.headingStyle.copyWith(
+                      color: remainingAmount >= 0
+                          ? defaultColorScheme.primary
+                          : CustomColor.darkRed),
+                ),
+                Text(
+                    remainingAmount >= 0
+                        ? AppTexts.remainingText
+                        : AppTexts.aboveMonthlyGoal,
                     style: TextStyles.hintStyleDefault),
                 const Gap(CustomPadding.smallSpace),
                 LinearPercentIndicator(
