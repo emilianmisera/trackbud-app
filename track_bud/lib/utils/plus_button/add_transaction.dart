@@ -46,7 +46,8 @@ class _AddTransactionState extends State<AddTransaction> {
   Future<void> _addTransactionToDB() async {
     final defaultColorScheme = Theme.of(context).colorScheme;
     try {
-      final transactionProvider = Provider.of<TransactionProvider>(context, listen: false);
+      final transactionProvider =
+          Provider.of<TransactionProvider>(context, listen: false);
 
       await transactionProvider.addTransaction(
         _currentSegment == 0 ? 'expense' : 'income',
@@ -63,14 +64,16 @@ class _AddTransactionState extends State<AddTransaction> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text('Transaktion erfolgreich hinzugefügt.',
-                style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary))));
+                style: TextStyles.regularStyleDefault
+                    .copyWith(color: defaultColorScheme.primary))));
         Navigator.pop(context);
       }
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text('Fehler beim Hinzufügen der Transaktion: $e',
-                style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary))));
+                style: TextStyles.regularStyleDefault
+                    .copyWith(color: defaultColorScheme.primary))));
       }
     }
   }
@@ -88,7 +91,9 @@ class _AddTransactionState extends State<AddTransaction> {
   // Validate form inputs
   void _validateForm() {
     setState(() {
-      _isFormValid = _titleController.text.isNotEmpty && _amountController.text.isNotEmpty && _selectedCategory != null;
+      _isFormValid = _titleController.text.isNotEmpty &&
+          _amountController.text.isNotEmpty &&
+          _selectedCategory != null;
     });
   }
 
@@ -126,7 +131,9 @@ class _AddTransactionState extends State<AddTransaction> {
             children: [
               // Title of the bottom sheet
               Center(
-                  child: Text(AppTexts.newTransaction, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary))),
+                  child: Text(AppTexts.newTransaction,
+                      style: TextStyles.regularStyleMedium
+                          .copyWith(color: defaultColorScheme.primary))),
               const Gap(CustomPadding.defaultSpace),
               // Segment control for switching between expense and income
               CustomSegmentControl(
@@ -138,36 +145,50 @@ class _AddTransactionState extends State<AddTransaction> {
               ),
               const Gap(CustomPadding.bigSpace),
               // Text field for transaction title
-              CustomTextfield(name: AppTexts.title, hintText: AppTexts.hintTitle, controller: _titleController, focusNode: _focusNodeTitle),
+              CustomTextfield(
+                  name: AppTexts.title,
+                  hintText: AppTexts.hintTitle,
+                  controller: _titleController,
+                  focusNode: _focusNodeTitle),
               const Gap(CustomPadding.defaultSpace),
               // Row containing amount and date fields
               Row(
                 children: [
                   // Amount text field
                   CustomTextfield(
-                      name: AppTexts.amount,
-                      hintText: '00.00',
-                      controller: _amountController,
-                      width: MediaQuery.sizeOf(context).width / 3,
-                      prefix: Text(
-                        _currentSegment == 0 ? '–' : '+',
-                        style: TextStyles.titleStyleMedium
-                            .copyWith(fontWeight: TextStyles.fontWeightDefault, color: defaultColorScheme.primary),
+                    name: AppTexts.amount,
+                    hintText: '00.00',
+                    controller: _amountController,
+                    width: MediaQuery.sizeOf(context).width / 3,
+                    prefix: Text(
+                      _currentSegment == 0 ? '–' : '+',
+                      style: TextStyles.titleStyleMedium.copyWith(
+                          fontWeight: TextStyles.fontWeightDefault,
+                          color: defaultColorScheme.primary),
+                    ),
+                    suffix: const Text('€'),
+                    type: const TextInputType.numberWithOptions(decimal: true),
+                    inputFormatters: [
+                      // Erlaubt Zahlen und Punkt oder Komma als Dezimaltrennzeichen
+                      FilteringTextInputFormatter.allow(
+                        RegExp(r'^\d+([.,]\d{0,2})?'),
                       ),
-                      suffix: const Text('€'),
-                      type: const TextInputType.numberWithOptions(decimal: true),
-                      inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'^\d+\,?\d{0,2}'))],
-                      focusNode: _focusNodeAmount),
+                    ],
+                    focusNode: _focusNodeAmount,
+                  ),
                   const Gap(CustomPadding.defaultSpace),
                   // Date
                   DatePicker(
-                    onDateTimeChanged: (dateTime) => setState(() => _selectedDateTime = dateTime),
+                    onDateTimeChanged: (dateTime) =>
+                        setState(() => _selectedDateTime = dateTime),
                     initialDateTime: DateTime.now(),
                   ),
                 ],
               ),
               const Gap(CustomPadding.defaultSpace),
-              Text(AppTexts.categorie, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
+              Text(AppTexts.categorie,
+                  style: TextStyles.regularStyleMedium
+                      .copyWith(color: defaultColorScheme.primary)),
               const Gap(CustomPadding.mediumSpace),
               // Category section
               // Display either expense or income categories based on current segment
@@ -175,20 +196,26 @@ class _AddTransactionState extends State<AddTransaction> {
                   ? CategoriesExpense(onCategorySelected: _onCategorySelected)
                   : CategoriesIncome(onCategorySelected: _onCategorySelected),
               const Gap(CustomPadding.defaultSpace),
-              Text(AppTexts.recurrency, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
+              Text(AppTexts.recurrency,
+                  style: TextStyles.regularStyleMedium
+                      .copyWith(color: defaultColorScheme.primary)),
               const Gap(CustomPadding.mediumSpace),
               // Dropdown for selecting recurrence frequency
-              CustomDropDown(list: const [
-                'einmalig',
-                'täglich',
-                'wöchentlich',
-                'zweiwöchentlich',
-                'halb-monatlich',
-                'monatlich',
-                'vierteljährlich',
-                'halb-jährlich',
-                'jährlich'
-              ], dropdownWidth: MediaQuery.sizeOf(context).width - 32, onChanged: (value) => setState(() => _selectedRecurrence = value)),
+              CustomDropDown(
+                  list: const [
+                    'einmalig',
+                    'täglich',
+                    'wöchentlich',
+                    'zweiwöchentlich',
+                    'halb-monatlich',
+                    'monatlich',
+                    'vierteljährlich',
+                    'halb-jährlich',
+                    'jährlich'
+                  ],
+                  dropdownWidth: MediaQuery.sizeOf(context).width - 32,
+                  onChanged: (value) =>
+                      setState(() => _selectedRecurrence = value)),
               const Gap(CustomPadding.defaultSpace),
               // Note text field
               CustomTextfield(
