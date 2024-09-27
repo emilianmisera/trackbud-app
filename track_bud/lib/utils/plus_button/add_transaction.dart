@@ -160,7 +160,10 @@ class _AddTransactionState extends State<AddTransaction> {
                       focusNode: _focusNodeAmount),
                   const Gap(CustomPadding.defaultSpace),
                   // Date
-                  DatePicker(onDateTimeChanged: (dateTime) => setState(() => _selectedDateTime = dateTime)),
+                  DatePicker(
+                    onDateTimeChanged: (dateTime) => setState(() => _selectedDateTime = dateTime),
+                    initialDateTime: DateTime.now(),
+                  ),
                 ],
               ),
               const Gap(CustomPadding.defaultSpace),
