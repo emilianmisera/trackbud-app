@@ -8,16 +8,17 @@ class CustomDropDown extends StatefulWidget {
   final double? width;
   final double? height;
   final EdgeInsets? padding;
-  final String? value;
+  final String? value;  // Initial value
   final Function(String)? onChanged;
   final double? dropdownWidth;
+  
   const CustomDropDown({
     super.key,
     required this.list,
     this.width,
     this.height,
     this.padding,
-    this.value,
+    this.value,  // Accept the initial value
     this.onChanged,
     this.dropdownWidth,
   });
@@ -32,8 +33,8 @@ class _CustomDropDownState extends State<CustomDropDown> {
   @override
   void initState() {
     super.initState();
-    // Standardmäßig das erste Item auswählen
-    value = widget.list.isNotEmpty ? widget.list.first : null;
+    // Set the initial value to the passed value or the first item in the list
+    value = widget.value ?? (widget.list.isNotEmpty ? widget.list.first : null);
   }
 
   @override
