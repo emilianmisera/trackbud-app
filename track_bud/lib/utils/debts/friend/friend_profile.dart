@@ -6,55 +6,89 @@ import 'package:track_bud/utils/enum/debts_box.dart';
 import 'package:track_bud/utils/strings.dart';
 
 class FriendProfileDetails extends StatelessWidget {
-  final double totalDebt;
+  final double totalDebt; // Total debt amount for the friend
+
   const FriendProfileDetails({
     super.key,
     required this.totalDebt,
   });
 
+  // Determines the appropriate color scheme based on the total debt
+  DebtsColorScheme _determineColorScheme(double totalDebt) {
+    if (totalDebt > 0) {
+      return DebtsColorScheme.green; // Positive debt (money owed)
+    } else if (totalDebt < 0) {
+      return DebtsColorScheme.red; // Negative debt (money receivable)
+    } else {
+      return DebtsColorScheme.blue; // No debt
+    }
+  }
+
+  // Builds the debts section of the profile
+  Widget _buildDebtsSection(
+      BuildContext context, DebtsColorScheme colorScheme) {
+    final defaultColorScheme = Theme.of(context).colorScheme;
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          AppTexts.debts,
+          style: TextStyles.regularStyleDefault
+              .copyWith(color: defaultColorScheme.primary),
+        ),
+        BalanceState(
+          colorScheme: colorScheme,
+          amount: totalDebt == 0
+              ? null // Use null for 'quitt' to trigger the default in BalanceState
+              : '${totalDebt.abs().toStringAsFixed(2)}€', // Display the absolute value of total debt
+        ),
+      ],
+    );
+  }
+
+  // Builds the shared groups section header
+  Widget _buildSharedGroupsSection(BuildContext context) {
+    final defaultColorScheme = Theme.of(context).colorScheme;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          AppTexts.sameGroups,
+          style: TextStyles.regularStyleDefault
+              .copyWith(color: defaultColorScheme.primary),
+        ),
+        const Gap(CustomPadding.mediumSpace),
+        // TODO: Add shared groups functionality here
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    final defaultColorScheme = Theme.of(context).colorScheme;
-    // Determine the color scheme based on the totalDebt
-    DebtsColorScheme colorScheme;
-    if (totalDebt > 0) {
-      colorScheme = DebtsColorScheme.green;
-    } else if (totalDebt < 0) {
-      colorScheme = DebtsColorScheme.red;
-    } else {
-      colorScheme = DebtsColorScheme.blue;
-    }
+    final defaultColorScheme =
+        Theme.of(context).colorScheme; // Get the default color scheme
+    final colorScheme = _determineColorScheme(
+        totalDebt); // Determine the color scheme based on total debt
 
     return Container(
       width: MediaQuery.sizeOf(context).width,
       decoration: BoxDecoration(
-        color: defaultColorScheme.surface,
-        borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
+        color: defaultColorScheme.surface, // Background color of the container
+        borderRadius: BorderRadius.circular(
+            Constants.contentBorderRadius), // Rounded corners
       ),
-      padding: const EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace, vertical: CustomPadding.defaultSpace),
+      padding: const EdgeInsets.symmetric(
+        horizontal: CustomPadding.defaultSpace,
+        vertical: CustomPadding.defaultSpace,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Debts section
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(AppTexts.debts, style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary)),
-              BalanceState(
-                colorScheme: colorScheme,
-                amount: totalDebt == 0
-                    ? null // Use null for 'quitt' to trigger the default in BalanceState
-                    : '${totalDebt.abs().toStringAsFixed(2)} €',
-              ),
-            ],
-          ),
-          const Gap(CustomPadding.defaultSpace),
-
-          // Shared groups section
-          Text(AppTexts.sameGroups, style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary)),
-          const Gap(CustomPadding.mediumSpace),
-
-          // TODO: add same Groups
+          _buildDebtsSection(context, colorScheme), // Build debts section
+          const Gap(CustomPadding.defaultSpace), // Space between sections
+          _buildSharedGroupsSection(context), // Build shared groups section
         ],
       ),
     );

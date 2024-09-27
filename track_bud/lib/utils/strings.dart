@@ -160,8 +160,11 @@ class AppTexts {
   // split group overview
   static String overall = 'Insgesamt';
   static String debtsOverview = 'Schuldenübersicht';
+  static String allGroupDebts = 'Alle Gruppenschulden';
+  static String groupDebtsAreSettled = 'Alle Schulden sind beglichen.';
   static String transactionOverview = 'Ausgabenübersicht';
   static String perPerson = 'pro Person';
+  static String myExpenses = 'meine Ausgaben';
   static String addDebt = 'Rechnung hinzufügen';
   static String payOff = 'begleichen';
   static String payOffDebtsDescribtion = 'Begleiche die Bilanz.';

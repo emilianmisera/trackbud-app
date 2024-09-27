@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 
 class GroupSplitModel {
   String groupSplitId;
@@ -24,6 +25,7 @@ class GroupSplitModel {
   });
 
   factory GroupSplitModel.fromMap(Map<String, dynamic> map) {
+    debugPrint('Mapping document to GroupSplitModel: $map');
     return GroupSplitModel(
       groupSplitId: map['groupSplitId'],
       groupId: map['groupId'],

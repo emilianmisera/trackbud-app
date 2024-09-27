@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:track_bud/models/user_model.dart';
-import 'package:track_bud/utils/plus_button/split/split_methods/percent/percent_tile.dart';
+import 'package:track_bud/utils/plus_button/split/split_methods/friend_splits/percent/percent_tile.dart';
 import 'package:track_bud/utils/constants.dart';
 
 class PercentalSplitWidget extends StatefulWidget {

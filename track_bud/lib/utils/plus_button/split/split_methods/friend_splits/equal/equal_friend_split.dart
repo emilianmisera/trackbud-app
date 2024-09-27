@@ -1,20 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:track_bud/models/user_model.dart';
-import 'package:track_bud/utils/plus_button/split/split_methods/equal/eqal_tile.dart';
 import 'package:track_bud/utils/constants.dart';
+import 'package:track_bud/utils/plus_button/split/split_methods/friend_splits/equal/equal_friend_tile.dart';
 
-class EqualSplitWidget extends StatelessWidget {
+class EqualFriendSplitWidget extends StatelessWidget {
   final double amount;
   final List<UserModel> users;
-  final bool isGroup;
   final ValueChanged<List<double>> onAmountsChanged;
 
-  const EqualSplitWidget({
+  const EqualFriendSplitWidget({
     super.key,
     required this.amount,
     required this.users,
-    this.isGroup = false,
     required this.onAmountsChanged,
   });
 
@@ -35,10 +33,9 @@ class EqualSplitWidget extends StatelessWidget {
       separatorBuilder: (context, index) =>
           const Gap(CustomPadding.mediumSpace),
       itemBuilder: (context, index) {
-        return EqualTile(
+        return EqualFriendTile(
           user: users[index],
           splitAmount: splitAmount,
-          isGroup: isGroup,
         );
       },
     );

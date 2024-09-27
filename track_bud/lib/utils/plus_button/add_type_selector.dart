@@ -115,6 +115,8 @@ class _AddTypeSelectorState extends State<AddTypeSelector> {
 
   void _showGroupSelectionDialog(BuildContext context) {
     final defaultColorScheme = Theme.of(context).colorScheme;
+    final userProvider = Provider.of<UserProvider>(context,
+        listen: false); // Get the user provider
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -148,6 +150,8 @@ class _AddTypeSelectorState extends State<AddTypeSelector> {
                             builder: (context) => AddGroupSplit(
                               selectedGroup: selectedGroup,
                               memberNames: memberNames,
+                              currentUserId: userProvider.currentUser!
+                                  .userId, // Pass the userId here                            
                             ),
                           );
                         },

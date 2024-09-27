@@ -1,19 +1,42 @@
 import 'dart:io';
+import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:track_bud/models/group_model.dart';
-import 'package:track_bud/services/firestore_service.dart'; // Import Firebase Storage
+import 'package:track_bud/models/user_model.dart';
+import 'package:track_bud/services/firestore_service.dart';
 
 class GroupProvider with ChangeNotifier {
   final List<GroupModel> _groups = [];
   bool _isLoading = false;
-  final FirestoreService _firestoreService = FirestoreService();
 
+  final Map<String, double> _groupExpenses = {};
+  final Map<String, double> _userCredits = {};
+  final Map<String, double> _currentUserExpenses = {};
+  final Map<String, double> _netBalances = {};
+  final FirestoreService _firestoreService = FirestoreService();
+  final Map<String, Future<List<Map<String, dynamic>>>> _debtsOverviewCache =
+      {};
+
+  // Exposes the list of groups
   List<GroupModel> get groups => _groups;
+
+  // Indicates whether data is currently loading
   bool get isLoading => _isLoading;
 
+  // Retrieves total expenses and user credits for specified group IDs
+  double getGroupExpense(String groupId) => _groupExpenses[groupId] ?? 0.0;
+  double getUserCredit(String groupId) => _userCredits[groupId] ?? 0.0;
+  double getCurrentUserExpenses(String groupId) =>
+      _currentUserExpenses[groupId] ?? 0.0;
+
+  // Retrieves the net balance for a user in a specified group
+  double getNetBalance(String groupId, String userId) =>
+      _netBalances[userId] ?? 0.0;
+
+  // Loads all groups for the current user
   Future<void> loadGroups() async {
     _isLoading = true;
     notifyListeners();
@@ -24,11 +47,10 @@ class GroupProvider with ChangeNotifier {
         debugPrint("Loading groups for user ID: ${user.uid}");
         final groups = await _firestoreService.getUserGroups(user.uid);
         debugPrint("Retrieved ${groups.length} groups for the user.");
-        if (groups.isEmpty) {
-          debugPrint("No groups found for user ${user.uid}");
-        }
-        _groups.clear();
-        _groups.addAll(groups);
+        _groups
+          ..clear()
+          ..addAll(groups);
+        await _calculateAllGroupData();
       } else {
         debugPrint("No user found, clearing groups.");
         _groups.clear();
@@ -41,17 +63,182 @@ class GroupProvider with ChangeNotifier {
     }
   }
 
+  // Calculates data for all groups
+  Future<void> _calculateAllGroupData() async {
+    await Future.wait(
+        _groups.map((group) => _calculateGroupData(group.groupId)));
+  }
+
+  // Calculates expenses and credits for a specified group
+  Future<void> _calculateGroupData(String groupId) async {
+    String currentUserId = await _firestoreService.getCurrentUserId();
+    var splits = await _firestoreService.getGroupSplits(groupId);
+
+    double totalGroupExpense = 0;
+    double currentUserCredit = 0;
+    double currentUserExpenses = 0;
+
+    for (var split in splits) {
+      totalGroupExpense += split.totalAmount;
+
+      var currentUserShare = split.splitShares.firstWhere(
+        (share) => share['userId'] == currentUserId,
+        orElse: () => {'amount': 0.0},
+      );
+
+      if (split.paidBy == currentUserId) {
+        currentUserExpenses += split.totalAmount;
+        currentUserCredit +=
+            split.totalAmount - currentUserShare['amount'] as double;
+      } else {
+        currentUserCredit -= currentUserShare['amount'] as double;
+      }
+    }
+
+    _groupExpenses[groupId] = totalGroupExpense;
+    _userCredits[groupId] = currentUserCredit;
+    _currentUserExpenses[groupId] = currentUserExpenses;
+    notifyListeners();
+  }
+
+  // Refreshes data for a specific group
+  Future<void> refreshGroupData(String groupId) async {
+    await _calculateGroupData(groupId);
+    notifyListeners();
+  }
+
+  // Retrieves user information by their ID
+  Future<UserModel?> getUserById(String userId) async {
+    try {
+      return await _firestoreService.getUser(userId);
+    } catch (e) {
+      debugPrint("Error fetching user by ID: $e");
+      return null;
+    }
+  }
+
+  // Retrieves the debts overview for a specified group
+  Future<List<Map<String, dynamic>>> getGroupDebtsOverview(
+      String groupId) async {
+    if (!_debtsOverviewCache.containsKey(groupId)) {
+      _debtsOverviewCache[groupId] = _fetchGroupDebtsOverview(groupId);
+    }
+    return _debtsOverviewCache[groupId]!;
+  }
+
+  // Fetches detailed debts overview for a specified group
+  Future<List<Map<String, dynamic>>> _fetchGroupDebtsOverview(
+      String groupId) async {
+    await calculateNetBalances(groupId);
+    List<Map<String, dynamic>> payments = suggestPayments(groupId);
+
+    // Only proceed if there are payments to be made
+    if (payments.isNotEmpty) {
+      return await Future.wait(payments.map((payment) async {
+        UserModel? fromUser = await getUserById(payment['from']);
+        UserModel? toUser = await getUserById(payment['to']);
+        return {
+          ...payment,
+          'fromName': fromUser?.name ?? 'Unknown',
+          'toName': toUser?.name ?? 'Unknown',
+        };
+      }));
+    } else {
+      return [];
+    }
+  }
+
+  // Invalidates the cache for the debts overview of a specified group
+  void invalidateDebtsOverviewCache(String groupId) {
+    _debtsOverviewCache.remove(groupId);
+    notifyListeners();
+  }
+
+  // Calculates net balances for all members in a specified group
+  Future<void> calculateNetBalances(String groupId) async {
+    var splits = await _firestoreService.getGroupSplits(groupId);
+    String currentUserId = await _firestoreService.getCurrentUserId();
+
+    // Reset net balances for this group
+    _netBalances.clear();
+
+    for (var split in splits) {
+      double totalAmount = split.totalAmount;
+
+      // Credit the payer
+      _netBalances[split.paidBy] =
+          (_netBalances[split.paidBy] ?? 0.0) + totalAmount;
+
+      // Debit each participant based on their shares
+      for (var share in split.splitShares) {
+        String userId = share['userId'] as String;
+        double amount = share['amount'] as double;
+        _netBalances[userId] = (_netBalances[userId] ?? 0.0) - amount;
+      }
+    }
+
+    // Update user credits for this group
+    _userCredits[groupId] = _netBalances[currentUserId] ?? 0.0;
+    notifyListeners();
+  }
+
+  // Suggests payments to settle all debts within a specified group
+  List<Map<String, dynamic>> suggestPayments(String groupId) {
+    List<Map<String, dynamic>> suggestedPayments = [];
+
+    List<MapEntry<String, double>> creditors =
+        _netBalances.entries.where((e) => e.value > 0).toList();
+    List<MapEntry<String, double>> debtors =
+        _netBalances.entries.where((e) => e.value < 0).toList();
+
+    creditors.sort((a, b) =>
+        b.value.compareTo(a.value)); // Sort creditors in descending order
+    debtors.sort((a, b) =>
+        a.value.compareTo(b.value)); // Sort debtors in ascending order
+
+    while (creditors.isNotEmpty && debtors.isNotEmpty) {
+      var creditor = creditors.first;
+      var debtor = debtors.first;
+
+      double amountToSettle = min(creditor.value, -debtor.value);
+
+      suggestedPayments.add({
+        'from': debtor.key,
+        'to': creditor.key,
+        'amount': amountToSettle,
+      });
+
+      // Update balances after payment suggestion
+      creditor = MapEntry(creditor.key, creditor.value - amountToSettle);
+      debtor = MapEntry(debtor.key, debtor.value + amountToSettle);
+
+      if (creditor.value <= 0) {
+        creditors.removeAt(0); // Remove creditor if fully paid
+      } else {
+        creditors[0] = creditor; // Update creditor's balance
+      }
+
+      if (debtor.value >= 0) {
+        debtors.removeAt(0); // Remove debtor if fully settled
+      } else {
+        debtors[0] = debtor; // Update debtor's balance
+      }
+    }
+
+    return suggestedPayments;
+  }
+
+  // Creates a new group and uploads an optional image to Firebase Storage
   Future<void> createGroup(GroupModel group, File? imageFile) async {
     try {
-      // 1. Create the group in Firestore first
-      await FirestoreService().createGroup(group);
+      // 1. Create the group in Firestore
+      await _firestoreService.createGroup(group);
 
-      // 2. If an image was selected, upload it to Firebase Storage and get the URL
-      String? imageUrl;
+      // 2. If an image file is provided, upload it to Firebase Storage and retrieve the URL
       if (imageFile != null) {
-        imageUrl = await uploadGroupImage(imageFile, group.groupId);
+        String? imageUrl = await uploadGroupImage(imageFile, group.groupId);
 
-        // 3. If the image was uploaded successfully, update the group with the image URL
+        // 3. If the image was uploaded successfully, update the group document with the image URL
         if (imageUrl != null) {
           await FirebaseFirestore.instance
               .collection('groups')
@@ -60,17 +247,16 @@ class GroupProvider with ChangeNotifier {
         }
       }
 
-      // 4. Add the new group to the local list and notify listeners
+      // 4. Add the newly created group to the local list and notify listeners
       _groups.add(group);
       notifyListeners();
     } catch (e) {
-      // Handle errors
       debugPrint("Error creating group: $e");
-      rethrow;
+      rethrow; // Re-throw error for further handling if necessary
     }
   }
 
-  // Helper method to upload image to Firebase Storage
+  // Uploads a group image to Firebase Storage and returns the download URL
   Future<String?> uploadGroupImage(File imageFile, String groupId) async {
     try {
       final storageRef = FirebaseStorage.instance
@@ -78,14 +264,14 @@ class GroupProvider with ChangeNotifier {
           .child('group_images')
           .child('$groupId.jpg');
 
-      // Upload the file to Firebase Storage
-      final uploadTask = await storageRef.putFile(imageFile);
+      // Upload the image file to Firebase Storage
+      await storageRef.putFile(imageFile);
 
-      // Get the download URL after the upload is complete
-      return await uploadTask.ref.getDownloadURL();
+      // Retrieve and return the download URL of the uploaded image
+      return await storageRef.getDownloadURL();
     } catch (e) {
       debugPrint("Error uploading image: $e");
-      return null;
+      return null; // Return null if the upload fails
     }
   }
 }
