@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:track_bud/models/user_model.dart';
 import 'package:track_bud/trackbud.dart';
+import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/views/at_signup/bank_account_info_screen.dart';
 import 'package:track_bud/services/firestore_service.dart';
 
@@ -12,12 +13,10 @@ class FirebaseService {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   //sign in
-  Future<UserCredential> signInWithEmailAndPassword(
-      String email, String password) async {
+  Future<UserCredential> signInWithEmailAndPassword(String email, String password) async {
     try {
       debugPrint('firebase_service: signing in...');
-      UserCredential userCredential = await _firebaseAuth
-          .signInWithEmailAndPassword(email: email, password: password);
+      UserCredential userCredential = await _firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
       debugPrint('firebase_service: successful sign in');
       return userCredential;
     } on FirebaseAuthException catch (e) {
@@ -27,12 +26,10 @@ class FirebaseService {
   }
 
   // sign up
-  Future<UserCredential> signUpWithEmailAndPassword(
-      String email, String password, String name) async {
+  Future<UserCredential> signUpWithEmailAndPassword(String email, String password, String name) async {
     try {
       debugPrint('firebase_service: try to sign up');
-      UserCredential userCredential = await _firebaseAuth
-          .createUserWithEmailAndPassword(email: email, password: password);
+      UserCredential userCredential = await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
       debugPrint('firebase_service: successful sign Up');
 
       // Erstellen Sie den Firestore-Datensatz für den neuen Benutzer
@@ -62,20 +59,17 @@ class FirebaseService {
         );
       }
 
-      final GoogleSignInAuthentication googleAuth =
-          await googleUser.authentication;
+      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
       final credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
 
-      UserCredential userCredential =
-          await _firebaseAuth.signInWithCredential(credential);
+      UserCredential userCredential = await _firebaseAuth.signInWithCredential(credential);
 
       // Überprüfen Sie, ob der Benutzer neu ist und erstellen Sie gegebenenfalls einen Firestore-Datensatz
       if (userCredential.additionalUserInfo?.isNewUser ?? false) {
-        await _createUserRecord(
-            userCredential, userCredential.user?.displayName ?? '');
+        await _createUserRecord(userCredential, userCredential.user?.displayName ?? '');
       }
 
       if (context.mounted) await handlePostLogin(context, userCredential);
@@ -88,8 +82,7 @@ class FirebaseService {
   // Re-authenticate user
   Future<void> _reauthenticateUser(User user, String password) async {
     try {
-      AuthCredential credential =
-          EmailAuthProvider.credential(email: user.email!, password: password);
+      AuthCredential credential = EmailAuthProvider.credential(email: user.email!, password: password);
       await user.reauthenticateWithCredential(credential);
     } catch (error) {
       debugPrint('Error during re-authentication: $error');
@@ -108,35 +101,29 @@ class FirebaseService {
   }
 
   // Handle post-login actions
-  Future<void> handlePostLogin(
-      BuildContext context, UserCredential userCredential) async {
+  Future<void> handlePostLogin(BuildContext context, UserCredential userCredential) async {
     String userId = userCredential.user!.uid;
 
     bool userExists = await checkUserExists(userId);
     if (!userExists) {
-      await _createUserRecord(
-          userCredential, userCredential.user?.displayName ?? '');
+      await _createUserRecord(userCredential, userCredential.user?.displayName ?? '');
     }
 
     UserModel? userData = await firestoreService.getUserData(userId);
 
     if (userData != null) {
-      if (userData.bankAccountBalance == -1 ||
-          userData.monthlySpendingGoal == -1) {
+      if (userData.bankAccountBalance == -1 || userData.monthlySpendingGoal == -1) {
         if (context.mounted) {
-          Navigator.of(context).pushReplacement(MaterialPageRoute(
-              builder: (context) => const BankAccountInfoScreen()));
+          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const BankAccountInfoScreen()));
         }
       } else {
         if (context.mounted) {
-          Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => TrackBud()));
+          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => TrackBud()));
         }
       }
     } else {
       if (context.mounted) {
-        _showErrorSnackBar(
-            context, "Benutzerinformationen konnten nicht abgerufen werden.");
+        _showErrorSnackBar(context, "Benutzerinformationen konnten nicht abgerufen werden.");
       }
     }
   }
@@ -160,8 +147,7 @@ class FirebaseService {
   }
 
   // Method to send a verification link for email update
-  Future<void> sendEmailUpdateVerificationLink(
-      String newEmail, String password) async {
+  Future<void> sendEmailUpdateVerificationLink(String newEmail, String password) async {
     User? user = _firebaseAuth.currentUser;
 
     if (user != null) {
@@ -174,8 +160,7 @@ class FirebaseService {
 
         // Create an action code settings to control the verification process
         ActionCodeSettings actionCodeSettings = ActionCodeSettings(
-          url:
-              'https://trackbud2.page.link/verify-email', // Replace with your dynamic link or app link
+          url: 'https://trackbud2.page.link/verify-email', // Replace with your dynamic link or app link
           handleCodeInApp: true,
           androidPackageName: 'com.example.track_bud',
           androidInstallApp: false,
@@ -200,8 +185,7 @@ class FirebaseService {
   }
 
   // After verification, update the user's email
-  Future<void> updateEmailAfterVerification(
-      String userId, String enteredPassword) async {
+  Future<void> updateEmailAfterVerification(String userId, String enteredPassword) async {
     User? user = _firebaseAuth.currentUser;
 
     if (user != null && user.emailVerified) {
@@ -236,8 +220,7 @@ class FirebaseService {
   }
 
   // Create user record in Firestore
-  Future<void> _createUserRecord(
-      UserCredential userCredential, String name) async {
+  Future<void> _createUserRecord(UserCredential userCredential, String name) async {
     UserModel newUser = UserModel(
       userId: userCredential.user!.uid,
       email: userCredential.user!.email!,
@@ -276,9 +259,10 @@ class FirebaseService {
 
   // Show error snackbar
   void _showErrorSnackBar(BuildContext context, String message) {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(message),
+        content: Text(message, style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary)),
       ),
     );
   }

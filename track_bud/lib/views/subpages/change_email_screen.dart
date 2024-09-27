@@ -26,12 +26,14 @@ class _ChangeEmailScreenState extends State<ChangeEmailScreen> {
   final FirestoreService firestoreService = FirestoreService();
 
   void _changeEmail() async {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     // Validate new email format
     if (!EmailValidator.validate(_newEmailController.text)) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Bitte geben Sie eine gültige E-Mail-Adresse ein.'),
+          SnackBar(
+            content: Text('Bitte geben Sie eine gültige E-Mail-Adresse ein.',
+                style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary)),
           ),
         );
       }
@@ -48,8 +50,9 @@ class _ChangeEmailScreenState extends State<ChangeEmailScreen> {
       if (signInMethods.isNotEmpty) {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Diese E-Mail-Adresse wird bereits verwendet.'),
+            SnackBar(
+              content: Text('Diese E-Mail-Adresse wird bereits verwendet.',
+                  style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary)),
             ),
           );
         }
@@ -71,8 +74,9 @@ class _ChangeEmailScreenState extends State<ChangeEmailScreen> {
         // Handle case where user is not logged in
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Benutzer nicht angemeldet.'),
+            SnackBar(
+              content:
+                  Text('Benutzer nicht angemeldet.', style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary)),
             ),
           );
         }
@@ -90,9 +94,10 @@ class _ChangeEmailScreenState extends State<ChangeEmailScreen> {
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
+          SnackBar(
             content: Text(
-                'Ein Verifizierungslink wurde an die neue E-Mail gesendet. Bitte überprüfen Sie Ihren Posteingang und klicken Sie auf den Link, um die Änderung Ihrer E-Mail-Adresse abzuschließen.'), // Updated message
+                'Ein Verifizierungslink wurde an die neue E-Mail gesendet. Bitte überprüfen Sie Ihren Posteingang und klicken Sie auf den Link, um die Änderung Ihrer E-Mail-Adresse abzuschließen.',
+                style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary)), // Updated message
           ),
         );
 
@@ -106,8 +111,9 @@ class _ChangeEmailScreenState extends State<ChangeEmailScreen> {
 
           if (mounted) {
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('E-Mail-Adresse erfolgreich aktualisiert!'),
+              SnackBar(
+                content: Text('E-Mail-Adresse erfolgreich aktualisiert!',
+                    style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary)),
               ),
             );
             Navigator.of(context).pop(); // Navigate back after successful update

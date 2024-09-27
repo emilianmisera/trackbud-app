@@ -70,13 +70,17 @@ class _PercentTileState extends State<PercentTile> {
                     )
                   : null, // No trailing widget for friend splits
             ),
-            Slider(
-              onChanged: widget.onChanged,
-              max: 100.00,
-              divisions: 20,
-              value: widget.sliderValue,
-              activeColor: CustomColor.bluePrimary,
-              inactiveColor: defaultColorScheme.outline,
+            SliderTheme(
+              data: SliderThemeData(
+                activeTrackColor: CustomColor.bluePrimary,
+                inactiveTrackColor: defaultColorScheme.outline,
+                thumbColor: CustomColor.bluePrimary,
+                overlayColor: CustomColor.bluePrimary.withOpacity(0.3),
+                valueIndicatorColor: CustomColor.bluePrimary,
+                activeTickMarkColor: CustomColor.bluePrimary,
+                inactiveTickMarkColor: defaultColorScheme.secondary.withOpacity(0.5),
+              ),
+              child: Slider(onChanged: widget.onChanged, max: 100.00, divisions: 20, value: widget.sliderValue),
             )
           ],
         ),

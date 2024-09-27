@@ -20,6 +20,7 @@ class ByAmountTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final defaultColorScheme = Theme.of(context).colorScheme;
+    final _focusNodeAmount = FocusNode();
     return CustomShadow(
       child: Container(
         decoration: BoxDecoration(color: defaultColorScheme.surface, borderRadius: BorderRadius.circular(Constants.contentBorderRadius)),
@@ -41,6 +42,7 @@ class ByAmountTile extends StatelessWidget {
             decoration: BoxDecoration(
                 border: Border.all(color: defaultColorScheme.outline), borderRadius: BorderRadius.circular(Constants.contentBorderRadius)),
             child: TextFieldByAmount(
+              focusNode: _focusNodeAmount,
               controller: controller,
               inputStyle: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary),
               suffixStyle: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary),

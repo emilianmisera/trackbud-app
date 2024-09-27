@@ -24,19 +24,28 @@ class _LoginScreenState extends State<LoginScreen> {
   final FirebaseService _firebaseService = FirebaseService();
 
   Future<void> _handleGoogleSignIn() async {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     try {
       // Versuche, den Benutzer mit Google anzumelden
       await _firebaseService.signInWithGoogle(context);
 
       // Zeige eine Erfolgsmeldung an
-      if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(AppTexts.successfulLogin)));
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(AppTexts.successfulLogin, style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary))));
+      }
     } catch (error) {
       // Zeige eine Fehlermeldung an, falls die Google-Anmeldung fehlgeschlagen ist
-      if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Google-Anmeldung fehlgeschlagen: $error")));
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text("Google-Anmeldung fehlgeschlagen: $error",
+                style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary))));
+      }
     }
   }
 
   void _loginUser() async {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     final FirebaseService authService = FirebaseService();
     String email = _email.text.trim();
     String password = _password.text.trim();
@@ -44,7 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
     if (email.isEmpty || password.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(AppTexts.emptyLoginInput),
+          content: Text(AppTexts.emptyLoginInput, style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary)),
         ),
       );
       return;

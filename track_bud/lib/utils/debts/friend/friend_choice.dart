@@ -21,17 +21,13 @@ class FriendChoice extends StatelessWidget {
       // Apply shadow for consistency with GroupChoice
       child: GestureDetector(
         onTap: onTap,
-        child: Card(
-          color: defaultColorScheme.surface,
-          elevation: 2.0,
-          margin: const EdgeInsets.symmetric(
-            horizontal: CustomPadding.defaultSpace,
-          ), // Margin to space the card
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0), // Padding for the card content
+        child: CustomShadow(
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
+              color: defaultColorScheme.surface,
+            ),
+            padding: const EdgeInsets.all(CustomPadding.mediumSpace),
             child: Row(
               children: [
                 // Friend's profile picture

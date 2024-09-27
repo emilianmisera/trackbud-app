@@ -39,6 +39,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
 // DELETE USER ACCOUNT (dont delete from firestore DB yet, so friends still see shared costs etc)
   Future<void> _handleAccountDeletion(BuildContext context) async {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     try {
       // Get the password entered by the user
       String password = _passwordController.text;
@@ -50,7 +51,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
       // Show success message and navigate away or logout the user
       if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Konto erfolgreich gelöscht.')));
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content:
+                Text('Konto erfolgreich gelöscht.', style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary))));
       }
 
       // navigate the user to a login or home screen after deletion
@@ -61,7 +64,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
       submit();
       // Show error message if something goes wrong
       if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Fehler beim Löschen des Kontos: $e')));
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text('Fehler beim Löschen des Kontos: $e',
+                style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary))));
       }
     }
   }
@@ -119,6 +124,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   Future<void> logout() async {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     final FirebaseService firebaseService = FirebaseService();
 
     try {
@@ -136,7 +142,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
       debugPrint('logout: Fehler beim Abmelden des Benutzers: ${e.toString()}');
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Fehler beim Abmelden: ${e.toString()}')),
+          SnackBar(
+              content: Text('Fehler beim Abmelden: ${e.toString()}',
+                  style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary))),
         );
       }
     }

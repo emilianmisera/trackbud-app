@@ -18,14 +18,15 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   final FirebaseService _firebaseService = FirebaseService(); // Create an instance of AuthService
 
   void _handleSubmission() async {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     // Retrieve email input from the text controller
     String email = _emailController.text.trim();
 
     // Validate email input
     if (email.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Please enter your email."),
+        SnackBar(
+          content: Text("Please enter your email.", style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary)),
         ),
       );
       return;
@@ -37,13 +38,17 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       debugPrint('email successfull sent!');
       if (mounted) {
         // Show success message
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Password reset email sent.")));
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content:
+                Text("Password reset email sent.", style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary))));
         // Optionally navigate back to login screen
         Navigator.of(context).pop();
       }
     } on FirebaseAuthException catch (e) {
       // Handle error and show error message
-      if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Error: ${e.message}")));
+      if (mounted)
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text("Error: ${e.message}", style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary))));
     }
   }
 

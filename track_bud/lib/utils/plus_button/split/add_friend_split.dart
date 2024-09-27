@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:gap/gap.dart';
 import 'package:track_bud/models/user_model.dart';
 import 'package:track_bud/models/friend_split_model.dart';
@@ -41,6 +42,8 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
   String _payedBy = '';
   final FirestoreService _firestoreService = FirestoreService();
   List<double> _splitAmounts = [0.0, 0.0];
+  final _focusNodeTitle = FocusNode();
+  final _focusNodeAmount = FocusNode();
 
   @override
   void initState() {
@@ -85,6 +88,7 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
   }
 
   Future<void> _saveNewFriendSplit() async {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     double totalAmount = _parseAmount();
 
     double creditorAmount, debtorAmount;
@@ -117,133 +121,133 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
       await _firestoreService.addFriendSplit(newSplit);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Friend split added successfully')),
+          SnackBar(
+              content: Text('Friend split added successfully',
+                  style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary))),
         );
       }
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error adding friend split: $e')),
+          SnackBar(
+              content:
+                  Text('Error adding friend split: $e', style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary))),
         );
       }
     }
   }
 
+  // Method to unfocus all text fields
+  void _unfocusAll() {
+    _focusNodeTitle.unfocus();
+    _focusNodeAmount.unfocus();
+  }
+
   @override
   Widget build(BuildContext context) {
     final defaultColorScheme = Theme.of(context).colorScheme;
-    return AddEntryModal(
-      buttonText: AppTexts.addSplit,
-      initialChildSize: 0.76,
-      maxChildSize: 0.95,
-      isButtonEnabled: _isFormValid,
-      onButtonPressed: () async {
-        await _saveNewFriendSplit();
-        if (context.mounted) Navigator.pop(context);
-      },
-      child: Padding(
-        padding: CustomPadding.screenWidth,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Center(
-              child: Column(
+    return GestureDetector(
+      onTap: _unfocusAll,
+      child: AddEntryModal(
+        buttonText: AppTexts.addSplit,
+        initialChildSize: 0.76,
+        maxChildSize: 0.95,
+        isButtonEnabled: _isFormValid,
+        onButtonPressed: () async {
+          await _saveNewFriendSplit();
+          if (context.mounted) Navigator.pop(context);
+        },
+        child: Padding(
+          padding: CustomPadding.screenWidth,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: Column(
+                  children: [
+                    Text(AppTexts.newFriendSplit, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
+                    Text(widget.selectedFriend.name, style: TextStyles.titleStyleMedium.copyWith(color: defaultColorScheme.primary)),
+                  ],
+                ),
+              ),
+              const Gap(CustomPadding.defaultSpace),
+              CustomTextfield(name: AppTexts.title, hintText: AppTexts.hintTitle, controller: _titleController, focusNode: _focusNodeTitle),
+              const Gap(CustomPadding.defaultSpace),
+              Row(
                 children: [
-                  Text(
-                    AppTexts.newFriendSplit,
-                    style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary),
-                  ),
-                  Text(
-                    widget.selectedFriend.name,
-                    style: TextStyles.titleStyleMedium.copyWith(color: defaultColorScheme.primary),
-                  ),
+                  CustomTextfield(
+                      name: AppTexts.amount,
+                      hintText: '00.00',
+                      controller: _amountController,
+                      width: MediaQuery.sizeOf(context).width / 3,
+                      prefix: Text('- ',
+                          style: TextStyles.titleStyleMedium
+                              .copyWith(fontWeight: TextStyles.fontWeightDefault, color: defaultColorScheme.primary)),
+                      suffix: const Text('€'),
+                      type: const TextInputType.numberWithOptions(decimal: true),
+                      inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'^\d+\,?\d{0,2}'))],
+                      focusNode: _focusNodeAmount),
+                  const Gap(CustomPadding.defaultSpace),
                 ],
               ),
-            ),
-            const Gap(CustomPadding.defaultSpace),
-            CustomTextfield(
-              name: AppTexts.title,
-              hintText: AppTexts.hintTitle,
-              controller: _titleController,
-            ),
-            const Gap(CustomPadding.defaultSpace),
-            Row(
-              children: [
-                CustomTextfield(
-                  name: AppTexts.amount,
-                  hintText: '00.00',
-                  controller: _amountController,
-                  width: MediaQuery.sizeOf(context).width / 3,
-
-                  prefix: Text(
-                    '- ',
-                    style: TextStyles.titleStyleMedium
-                        .copyWith(fontWeight: TextStyles.fontWeightDefault),
-                  ),
-                  suffix: const Text('€'),
-                  type: const TextInputType.numberWithOptions(decimal: true),
-                  //inputFormatters: [GermanNumericTextFormatter()],
+              const Gap(CustomPadding.defaultSpace),
+              Text(AppTexts.categorie, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
+              const Gap(CustomPadding.mediumSpace),
+              CategoriesExpense(onCategorySelected: _onCategorySelected),
+              const Gap(CustomPadding.defaultSpace),
+              Text(AppTexts.payedBy, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
+              const Gap(CustomPadding.mediumSpace),
+              CustomDropDown(
+                list: [widget.currentUser.name, widget.selectedFriend.name],
+                dropdownWidth: MediaQuery.sizeOf(context).width - 32,
+                onChanged: (String? value) {
+                  setState(() {
+                    _payedBy = value ?? widget.currentUser.name;
+                  });
+                },
+              ),
+              const Gap(CustomPadding.defaultSpace),
+              SplitMethodSelector(
+                selectedMethod: _selectedSplitMethod,
+                onSplitMethodChanged: (SplitMethod method) {
+                  setState(() {
+                    _selectedSplitMethod = method;
+                  });
+                },
+              ),
+              const Gap(CustomPadding.defaultSpace),
+              // Display the appropriate split widget based on _selectedSplitMethod
+              if (_selectedSplitMethod == SplitMethod.equal)
+                EqualSplitWidget(
+                  amount: _inputNumber,
+                  users: [widget.currentUser, widget.selectedFriend],
+                  onAmountsChanged: (amounts) {
+                    setState(() {
+                      _splitAmounts = amounts;
+                    });
+                  },
                 ),
-                const Gap(CustomPadding.defaultSpace),
-              ],
-            ),
-            const Gap(CustomPadding.defaultSpace),
-            Text(AppTexts.categorie, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
-            const Gap(CustomPadding.mediumSpace),
-            CategoriesExpense(onCategorySelected: _onCategorySelected),
-            const Gap(CustomPadding.defaultSpace),
-            Text(AppTexts.payedBy, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
-            const Gap(CustomPadding.mediumSpace),
-            CustomDropDown(
-              list: [widget.currentUser.name, widget.selectedFriend.name],
-              dropdownWidth: MediaQuery.sizeOf(context).width - 32,
-              onChanged: (String? value) {
-                setState(() {
-                  _payedBy = value ?? widget.currentUser.name;
-                });
-              },
-            ),
-            const Gap(CustomPadding.defaultSpace),
-            SplitMethodSelector(
-              selectedMethod: _selectedSplitMethod,
-              onSplitMethodChanged: (SplitMethod method) {
-                setState(() {
-                  _selectedSplitMethod = method;
-                });
-              },
-            ),
-            const Gap(CustomPadding.defaultSpace),
-            // Display the appropriate split widget based on _selectedSplitMethod
-            if (_selectedSplitMethod == SplitMethod.equal)
-              EqualSplitWidget(
-                amount: _inputNumber,
-                users: [widget.currentUser, widget.selectedFriend],
-                onAmountsChanged: (amounts) {
-                  setState(() {
-                    _splitAmounts = amounts;
-                  });
-                },
-              ),
-            if (_selectedSplitMethod == SplitMethod.percent)
-              PercentalSplitWidget(
-                amount: _inputNumber,
-                users: [widget.currentUser, widget.selectedFriend],
-                onAmountsChanged: (amounts) {
-                  setState(() {
-                    _splitAmounts = amounts;
-                  });
-                },
-              ),
-            if (_selectedSplitMethod == SplitMethod.amount)
-              ByAmountSplitWidget(
-                users: [widget.currentUser, widget.selectedFriend],
-                onAmountsChanged: (amounts) {
-                  setState(() {
-                    _splitAmounts = amounts;
-                  });
-                },
-              ),
-          ],
+              if (_selectedSplitMethod == SplitMethod.percent)
+                PercentalSplitWidget(
+                  amount: _inputNumber,
+                  users: [widget.currentUser, widget.selectedFriend],
+                  onAmountsChanged: (amounts) {
+                    setState(() {
+                      _splitAmounts = amounts;
+                    });
+                  },
+                ),
+              if (_selectedSplitMethod == SplitMethod.amount)
+                ByAmountSplitWidget(
+                  users: [widget.currentUser, widget.selectedFriend],
+                  onAmountsChanged: (amounts) {
+                    setState(() {
+                      _splitAmounts = amounts;
+                    });
+                  },
+                ),
+            ],
+          ),
         ),
       ),
     );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
 import 'package:track_bud/provider/transaction_provider.dart';
@@ -30,6 +31,9 @@ class _AddTransactionState extends State<AddTransaction> {
   String? _selectedRecurrence = 'einmalig';
   DateTime _selectedDateTime = DateTime.now();
   bool _isFormValid = false; // Track form validity
+  final _focusNodeTitle = FocusNode();
+  final _focusNodeAmount = FocusNode();
+  final _focusNodeNote = FocusNode();
 
   @override
   void initState() {
@@ -40,10 +44,9 @@ class _AddTransactionState extends State<AddTransaction> {
 
   // Function to add a new transaction to Firestore
   Future<void> _addTransactionToDB() async {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     try {
-      final transactionProvider =
-          Provider.of<TransactionProvider>(context, listen: false);
-
+      final transactionProvider = Provider.of<TransactionProvider>(context, listen: false);
 
       await transactionProvider.addTransaction(
         _currentSegment == 0 ? 'expense' : 'income',
@@ -58,14 +61,16 @@ class _AddTransactionState extends State<AddTransaction> {
       );
 
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            content: Text('Transaktion erfolgreich hinzugefügt.')));
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text('Transaktion erfolgreich hinzugefügt.',
+                style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary))));
         Navigator.pop(context);
       }
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text('Fehler beim Hinzufügen der Transaktion: $e')));
+            content: Text('Fehler beim Hinzufügen der Transaktion: $e',
+                style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary))));
       }
     }
   }
@@ -83,9 +88,7 @@ class _AddTransactionState extends State<AddTransaction> {
   // Validate form inputs
   void _validateForm() {
     setState(() {
-      _isFormValid = _titleController.text.isNotEmpty &&
-          _amountController.text.isNotEmpty &&
-          _selectedCategory != null;
+      _isFormValid = _titleController.text.isNotEmpty && _amountController.text.isNotEmpty && _selectedCategory != null;
     });
   }
 
@@ -96,114 +99,104 @@ class _AddTransactionState extends State<AddTransaction> {
     });
   }
 
+  // Method to unfocus all text fields
+  void _unfocusAll() {
+    _focusNodeTitle.unfocus();
+    _focusNodeAmount.unfocus();
+    _focusNodeNote.unfocus();
+  }
+
   @override
   Widget build(BuildContext context) {
     final defaultColorScheme = Theme.of(context).colorScheme;
-    return AddEntryModal(
-      buttonText: AppTexts.addTransaction,
-      initialChildSize: 0.76,
-      maxChildSize: 0.95,
-      isButtonEnabled: _isFormValid,
-      onButtonPressed: () async {
-        _addTransactionToDB();
-      },
-      child: Padding(
-        padding: CustomPadding.screenWidth,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Title of the bottom sheet
-            Center(
-              child: Text(
-                AppTexts.newTransaction,
-                style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary),
+    return GestureDetector(
+      onTap: _unfocusAll,
+      child: AddEntryModal(
+        buttonText: AppTexts.addTransaction,
+        initialChildSize: 0.76,
+        maxChildSize: 0.95,
+        isButtonEnabled: _isFormValid,
+        onButtonPressed: () async {
+          _addTransactionToDB();
+        },
+        child: Padding(
+          padding: CustomPadding.screenWidth,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Title of the bottom sheet
+              Center(
+                  child: Text(AppTexts.newTransaction, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary))),
+              const Gap(CustomPadding.defaultSpace),
+              // Segment control for switching between expense and income
+              CustomSegmentControl(
+                onValueChanged: (int? newValue) {
+                  setState(() {
+                    _currentSegment = newValue ?? 0; // Update current segment
+                  });
+                },
               ),
-            ),
-            const Gap(CustomPadding.defaultSpace),
-            // Segment control for switching between expense and income
-            CustomSegmentControl(
-              onValueChanged: (int? newValue) {
-                setState(() {
-                  _currentSegment = newValue ?? 0; // Update current segment
-                });
-              },
-            ),
-            const Gap(CustomPadding.bigSpace),
-            // Text field for transaction title
-            CustomTextfield(
-                name: AppTexts.title,
-                hintText: AppTexts.hintTitle,
-                controller: _titleController),
-            const Gap(CustomPadding.defaultSpace),
-            // Row containing amount and date fields
-            Row(
-              children: [
-                // Amount text field
-                CustomTextfield(
-                  name: AppTexts.amount,
-                  hintText: '00.00',
-                  controller: _amountController,
-                  width: MediaQuery.sizeOf(context).width / 3,
-                  prefix: Text(
-                    _currentSegment == 0 ? '–' : '+',
-                    style:
-                        TextStyles.titleStyleMedium.copyWith(fontWeight: TextStyles.fontWeightDefault, color: defaultColorScheme.primary),
-
-                  ),
-                  suffix: const Text('€'),
-                  type: const TextInputType.numberWithOptions(decimal: true),
-                  //inputFormatters: [GermanNumericTextFormatter()],
-                ),
-                const Gap(CustomPadding.defaultSpace),
-                // Date
-                DatePicker(
-                    onDateTimeChanged: (dateTime) =>
-                        setState(() => _selectedDateTime = dateTime)),
-              ],
-            ),
-            const Gap(CustomPadding.defaultSpace),
-            Text(
-              AppTexts.categorie,
-              style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary),
-            ),
-            const Gap(CustomPadding.mediumSpace),
-            // Category section
-            // Display either expense or income categories based on current segment
-            _currentSegment == 0
-                ? CategoriesExpense(onCategorySelected: _onCategorySelected)
-                : CategoriesIncome(onCategorySelected: _onCategorySelected),
-            const Gap(CustomPadding.defaultSpace),
-            Text(
-              AppTexts.recurrency,
-              style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary),
-            ),
-            const Gap(CustomPadding.mediumSpace),
-            // Dropdown for selecting recurrence frequency
-            CustomDropDown(
-                list: const [
-                  'einmalig',
-                  'täglich',
-                  'wöchentlich',
-                  'zweiwöchentlich',
-                  'halb-monatlich',
-                  'monatlich',
-                  'vierteljährlich',
-                  'halb-jährlich',
-                  'jährlich'
+              const Gap(CustomPadding.bigSpace),
+              // Text field for transaction title
+              CustomTextfield(name: AppTexts.title, hintText: AppTexts.hintTitle, controller: _titleController, focusNode: _focusNodeTitle),
+              const Gap(CustomPadding.defaultSpace),
+              // Row containing amount and date fields
+              Row(
+                children: [
+                  // Amount text field
+                  CustomTextfield(
+                      name: AppTexts.amount,
+                      hintText: '00.00',
+                      controller: _amountController,
+                      width: MediaQuery.sizeOf(context).width / 3,
+                      prefix: Text(
+                        _currentSegment == 0 ? '–' : '+',
+                        style: TextStyles.titleStyleMedium
+                            .copyWith(fontWeight: TextStyles.fontWeightDefault, color: defaultColorScheme.primary),
+                      ),
+                      suffix: const Text('€'),
+                      type: const TextInputType.numberWithOptions(decimal: true),
+                      inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'^\d+\,?\d{0,2}'))],
+                      focusNode: _focusNodeAmount),
+                  const Gap(CustomPadding.defaultSpace),
+                  // Date
+                  DatePicker(onDateTimeChanged: (dateTime) => setState(() => _selectedDateTime = dateTime)),
                 ],
-                dropdownWidth: MediaQuery.sizeOf(context).width - 32,
-                onChanged: (value) =>
-                    setState(() => _selectedRecurrence = value)),
-            const Gap(CustomPadding.defaultSpace),
-            // Note text field
-            CustomTextfield(
-              name: AppTexts.note,
-              hintText: AppTexts.noteHint,
-              controller: _noteController,
-              isMultiline: true,
-            ),
-            const Gap(CustomPadding.defaultSpace),
-          ],
+              ),
+              const Gap(CustomPadding.defaultSpace),
+              Text(AppTexts.categorie, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
+              const Gap(CustomPadding.mediumSpace),
+              // Category section
+              // Display either expense or income categories based on current segment
+              _currentSegment == 0
+                  ? CategoriesExpense(onCategorySelected: _onCategorySelected)
+                  : CategoriesIncome(onCategorySelected: _onCategorySelected),
+              const Gap(CustomPadding.defaultSpace),
+              Text(AppTexts.recurrency, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
+              const Gap(CustomPadding.mediumSpace),
+              // Dropdown for selecting recurrence frequency
+              CustomDropDown(list: const [
+                'einmalig',
+                'täglich',
+                'wöchentlich',
+                'zweiwöchentlich',
+                'halb-monatlich',
+                'monatlich',
+                'vierteljährlich',
+                'halb-jährlich',
+                'jährlich'
+              ], dropdownWidth: MediaQuery.sizeOf(context).width - 32, onChanged: (value) => setState(() => _selectedRecurrence = value)),
+              const Gap(CustomPadding.defaultSpace),
+              // Note text field
+              CustomTextfield(
+                  name: AppTexts.note,
+                  hintText: AppTexts.noteHint,
+                  controller: _noteController,
+                  isMultiline: true,
+                  focusNode: _focusNodeNote),
+              const Gap(CustomPadding.defaultSpace),
+            ],
+          ),
         ),
       ),
     );

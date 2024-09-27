@@ -139,7 +139,9 @@ class _FriendProfileScreenState extends State<FriendProfileScreen> {
                   await _firestoreService.payOffFriendSplits(currentUserId, widget.friend.userId);
                   // Optionally, you might want to show a success message to the user.
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Schulden mit ${widget.friend.name} wurden beglichen.')),
+                    SnackBar(
+                        content: Text('Schulden mit ${widget.friend.name} wurden beglichen.',
+                            style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary))),
                   );
                   // You may also want to refresh the state or navigate back, etc.
                   setState(() {}); // Refresh the screen if necessary

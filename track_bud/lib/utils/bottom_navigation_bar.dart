@@ -65,6 +65,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> w
           // Scale the active tab
           scale: widget.currentIndex == index ? _animations[index].value : 1.0,
           child: InkWell(
+            borderRadius: BorderRadius.circular(100),
             onTap: () {
               widget.onTap(index);
               // Reset and start the animation
@@ -106,10 +107,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> w
             _buildNavItem(1, AssetImport.debtsActive, AssetImport.debts),
             // Add button (center)
             GestureDetector(
-              onTap: () => showModalBottomSheet(
-                context: context,
-                builder: (context) => const AddTypeSelector(),
-              ),
+              onTap: () => showModalBottomSheet(context: context, builder: (context) => const AddTypeSelector()),
               child: SizedBox(
                 width: MediaQuery.of(context).size.width * CustomPadding.navbarButtonwidth,
                 child: SvgPicture.asset(AssetImport.addButton),

@@ -24,12 +24,13 @@ class _ChangeBankaccountScreenState extends State<ChangeBankaccountScreen> {
   }
 
   Future<void> _loadCurrentBankAccountInfo() async {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     final String userId = FirebaseAuth.instance.currentUser?.uid ?? '';
 
     if (userId.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Benutzer nicht angemeldet."),
+        SnackBar(
+          content: Text("Benutzer nicht angemeldet.", style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary)),
         ),
       );
       return;
@@ -48,16 +49,18 @@ class _ChangeBankaccountScreenState extends State<ChangeBankaccountScreen> {
         } else {
           // Handle case where bank account balance is not found in Firestore
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text("Bankkontostand nicht gefunden."),
+            SnackBar(
+              content:
+                  Text("Bankkontostand nicht gefunden.", style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary)),
             ),
           );
         }
       } else {
         // Handle case where user document is not found in Firestore
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text("Benutzerdaten nicht gefunden."),
+          SnackBar(
+            content:
+                Text("Benutzerdaten nicht gefunden.", style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary)),
           ),
         );
       }
@@ -71,12 +74,13 @@ class _ChangeBankaccountScreenState extends State<ChangeBankaccountScreen> {
   }
 
   Future<void> _saveBankAccountInfo() async {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     final String userId = FirebaseAuth.instance.currentUser?.uid ?? '';
 
     if (userId.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Benutzer nicht angemeldet."),
+        SnackBar(
+          content: Text("Benutzer nicht angemeldet.", style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary)),
         ),
       );
       return;
@@ -85,8 +89,9 @@ class _ChangeBankaccountScreenState extends State<ChangeBankaccountScreen> {
     final String amountText = _moneyController.text.trim().replaceAll(',', '.');
     if (amountText.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Bitte geben Sie den Betrag ein."),
+        SnackBar(
+          content:
+              Text("Bitte geben Sie den Betrag ein.", style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary)),
         ),
       );
       return;
@@ -95,8 +100,8 @@ class _ChangeBankaccountScreenState extends State<ChangeBankaccountScreen> {
     final double amount = double.tryParse(amountText) ?? -1;
     if (amount < 0) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Ungültiger Betrag."),
+        SnackBar(
+          content: Text("Ungültiger Betrag.", style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary)),
         ),
       );
       return;
@@ -107,15 +112,17 @@ class _ChangeBankaccountScreenState extends State<ChangeBankaccountScreen> {
       await FirebaseFirestore.instance.collection('users').doc(userId).update({'bankAccountBalance': amount});
 
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Bankkonto erfolgreich aktualisiert."),
+        SnackBar(
+          content: Text("Bankkonto erfolgreich aktualisiert.",
+              style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary)),
         ),
       );
       Navigator.pop(context);
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text("Fehler beim Speichern der Bankkonto-Informationen: $e"),
+          content: Text("Fehler beim Speichern der Bankkonto-Informationen: $e",
+              style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary)),
         ),
       );
     }
@@ -162,17 +169,20 @@ class _ChangeBankaccountScreenState extends State<ChangeBankaccountScreen> {
         ),
       ),
       bottomSheet: Container(
-        // Margin is applied to the bottom of the button and the sides for proper spacing.
-        margin: EdgeInsets.only(
-          bottom: MediaQuery.sizeOf(context).height * CustomPadding.bottomSpace, // Bottom margin based on screen height
-          left: CustomPadding.defaultSpace, // Left margin
-          right: CustomPadding.defaultSpace, // Right margin
-        ),
-        child: ElevatedButton(
-          // Saving Button
-          onPressed: _saveBankAccountInfo,
-          child: Text(
-            AppTexts.save,
+        color: defaultColorScheme.onSurface,
+        child: Container(
+          // Margin is applied to the bottom of the button and the sides for proper spacing.
+          margin: EdgeInsets.only(
+            bottom: MediaQuery.sizeOf(context).height * CustomPadding.bottomSpace, // Bottom margin based on screen height
+            left: CustomPadding.defaultSpace, // Left margin
+            right: CustomPadding.defaultSpace, // Right margin
+          ),
+          child: ElevatedButton(
+            // Saving Button
+            onPressed: _saveBankAccountInfo,
+            child: Text(
+              AppTexts.save,
+            ),
           ),
         ),
       ),

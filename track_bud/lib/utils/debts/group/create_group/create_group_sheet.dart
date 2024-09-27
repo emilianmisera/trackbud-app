@@ -24,14 +24,21 @@ class _CreateGroupSheetState extends State<CreateGroupSheet> {
   final TextEditingController _groupNameController = TextEditingController();
   final List<String> _selectedFriends = [];
   File? _selectedImage;
+  bool _isFormValid = false;
+
+  @override
+  void initState() {
+    _groupNameController.addListener(_validateForm);
+    super.initState();
+  }
 
   void _createGroup(BuildContext context) async {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     if (_groupNameController.text.isEmpty || _selectedFriends.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text(
-              'Bitte Gruppennamen eingeben und mindestens einen Freund auswählen'),
-        ),
+        SnackBar(
+            content: Text('Bitte Gruppennamen eingeben und mindestens einen Freund auswählen',
+                style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary))),
       );
       return;
     }
@@ -39,10 +46,7 @@ class _CreateGroupSheetState extends State<CreateGroupSheet> {
     final groupProvider = Provider.of<GroupProvider>(context, listen: false);
     final currentUser = FirebaseAuth.instance.currentUser!;
 
-    List<String> groupMembers = [
-      currentUser.uid,
-      ..._selectedFriends.where((id) => id.isNotEmpty)
-    ];
+    List<String> groupMembers = [currentUser.uid, ..._selectedFriends.where((id) => id.isNotEmpty)];
 
     var uuid = const Uuid();
     String groupId = uuid.v4();
@@ -56,8 +60,7 @@ class _CreateGroupSheetState extends State<CreateGroupSheet> {
       createdAt: DateTime.now().toIso8601String(),
     );
 
-    File? compressedImage =
-        _selectedImage != null ? await compressImage(_selectedImage!) : null;
+    File? compressedImage = _selectedImage != null ? await compressImage(_selectedImage!) : null;
 
     await groupProvider.createGroup(newGroup, compressedImage);
     Navigator.pop(context);
@@ -78,22 +81,23 @@ class _CreateGroupSheetState extends State<CreateGroupSheet> {
     return File(result!.path);
   }
 
+  // Validate form inputs
+  void _validateForm() {
+    setState(() {
+      _isFormValid = _groupNameController.text.isNotEmpty && _selectedFriends.isNotEmpty;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final defaultColorScheme = Theme.of(context).colorScheme;
     return Container(
-      height:
-          MediaQuery.sizeOf(context).height * Constants.modalBottomSheetHeight,
+      height: MediaQuery.sizeOf(context).height * Constants.modalBottomSheetHeight,
       width: MediaQuery.sizeOf(context).width,
-      decoration: BoxDecoration(
-        color: defaultColorScheme.background,
-        borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
-      ),
+      decoration: BoxDecoration(color: defaultColorScheme.onSurface, borderRadius: BorderRadius.circular(Constants.contentBorderRadius)),
       child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: CustomPadding.defaultSpace,
-          vertical: CustomPadding.defaultSpace,
-        ),
+        padding:
+            const EdgeInsets.only(right: CustomPadding.defaultSpace, left: CustomPadding.defaultSpace, bottom: CustomPadding.defaultSpace),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -105,16 +109,12 @@ class _CreateGroupSheetState extends State<CreateGroupSheet> {
                   Container(
                 width: 36,
                 height: 5,
-                decoration: const BoxDecoration(
-                    color: CustomColor.grabberColor,
-                    borderRadius: BorderRadius.all(Radius.circular(100))),
+                decoration: const BoxDecoration(color: CustomColor.grabberColor, borderRadius: BorderRadius.all(Radius.circular(100))),
               ),
             ),
             const Gap(CustomPadding.defaultSpace),
             Center(
-              child: Text(AppTexts.createGroup,
-                  style: TextStyles.regularStyleMedium
-                      .copyWith(color: defaultColorScheme.primary)),
+              child: Text(AppTexts.createGroup, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
             ),
             const Gap(CustomPadding.mediumSpace),
             // Group name and image picker
@@ -127,18 +127,15 @@ class _CreateGroupSheetState extends State<CreateGroupSheet> {
               },
             ),
             const Gap(CustomPadding.defaultSpace),
-            Text(AppTexts.addMembers,
-                style: TextStyles.regularStyleMedium
-                    .copyWith(color: defaultColorScheme.primary)),
+            Text(AppTexts.addMembers, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
             const Gap(CustomPadding.mediumSpace),
             // Friends list
             Expanded(
               child: FutureBuilder<List<UserModel>>(
-                future: FirestoreService()
-                    .getFriends(FirebaseAuth.instance.currentUser!.uid),
+                future: FirestoreService().getFriends(FirebaseAuth.instance.currentUser!.uid),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(child: CircularProgressIndicator());
+                    return const Center(child: CircularProgressIndicator(color: CustomColor.bluePrimary));
                   }
                   if (snapshot.hasError) {
                     return Text('Error: ${snapshot.error}');
@@ -147,28 +144,21 @@ class _CreateGroupSheetState extends State<CreateGroupSheet> {
                     itemCount: snapshot.data!.length,
                     itemBuilder: (context, index) {
                       UserModel friend = snapshot.data![index];
-                      String friendId = friend.userId.isNotEmpty
-                          ? friend.userId
-                          : 'user_$index';
+                      String friendId = friend.userId.isNotEmpty ? friend.userId : 'user_$index';
 
                       return CheckboxListTile(
+                        contentPadding: EdgeInsets.zero,
+                        checkboxShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Constants.contentBorderRadius)),
                         activeColor: CustomColor.bluePrimary,
-                        side: BorderSide(
-                          color: defaultColorScheme.secondary,
-                          width: 2.0,
-                        ),
-                        title: Text(
-                          friend.name,
-                          style: TextStyle(color: defaultColorScheme.primary),
-                        ),
+                        side: BorderSide(color: defaultColorScheme.secondary, width: 1.5),
+                        title: Text(friend.name, style: TextStyle(color: defaultColorScheme.primary)),
                         secondary: ClipRRect(
                           borderRadius: BorderRadius.circular(100.0),
                           child: SizedBox(
                             width: 40,
                             height: 40,
                             child: friend.profilePictureUrl != ""
-                                ? Image.network(friend.profilePictureUrl,
-                                    fit: BoxFit.cover)
+                                ? Image.network(friend.profilePictureUrl, fit: BoxFit.cover)
                                 : const Icon(Icons.person, color: Colors.grey),
                           ),
                         ),
@@ -180,6 +170,8 @@ class _CreateGroupSheetState extends State<CreateGroupSheet> {
                             } else {
                               _selectedFriends.remove(friendId);
                             }
+                            // call when checkbox state changes
+                            _validateForm();
                           });
                         },
                       );
@@ -192,10 +184,7 @@ class _CreateGroupSheetState extends State<CreateGroupSheet> {
             // Action Button
             SizedBox(
               width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () => _createGroup(context),
-                child: Text(AppTexts.createGroup),
-              ),
+              child: ElevatedButton(onPressed: _isFormValid ? () => _createGroup(context) : null, child: Text(AppTexts.createGroup)),
             ),
             const Gap(CustomPadding.mediumSpace),
           ],
