@@ -4,7 +4,6 @@ import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
 import 'package:track_bud/provider/transaction_provider.dart';
 import 'package:track_bud/utils/plus_button/add_entry_modal.dart';
-import 'package:track_bud/utils/button_widgets/dropdown.dart';
 import 'package:track_bud/utils/button_widgets/segment_control.dart';
 import 'package:track_bud/utils/categories/category_expenses.dart';
 import 'package:track_bud/utils/categories/category_income.dart';
@@ -46,14 +45,17 @@ class _AddTransactionState extends State<AddTransaction> {
   Future<void> _addTransactionToDB() async {
     final defaultColorScheme = Theme.of(context).colorScheme;
     try {
-      final transactionProvider =
-          Provider.of<TransactionProvider>(context, listen: false);
+      final transactionProvider = Provider.of<TransactionProvider>(context, listen: false);
+
+      // Determine title based on the input or selected category
+      String transactionTitle =
+          _titleController.text.isNotEmpty ? _titleController.text : _selectedCategory ?? ''; // Use category name if title is empty
 
       await transactionProvider.addTransaction(
         _currentSegment == 0 ? 'expense' : 'income',
         double.tryParse(_amountController.text.replaceAll(',', '.')) ?? 0.0,
         {
-          'title': _titleController.text,
+          'title': transactionTitle, // Use the determined title
           'category': _selectedCategory,
           'recurrence': _selectedRecurrence,
           'note': _noteController.text,
@@ -64,16 +66,14 @@ class _AddTransactionState extends State<AddTransaction> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text('Transaktion erfolgreich hinzugefügt.',
-                style: TextStyles.regularStyleDefault
-                    .copyWith(color: defaultColorScheme.primary))));
+                style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary))));
         Navigator.pop(context);
       }
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text('Fehler beim Hinzufügen der Transaktion: $e',
-                style: TextStyles.regularStyleDefault
-                    .copyWith(color: defaultColorScheme.primary))));
+                style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary))));
       }
     }
   }
@@ -91,9 +91,7 @@ class _AddTransactionState extends State<AddTransaction> {
   // Validate form inputs
   void _validateForm() {
     setState(() {
-      _isFormValid = _titleController.text.isNotEmpty &&
-          _amountController.text.isNotEmpty &&
-          _selectedCategory != null;
+      _isFormValid = _amountController.text.isNotEmpty && _selectedCategory != null;
     });
   }
 
@@ -131,9 +129,7 @@ class _AddTransactionState extends State<AddTransaction> {
             children: [
               // Title of the bottom sheet
               Center(
-                  child: Text(AppTexts.newTransaction,
-                      style: TextStyles.regularStyleMedium
-                          .copyWith(color: defaultColorScheme.primary))),
+                  child: Text(AppTexts.newTransaction, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary))),
               const Gap(CustomPadding.defaultSpace),
               // Segment control for switching between expense and income
               CustomSegmentControl(
@@ -145,11 +141,7 @@ class _AddTransactionState extends State<AddTransaction> {
               ),
               const Gap(CustomPadding.bigSpace),
               // Text field for transaction title
-              CustomTextfield(
-                  name: AppTexts.title,
-                  hintText: AppTexts.hintTitle,
-                  controller: _titleController,
-                  focusNode: _focusNodeTitle),
+              CustomTextfield(name: AppTexts.title, hintText: AppTexts.hintTitle, controller: _titleController, focusNode: _focusNodeTitle),
               const Gap(CustomPadding.defaultSpace),
               // Row containing amount and date fields
               Row(
@@ -162,9 +154,8 @@ class _AddTransactionState extends State<AddTransaction> {
                     width: MediaQuery.sizeOf(context).width / 3,
                     prefix: Text(
                       _currentSegment == 0 ? '–' : '+',
-                      style: TextStyles.titleStyleMedium.copyWith(
-                          fontWeight: TextStyles.fontWeightDefault,
-                          color: defaultColorScheme.primary),
+                      style:
+                          TextStyles.titleStyleMedium.copyWith(fontWeight: TextStyles.fontWeightDefault, color: defaultColorScheme.primary),
                     ),
                     suffix: const Text('€'),
                     type: const TextInputType.numberWithOptions(decimal: true),
@@ -179,16 +170,13 @@ class _AddTransactionState extends State<AddTransaction> {
                   const Gap(CustomPadding.defaultSpace),
                   // Date
                   DatePicker(
-                    onDateTimeChanged: (dateTime) =>
-                        setState(() => _selectedDateTime = dateTime),
+                    onDateTimeChanged: (dateTime) => setState(() => _selectedDateTime = dateTime),
                     initialDateTime: DateTime.now(),
                   ),
                 ],
               ),
               const Gap(CustomPadding.defaultSpace),
-              Text(AppTexts.categorie,
-                  style: TextStyles.regularStyleMedium
-                      .copyWith(color: defaultColorScheme.primary)),
+              Text(AppTexts.categorie, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
               const Gap(CustomPadding.mediumSpace),
               // Category section
               // Display either expense or income categories based on current segment
@@ -196,7 +184,7 @@ class _AddTransactionState extends State<AddTransaction> {
                   ? CategoriesExpense(onCategorySelected: _onCategorySelected)
                   : CategoriesIncome(onCategorySelected: _onCategorySelected),
               const Gap(CustomPadding.defaultSpace),
-              Text(AppTexts.recurrency,
+              /*Text(AppTexts.recurrency,
                   style: TextStyles.regularStyleMedium
                       .copyWith(color: defaultColorScheme.primary)),
               const Gap(CustomPadding.mediumSpace),
@@ -216,7 +204,7 @@ class _AddTransactionState extends State<AddTransaction> {
                   dropdownWidth: MediaQuery.sizeOf(context).width - 32,
                   onChanged: (value) =>
                       setState(() => _selectedRecurrence = value)),
-              const Gap(CustomPadding.defaultSpace),
+              const Gap(CustomPadding.defaultSpace),*/
               // Note text field
               CustomTextfield(
                   name: AppTexts.note,
