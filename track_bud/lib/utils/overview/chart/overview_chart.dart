@@ -78,10 +78,7 @@ class _ExpensesOverviewTileState extends State<ExpensesOverviewTile> {
                   },
                 ),
                 const Gap(CustomPadding.defaultSpace),
-                Text(
-                  _getTimeUnitText(),
-                  style: TextStyles.hintStyleDefault,
-                ),
+                Text(_getTimeUnitText(), style: TextStyles.hintStyleDefault),
                 Consumer<TransactionProvider>(
                   builder: (context, transactionProvider, child) {
                     return Text(
