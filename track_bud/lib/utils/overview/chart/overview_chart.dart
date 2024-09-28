@@ -20,8 +20,7 @@ class ExpensesOverviewTile extends StatefulWidget {
 class _ExpensesOverviewTileState extends State<ExpensesOverviewTile> {
   int _currentTimeUnit = 2;
   final categoryColors = {
-    for (var category in Categories.values)
-      category.categoryName: category.color,
+    for (var category in Categories.values) category.categoryName: category.color,
   };
 
   @override
@@ -54,8 +53,7 @@ class _ExpensesOverviewTileState extends State<ExpensesOverviewTile> {
       builder: (context, transactionProvider, child) {
         if (transactionProvider.shouldReloadChart) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
-            transactionProvider
-                .calculateTotalExpenseForTimeUnit(_currentTimeUnit);
+            transactionProvider.calculateTotalExpenseForTimeUnit(_currentTimeUnit);
             transactionProvider.resetReloadFlag();
           });
         }
@@ -66,8 +64,7 @@ class _ExpensesOverviewTileState extends State<ExpensesOverviewTile> {
             padding: const EdgeInsets.all(CustomPadding.defaultSpace),
             decoration: BoxDecoration(
               color: defaultColorScheme.surface,
-              borderRadius:
-                  BorderRadius.circular(Constants.contentBorderRadius),
+              borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -77,31 +74,19 @@ class _ExpensesOverviewTileState extends State<ExpensesOverviewTile> {
                     setState(() {
                       _currentTimeUnit = newValue ?? 2;
                     });
-                    context
-                        .read<TransactionProvider>()
-                        .calculateTotalExpenseForTimeUnit(_currentTimeUnit);
+                    context.read<TransactionProvider>().calculateTotalExpenseForTimeUnit(_currentTimeUnit);
                   },
                 ),
                 const Gap(CustomPadding.defaultSpace),
-                Row(
-                  children: [
-                    Icon(
-                      Icons.arrow_back_ios_new_rounded,
-                      color: defaultColorScheme.secondary,
-                      size: 15,
-                    ),
-                    Text(
-                      _getTimeUnitText(),
-                      style: TextStyles.hintStyleDefault,
-                    ),
-                  ],
+                Text(
+                  _getTimeUnitText(),
+                  style: TextStyles.hintStyleDefault,
                 ),
                 Consumer<TransactionProvider>(
                   builder: (context, transactionProvider, child) {
                     return Text(
                       '${transactionProvider.totalExpenseForTimeUnit.toStringAsFixed(2)}€',
-                      style: TextStyles.headingStyle
-                          .copyWith(color: defaultColorScheme.primary),
+                      style: TextStyles.headingStyle.copyWith(color: defaultColorScheme.primary),
                     );
                   },
                 ),
@@ -113,13 +98,11 @@ class _ExpensesOverviewTileState extends State<ExpensesOverviewTile> {
                   height: 8,
                 ),
                 const Gap(CustomPadding.defaultSpace),
-                Consumer<TransactionProvider>(
-                    builder: (context, transactionProvider, child) {
+                Consumer<TransactionProvider>(builder: (context, transactionProvider, child) {
                   return ExpensesCharts(
                     currentTimeUnit: _currentTimeUnit,
                     expenses: transactionProvider.expensesForTimeUnit,
-                    monthlyBudgetGoal:
-                        userProvider.currentUser?.monthlySpendingGoal ?? 0.0,
+                    monthlyBudgetGoal: userProvider.currentUser?.monthlySpendingGoal ?? 0.0,
                   );
                 })
               ],
