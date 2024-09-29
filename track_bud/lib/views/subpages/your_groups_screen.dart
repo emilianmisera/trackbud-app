@@ -79,7 +79,7 @@ class _YourGroupsScreenState extends State<YourGroupsScreen> {
                   }).toList();
 
                   if (filteredGroups.isEmpty) {
-                    return const Center(child: Text("Keine Gruppen gefunden."));
+                    return Center(child: Text("Keine Gruppen gefunden.", style: TextStyle(color: defaultColorScheme.primary)));
                   }
 
                   return Column(

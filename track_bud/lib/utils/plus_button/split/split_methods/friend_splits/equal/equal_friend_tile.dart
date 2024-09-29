@@ -37,9 +37,7 @@ class EqualFriendTile extends StatelessWidget {
                   : const Icon(Icons.person, size: 30),
             ),
           ),
-          title: Text(user.name,
-              style: TextStyles.regularStyleDefault
-                  .copyWith(color: defaultColorScheme.primary)),
+          title: Text(user.name, style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary)),
           trailing: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -47,13 +45,11 @@ class EqualFriendTile extends StatelessWidget {
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
                   color: defaultColorScheme.surface,
-                  borderRadius:
-                      BorderRadius.circular(Constants.contentBorderRadius),
+                  borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
                   border: Border.all(color: defaultColorScheme.outline),
                 ),
                 child: Text('${splitAmount.toStringAsFixed(2)}€',
-                    style: TextStyles.hintStyleDefault
-                        .copyWith(color: defaultColorScheme.secondary)),
+                    style: TextStyles.hintStyleDefault.copyWith(color: defaultColorScheme.secondary)),
               ),
             ],
           ),

@@ -78,19 +78,7 @@ class _ExpensesOverviewTileState extends State<ExpensesOverviewTile> {
                   },
                 ),
                 const Gap(CustomPadding.defaultSpace),
-                Row(
-                  children: [
-                    Icon(
-                      Icons.arrow_back_ios_new_rounded,
-                      color: defaultColorScheme.secondary,
-                      size: 15,
-                    ),
-                    Text(
-                      _getTimeUnitText(),
-                      style: TextStyles.hintStyleDefault,
-                    ),
-                  ],
-                ),
+                Text(_getTimeUnitText(), style: TextStyles.hintStyleDefault.copyWith(color: defaultColorScheme.secondary)),
                 Consumer<TransactionProvider>(
                   builder: (context, transactionProvider, child) {
                     return Text(

@@ -66,12 +66,12 @@ class _AddTypeSelectorState extends State<AddTypeSelector> {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(child: CircularProgressIndicator(color: CustomColor.bluePrimary));
                   } else if (snapshot.hasError) {
-                    return Text('Error: ${snapshot.error}');
+                    return Text('Error: ${snapshot.error}', style: TextStyle(color: defaultColorScheme.primary));
                   } else {
                     final friends = snapshot.data!;
                     if (friends.isEmpty) {
                       // Display "Keine Freunde gefunden" message
-                      return const Center(child: Text("Keine Freunde gefunden."));
+                      return Center(child: Text("Keine Freunde gefunden.", style: TextStyle(color: defaultColorScheme.primary)));
                     }
                     return ListView.builder(
                       itemCount: friends.length,
@@ -115,8 +115,7 @@ class _AddTypeSelectorState extends State<AddTypeSelector> {
 
   void _showGroupSelectionDialog(BuildContext context) {
     final defaultColorScheme = Theme.of(context).colorScheme;
-    final userProvider = Provider.of<UserProvider>(context,
-        listen: false); // Get the user provider
+    final userProvider = Provider.of<UserProvider>(context, listen: false); // Get the user provider
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -132,7 +131,7 @@ class _AddTypeSelectorState extends State<AddTypeSelector> {
               if (groupProvider.isLoading) {
                 return const Center(child: CircularProgressIndicator(color: CustomColor.bluePrimary));
               } else if (groupProvider.groups.isEmpty) {
-                return const Center(child: Text("Keine Gruppen gefunden."));
+                return Center(child: Text("Keine Gruppen gefunden.", style: TextStyle(color: defaultColorScheme.primary)));
               } else {
                 return ListView.builder(
                   itemCount: groupProvider.groups.length,
@@ -150,8 +149,7 @@ class _AddTypeSelectorState extends State<AddTypeSelector> {
                             builder: (context) => AddGroupSplit(
                               selectedGroup: selectedGroup,
                               memberNames: memberNames,
-                              currentUserId: userProvider.currentUser!
-                                  .userId, // Pass the userId here                            
+                              currentUserId: userProvider.currentUser!.userId, // Pass the userId here
                             ),
                           );
                         },
@@ -216,10 +214,10 @@ class _AddTypeSelectorState extends State<AddTypeSelector> {
                 );
               },
               child: Row(
-                mainAxisSize: MainAxisSize.min, // Passt die Größe an den Inhalt an
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Icon(Icons.person), // Icon mit einer Person
-                  const SizedBox(width: 8), // Abstand zwischen Icon und Text
+                  const Icon(Icons.person),
+                  const SizedBox(width: 8),
                   Text(AppTexts.addNewTransaction),
                 ],
               ),
@@ -231,10 +229,10 @@ class _AddTypeSelectorState extends State<AddTypeSelector> {
                 _showFriendSelectionDialog(context);
               },
               child: Row(
-                mainAxisSize: MainAxisSize.min, // Passt die Größe an den Inhalt an
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Icon(Icons.people), // Icon mit einer Person
-                  const SizedBox(width: 8), // Abstand zwischen Icon und Text
+                  const Icon(Icons.people),
+                  const SizedBox(width: CustomPadding.mediumSpace),
                   Text(AppTexts.addNewFriendSplit),
                 ],
               ),
@@ -246,10 +244,10 @@ class _AddTypeSelectorState extends State<AddTypeSelector> {
                 _showGroupSelectionDialog(context);
               },
               child: Row(
-                mainAxisSize: MainAxisSize.min, // Passt die Größe an den Inhalt an
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Icon(Icons.groups), // Icon mit einer Person
-                  const SizedBox(width: 8), // Abstand zwischen Icon und Text
+                  const Icon(Icons.groups),
+                  const SizedBox(width: CustomPadding.mediumSpace),
                   Text(AppTexts.addNewGroupSplit),
                 ],
               ),

@@ -18,10 +18,7 @@ class LockedEmailTextfield extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // Email label
-        Text(
-          AppTexts.email,
-          style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary),
-        ),
+        Text(AppTexts.email, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
         const Gap(
           CustomPadding.mediumSpace,
         ),
@@ -42,10 +39,7 @@ class LockedEmailTextfield extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 // Display the email
-                Text(
-                  email,
-                  style: TextStyles.hintStyleDefault.copyWith(color: defaultColorScheme.secondary),
-                ),
+                Text(email, style: TextStyles.hintStyleDefault.copyWith(color: defaultColorScheme.secondary)),
                 // Lock icon to indicate the field is not editable
                 SvgPicture.asset(
                   AssetImport.lock,

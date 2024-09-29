@@ -24,8 +24,7 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final transactionProvider =
-          Provider.of<TransactionProvider>(context, listen: false);
+      final transactionProvider = Provider.of<TransactionProvider>(context, listen: false);
       transactionProvider.initializeBalance();
       transactionProvider.calculateTotalAmount('expense');
     });
@@ -33,10 +32,8 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
 
   @override
   Widget build(BuildContext context) {
-    String infoTileTitle =
-        _selectedOption == 'Ausgaben' ? 'ausgegeben' : 'erhalten';
-    Color infoTileColor =
-        _selectedOption == 'Ausgaben' ? CustomColor.red : CustomColor.green;
+    String infoTileTitle = _selectedOption == 'Ausgaben' ? 'ausgegeben' : 'erhalten';
+    Color infoTileColor = _selectedOption == 'Ausgaben' ? CustomColor.red : CustomColor.green;
     final defaultColorScheme = Theme.of(context).colorScheme;
 
     return Scaffold(
@@ -45,8 +42,7 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
           return SingleChildScrollView(
             child: Padding(
               padding: EdgeInsets.only(
-                  top: MediaQuery.sizeOf(context).height *
-                      CustomPadding.topSpace,
+                  top: MediaQuery.sizeOf(context).height * CustomPadding.topSpace,
                   left: CustomPadding.defaultSpace,
                   right: CustomPadding.defaultSpace),
               child: Column(
@@ -54,8 +50,7 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
                 children: [
                   InfoTile(
                       title: AppTexts.balance,
-                      amount:
-                          transactionProvider.currentBalance.toStringAsFixed(2),
+                      amount: transactionProvider.currentBalance.toStringAsFixed(2),
                       color: CustomColor.bluePrimary),
                   const Gap(CustomPadding.mediumSpace),
                   Row(
@@ -63,24 +58,18 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
                     children: [
                       InfoTile(
                         title: infoTileTitle,
-                        amount:
-                            transactionProvider.totalAmount.toStringAsFixed(2),
+                        amount: transactionProvider.totalAmount.toStringAsFixed(2),
                         color: infoTileColor,
-                        width: MediaQuery.sizeOf(context).width / 2 -
-                            Constants.infoTileSpace,
+                        width: MediaQuery.sizeOf(context).width / 2 - Constants.infoTileSpace,
                       ),
                       CustomDropDown(
                         list: const ['Ausgaben', 'Einnahmen'],
-                        width: MediaQuery.sizeOf(context).width / 2 -
-                            Constants.infoTileSpace,
+                        width: MediaQuery.sizeOf(context).width / 2 - Constants.infoTileSpace,
                         height: 96,
                         onChanged: (value) {
                           setState(() {
                             _selectedOption = value;
-                            transactionProvider.calculateTotalAmount(
-                                _selectedOption == 'Ausgaben'
-                                    ? 'expense'
-                                    : 'income');
+                            transactionProvider.calculateTotalAmount(_selectedOption == 'Ausgaben' ? 'expense' : 'income');
                           });
                         },
                       ),
@@ -92,8 +81,7 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
                     onCategorySelected: (category) {
                       setState(
                         () {
-                          _selectedCategory =
-                              category; // Track selected category
+                          _selectedCategory = category; // Track selected category
                         },
                       );
                     },
@@ -101,14 +89,12 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
                   const Gap(CustomPadding.defaultSpace),
                   Text(
                     AppTexts.history,
-                    style: TextStyles.regularStyleMedium
-                        .copyWith(color: defaultColorScheme.primary),
+                    style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary),
                   ),
                   const Gap(CustomPadding.mediumSpace),
                   TransactionHistoryList(
                     // Pass the selected category here
-                    transactionType:
-                        _selectedOption == 'Ausgaben' ? 'expense' : 'income',
+                    transactionType: _selectedOption == 'Ausgaben' ? 'expense' : 'income',
                     selectedCategory: _selectedCategory,
                   ),
                 ],

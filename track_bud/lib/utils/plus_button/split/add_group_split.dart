@@ -46,6 +46,8 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
   String _paidByUserId = ''; // ID of the user making the payment
   List<String> _selectedMembers = []; // List of selected member IDs for the split
   late Map<String, String> _memberNameToId; // Maps member names to their IDs
+  final _focusNodeTitle = FocusNode();
+  final _focusNodeAmount = FocusNode();
   DateTime _selectedDateTime = DateTime.now();
 
   @override
@@ -106,6 +108,7 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
 
   // Saves the new group split to Firestore
   Future<void> _saveNewGroupSplit() async {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     double totalAmount = _parseAmount(); // Get total amount for the split
     double splitAmount = totalAmount / _selectedMembers.length; // Calculate share amount
 
@@ -136,8 +139,8 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
       await _firestoreService.addGroupSplit(newSplit); // Save the split to Firestore
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Group split added successfully'),
+          SnackBar(
+            content: Text('Group split added successfully', style: TextStyle(color: defaultColorScheme.primary)),
           ),
         );
         // Refresh the group data and invalidate the debts overview cache
@@ -149,7 +152,7 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
       // Handle errors that occur during saving
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error adding group split: $e')),
+          SnackBar(content: Text('Error adding group split: $e', style: TextStyle(color: defaultColorScheme.primary))),
         );
       }
     }
@@ -160,14 +163,9 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
     return Center(
       child: Column(
         children: [
-          Text(
-            AppTexts.newGroupSplit,
-            style: TextStyles.regularStyleMedium.copyWith(color: colorScheme.primary),
-          ),
-          Text(
-            widget.selectedGroup.name,
-            style: TextStyles.titleStyleMedium.copyWith(color: colorScheme.primary),
-          ),
+          Text(AppTexts.newGroupSplit, style: TextStyles.regularStyleMedium.copyWith(color: colorScheme.primary)),
+          Text(widget.selectedGroup.name, style: TextStyles.titleStyleMedium.copyWith(color: colorScheme.primary)),
+
         ],
       ),
     );
@@ -175,11 +173,7 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
 
   // Builds the title input field
   Widget _buildTitleInput() {
-    return CustomTextfield(
-      name: AppTexts.title,
-      hintText: AppTexts.hintTitle,
-      controller: _titleController,
-    );
+    return CustomTextfield(name: AppTexts.title, hintText: AppTexts.hintTitle, controller: _titleController, focusNode: _focusNodeTitle);
   }
 
   // Builds the amount input field with prefix and suffix
@@ -187,26 +181,25 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
     return Row(
       children: [
         CustomTextfield(
-          name: AppTexts.amount,
-          hintText: '00.00',
-          controller: _amountController,
-          width: MediaQuery.of(context).size.width / 3,
-          prefix: Text(
-            '-',
-            style: TextStyles.titleStyleMedium.copyWith(
-              fontWeight: TextStyles.fontWeightDefault,
-              color: colorScheme.primary,
+            name: AppTexts.amount,
+            hintText: '00.00',
+            controller: _amountController,
+            width: MediaQuery.of(context).size.width / 3,
+            prefix: Text(
+              '-',
+              style: TextStyles.titleStyleMedium.copyWith(fontWeight: TextStyles.fontWeightDefault, color: colorScheme.primary),
             ),
+            suffix: Text('€', style: TextStyle(color: colorScheme.primary)),
+            type: const TextInputType.numberWithOptions(decimal: true),
+            inputFormatters: [
+              // Erlaubt Zahlen und Punkt oder Komma als Dezimaltrennzeichen
+              FilteringTextInputFormatter.allow(
+                RegExp(r'^\d+([.,]\d{0,2})?'),
+              ),
+            ],
+            focusNode: _focusNodeAmount),
           ),
-          suffix: const Text('€'),
-          type: const TextInputType.numberWithOptions(decimal: true),
-          inputFormatters: [
-            // Erlaubt Zahlen und Punkt oder Komma als Dezimaltrennzeichen
-            FilteringTextInputFormatter.allow(
-              RegExp(r'^\d+([.,]\d{0,2})?'),
-            ),
-          ],
-        ),
+
         const Gap(CustomPadding.defaultSpace), // Added Gap for spacing
         // Date Picker
         Expanded(
@@ -224,10 +217,8 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          AppTexts.categorie,
-          style: TextStyles.regularStyleMedium.copyWith(color: colorScheme.primary),
-        ),
+        Text(AppTexts.categorie, style: TextStyles.regularStyleMedium.copyWith(color: colorScheme.primary)),
+
         const Gap(CustomPadding.mediumSpace),
         CategoriesExpense(onCategorySelected: _onCategorySelected),
       ],
@@ -239,10 +230,8 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          AppTexts.payedBy,
-          style: TextStyles.regularStyleMedium.copyWith(color: colorScheme.primary),
-        ),
+        Text(AppTexts.payedBy, style: TextStyles.regularStyleMedium.copyWith(color: colorScheme.primary)),
+
         const Gap(CustomPadding.mediumSpace),
         CustomDropDown(
           list: widget.memberNames,
@@ -266,10 +255,8 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'Verteilung',
-          style: TextStyles.regularStyleMedium.copyWith(color: colorScheme.primary),
-        ),
+        Text('Verteilung', style: TextStyles.regularStyleMedium.copyWith(color: colorScheme.primary)),
+
         const Gap(CustomPadding.mediumSpace),
         EqualGroupSplitWidget(
           amount: _inputNumber,
@@ -285,36 +272,46 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
     );
   }
 
+  // Method to unfocus all text fields
+  void _unfocusAll() {
+    _focusNodeTitle.unfocus();
+    _focusNodeAmount.unfocus();
+  }
+
   @override
   Widget build(BuildContext context) {
     final defaultColorScheme = Theme.of(context).colorScheme; // Get current color scheme
 
-    return AddEntryModal(
-      buttonText: AppTexts.addSplit,
-      initialChildSize: 0.76,
-      maxChildSize: 0.95,
-      isButtonEnabled: _isFormValid, // Enable button based on form validity
-      onButtonPressed: () async {
-        await _saveNewGroupSplit(); // Attempt to save the group split
-        if (context.mounted) Navigator.pop(context); // Close the modal
-      },
-      child: Padding(
-        padding: CustomPadding.screenWidth,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildHeader(defaultColorScheme),
-            const Gap(CustomPadding.defaultSpace),
-            _buildTitleInput(),
-            const Gap(CustomPadding.defaultSpace),
-            _buildDateAndAmountInput(defaultColorScheme),
-            const Gap(CustomPadding.defaultSpace),
-            _buildCategorySelection(defaultColorScheme),
-            const Gap(CustomPadding.defaultSpace),
-            _buildPayingMemberSelection(defaultColorScheme),
-            const Gap(CustomPadding.defaultSpace),
-            _buildMembersSelection(defaultColorScheme),
-          ],
+    return GestureDetector(
+      onTap: _unfocusAll,
+      child: AddEntryModal(
+        buttonText: AppTexts.addSplit,
+        initialChildSize: 0.76,
+        maxChildSize: 0.95,
+        isButtonEnabled: _isFormValid, // Enable button based on form validity
+        onButtonPressed: () async {
+          await _saveNewGroupSplit(); // Attempt to save the group split
+          if (context.mounted) Navigator.pop(context); // Close the modal
+        },
+        child: Padding(
+          padding: CustomPadding.screenWidth,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildHeader(defaultColorScheme),
+              const Gap(CustomPadding.defaultSpace),
+              _buildTitleInput(),
+              const Gap(CustomPadding.defaultSpace),
+              _buildAmountInput(defaultColorScheme),
+              const Gap(CustomPadding.defaultSpace),
+              _buildCategorySelection(defaultColorScheme),
+              const Gap(CustomPadding.defaultSpace),
+              _buildPayingMemberSelection(defaultColorScheme),
+              const Gap(CustomPadding.defaultSpace),
+              _buildMembersSelection(defaultColorScheme),
+            ],
+          ),
+
         ),
       ),
     );

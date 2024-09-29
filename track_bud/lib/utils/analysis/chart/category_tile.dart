@@ -32,9 +32,7 @@ class CategoryTile extends StatelessWidget {
       child: Container(
         width: MediaQuery.of(context).size.width,
         padding: const EdgeInsets.all(CustomPadding.defaultSpace),
-        decoration: BoxDecoration(
-            color: defaultColorScheme.surface,
-            borderRadius: BorderRadius.circular(Constants.contentBorderRadius)),
+        decoration: BoxDecoration(color: defaultColorScheme.surface, borderRadius: BorderRadius.circular(Constants.contentBorderRadius)),
         child: Row(
           children: [
             CategoryIcon(color: color, iconWidget: icon),
@@ -43,14 +41,10 @@ class CategoryTile extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(title,
-                      style: TextStyles.regularStyleMedium
-                          .copyWith(color: defaultColorScheme.primary)),
+                  Text(title, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
                   Text(
                     '${((amount / totalAmount) * 100).toStringAsFixed(1)}%',
-                    style: TextStyles.hintStyleDefault.copyWith(
-                        fontSize: TextStyles.fontSizeHint,
-                        color: defaultColorScheme.secondary),
+                    style: TextStyles.hintStyleDefault.copyWith(fontSize: TextStyles.fontSizeHint, color: defaultColorScheme.secondary),
                   ),
                 ],
               ),
@@ -59,15 +53,11 @@ class CategoryTile extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Text('${amount.toStringAsFixed(2)}€',
-                    style: TextStyles.regularStyleMedium
-                        .copyWith(color: defaultColorScheme.primary)),
+                Text('${amount.toStringAsFixed(2)}€', style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
                 const Gap(CustomPadding.mediumSpace),
                 Text(
                   '$transactionCount Transaktionen',
-                  style: TextStyles.hintStyleDefault.copyWith(
-                      fontSize: TextStyles.fontSizeHint,
-                      color: defaultColorScheme.secondary),
+                  style: TextStyles.hintStyleDefault.copyWith(fontSize: TextStyles.fontSizeHint, color: defaultColorScheme.secondary),
                 ),
               ],
             )

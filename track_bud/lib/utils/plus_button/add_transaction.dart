@@ -47,6 +47,7 @@ class _AddTransactionState extends State<AddTransaction> {
     try {
       final transactionProvider = Provider.of<TransactionProvider>(context, listen: false);
 
+
       // Determine title based on the input or selected category
       String transactionTitle =
           _titleController.text.isNotEmpty ? _titleController.text : _selectedCategory ?? ''; // Use category name if title is empty
@@ -91,6 +92,7 @@ class _AddTransactionState extends State<AddTransaction> {
   // Validate form inputs
   void _validateForm() {
     setState(() {
+
       _isFormValid = _amountController.text.isNotEmpty && _selectedCategory != null;
     });
   }
@@ -157,7 +159,7 @@ class _AddTransactionState extends State<AddTransaction> {
                       style:
                           TextStyles.titleStyleMedium.copyWith(fontWeight: TextStyles.fontWeightDefault, color: defaultColorScheme.primary),
                     ),
-                    suffix: const Text('€'),
+                    suffix: Text('€', style: TextStyle(color: defaultColorScheme.primary)),
                     type: const TextInputType.numberWithOptions(decimal: true),
                     inputFormatters: [
                       // Erlaubt Zahlen und Punkt oder Komma als Dezimaltrennzeichen
@@ -184,6 +186,7 @@ class _AddTransactionState extends State<AddTransaction> {
                   ? CategoriesExpense(onCategorySelected: _onCategorySelected)
                   : CategoriesIncome(onCategorySelected: _onCategorySelected),
               const Gap(CustomPadding.defaultSpace),
+
               /*Text(AppTexts.recurrency,
                   style: TextStyles.regularStyleMedium
                       .copyWith(color: defaultColorScheme.primary)),

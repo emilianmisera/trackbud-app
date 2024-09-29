@@ -23,10 +23,7 @@ class AccAdjustmentButton extends StatelessWidget {
       label: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            name,
-            style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary),
-          ),
+          Text(name, style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary)),
           const Icon(Icons.arrow_forward_ios_rounded),
         ],
       ),

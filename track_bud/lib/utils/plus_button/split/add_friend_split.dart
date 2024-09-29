@@ -36,13 +36,19 @@ class AddFriendSplit extends StatefulWidget {
 class _AddFriendSplitState extends State<AddFriendSplit> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _amountController = TextEditingController();
-  late String _selectedCategory;
+  String _selectedCategory = '';
   SplitMethod _selectedSplitMethod = SplitMethod.equal;
   double _inputNumber = 0.00;
   bool _isFormValid = false;
   String _payedBy = '';
   final FirestoreService _firestoreService = FirestoreService();
   List<double> _splitAmounts = [0.0, 0.0];
+  final _focusNodeTitle = FocusNode();
+  final _focusNodeAmount = FocusNode();
+  //store the split sum validation message
+  String _splitSumValidationMessage = '';
+  //list to store focus nodes for ByAmountTiles
+  List<FocusNode> _byAmountFocusNodes = [];
   DateTime _selectedDateTime = DateTime.now();
 
   @override
@@ -51,6 +57,9 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
     _titleController.addListener(_validateForm);
     _amountController.addListener(_onInputChanged);
     _payedBy = widget.currentUser.name;
+
+    // Initialize focus nodes for ByAmountTiles
+    _byAmountFocusNodes = List.generate(2, (_) => FocusNode());
   }
 
   @override
@@ -59,23 +68,49 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
     _amountController.removeListener(_onInputChanged);
     _titleController.dispose();
     _amountController.dispose();
+
+    // Dispose focus nodes for ByAmountTiles
+    for (var focusNode in _byAmountFocusNodes) {
+      focusNode.dispose();
+    }
+
     super.dispose();
   }
 
+  // validate the form and check split amounts
   void _validateForm() {
     setState(() {
+      final totalAmount = _parseAmount();
+      final sumOfAmounts = _splitAmounts.reduce((a, b) => a + b);
+
       if (_selectedSplitMethod == SplitMethod.amount) {
         // For "by amount" split, check if the sum of amounts matches the total
-        final totalAmount = _parseAmount();
-        final sumOfAmounts = _splitAmounts.reduce((a, b) => a + b);
-        _isFormValid = 
+        // and ensure that both split amounts are greater than zero
+        _isFormValid = _titleController.text.isNotEmpty &&
+
             _amountController.text.isNotEmpty &&
             _selectedCategory.isNotEmpty &&
-            totalAmount == sumOfAmounts;
+            totalAmount == sumOfAmounts &&
+            _splitAmounts.every((amount) => amount > 0);
+
+        // Update the validation message
+        _updateSplitSumValidationMessage(totalAmount, sumOfAmounts);
       } else {
+
         _isFormValid = _amountController.text.isNotEmpty && _selectedCategory.isNotEmpty;
       }
     });
+  }
+
+  // update the split sum validation message
+  void _updateSplitSumValidationMessage(double totalAmount, double sumOfAmounts) {
+    if (totalAmount > sumOfAmounts) {
+      _splitSumValidationMessage = '${(totalAmount - sumOfAmounts).toStringAsFixed(2)}€ fehlen noch';
+    } else if (totalAmount < sumOfAmounts) {
+      _splitSumValidationMessage = '${(sumOfAmounts - totalAmount).toStringAsFixed(2)}€ zu viel';
+    } else {
+      _splitSumValidationMessage = '';
+    }
   }
 
   void _onInputChanged() {
@@ -98,6 +133,7 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
   }
 
   Future<void> _saveNewFriendSplit() async {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     double totalAmount = _parseAmount();
 
     double creditorAmount, debtorAmount;
@@ -135,146 +171,144 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
 
     try {
       await _firestoreService.addFriendSplit(newSplit);
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Friend split added successfully')),
-        );
-      }
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error adding friend split: $e')),
+          SnackBar(
+              content: Text('Hinzufügen des Freundes-Splits fehlgeschlagen: $e',
+                  style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary))),
         );
       }
+    }
+  }
+
+  // unfocus all text fields
+  void _unfocusAll() {
+    _focusNodeTitle.unfocus();
+    _focusNodeAmount.unfocus();
+    for (var focusNode in _byAmountFocusNodes) {
+      focusNode.unfocus();
     }
   }
 
   @override
   Widget build(BuildContext context) {
     final defaultColorScheme = Theme.of(context).colorScheme;
-    return AddEntryModal(
-      buttonText: AppTexts.addSplit,
-      initialChildSize: 0.76,
-      maxChildSize: 0.95,
-      isButtonEnabled: _isFormValid,
-      onButtonPressed: () async {
-        await _saveNewFriendSplit();
-        if (context.mounted) Navigator.pop(context);
-      },
-      child: Padding(
-        padding: CustomPadding.screenWidth,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Center(
-              child: Column(
-                children: [
-                  Text(
-                    AppTexts.newFriendSplit,
-                    style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary),
-                  ),
-                  Text(
-                    widget.selectedFriend.name,
-                    style: TextStyles.titleStyleMedium.copyWith(color: defaultColorScheme.primary),
-                  ),
-                ],
-              ),
-            ),
-            const Gap(CustomPadding.defaultSpace),
-            CustomTextfield(
-              name: AppTexts.title,
-              hintText: AppTexts.hintTitle,
-              controller: _titleController,
-            ),
-            const Gap(CustomPadding.defaultSpace),
-            Row(
-              children: [
-                CustomTextfield(
-                  name: AppTexts.amount,
-                  hintText: '00.00',
-                  controller: _amountController,
-                  width: MediaQuery.sizeOf(context).width / 3,
-                  prefix: Text(
-                    '-',
-                    style:
-                        TextStyles.titleStyleMedium.copyWith(fontWeight: TextStyles.fontWeightDefault, color: defaultColorScheme.primary),
-                  ),
-                  suffix: const Text('€'),
-                  type: const TextInputType.numberWithOptions(decimal: true),
-                  inputFormatters: [
-                    // Erlaubt Zahlen und Punkt oder Komma als Dezimaltrennzeichen
-                    FilteringTextInputFormatter.allow(
-                      RegExp(r'^\d+([.,]\d{0,2})?'),
-                    ),
+    return GestureDetector(
+      onTap: _unfocusAll,
+      child: AddEntryModal(
+        buttonText: _splitSumValidationMessage.isNotEmpty ? _splitSumValidationMessage : AppTexts.addSplit,
+        initialChildSize: 0.76,
+        maxChildSize: 0.95,
+        isButtonEnabled: _isFormValid,
+        onButtonPressed: () async {
+          await _saveNewFriendSplit();
+          if (context.mounted) Navigator.pop(context);
+        },
+        child: Padding(
+          padding: CustomPadding.screenWidth,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: Column(
+                  children: [
+                    Text(AppTexts.newFriendSplit, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
+                    Text(widget.selectedFriend.name, style: TextStyles.titleStyleMedium.copyWith(color: defaultColorScheme.primary)),
                   ],
                 ),
-                const Gap(CustomPadding.defaultSpace),
-                // Date Picker
-                Expanded(
-                  child: DatePicker(
-                    onDateTimeChanged: (dateTime) => setState(() => _selectedDateTime = dateTime),
-                    initialDateTime: DateTime.now(),
+              ),
+              const Gap(CustomPadding.defaultSpace),
+              CustomTextfield(name: AppTexts.title, hintText: AppTexts.hintTitle, controller: _titleController, focusNode: _focusNodeTitle),
+              const Gap(CustomPadding.defaultSpace),
+              Row(
+                children: [
+                  CustomTextfield(
+                    name: AppTexts.amount,
+                    hintText: '00.00',
+                    controller: _amountController,
+                    width: MediaQuery.sizeOf(context).width / 3,
+                    prefix: Text('-',
+                        style: TextStyles.titleStyleMedium
+                            .copyWith(fontWeight: TextStyles.fontWeightDefault, color: defaultColorScheme.primary)),
+                    suffix: Text('€', style: TextStyle(color: defaultColorScheme.primary)),
+                    type: const TextInputType.numberWithOptions(decimal: true),
+                    inputFormatters: [
+                      // Allows numbers and point or comma as decimal separator
+                      FilteringTextInputFormatter.allow(RegExp(r'^\d+([.,]\d{0,2})?'))
+                    ],
+                    focusNode: _focusNodeAmount,
+
                   ),
+                  const Gap(CustomPadding.defaultSpace),
+                ],
+              ),
+              const Gap(CustomPadding.defaultSpace),
+              Text(AppTexts.categorie, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
+              const Gap(CustomPadding.mediumSpace),
+              CategoriesExpense(onCategorySelected: _onCategorySelected),
+              const Gap(CustomPadding.defaultSpace),
+              Text(AppTexts.payedBy, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
+              const Gap(CustomPadding.mediumSpace),
+              CustomDropDown(
+                list: [widget.currentUser.name, widget.selectedFriend.name],
+                dropdownWidth: MediaQuery.sizeOf(context).width - 32,
+                onChanged: (String? value) {
+
+                  setState(() {
+                    _payedBy = value ?? widget.currentUser.name;
+                  });
+                },
+              ),
+              const Gap(CustomPadding.defaultSpace),
+              SplitMethodSelector(
+                selectedMethod: _selectedSplitMethod,
+                onSplitMethodChanged: (SplitMethod method) {
+                  setState(() {
+                    _selectedSplitMethod = method;
+                    // Reset split amounts when changing split method
+                    _splitAmounts = [0.0, 0.0];
+                    _validateForm(); // Revalidate when the split method changes
+                  });
+                },
+              ),
+              const Gap(CustomPadding.defaultSpace),
+              // Display the appropriate split widget based on _selectedSplitMethod
+              if (_selectedSplitMethod == SplitMethod.equal)
+                EqualFriendSplitWidget(
+                  amount: _inputNumber,
+                  users: [widget.currentUser, widget.selectedFriend],
+                  onAmountsChanged: (amounts) {
+                    setState(() {
+                      _splitAmounts = amounts;
+                      _validateForm(); // Revalidate when amounts change
+                    });
+                  },
                 ),
-              ],
-            ),
-            const Gap(CustomPadding.defaultSpace),
-            Text(AppTexts.categorie, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
-            const Gap(CustomPadding.mediumSpace),
-            CategoriesExpense(onCategorySelected: _onCategorySelected),
-            const Gap(CustomPadding.defaultSpace),
-            Text(AppTexts.payedBy, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
-            const Gap(CustomPadding.mediumSpace),
-            CustomDropDown(
-              list: [widget.currentUser.name, widget.selectedFriend.name],
-              dropdownWidth: MediaQuery.sizeOf(context).width - 32,
-              onChanged: (String? value) {
-                setState(() {
-                  _payedBy = value ?? widget.currentUser.name;
-                });
-              },
-            ),
-            const Gap(CustomPadding.defaultSpace),
-            SplitMethodSelector(
-              selectedMethod: _selectedSplitMethod,
-              onSplitMethodChanged: (SplitMethod method) {
-                setState(() {
-                  _selectedSplitMethod = method;
-                });
-              },
-            ),
-            const Gap(CustomPadding.defaultSpace),
-            // Display the appropriate split widget based on _selectedSplitMethod
-            if (_selectedSplitMethod == SplitMethod.equal)
-              EqualFriendSplitWidget(
-                amount: _inputNumber,
-                users: [widget.currentUser, widget.selectedFriend],
-                onAmountsChanged: (amounts) {
-                  setState(() {
-                    _splitAmounts = amounts;
-                  });
-                },
-              ),
-            if (_selectedSplitMethod == SplitMethod.percent)
-              PercentalSplitWidget(
-                amount: _inputNumber,
-                users: [widget.currentUser, widget.selectedFriend],
-                onAmountsChanged: (amounts) {
-                  setState(() {
-                    _splitAmounts = amounts;
-                  });
-                },
-              ),
-            if (_selectedSplitMethod == SplitMethod.amount)
-              ByAmountSplitWidget(
-                users: [widget.currentUser, widget.selectedFriend],
-                onAmountsChanged: (amounts) {
-                  setState(() {
-                    _splitAmounts = amounts;
-                  });
-                },
-              ),
-          ],
+              if (_selectedSplitMethod == SplitMethod.percent)
+                PercentalSplitWidget(
+                  amount: _inputNumber,
+                  users: [widget.currentUser, widget.selectedFriend],
+                  onAmountsChanged: (amounts) {
+                    setState(() {
+                      _splitAmounts = amounts;
+                      _validateForm(); // Revalidate when amounts change
+                    });
+                  },
+                ),
+              if (_selectedSplitMethod == SplitMethod.amount)
+                ByAmountSplitWidget(
+                  users: [widget.currentUser, widget.selectedFriend],
+                  onAmountsChanged: (amounts) {
+                    setState(() {
+                      _splitAmounts = amounts;
+                      _validateForm(); // Revalidate when amounts change
+                    });
+                  },
+                  focusNodes: _byAmountFocusNodes, // Pass focus nodes to ByAmountSplitWidget
+                ),
+            ],
+          ),
         ),
       ),
     );

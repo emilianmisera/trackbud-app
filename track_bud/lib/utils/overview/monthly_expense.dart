@@ -35,26 +35,17 @@ class MonthlyExpenseTile extends StatelessWidget {
             padding: const EdgeInsets.all(CustomPadding.defaultSpace),
             decoration: BoxDecoration(
               color: defaultColorScheme.surface,
-              borderRadius:
-                  BorderRadius.circular(Constants.contentBorderRadius),
+              borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  remainingAmount >= 0
-                      ? '${remainingAmount.toStringAsFixed(2)}€'
-                      : '${remainingAmount.abs().toStringAsFixed(2)}€',
-                  style: TextStyles.headingStyle.copyWith(
-                      color: remainingAmount >= 0
-                          ? defaultColorScheme.primary
-                          : CustomColor.darkRed),
+                  remainingAmount >= 0 ? '${remainingAmount.toStringAsFixed(2)}€' : '${remainingAmount.abs().toStringAsFixed(2)}€',
+                  style: TextStyles.headingStyle.copyWith(color: remainingAmount >= 0 ? defaultColorScheme.primary : CustomColor.darkRed),
                 ),
-                Text(
-                    remainingAmount >= 0
-                        ? AppTexts.remainingText
-                        : AppTexts.aboveMonthlyGoal,
-                    style: TextStyles.hintStyleDefault),
+                Text(remainingAmount >= 0 ? AppTexts.remainingText : AppTexts.aboveMonthlyGoal,
+                    style: TextStyles.hintStyleDefault.copyWith(color: defaultColorScheme.secondary)),
                 const Gap(CustomPadding.smallSpace),
                 LinearPercentIndicator(
                   padding: EdgeInsets.zero,
@@ -70,14 +61,12 @@ class MonthlyExpenseTile extends StatelessWidget {
                 Row(
                   children: [
                     Text('${totalSpent.toStringAsFixed(2)}€',
-                        style: TextStyles.regularStyleMedium
-                            .copyWith(color: defaultColorScheme.primary)),
+                        style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
                     const Gap(3),
                     Text(AppTexts.of, style: TextStyles.hintStyleDefault),
                     const Gap(3),
                     Text('${monthlyGoal.toStringAsFixed(2)}€',
-                        style: TextStyles.regularStyleMedium
-                            .copyWith(color: defaultColorScheme.primary)),
+                        style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
                     const Gap(3),
                     Text(AppTexts.spent, style: TextStyles.hintStyleDefault),
                   ],

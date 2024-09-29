@@ -59,15 +59,16 @@ class _FriendProfileScreenState extends State<FriendProfileScreen> {
 
   // Builds the total debt section using a FutureBuilder
   Widget _buildTotalDebtSection(String currentUserId) {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     return FutureBuilder<double>(
       future: calculateTotalDebt(currentUserId, widget.friend.userId),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const CircularProgressIndicator(color: CustomColor.bluePrimary);
         } else if (snapshot.hasError) {
-          return Text('Error: ${snapshot.error}');
+          return Text('Error: ${snapshot.error}', style: TextStyle(color: defaultColorScheme.primary));
         } else if (!snapshot.hasData) {
-          return const Text('Keine Daten verfügbar.');
+          return Text('Keine Daten verfügbar.', style: TextStyle(color: defaultColorScheme.primary));
         } else {
           double totalDebt = snapshot.data!;
           return FriendProfileDetails(totalDebt: totalDebt); // Display total debt
@@ -78,15 +79,16 @@ class _FriendProfileScreenState extends State<FriendProfileScreen> {
 
   // Builds the history section of the profile, displaying past splits
   Widget _buildHistorySection(String currentUserId) {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     return FutureBuilder<List<FriendSplitModel>>(
       future: _firestoreService.getFriendSplits(currentUserId, widget.friend.userId),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const CircularProgressIndicator(color: CustomColor.bluePrimary);
         } else if (snapshot.hasError) {
-          return Text('Error: ${snapshot.error}');
+          return Text('Error: ${snapshot.error}', style: TextStyle(color: defaultColorScheme.primary));
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return const Text('Keine Splits gefunden.');
+          return Text('Keine Splits gefunden.', style: TextStyle(color: defaultColorScheme.primary));
         } else {
           // Sort the list: pending splits first, then by date in descending order
           snapshot.data!.sort((a, b) {
@@ -122,6 +124,7 @@ class _FriendProfileScreenState extends State<FriendProfileScreen> {
 
   // Button to pay off debts with the friend
   Widget _buildPayOffDebtsButton(String currentUserId) {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     return Container(
       margin: EdgeInsets.only(
         bottom: MediaQuery.sizeOf(context).height * CustomPadding.bottomSpace,
@@ -133,7 +136,10 @@ class _FriendProfileScreenState extends State<FriendProfileScreen> {
           try {
             await _firestoreService.payOffFriendSplits(currentUserId, widget.friend.userId);
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Schulden mit ${widget.friend.name} wurden beglichen.')),
+              SnackBar(
+                  content:
+                      Text('Schulden mit ${widget.friend.name} wurden beglichen.', style: TextStyle(color: defaultColorScheme.primary))),
+
             );
             setState(() {}); // Refresh the state
           } catch (e) {

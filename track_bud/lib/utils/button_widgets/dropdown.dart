@@ -8,17 +8,17 @@ class CustomDropDown extends StatefulWidget {
   final double? width;
   final double? height;
   final EdgeInsets? padding;
-  final String? value;  // Initial value
+  final String? value; // Initial value
   final Function(String)? onChanged;
   final double? dropdownWidth;
-  
+
   const CustomDropDown({
     super.key,
     required this.list,
     this.width,
     this.height,
     this.padding,
-    this.value,  // Accept the initial value
+    this.value, // Accept the initial value
     this.onChanged,
     this.dropdownWidth,
   });
@@ -55,14 +55,12 @@ class _CustomDropDownState extends State<CustomDropDown> {
             }
           },
           value: value,
-          style: TextStyles.regularStyleMedium
-              .copyWith(color: defaultColorScheme.primary),
+          style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary),
           dropdownStyleData: DropdownStyleData(
             maxHeight: 200,
             width: widget.dropdownWidth ?? 150,
             decoration: BoxDecoration(
-              borderRadius:
-                  BorderRadius.circular(Constants.contentBorderRadius),
+              borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
               color: defaultColorScheme.surface,
             ),
             scrollbarTheme: ScrollbarThemeData(
@@ -78,8 +76,7 @@ class _CustomDropDownState extends State<CustomDropDown> {
               color: defaultColorScheme.surface,
               borderRadius: BorderRadius.circular(10),
             ),
-            padding:
-                widget.padding ?? const EdgeInsets.symmetric(horizontal: 16),
+            padding: widget.padding ?? const EdgeInsets.symmetric(horizontal: 16),
           ),
           isExpanded: true,
         ),
@@ -94,9 +91,7 @@ class _CustomDropDownState extends State<CustomDropDown> {
       child: Text(
         item,
         style: TextStyles.regularStyleDefault.copyWith(
-          color: value == item
-              ? CustomColor.bluePrimary
-              : defaultColorScheme.primary,
+          color: value == item ? CustomColor.bluePrimary : defaultColorScheme.primary,
         ),
       ),
     );
