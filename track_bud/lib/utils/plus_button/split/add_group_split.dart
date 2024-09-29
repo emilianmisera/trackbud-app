@@ -24,11 +24,11 @@ class AddGroupSplit extends StatefulWidget {
   final String currentUserId; // ID of the current user
 
   const AddGroupSplit({
-    super.key,
+    Key? key,
     required this.selectedGroup,
     required this.memberNames,
     required this.currentUserId,
-  });
+  }) : super(key: key);
 
   @override
   State<AddGroupSplit> createState() => _AddGroupSplitState();
@@ -40,7 +40,7 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
   final TextEditingController _amountController = TextEditingController();
   final FirestoreService _firestoreService = FirestoreService();
 
-  late String _selectedCategory; // Selected category for the split
+  late String _selectedCategory = ''; // Selected category for the split
   double _inputNumber = 0.00; // Amount input by the user
   bool _isFormValid = false; // Indicates if the form is valid
   String _paidByUserId = ''; // ID of the user making the payment
@@ -165,7 +165,6 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
         children: [
           Text(AppTexts.newGroupSplit, style: TextStyles.regularStyleMedium.copyWith(color: colorScheme.primary)),
           Text(widget.selectedGroup.name, style: TextStyles.titleStyleMedium.copyWith(color: colorScheme.primary)),
-
         ],
       ),
     );
@@ -173,33 +172,37 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
 
   // Builds the title input field
   Widget _buildTitleInput() {
-    return CustomTextfield(name: AppTexts.title, hintText: AppTexts.hintTitle, controller: _titleController, focusNode: _focusNodeTitle);
+    return CustomTextfield(
+      name: AppTexts.title,
+      hintText: AppTexts.hintTitle,
+      controller: _titleController,
+      focusNode: _focusNodeTitle,
+    );
   }
 
   // Builds the amount input field with prefix and suffix
-  Widget _buildDateAndAmountInput(ColorScheme colorScheme) {
+  Widget _buildAmountInput(ColorScheme colorScheme) {
     return Row(
       children: [
         CustomTextfield(
-            name: AppTexts.amount,
-            hintText: '00.00',
-            controller: _amountController,
-            width: MediaQuery.of(context).size.width / 3,
-            prefix: Text(
-              '-',
-              style: TextStyles.titleStyleMedium.copyWith(fontWeight: TextStyles.fontWeightDefault, color: colorScheme.primary),
-            ),
-            suffix: Text('€', style: TextStyle(color: colorScheme.primary)),
-            type: const TextInputType.numberWithOptions(decimal: true),
-            inputFormatters: [
-              // Erlaubt Zahlen und Punkt oder Komma als Dezimaltrennzeichen
-              FilteringTextInputFormatter.allow(
-                RegExp(r'^\d+([.,]\d{0,2})?'),
-              ),
-            ],
-            focusNode: _focusNodeAmount),
+          name: AppTexts.amount,
+          hintText: '00.00',
+          controller: _amountController,
+          width: MediaQuery.of(context).size.width / 3,
+          prefix: Text(
+            '-',
+            style: TextStyles.titleStyleMedium.copyWith(fontWeight: TextStyles.fontWeightDefault, color: colorScheme.primary),
           ),
-
+          suffix: Text('€', style: TextStyle(color: colorScheme.primary)),
+          type: const TextInputType.numberWithOptions(decimal: true),
+          inputFormatters: [
+            // Allow digits and dot or comma as decimal separator
+            FilteringTextInputFormatter.allow(
+              RegExp(r'^\d+([.,]\d{0,2})?'),
+            ),
+          ],
+          focusNode: _focusNodeAmount,
+        ),
         const Gap(CustomPadding.defaultSpace), // Added Gap for spacing
         // Date Picker
         Expanded(
@@ -218,7 +221,6 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(AppTexts.categorie, style: TextStyles.regularStyleMedium.copyWith(color: colorScheme.primary)),
-
         const Gap(CustomPadding.mediumSpace),
         CategoriesExpense(onCategorySelected: _onCategorySelected),
       ],
@@ -231,7 +233,6 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(AppTexts.payedBy, style: TextStyles.regularStyleMedium.copyWith(color: colorScheme.primary)),
-
         const Gap(CustomPadding.mediumSpace),
         CustomDropDown(
           list: widget.memberNames,
@@ -256,7 +257,6 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text('Verteilung', style: TextStyles.regularStyleMedium.copyWith(color: colorScheme.primary)),
-
         const Gap(CustomPadding.mediumSpace),
         EqualGroupSplitWidget(
           amount: _inputNumber,
@@ -311,7 +311,6 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
               _buildMembersSelection(defaultColorScheme),
             ],
           ),
-
         ),
       ),
     );
