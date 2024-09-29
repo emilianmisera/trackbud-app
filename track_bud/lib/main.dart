@@ -9,6 +9,7 @@ import 'package:track_bud/provider/friend_split_provider.dart';
 import 'package:track_bud/provider/group_provider.dart';
 import 'package:track_bud/provider/transaction_provider.dart';
 import 'package:track_bud/provider/user_provider.dart';
+import 'package:track_bud/services/connectivity_service.dart';
 import 'package:track_bud/trackbud.dart';
 import 'package:track_bud/utils/color_theme.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -38,6 +39,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => GroupProvider()),
         ChangeNotifierProvider(create: (_) => TransactionProvider()),
         ChangeNotifierProvider(create: (_) => FriendSplitProvider()),
+        ChangeNotifierProvider(create: (_) => ConnectivityService()),
       ],
       child: const MainApp(),
     ),
@@ -60,10 +62,40 @@ class MainApp extends StatelessWidget {
         GlobalCupertinoLocalizations.delegate,
       ],
       // Show Login screen if we aren't logged in, otherwise go to main app.
-      home: StreamBuilder(
-        stream: FirebaseAuth.instance.authStateChanges(),
-        builder: (context, snapshot) => snapshot.hasData ? const TrackBud() : const OnboardingScreen(),
+      home: OfflineNotificationWrapper(
+        child: StreamBuilder(
+          stream: FirebaseAuth.instance.authStateChanges(),
+          builder: (context, snapshot) => snapshot.hasData ? const TrackBud() : const OnboardingScreen(),
+        ),
       ),
+    );
+  }
+}
+
+// Widget that listens for offline status and shows a snackbar
+class OfflineNotificationWrapper extends StatelessWidget {
+  final Widget child;
+
+  const OfflineNotificationWrapper({super.key, required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<ConnectivityService>(
+      builder: (context, connectivityService, childWidget) {
+        if (!connectivityService.isOnline) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Du bist offline! Bitte überprüfe deine Internetverbindung.'),
+                duration: Duration(seconds: 10),
+                backgroundColor: Colors.red,
+              ),
+            );
+          });
+        }
+        return childWidget!;
+      },
+      child: child,
     );
   }
 }
