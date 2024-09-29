@@ -17,6 +17,7 @@ import 'package:track_bud/utils/categories/category_expenses.dart';
 import 'package:track_bud/utils/enum/split_methods.dart';
 import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfields/textfield.dart';
+import 'package:track_bud/utils/textinput_formatters.dart';
 import 'package:uuid/uuid.dart';
 
 class AddFriendSplit extends StatefulWidget {
@@ -233,7 +234,8 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
                 children: [
                   CustomTextfield(
                     name: AppTexts.amount,
-                    hintText: '00.00',
+                    hintText: '0.00',
+                    keyboardType: TextInputType.number,
                     controller: _amountController,
                     width: MediaQuery.sizeOf(context).width / 3,
                     prefix: Text('-',
@@ -243,7 +245,10 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
                     type: const TextInputType.numberWithOptions(decimal: true),
                     inputFormatters: [
                       // Allow only numbers, and a point or comma as decimal separator
-                      FilteringTextInputFormatter.allow(RegExp(r'^\d+([.,]\d{0,2})?'))
+                      FilteringTextInputFormatter.allow(
+                        RegExp(r'^\d+([.,]\d{0,2})?'),
+                      ),
+                      MaxValueInputFormatter(maxValue: 999999),
                     ],
                     focusNode: _focusNodeAmount,
                   ),
