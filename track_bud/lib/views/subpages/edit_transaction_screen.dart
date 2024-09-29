@@ -11,6 +11,7 @@ import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/date_picker.dart';
 import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfields/textfield.dart';
+import 'package:track_bud/utils/textinput_formatters.dart';
 
 class EditTransactionScreen extends StatefulWidget {
   final String transactionId;
@@ -117,8 +118,9 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
                     children: [
                       CustomTextfield(
                         name: AppTexts.amount,
-                        hintText: '00.00',
+                        hintText: '0.00',
                         controller: _amountController,
+                        keyboardType: TextInputType.number,
                         width: MediaQuery.sizeOf(context).width / 3,
                         prefix: Text(
                           _currentSegment == 0 ? '–' : '+',
@@ -128,9 +130,8 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
                         suffix: Text('€', style: TextStyle(color: defaultColorScheme.primary)),
                         type: const TextInputType.numberWithOptions(decimal: true),
                         inputFormatters: [
-                          FilteringTextInputFormatter.allow(
-                            RegExp(r'^\d+([.,]\d{0,2})?'),
-                          ),
+                          FilteringTextInputFormatter.allow(RegExp(r'^\d+([.,]\d{0,2})?')),
+                          MaxValueInputFormatter(maxValue: 999999),
                         ],
                       ),
                       const Gap(CustomPadding.defaultSpace),
@@ -176,6 +177,7 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
                   const Gap(CustomPadding.defaultSpace),
                   CustomTextfield(
                     name: AppTexts.note,
+                    maxLength: 150,
                     hintText: AppTexts.noteHint,
                     controller: _noteController,
                     isMultiline: true,
