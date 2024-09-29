@@ -12,8 +12,7 @@ class FirestoreService {
   // Adds a new user to the database if they do not already exist
   Future<void> addUserIfNotExists(UserModel user) async {
     try {
-      DocumentSnapshot userDoc =
-          await _db.collection('users').doc(user.userId).get();
+      DocumentSnapshot userDoc = await _db.collection('users').doc(user.userId).get();
 
       // Check if the user already exists in the database
       if (!userDoc.exists) {
@@ -60,24 +59,6 @@ class FirestoreService {
     }
   }
 
-// Fetch a list of users by their IDs
-  Future<List<UserModel>> getUsersByIds(List<String> userIds) async {
-    try {
-      final List<UserModel> users = [];
-      for (final userId in userIds) {
-        final userSnapshot = await _db.collection('users').doc(userId).get();
-        if (userSnapshot.exists) {
-          final userData = userSnapshot.data() as Map<String, dynamic>;
-          users.add(UserModel.fromMap(userData));
-        }
-      }
-      return users;
-    } catch (e) {
-      debugPrint("Error fetching users by IDs: $e");
-      return [];
-    }
-  }
-
 // Retrieve user data for a specific user ID
   Future<UserModel?> getUserData(String userId) async {
     try {
@@ -85,8 +66,7 @@ class FirestoreService {
       if (doc.exists) {
         return UserModel.fromMap(doc.data() as Map<String, dynamic>);
       } else {
-        debugPrint(
-            'Error retrieving user data: No user record found for userId: $userId');
+        debugPrint('Error retrieving user data: No user record found for userId: $userId');
         return null;
       }
     } catch (e) {
@@ -99,8 +79,7 @@ class FirestoreService {
   Future<bool> checkUserExists(String userId) async {
     try {
       final userDoc = await _db.collection('users').doc(userId).get();
-      return userDoc
-          .exists; // Return true if the document exists, false otherwise
+      return userDoc.exists; // Return true if the document exists, false otherwise
     } catch (e) {
       debugPrint("Error checking if user exists: $e");
       return false;
@@ -117,13 +96,9 @@ class FirestoreService {
   }
 
 // Update a user's profile image in the Firestore database
-  Future<void> updateUserProfileImageInFirestore(
-      String userId, String imageUrl) async {
+  Future<void> updateUserProfileImageInFirestore(String userId, String imageUrl) async {
     try {
-      await _db
-          .collection('users')
-          .doc(userId)
-          .update({'profilePictureUrl': imageUrl});
+      await _db.collection('users').doc(userId).update({'profilePictureUrl': imageUrl});
     } catch (e) {
       debugPrint("Error updating profile picture in Firestore: $e");
       rethrow;
@@ -181,12 +156,10 @@ class FirestoreService {
   // Add a friend to the current user's friend list
   Future<void> addFriend(String currentUserId, String friendUserId) async {
     try {
-      DocumentSnapshot currentUserDoc =
-          await _db.collection('users').doc(currentUserId).get();
+      DocumentSnapshot currentUserDoc = await _db.collection('users').doc(currentUserId).get();
 
       if (currentUserDoc.exists) {
-        UserModel currentUser =
-            UserModel.fromMap(currentUserDoc.data() as Map<String, dynamic>);
+        UserModel currentUser = UserModel.fromMap(currentUserDoc.data() as Map<String, dynamic>);
 
         // Check if the friend is not already in the current user's friend list
         if (!currentUser.friends.contains(friendUserId)) {
@@ -198,11 +171,9 @@ class FirestoreService {
           });
 
           // Check if the friend user exists
-          DocumentSnapshot friendUserDoc =
-              await _db.collection('users').doc(friendUserId).get();
+          DocumentSnapshot friendUserDoc = await _db.collection('users').doc(friendUserId).get();
           if (friendUserDoc.exists) {
-            UserModel friendUser =
-                UserModel.fromMap(friendUserDoc.data() as Map<String, dynamic>);
+            UserModel friendUser = UserModel.fromMap(friendUserDoc.data() as Map<String, dynamic>);
             // Add the current user to the friend's friends list if not already present
             if (!friendUser.friends.contains(currentUserId)) {
               friendUser.friends.add(currentUserId);
@@ -227,30 +198,24 @@ class FirestoreService {
 // Retrieve the list of friends for a given user
   Future<List<UserModel>> getFriends(String userId) async {
     try {
-      DocumentSnapshot currentUserDoc =
-          await _db.collection('users').doc(userId).get();
+      DocumentSnapshot currentUserDoc = await _db.collection('users').doc(userId).get();
 
       if (currentUserDoc.exists) {
         // Get the list of friend IDs
-        List<String> friendsIds =
-            List<String>.from(currentUserDoc.get('friends') ?? []);
+        List<String> friendsIds = List<String>.from(currentUserDoc.get('friends') ?? []);
         List<UserModel> friends = [];
 
         // Fetch each friend's details
         for (String friendId in friendsIds) {
-          DocumentSnapshot friendDoc =
-              await _db.collection('users').doc(friendId).get();
+          DocumentSnapshot friendDoc = await _db.collection('users').doc(friendId).get();
           if (friendDoc.exists) {
-            Map<String, dynamic> friendData =
-                friendDoc.data() as Map<String, dynamic>;
-            friendData['userId'] =
-                friendDoc.id; // Ensure the userId is included
+            Map<String, dynamic> friendData = friendDoc.data() as Map<String, dynamic>;
+            friendData['userId'] = friendDoc.id; // Ensure the userId is included
             friends.add(UserModel.fromMap(friendData));
           }
         }
 
-        debugPrint(
-            "Retrieved friends: ${friends.map((f) => f.userId).toList()}");
+        debugPrint("Retrieved friends: ${friends.map((f) => f.userId).toList()}");
         return friends;
       } else {
         debugPrint("User not found: $userId");
@@ -269,10 +234,7 @@ class FirestoreService {
 // Add a new friend split record to the database
   Future<void> addFriendSplit(FriendSplitModel split) async {
     try {
-      await _db
-          .collection('friend_splits')
-          .doc(split.splitId)
-          .set(split.toMap());
+      await _db.collection('friend_splits').doc(split.splitId).set(split.toMap());
       debugPrint("Friend split added successfully: ${split.splitId}");
     } catch (e) {
       debugPrint("Error adding friend split: $e");
@@ -281,22 +243,15 @@ class FirestoreService {
   }
 
 // Get friend splits for a specific user and their friend
-  Future<List<FriendSplitModel>> getFriendSplits(
-      String userId, String friendId) async {
+  Future<List<FriendSplitModel>> getFriendSplits(String userId, String friendId) async {
     try {
       // Fetch splits where the user is the creditor
-      QuerySnapshot splitSnapshot = await _db
-          .collection('friend_splits')
-          .where('creditorId', isEqualTo: userId)
-          .where('debtorId', isEqualTo: friendId)
-          .get();
+      QuerySnapshot splitSnapshot =
+          await _db.collection('friend_splits').where('creditorId', isEqualTo: userId).where('debtorId', isEqualTo: friendId).get();
 
       // Fetch splits where the friend is the creditor
-      QuerySnapshot reverseSplitSnapshot = await _db
-          .collection('friend_splits')
-          .where('creditorId', isEqualTo: friendId)
-          .where('debtorId', isEqualTo: userId)
-          .get();
+      QuerySnapshot reverseSplitSnapshot =
+          await _db.collection('friend_splits').where('creditorId', isEqualTo: friendId).where('debtorId', isEqualTo: userId).get();
 
       // Convert query results to a list of FriendSplitModel
       List<FriendSplitModel> splits = splitSnapshot.docs.map((doc) {
@@ -353,14 +308,10 @@ class FirestoreService {
 
       // Update the status of all pending splits to 'paid'
       for (var splitId in splitIdsToUpdate) {
-        await _db
-            .collection('friend_splits')
-            .doc(splitId)
-            .update({'status': 'paid'});
+        await _db.collection('friend_splits').doc(splitId).update({'status': 'paid'});
       }
 
-      debugPrint(
-          "All pending splits between $currentUserId and $friendId have been marked as paid.");
+      debugPrint("All pending splits between $currentUserId and $friendId have been marked as paid.");
     } catch (e) {
       debugPrint("Error paying off friend splits: $e");
       rethrow;
@@ -375,11 +326,9 @@ class FirestoreService {
     try {
       // Validate all member IDs to ensure they exist in the database
       for (String memberId in group.members) {
-        DocumentSnapshot memberDoc =
-            await _db.collection('users').doc(memberId).get();
+        DocumentSnapshot memberDoc = await _db.collection('users').doc(memberId).get();
         if (!memberDoc.exists) {
-          debugPrint(
-              "Warning: Member $memberId does not exist in the database.");
+          debugPrint("Warning: Member $memberId does not exist in the database.");
         }
       }
 
@@ -396,19 +345,14 @@ class FirestoreService {
   Future<List<GroupModel>> getUserGroups(String userId) async {
     try {
       // Fetch groups that contain the user as a member
-      QuerySnapshot groupsSnapshot = await _db
-          .collection('groups')
-          .where('members', arrayContains: userId)
-          .get();
+      QuerySnapshot groupsSnapshot = await _db.collection('groups').where('members', arrayContains: userId).get();
 
       if (groupsSnapshot.docs.isEmpty) {
         debugPrint("No groups found for userId: $userId");
       }
 
       // Convert query results to a list of GroupModel
-      return groupsSnapshot.docs
-          .map((doc) => GroupModel.fromMap(doc.data() as Map<String, dynamic>))
-          .toList();
+      return groupsSnapshot.docs.map((doc) => GroupModel.fromMap(doc.data() as Map<String, dynamic>)).toList();
     } catch (e) {
       debugPrint("Error fetching groups for userId $userId: $e");
       return [];
@@ -418,8 +362,7 @@ class FirestoreService {
   Future<GroupModel> getGroup(String groupId) async {
     try {
       debugPrint('Fetching group with groupId: $groupId');
-      DocumentSnapshot groupSnapshot =
-          await _db.collection('groups').doc(groupId).get();
+      DocumentSnapshot groupSnapshot = await _db.collection('groups').doc(groupId).get();
 
       if (groupSnapshot.exists) {
         debugPrint('Group found: ${groupSnapshot.data()}');
@@ -455,10 +398,7 @@ class FirestoreService {
   Future<void> addGroupSplit(GroupSplitModel groupSplit) async {
     try {
       // Add a new group split to the database
-      await _db
-          .collection('group_splits')
-          .doc(groupSplit.groupSplitId)
-          .set(groupSplit.toMap());
+      await _db.collection('group_splits').doc(groupSplit.groupSplitId).set(groupSplit.toMap());
       debugPrint("Group split added successfully: ${groupSplit.groupSplitId}");
     } catch (e) {
       debugPrint("Error adding group split: $e");
@@ -469,10 +409,7 @@ class FirestoreService {
   Future<List<GroupSplitModel>> getGroupSplits(String groupId) async {
     try {
       // Retrieve all group splits associated with the specified groupId
-      QuerySnapshot splitSnapshot = await _db
-          .collection('group_splits')
-          .where('groupId', isEqualTo: groupId)
-          .get();
+      QuerySnapshot splitSnapshot = await _db.collection('group_splits').where('groupId', isEqualTo: groupId).get();
 
       // Convert query results to a list of GroupSplitModel
       List<GroupSplitModel> splits = splitSnapshot.docs.map((doc) {
@@ -495,8 +432,7 @@ class FirestoreService {
         .where('groupId', isEqualTo: groupId)
         .orderBy('date', descending: true)
         .withConverter<GroupSplitModel>(
-          fromFirestore: (snapshot, _) =>
-              GroupSplitModel.fromMap(snapshot.data()!),
+          fromFirestore: (snapshot, _) => GroupSplitModel.fromMap(snapshot.data()!),
           toFirestore: (groupSplit, _) => groupSplit.toMap(),
         )
         .snapshots();
