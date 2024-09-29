@@ -44,11 +44,9 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
   List<double> _splitAmounts = [0.0, 0.0];
   final _focusNodeTitle = FocusNode();
   final _focusNodeAmount = FocusNode();
-
-  // New variable to store the split sum validation message
+  //store the split sum validation message
   String _splitSumValidationMessage = '';
-
-  // New list to store focus nodes for ByAmountTiles
+  //list to store focus nodes for ByAmountTiles
   List<FocusNode> _byAmountFocusNodes = [];
 
   @override
@@ -77,7 +75,7 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
     super.dispose();
   }
 
-  // Updated method to validate the form and check split amounts
+  // validate the form and check split amounts
   void _validateForm() {
     setState(() {
       final totalAmount = _parseAmount();
@@ -102,7 +100,7 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
     });
   }
 
-  // New method to update the split sum validation message
+  // update the split sum validation message
   void _updateSplitSumValidationMessage(double totalAmount, double sumOfAmounts) {
     if (totalAmount > sumOfAmounts) {
       _splitSumValidationMessage = '${(totalAmount - sumOfAmounts).toStringAsFixed(2)}€ fehlen noch';
@@ -180,7 +178,7 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
     }
   }
 
-  // Method to unfocus all text fields
+  // unfocus all text fields
   void _unfocusAll() {
     _focusNodeTitle.unfocus();
     _focusNodeAmount.unfocus();
