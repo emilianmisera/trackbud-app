@@ -46,8 +46,7 @@ class _TransactionDetailState extends State<TransactionDetail> {
   @override
   Widget build(BuildContext context) {
     final defaultColorScheme = Theme.of(context).colorScheme;
-    final transactionProvider =
-        Provider.of<TransactionProvider>(context, listen: false);
+    final transactionProvider = Provider.of<TransactionProvider>(context, listen: false);
 
     return SingleChildScrollView(
       child: Column(
@@ -69,22 +68,15 @@ class _TransactionDetailState extends State<TransactionDetail> {
                       child: Row(
                         children: [
                           SvgPicture.asset(
-                            option == 'Bearbeiten'
-                                ? AssetImport.edit
-                                : AssetImport.trash,
-                            colorFilter: ColorFilter.mode(
-                                option == 'Bearbeiten'
-                                    ? defaultColorScheme.primary
-                                    : CustomColor.red,
-                                BlendMode.srcIn),
+                            option == 'Bearbeiten' ? AssetImport.edit : AssetImport.trash,
+                            colorFilter:
+                                ColorFilter.mode(option == 'Bearbeiten' ? defaultColorScheme.primary : CustomColor.red, BlendMode.srcIn),
                           ),
                           const Gap(CustomPadding.mediumSpace),
                           Text(
                             option,
                             style: TextStyles.regularStyleDefault.copyWith(
-                              color: option == 'Bearbeiten'
-                                  ? defaultColorScheme.primary
-                                  : CustomColor.red,
+                              color: option == 'Bearbeiten' ? defaultColorScheme.primary : CustomColor.red,
                             ),
                           ),
                         ],
@@ -96,8 +88,7 @@ class _TransactionDetailState extends State<TransactionDetail> {
                       Navigator.of(context).pop();
                       widget.onEdit(widget.transactionId);
                     } else if (value == 'Löschen') {
-                      transactionProvider
-                          .deleteTransaction(widget.transactionId);
+                      transactionProvider.deleteTransaction(widget.transactionId);
                       Navigator.of(context).pop();
                     }
                   },
@@ -105,15 +96,13 @@ class _TransactionDetailState extends State<TransactionDetail> {
                     width: 160,
                     padding: const EdgeInsets.symmetric(vertical: 6),
                     decoration: BoxDecoration(
-                      borderRadius:
-                          BorderRadius.circular(Constants.contentBorderRadius),
+                      borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
                       color: defaultColorScheme.surface,
                     ),
                   ),
                   menuItemStyleData: const MenuItemStyleData(
                     height: 48,
-                    padding: EdgeInsets.symmetric(
-                        horizontal: CustomPadding.defaultSpace),
+                    padding: EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace),
                   ),
                 ),
               ),
@@ -121,8 +110,7 @@ class _TransactionDetailState extends State<TransactionDetail> {
                 child: Center(
                   child: Text(
                     AppTexts.expense,
-                    style: TextStyles.regularStyleMedium
-                        .copyWith(color: defaultColorScheme.primary),
+                    style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary),
                   ),
                 ),
               ),
@@ -131,8 +119,7 @@ class _TransactionDetailState extends State<TransactionDetail> {
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                icon: Icon(Icons.close_rounded,
-                    color: defaultColorScheme.primary),
+                icon: Icon(Icons.close_rounded, color: defaultColorScheme.primary),
               ),
             ],
           ),
@@ -143,17 +130,13 @@ class _TransactionDetailState extends State<TransactionDetail> {
               CategoryIcon(
                 color: Categories.values
                     .firstWhere(
-                      (c) =>
-                          c.categoryName.toLowerCase() ==
-                          widget.category.toLowerCase(),
+                      (c) => c.categoryName.toLowerCase() == widget.category.toLowerCase(),
                       orElse: () => Categories.sonstiges,
                     )
                     .color,
                 iconWidget: Categories.values
                     .firstWhere(
-                      (c) =>
-                          c.categoryName.toLowerCase() ==
-                          widget.category.toLowerCase(),
+                      (c) => c.categoryName.toLowerCase() == widget.category.toLowerCase(),
                       orElse: () => Categories.sonstiges,
                     )
                     .icon,
@@ -162,80 +145,63 @@ class _TransactionDetailState extends State<TransactionDetail> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(widget.title,
-                      style: TextStyles.titleStyleMedium
-                          .copyWith(color: defaultColorScheme.primary)),
+                  Text(
+                    widget.title,
+                    overflow: TextOverflow.visible, // Allow text to wrap to the next line
+                    style: TextStyles.titleStyleMedium.copyWith(color: defaultColorScheme.primary),
+                  ),
                   const Gap(CustomPadding.smallSpace),
                   Text(DateFormat('dd.MM.yyyy, HH:mm').format(widget.date),
-                      style: TextStyles.hintStyleDefault
-                          .copyWith(color: defaultColorScheme.secondary)),
+                      style: TextStyles.hintStyleDefault.copyWith(color: defaultColorScheme.secondary)),
                 ],
               ),
             ],
           ),
           const Gap(CustomPadding.defaultSpace),
           // Amount section
-          Text(AppTexts.amount,
-              style: TextStyles.regularStyleDefault
-                  .copyWith(color: defaultColorScheme.primary)),
+          Text(AppTexts.amount, style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary)),
           const Gap(CustomPadding.mediumSpace),
           Row(
             children: [
               // Amount display
               CustomShadow(
                 child: Container(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: CustomPadding.defaultSpace,
-                      vertical: CustomPadding.contentHeightSpace),
+                  padding: const EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace, vertical: CustomPadding.contentHeightSpace),
                   decoration: BoxDecoration(
                     color: defaultColorScheme.surface,
-                    borderRadius:
-                        BorderRadius.circular(Constants.contentBorderRadius),
+                    borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
                   ),
                   child: Text('${widget.amount.toStringAsFixed(2)}€',
-                      style: TextStyles.regularStyleMedium
-                          .copyWith(color: defaultColorScheme.primary)),
+                      style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
                 ),
               ),
               const Gap(CustomPadding.defaultSpace),
               // Transaction type
               CustomShadow(
                 child: Container(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: CustomPadding.defaultSpace,
-                      vertical: CustomPadding.contentHeightSpace),
+                  padding: const EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace, vertical: CustomPadding.contentHeightSpace),
                   decoration: BoxDecoration(
                     color: defaultColorScheme.surface,
-                    borderRadius:
-                        BorderRadius.circular(Constants.contentBorderRadius),
+                    borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
                   ),
-                  child: Text(widget.recurrence,
-                      style: TextStyles.regularStyleDefault
-                          .copyWith(color: CustomColor.bluePrimary)),
+                  child: Text(widget.recurrence, style: TextStyles.regularStyleDefault.copyWith(color: CustomColor.bluePrimary)),
                 ),
               ),
             ],
           ),
           const Gap(CustomPadding.defaultSpace),
           // Note section
-          Text(AppTexts.note,
-              style: TextStyles.regularStyleDefault
-                  .copyWith(color: defaultColorScheme.primary)),
+          Text(AppTexts.note, style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary)),
           const Gap(CustomPadding.mediumSpace),
           CustomShadow(
             child: Container(
               width: double.infinity,
-              padding: const EdgeInsets.symmetric(
-                  horizontal: CustomPadding.defaultSpace,
-                  vertical: CustomPadding.contentHeightSpace),
+              padding: const EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace, vertical: CustomPadding.contentHeightSpace),
               decoration: BoxDecoration(
                 color: defaultColorScheme.surface,
-                borderRadius:
-                    BorderRadius.circular(Constants.contentBorderRadius),
+                borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
               ),
-              child: Text(widget.note,
-                  style: TextStyles.regularStyleDefault
-                      .copyWith(color: defaultColorScheme.primary)),
+              child: Text(widget.note, style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary)),
             ),
           ),
         ],
