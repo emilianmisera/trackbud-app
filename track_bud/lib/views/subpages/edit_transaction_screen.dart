@@ -150,10 +150,10 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
                           selectedCategory: _selectedCategory,
                         )
                       : CategoriesIncome(onCategorySelected: _onCategorySelected, selectedCategory: _selectedCategory),
-                  const Gap(CustomPadding.defaultSpace),
+                  /*const Gap(CustomPadding.defaultSpace),
                   Text(AppTexts.recurrency, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
                   const Gap(CustomPadding.mediumSpace),
-                  /*CustomDropDown(
+                  CustomDropDown(
                     list: const [
                       'einmalig',
                       'täglich',
