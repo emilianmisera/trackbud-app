@@ -45,7 +45,12 @@ class CategoryBar extends StatelessWidget {
             double percentage = expense / totalExpense;
             return Expanded(
               flex: (percentage * 100).round(),
-              child: Container(color: categoryColors[category] ?? defaultColorScheme.outline),
+              child: Container(
+                margin: const EdgeInsets.symmetric(horizontal: .5), // 1-pixel margin on each side
+                child: Container(
+                  color: categoryColors[category] ?? defaultColorScheme.outline,
+                ),
+              ),
             );
           }).toList(),
         ),

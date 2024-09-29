@@ -86,9 +86,7 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
       if (_selectedSplitMethod == SplitMethod.amount) {
         // For "by amount" split, check if the sum of amounts matches the total
         // and ensure that both split amounts are greater than zero
-        _isFormValid = _titleController.text.isNotEmpty &&
-
-            _amountController.text.isNotEmpty &&
+        _isFormValid = _amountController.text.isNotEmpty &&
             _selectedCategory.isNotEmpty &&
             totalAmount == sumOfAmounts &&
             _splitAmounts.every((amount) => amount > 0);
@@ -96,7 +94,6 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
         // Update the validation message
         _updateSplitSumValidationMessage(totalAmount, sumOfAmounts);
       } else {
-
         _isFormValid = _amountController.text.isNotEmpty && _selectedCategory.isNotEmpty;
       }
     });
@@ -238,7 +235,6 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
                       FilteringTextInputFormatter.allow(RegExp(r'^\d+([.,]\d{0,2})?'))
                     ],
                     focusNode: _focusNodeAmount,
-
                   ),
                   const Gap(CustomPadding.defaultSpace),
                 ],
@@ -254,7 +250,6 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
                 list: [widget.currentUser.name, widget.selectedFriend.name],
                 dropdownWidth: MediaQuery.sizeOf(context).width - 32,
                 onChanged: (String? value) {
-
                   setState(() {
                     _payedBy = value ?? widget.currentUser.name;
                   });
