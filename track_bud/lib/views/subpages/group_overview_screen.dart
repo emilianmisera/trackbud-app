@@ -123,7 +123,7 @@ class _GroupOverviewScreenState extends State<GroupOverviewScreen> {
                       children: [
                         // Display overall group expense
                         InfoTile(
-                          title: '${AppTexts.overall} (${expensesPerPerson.toStringAsFixed(2)}€/Person)',
+                          title: '${AppTexts.overallExpenses} (${expensesPerPerson.toStringAsFixed(2)}€/Person)',
                           amount: totalGroupExpense.toStringAsFixed(2),
                           color: defaultColorScheme.primary,
                         ),
