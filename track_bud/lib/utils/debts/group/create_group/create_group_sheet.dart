@@ -83,7 +83,6 @@ class _CreateGroupSheetState extends State<CreateGroupSheet> {
     return File(result!.path);
   }
 
-  // Validate form inputs
   void _validateForm() {
     setState(() {
       _isFormValid = _groupNameController.text.isNotEmpty && _selectedFriends.isNotEmpty;
@@ -93,105 +92,115 @@ class _CreateGroupSheetState extends State<CreateGroupSheet> {
   @override
   Widget build(BuildContext context) {
     final defaultColorScheme = Theme.of(context).colorScheme;
-    return Container(
-      height: MediaQuery.sizeOf(context).height * Constants.modalBottomSheetHeight,
-      width: MediaQuery.sizeOf(context).width,
-      decoration: BoxDecoration(color: defaultColorScheme.onSurface, borderRadius: BorderRadius.circular(Constants.contentBorderRadius)),
-      child: Padding(
-        padding:
-            const EdgeInsets.only(right: CustomPadding.defaultSpace, left: CustomPadding.defaultSpace, bottom: CustomPadding.defaultSpace),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Gap(CustomPadding.mediumSpace),
-            Center(
-              child:
-                  // grabber
-                  Container(
-                width: 36,
-                height: 5,
-                decoration: const BoxDecoration(color: CustomColor.grabberColor, borderRadius: BorderRadius.all(Radius.circular(100))),
+    return DraggableScrollableSheet(
+      initialChildSize: 0.76,
+      minChildSize: 0.3,
+      maxChildSize: 0.95,
+      expand: false,
+      builder: (context, scrollController) {
+        return Container(
+          decoration: BoxDecoration(
+            color: defaultColorScheme.onSurface,
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(Constants.contentBorderRadius)),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Gap(CustomPadding.mediumSpace),
+              Center(
+                child: Container(
+                  width: 36,
+                  height: 5,
+                  decoration: const BoxDecoration(
+                    color: CustomColor.grabberColor,
+                    borderRadius: BorderRadius.all(Radius.circular(100)),
+                  ),
+                ),
               ),
-            ),
-            const Gap(CustomPadding.defaultSpace),
-            Center(
-              child: Text(AppTexts.createGroup, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
-            ),
-            const Gap(CustomPadding.mediumSpace),
-            // Group name and image picker
-            GroupTile(
-              createGroupController: _groupNameController,
-              onImageSelected: (File? image) {
-                setState(() {
-                  _selectedImage = image;
-                });
-              },
-            ),
-            const Gap(CustomPadding.defaultSpace),
-            Text(AppTexts.addMembers, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
-            const Gap(CustomPadding.mediumSpace),
-            // Friends list
-            Expanded(
-              child: FutureBuilder<List<UserModel>>(
-                future: FirestoreService().getFriends(FirebaseAuth.instance.currentUser!.uid),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(child: CircularProgressIndicator(color: CustomColor.bluePrimary));
-                  }
-                  if (snapshot.hasError) {
-                    return Text('Error: ${snapshot.error}', style: TextStyle(color: defaultColorScheme.primary));
-                  }
-                  return ListView.builder(
-                    itemCount: snapshot.data!.length,
-                    itemBuilder: (context, index) {
-                      UserModel friend = snapshot.data![index];
-                      String friendId = friend.userId.isNotEmpty ? friend.userId : 'user_$index';
-
-                      return CheckboxListTile(
-                        contentPadding: EdgeInsets.zero,
-                        checkboxShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Constants.contentBorderRadius)),
-                        activeColor: CustomColor.bluePrimary,
-                        side: BorderSide(color: defaultColorScheme.secondary, width: 1.5),
-                        title: Text(friend.name, style: TextStyle(color: defaultColorScheme.primary)),
-                        secondary: ClipRRect(
-                          borderRadius: BorderRadius.circular(100.0),
-                          child: SizedBox(
-                            width: 40,
-                            height: 40,
-                            child: friend.profilePictureUrl != ""
-                                ? Image.network(friend.profilePictureUrl, fit: BoxFit.cover)
-                                : const Icon(Icons.person, color: Colors.grey),
-                          ),
-                        ),
-                        value: _selectedFriends.contains(friendId),
-                        onChanged: (bool? value) {
-                          setState(() {
-                            if (value != null && value) {
-                              _selectedFriends.add(friendId);
-                            } else {
-                              _selectedFriends.remove(friendId);
-                            }
-                            // call when checkbox state changes
-                            _validateForm();
-                          });
-                        },
-                      );
-                    },
-                  );
-                },
+              const Gap(CustomPadding.defaultSpace),
+              Center(
+                child: Text(AppTexts.createGroup, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
               ),
-            ),
-            const Gap(CustomPadding.mediumSpace),
-            // Action Button
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(onPressed: _isFormValid ? () => _createGroup(context) : null, child: Text(AppTexts.createGroup)),
-            ),
-            const Gap(CustomPadding.mediumSpace),
-          ],
-        ),
-      ),
+              Expanded(
+                child: ListView(
+                  controller: scrollController,
+                  padding: const EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace),
+                  children: [
+                    const Gap(CustomPadding.mediumSpace),
+                    GroupTile(
+                      createGroupController: _groupNameController,
+                      onImageSelected: (File? image) {
+                        setState(() {
+                          _selectedImage = image;
+                        });
+                      },
+                    ),
+                    const Gap(CustomPadding.defaultSpace),
+                    Text(AppTexts.addMembers, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
+                    const Gap(CustomPadding.mediumSpace),
+                    FutureBuilder<List<UserModel>>(
+                      future: FirestoreService().getFriends(FirebaseAuth.instance.currentUser!.uid),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.waiting) {
+                          return const Center(child: CircularProgressIndicator(color: CustomColor.bluePrimary));
+                        }
+                        if (snapshot.hasError) {
+                          return Text('Error: ${snapshot.error}', style: TextStyle(color: defaultColorScheme.primary));
+                        }
+                        return Column(
+                          children: snapshot.data!.map((friend) {
+                            String friendId = friend.userId.isNotEmpty ? friend.userId : 'user_${snapshot.data!.indexOf(friend)}';
+                            return CheckboxListTile(
+                              contentPadding: EdgeInsets.zero,
+                              checkboxShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Constants.contentBorderRadius)),
+                              activeColor: CustomColor.bluePrimary,
+                              side: BorderSide(color: defaultColorScheme.secondary, width: 1.5),
+                              title: Text(friend.name, style: TextStyle(color: defaultColorScheme.primary)),
+                              secondary: ClipRRect(
+                                borderRadius: BorderRadius.circular(100.0),
+                                child: SizedBox(
+                                  width: 40,
+                                  height: 40,
+                                  child: friend.profilePictureUrl != ""
+                                      ? Image.network(friend.profilePictureUrl, fit: BoxFit.cover)
+                                      : const Icon(Icons.person, color: Colors.grey),
+                                ),
+                              ),
+                              value: _selectedFriends.contains(friendId),
+                              onChanged: (bool? value) {
+                                setState(() {
+                                  if (value != null && value) {
+                                    _selectedFriends.add(friendId);
+                                  } else {
+                                    _selectedFriends.remove(friendId);
+                                  }
+                                  _validateForm();
+                                });
+                              },
+                            );
+                          }).toList(),
+                        );
+                      },
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: CustomPadding.mediumSpace, vertical: MediaQuery.sizeOf(context).height * CustomPadding.bottomSpace),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: _isFormValid ? () => _createGroup(context) : null,
+                    child: Text(AppTexts.createGroup),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

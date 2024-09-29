@@ -42,7 +42,11 @@ class _YourGroupsScreenState extends State<YourGroupsScreen> {
         centerTitle: true,
         actions: [
           IconButton(
-            onPressed: () => showModalBottomSheet(context: context, builder: (context) => const CreateGroupSheet()),
+            onPressed: () => showModalBottomSheet(
+              context: context,
+              isScrollControlled: true,
+              builder: (context) => const CreateGroupSheet(),
+            ),
             icon: const Icon(Icons.group_add_outlined, color: CustomColor.bluePrimary, size: 30),
           ),
         ],
