@@ -65,10 +65,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
         }
       } catch (e) {
         // Show error dialog if registration fails
-        if (mounted)
+        if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               content: Text('Regristration fehlgeschlagen: ${e.toString()}',
                   style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary))));
+        }
       }
     } else {
       // Show error dialog if passwords don't match
@@ -121,6 +122,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 name: AppTexts.email,
                 hintText: AppTexts.hintEmail,
                 obscureText: false,
+                keyboardType: TextInputType.emailAddress,
               ),
               const Gap(CustomPadding.defaultSpace),
               //password
