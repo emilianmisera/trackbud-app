@@ -87,6 +87,7 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
 
       if (_selectedSplitMethod == SplitMethod.amount) {
         // For "by amount" splits, check that the sum of split amounts equals the total
+
         _isFormValid = _amountController.text.isNotEmpty &&
             _selectedCategory.isNotEmpty &&
             totalAmount == sumOfAmounts &&
@@ -96,6 +97,7 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
         _updateSplitSumValidationMessage(totalAmount, sumOfAmounts);
       } else {
         // For other split methods, only check if required fields are filled
+
         _isFormValid = _amountController.text.isNotEmpty && _selectedCategory.isNotEmpty;
       }
     });

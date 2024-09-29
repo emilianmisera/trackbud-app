@@ -55,6 +55,7 @@ class CategoryBar extends StatelessWidget {
                 ),
                 child: Container(
                   // Set the background color for each category based on its color map
+
                   color: categoryColors[category] ?? defaultColorScheme.outline,
                 ),
               ),
