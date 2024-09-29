@@ -56,6 +56,7 @@ class FriendProfileDetails extends StatelessWidget {
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start, // Align text and images at the start
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
           AppTexts.sameGroups, // Title for shared groups section
@@ -73,7 +74,7 @@ class FriendProfileDetails extends StatelessWidget {
                 return const Text('Keine gemeinsame Gruppen.'); // No shared groups found
               } else {
                 return SizedBox(
-                  height: 40, // Fixed height for group images
+                  height: 30, // Fixed height for group images
                   child: Stack(
                     alignment: Alignment.center, // Center the CircleAvatars in the stack
                     children: List.generate(snapshot.data!.length, (index) {
