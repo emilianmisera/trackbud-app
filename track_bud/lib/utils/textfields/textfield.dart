@@ -17,6 +17,10 @@ class CustomTextfield extends StatelessWidget {
   final TextInputType? type;
   final List<TextInputFormatter>? inputFormatters;
   final FocusNode? focusNode;
+  final TextInputType? keyboardType;
+  final String? errorText;
+  final Color? borderColor;
+
   const CustomTextfield({
     super.key,
     this.name,
@@ -31,6 +35,9 @@ class CustomTextfield extends StatelessWidget {
     this.type,
     this.inputFormatters,
     this.focusNode, // default false
+    this.keyboardType,
+    this.errorText,
+    this.borderColor,
   });
 
   @override
@@ -44,19 +51,18 @@ class CustomTextfield extends StatelessWidget {
         CustomShadow(
           child: SizedBox(
             width: width ?? double.infinity,
-            height: isMultiline ? 120 : Constants.height, // choose height of Textfield Box
+            height: isMultiline ? 120 : Constants.height,
             child: TextFormField(
               controller: controller,
               obscureText: obscureText,
               cursorColor: CustomColor.bluePrimary,
               autofocus: autofocus ?? false,
-              maxLines: isMultiline ? 3 : 1, // Max 3 Lines if multiline true
+              maxLines: isMultiline ? 3 : 1,
               focusNode: focusNode,
-              keyboardType: type ?? TextInputType.text,
+              keyboardType: keyboardType ?? TextInputType.text,
               textInputAction: TextInputAction.next,
               inputFormatters: inputFormatters,
               style: TextStyle(color: defaultColorScheme.primary),
-
               decoration: InputDecoration(
                 prefix: Align(
                   widthFactor: 1.0,
@@ -77,7 +83,22 @@ class CustomTextfield extends StatelessWidget {
                 floatingLabelBehavior: FloatingLabelBehavior.never,
                 filled: true,
                 fillColor: defaultColorScheme.surface,
-                border: OutlineInputBorder(borderSide: BorderSide.none, borderRadius: BorderRadius.circular(Constants.contentBorderRadius)),
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: borderColor ?? defaultColorScheme.outline,
+                    width: 1.0,
+                  ),
+                  borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
+                ),
+                errorBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(color: CustomColor.red, width: 1.0), // Hier wird der Fehler-Rand definiert
+                  borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
+                ),
+                focusedErrorBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(color: CustomColor.red, width: 1.0), // Hier wird der Fokus-Fehler-Rand definiert
+                  borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
+                ),
+                errorText: errorText,
               ),
             ),
           ),

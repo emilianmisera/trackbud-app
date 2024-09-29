@@ -17,8 +17,7 @@ class GroupProvider with ChangeNotifier {
   final Map<String, double> _currentUserExpenses = {};
   final Map<String, double> _netBalances = {};
   final FirestoreService _firestoreService = FirestoreService();
-  final Map<String, Future<List<Map<String, dynamic>>>> _debtsOverviewCache =
-      {};
+  final Map<String, Future<List<Map<String, dynamic>>>> _debtsOverviewCache = {};
 
   // Exposes the list of groups
   List<GroupModel> get groups => _groups;
@@ -29,12 +28,10 @@ class GroupProvider with ChangeNotifier {
   // Retrieves total expenses and user credits for specified group IDs
   double getGroupExpense(String groupId) => _groupExpenses[groupId] ?? 0.0;
   double getUserCredit(String groupId) => _userCredits[groupId] ?? 0.0;
-  double getCurrentUserExpenses(String groupId) =>
-      _currentUserExpenses[groupId] ?? 0.0;
+  double getCurrentUserExpenses(String groupId) => _currentUserExpenses[groupId] ?? 0.0;
 
   // Retrieves the net balance for a user in a specified group
-  double getNetBalance(String groupId, String userId) =>
-      _netBalances[userId] ?? 0.0;
+  double getNetBalance(String groupId, String userId) => _netBalances[userId] ?? 0.0;
 
   // Loads all groups for the current user
   Future<void> loadGroups() async {
@@ -47,9 +44,11 @@ class GroupProvider with ChangeNotifier {
         debugPrint("Loading groups for user ID: ${user.uid}");
         final groups = await _firestoreService.getUserGroups(user.uid);
         debugPrint("Retrieved ${groups.length} groups for the user.");
+
         _groups
           ..clear()
           ..addAll(groups);
+
         await _calculateAllGroupData();
       } else {
         debugPrint("No user found, clearing groups.");
@@ -63,10 +62,30 @@ class GroupProvider with ChangeNotifier {
     }
   }
 
+  // Retrieves shared groups with a specific friend
+  Future<List<GroupModel>> getSharedGroups(String friendId) async {
+    String currentUserId = await _firestoreService.getCurrentUserId();
+    List<GroupModel> sharedGroups = [];
+
+    // Get groups for the current user
+    List<GroupModel> userGroups = await _firestoreService.getUserGroups(currentUserId);
+
+    // Get groups for the friend
+    List<GroupModel> friendGroups = await _firestoreService.getUserGroups(friendId);
+
+    // Find common groups
+    for (var userGroup in userGroups) {
+      if (friendGroups.any((friendGroup) => friendGroup.groupId == userGroup.groupId)) {
+        sharedGroups.add(userGroup);
+      }
+    }
+
+    return sharedGroups;
+  }
+
   // Calculates data for all groups
   Future<void> _calculateAllGroupData() async {
-    await Future.wait(
-        _groups.map((group) => _calculateGroupData(group.groupId)));
+    await Future.wait(_groups.map((group) => _calculateGroupData(group.groupId)));
   }
 
   // Calculates expenses and credits for a specified group
@@ -88,16 +107,17 @@ class GroupProvider with ChangeNotifier {
 
       if (split.paidBy == currentUserId) {
         currentUserExpenses += split.totalAmount;
-        currentUserCredit +=
-            split.totalAmount - currentUserShare['amount'] as double;
+        currentUserCredit += split.totalAmount - currentUserShare['amount'] as double;
       } else {
         currentUserCredit -= currentUserShare['amount'] as double;
       }
     }
 
+    // Update internal state with calculated data
     _groupExpenses[groupId] = totalGroupExpense;
     _userCredits[groupId] = currentUserCredit;
     _currentUserExpenses[groupId] = currentUserExpenses;
+
     notifyListeners();
   }
 
@@ -118,8 +138,7 @@ class GroupProvider with ChangeNotifier {
   }
 
   // Retrieves the debts overview for a specified group
-  Future<List<Map<String, dynamic>>> getGroupDebtsOverview(
-      String groupId) async {
+  Future<List<Map<String, dynamic>>> getGroupDebtsOverview(String groupId) async {
     if (!_debtsOverviewCache.containsKey(groupId)) {
       _debtsOverviewCache[groupId] = _fetchGroupDebtsOverview(groupId);
     }
@@ -127,8 +146,7 @@ class GroupProvider with ChangeNotifier {
   }
 
   // Fetches detailed debts overview for a specified group
-  Future<List<Map<String, dynamic>>> _fetchGroupDebtsOverview(
-      String groupId) async {
+  Future<List<Map<String, dynamic>>> _fetchGroupDebtsOverview(String groupId) async {
     await calculateNetBalances(groupId);
     List<Map<String, dynamic>> payments = suggestPayments(groupId);
 
@@ -146,6 +164,16 @@ class GroupProvider with ChangeNotifier {
     } else {
       return [];
     }
+  }
+
+  // Calculate total debts for the current user across all groups
+  double getTotalDebts() {
+    return _userCredits.values.where((credit) => credit < 0).map((credit) => -credit).fold(0.0, (sum, item) => sum + item);
+  }
+
+  // Calculate total credits for the current user across all groups
+  double getTotalCredits() {
+    return _userCredits.values.where((credit) => credit > 0).fold(0.0, (sum, credit) => sum + credit);
   }
 
   // Invalidates the cache for the debts overview of a specified group
@@ -166,8 +194,7 @@ class GroupProvider with ChangeNotifier {
       double totalAmount = split.totalAmount;
 
       // Credit the payer
-      _netBalances[split.paidBy] =
-          (_netBalances[split.paidBy] ?? 0.0) + totalAmount;
+      _netBalances[split.paidBy] = (_netBalances[split.paidBy] ?? 0.0) + totalAmount;
 
       // Debit each participant based on their shares
       for (var share in split.splitShares) {
@@ -186,15 +213,11 @@ class GroupProvider with ChangeNotifier {
   List<Map<String, dynamic>> suggestPayments(String groupId) {
     List<Map<String, dynamic>> suggestedPayments = [];
 
-    List<MapEntry<String, double>> creditors =
-        _netBalances.entries.where((e) => e.value > 0).toList();
-    List<MapEntry<String, double>> debtors =
-        _netBalances.entries.where((e) => e.value < 0).toList();
+    List<MapEntry<String, double>> creditors = _netBalances.entries.where((e) => e.value > 0).toList();
+    List<MapEntry<String, double>> debtors = _netBalances.entries.where((e) => e.value < 0).toList();
 
-    creditors.sort((a, b) =>
-        b.value.compareTo(a.value)); // Sort creditors in descending order
-    debtors.sort((a, b) =>
-        a.value.compareTo(b.value)); // Sort debtors in ascending order
+    creditors.sort((a, b) => b.value.compareTo(a.value)); // Sort creditors in descending order
+    debtors.sort((a, b) => a.value.compareTo(b.value)); // Sort debtors in ascending order
 
     while (creditors.isNotEmpty && debtors.isNotEmpty) {
       var creditor = creditors.first;
@@ -240,10 +263,7 @@ class GroupProvider with ChangeNotifier {
 
         // 3. If the image was uploaded successfully, update the group document with the image URL
         if (imageUrl != null) {
-          await FirebaseFirestore.instance
-              .collection('groups')
-              .doc(group.groupId)
-              .update({'profilePictureUrl': imageUrl});
+          await FirebaseFirestore.instance.collection('groups').doc(group.groupId).update({'profilePictureUrl': imageUrl});
         }
       }
 
@@ -259,10 +279,7 @@ class GroupProvider with ChangeNotifier {
   // Uploads a group image to Firebase Storage and returns the download URL
   Future<String?> uploadGroupImage(File imageFile, String groupId) async {
     try {
-      final storageRef = FirebaseStorage.instance
-          .ref()
-          .child('group_images')
-          .child('$groupId.jpg');
+      final storageRef = FirebaseStorage.instance.ref().child('group_images').child('$groupId.jpg');
 
       // Upload the image file to Firebase Storage
       await storageRef.putFile(imageFile);

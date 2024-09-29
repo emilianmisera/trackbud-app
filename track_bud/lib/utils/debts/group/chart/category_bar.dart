@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class CategoryBar extends StatelessWidget {
-  final Map<String, double> categoryExpenses;
-  final Map<String, Color> categoryColors;
-  final double? height;
+  final Map<String, double> categoryExpenses; // Map of category names to their respective expense values
+  final Map<String, Color> categoryColors; // Map of category names to their respective colors
+  final double? height; // Optional height for the category bar
 
   const CategoryBar({
     super.key,
@@ -15,39 +15,47 @@ class CategoryBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final defaultColorScheme = Theme.of(context).colorScheme;
-    // Calculate the total expense by summing up all category expenses
-    // fold() to iterate through all values and sum them up
+
+    // Calculate the total expense by summing all category expenses
     double totalExpense = categoryExpenses.values.fold(0, (sum, expense) => sum + expense);
 
-    // Sort the expenses in descending order
-    // convert the map entries to a list to sort
+    // Create a sorted list of expenses in descending order
     List<MapEntry<String, double>> sortedExpenses = categoryExpenses.entries.toList()..sort((a, b) => b.value.compareTo(a.value));
 
+    // If there are no expenses, return an empty bar with a specific height
     if (totalExpense == 0) {
-      // If there are no expenses, return an empty grey container
       return ClipRRect(
-        borderRadius: BorderRadius.circular(100), // apply rounded corners, as borderRadius doesn't work directly on Container
+        borderRadius: BorderRadius.circular(100), // Apply rounded corners
         child: Container(
-          height: 8,
-          color: defaultColorScheme.outline,
+          height: 8, // Fixed height for the empty state
+          color: defaultColorScheme.outline, // Default color for the empty state
         ),
       );
     }
+
     return ClipRRect(
-      borderRadius: BorderRadius.circular(100),
+      borderRadius: BorderRadius.circular(100), // Apply rounded corners to the overall bar
       child: SizedBox(
-        height: height ?? 20,
+        height: height ?? 20, // Use provided height or default to 20
         child: Row(
-          children: sortedExpenses.map((entry) {
-            String category = entry.key;
-            double expense = entry.value;
-            // Calculate the percentage of this category's expense for width of bar
-            double percentage = expense / totalExpense;
+          children: sortedExpenses.asMap().entries.map((entry) {
+            int index = entry.key; // Get the index of the current entry
+            MapEntry<String, double> categoryEntry = entry.value; // Extract category entry
+            String category = categoryEntry.key; // Category name
+            double expense = categoryEntry.value; // Expense value for the category
+            double percentage = expense / totalExpense; // Calculate percentage of total expense
+
             return Expanded(
-              flex: (percentage * 100).round(),
+              flex: (percentage * 100).round(), // Set flex based on percentage
               child: Container(
-                margin: const EdgeInsets.symmetric(horizontal: .5), // 1-pixel margin on each side
+                // Define margins to separate category segments
+                margin: EdgeInsets.only(
+                  left: index == 0 ? 0 : .3, // No left margin for the first item
+                  right: index == sortedExpenses.length - 1 ? 0 : .3, // No right margin for the last item
+                ),
                 child: Container(
+                  // Set the background color for each category based on its color map
+
                   color: categoryColors[category] ?? defaultColorScheme.outline,
                 ),
               ),

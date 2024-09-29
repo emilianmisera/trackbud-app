@@ -73,7 +73,7 @@ class AppTexts {
   static String remainingText = 'verbleiben diesen Monat';
   static String aboveMonthlyGoal = 'über monatlichem Limit';
   static String inTotal = 'Gesamt:';
-  static String toFriends = 'An Freunde:';
+  static String toOthers = 'An Andere:';
   static String toYou = 'An Dich:';
   static String spent = 'ausgegeben';
   static String of = 'von';

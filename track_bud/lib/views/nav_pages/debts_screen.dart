@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:track_bud/provider/group_provider.dart';
 import 'package:track_bud/provider/user_provider.dart';
+import 'package:track_bud/provider/friend_split_provider.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/debts/friend/friend_card.dart';
 import 'package:track_bud/utils/debts/group/group_card.dart';
@@ -11,86 +12,84 @@ import 'package:track_bud/views/subpages/your_friends_screen.dart';
 import 'package:track_bud/views/subpages/your_groups_screen.dart';
 
 class DebtsScreen extends StatefulWidget {
-  const DebtsScreen({super.key}); // Constructor
+  const DebtsScreen({super.key});
 
   @override
-  State<DebtsScreen> createState() => _DebtsScreenState(); // Create state for the widget
+  State<DebtsScreen> createState() => _DebtsScreenState();
 }
 
 class _DebtsScreenState extends State<DebtsScreen> {
   @override
   void initState() {
     super.initState();
-    // Load user data and groups after the first frame is rendered
+    // Load data after the first frame is rendered
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _loadUserData();
-      _loadGroups();
+      _loadData();
     });
   }
 
-  // Load the current user's data
-  Future<void> _loadUserData() async {
+  // Function to load user, group, and friend debt data
+  Future<void> _loadData() async {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
-    await userProvider.loadCurrentUser(); // Fetch current user information
-  }
-
-  // Load groups associated with the user
-  Future<void> _loadGroups() async {
     final groupProvider = Provider.of<GroupProvider>(context, listen: false);
-    await groupProvider.loadGroups(); // Fetch user's groups
+    final friendSplitProvider = Provider.of<FriendSplitProvider>(context, listen: false);
+
+    // Load current user and associated data
+    await userProvider.loadCurrentUser();
+    await groupProvider.loadGroups();
+    await friendSplitProvider.loadFriendSplits(userProvider.currentUser!.userId, userProvider.friends);
   }
 
   @override
   Widget build(BuildContext context) {
-    final defaultColorScheme = Theme.of(context).colorScheme; // Get color scheme from the theme
+    final defaultColorScheme = Theme.of(context).colorScheme;
+    final userProvider = Provider.of<UserProvider>(context);
+    final groupProvider = Provider.of<GroupProvider>(context);
+    final friendSplitProvider = Provider.of<FriendSplitProvider>(context);
+
     return Scaffold(
       body: RefreshIndicator(
-        onRefresh: () async {
-          // Allow user to refresh data by pulling down
-          await _loadUserData();
-          await _loadGroups();
-        },
+        onRefresh: _loadData, // Refresh data on pull-down
         child: CustomScrollView(
           slivers: [
-            // Top padding for the scroll view
             SliverPadding(
               padding: EdgeInsets.only(
-                top: MediaQuery.of(context).padding.top + CustomPadding.defaultSpace, // Padding from the top
-                left: CustomPadding.defaultSpace, // Left padding
-                right: CustomPadding.defaultSpace, // Right padding
+                top: MediaQuery.of(context).padding.top + CustomPadding.defaultSpace,
+                left: CustomPadding.defaultSpace,
+                right: CustomPadding.defaultSpace,
               ),
               sliver: SliverList(
                 delegate: SliverChildListDelegate([
-                  // Display debts and credits information tiles
+                  // Row for displaying total debts and credits
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       InfoTile(
                         title: AppTexts.debts,
-                        amount: 'amount', // Placeholder for amount
-                        color: CustomColor.red, // Color for debts tile
-                        width: MediaQuery.of(context).size.width / 2 - Constants.infoTileSpace, // Dynamic width calculation
+                        amount: (friendSplitProvider.getTotalFriendDebts().abs() + groupProvider.getTotalDebts()).toStringAsFixed(2),
+                        color: CustomColor.red,
+                        width: MediaQuery.of(context).size.width / 2 - Constants.infoTileSpace,
                       ),
                       InfoTile(
                         title: AppTexts.credits,
-                        amount: 'amount', // Placeholder for amount
-                        color: CustomColor.green, // Color for credits tile
-                        width: MediaQuery.of(context).size.width / 2 - Constants.infoTileSpace, // Dynamic width calculation
+                        amount: (friendSplitProvider.getTotalFriendCredits() + groupProvider.getTotalCredits()).toStringAsFixed(2),
+                        color: CustomColor.green,
+                        width: MediaQuery.of(context).size.width / 2 - Constants.infoTileSpace,
                       ),
                     ],
                   ),
-                  const SizedBox(height: CustomPadding.defaultSpace), // Space between elements
-                  // Friends section header
+                  const SizedBox(height: CustomPadding.defaultSpace),
+                  // Row for friends section header
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
                         AppTexts.friends,
-                        style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary), // Style for friends text
+                        style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary),
                       ),
                       GestureDetector(
                         onTap: () {
-                          // Navigate to YourFriendsScreen when tapped
+                          // Navigate to friends screen
                           Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) => const YourFriendsScreen()),
@@ -98,46 +97,53 @@ class _DebtsScreenState extends State<DebtsScreen> {
                         },
                         child: Text(
                           AppTexts.showAll,
-                          style: TextStyles.regularStyleMedium.copyWith(color: CustomColor.bluePrimary), // Style for show all text
+                          style: TextStyles.regularStyleMedium.copyWith(color: CustomColor.bluePrimary),
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: CustomPadding.mediumSpace), // Space between elements
-                  // List of friends
-                  Consumer<UserProvider>(
-                    builder: (context, userProvider, child) {
-                      if (userProvider.isLoading) {
-                        return const Center(child: CircularProgressIndicator(color: CustomColor.bluePrimary)); // Loading indicator
-                      } else if (userProvider.friends.isEmpty) {
-                        return Center(
-                            child: Text("Keine Freunde gefunden.",
-                                style: TextStyle(color: defaultColorScheme.primary))); // No friends found message
-                      } else {
-                        return Column(
-                          children: userProvider.friends
-                              .take(5) // Limit to first 5 friends
-                              .map((friend) => Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: CustomPadding.smallSpace),
-                                    child: FriendCard(friend: friend), // Display friend card
-                                  ))
-                              .toList(),
-                        );
-                      }
-                    },
-                  ),
-                  const SizedBox(height: CustomPadding.defaultSpace), // Space between elements
-                  // Groups section header
+                  const SizedBox(height: CustomPadding.mediumSpace),
+                  // Display a list of friends with their debts
+                  if (friendSplitProvider.isLoading && userProvider.friends.isNotEmpty)
+                    Column(
+                      children: userProvider.friends
+                          .take(5)
+                          .map((friend) => Padding(
+                                padding: const EdgeInsets.symmetric(vertical: CustomPadding.smallSpace),
+                                child: FriendCard(
+                                  friend: friend,
+                                  debtAmount: friendSplitProvider.getFriendBalance(friend.userId),
+                                ),
+                              ))
+                          .toList(),
+                    )
+                  else if (friendSplitProvider.isLoading && userProvider.friends.isEmpty)
+                    const Center(child: Text("Keine Freunde gefunden."))
+                  else
+                    Column(
+                      children: userProvider.friends
+                          .take(5)
+                          .map((friend) => Padding(
+                                padding: const EdgeInsets.symmetric(vertical: CustomPadding.smallSpace),
+                                child: FriendCard(
+                                  friend: friend,
+                                  debtAmount: friendSplitProvider.getFriendBalance(friend.userId),
+                                ),
+                              ))
+                          .toList(),
+                    ),
+                  const SizedBox(height: CustomPadding.defaultSpace),
+                  // Row for groups section header
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
                         AppTexts.groups,
-                        style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary), // Style for groups text
+                        style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary),
                       ),
                       GestureDetector(
                         onTap: () {
-                          // Navigate to YourGroupsScreen when tapped
+                          // Navigate to groups screen
                           Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) => const YourGroupsScreen()),
@@ -145,39 +151,45 @@ class _DebtsScreenState extends State<DebtsScreen> {
                         },
                         child: Text(
                           AppTexts.showAll,
-                          style: TextStyles.regularStyleMedium.copyWith(color: CustomColor.bluePrimary), // Style for show all text
+                          style: TextStyles.regularStyleMedium.copyWith(color: CustomColor.bluePrimary),
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: CustomPadding.mediumSpace), // Space between elements
+                  const SizedBox(height: CustomPadding.mediumSpace),
                 ]),
               ),
             ),
-            // List of groups
+            // Consumer widget to listen to group provider changes
             Consumer<GroupProvider>(
               builder: (context, groupProvider, child) {
-                if (groupProvider.isLoading) {
-                  return const SliverFillRemaining(
-                      child: Center(child: CircularProgressIndicator(color: CustomColor.bluePrimary)) // Loading indicator for groups
-                      );
-                } else if (groupProvider.groups.isEmpty) {
-                  return SliverFillRemaining(
-                      child: Center(
-                          child: Text("Keine Gruppen gefunden.",
-                              style: TextStyle(color: defaultColorScheme.primary))) // No groups found message
-                      );
+                // Conditional rendering based on loading state
+                if (groupProvider.isLoading && groupProvider.groups.isNotEmpty) {
+                  return SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) {
+                        final group = groupProvider.groups[index];
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(vertical: CustomPadding.smallSpace, horizontal: CustomPadding.defaultSpace),
+                          child: GroupCard(group: group),
+                        );
+                      },
+                      childCount: groupProvider.groups.length,
+                    ),
+                  );
+                } else if (groupProvider.isLoading && groupProvider.groups.isEmpty) {
+                  return const SliverFillRemaining(child: Center(child: Text("Keine Gruppen gefunden.")));
                 } else {
                   return SliverList(
                     delegate: SliverChildBuilderDelegate(
                       (context, index) {
-                        final group = groupProvider.groups[index]; // Get group by index
+                        final group = groupProvider.groups[index];
                         return Padding(
                           padding: const EdgeInsets.symmetric(vertical: CustomPadding.smallSpace, horizontal: CustomPadding.defaultSpace),
-                          child: GroupCard(group: group), // Display group card
+                          child: GroupCard(group: group),
                         );
                       },
-                      childCount: groupProvider.groups.length, // Total number of groups
+                      childCount: groupProvider.groups.length,
                     ),
                   );
                 }

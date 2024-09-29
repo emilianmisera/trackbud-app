@@ -45,31 +45,33 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
   List<double> _splitAmounts = [0.0, 0.0];
   final _focusNodeTitle = FocusNode();
   final _focusNodeAmount = FocusNode();
-  //store the split sum validation message
+  // Message to indicate any validation issues with the split amounts
   String _splitSumValidationMessage = '';
-  //list to store focus nodes for ByAmountTiles
+  // List to manage focus nodes for the amount input fields
   List<FocusNode> _byAmountFocusNodes = [];
   DateTime _selectedDateTime = DateTime.now();
 
   @override
   void initState() {
     super.initState();
+    // Add listeners to validate form inputs
     _titleController.addListener(_validateForm);
     _amountController.addListener(_onInputChanged);
     _payedBy = widget.currentUser.name;
 
-    // Initialize focus nodes for ByAmountTiles
+    // Create focus nodes for amount input fields
     _byAmountFocusNodes = List.generate(2, (_) => FocusNode());
   }
 
   @override
   void dispose() {
+    // Remove listeners to prevent memory leaks
     _titleController.removeListener(_validateForm);
     _amountController.removeListener(_onInputChanged);
     _titleController.dispose();
     _amountController.dispose();
 
-    // Dispose focus nodes for ByAmountTiles
+    // Dispose of the focus nodes
     for (var focusNode in _byAmountFocusNodes) {
       focusNode.dispose();
     }
@@ -77,39 +79,42 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
     super.dispose();
   }
 
-  // validate the form and check split amounts
+  // Validates the form and checks the split amounts for consistency
   void _validateForm() {
     setState(() {
       final totalAmount = _parseAmount();
       final sumOfAmounts = _splitAmounts.reduce((a, b) => a + b);
 
       if (_selectedSplitMethod == SplitMethod.amount) {
-        // For "by amount" split, check if the sum of amounts matches the total
-        // and ensure that both split amounts are greater than zero
+        // For "by amount" splits, check that the sum of split amounts equals the total
+
         _isFormValid = _amountController.text.isNotEmpty &&
             _selectedCategory.isNotEmpty &&
             totalAmount == sumOfAmounts &&
             _splitAmounts.every((amount) => amount > 0);
 
-        // Update the validation message
+        // Update the validation message to reflect any discrepancies
         _updateSplitSumValidationMessage(totalAmount, sumOfAmounts);
       } else {
+        // For other split methods, only check if required fields are filled
+
         _isFormValid = _amountController.text.isNotEmpty && _selectedCategory.isNotEmpty;
       }
     });
   }
 
-  // update the split sum validation message
+  // Updates the message that indicates any issues with the split amounts
   void _updateSplitSumValidationMessage(double totalAmount, double sumOfAmounts) {
     if (totalAmount > sumOfAmounts) {
       _splitSumValidationMessage = '${(totalAmount - sumOfAmounts).toStringAsFixed(2)}€ fehlen noch';
     } else if (totalAmount < sumOfAmounts) {
       _splitSumValidationMessage = '${(sumOfAmounts - totalAmount).toStringAsFixed(2)}€ zu viel';
     } else {
-      _splitSumValidationMessage = '';
+      _splitSumValidationMessage = ''; // Clear the message if amounts are correct
     }
   }
 
+  // Handles changes in the amount input field and triggers validation
   void _onInputChanged() {
     setState(() {
       _inputNumber = _parseAmount();
@@ -117,6 +122,7 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
     });
   }
 
+  // Updates the selected category and validates the form
   void _onCategorySelected(String category) {
     setState(() {
       _selectedCategory = category;
@@ -124,11 +130,13 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
     });
   }
 
+  // Parses the amount entered in the text field to a double
   double _parseAmount() {
     String amountText = _amountController.text.replaceAll(',', '.');
-    return double.tryParse(amountText) ?? 0.0;
+    return double.tryParse(amountText) ?? 0.0; // Default to 0.0 if parsing fails
   }
 
+  // Saves the new friend split entry to Firestore
   Future<void> _saveNewFriendSplit() async {
     final defaultColorScheme = Theme.of(context).colorScheme;
     double totalAmount = _parseAmount();
@@ -136,23 +144,24 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
     double creditorAmount, debtorAmount;
 
     if (_selectedSplitMethod == SplitMethod.equal) {
-      // Ensure _splitAmounts has exactly two elements for friend splits
+      // For equal splits, divide the total amount between the two friends
       _splitAmounts = [totalAmount / 2, totalAmount / 2];
     }
 
-    // Determine who is the creditor (payer)
+    // Determine the creditor (the person receiving the payment)
     if (_payedBy == widget.currentUser.name) {
-      // Current user is the creditor (payer)
+      // Current user is the creditor
       creditorAmount = totalAmount;
-      debtorAmount = _splitAmounts[1]; // Friend owes part of the split
+      debtorAmount = _splitAmounts[1]; // The selected friend owes this amount
     } else {
-      // Friend is the creditor (payer)
+      // The selected friend is the creditor
       creditorAmount = totalAmount;
-      debtorAmount = _splitAmounts[0]; // Current user owes part of the split
+      debtorAmount = _splitAmounts[0]; // Current user owes this amount
     }
 
     String transactionTitle = _titleController.text.isNotEmpty ? _titleController.text : _selectedCategory;
 
+    // Create a new FriendSplitModel instance with the entered data
     FriendSplitModel newSplit = FriendSplitModel(
       splitId: const Uuid().v4(),
       creditorId: _payedBy == widget.currentUser.name ? widget.currentUser.userId : widget.selectedFriend.userId,
@@ -167,9 +176,11 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
     );
 
     try {
+      // Attempt to save the new split entry to Firestore
       await _firestoreService.addFriendSplit(newSplit);
     } catch (e) {
       if (mounted) {
+        // Show a snackbar if saving fails
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
               content: Text('Hinzufügen des Freundes-Splits fehlgeschlagen: $e',
@@ -179,7 +190,7 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
     }
   }
 
-  // unfocus all text fields
+  // Unfocuses all input fields
   void _unfocusAll() {
     _focusNodeTitle.unfocus();
     _focusNodeAmount.unfocus();
@@ -231,12 +242,18 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
                     suffix: Text('€', style: TextStyle(color: defaultColorScheme.primary)),
                     type: const TextInputType.numberWithOptions(decimal: true),
                     inputFormatters: [
-                      // Allows numbers and point or comma as decimal separator
+                      // Allow only numbers, and a point or comma as decimal separator
                       FilteringTextInputFormatter.allow(RegExp(r'^\d+([.,]\d{0,2})?'))
                     ],
                     focusNode: _focusNodeAmount,
                   ),
                   const Gap(CustomPadding.defaultSpace),
+                  Expanded(
+                    child: DatePicker(
+                      onDateTimeChanged: (dateTime) => setState(() => _selectedDateTime = dateTime),
+                      initialDateTime: DateTime.now(),
+                    ),
+                  ),
                 ],
               ),
               const Gap(CustomPadding.defaultSpace),
@@ -261,14 +278,14 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
                 onSplitMethodChanged: (SplitMethod method) {
                   setState(() {
                     _selectedSplitMethod = method;
-                    // Reset split amounts when changing split method
+                    // Reset split amounts to zero when the split method changes
                     _splitAmounts = [0.0, 0.0];
-                    _validateForm(); // Revalidate when the split method changes
+                    _validateForm(); // Revalidate the form after method change
                   });
                 },
               ),
               const Gap(CustomPadding.defaultSpace),
-              // Display the appropriate split widget based on _selectedSplitMethod
+              // Display the appropriate widget for the selected split method
               if (_selectedSplitMethod == SplitMethod.equal)
                 EqualFriendSplitWidget(
                   amount: _inputNumber,
@@ -276,7 +293,7 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
                   onAmountsChanged: (amounts) {
                     setState(() {
                       _splitAmounts = amounts;
-                      _validateForm(); // Revalidate when amounts change
+                      _validateForm(); // Revalidate after amount changes
                     });
                   },
                 ),
@@ -287,7 +304,7 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
                   onAmountsChanged: (amounts) {
                     setState(() {
                       _splitAmounts = amounts;
-                      _validateForm(); // Revalidate when amounts change
+                      _validateForm(); // Revalidate after amount changes
                     });
                   },
                 ),
@@ -297,10 +314,10 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
                   onAmountsChanged: (amounts) {
                     setState(() {
                       _splitAmounts = amounts;
-                      _validateForm(); // Revalidate when amounts change
+                      _validateForm(); // Revalidate after amount changes
                     });
                   },
-                  focusNodes: _byAmountFocusNodes, // Pass focus nodes to ByAmountSplitWidget
+                  focusNodes: _byAmountFocusNodes, // Pass focus nodes to ByAmountSplitWidget for better focus management
                 ),
             ],
           ),

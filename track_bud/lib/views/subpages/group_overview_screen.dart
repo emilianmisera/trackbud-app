@@ -20,11 +20,12 @@ import 'package:track_bud/utils/tiles/split/group_split_tile.dart';
 class GroupOverviewScreen extends StatefulWidget {
   final String groupId; // Identifier for the group
   final String groupName; // Name of the group
+
   const GroupOverviewScreen({
-    Key? key,
+    super.key,
     required this.groupId,
     required this.groupName,
-  }) : super(key: key);
+  });
 
   @override
   State<GroupOverviewScreen> createState() => _GroupOverviewScreenState();
@@ -39,8 +40,9 @@ class _GroupOverviewScreenState extends State<GroupOverviewScreen> {
     super.initState();
     // Initialize the future to fetch group data
     _groupFuture = _firestoreService.getGroup(widget.groupId);
+    // Refresh group data after the first frame
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _refreshGroupData(); // Refresh group data after the first frame
+      _refreshGroupData();
     });
   }
 
@@ -59,7 +61,10 @@ class _GroupOverviewScreenState extends State<GroupOverviewScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.groupName, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
+        title: Text(
+          widget.groupName,
+          style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary),
+        ),
         centerTitle: true, // Center the title
       ),
       body: FutureBuilder<GroupModel>(
@@ -70,10 +75,18 @@ class _GroupOverviewScreenState extends State<GroupOverviewScreen> {
             return const Center(child: CircularProgressIndicator()); // Show loading indicator
           } else if (snapshot.hasError) {
             return Center(
-                child: Text('Error: ${snapshot.error}', style: TextStyle(color: defaultColorScheme.primary))); // Show error message
+              child: Text(
+                'Error: ${snapshot.error}',
+                style: TextStyle(color: defaultColorScheme.primary),
+              ),
+            ); // Show error message
           } else if (!snapshot.hasData) {
             return Center(
-                child: Text('No group data available', style: TextStyle(color: defaultColorScheme.primary))); // Show message if no data
+              child: Text(
+                'No group data available',
+                style: TextStyle(color: defaultColorScheme.primary),
+              ),
+            ); // Show message if no data
           }
 
           final currentGroup = snapshot.data!; // Get the fetched group data
@@ -86,7 +99,11 @@ class _GroupOverviewScreenState extends State<GroupOverviewScreen> {
                 return const Center(child: CircularProgressIndicator()); // Show loading indicator
               } else if (snapshot.hasError) {
                 return Center(
-                    child: Text('Error: ${snapshot.error}', style: TextStyle(color: defaultColorScheme.primary))); // Show error message
+                  child: Text(
+                    'Error: ${snapshot.error}',
+                    style: TextStyle(color: defaultColorScheme.primary),
+                  ),
+                ); // Show error message
               } else {
                 // Convert snapshot data into a list of GroupSplitModel
                 List<GroupSplitModel> splits = snapshot.data?.docs.map((doc) => doc.data()).toList() ?? [];
@@ -172,11 +189,15 @@ class _GroupOverviewScreenState extends State<GroupOverviewScreen> {
                                 if (snapshot.connectionState == ConnectionState.waiting) {
                                   return const CircularProgressIndicator(); // Show loading indicator
                                 } else if (snapshot.hasError) {
-                                  return Text('Error: ${snapshot.error}',
-                                      style: TextStyle(color: defaultColorScheme.primary)); // Show error message
+                                  return Text(
+                                    'Error: ${snapshot.error}',
+                                    style: TextStyle(color: defaultColorScheme.primary),
+                                  ); // Show error message
                                 } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                                  return Text('No debts to display',
-                                      style: TextStyle(color: defaultColorScheme.primary)); // Show message if no debts
+                                  return Text(
+                                    'No debts to display',
+                                    style: TextStyle(color: defaultColorScheme.primary),
+                                  ); // Show message if no debts
                                 }
 
                                 return DebtsOverview(groupId: widget.groupId); // Display debts overview
@@ -257,9 +278,11 @@ class _GroupOverviewScreenState extends State<GroupOverviewScreen> {
               child: ElevatedButton(
                 onPressed: () async {
                   // Fetch member names for the modal dialog
-                  List<String> memberNames = await Future.wait(currentGroup.members
-                      .map((memberId) => _firestoreService.getUser(memberId))
-                      .map((futureUser) => futureUser.then((user) => user?.name ?? 'Unknown')));
+                  List<String> memberNames = await Future.wait(
+                    currentGroup.members
+                        .map((memberId) => _firestoreService.getUser(memberId))
+                        .map((futureUser) => futureUser.then((user) => user?.name ?? 'Unknown')),
+                  );
 
                   if (mounted) {
                     // Show modal bottom sheet to add a group split

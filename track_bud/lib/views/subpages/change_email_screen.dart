@@ -173,13 +173,28 @@ class _ChangeEmailScreenState extends State<ChangeEmailScreen> {
                 CustomPadding.bigSpace,
               ),
               // Current email text field
-              CustomTextfield(name: AppTexts.currentEmail, hintText: AppTexts.currentEmailHint, controller: _currentEmailController),
+              CustomTextfield(
+                name: AppTexts.currentEmail,
+                hintText: AppTexts.currentEmailHint,
+                controller: _currentEmailController,
+                keyboardType: TextInputType.emailAddress,
+              ),
               const Gap(CustomPadding.defaultSpace),
               // new email text field
-              CustomTextfield(name: AppTexts.newEmail, hintText: AppTexts.newEmailHint, controller: _newEmailController),
+              CustomTextfield(
+                name: AppTexts.newEmail,
+                hintText: AppTexts.newEmailHint,
+                controller: _newEmailController,
+                keyboardType: TextInputType.emailAddress,
+              ),
               const Gap(CustomPadding.defaultSpace),
               // Confirm Password text field
-              CustomTextfield(name: AppTexts.password, obscureText: true, hintText: AppTexts.hintPassword, controller: _passwordController),
+              CustomTextfield(
+                name: AppTexts.password,
+                obscureText: true,
+                hintText: AppTexts.hintPassword,
+                controller: _passwordController,
+              ),
             ],
           ),
         ),
