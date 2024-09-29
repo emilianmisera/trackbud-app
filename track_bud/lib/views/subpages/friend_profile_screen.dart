@@ -71,7 +71,7 @@ class _FriendProfileScreenState extends State<FriendProfileScreen> {
           return Text('Keine Daten verfügbar.', style: TextStyle(color: defaultColorScheme.primary));
         } else {
           double totalDebt = snapshot.data!;
-          return FriendProfileDetails(totalDebt: totalDebt); // Display total debt
+          return FriendProfileDetails(totalDebt: totalDebt, friendId: widget.friend.userId); // Display total debt
         }
       },
     );
