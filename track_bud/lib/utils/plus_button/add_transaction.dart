@@ -4,7 +4,6 @@ import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
 import 'package:track_bud/provider/transaction_provider.dart';
 import 'package:track_bud/utils/plus_button/add_entry_modal.dart';
-import 'package:track_bud/utils/button_widgets/dropdown.dart';
 import 'package:track_bud/utils/button_widgets/segment_control.dart';
 import 'package:track_bud/utils/categories/category_expenses.dart';
 import 'package:track_bud/utils/categories/category_income.dart';
@@ -48,11 +47,16 @@ class _AddTransactionState extends State<AddTransaction> {
     try {
       final transactionProvider = Provider.of<TransactionProvider>(context, listen: false);
 
+
+      // Determine title based on the input or selected category
+      String transactionTitle =
+          _titleController.text.isNotEmpty ? _titleController.text : _selectedCategory ?? ''; // Use category name if title is empty
+
       await transactionProvider.addTransaction(
         _currentSegment == 0 ? 'expense' : 'income',
         double.tryParse(_amountController.text.replaceAll(',', '.')) ?? 0.0,
         {
-          'title': _titleController.text,
+          'title': transactionTitle, // Use the determined title
           'category': _selectedCategory,
           'recurrence': _selectedRecurrence,
           'note': _noteController.text,
@@ -88,7 +92,8 @@ class _AddTransactionState extends State<AddTransaction> {
   // Validate form inputs
   void _validateForm() {
     setState(() {
-      _isFormValid = _titleController.text.isNotEmpty && _amountController.text.isNotEmpty && _selectedCategory != null;
+
+      _isFormValid = _amountController.text.isNotEmpty && _selectedCategory != null;
     });
   }
 
@@ -181,21 +186,28 @@ class _AddTransactionState extends State<AddTransaction> {
                   ? CategoriesExpense(onCategorySelected: _onCategorySelected)
                   : CategoriesIncome(onCategorySelected: _onCategorySelected),
               const Gap(CustomPadding.defaultSpace),
-              Text(AppTexts.recurrency, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
+
+              /*Text(AppTexts.recurrency,
+                  style: TextStyles.regularStyleMedium
+                      .copyWith(color: defaultColorScheme.primary)),
               const Gap(CustomPadding.mediumSpace),
               // Dropdown for selecting recurrence frequency
-              CustomDropDown(list: const [
-                'einmalig',
-                'täglich',
-                'wöchentlich',
-                'zweiwöchentlich',
-                'halb-monatlich',
-                'monatlich',
-                'vierteljährlich',
-                'halb-jährlich',
-                'jährlich'
-              ], dropdownWidth: MediaQuery.sizeOf(context).width - 32, onChanged: (value) => setState(() => _selectedRecurrence = value)),
-              const Gap(CustomPadding.defaultSpace),
+              CustomDropDown(
+                  list: const [
+                    'einmalig',
+                    'täglich',
+                    'wöchentlich',
+                    'zweiwöchentlich',
+                    'halb-monatlich',
+                    'monatlich',
+                    'vierteljährlich',
+                    'halb-jährlich',
+                    'jährlich'
+                  ],
+                  dropdownWidth: MediaQuery.sizeOf(context).width - 32,
+                  onChanged: (value) =>
+                      setState(() => _selectedRecurrence = value)),
+              const Gap(CustomPadding.defaultSpace),*/
               // Note text field
               CustomTextfield(
                   name: AppTexts.note,

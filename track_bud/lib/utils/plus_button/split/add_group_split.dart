@@ -7,6 +7,7 @@ import 'package:track_bud/models/group_model.dart';
 import 'package:track_bud/models/group_split_model.dart';
 import 'package:track_bud/provider/group_provider.dart';
 import 'package:track_bud/services/firestore_service.dart';
+import 'package:track_bud/utils/date_picker.dart';
 import 'package:track_bud/utils/plus_button/add_entry_modal.dart';
 import 'package:track_bud/utils/plus_button/split/split_methods/group_splits/equal_group_split.dart';
 import 'package:track_bud/utils/button_widgets/dropdown.dart';
@@ -39,7 +40,7 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
   final TextEditingController _amountController = TextEditingController();
   final FirestoreService _firestoreService = FirestoreService();
 
-  String? _selectedCategory; // Selected category for the split
+  late String _selectedCategory; // Selected category for the split
   double _inputNumber = 0.00; // Amount input by the user
   bool _isFormValid = false; // Indicates if the form is valid
   String _paidByUserId = ''; // ID of the user making the payment
@@ -47,6 +48,7 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
   late Map<String, String> _memberNameToId; // Maps member names to their IDs
   final _focusNodeTitle = FocusNode();
   final _focusNodeAmount = FocusNode();
+  DateTime _selectedDateTime = DateTime.now();
 
   @override
   void initState() {
@@ -76,9 +78,8 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
   // Validates the form inputs based on current state
   void _validateForm() {
     setState(() {
-      _isFormValid = _titleController.text.isNotEmpty &&
-          _amountController.text.isNotEmpty &&
-          _selectedCategory != null &&
+      _isFormValid = _amountController.text.isNotEmpty &&
+          _selectedCategory.isNotEmpty &&
           _selectedMembers.isNotEmpty; // Must select at least one member
     });
   }
@@ -119,15 +120,17 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
       };
     }).toList();
 
+    String transactionTitle = _titleController.text.isNotEmpty ? _titleController.text : _selectedCategory;
+
     // Create a new GroupSplitModel instance
     GroupSplitModel newSplit = GroupSplitModel(
       groupSplitId: const Uuid().v4(), // Generate a unique ID
       groupId: widget.selectedGroup.groupId,
       totalAmount: totalAmount,
-      title: _titleController.text,
-      category: _selectedCategory!,
+      title: transactionTitle,
+      category: _selectedCategory,
       type: 'expense',
-      date: Timestamp.fromDate(DateTime.now()), // Current date
+      date: Timestamp.fromDate(_selectedDateTime),
       paidBy: _paidByUserId,
       splitShares: splitShares, // Share details
     );
@@ -162,6 +165,7 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
         children: [
           Text(AppTexts.newGroupSplit, style: TextStyles.regularStyleMedium.copyWith(color: colorScheme.primary)),
           Text(widget.selectedGroup.name, style: TextStyles.titleStyleMedium.copyWith(color: colorScheme.primary)),
+
         ],
       ),
     );
@@ -173,7 +177,7 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
   }
 
   // Builds the amount input field with prefix and suffix
-  Widget _buildAmountInput(ColorScheme colorScheme) {
+  Widget _buildDateAndAmountInput(ColorScheme colorScheme) {
     return Row(
       children: [
         CustomTextfield(
@@ -194,6 +198,16 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
               ),
             ],
             focusNode: _focusNodeAmount),
+          ),
+
+        const Gap(CustomPadding.defaultSpace), // Added Gap for spacing
+        // Date Picker
+        Expanded(
+          child: DatePicker(
+            onDateTimeChanged: (dateTime) => setState(() => _selectedDateTime = dateTime),
+            initialDateTime: DateTime.now(),
+          ),
+        ),
       ],
     );
   }
@@ -204,6 +218,7 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(AppTexts.categorie, style: TextStyles.regularStyleMedium.copyWith(color: colorScheme.primary)),
+
         const Gap(CustomPadding.mediumSpace),
         CategoriesExpense(onCategorySelected: _onCategorySelected),
       ],
@@ -216,6 +231,7 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(AppTexts.payedBy, style: TextStyles.regularStyleMedium.copyWith(color: colorScheme.primary)),
+
         const Gap(CustomPadding.mediumSpace),
         CustomDropDown(
           list: widget.memberNames,
@@ -240,6 +256,7 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text('Verteilung', style: TextStyles.regularStyleMedium.copyWith(color: colorScheme.primary)),
+
         const Gap(CustomPadding.mediumSpace),
         EqualGroupSplitWidget(
           amount: _inputNumber,
@@ -294,6 +311,7 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
               _buildMembersSelection(defaultColorScheme),
             ],
           ),
+
         ),
       ),
     );

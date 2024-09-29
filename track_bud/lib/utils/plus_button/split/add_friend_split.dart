@@ -6,6 +6,7 @@ import 'package:track_bud/models/user_model.dart';
 import 'package:track_bud/models/friend_split_model.dart';
 import 'package:track_bud/services/firestore_service.dart';
 import 'package:track_bud/utils/constants.dart';
+import 'package:track_bud/utils/date_picker.dart';
 import 'package:track_bud/utils/plus_button/add_entry_modal.dart';
 import 'package:track_bud/utils/plus_button/split/split_methods/friend_splits/by_amount/by_amount_split.dart';
 import 'package:track_bud/utils/plus_button/split/split_methods/friend_splits/equal/equal_friend_split.dart';
@@ -48,6 +49,7 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
   String _splitSumValidationMessage = '';
   //list to store focus nodes for ByAmountTiles
   List<FocusNode> _byAmountFocusNodes = [];
+  DateTime _selectedDateTime = DateTime.now();
 
   @override
   void initState() {
@@ -85,6 +87,7 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
         // For "by amount" split, check if the sum of amounts matches the total
         // and ensure that both split amounts are greater than zero
         _isFormValid = _titleController.text.isNotEmpty &&
+
             _amountController.text.isNotEmpty &&
             _selectedCategory.isNotEmpty &&
             totalAmount == sumOfAmounts &&
@@ -93,9 +96,8 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
         // Update the validation message
         _updateSplitSumValidationMessage(totalAmount, sumOfAmounts);
       } else {
-        // For other split methods, use the previous validation logic
-        _isFormValid = _titleController.text.isNotEmpty && _amountController.text.isNotEmpty && _selectedCategory.isNotEmpty;
-        _splitSumValidationMessage = ''; // Clear the message for other methods
+
+        _isFormValid = _amountController.text.isNotEmpty && _selectedCategory.isNotEmpty;
       }
     });
   }
@@ -152,16 +154,18 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
       debtorAmount = _splitAmounts[0]; // Current user owes part of the split
     }
 
+    String transactionTitle = _titleController.text.isNotEmpty ? _titleController.text : _selectedCategory;
+
     FriendSplitModel newSplit = FriendSplitModel(
       splitId: const Uuid().v4(),
       creditorId: _payedBy == widget.currentUser.name ? widget.currentUser.userId : widget.selectedFriend.userId,
       debtorId: _payedBy == widget.currentUser.name ? widget.selectedFriend.userId : widget.currentUser.userId,
       creditorAmount: creditorAmount,
       debtorAmount: debtorAmount,
-      title: _titleController.text,
+      title: transactionTitle,
       type: 'expense',
       category: _selectedCategory,
-      date: Timestamp.fromDate(DateTime.now()),
+      date: Timestamp.fromDate(_selectedDateTime),
       status: 'pending',
     );
 
@@ -234,6 +238,7 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
                       FilteringTextInputFormatter.allow(RegExp(r'^\d+([.,]\d{0,2})?'))
                     ],
                     focusNode: _focusNodeAmount,
+
                   ),
                   const Gap(CustomPadding.defaultSpace),
                 ],
@@ -249,6 +254,7 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
                 list: [widget.currentUser.name, widget.selectedFriend.name],
                 dropdownWidth: MediaQuery.sizeOf(context).width - 32,
                 onChanged: (String? value) {
+
                   setState(() {
                     _payedBy = value ?? widget.currentUser.name;
                   });

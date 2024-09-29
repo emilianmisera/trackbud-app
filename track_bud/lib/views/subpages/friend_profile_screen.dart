@@ -90,6 +90,18 @@ class _FriendProfileScreenState extends State<FriendProfileScreen> {
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
           return Text('Keine Splits gefunden.', style: TextStyle(color: defaultColorScheme.primary));
         } else {
+          // Sort the list: pending splits first, then by date in descending order
+          snapshot.data!.sort((a, b) {
+            if (a.status == 'pending' && b.status != 'pending') {
+              return -1; // a comes first
+            } else if (a.status != 'pending' && b.status == 'pending') {
+              return 1; // b comes first
+            } else {
+              // If both have the same status, compare by date
+              return b.date.compareTo(a.date);
+            }
+          });
+
           return ListView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
@@ -127,6 +139,7 @@ class _FriendProfileScreenState extends State<FriendProfileScreen> {
               SnackBar(
                   content:
                       Text('Schulden mit ${widget.friend.name} wurden beglichen.', style: TextStyle(color: defaultColorScheme.primary))),
+
             );
             setState(() {}); // Refresh the state
           } catch (e) {
