@@ -229,7 +229,7 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
                     prefix: Text('-',
                         style: TextStyles.titleStyleMedium
                             .copyWith(fontWeight: TextStyles.fontWeightDefault, color: defaultColorScheme.primary)),
-                    suffix: const Text('€'),
+                    suffix: Text('€', style: TextStyle(color: defaultColorScheme.primary)),
                     type: const TextInputType.numberWithOptions(decimal: true),
                     inputFormatters: [
                       // Allows numbers and point or comma as decimal separator

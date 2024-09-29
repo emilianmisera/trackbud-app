@@ -67,7 +67,7 @@ class _ChangeBankaccountScreenState extends State<ChangeBankaccountScreen> {
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text("Fehler beim Laden des Bankkontostands: $e"),
+          content: Text("Fehler beim Laden des Bankkontostands: $e", style: TextStyle(color: defaultColorScheme.primary)),
         ),
       );
     }

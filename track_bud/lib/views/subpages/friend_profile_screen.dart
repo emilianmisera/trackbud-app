@@ -23,10 +23,8 @@ class _FriendProfileScreenState extends State<FriendProfileScreen> {
   final FirestoreService _firestoreService = FirestoreService();
 
   // Calculates the total debt between the current user and the friend
-  Future<double> calculateTotalDebt(
-      String currentUserId, String friendId) async {
-    List<FriendSplitModel> splits =
-        await _firestoreService.getFriendSplits(currentUserId, friendId);
+  Future<double> calculateTotalDebt(String currentUserId, String friendId) async {
+    List<FriendSplitModel> splits = await _firestoreService.getFriendSplits(currentUserId, friendId);
     double totalDebt = 0.0;
 
     // Iterate through each split to determine the total debt
@@ -52,10 +50,8 @@ class _FriendProfileScreenState extends State<FriendProfileScreen> {
           width: Constants.profilePictureAccountEdit,
           height: Constants.profilePictureAccountEdit,
           child: widget.friend.profilePictureUrl != ""
-              ? Image.network(widget.friend.profilePictureUrl,
-                  fit: BoxFit.cover)
-              : const Icon(Icons.person,
-                  color: Colors.grey), // Placeholder icon
+              ? Image.network(widget.friend.profilePictureUrl, fit: BoxFit.cover)
+              : const Icon(Icons.person, color: Colors.grey), // Placeholder icon
         ),
       ),
     );
@@ -63,20 +59,19 @@ class _FriendProfileScreenState extends State<FriendProfileScreen> {
 
   // Builds the total debt section using a FutureBuilder
   Widget _buildTotalDebtSection(String currentUserId) {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     return FutureBuilder<double>(
       future: calculateTotalDebt(currentUserId, widget.friend.userId),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const CircularProgressIndicator(
-              color: CustomColor.bluePrimary);
+          return const CircularProgressIndicator(color: CustomColor.bluePrimary);
         } else if (snapshot.hasError) {
-          return Text('Error: ${snapshot.error}');
+          return Text('Error: ${snapshot.error}', style: TextStyle(color: defaultColorScheme.primary));
         } else if (!snapshot.hasData) {
-          return const Text('Keine Daten verfügbar.');
+          return Text('Keine Daten verfügbar.', style: TextStyle(color: defaultColorScheme.primary));
         } else {
           double totalDebt = snapshot.data!;
-          return FriendProfileDetails(
-              totalDebt: totalDebt); // Display total debt
+          return FriendProfileDetails(totalDebt: totalDebt); // Display total debt
         }
       },
     );
@@ -84,17 +79,16 @@ class _FriendProfileScreenState extends State<FriendProfileScreen> {
 
   // Builds the history section of the profile, displaying past splits
   Widget _buildHistorySection(String currentUserId) {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     return FutureBuilder<List<FriendSplitModel>>(
-      future: _firestoreService.getFriendSplits(
-          currentUserId, widget.friend.userId),
+      future: _firestoreService.getFriendSplits(currentUserId, widget.friend.userId),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const CircularProgressIndicator(
-              color: CustomColor.bluePrimary);
+          return const CircularProgressIndicator(color: CustomColor.bluePrimary);
         } else if (snapshot.hasError) {
-          return Text('Error: ${snapshot.error}');
+          return Text('Error: ${snapshot.error}', style: TextStyle(color: defaultColorScheme.primary));
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return const Text('Keine Splits gefunden.');
+          return Text('Keine Splits gefunden.', style: TextStyle(color: defaultColorScheme.primary));
         } else {
           return ListView.builder(
             shrinkWrap: true,
@@ -102,8 +96,7 @@ class _FriendProfileScreenState extends State<FriendProfileScreen> {
             itemCount: snapshot.data!.length,
             itemBuilder: (context, index) {
               return Padding(
-                padding:
-                    const EdgeInsets.only(bottom: CustomPadding.mediumSpace),
+                padding: const EdgeInsets.only(bottom: CustomPadding.mediumSpace),
                 child: FriendSplitTile(
                   split: snapshot.data![index],
                   currentUserId: currentUserId,
@@ -119,6 +112,7 @@ class _FriendProfileScreenState extends State<FriendProfileScreen> {
 
   // Button to pay off debts with the friend
   Widget _buildPayOffDebtsButton(String currentUserId) {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     return Container(
       margin: EdgeInsets.only(
         bottom: MediaQuery.sizeOf(context).height * CustomPadding.bottomSpace,
@@ -128,12 +122,11 @@ class _FriendProfileScreenState extends State<FriendProfileScreen> {
       child: ElevatedButton(
         onPressed: () async {
           try {
-            await _firestoreService.payOffFriendSplits(
-                currentUserId, widget.friend.userId);
+            await _firestoreService.payOffFriendSplits(currentUserId, widget.friend.userId);
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                  content: Text(
-                      'Schulden mit ${widget.friend.name} wurden beglichen.')),
+                  content:
+                      Text('Schulden mit ${widget.friend.name} wurden beglichen.', style: TextStyle(color: defaultColorScheme.primary))),
             );
             setState(() {}); // Refresh the state
           } catch (e) {
@@ -159,8 +152,7 @@ class _FriendProfileScreenState extends State<FriendProfileScreen> {
       appBar: AppBar(
         title: Text(
           widget.friend.name,
-          style: TextStyles.regularStyleMedium
-              .copyWith(color: defaultColorScheme.primary),
+          style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary),
         ),
         centerTitle: true,
       ),
@@ -180,17 +172,14 @@ class _FriendProfileScreenState extends State<FriendProfileScreen> {
                   children: [
                     _buildProfileHeader(), // Build profile header
                     const Gap(CustomPadding.bigSpace),
-                    _buildTotalDebtSection(
-                        currentUserId), // Build total debt section
+                    _buildTotalDebtSection(currentUserId), // Build total debt section
                     const Gap(CustomPadding.defaultSpace),
                     Text(
                       AppTexts.history,
-                      style: TextStyles.regularStyleMedium
-                          .copyWith(color: defaultColorScheme.primary),
+                      style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary),
                     ),
                     const Gap(CustomPadding.mediumSpace),
-                    _buildHistorySection(
-                        currentUserId), // Build history section
+                    _buildHistorySection(currentUserId), // Build history section
                   ],
                 ),
               ),

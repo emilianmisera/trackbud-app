@@ -138,7 +138,7 @@ class _CreateGroupSheetState extends State<CreateGroupSheet> {
                     return const Center(child: CircularProgressIndicator(color: CustomColor.bluePrimary));
                   }
                   if (snapshot.hasError) {
-                    return Text('Error: ${snapshot.error}');
+                    return Text('Error: ${snapshot.error}', style: TextStyle(color: defaultColorScheme.primary));
                   }
                   return ListView.builder(
                     itemCount: snapshot.data!.length,

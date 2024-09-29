@@ -39,10 +39,7 @@ class _AccAdjustmentWidgetState extends State<AccAdjustmentWidget> {
               const Gap(
                 8,
               ),
-              Text(
-                widget.name,
-                style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary),
-              ),
+              Text(widget.name, style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary)),
             ],
           ),
           widget.widget ?? const Icon(Icons.arrow_forward_ios),

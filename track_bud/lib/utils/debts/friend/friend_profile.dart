@@ -25,18 +25,13 @@ class FriendProfileDetails extends StatelessWidget {
   }
 
   // Builds the debts section of the profile
-  Widget _buildDebtsSection(
-      BuildContext context, DebtsColorScheme colorScheme) {
+  Widget _buildDebtsSection(BuildContext context, DebtsColorScheme colorScheme) {
     final defaultColorScheme = Theme.of(context).colorScheme;
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
-          AppTexts.debts,
-          style: TextStyles.regularStyleDefault
-              .copyWith(color: defaultColorScheme.primary),
-        ),
+        Text(AppTexts.debts, style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary)),
         BalanceState(
           colorScheme: colorScheme,
           amount: totalDebt == 0
@@ -54,11 +49,7 @@ class FriendProfileDetails extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          AppTexts.sameGroups,
-          style: TextStyles.regularStyleDefault
-              .copyWith(color: defaultColorScheme.primary),
-        ),
+        Text(AppTexts.sameGroups, style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary)),
         const Gap(CustomPadding.mediumSpace),
         // TODO: Add shared groups functionality here
       ],
@@ -67,17 +58,14 @@ class FriendProfileDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final defaultColorScheme =
-        Theme.of(context).colorScheme; // Get the default color scheme
-    final colorScheme = _determineColorScheme(
-        totalDebt); // Determine the color scheme based on total debt
+    final defaultColorScheme = Theme.of(context).colorScheme; // Get the default color scheme
+    final colorScheme = _determineColorScheme(totalDebt); // Determine the color scheme based on total debt
 
     return Container(
       width: MediaQuery.sizeOf(context).width,
       decoration: BoxDecoration(
         color: defaultColorScheme.surface, // Background color of the container
-        borderRadius: BorderRadius.circular(
-            Constants.contentBorderRadius), // Rounded corners
+        borderRadius: BorderRadius.circular(Constants.contentBorderRadius), // Rounded corners
       ),
       padding: const EdgeInsets.symmetric(
         horizontal: CustomPadding.defaultSpace,

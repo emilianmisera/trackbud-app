@@ -72,7 +72,10 @@ class _LoginScreenState extends State<LoginScreen> {
       }
     } catch (e) {
       debugPrint('login_screen: _loginUser -> user login failed');
-      if (mounted) showDialog(context: context, builder: (context) => AlertDialog(title: Text('Fehler: ${e.toString()}')));
+      if (mounted)
+        showDialog(
+            context: context,
+            builder: (context) => AlertDialog(title: Text('Fehler: ${e.toString()}', style: TextStyle(color: defaultColorScheme.primary))));
     }
 
     // catch any errors

@@ -38,10 +38,7 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
   }
 
   Future<DocumentSnapshot> _loadTransactionData() async {
-    DocumentSnapshot doc = await FirebaseFirestore.instance
-        .collection('transactions')
-        .doc(widget.transactionId)
-        .get();
+    DocumentSnapshot doc = await FirebaseFirestore.instance.collection('transactions').doc(widget.transactionId).get();
 
     if (doc.exists) {
       Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
@@ -60,7 +57,7 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
 
   Future<void> _updateTransaction() async {
     if (_selectedDateTime == null) return;
-    
+
     final updatedData = {
       'title': _titleController.text.trim(),
       'amount': double.parse(_amountController.text.replaceAll(',', '.')),
@@ -71,8 +68,7 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
       'type': _currentSegment == 0 ? 'expense' : 'income',
     };
 
-    await Provider.of<TransactionProvider>(context, listen: false)
-        .updateTransaction(widget.transactionId, updatedData);
+    await Provider.of<TransactionProvider>(context, listen: false).updateTransaction(widget.transactionId, updatedData);
 
     if (mounted) Navigator.pop(context);
   }
@@ -94,9 +90,7 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
     final defaultColorScheme = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppTexts.editTransaction,
-            style: TextStyles.regularStyleMedium
-                .copyWith(color: defaultColorScheme.primary)),
+        title: Text(AppTexts.editTransaction, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
         centerTitle: true,
       ),
       body: FutureBuilder<DocumentSnapshot>(
@@ -106,24 +100,19 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
             return const Center(child: CircularProgressIndicator());
           }
           if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
+            return Center(child: Text('Error: ${snapshot.error}', style: TextStyle(color: defaultColorScheme.primary)));
           }
           if (!snapshot.hasData || !snapshot.data!.exists) {
-            return const Center(child: Text('Transaction not found'));
+            return Center(child: Text('Transaction not found', style: TextStyle(color: defaultColorScheme.primary)));
           }
 
           return Padding(
-            padding: const EdgeInsets.symmetric(
-                horizontal: CustomPadding.defaultSpace,
-                vertical: CustomPadding.defaultSpace),
+            padding: const EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace, vertical: CustomPadding.defaultSpace),
             child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  CustomTextfield(
-                      name: AppTexts.title,
-                      hintText: AppTexts.hintTitle,
-                      controller: _titleController),
+                  CustomTextfield(name: AppTexts.title, hintText: AppTexts.hintTitle, controller: _titleController),
                   const Gap(CustomPadding.defaultSpace),
                   Row(
                     children: [
@@ -134,11 +123,10 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
                         width: MediaQuery.sizeOf(context).width / 3,
                         prefix: Text(
                           _currentSegment == 0 ? '–' : '+',
-                          style: TextStyles.titleStyleMedium.copyWith(
-                              fontWeight: TextStyles.fontWeightDefault,
-                              color: defaultColorScheme.primary),
+                          style: TextStyles.titleStyleMedium
+                              .copyWith(fontWeight: TextStyles.fontWeightDefault, color: defaultColorScheme.primary),
                         ),
-                        suffix: const Text('€'),
+                        suffix: Text('€', style: TextStyle(color: defaultColorScheme.primary)),
                         type: const TextInputType.numberWithOptions(decimal: true),
                         inputFormatters: [
                           FilteringTextInputFormatter.allow(
@@ -155,22 +143,16 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
                     ],
                   ),
                   const Gap(CustomPadding.defaultSpace),
-                  Text(AppTexts.categorie,
-                      style: TextStyles.regularStyleMedium
-                          .copyWith(color: defaultColorScheme.primary)),
+                  Text(AppTexts.categorie, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
                   const Gap(CustomPadding.mediumSpace),
                   _currentSegment == 0
                       ? CategoriesExpense(
                           onCategorySelected: _onCategorySelected,
                           selectedCategory: _selectedCategory,
                         )
-                      : CategoriesIncome(
-                          onCategorySelected: _onCategorySelected,
-                          selectedCategory: _selectedCategory),
+                      : CategoriesIncome(onCategorySelected: _onCategorySelected, selectedCategory: _selectedCategory),
                   const Gap(CustomPadding.defaultSpace),
-                  Text(AppTexts.recurrency,
-                      style: TextStyles.regularStyleMedium
-                          .copyWith(color: defaultColorScheme.primary)),
+                  Text(AppTexts.recurrency, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
                   const Gap(CustomPadding.mediumSpace),
                   CustomDropDown(
                     list: const [
@@ -212,11 +194,7 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
           duration: const Duration(milliseconds: 100),
           curve: Curves.easeInOut,
           margin: EdgeInsets.only(
-            bottom: min(
-                MediaQuery.of(context).viewInsets.bottom > 0
-                    ? 0
-                    : MediaQuery.of(context).size.height *
-                        CustomPadding.bottomSpace,
+            bottom: min(MediaQuery.of(context).viewInsets.bottom > 0 ? 0 : MediaQuery.of(context).size.height * CustomPadding.bottomSpace,
                 MediaQuery.of(context).size.height * CustomPadding.bottomSpace),
             left: CustomPadding.defaultSpace,
             right: CustomPadding.defaultSpace,
@@ -225,9 +203,7 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
           child: ElevatedButton(
             onPressed: _updateTransaction,
             style: ElevatedButton.styleFrom(
-                disabledBackgroundColor:
-                    CustomColor.bluePrimary.withOpacity(0.5),
-                backgroundColor: CustomColor.bluePrimary),
+                disabledBackgroundColor: CustomColor.bluePrimary.withOpacity(0.5), backgroundColor: CustomColor.bluePrimary),
             child: Text(AppTexts.save),
           ),
         ),

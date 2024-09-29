@@ -107,6 +107,7 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
 
   // Saves the new group split to Firestore
   Future<void> _saveNewGroupSplit() async {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     double totalAmount = _parseAmount(); // Get total amount for the split
     double splitAmount = totalAmount / _selectedMembers.length; // Calculate share amount
 
@@ -135,8 +136,8 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
       await _firestoreService.addGroupSplit(newSplit); // Save the split to Firestore
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Group split added successfully'),
+          SnackBar(
+            content: Text('Group split added successfully', style: TextStyle(color: defaultColorScheme.primary)),
           ),
         );
         // Refresh the group data and invalidate the debts overview cache
@@ -148,7 +149,7 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
       // Handle errors that occur during saving
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error adding group split: $e')),
+          SnackBar(content: Text('Error adding group split: $e', style: TextStyle(color: defaultColorScheme.primary))),
         );
       }
     }
@@ -159,14 +160,8 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
     return Center(
       child: Column(
         children: [
-          Text(
-            AppTexts.newGroupSplit,
-            style: TextStyles.regularStyleMedium.copyWith(color: colorScheme.primary),
-          ),
-          Text(
-            widget.selectedGroup.name,
-            style: TextStyles.titleStyleMedium.copyWith(color: colorScheme.primary),
-          ),
+          Text(AppTexts.newGroupSplit, style: TextStyles.regularStyleMedium.copyWith(color: colorScheme.primary)),
+          Text(widget.selectedGroup.name, style: TextStyles.titleStyleMedium.copyWith(color: colorScheme.primary)),
         ],
       ),
     );
@@ -190,7 +185,7 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
               '-',
               style: TextStyles.titleStyleMedium.copyWith(fontWeight: TextStyles.fontWeightDefault, color: colorScheme.primary),
             ),
-            suffix: const Text('€'),
+            suffix: Text('€', style: TextStyle(color: colorScheme.primary)),
             type: const TextInputType.numberWithOptions(decimal: true),
             inputFormatters: [
               // Erlaubt Zahlen und Punkt oder Komma als Dezimaltrennzeichen
@@ -244,10 +239,7 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'Verteilung',
-          style: TextStyles.regularStyleMedium.copyWith(color: colorScheme.primary),
-        ),
+        Text('Verteilung', style: TextStyles.regularStyleMedium.copyWith(color: colorScheme.primary)),
         const Gap(CustomPadding.mediumSpace),
         EqualGroupSplitWidget(
           amount: _inputNumber,

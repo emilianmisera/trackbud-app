@@ -67,7 +67,7 @@ class _ChangeBudgetGoalScreenState extends State<ChangeBudgetGoalScreen> {
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text("Fehler beim Laden des Budgetziels: $e"),
+          content: Text("Fehler beim Laden des Budgetziels: $e", style: TextStyle(color: defaultColorScheme.primary)),
         ),
       );
     }

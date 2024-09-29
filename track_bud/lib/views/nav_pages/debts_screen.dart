@@ -14,8 +14,7 @@ class DebtsScreen extends StatefulWidget {
   const DebtsScreen({super.key}); // Constructor
 
   @override
-  State<DebtsScreen> createState() =>
-      _DebtsScreenState(); // Create state for the widget
+  State<DebtsScreen> createState() => _DebtsScreenState(); // Create state for the widget
 }
 
 class _DebtsScreenState extends State<DebtsScreen> {
@@ -43,8 +42,7 @@ class _DebtsScreenState extends State<DebtsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final defaultColorScheme =
-        Theme.of(context).colorScheme; // Get color scheme from the theme
+    final defaultColorScheme = Theme.of(context).colorScheme; // Get color scheme from the theme
     return Scaffold(
       body: RefreshIndicator(
         onRefresh: () async {
@@ -57,8 +55,7 @@ class _DebtsScreenState extends State<DebtsScreen> {
             // Top padding for the scroll view
             SliverPadding(
               padding: EdgeInsets.only(
-                top: MediaQuery.of(context).padding.top +
-                    CustomPadding.defaultSpace, // Padding from the top
+                top: MediaQuery.of(context).padding.top + CustomPadding.defaultSpace, // Padding from the top
                 left: CustomPadding.defaultSpace, // Left padding
                 right: CustomPadding.defaultSpace, // Right padding
               ),
@@ -72,116 +69,88 @@ class _DebtsScreenState extends State<DebtsScreen> {
                         title: AppTexts.debts,
                         amount: 'amount', // Placeholder for amount
                         color: CustomColor.red, // Color for debts tile
-                        width: MediaQuery.of(context).size.width / 2 -
-                            Constants
-                                .infoTileSpace, // Dynamic width calculation
+                        width: MediaQuery.of(context).size.width / 2 - Constants.infoTileSpace, // Dynamic width calculation
                       ),
                       InfoTile(
                         title: AppTexts.credits,
                         amount: 'amount', // Placeholder for amount
                         color: CustomColor.green, // Color for credits tile
-                        width: MediaQuery.of(context).size.width / 2 -
-                            Constants
-                                .infoTileSpace, // Dynamic width calculation
+                        width: MediaQuery.of(context).size.width / 2 - Constants.infoTileSpace, // Dynamic width calculation
                       ),
                     ],
                   ),
-                  const SizedBox(
-                      height:
-                          CustomPadding.defaultSpace), // Space between elements
+                  const SizedBox(height: CustomPadding.defaultSpace), // Space between elements
                   // Friends section header
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
                         AppTexts.friends,
-                        style: TextStyles.regularStyleMedium.copyWith(
-                            color: defaultColorScheme
-                                .primary), // Style for friends text
+                        style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary), // Style for friends text
                       ),
                       GestureDetector(
                         onTap: () {
                           // Navigate to YourFriendsScreen when tapped
                           Navigator.push(
                             context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    const YourFriendsScreen()),
+                            MaterialPageRoute(builder: (context) => const YourFriendsScreen()),
                           );
                         },
                         child: Text(
                           AppTexts.showAll,
-                          style: TextStyles.regularStyleMedium.copyWith(
-                              color: CustomColor
-                                  .bluePrimary), // Style for show all text
+                          style: TextStyles.regularStyleMedium.copyWith(color: CustomColor.bluePrimary), // Style for show all text
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(
-                      height:
-                          CustomPadding.mediumSpace), // Space between elements
+                  const SizedBox(height: CustomPadding.mediumSpace), // Space between elements
                   // List of friends
                   Consumer<UserProvider>(
                     builder: (context, userProvider, child) {
                       if (userProvider.isLoading) {
-                        return const Center(
-                            child: CircularProgressIndicator(
-                                color: CustomColor
-                                    .bluePrimary)); // Loading indicator
+                        return const Center(child: CircularProgressIndicator(color: CustomColor.bluePrimary)); // Loading indicator
                       } else if (userProvider.friends.isEmpty) {
-                        return const Center(
-                            child: Text(
-                                "Keine Freunde gefunden.")); // No friends found message
+                        return Center(
+                            child: Text("Keine Freunde gefunden.",
+                                style: TextStyle(color: defaultColorScheme.primary))); // No friends found message
                       } else {
                         return Column(
                           children: userProvider.friends
                               .take(5) // Limit to first 5 friends
                               .map((friend) => Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: CustomPadding.smallSpace),
-                                    child: FriendCard(
-                                        friend: friend), // Display friend card
+                                    padding: const EdgeInsets.symmetric(vertical: CustomPadding.smallSpace),
+                                    child: FriendCard(friend: friend), // Display friend card
                                   ))
                               .toList(),
                         );
                       }
                     },
                   ),
-                  const SizedBox(
-                      height:
-                          CustomPadding.defaultSpace), // Space between elements
+                  const SizedBox(height: CustomPadding.defaultSpace), // Space between elements
                   // Groups section header
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
                         AppTexts.groups,
-                        style: TextStyles.regularStyleMedium.copyWith(
-                            color: defaultColorScheme
-                                .primary), // Style for groups text
+                        style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary), // Style for groups text
                       ),
                       GestureDetector(
                         onTap: () {
                           // Navigate to YourGroupsScreen when tapped
                           Navigator.push(
                             context,
-                            MaterialPageRoute(
-                                builder: (context) => const YourGroupsScreen()),
+                            MaterialPageRoute(builder: (context) => const YourGroupsScreen()),
                           );
                         },
                         child: Text(
                           AppTexts.showAll,
-                          style: TextStyles.regularStyleMedium.copyWith(
-                              color: CustomColor
-                                  .bluePrimary), // Style for show all text
+                          style: TextStyles.regularStyleMedium.copyWith(color: CustomColor.bluePrimary), // Style for show all text
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(
-                      height:
-                          CustomPadding.mediumSpace), // Space between elements
+                  const SizedBox(height: CustomPadding.mediumSpace), // Space between elements
                 ]),
               ),
             ),
@@ -190,32 +159,25 @@ class _DebtsScreenState extends State<DebtsScreen> {
               builder: (context, groupProvider, child) {
                 if (groupProvider.isLoading) {
                   return const SliverFillRemaining(
-                      child: Center(
-                          child: CircularProgressIndicator(
-                              color: CustomColor
-                                  .bluePrimary)) // Loading indicator for groups
+                      child: Center(child: CircularProgressIndicator(color: CustomColor.bluePrimary)) // Loading indicator for groups
                       );
                 } else if (groupProvider.groups.isEmpty) {
-                  return const SliverFillRemaining(
+                  return SliverFillRemaining(
                       child: Center(
-                          child: Text(
-                              "Keine Gruppen gefunden.")) // No groups found message
+                          child: Text("Keine Gruppen gefunden.",
+                              style: TextStyle(color: defaultColorScheme.primary))) // No groups found message
                       );
                 } else {
                   return SliverList(
                     delegate: SliverChildBuilderDelegate(
                       (context, index) {
-                        final group =
-                            groupProvider.groups[index]; // Get group by index
+                        final group = groupProvider.groups[index]; // Get group by index
                         return Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: CustomPadding.smallSpace,
-                              horizontal: CustomPadding.defaultSpace),
+                          padding: const EdgeInsets.symmetric(vertical: CustomPadding.smallSpace, horizontal: CustomPadding.defaultSpace),
                           child: GroupCard(group: group), // Display group card
                         );
                       },
-                      childCount:
-                          groupProvider.groups.length, // Total number of groups
+                      childCount: groupProvider.groups.length, // Total number of groups
                     ),
                   );
                 }

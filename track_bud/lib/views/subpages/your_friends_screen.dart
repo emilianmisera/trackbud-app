@@ -35,8 +35,7 @@ class _YourFriendsScreenState extends State<YourFriendsScreen> {
   // Function to share invite link
   Future<void> _shareInviteLink() async {
     try {
-      final userId =
-          Provider.of<UserProvider>(context, listen: false).currentUser?.userId;
+      final userId = Provider.of<UserProvider>(context, listen: false).currentUser?.userId;
       if (userId != null) {
         String inviteLink = await _inviteService.createInviteLink(userId);
         Share.share('Add me to your friends in TrackBud: $inviteLink');
@@ -51,36 +50,28 @@ class _YourFriendsScreenState extends State<YourFriendsScreen> {
     final defaultColorScheme = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppTexts.yourFriends,
-            style: TextStyles.regularStyleMedium
-                .copyWith(color: defaultColorScheme.primary)),
+        title: Text(AppTexts.yourFriends, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
         centerTitle: true,
         actions: [
           IconButton(
             onPressed: () => showModalBottomSheet(
               context: context,
-              builder: (context) =>
-                  AddFriendBottomSheet(onPressed: _shareInviteLink),
+              builder: (context) => AddFriendBottomSheet(onPressed: _shareInviteLink),
             ),
-            icon:
-                const Icon(Icons.add, color: CustomColor.bluePrimary, size: 30),
+            icon: const Icon(Icons.add, color: CustomColor.bluePrimary, size: 30),
           )
         ],
       ),
       body: Consumer<UserProvider>(
         builder: (context, userProvider, child) {
           if (userProvider.isLoading) {
-            return const Center(
-                child:
-                    CircularProgressIndicator(color: CustomColor.bluePrimary));
+            return const Center(child: CircularProgressIndicator(color: CustomColor.bluePrimary));
           }
 
           // Filter friends based on search text
-          List<UserModel> filteredFriends =
-              userProvider.friends.where((friend) {
+          List<UserModel> filteredFriends = userProvider.friends.where((friend) {
             final searchTerm = _searchController.text.toLowerCase();
-            return friend.name.toLowerCase().contains(searchTerm) ||
-                friend.email.toLowerCase().contains(searchTerm);
+            return friend.name.toLowerCase().contains(searchTerm) || friend.email.toLowerCase().contains(searchTerm);
           }).toList();
 
           return SingleChildScrollView(
@@ -96,18 +87,16 @@ class _YourFriendsScreenState extends State<YourFriendsScreen> {
                   SearchTextfield(
                     hintText: AppTexts.search,
                     controller: _searchController,
-                    onChanged: (_) =>
-                        setState(() {}), // Trigger rebuild on search
+                    onChanged: (_) => setState(() {}), // Trigger rebuild on search
                   ),
                   const Gap(CustomPadding.defaultSpace),
                   if (filteredFriends.isEmpty)
-                    const Center(child: Text("Keine Freunde gefunden."))
+                    Center(child: Text("Keine Freunde gefunden.", style: TextStyle(color: defaultColorScheme.primary)))
                   else
                     Column(
                       children: filteredFriends
                           .map((friend) => Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: CustomPadding.smallSpace),
+                                padding: const EdgeInsets.symmetric(vertical: CustomPadding.smallSpace),
                                 child: FriendCard(friend: friend),
                               ))
                           .toList(),

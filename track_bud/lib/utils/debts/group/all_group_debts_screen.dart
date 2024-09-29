@@ -16,34 +16,28 @@ class AllDebtsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     // Access group provider to retrieve group-related data
     final groupProvider = Provider.of<GroupProvider>(context, listen: false);
-    final defaultColorScheme =
-        Theme.of(context).colorScheme; // Get current theme's color scheme
+    final defaultColorScheme = Theme.of(context).colorScheme; // Get current theme's color scheme
     final firestoreService = FirestoreService(); // Initialize Firestore service
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppTexts.allGroupDebts,
-            style: TextStyles.regularStyleMedium
-                .copyWith(color: defaultColorScheme.primary)),
+        title: Text(AppTexts.allGroupDebts, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
         centerTitle: true, // Center the title
       ),
       body: FutureBuilder<List<Map<String, dynamic>>>(
-        future: groupProvider.getGroupDebtsOverview(
-            groupId), // Fetch debts overview for the group
+        future: groupProvider.getGroupDebtsOverview(groupId), // Fetch debts overview for the group
         builder: (context, snapshot) {
           // Handle loading state
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-                child: CircularProgressIndicator()); // Show loading indicator
+            return const Center(child: CircularProgressIndicator()); // Show loading indicator
           }
           // Handle errors
           if (snapshot.hasError) {
             return Center(
-                child: Text('Error: ${snapshot.error}')); // Show error message
+                child: Text('Error: ${snapshot.error}', style: TextStyle(color: defaultColorScheme.primary))); // Show error message
           }
 
-          List<Map<String, dynamic>> payments =
-              snapshot.data ?? []; // Get payments data
+          List<Map<String, dynamic>> payments = snapshot.data ?? []; // Get payments data
 
           // Check if there are no payments
           if (payments.isEmpty) {
@@ -66,40 +60,30 @@ class AllDebtsScreen extends StatelessWidget {
                 ),
                 child: CustomShadow(
                   child: Container(
-                    padding: const EdgeInsets.all(CustomPadding
-                        .smallSpace), // Padding within the container
+                    padding: const EdgeInsets.all(CustomPadding.smallSpace), // Padding within the container
                     decoration: BoxDecoration(
                       color: defaultColorScheme.surface, // Set background color
-                      borderRadius: BorderRadius.circular(
-                          Constants.contentBorderRadius), // Rounded corners
+                      borderRadius: BorderRadius.circular(Constants.contentBorderRadius), // Rounded corners
                     ),
                     child: FutureBuilder<UserModel?>(
-                      future: firestoreService.getUser(
-                          payment['from']), // Fetch debtor's user model
+                      future: firestoreService.getUser(payment['from']), // Fetch debtor's user model
                       builder: (context, debtorSnapshot) {
                         return FutureBuilder<UserModel?>(
-                          future: firestoreService.getUser(
-                              payment['to']), // Fetch creditor's user model
+                          future: firestoreService.getUser(payment['to']), // Fetch creditor's user model
                           builder: (context, creditorSnapshot) {
                             // Handle loading state for user data
-                            if (debtorSnapshot.connectionState ==
-                                    ConnectionState.waiting ||
-                                creditorSnapshot.connectionState ==
-                                    ConnectionState.waiting) {
+                            if (debtorSnapshot.connectionState == ConnectionState.waiting ||
+                                creditorSnapshot.connectionState == ConnectionState.waiting) {
                               return const CircularProgressIndicator(); // Show loading indicator
                             }
 
                             // Create widget for debtor's profile
                             Widget debtorProfileWidget;
-                            if (debtorSnapshot.hasData &&
-                                debtorSnapshot
-                                    .data!.profilePictureUrl.isNotEmpty) {
+                            if (debtorSnapshot.hasData && debtorSnapshot.data!.profilePictureUrl.isNotEmpty) {
                               debtorProfileWidget = ClipRRect(
-                                borderRadius: BorderRadius.circular(
-                                    100.0), // Circular clipping for profile picture
+                                borderRadius: BorderRadius.circular(100.0), // Circular clipping for profile picture
                                 child: Image.network(
-                                  debtorSnapshot.data!
-                                      .profilePictureUrl, // Load debtor's profile picture from network
+                                  debtorSnapshot.data!.profilePictureUrl, // Load debtor's profile picture from network
                                   width: 30,
                                   height: 30,
                                   fit: BoxFit.cover,
@@ -115,15 +99,11 @@ class AllDebtsScreen extends StatelessWidget {
 
                             // Create widget for creditor's profile
                             Widget creditorProfileWidget;
-                            if (creditorSnapshot.hasData &&
-                                creditorSnapshot
-                                    .data!.profilePictureUrl.isNotEmpty) {
+                            if (creditorSnapshot.hasData && creditorSnapshot.data!.profilePictureUrl.isNotEmpty) {
                               creditorProfileWidget = ClipRRect(
-                                borderRadius: BorderRadius.circular(
-                                    100.0), // Circular clipping for profile picture
+                                borderRadius: BorderRadius.circular(100.0), // Circular clipping for profile picture
                                 child: Image.network(
-                                  creditorSnapshot.data!
-                                      .profilePictureUrl, // Load creditor's profile picture from network
+                                  creditorSnapshot.data!.profilePictureUrl, // Load creditor's profile picture from network
                                   width: 30,
                                   height: 30,
                                   fit: BoxFit.cover,
@@ -140,8 +120,7 @@ class AllDebtsScreen extends StatelessWidget {
                             // Create a list tile for the payment
                             return ListTile(
                               title: Row(
-                                mainAxisAlignment: MainAxisAlignment
-                                    .spaceBetween, // Space between debtor and creditor sections
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween, // Space between debtor and creditor sections
                                 children: [
                                   // Debtor Column
                                   Expanded(
@@ -149,20 +128,15 @@ class AllDebtsScreen extends StatelessWidget {
                                       children: [
                                         debtorProfileWidget, // Display debtor's profile widget
                                         Text(
-                                          payment[
-                                              'fromName'], // Display debtor's name
+                                          payment['fromName'], // Display debtor's name
                                           style: const TextStyle(
-                                            color: CustomColor
-                                                .red, // Red color for debtor's name
+                                            color: CustomColor.red, // Red color for debtor's name
                                             fontSize: 14,
                                           ),
-                                          maxLines:
-                                              2, // Allow name to wrap into two lines
+                                          maxLines: 2, // Allow name to wrap into two lines
                                           softWrap: true,
-                                          overflow: TextOverflow
-                                              .ellipsis, // Prevent overflow beyond two lines
-                                          textAlign: TextAlign
-                                              .center, // Center the text
+                                          overflow: TextOverflow.ellipsis, // Prevent overflow beyond two lines
+                                          textAlign: TextAlign.center, // Center the text
                                         ),
                                       ],
                                     ),
@@ -170,14 +144,11 @@ class AllDebtsScreen extends StatelessWidget {
 
                                   // Centered Amount
                                   Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal:
-                                            60.0), // Padding around amount text
+                                    padding: const EdgeInsets.symmetric(horizontal: 60.0), // Padding around amount text
                                     child: Text(
                                       '${payment['amount'].toStringAsFixed(2)}€', // Display amount formatted to two decimal places
                                       style: TextStyle(
-                                        color: defaultColorScheme
-                                            .primary, // Color for amount text
+                                        color: defaultColorScheme.primary, // Color for amount text
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -189,20 +160,15 @@ class AllDebtsScreen extends StatelessWidget {
                                       children: [
                                         creditorProfileWidget, // Display creditor's profile widget
                                         Text(
-                                          payment[
-                                              'toName'], // Display creditor's name
+                                          payment['toName'], // Display creditor's name
                                           style: const TextStyle(
-                                            color: CustomColor
-                                                .green, // Green color for creditor's name
+                                            color: CustomColor.green, // Green color for creditor's name
                                             fontSize: 14,
                                           ),
-                                          maxLines:
-                                              2, // Allow name to wrap into two lines
+                                          maxLines: 2, // Allow name to wrap into two lines
                                           softWrap: true,
-                                          overflow: TextOverflow
-                                              .ellipsis, // Prevent overflow beyond two lines
-                                          textAlign: TextAlign
-                                              .center, // Center the text
+                                          overflow: TextOverflow.ellipsis, // Prevent overflow beyond two lines
+                                          textAlign: TextAlign.center, // Center the text
                                         ),
                                       ],
                                     ),

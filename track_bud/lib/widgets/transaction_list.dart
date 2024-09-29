@@ -33,35 +33,26 @@ class _TransactionHistoryListState extends State<TransactionHistoryList> {
         .where('type', isEqualTo: widget.transactionType);
 
     if (widget.selectedCategory != null) {
-      transactionsQuery = transactionsQuery.where('category',
-          isEqualTo: widget.selectedCategory);
+      transactionsQuery = transactionsQuery.where('category', isEqualTo: widget.selectedCategory);
     }
 
     return StreamBuilder<QuerySnapshot>(
-      stream: transactionsQuery
-          .orderBy('date', descending: true)
-          .limit(10)
-          .snapshots(),
+      stream: transactionsQuery.orderBy('date', descending: true).limit(10).snapshots(),
       builder: (context, snapshot) {
-        debugPrint(
-            'StreamBuilder: Connection state: ${snapshot.connectionState}');
+        debugPrint('StreamBuilder: Connection state: ${snapshot.connectionState}');
         if (snapshot.hasError) {
           debugPrint('StreamBuilder Error: ${snapshot.error}');
-          return Text('Etwas ist schiefgelaufen: ${snapshot.error}');
+          return Text('Etwas ist schiefgelaufen: ${snapshot.error}', style: TextStyle(color: defaultColorScheme.primary));
         }
         if (snapshot.connectionState == ConnectionState.waiting) {
           debugPrint('StreamBuilder: Waiting for data');
-          return const CircularProgressIndicator(
-              color: CustomColor.bluePrimary);
+          return const CircularProgressIndicator(color: CustomColor.bluePrimary);
         }
         if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
           debugPrint('StreamBuilder: No data available');
-          return Text('Keine Transaktionen vorhanden',
-              style: TextStyles.regularStyleDefault
-                  .copyWith(color: defaultColorScheme.secondary));
+          return Text('Keine Transaktionen vorhanden', style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.secondary));
         }
-        debugPrint(
-            'StreamBuilder: Data received, doc count: ${snapshot.data!.docs.length}');
+        debugPrint('StreamBuilder: Data received, doc count: ${snapshot.data!.docs.length}');
 
         final transactions = snapshot.data!.docs;
 
@@ -84,17 +75,14 @@ class _TransactionHistoryListState extends State<TransactionHistoryList> {
                 transactionId: doc.id,
                 note: data['note'] ?? '',
                 recurrence: data['recurrence'] ?? 'Einmalig',
-                type: widget.transactionType == 'expense'
-                    ? 'Ausgabe'
-                    : 'Einnahme',
+                type: widget.transactionType == 'expense' ? 'Ausgabe' : 'Einnahme',
                 onEdit: (String id) {
                   debugPrint('Editing transaction: $id');
                   // Navigate to the edit screen, passing the transaction ID
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) =>
-                          EditTransactionScreen(transactionId: id),
+                      builder: (context) => EditTransactionScreen(transactionId: id),
                     ),
                   );
                 },
