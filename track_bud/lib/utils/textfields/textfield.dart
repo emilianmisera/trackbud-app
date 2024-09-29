@@ -18,6 +18,7 @@ class CustomTextfield extends StatelessWidget {
   final List<TextInputFormatter>? inputFormatters;
   final FocusNode? focusNode;
   final TextInputType? keyboardType;
+  final int maxLength;
   final String? errorText;
   final Color? borderColor;
 
@@ -29,6 +30,7 @@ class CustomTextfield extends StatelessWidget {
     this.obscureText = false,
     this.autofocus,
     this.width,
+    this.maxLength = 25,
     this.prefix,
     this.suffix,
     this.isMultiline = false,
@@ -58,12 +60,14 @@ class CustomTextfield extends StatelessWidget {
               cursorColor: CustomColor.bluePrimary,
               autofocus: autofocus ?? false,
               maxLines: isMultiline ? 3 : 1,
+              maxLength: keyboardType == TextInputType.emailAddress ? 100 : maxLength,
               focusNode: focusNode,
               keyboardType: keyboardType ?? TextInputType.text,
               textInputAction: TextInputAction.next,
               inputFormatters: inputFormatters,
               style: TextStyle(color: defaultColorScheme.primary),
               decoration: InputDecoration(
+                counterText: '',
                 prefix: Align(
                   widthFactor: 1.0,
                   heightFactor: 1.0,
