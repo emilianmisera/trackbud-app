@@ -106,6 +106,7 @@ class GroupCard extends StatelessWidget {
                   Expanded(
                     child: SizedBox(
                       height: 44, // Set the height of the members' stack.
+                      width: 300,
                       child: Stack(
                         children: List.generate(group.members.length, (index) {
                           final reverseIndex = group.members.length - 1 - index; // Calculate the reversed index for stacking members.
