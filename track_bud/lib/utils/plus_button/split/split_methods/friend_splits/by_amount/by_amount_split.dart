@@ -44,7 +44,7 @@ class _ByAmountSplitWidgetState extends State<ByAmountSplitWidget> {
   }
 
   List<double> getAmounts() {
-    return _controllers.map((controller) => double.tryParse(controller.text) ?? 0.0).toList();
+    return _controllers.map((controller) => double.tryParse(controller.text.replaceAll(',', '.')) ?? 0.0).toList();
   }
 
   void _onAmountChanged() {
