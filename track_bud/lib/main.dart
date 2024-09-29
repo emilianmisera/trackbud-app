@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:track_bud/firebase_options.dart';
+import 'package:track_bud/provider/friend_split_provider.dart';
 import 'package:track_bud/provider/group_provider.dart';
 import 'package:track_bud/provider/transaction_provider.dart';
 import 'package:track_bud/provider/user_provider.dart';
@@ -18,8 +19,7 @@ void main() async {
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   //await FirebaseApi().initNotifications();
-  FirebaseFirestore.instance.settings =
-      const Settings(persistenceEnabled: true); // Offline-Persistence
+  FirebaseFirestore.instance.settings = const Settings(persistenceEnabled: true); // Offline-Persistence
 
   /*SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: CustomColor.backgroundPrimary, // StatusBar (android)
@@ -37,6 +37,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => UserProvider()),
         ChangeNotifierProvider(create: (_) => GroupProvider()),
         ChangeNotifierProvider(create: (_) => TransactionProvider()),
+        ChangeNotifierProvider(create: (_) => FriendSplitProvider()),
       ],
       child: const MainApp(),
     ),
@@ -61,8 +62,7 @@ class MainApp extends StatelessWidget {
       // Show Login screen if we aren't logged in, otherwise go to main app.
       home: StreamBuilder(
         stream: FirebaseAuth.instance.authStateChanges(),
-        builder: (context, snapshot) =>
-            snapshot.hasData ? TrackBud() : const OnboardingScreen(),
+        builder: (context, snapshot) => snapshot.hasData ? TrackBud() : const OnboardingScreen(),
       ),
     );
   }
