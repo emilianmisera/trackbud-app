@@ -6,6 +6,7 @@ import 'package:track_bud/models/user_model.dart';
 import 'package:track_bud/models/friend_split_model.dart';
 import 'package:track_bud/services/firestore_service.dart';
 import 'package:track_bud/utils/constants.dart';
+import 'package:track_bud/utils/date_picker.dart';
 import 'package:track_bud/utils/plus_button/add_entry_modal.dart';
 import 'package:track_bud/utils/plus_button/split/split_methods/friend_splits/by_amount/by_amount_split.dart';
 import 'package:track_bud/utils/plus_button/split/split_methods/friend_splits/equal/equal_friend_split.dart';
@@ -42,6 +43,7 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
   String _payedBy = '';
   final FirestoreService _firestoreService = FirestoreService();
   List<double> _splitAmounts = [0.0, 0.0];
+  DateTime _selectedDateTime = DateTime.now();
 
   @override
   void initState() {
@@ -66,15 +68,12 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
         // For "by amount" split, check if the sum of amounts matches the total
         final totalAmount = _parseAmount();
         final sumOfAmounts = _splitAmounts.reduce((a, b) => a + b);
-        _isFormValid = _titleController.text.isNotEmpty &&
+        _isFormValid = 
             _amountController.text.isNotEmpty &&
             _selectedCategory.isNotEmpty &&
             totalAmount == sumOfAmounts;
       } else {
-        // For other split methods, use the previous validation logic
-        _isFormValid = _titleController.text.isNotEmpty &&
-            _amountController.text.isNotEmpty &&
-            _selectedCategory.isNotEmpty;
+        _isFormValid = _amountController.text.isNotEmpty && _selectedCategory.isNotEmpty;
       }
     });
   }
@@ -119,20 +118,18 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
       debtorAmount = _splitAmounts[0]; // Current user owes part of the split
     }
 
+    String transactionTitle = _titleController.text.isNotEmpty ? _titleController.text : _selectedCategory;
+
     FriendSplitModel newSplit = FriendSplitModel(
       splitId: const Uuid().v4(),
-      creditorId: _payedBy == widget.currentUser.name
-          ? widget.currentUser.userId
-          : widget.selectedFriend.userId,
-      debtorId: _payedBy == widget.currentUser.name
-          ? widget.selectedFriend.userId
-          : widget.currentUser.userId,
+      creditorId: _payedBy == widget.currentUser.name ? widget.currentUser.userId : widget.selectedFriend.userId,
+      debtorId: _payedBy == widget.currentUser.name ? widget.selectedFriend.userId : widget.currentUser.userId,
       creditorAmount: creditorAmount,
       debtorAmount: debtorAmount,
-      title: _titleController.text,
+      title: transactionTitle,
       type: 'expense',
       category: _selectedCategory,
-      date: Timestamp.fromDate(DateTime.now()),
+      date: Timestamp.fromDate(_selectedDateTime),
       status: 'pending',
     );
 
@@ -174,13 +171,11 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
                 children: [
                   Text(
                     AppTexts.newFriendSplit,
-                    style: TextStyles.regularStyleMedium
-                        .copyWith(color: defaultColorScheme.primary),
+                    style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary),
                   ),
                   Text(
                     widget.selectedFriend.name,
-                    style: TextStyles.titleStyleMedium
-                        .copyWith(color: defaultColorScheme.primary),
+                    style: TextStyles.titleStyleMedium.copyWith(color: defaultColorScheme.primary),
                   ),
                 ],
               ),
@@ -201,9 +196,8 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
                   width: MediaQuery.sizeOf(context).width / 3,
                   prefix: Text(
                     '-',
-                    style: TextStyles.titleStyleMedium.copyWith(
-                        fontWeight: TextStyles.fontWeightDefault,
-                        color: defaultColorScheme.primary),
+                    style:
+                        TextStyles.titleStyleMedium.copyWith(fontWeight: TextStyles.fontWeightDefault, color: defaultColorScheme.primary),
                   ),
                   suffix: const Text('€'),
                   type: const TextInputType.numberWithOptions(decimal: true),
@@ -215,18 +209,21 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
                   ],
                 ),
                 const Gap(CustomPadding.defaultSpace),
+                // Date Picker
+                Expanded(
+                  child: DatePicker(
+                    onDateTimeChanged: (dateTime) => setState(() => _selectedDateTime = dateTime),
+                    initialDateTime: DateTime.now(),
+                  ),
+                ),
               ],
             ),
             const Gap(CustomPadding.defaultSpace),
-            Text(AppTexts.categorie,
-                style: TextStyles.regularStyleMedium
-                    .copyWith(color: defaultColorScheme.primary)),
+            Text(AppTexts.categorie, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
             const Gap(CustomPadding.mediumSpace),
             CategoriesExpense(onCategorySelected: _onCategorySelected),
             const Gap(CustomPadding.defaultSpace),
-            Text(AppTexts.payedBy,
-                style: TextStyles.regularStyleMedium
-                    .copyWith(color: defaultColorScheme.primary)),
+            Text(AppTexts.payedBy, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
             const Gap(CustomPadding.mediumSpace),
             CustomDropDown(
               list: [widget.currentUser.name, widget.selectedFriend.name],
