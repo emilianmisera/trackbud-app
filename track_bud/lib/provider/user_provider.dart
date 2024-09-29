@@ -7,8 +7,7 @@ import 'package:track_bud/services/firestore_service.dart';
 class UserProvider extends ChangeNotifier {
   UserModel? _currentUser; // Holds the current user data.
   List<UserModel> _friends = []; // List of the user's friends.
-  final FirestoreService _firestoreService =
-      FirestoreService(); // Service for Firestore interactions.
+  final FirestoreService _firestoreService = FirestoreService(); // Service for Firestore interactions.
   bool _isLoading = false; // Flag to indicate loading state.
 
   // Getter for the current user.
@@ -29,16 +28,14 @@ class UserProvider extends ChangeNotifier {
     notifyListeners(); // Notify listeners to update UI.
 
     try {
-      User? firebaseUser =
-          FirebaseAuth.instance.currentUser; // Get the current Firebase user.
+      User? firebaseUser = FirebaseAuth.instance.currentUser; // Get the current Firebase user.
       if (firebaseUser != null) {
         // If a user is logged in, fetch their user model.
         _currentUser = await _firestoreService.getUser(firebaseUser.uid);
         await loadFriends(); // Load friends for the current user.
       }
     } catch (e) {
-      debugPrint(
-          "Error loading current user: $e"); // Log any errors encountered.
+      debugPrint("Error loading current user: $e"); // Log any errors encountered.
     } finally {
       _isLoading = false; // Reset loading state.
       notifyListeners(); // Notify listeners to update UI.
@@ -52,6 +49,10 @@ class UserProvider extends ChangeNotifier {
     try {
       // Fetch friends of the current user from Firestore.
       _friends = await _firestoreService.getFriends(_currentUser!.userId);
+      debugPrint("Friends loaded: $_friends"); // Debugging line to check fetched friends
+      for (var friend in _friends) {
+        debugPrint("Friend loaded: ${friend.name}, ${friend.email}, ${friend.userId}");
+      }
       notifyListeners(); // Notify listeners to update UI with new friends list.
     } catch (e) {
       debugPrint("Error loading friends: $e"); // Log any errors encountered.
@@ -81,9 +82,16 @@ class UserProvider extends ChangeNotifier {
   Future<void> setMonthlyBudgetGoal(double goal) async {
     if (_currentUser != null) {
       _currentUser!.monthlySpendingGoal = goal; // Update the spending goal.
-      await _firestoreService
-          .updateUser(_currentUser!); // Update the user data in Firestore.
+      await _firestoreService.updateUser(_currentUser!); // Update the user data in Firestore.
       notifyListeners(); // Notify listeners to update UI.
+    }
+  }
+
+  Future<void> setBankAccountBalance(double balance) async {
+    if (_currentUser != null) {
+      _currentUser!.bankAccountBalance = balance;
+      await _firestoreService.updateUser(_currentUser!);
+      notifyListeners();
     }
   }
 }
