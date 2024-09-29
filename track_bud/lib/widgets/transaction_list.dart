@@ -75,7 +75,7 @@ class _TransactionHistoryListState extends State<TransactionHistoryList> {
                 transactionId: doc.id,
                 note: data['note'] ?? '',
                 recurrence: data['recurrence'] ?? 'Einmalig',
-                type: widget.transactionType == 'expense' ? 'Ausgabe' : 'Einnahme',
+                type: widget.transactionType,
                 onEdit: (String id) {
                   debugPrint('Editing transaction: $id');
                   // Navigate to the edit screen, passing the transaction ID
