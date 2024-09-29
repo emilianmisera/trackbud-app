@@ -11,11 +11,11 @@ class EqualGroupSplitWidget extends StatefulWidget {
   final Function(List<String>) onMembersSelected; // Callback for handling selected members.
 
   const EqualGroupSplitWidget({
-    Key? key,
+    super.key,
     required this.amount,
     required this.members,
     required this.onMembersSelected,
-  }) : super(key: key);
+  });
 
   @override
   State<EqualGroupSplitWidget> createState() => _EqualGroupSplitWidgetState();

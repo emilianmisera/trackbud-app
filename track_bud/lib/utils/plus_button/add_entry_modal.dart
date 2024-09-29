@@ -2,11 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:track_bud/utils/constants.dart';
 
-// This File shows following Widgets:
-// 1) Reusuble scrollable DynamicBottomSheet that is only used for adding a new Transaction, Friendsplit & Groupsplit
-// 2) Add a new Transaction
-// 3) Add a new Split
-
 // Reusable DynamicBottomSheet component
 class AddEntryModal extends StatelessWidget {
   // The content to be displayed in the bottom sheet

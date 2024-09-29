@@ -135,12 +135,14 @@ class _FriendProfileScreenState extends State<FriendProfileScreen> {
         onPressed: () async {
           try {
             await _firestoreService.payOffFriendSplits(currentUserId, widget.friend.userId);
+            if (mounted) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                   content:
                       Text('Schulden mit ${widget.friend.name} wurden beglichen.', style: TextStyle(color: defaultColorScheme.primary))),
 
             );
+            }
             setState(() {}); // Refresh the state
           } catch (e) {
             debugPrint('Error paying off debts: $e');

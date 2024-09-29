@@ -8,10 +8,10 @@ class EqualFriendTile extends StatelessWidget {
   final double splitAmount;
 
   const EqualFriendTile({
-    Key? key,
+    super.key,
     required this.user,
     required this.splitAmount,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

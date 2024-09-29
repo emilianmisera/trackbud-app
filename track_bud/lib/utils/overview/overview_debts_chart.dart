@@ -37,8 +37,6 @@ class OverviewDebtsTile extends StatelessWidget {
     // Calculate total balance
     double totalBalance = totalDebtFromFriends - totalDebtToFriends; // Subtract debts from credits
 
-    final colorScheme = _getColorScheme(totalBalance);
-
     return CustomShadow(
       child: Container(
         padding: const EdgeInsets.all(CustomPadding.defaultSpace),

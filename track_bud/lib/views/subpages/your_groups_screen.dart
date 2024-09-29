@@ -20,11 +20,6 @@ class _YourGroupsScreenState extends State<YourGroupsScreen> {
 
   List groupList = [];
 
-  void _searchGroup(String query) {
-    //TODO: add search-function
-    // https://youtu.be/ZHdg2kfKmjI?si=ufWetKZ8HdE6OyjQ&t=49
-  }
-
   @override
   void initState() {
     super.initState();
@@ -47,7 +42,11 @@ class _YourGroupsScreenState extends State<YourGroupsScreen> {
         centerTitle: true,
         actions: [
           IconButton(
-            onPressed: () => showModalBottomSheet(context: context, builder: (context) => const CreateGroupSheet()),
+            onPressed: () => showModalBottomSheet(
+              context: context,
+              isScrollControlled: true,
+              builder: (context) => const CreateGroupSheet(),
+            ),
             icon: const Icon(Icons.group_add_outlined, color: CustomColor.bluePrimary, size: 30),
           ),
         ],

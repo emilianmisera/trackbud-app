@@ -7,7 +7,7 @@ import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfields/textfield_amount_of_money.dart';
 
 class ChangeBankaccountScreen extends StatefulWidget {
-  const ChangeBankaccountScreen({Key? key}) : super(key: key);
+  const ChangeBankaccountScreen({super.key});
 
   @override
   State<ChangeBankaccountScreen> createState() => _ChangeBankaccountScreenState();
@@ -50,13 +50,15 @@ class _ChangeBankaccountScreenState extends State<ChangeBankaccountScreen> {
 
     try {
       await userProvider.setBankAccountBalance(amount);
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text("Bankkonto erfolgreich aktualisiert.",
-              style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary)),
-        ),
-      );
-      Navigator.pop(context);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("Bankkonto erfolgreich aktualisiert.",
+                style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary)),
+          ),
+        );
+        Navigator.of(context).pop();
+      }
     } catch (e) {
       _showErrorSnackBar("Fehler beim Speichern der Bankkonto-Informationen: $e");
     }

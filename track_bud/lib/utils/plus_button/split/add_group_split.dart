@@ -24,11 +24,11 @@ class AddGroupSplit extends StatefulWidget {
   final String currentUserId; // ID of the current user
 
   const AddGroupSplit({
-    Key? key,
+    super.key,
     required this.selectedGroup,
     required this.memberNames,
     required this.currentUserId,
-  }) : super(key: key);
+  });
 
   @override
   State<AddGroupSplit> createState() => _AddGroupSplitState();

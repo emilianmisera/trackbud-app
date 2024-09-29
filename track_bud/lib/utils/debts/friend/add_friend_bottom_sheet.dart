@@ -44,10 +44,6 @@ class AddFriendBottomSheet extends StatelessWidget {
             const Gap(CustomPadding.mediumSpace),
             CustomTextfield(name: AppTexts.email, hintText: AppTexts.hintEmail, controller: emailFriendController),
             const Gap(CustomPadding.bigSpace),
-            OutlinedButton(
-                onPressed: () {}, // TODO: add email friend search
-                child: Text(AppTexts.addFriend)),
-            const Spacer(),
             ElevatedButton(onPressed: onPressed, child: Text(AppTexts.shareFriendLink)),
           ],
         ),

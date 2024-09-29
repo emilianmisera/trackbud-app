@@ -16,7 +16,7 @@ class TransactionHistoryList extends StatefulWidget {
   });
 
   @override
-  _TransactionHistoryListState createState() => _TransactionHistoryListState();
+  State<TransactionHistoryList> createState() => _TransactionHistoryListState();
 }
 
 class _TransactionHistoryListState extends State<TransactionHistoryList> {

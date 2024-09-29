@@ -11,10 +11,10 @@ class FriendCard extends StatelessWidget {
   final double debtAmount; // Amount of debt related to this friend
 
   const FriendCard({
-    Key? key,
+    super.key,
     required this.friend,
     required this.debtAmount,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

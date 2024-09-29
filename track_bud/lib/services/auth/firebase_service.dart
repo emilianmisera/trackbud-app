@@ -118,7 +118,7 @@ class FirebaseService {
         }
       } else {
         if (context.mounted) {
-          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => TrackBud()));
+          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const TrackBud()));
         }
       }
     } else {

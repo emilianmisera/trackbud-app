@@ -70,7 +70,7 @@ class _LoginScreenState extends State<LoginScreen> {
       debugPrint('login_screen: _loginUser -> success! -> redirecting to Overview');
       if (mounted) {
         Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => TrackBud()), // Navigate to the main app screen upon successful login
+          MaterialPageRoute(builder: (context) => const TrackBud()), // Navigate to the main app screen upon successful login
         );
       }
     } catch (e) {

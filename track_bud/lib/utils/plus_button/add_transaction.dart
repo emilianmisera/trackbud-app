@@ -27,7 +27,7 @@ class _AddTransactionState extends State<AddTransaction> {
   final TextEditingController _amountController = TextEditingController();
   final TextEditingController _noteController = TextEditingController();
   String? _selectedCategory;
-  String? _selectedRecurrence = 'einmalig';
+  final String _selectedRecurrence = 'einmalig';
   DateTime _selectedDateTime = DateTime.now();
   bool _isFormValid = false; // Track form validity
   final _focusNodeTitle = FocusNode();
@@ -46,7 +46,6 @@ class _AddTransactionState extends State<AddTransaction> {
     final defaultColorScheme = Theme.of(context).colorScheme;
     try {
       final transactionProvider = Provider.of<TransactionProvider>(context, listen: false);
-
 
       // Determine title based on the input or selected category
       String transactionTitle =
@@ -92,7 +91,6 @@ class _AddTransactionState extends State<AddTransaction> {
   // Validate form inputs
   void _validateForm() {
     setState(() {
-
       _isFormValid = _amountController.text.isNotEmpty && _selectedCategory != null;
     });
   }
@@ -154,11 +152,9 @@ class _AddTransactionState extends State<AddTransaction> {
                     hintText: '00.00',
                     controller: _amountController,
                     width: MediaQuery.sizeOf(context).width / 3,
-                    prefix: Text(
-                      _currentSegment == 0 ? '–' : '+',
-                      style:
-                          TextStyles.titleStyleMedium.copyWith(fontWeight: TextStyles.fontWeightDefault, color: defaultColorScheme.primary),
-                    ),
+                    prefix: Text(_currentSegment == 0 ? '–' : '+',
+                        style: TextStyles.titleStyleMedium
+                            .copyWith(fontWeight: TextStyles.fontWeightDefault, color: defaultColorScheme.primary)),
                     suffix: Text('€', style: TextStyle(color: defaultColorScheme.primary)),
                     type: const TextInputType.numberWithOptions(decimal: true),
                     inputFormatters: [

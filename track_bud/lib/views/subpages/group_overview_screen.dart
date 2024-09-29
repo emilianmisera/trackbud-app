@@ -284,7 +284,7 @@ class _GroupOverviewScreenState extends State<GroupOverviewScreen> {
                         .map((futureUser) => futureUser.then((user) => user?.name ?? 'Unknown')),
                   );
 
-                  if (mounted) {
+                  if (context.mounted) {
                     // Show modal bottom sheet to add a group split
                     showModalBottomSheet(
                       context: context,

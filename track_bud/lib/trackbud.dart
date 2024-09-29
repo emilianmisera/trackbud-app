@@ -12,7 +12,7 @@ import 'package:track_bud/views/nav_pages/settings_screen.dart';
 // ignore: must_be_immutable
 class TrackBud extends StatefulWidget {
   // Constructor with optional parameter for initial index
-  TrackBud({super.key});
+  const TrackBud({super.key});
 
   @override
   State<TrackBud> createState() => _TrackBudState();
@@ -37,7 +37,7 @@ class _TrackBudState extends State<TrackBud> {
 
       _handleDynamicLink(deepLink);
     }).onError((error) {
-      print('Fehler beim Empfangen des dynamischen Links: $error');
+      debugPrint('Fehler beim Empfangen des dynamischen Links: $error');
 
     });
   }

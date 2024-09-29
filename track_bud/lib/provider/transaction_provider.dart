@@ -203,9 +203,9 @@ class TransactionProvider extends ChangeNotifier {
               isLessThanOrEqualTo: Timestamp.fromDate(DateTime.now()))*/
           .get();
 
-      _totalAmount = snapshot.docs.fold(0.0, (sum, doc) {
+      _totalAmount = snapshot.docs.fold(0.0, (summe, doc) {
         final data = doc.data() as Map<String, dynamic>;
-        return sum + (data['amount'] as num?)!.toDouble();
+        return summe + (data['amount'] as num?)!.toDouble();
       });
 
       notifyListeners();
@@ -245,11 +245,11 @@ class TransactionProvider extends ChangeNotifier {
 
       debugPrint("Number of transactions found: ${snapshot.docs.length}");
 
-      _totalMonthlyExpense = snapshot.docs.fold(0.0, (sum, doc) {
+      _totalMonthlyExpense = snapshot.docs.fold(0.0, (summe, doc) {
         final data = doc.data() as Map<String, dynamic>;
         final amount = (data['amount'] as num?)?.toDouble() ?? 0.0;
         debugPrint("Transaction amount: $amount");
-        return sum + amount;
+        return summe + amount;
       });
 
       debugPrint("Total monthly expense: $_totalMonthlyExpense");

@@ -97,7 +97,7 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
         _updateSplitSumValidationMessage(totalAmount, sumOfAmounts);
       } else {
         // For other split methods, only check if required fields are filled
-
+        _splitSumValidationMessage = AppTexts.addSplit;
         _isFormValid = _amountController.text.isNotEmpty && _selectedCategory.isNotEmpty;
       }
     });
@@ -250,9 +250,7 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
                   const Gap(CustomPadding.defaultSpace),
                   Expanded(
                     child: DatePicker(
-                      onDateTimeChanged: (dateTime) => setState(() => _selectedDateTime = dateTime),
-                      initialDateTime: DateTime.now(),
-                    ),
+                        onDateTimeChanged: (dateTime) => setState(() => _selectedDateTime = dateTime), initialDateTime: DateTime.now()),
                   ),
                 ],
               ),
