@@ -8,12 +8,14 @@ class ByAmountSplitWidget extends StatefulWidget {
   final List<UserModel> users;
   final ValueChanged<List<double>> onAmountsChanged;
   final bool isGroup;
+  final List<FocusNode> focusNodes; // New parameter for focus nodes
 
   const ByAmountSplitWidget({
     super.key,
     required this.users,
     required this.onAmountsChanged,
     this.isGroup = false,
+    required this.focusNodes, // Add this line
   });
 
   @override
@@ -26,8 +28,7 @@ class _ByAmountSplitWidgetState extends State<ByAmountSplitWidget> {
   @override
   void initState() {
     super.initState();
-    _controllers =
-        List.generate(widget.users.length, (_) => TextEditingController());
+    _controllers = List.generate(widget.users.length, (_) => TextEditingController());
     for (var controller in _controllers) {
       controller.addListener(_onAmountChanged);
     }
@@ -43,9 +44,7 @@ class _ByAmountSplitWidgetState extends State<ByAmountSplitWidget> {
   }
 
   List<double> getAmounts() {
-    return _controllers
-        .map((controller) => double.tryParse(controller.text) ?? 0.0)
-        .toList();
+    return _controllers.map((controller) => double.tryParse(controller.text) ?? 0.0).toList();
   }
 
   void _onAmountChanged() {
@@ -58,8 +57,7 @@ class _ByAmountSplitWidgetState extends State<ByAmountSplitWidget> {
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemCount: widget.users.length,
-      separatorBuilder: (context, index) =>
-          const Gap(CustomPadding.mediumSpace),
+      separatorBuilder: (context, index) => const Gap(CustomPadding.mediumSpace),
       itemBuilder: (context, index) {
         return ByAmountTile(
           user: widget.users[index],
@@ -67,6 +65,7 @@ class _ByAmountSplitWidgetState extends State<ByAmountSplitWidget> {
           onAmountChanged: (value) {
             _onAmountChanged();
           },
+          focusNode: widget.focusNodes[index], // Pass the focus node
         );
       },
     );

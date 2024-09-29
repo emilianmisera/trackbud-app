@@ -9,27 +9,24 @@ class ByAmountTile extends StatelessWidget {
   final UserModel user;
   final TextEditingController controller;
   final ValueChanged<String> onAmountChanged;
+  final FocusNode focusNode; // New parameter for focus node
 
   const ByAmountTile({
     super.key,
     required this.user,
     required this.controller,
-    required this.onAmountChanged, // Accepting a ValueChanged<String> callback
+    required this.onAmountChanged,
+    required this.focusNode, // Add this line
   });
 
   @override
   Widget build(BuildContext context) {
     final defaultColorScheme = Theme.of(context).colorScheme;
-    final focusNodeAmount = FocusNode();
     return CustomShadow(
       child: Container(
-        decoration: BoxDecoration(
-            color: defaultColorScheme.surface,
-            borderRadius: BorderRadius.circular(Constants.contentBorderRadius)),
+        decoration: BoxDecoration(color: defaultColorScheme.surface, borderRadius: BorderRadius.circular(Constants.contentBorderRadius)),
         child: ListTile(
-          contentPadding: const EdgeInsets.symmetric(
-              horizontal: CustomPadding.defaultSpace,
-              vertical: CustomPadding.defaultSpace),
+          contentPadding: const EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace, vertical: CustomPadding.defaultSpace),
           leading: ClipRRect(
             borderRadius: BorderRadius.circular(100.0),
             child: SizedBox(
@@ -40,22 +37,16 @@ class ByAmountTile extends StatelessWidget {
                   : const Icon(Icons.person, color: Colors.grey),
             ),
           ),
-          title: Text(user.name,
-              style: TextStyles.regularStyleDefault
-                  .copyWith(color: defaultColorScheme.primary)),
+          title: Text(user.name, style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary)),
           trailing: Container(
             width: 80,
             decoration: BoxDecoration(
-                border: Border.all(color: defaultColorScheme.outline),
-                borderRadius:
-                    BorderRadius.circular(Constants.contentBorderRadius)),
+                border: Border.all(color: defaultColorScheme.outline), borderRadius: BorderRadius.circular(Constants.contentBorderRadius)),
             child: TextFieldByAmount(
-              focusNode: focusNodeAmount,
+              focusNode: focusNode, // Use the provided focus node
               controller: controller,
-              inputStyle: TextStyles.regularStyleDefault
-                  .copyWith(color: defaultColorScheme.primary),
-              suffixStyle: TextStyles.regularStyleDefault
-                  .copyWith(color: defaultColorScheme.primary),
+              inputStyle: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary),
+              suffixStyle: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary),
               onChanged: onAmountChanged,
             ),
           ),

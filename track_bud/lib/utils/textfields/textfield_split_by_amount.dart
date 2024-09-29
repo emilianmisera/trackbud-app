@@ -24,9 +24,8 @@ class TextFieldByAmount extends StatelessWidget {
     final defaultColorScheme = Theme.of(context).colorScheme;
     return TextFormField(
       controller: controller,
-      style: inputStyle ??
-          TextStyles.headingStyle.copyWith(color: defaultColorScheme.primary),
-      keyboardType: const TextInputType.numberWithOptions(),
+      style: inputStyle ?? TextStyles.headingStyle.copyWith(color: defaultColorScheme.primary),
+      keyboardType: const TextInputType.numberWithOptions(decimal: true),
       textAlign: TextAlign.center,
       focusNode: focusNode,
       inputFormatters: [
@@ -36,17 +35,14 @@ class TextFieldByAmount extends StatelessWidget {
         hintText: hintText ?? '0',
         suffix: Text(
           "€",
-          style: suffixStyle ??
-              TextStyles.headingStyle
-                  .copyWith(color: defaultColorScheme.primary),
+          style: suffixStyle ?? TextStyles.headingStyle.copyWith(color: defaultColorScheme.primary),
         ),
         contentPadding: const EdgeInsets.only(
             left: CustomPadding.smallSpace,
             right: CustomPadding.smallSpace,
             top: CustomPadding.smallSpace,
             bottom: CustomPadding.smallSpace),
-        hintStyle: TextStyles.hintStyleHeading
-            .copyWith(color: defaultColorScheme.secondary),
+        hintStyle: TextStyles.hintStyleHeading.copyWith(color: defaultColorScheme.secondary),
         floatingLabelBehavior: FloatingLabelBehavior.always,
         filled: true,
         fillColor: defaultColorScheme.surface,
