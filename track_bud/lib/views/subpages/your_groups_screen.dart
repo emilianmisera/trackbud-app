@@ -20,11 +20,6 @@ class _YourGroupsScreenState extends State<YourGroupsScreen> {
 
   List groupList = [];
 
-  void _searchGroup(String query) {
-    //TODO: add search-function
-    // https://youtu.be/ZHdg2kfKmjI?si=ufWetKZ8HdE6OyjQ&t=49
-  }
-
   @override
   void initState() {
     super.initState();

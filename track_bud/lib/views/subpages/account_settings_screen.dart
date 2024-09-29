@@ -15,15 +15,6 @@ class AccountSettingsScreen extends StatefulWidget {
 }
 
 class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
-  bool isActive = false;
-
-  void _toggleSwitch(bool value) {
-    // makes switch widget active when bool == true
-    setState(() {
-      isActive = !isActive;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     final defaultColorScheme = Theme.of(context).colorScheme;

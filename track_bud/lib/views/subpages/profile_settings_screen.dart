@@ -298,7 +298,7 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                             child: SvgPicture.asset(
                               AssetImport.camera,
                               fit: BoxFit.scaleDown,
-                              color: defaultColorScheme.secondary,
+                              colorFilter: ColorFilter.mode(defaultColorScheme.secondary, BlendMode.srcIn),
                             ),
                           ),
                         ),

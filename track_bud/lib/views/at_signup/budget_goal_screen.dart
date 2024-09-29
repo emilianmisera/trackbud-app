@@ -72,7 +72,7 @@ class _BudgetGoalScreenState extends State<BudgetGoalScreen> {
       await addUserBankAccount(amount);
       debugPrint("Navigating to Overview Screen...");
       if (context.mounted) {
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => TrackBud()));
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const TrackBud()));
       }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(

@@ -10,8 +10,7 @@ import 'package:track_bud/utils/enum/categories.dart';
 
 class DonutChart extends StatefulWidget {
   final String selectedOption;
-  final ValueChanged<String?>
-      onCategorySelected; // New callback for the selected category
+  final ValueChanged<String?> onCategorySelected; // New callback for the selected category
 
   const DonutChart({
     super.key,
@@ -20,7 +19,7 @@ class DonutChart extends StatefulWidget {
   });
 
   @override
-  _DonutChartState createState() => _DonutChartState();
+  State<DonutChart> createState() => _DonutChartState();
 }
 
 class _DonutChartState extends State<DonutChart> {
@@ -44,8 +43,7 @@ class _DonutChartState extends State<DonutChart> {
   }
 
   void calculateTotalAmount() {
-    totalAmount = sections.fold(
-        0.0, (summary, section) => summary + section.sectionData.value.abs());
+    totalAmount = sections.fold(0.0, (summary, section) => summary + section.sectionData.value.abs());
   }
 
   Future<void> fetchTransactionData() async {
@@ -53,9 +51,7 @@ class _DonutChartState extends State<DonutChart> {
     final snapshot = await FirebaseFirestore.instance
         .collection('transactions')
         .where('userId', isEqualTo: user!.uid)
-        .where('type',
-            isEqualTo:
-                widget.selectedOption == 'Ausgaben' ? 'expense' : 'income')
+        .where('type', isEqualTo: widget.selectedOption == 'Ausgaben' ? 'expense' : 'income')
         .get();
 
     Map<String, double> categories = {};
@@ -79,9 +75,7 @@ class _DonutChartState extends State<DonutChart> {
 
   List<ChartSectionData> createSections(Map<String, double> categories) {
     // Sortiere die Kategorien nach den Werten
-    var sortedCategories = categories.entries.toList()
-      ..sort((a, b) =>
-          b.value.compareTo(a.value)); // Absteigend nach Wert sortieren
+    var sortedCategories = categories.entries.toList()..sort((a, b) => b.value.compareTo(a.value)); // Absteigend nach Wert sortieren
 
     return sortedCategories.map((entry) {
       final category = Categories.values.firstWhere(
@@ -100,14 +94,10 @@ class _DonutChartState extends State<DonutChart> {
   }
 
   Map<int, PieChartSectionData> showingSections() {
-    return {
-      for (var entry in sections.asMap().entries)
-        entry.key: _generatePieChartSectionData(entry.key, entry.value)
-    };
+    return {for (var entry in sections.asMap().entries) entry.key: _generatePieChartSectionData(entry.key, entry.value)};
   }
 
-  PieChartSectionData _generatePieChartSectionData(
-      int index, ChartSectionData section) {
+  PieChartSectionData _generatePieChartSectionData(int index, ChartSectionData section) {
     final isTouched = index == selectedIndex;
     final opacity = selectedIndex == null || isTouched ? 1.0 : 0.5;
 
@@ -138,19 +128,14 @@ class _DonutChartState extends State<DonutChart> {
               sections: showingSectionsMap.values.toList(),
               pieTouchData: PieTouchData(
                 touchCallback: (FlTouchEvent event, pieTouchResponse) {
-                  if (event is FlTapUpEvent &&
-                      pieTouchResponse?.touchedSection != null) {
+                  if (event is FlTapUpEvent && pieTouchResponse?.touchedSection != null) {
                     setState(() {
-                      final touchedIndex = showingSectionsMap.keys.elementAt(
-                          pieTouchResponse!
-                              .touchedSection!.touchedSectionIndex);
-                      selectedIndex =
-                          selectedIndex == touchedIndex ? null : touchedIndex;
+                      final touchedIndex = showingSectionsMap.keys.elementAt(pieTouchResponse!.touchedSection!.touchedSectionIndex);
+                      selectedIndex = selectedIndex == touchedIndex ? null : touchedIndex;
 
                       // Send the selected category to the parent
                       if (selectedIndex != null) {
-                        widget.onCategorySelected(
-                            sections[selectedIndex!].sectionData.title);
+                        widget.onCategorySelected(sections[selectedIndex!].sectionData.title);
                       } else {
                         widget.onCategorySelected(null); // No category selected
                       }
@@ -171,11 +156,7 @@ class _DonutChartState extends State<DonutChart> {
     if (selectedIndex != null && selectedIndex! < sections.length) {
       return [_buildCategoryTile(sections[selectedIndex!], selectedIndex!)];
     } else {
-      return sections
-          .asMap()
-          .entries
-          .map((entry) => _buildCategoryTile(entry.value, entry.key))
-          .toList();
+      return sections.asMap().entries.map((entry) => _buildCategoryTile(entry.value, entry.key)).toList();
     }
   }
 
@@ -189,9 +170,7 @@ class _DonutChartState extends State<DonutChart> {
         icon: section.icon,
         onTap: () => setState(() {
           selectedIndex = selectedIndex == index ? null : index;
-          widget.onCategorySelected(selectedIndex != null
-              ? sections[selectedIndex!].sectionData.title
-              : null);
+          widget.onCategorySelected(selectedIndex != null ? sections[selectedIndex!].sectionData.title : null);
         }),
         totalAmount: totalAmount,
         transactionCount: transactionCounts[section.sectionData.title] ?? 0,

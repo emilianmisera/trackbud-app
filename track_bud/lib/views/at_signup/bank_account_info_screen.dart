@@ -79,7 +79,6 @@ class _BankAccountInfoScreenState extends State<BankAccountInfoScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     _moneyController.addListener(_validateForm);
     super.initState();
   }

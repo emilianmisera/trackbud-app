@@ -107,7 +107,7 @@ class GroupProvider with ChangeNotifier {
 
       if (split.paidBy == currentUserId) {
         currentUserExpenses += split.totalAmount;
-        currentUserCredit += split.totalAmount - currentUserShare['amount'] as double;
+        currentUserCredit += split.totalAmount - currentUserShare['amount'];
       } else {
         currentUserCredit -= currentUserShare['amount'] as double;
       }
@@ -168,12 +168,12 @@ class GroupProvider with ChangeNotifier {
 
   // Calculate total debts for the current user across all groups
   double getTotalDebts() {
-    return _userCredits.values.where((credit) => credit < 0).map((credit) => -credit).fold(0.0, (sum, item) => sum + item);
+    return _userCredits.values.where((credit) => credit < 0).map((credit) => -credit).fold(0.0, (summe, item) => summe + item);
   }
 
   // Calculate total credits for the current user across all groups
   double getTotalCredits() {
-    return _userCredits.values.where((credit) => credit > 0).fold(0.0, (sum, credit) => sum + credit);
+    return _userCredits.values.where((credit) => credit > 0).fold(0.0, (summe, credit) => summe + credit);
   }
 
   // Invalidates the cache for the debts overview of a specified group

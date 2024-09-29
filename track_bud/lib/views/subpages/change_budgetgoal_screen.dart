@@ -6,7 +6,7 @@ import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfields/textfield_amount_of_money.dart';
 
 class ChangeBudgetGoalScreen extends StatefulWidget {
-  const ChangeBudgetGoalScreen({Key? key}) : super(key: key);
+  const ChangeBudgetGoalScreen({super.key});
 
   @override
   State<ChangeBudgetGoalScreen> createState() => _ChangeBudgetGoalScreenState();
@@ -49,13 +49,15 @@ class _ChangeBudgetGoalScreenState extends State<ChangeBudgetGoalScreen> {
 
     try {
       await userProvider.setMonthlyBudgetGoal(amount);
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content:
-              Text("Budget erfolgreich aktualisiert.", style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary)),
-        ),
-      );
-      Navigator.pop(context);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content:
+                Text("Budget erfolgreich aktualisiert.", style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary)),
+          ),
+        );
+        Navigator.pop(context);
+      }
     } catch (e) {
       _showErrorSnackBar("Fehler beim Speichern des Budgets: $e");
     }

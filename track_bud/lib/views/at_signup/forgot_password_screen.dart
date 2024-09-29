@@ -46,9 +46,10 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       }
     } on FirebaseAuthException catch (e) {
       // Handle error and show error message
-      if (mounted)
+      if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text("Error: ${e.message}", style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary))));
+      }
     }
   }
 

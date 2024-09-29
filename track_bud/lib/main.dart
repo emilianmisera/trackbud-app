@@ -62,7 +62,7 @@ class MainApp extends StatelessWidget {
       // Show Login screen if we aren't logged in, otherwise go to main app.
       home: StreamBuilder(
         stream: FirebaseAuth.instance.authStateChanges(),
-        builder: (context, snapshot) => snapshot.hasData ? TrackBud() : const OnboardingScreen(),
+        builder: (context, snapshot) => snapshot.hasData ? const TrackBud() : const OnboardingScreen(),
       ),
     );
   }

@@ -8,7 +8,7 @@ class PercentalSplitWidget extends StatefulWidget {
   final double amount;
   final List<UserModel> users;
   final ValueChanged<List<double>> onAmountsChanged;
-  final bool isGroup;
+  final bool? isGroup;
 
   const PercentalSplitWidget({
     super.key,
@@ -19,14 +19,11 @@ class PercentalSplitWidget extends StatefulWidget {
   });
 
   @override
-  State<PercentalSplitWidget> createState() => _PercentalSplitWidgetState(isGroup: isGroup);
+  State<PercentalSplitWidget> createState() => _PercentalSplitWidgetState();
 }
 
 class _PercentalSplitWidgetState extends State<PercentalSplitWidget> {
   late List<double> _sliderValues;
-  final bool isGroup;
-
-  _PercentalSplitWidgetState({required this.isGroup}); // Constructor to initialize isGroup
 
   @override
   void initState() {
@@ -39,17 +36,15 @@ class _PercentalSplitWidgetState extends State<PercentalSplitWidget> {
     setState(() {
       double totalOthers = _sliderValues.reduce((a, b) => a + b) - _sliderValues[index];
       double remaining = 100 - value;
-      
+
       _sliderValues[index] = value;
-      
+
       for (int i = 0; i < _sliderValues.length; i++) {
         if (i != index) {
-          _sliderValues[i] = totalOthers > 0 
-              ? (_sliderValues[i] / totalOthers) * remaining
-              : remaining / (widget.users.length - 1);
+          _sliderValues[i] = totalOthers > 0 ? (_sliderValues[i] / totalOthers) * remaining : remaining / (widget.users.length - 1);
         }
       }
-      
+
       _updateAmounts();
     });
   }
@@ -63,9 +58,7 @@ class _PercentalSplitWidgetState extends State<PercentalSplitWidget> {
   }
 
   List<double> calculateAmounts(double totalAmount) {
-    return _sliderValues
-        .map((percentage) => (totalAmount * (percentage / 100)))
-        .toList();
+    return _sliderValues.map((percentage) => (totalAmount * (percentage / 100))).toList();
   }
 
   @override
@@ -74,12 +67,11 @@ class _PercentalSplitWidgetState extends State<PercentalSplitWidget> {
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemCount: widget.users.length,
-      separatorBuilder: (context, index) =>
-          const Gap(CustomPadding.mediumSpace),
+      separatorBuilder: (context, index) => const Gap(CustomPadding.mediumSpace),
       itemBuilder: (context, index) {
         return PercentTile(
           amount: widget.amount,
-          isGroup: isGroup,
+          isGroup: widget.isGroup ?? false,
           user: widget.users[index],
           sliderValue: _sliderValues[index],
           onChanged: (value) => updateSlider(index, value),

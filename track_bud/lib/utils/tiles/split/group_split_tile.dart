@@ -13,10 +13,10 @@ class GroupSplitTile extends StatelessWidget {
   final String currentUserId; // ID of the current user
 
   const GroupSplitTile({
-    Key? key,
+    super.key,
     required this.split,
     required this.currentUserId,
-  }) : super(key: key);
+  });
 
   // Fetches and returns the participant avatars as a list of widgets
   Future<List<Widget>> _getParticipantAvatars(
@@ -205,7 +205,7 @@ class GroupSplitTile extends StatelessWidget {
                 ),
               ),
               // Display participant avatars in a stack
-              Container(
+              SizedBox(
                 width: 80,
                 height: 30,
                 child: FutureBuilder<List<Widget>>(

@@ -63,7 +63,9 @@ class _CreateGroupSheetState extends State<CreateGroupSheet> {
     File? compressedImage = _selectedImage != null ? await compressImage(_selectedImage!) : null;
 
     await groupProvider.createGroup(newGroup, compressedImage);
-    Navigator.pop(context);
+    if (context.mounted) {
+      Navigator.of(context).pop();
+    }
   }
 
   Future<File> compressImage(File file) async {

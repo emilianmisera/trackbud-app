@@ -27,7 +27,7 @@ class _AddTransactionState extends State<AddTransaction> {
   final TextEditingController _amountController = TextEditingController();
   final TextEditingController _noteController = TextEditingController();
   String? _selectedCategory;
-  String? _selectedRecurrence = 'einmalig';
+  final String _selectedRecurrence = 'einmalig';
   DateTime _selectedDateTime = DateTime.now();
   bool _isFormValid = false; // Track form validity
   final _focusNodeTitle = FocusNode();
