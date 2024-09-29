@@ -8,9 +8,9 @@ class FriendSplitModel {
   double debtorAmount;
   String title;
   String category;
-  String type;  // 'expense' or 'income'
+  String type; // 'expense' or 'income'
   Timestamp date;
-  String status;  // 'pending' or 'paid'
+  String status; // 'pending' or 'paid'
 
   FriendSplitModel({
     required this.splitId,
@@ -39,6 +39,8 @@ class FriendSplitModel {
       status: map['status'],
     );
   }
+
+  get totalAmount => null;
 
   Map<String, dynamic> toMap() {
     return {
