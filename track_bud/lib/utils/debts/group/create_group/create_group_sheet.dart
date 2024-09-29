@@ -187,8 +187,10 @@ class _CreateGroupSheetState extends State<CreateGroupSheet> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.symmetric(
-                    horizontal: CustomPadding.mediumSpace, vertical: MediaQuery.sizeOf(context).height * CustomPadding.bottomSpace),
+                padding: EdgeInsets.only(
+                    left: CustomPadding.mediumSpace,
+                    right: CustomPadding.mediumSpace,
+                    bottom: MediaQuery.sizeOf(context).height * CustomPadding.bottomSpace),
                 child: SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
