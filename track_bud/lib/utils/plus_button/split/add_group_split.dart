@@ -43,17 +43,17 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
   double _inputNumber = 0.00; // Amount input by the user
   bool _isFormValid = false; // Indicates if the form is valid
   String _paidByUserId = ''; // ID of the user making the payment
-  List<String> _selectedMembers =
-      []; // List of selected member IDs for the split
+  List<String> _selectedMembers = []; // List of selected member IDs for the split
   late Map<String, String> _memberNameToId; // Maps member names to their IDs
+  final _focusNodeTitle = FocusNode();
+  final _focusNodeAmount = FocusNode();
 
   @override
   void initState() {
     super.initState();
     _titleController.addListener(_validateForm);
     _amountController.addListener(_onInputChanged);
-    _memberNameToId =
-        _createMemberNameToIdMap(); // Initialize member ID mapping
+    _memberNameToId = _createMemberNameToIdMap(); // Initialize member ID mapping
     _paidByUserId = widget.currentUserId; // Set the current user as the payer
     _selectedMembers = [widget.currentUserId]; // Default to current user
   }
@@ -94,8 +94,7 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
   // Parses the input amount from text to double
   double _parseAmount() {
     String amountText = _amountController.text.replaceAll(',', '.');
-    return double.tryParse(amountText) ??
-        0.0; // Default to 0.0 if parsing fails
+    return double.tryParse(amountText) ?? 0.0; // Default to 0.0 if parsing fails
   }
 
   // Handles category selection and updates the state
@@ -109,8 +108,7 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
   // Saves the new group split to Firestore
   Future<void> _saveNewGroupSplit() async {
     double totalAmount = _parseAmount(); // Get total amount for the split
-    double splitAmount =
-        totalAmount / _selectedMembers.length; // Calculate share amount
+    double splitAmount = totalAmount / _selectedMembers.length; // Calculate share amount
 
     // Create a list of split shares for each member
     List<Map<String, dynamic>> splitShares = _selectedMembers.map((memberId) {
@@ -134,8 +132,7 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
     );
 
     try {
-      await _firestoreService
-          .addGroupSplit(newSplit); // Save the split to Firestore
+      await _firestoreService.addGroupSplit(newSplit); // Save the split to Firestore
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
@@ -143,11 +140,9 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
           ),
         );
         // Refresh the group data and invalidate the debts overview cache
-        final groupProvider =
-            Provider.of<GroupProvider>(context, listen: false);
+        final groupProvider = Provider.of<GroupProvider>(context, listen: false);
         groupProvider.refreshGroupData(widget.selectedGroup.groupId);
-        groupProvider
-            .invalidateDebtsOverviewCache(widget.selectedGroup.groupId);
+        groupProvider.invalidateDebtsOverviewCache(widget.selectedGroup.groupId);
       }
     } catch (e) {
       // Handle errors that occur during saving
@@ -166,13 +161,11 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
         children: [
           Text(
             AppTexts.newGroupSplit,
-            style: TextStyles.regularStyleMedium
-                .copyWith(color: colorScheme.primary),
+            style: TextStyles.regularStyleMedium.copyWith(color: colorScheme.primary),
           ),
           Text(
             widget.selectedGroup.name,
-            style: TextStyles.titleStyleMedium
-                .copyWith(color: colorScheme.primary),
+            style: TextStyles.titleStyleMedium.copyWith(color: colorScheme.primary),
           ),
         ],
       ),
@@ -181,11 +174,7 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
 
   // Builds the title input field
   Widget _buildTitleInput() {
-    return CustomTextfield(
-      name: AppTexts.title,
-      hintText: AppTexts.hintTitle,
-      controller: _titleController,
-    );
+    return CustomTextfield(name: AppTexts.title, hintText: AppTexts.hintTitle, controller: _titleController, focusNode: _focusNodeTitle);
   }
 
   // Builds the amount input field with prefix and suffix
@@ -193,26 +182,23 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
     return Row(
       children: [
         CustomTextfield(
-          name: AppTexts.amount,
-          hintText: '00.00',
-          controller: _amountController,
-          width: MediaQuery.of(context).size.width / 3,
-          prefix: Text(
-            '-',
-            style: TextStyles.titleStyleMedium.copyWith(
-              fontWeight: TextStyles.fontWeightDefault,
-              color: colorScheme.primary,
+            name: AppTexts.amount,
+            hintText: '00.00',
+            controller: _amountController,
+            width: MediaQuery.of(context).size.width / 3,
+            prefix: Text(
+              '-',
+              style: TextStyles.titleStyleMedium.copyWith(fontWeight: TextStyles.fontWeightDefault, color: colorScheme.primary),
             ),
-          ),
-          suffix: const Text('€'),
-          type: const TextInputType.numberWithOptions(decimal: true),
-          inputFormatters: [
-            // Erlaubt Zahlen und Punkt oder Komma als Dezimaltrennzeichen
-            FilteringTextInputFormatter.allow(
-              RegExp(r'^\d+([.,]\d{0,2})?'),
-            ),
-          ],
-        ),
+            suffix: const Text('€'),
+            type: const TextInputType.numberWithOptions(decimal: true),
+            inputFormatters: [
+              // Erlaubt Zahlen und Punkt oder Komma als Dezimaltrennzeichen
+              FilteringTextInputFormatter.allow(
+                RegExp(r'^\d+([.,]\d{0,2})?'),
+              ),
+            ],
+            focusNode: _focusNodeAmount),
       ],
     );
   }
@@ -222,11 +208,7 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          AppTexts.categorie,
-          style: TextStyles.regularStyleMedium
-              .copyWith(color: colorScheme.primary),
-        ),
+        Text(AppTexts.categorie, style: TextStyles.regularStyleMedium.copyWith(color: colorScheme.primary)),
         const Gap(CustomPadding.mediumSpace),
         CategoriesExpense(onCategorySelected: _onCategorySelected),
       ],
@@ -238,11 +220,7 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          AppTexts.payedBy,
-          style: TextStyles.regularStyleMedium
-              .copyWith(color: colorScheme.primary),
-        ),
+        Text(AppTexts.payedBy, style: TextStyles.regularStyleMedium.copyWith(color: colorScheme.primary)),
         const Gap(CustomPadding.mediumSpace),
         CustomDropDown(
           list: widget.memberNames,
@@ -253,8 +231,7 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
           dropdownWidth: MediaQuery.of(context).size.width - 32,
           onChanged: (String? value) {
             setState(() {
-              _paidByUserId =
-                  _memberNameToId[value] ?? ''; // Update the payer ID
+              _paidByUserId = _memberNameToId[value] ?? ''; // Update the payer ID
             });
           },
         ),
@@ -269,8 +246,7 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
       children: [
         Text(
           'Verteilung',
-          style: TextStyles.regularStyleMedium
-              .copyWith(color: colorScheme.primary),
+          style: TextStyles.regularStyleMedium.copyWith(color: colorScheme.primary),
         ),
         const Gap(CustomPadding.mediumSpace),
         EqualGroupSplitWidget(
@@ -278,8 +254,7 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
           members: widget.selectedGroup.members,
           onMembersSelected: (selectedMembers) {
             setState(() {
-              _selectedMembers =
-                  selectedMembers; // Update selected members list
+              _selectedMembers = selectedMembers; // Update selected members list
               _validateForm(); // Re-validate form
             });
           },
@@ -288,37 +263,45 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
     );
   }
 
+  // Method to unfocus all text fields
+  void _unfocusAll() {
+    _focusNodeTitle.unfocus();
+    _focusNodeAmount.unfocus();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final defaultColorScheme =
-        Theme.of(context).colorScheme; // Get current color scheme
+    final defaultColorScheme = Theme.of(context).colorScheme; // Get current color scheme
 
-    return AddEntryModal(
-      buttonText: AppTexts.addSplit,
-      initialChildSize: 0.76,
-      maxChildSize: 0.95,
-      isButtonEnabled: _isFormValid, // Enable button based on form validity
-      onButtonPressed: () async {
-        await _saveNewGroupSplit(); // Attempt to save the group split
-        if (context.mounted) Navigator.pop(context); // Close the modal
-      },
-      child: Padding(
-        padding: CustomPadding.screenWidth,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildHeader(defaultColorScheme),
-            const Gap(CustomPadding.defaultSpace),
-            _buildTitleInput(),
-            const Gap(CustomPadding.defaultSpace),
-            _buildAmountInput(defaultColorScheme),
-            const Gap(CustomPadding.defaultSpace),
-            _buildCategorySelection(defaultColorScheme),
-            const Gap(CustomPadding.defaultSpace),
-            _buildPayingMemberSelection(defaultColorScheme),
-            const Gap(CustomPadding.defaultSpace),
-            _buildMembersSelection(defaultColorScheme),
-          ],
+    return GestureDetector(
+      onTap: _unfocusAll,
+      child: AddEntryModal(
+        buttonText: AppTexts.addSplit,
+        initialChildSize: 0.76,
+        maxChildSize: 0.95,
+        isButtonEnabled: _isFormValid, // Enable button based on form validity
+        onButtonPressed: () async {
+          await _saveNewGroupSplit(); // Attempt to save the group split
+          if (context.mounted) Navigator.pop(context); // Close the modal
+        },
+        child: Padding(
+          padding: CustomPadding.screenWidth,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildHeader(defaultColorScheme),
+              const Gap(CustomPadding.defaultSpace),
+              _buildTitleInput(),
+              const Gap(CustomPadding.defaultSpace),
+              _buildAmountInput(defaultColorScheme),
+              const Gap(CustomPadding.defaultSpace),
+              _buildCategorySelection(defaultColorScheme),
+              const Gap(CustomPadding.defaultSpace),
+              _buildPayingMemberSelection(defaultColorScheme),
+              const Gap(CustomPadding.defaultSpace),
+              _buildMembersSelection(defaultColorScheme),
+            ],
+          ),
         ),
       ),
     );
