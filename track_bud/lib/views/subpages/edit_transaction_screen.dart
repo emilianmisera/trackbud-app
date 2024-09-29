@@ -5,7 +5,6 @@ import 'package:flutter/services.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
 import 'package:track_bud/provider/transaction_provider.dart';
-import 'package:track_bud/utils/button_widgets/dropdown.dart';
 import 'package:track_bud/utils/categories/category_expenses.dart';
 import 'package:track_bud/utils/categories/category_income.dart';
 import 'package:track_bud/utils/constants.dart';
@@ -154,7 +153,7 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
                   const Gap(CustomPadding.defaultSpace),
                   Text(AppTexts.recurrency, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
                   const Gap(CustomPadding.mediumSpace),
-                  CustomDropDown(
+                  /*CustomDropDown(
                     list: const [
                       'einmalig',
                       'täglich',
@@ -173,7 +172,7 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
                         _selectedRecurrence = value;
                       });
                     },
-                  ),
+                  ),*/
                   const Gap(CustomPadding.defaultSpace),
                   CustomTextfield(
                     name: AppTexts.note,
