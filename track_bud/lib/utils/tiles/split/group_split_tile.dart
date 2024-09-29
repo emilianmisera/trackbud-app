@@ -19,8 +19,7 @@ class GroupSplitTile extends StatelessWidget {
   });
 
   // Fetches and returns the participant avatars as a list of widgets
-  Future<List<Widget>> _getParticipantAvatars(
-      GroupSplitModel split, ColorScheme colorScheme) async {
+  Future<List<Widget>> _getParticipantAvatars(GroupSplitModel split, ColorScheme colorScheme) async {
     List<Widget> avatars = [];
     FirestoreService firestoreService = FirestoreService();
 
@@ -45,8 +44,7 @@ class GroupSplitTile extends StatelessWidget {
                 child: SizedBox(
                   width: 28,
                   height: 28,
-                  child: Image.network(user.profilePictureUrl,
-                      fit: BoxFit.cover), // Display user's profile picture
+                  child: Image.network(user.profilePictureUrl, fit: BoxFit.cover), // Display user's profile picture
                 ),
               ),
             ),
@@ -79,15 +77,13 @@ class GroupSplitTile extends StatelessWidget {
   Future<String> _getPaidByName(String userId) async {
     FirestoreService firestoreService = FirestoreService();
     var user = await firestoreService.getUser(userId); // Fetch user data
-    return user?.name ??
-        'Unknown'; // Return user's name or 'Unknown' if not found
+    return user?.name ?? 'Unknown'; // Return user's name or 'Unknown' if not found
   }
 
   // Builds the header section of the group split tile
   Widget _buildHeader(ColorScheme defaultColorScheme) {
     final categoryData = Categories.values.firstWhere(
-      (category) =>
-          category.categoryName.toLowerCase() == split.category.toLowerCase(),
+      (category) => category.categoryName.toLowerCase() == split.category.toLowerCase(),
       orElse: () => Categories.sonstiges,
     );
 
@@ -99,8 +95,7 @@ class GroupSplitTile extends StatelessWidget {
         Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(100),
-            color: categoryData.color
-                .withOpacity(0.2), // Category color with transparency
+            color: categoryData.color.withOpacity(0.2), // Category color with transparency
           ),
           padding: const EdgeInsets.only(right: CustomPadding.defaultSpace),
           child: Row(
@@ -117,9 +112,7 @@ class GroupSplitTile extends StatelessWidget {
                     return const CircularProgressIndicator(); // Show loading indicator while fetching data
                   }
                   return Text(
-                    isCurrentUserPayer
-                        ? 'Du'
-                        : snapshot.data ?? 'Unbekannt', // Display payer's name
+                    isCurrentUserPayer ? 'Du' : snapshot.data ?? 'Unbekannt', // Display payer's name
                     style: TextStyles.regularStyleDefault.copyWith(
                       fontSize: TextStyles.fontSizeHint,
                       color: defaultColorScheme.primary,
@@ -131,24 +124,23 @@ class GroupSplitTile extends StatelessWidget {
           ),
         ),
         Text(
-          '${split.totalAmount.toStringAsFixed(2)}€', // Display total amount
-          style: TextStyles.regularStyleMedium
-              .copyWith(color: defaultColorScheme.primary),
+          split.type == 'expense'
+              ? '-${split.totalAmount.toStringAsFixed(2)}€'
+              : '+${split.totalAmount.toStringAsFixed(2)}€', // Display total amount
+          style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary),
         ),
       ],
     );
   }
 
   // Builds the detail section of the group split tile
-  Widget _buildDetailSection(double amountToDisplay, Color amountColor,
-      ColorScheme defaultColorScheme) {
+  Widget _buildDetailSection(double amountToDisplay, Color amountColor, ColorScheme defaultColorScheme) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
           split.title, // Display the title of the split
-          style: TextStyles.regularStyleMedium
-              .copyWith(color: defaultColorScheme.primary),
+          style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary),
         ),
         if (amountToDisplay != 0) // Only display if there's an amount to show
           Text(
@@ -161,8 +153,7 @@ class GroupSplitTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final defaultColorScheme =
-        Theme.of(context).colorScheme; // Get the default color scheme
+    final defaultColorScheme = Theme.of(context).colorScheme; // Get the default color scheme
 
     final currentUserShare = split.splitShares.firstWhere(
       (share) => share['userId'] == currentUserId,
@@ -171,34 +162,28 @@ class GroupSplitTile extends StatelessWidget {
 
     final bool isCurrentUserPayer = split.paidBy == currentUserId;
     double amountToDisplay = isCurrentUserPayer
-        ? split.totalAmount -
-            currentUserShare // Amount others owe the current user
+        ? split.totalAmount - currentUserShare // Amount others owe the current user
         : currentUserShare; // Amount the current user owes
 
     return CustomShadow(
       child: Container(
         width: MediaQuery.of(context).size.width,
-        padding: const EdgeInsets.all(
-            CustomPadding.defaultSpace), // Padding for the tile
+        padding: const EdgeInsets.all(CustomPadding.defaultSpace), // Padding for the tile
         decoration: BoxDecoration(
           color: defaultColorScheme.surface, // Background color of the tile
-          borderRadius: BorderRadius.circular(
-              Constants.contentBorderRadius), // Rounded corners
+          borderRadius: BorderRadius.circular(Constants.contentBorderRadius), // Rounded corners
         ),
         child: Column(children: [
           _buildHeader(defaultColorScheme), // Build the header section
           const Gap(CustomPadding.defaultSpace), // Space between sections
           _buildDetailSection(
-              amountToDisplay,
-              isCurrentUserPayer ? Colors.green : Colors.red,
-              defaultColorScheme), // Build the detail section
+              amountToDisplay, isCurrentUserPayer ? Colors.green : Colors.red, defaultColorScheme), // Build the detail section
           Divider(color: defaultColorScheme.outline), // Divider line
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                DateFormat('dd.MM.yyyy, HH:mm')
-                    .format(split.date.toDate()), // Format and display the date
+                DateFormat('dd.MM.yyyy, HH:mm').format(split.date.toDate()), // Format and display the date
                 style: TextStyles.hintStyleDefault.copyWith(
                   fontSize: TextStyles.fontSizeHint,
                   color: defaultColorScheme.secondary,
@@ -206,25 +191,21 @@ class GroupSplitTile extends StatelessWidget {
               ),
               // Display participant avatars in a stack
               SizedBox(
-                width: 80,
+                width: 220,
                 height: 30,
                 child: FutureBuilder<List<Widget>>(
-                  future: _getParticipantAvatars(
-                      split, defaultColorScheme), // Fetch participant avatars
+                  future: _getParticipantAvatars(split, defaultColorScheme), // Fetch participant avatars
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const SizedBox(
                         width: 20,
                         height: 20,
-                        child:
-                            CircularProgressIndicator(), // Loading indicator for avatars
+                        child: CircularProgressIndicator(), // Loading indicator for avatars
                       );
                     } else if (snapshot.hasError) {
-                      return const Icon(
-                          Icons.error); // Show error icon if fetching fails
+                      return const Icon(Icons.error); // Show error icon if fetching fails
                     } else if (snapshot.hasData) {
-                      return Stack(
-                          children: snapshot.data!); // Stack the avatar widgets
+                      return Stack(children: snapshot.data!); // Stack the avatar widgets
                     } else {
                       return const SizedBox.shrink(); // Empty widget if no data
                     }

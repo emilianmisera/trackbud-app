@@ -25,7 +25,8 @@ class FriendSplitTile extends StatelessWidget {
     bool isPaid = split.status == 'paid';
 
     // Top amount always shows the total spent (creditor amount)
-    String topAmount = '-${split.creditorAmount.toStringAsFixed(2)}€';
+    String topAmount =
+        split.type == 'expense' ? '-${split.creditorAmount.toStringAsFixed(2)}€' : '+${split.creditorAmount.toStringAsFixed(2)}';
 
     // Bottom amount always shows the amount owed
     String bottomAmount = '${split.debtorAmount.toStringAsFixed(2)}€';
@@ -35,8 +36,7 @@ class FriendSplitTile extends StatelessWidget {
 
     // Get the category icon and color (default to "sonstiges" if category is not found)
     final categoryData = Categories.values.firstWhere(
-      (category) =>
-          category.categoryName.toLowerCase() == split.category.toLowerCase(),
+      (category) => category.categoryName.toLowerCase() == split.category.toLowerCase(),
       orElse: () => Categories.sonstiges,
     );
     final defaultColorScheme = Theme.of(context).colorScheme;
@@ -59,8 +59,7 @@ class FriendSplitTile extends StatelessWidget {
                     borderRadius: BorderRadius.circular(100),
                     color: categoryData.color.withOpacity(0.2),
                   ),
-                  padding:
-                      const EdgeInsets.only(right: CustomPadding.defaultSpace),
+                  padding: const EdgeInsets.only(right: CustomPadding.defaultSpace),
                   child: Row(
                     children: [
                       CategoryIcon(
@@ -70,9 +69,8 @@ class FriendSplitTile extends StatelessWidget {
                       const Gap(CustomPadding.smallSpace),
                       Text(
                         isCreditor ? 'Du' : friendName,
-                        style: TextStyles.regularStyleDefault.copyWith(
-                            fontSize: TextStyles.fontSizeHint,
-                            color: defaultColorScheme.primary),
+                        style:
+                            TextStyles.regularStyleDefault.copyWith(fontSize: TextStyles.fontSizeHint, color: defaultColorScheme.primary),
                       ),
                     ],
                   ),
@@ -80,8 +78,7 @@ class FriendSplitTile extends StatelessWidget {
                 // Top amount (total spent) in black
                 Text(
                   topAmount,
-                  style: TextStyles.regularStyleMedium
-                      .copyWith(color: defaultColorScheme.primary),
+                  style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary),
                 ),
               ],
             ),
@@ -89,9 +86,7 @@ class FriendSplitTile extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(split.title,
-                    style: TextStyles.regularStyleMedium
-                        .copyWith(color: defaultColorScheme.primary)),
+                Text(split.title, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
                 // Bottom amount (owed amount) with color based on creditor/debtor status
                 Text(
                   bottomAmount,
@@ -108,15 +103,11 @@ class FriendSplitTile extends StatelessWidget {
               children: [
                 Text(
                   'Datum',
-                  style: TextStyles.hintStyleDefault.copyWith(
-                      fontSize: TextStyles.fontSizeHint,
-                      color: defaultColorScheme.secondary),
+                  style: TextStyles.hintStyleDefault.copyWith(fontSize: TextStyles.fontSizeHint, color: defaultColorScheme.secondary),
                 ),
                 Text(
                   DateFormat('dd.MM.yyyy, HH:mm').format(split.date.toDate()),
-                  style: TextStyles.regularStyleDefault.copyWith(
-                      fontSize: TextStyles.fontSizeHint,
-                      color: defaultColorScheme.primary),
+                  style: TextStyles.regularStyleDefault.copyWith(fontSize: TextStyles.fontSizeHint, color: defaultColorScheme.primary),
                 ),
               ],
             ),
