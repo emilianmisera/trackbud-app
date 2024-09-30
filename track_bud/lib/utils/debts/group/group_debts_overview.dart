@@ -89,7 +89,7 @@ class DebtsOverview extends StatelessWidget {
                       } else {
                         // Default avatar if no profile picture is available
                         leadingWidget = const CircleAvatar(
-                          radius: 20,
+                          radius: 15,
                           child: Icon(Icons.person),
                         );
                       }
