@@ -9,7 +9,7 @@ import 'package:track_bud/utils/enum/debts_box.dart';
 import 'package:track_bud/utils/shadow.dart';
 import 'package:track_bud/utils/strings.dart';
 
-// Widget to display an overview of debts
+/// Widget to display an overview of debts in OverviewScreen
 class OverviewDebtsTile extends StatelessWidget {
   const OverviewDebtsTile({super.key});
 
@@ -24,26 +24,46 @@ class OverviewDebtsTile extends StatelessWidget {
     }
   }
 
+  // Builds the balance row
+  Widget _buildBalanceRow(BuildContext context, ColorScheme defaultColorScheme, double totalBalance) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(AppTexts.inTotal, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
+        BalanceState(
+            colorScheme: _getColorScheme(totalBalance), amount: totalBalance == 0 ? '0.00€' : '${totalBalance.toStringAsFixed(2)}€'),
+      ],
+    );
+  }
+
+  // Builds a row for displaying debts and credits
+  Widget _buildDebtRow(String label, double amount, Color amountColor, Color labelColor) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(label, style: TextStyles.hintStyleDefault.copyWith(color: labelColor)),
+        Text('${amount.toStringAsFixed(2)}€', style: TextStyles.regularStyleDefault.copyWith(color: amountColor)),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final defaultColorScheme = Theme.of(context).colorScheme;
     final friendSplitProvider = Provider.of<FriendSplitProvider>(context);
-    final groupProvider = Provider.of<GroupProvider>(context); // Access GroupProvider
+    final groupProvider = Provider.of<GroupProvider>(context);
 
     // Get total debt amounts (including group debts/credits)
     double totalDebtToFriends = friendSplitProvider.getTotalFriendDebts() + groupProvider.getTotalDebts();
     double totalDebtFromFriends = friendSplitProvider.getTotalFriendCredits() + groupProvider.getTotalCredits();
 
     // Calculate total balance
-    double totalBalance = totalDebtFromFriends - totalDebtToFriends; // Subtract debts from credits
+    double totalBalance = totalDebtFromFriends - totalDebtToFriends;
 
     return CustomShadow(
       child: Container(
         padding: const EdgeInsets.all(CustomPadding.defaultSpace),
-        decoration: BoxDecoration(
-          color: defaultColorScheme.surface,
-          borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
-        ),
+        decoration: BoxDecoration(color: defaultColorScheme.surface, borderRadius: BorderRadius.circular(Constants.contentBorderRadius)),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -58,40 +78,6 @@ class OverviewDebtsTile extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-
-  // Builds the balance row
-  Widget _buildBalanceRow(BuildContext context, ColorScheme defaultColorScheme, double totalBalance) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          AppTexts.inTotal,
-          style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary),
-        ),
-        BalanceState(
-          colorScheme: _getColorScheme(totalBalance),
-          amount: totalBalance == 0 ? '0.00€' : '${totalBalance.toStringAsFixed(2)}€',
-        ),
-      ],
-    );
-  }
-
-  // Builds a row for displaying debts and credits
-  Widget _buildDebtRow(String label, double amount, Color amountColor, Color labelColor) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          label,
-          style: TextStyles.hintStyleDefault.copyWith(color: labelColor),
-        ),
-        Text(
-          '${amount.toStringAsFixed(2)}€',
-          style: TextStyles.regularStyleDefault.copyWith(color: amountColor),
-        ),
-      ],
     );
   }
 }

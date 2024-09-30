@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
 import 'package:track_bud/provider/user_provider.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfields/textfield_amount_of_money.dart';
 
+/// This Screen represents the Edit Budget Goal Screen
+/// here the User can update his own Budget Goal
 class ChangeBudgetGoalScreen extends StatefulWidget {
   const ChangeBudgetGoalScreen({super.key});
 
@@ -87,20 +90,11 @@ class _ChangeBudgetGoalScreenState extends State<ChangeBudgetGoalScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                AppTexts.changeBudgetGoalHeading,
-                style: TextStyles.headingStyle.copyWith(color: defaultColorScheme.primary),
-              ),
-              const SizedBox(height: CustomPadding.mediumSpace),
-              Text(
-                AppTexts.changeBudgetGoalDescribtion,
-                style: TextStyles.hintStyleDefault,
-              ),
-              const SizedBox(height: CustomPadding.bigSpace),
-              TextFieldAmountOfMoney(
-                controller: _moneyController,
-                hintText: AppTexts.lines,
-              ),
+              Text(AppTexts.changeBudgetGoalHeading, style: TextStyles.headingStyle.copyWith(color: defaultColorScheme.primary)),
+              const Gap(CustomPadding.mediumSpace),
+              Text(AppTexts.changeBudgetGoalDescribtion, style: TextStyles.hintStyleDefault),
+              const Gap(CustomPadding.bigSpace),
+              TextFieldAmountOfMoney(controller: _moneyController, hintText: AppTexts.lines),
             ],
           ),
         ),
@@ -114,10 +108,8 @@ class _ChangeBudgetGoalScreenState extends State<ChangeBudgetGoalScreen> {
             right: CustomPadding.defaultSpace,
           ),
           width: MediaQuery.of(context).size.width,
-          child: ElevatedButton(
-            onPressed: _saveBudgetGoal,
-            child: Text(AppTexts.save),
-          ),
+          // save Button
+          child: ElevatedButton(onPressed: _saveBudgetGoal, child: Text(AppTexts.save)),
         ),
       ),
     );

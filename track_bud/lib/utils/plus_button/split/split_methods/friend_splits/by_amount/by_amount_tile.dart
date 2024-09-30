@@ -9,15 +9,9 @@ class ByAmountTile extends StatelessWidget {
   final UserModel user;
   final TextEditingController controller;
   final ValueChanged<String> onAmountChanged;
-  final FocusNode focusNode; // New parameter for focus node
+  final FocusNode focusNode;
 
-  const ByAmountTile({
-    super.key,
-    required this.user,
-    required this.controller,
-    required this.onAmountChanged,
-    required this.focusNode, // Add this line
-  });
+  const ByAmountTile({super.key, required this.user, required this.controller, required this.onAmountChanged, required this.focusNode});
 
   @override
   Widget build(BuildContext context) {
@@ -30,8 +24,8 @@ class ByAmountTile extends StatelessWidget {
           leading: ClipRRect(
             borderRadius: BorderRadius.circular(100.0),
             child: SizedBox(
-              width: 40,
-              height: 40,
+              width: Constants.addGroupPPSize,
+              height: Constants.addGroupPPSize,
               child: user.profilePictureUrl.isNotEmpty
                   ? Image.network(user.profilePictureUrl, fit: BoxFit.cover)
                   : const Icon(Icons.person, color: Colors.grey),

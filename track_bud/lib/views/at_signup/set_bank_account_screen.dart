@@ -8,7 +8,7 @@ import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfields/textfield_amount_of_money.dart';
 import 'package:track_bud/views/at_signup/set_budget_goal_screen.dart';
 
-// This is the main class for the screen, which represents a form for entering bank account information.
+/// This Screen represents a form for entering bank account information.
 class BankAccountInfoScreen extends StatefulWidget {
   const BankAccountInfoScreen({super.key});
 
@@ -17,9 +17,7 @@ class BankAccountInfoScreen extends StatefulWidget {
 }
 
 class _BankAccountInfoScreenState extends State<BankAccountInfoScreen> {
-  // Controller to handle the input in the TextField for the amount of money.
   final TextEditingController _moneyController = TextEditingController();
-  // make button active or disabled
   bool _textInput = false;
 
   // Add or update user's bank account balance in Firestore
@@ -53,6 +51,7 @@ class _BankAccountInfoScreenState extends State<BankAccountInfoScreen> {
     return double.tryParse(normalizedValue);
   }
 
+  // checking if there was an input of the User
   void _validateForm() {
     setState(() {
       _textInput = _moneyController.text.isNotEmpty;
@@ -89,33 +88,26 @@ class _BankAccountInfoScreenState extends State<BankAccountInfoScreen> {
   Widget build(BuildContext context) {
     final defaultColorScheme = Theme.of(context).colorScheme;
     return Scaffold(
-      // The bottomSheet contains a button that is fixed at the bottom of the screen.
       bottomSheet: Container(
         color: defaultColorScheme.onSurface,
         child: Container(
           // Margin is applied to the bottom of the button and the sides for proper spacing.
           margin: EdgeInsets.only(
-            bottom: MediaQuery.sizeOf(context).height * CustomPadding.bottomSpace, // Bottom margin based on screen height
-            left: CustomPadding.defaultSpace, // Left margin
-            right: CustomPadding.defaultSpace, // Right margin
-          ),
+              bottom: MediaQuery.sizeOf(context).height * CustomPadding.bottomSpace,
+              left: CustomPadding.defaultSpace,
+              right: CustomPadding.defaultSpace),
           width: MediaQuery.of(context).size.width,
-          child: ElevatedButton(
-            onPressed: _textInput ? () => handleSubmission(context) : null,
-            child: Text(AppTexts.continueText),
-          ),
+          // Continue Button
+          child: ElevatedButton(onPressed: _textInput ? () => handleSubmission(context) : null, child: Text(AppTexts.continueText)),
         ),
       ),
       body: SingleChildScrollView(
         child: Padding(
-          // Padding adds spacing around the content inside the screen.
           padding: EdgeInsets.only(
-            top: MediaQuery.sizeOf(context).height * CustomPadding.topSpaceAuth,
-            left: CustomPadding.defaultSpace,
-            right: CustomPadding.defaultSpace,
-          ),
+              top: MediaQuery.sizeOf(context).height * CustomPadding.topSpaceAuth,
+              left: CustomPadding.defaultSpace,
+              right: CustomPadding.defaultSpace),
           child: Column(
-            // Column to organize the content vertically.
             children: [
               // The heading text
               Text(AppTexts.bankAccInfoHeading, style: TextStyles.headingStyle.copyWith(color: defaultColorScheme.primary)),
@@ -124,9 +116,7 @@ class _BankAccountInfoScreenState extends State<BankAccountInfoScreen> {
               Text(AppTexts.bankAccInfoDescription, style: TextStyles.hintStyleDefault.copyWith(color: defaultColorScheme.secondary)),
               const Gap(CustomPadding.bigSpace),
               // entering the amount of money
-              TextFieldAmountOfMoney(
-                controller: _moneyController,
-              ),
+              TextFieldAmountOfMoney(controller: _moneyController),
             ],
           ),
         ),

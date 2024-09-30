@@ -160,6 +160,7 @@ class CustomPadding {
   static const double categoryWidthSpace = 16;
   static const double categoryHeightSpace = 12;
   static const double categoryIconSpace = 8;
+  static const double spaceBetweenWords = 3;
 }
 
 class AssetImport {
@@ -225,4 +226,9 @@ class Constants {
   static const double modalBottomSheetHeight = 0.8;
   static const double addBottomSheetHeight = 0.4;
   static const double iconSize = 25;
+  static const double categoryBorderRadius = 7;
+  static const double sameGroupImages = 30;
+  static const double roundedCorners = 100;
+  static const double addGroupPPSize = 40;
+  static const double balanceStateBoxCorners = 5;
 }

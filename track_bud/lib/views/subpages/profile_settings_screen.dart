@@ -15,7 +15,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'dart:math' show min;
 
-// Profile Settings Screen
+/// Profile Settings Screen
+/// here you can edit your profile picture and your name
 class ProfileSettingsScreen extends StatefulWidget {
   const ProfileSettingsScreen({super.key});
   @override
@@ -23,7 +24,6 @@ class ProfileSettingsScreen extends StatefulWidget {
 }
 
 class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
-  // Controller for the name text field
   final TextEditingController _nameController = TextEditingController();
 
   // State variables to track changes
@@ -44,15 +44,13 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
   void initState() {
     super.initState();
     _loadUserData();
-    // Add listener to name controller to detect changes
+    // detect changes
     _nameController.addListener(_checkIfProfileChanged);
   }
 
   // Function to check if profile has been modified
   void _checkIfProfileChanged() {
-    setState(() {
-      _isProfileChanged = _nameController.text.trim() != currentUserName.trim() || _isProfilePictureChanged;
-    });
+    setState(() => _isProfileChanged = _nameController.text.trim() != currentUserName.trim() || _isProfilePictureChanged);
   }
 
   Future<Map<String, dynamic>> getCurrentUserData() async {
@@ -149,7 +147,6 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
       debugPrint("Old profile image deleted successfully");
     } catch (e) {
       debugPrint("Error deleting old profile image: $e");
-      // You might want to handle this error more gracefully, perhaps by showing a message to the user
     }
   }
 
@@ -174,11 +171,7 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
     final splitName = filePath.substring(0, (lastIndex));
     final outPath = "${splitName}_compressed.jpg";
 
-    var result = await FlutterImageCompress.compressAndGetFile(
-      file.absolute.path,
-      outPath,
-      quality: 70,
-    );
+    var result = await FlutterImageCompress.compressAndGetFile(file.absolute.path, outPath, quality: 70);
 
     return File(result!.path);
   }
@@ -215,9 +208,7 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
       final userRef = FirebaseFirestore.instance.collection('users').doc(userId);
 
       // Update the profile image URL
-      await userRef.update({
-        'profileImageUrl': imageUrl,
-      });
+      await userRef.update({'profileImageUrl': imageUrl});
 
       // Optional: Show a success message
       if (mounted) {
@@ -238,11 +229,9 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
   Widget build(BuildContext context) {
     final defaultColorScheme = Theme.of(context).colorScheme;
     return Scaffold(
-        // App bar with title
         appBar: AppBar(
-          title: Text(AppTexts.editProfile, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
-          centerTitle: true,
-        ),
+            title: Text(AppTexts.editProfile, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
+            centerTitle: true),
         body: SingleChildScrollView(
           child: Padding(
             // add Space
@@ -287,16 +276,13 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                         ),
                         // Camera icon overlay
                         ClipRRect(
-                          borderRadius: BorderRadius.circular(100.0),
+                          borderRadius: BorderRadius.circular(Constants.roundedCorners),
                           child: Container(
                             width: 30,
                             height: 30,
                             color: defaultColorScheme.outline,
-                            child: SvgPicture.asset(
-                              AssetImport.camera,
-                              fit: BoxFit.scaleDown,
-                              colorFilter: ColorFilter.mode(defaultColorScheme.secondary, BlendMode.srcIn),
-                            ),
+                            child: SvgPicture.asset(AssetImport.camera,
+                                fit: BoxFit.scaleDown, colorFilter: ColorFilter.mode(defaultColorScheme.secondary, BlendMode.srcIn)),
                           ),
                         ),
                       ],
@@ -309,6 +295,7 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                 const Gap(CustomPadding.defaultSpace),
                 // Email text field (locked)
                 LockedEmailTextfield(email: currentUserEmail),
+                //TODO: Remove
                 /*const Gap(CustomPadding.defaultSpace),
                 // Change Email button
                 AccAdjustmentButton(
@@ -342,12 +329,13 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
             duration: const Duration(milliseconds: 100),
             curve: Curves.easeInOut,
             margin: EdgeInsets.only(
-              bottom: min(MediaQuery.of(context).viewInsets.bottom > 0 ? 0 : MediaQuery.of(context).size.height * CustomPadding.bottomSpace,
-                  MediaQuery.of(context).size.height * CustomPadding.bottomSpace),
-              left: CustomPadding.defaultSpace,
-              right: CustomPadding.defaultSpace,
-            ),
+                bottom: min(
+                    MediaQuery.of(context).viewInsets.bottom > 0 ? 0 : MediaQuery.of(context).size.height * CustomPadding.bottomSpace,
+                    MediaQuery.of(context).size.height * CustomPadding.bottomSpace),
+                left: CustomPadding.defaultSpace,
+                right: CustomPadding.defaultSpace),
             width: MediaQuery.of(context).size.width,
+            // Save Button
             child: ElevatedButton(
               onPressed: _isProfileChanged ? _saveProfileChanges : null,
               style: ElevatedButton.styleFrom(

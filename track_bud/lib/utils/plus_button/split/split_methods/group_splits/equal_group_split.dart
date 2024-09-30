@@ -1,21 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:track_bud/models/user_model.dart';
 import 'package:track_bud/services/firestore_service.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/shadow.dart';
 
-// Widget for displaying and managing equal splits among group members.
+/// Widget for displaying and managing equal splits among group members.
 class EqualGroupSplitWidget extends StatefulWidget {
-  final double amount; // Total amount to be split among members.
-  final List<String> members; // List of all member IDs in the group.
-  final Function(List<String>) onMembersSelected; // Callback for handling selected members.
+  final double amount;
+  final List<String> members;
+  final Function(List<String>) onMembersSelected;
 
-  const EqualGroupSplitWidget({
-    super.key,
-    required this.amount,
-    required this.members,
-    required this.onMembersSelected,
-  });
+  const EqualGroupSplitWidget({super.key, required this.amount, required this.members, required this.onMembersSelected});
 
   @override
   State<EqualGroupSplitWidget> createState() => _EqualGroupSplitWidgetState();
@@ -28,7 +24,8 @@ class _EqualGroupSplitWidgetState extends State<EqualGroupSplitWidget> {
   @override
   void initState() {
     super.initState();
-    _fetchMembers(); // Initiates fetching of member data.
+    // Initiates fetching of member data.
+    _fetchMembers();
     // Populate _selectedMembers with all member IDs initially.
     _selectedMembers = List.from(widget.members);
   }
@@ -77,54 +74,45 @@ class _EqualGroupSplitWidgetState extends State<EqualGroupSplitWidget> {
         : 0.0;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4.0), // Add vertical padding for spacing.
+      padding: const EdgeInsets.symmetric(vertical: CustomPadding.smallSpace),
       child: CustomShadow(
         child: Container(
           decoration: BoxDecoration(
-            color: isSelected
-                ? colorScheme.surface // Change background color based on selection status.
-                : colorScheme.onSurface,
-            borderRadius: BorderRadius.circular(Constants.contentBorderRadius), // Rounded corners for the tile.
+            color: isSelected ? colorScheme.surface : colorScheme.onSurface,
+            borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
           ),
           child: ListTile(
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: CustomPadding.defaultSpace,
-              vertical: CustomPadding.defaultSpace,
-            ),
+            contentPadding: const EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace, vertical: CustomPadding.defaultSpace),
             leading: ClipRRect(
-              borderRadius: BorderRadius.circular(100.0), // Circular profile picture.
+              borderRadius: BorderRadius.circular(Constants.roundedCorners),
               child: SizedBox(
-                width: 40,
-                height: 40,
+                width: Constants.addGroupPPSize,
+                height: Constants.addGroupPPSize,
                 child: member.profilePictureUrl.isNotEmpty
-                    ? Image.network(member.profilePictureUrl, fit: BoxFit.cover) // Load member's profile picture.
-                    : const Icon(Icons.person, size: 30), // Default icon if no picture is available.
+                    ? Image.network(member.profilePictureUrl, fit: BoxFit.cover)
+                    : const Icon(Icons.person, size: 30),
               ),
             ),
-            title: Text(
-              member.name,
-              style: TextStyles.regularStyleDefault.copyWith(color: colorScheme.primary), // Display member's name.
-            ),
+            // member name
+            title: Text(member.name, style: TextStyles.regularStyleDefault.copyWith(color: colorScheme.primary)),
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 if (isSelected)
                   Container(
-                    padding: const EdgeInsets.all(10), // Padding around the share amount display.
+                    padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
-                      color: colorScheme.surface, // Background color for the share amount.
-                      borderRadius: BorderRadius.circular(Constants.contentBorderRadius), // Rounded corners.
-                      border: Border.all(color: colorScheme.outline), // Border for the container.
-                    ),
-                    child: Text(
-                      '${individualAmount.toStringAsFixed(2)}€', // Show each member's share formatted to 2 decimal places.
-                      style: TextStyles.hintStyleDefault.copyWith(color: colorScheme.secondary), // Style for the share amount text.
-                    ),
+                        color: colorScheme.surface,
+                        borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
+                        border: Border.all(color: colorScheme.outline)),
+                    // Show each member's share
+                    child: Text('${individualAmount.toStringAsFixed(2)}€',
+                        style: TextStyles.hintStyleDefault.copyWith(color: colorScheme.secondary)),
                   ),
-                const SizedBox(width: 10), // Space between the share amount and the switch.
+                const Gap(10),
                 Switch(
-                  activeColor: CustomColor.bluePrimary, // Color for the active state of the switch.
-                  value: isSelected, // Current value of the switch (selected or not).
+                  activeColor: CustomColor.bluePrimary,
+                  value: isSelected,
                   onChanged: (bool value) {
                     setState(() {
                       if (value) {

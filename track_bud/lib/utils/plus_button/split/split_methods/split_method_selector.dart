@@ -7,16 +7,10 @@ import 'package:track_bud/utils/strings.dart';
 
 /// Widget for selecting the Split Method
 class SplitMethodSelector extends StatefulWidget {
-  // Callback function to be called when the split method changes
   final ValueChanged<SplitMethod> onSplitMethodChanged;
-  // The currently selected split method
   final SplitMethod selectedMethod;
 
-  const SplitMethodSelector({
-    super.key,
-    required this.onSplitMethodChanged,
-    required this.selectedMethod,
-  });
+  const SplitMethodSelector({super.key, required this.onSplitMethodChanged, required this.selectedMethod});
 
   @override
   State<SplitMethodSelector> createState() => _SplitMethodSelectorState();

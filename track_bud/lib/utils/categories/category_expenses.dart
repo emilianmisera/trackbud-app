@@ -1,9 +1,9 @@
-// Widget to display a horizontal list of expense categories
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/enum/categories.dart';
 
+/// This Widget displays a horizontal list of expense categories
 class CategoriesExpense extends StatefulWidget {
   final Function(String) onCategorySelected;
   final String? selectedCategory;
@@ -16,8 +16,8 @@ class CategoriesExpense extends StatefulWidget {
 class _CategoriesExpenseState extends State<CategoriesExpense> {
   // Index of the currently selected category
   int? selectedIndex;
-
-  final List<Categories> filteredCategories = [
+  // List of all expenseCategories
+  final List<Categories> expenseCategories = [
     Categories.lebensmittel,
     Categories.drogerie,
     Categories.restaurant,
@@ -34,7 +34,7 @@ class _CategoriesExpenseState extends State<CategoriesExpense> {
   void initState() {
     super.initState();
     if (widget.selectedCategory != null) {
-      selectedIndex = filteredCategories.indexWhere((category) => category.categoryName == widget.selectedCategory);
+      selectedIndex = expenseCategories.indexWhere((category) => category.categoryName == widget.selectedCategory);
     }
   }
 
@@ -44,9 +44,9 @@ class _CategoriesExpenseState extends State<CategoriesExpense> {
       height: MediaQuery.sizeOf(context).height * Constants.categoryHeight,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        itemCount: filteredCategories.length,
+        itemCount: expenseCategories.length,
         itemBuilder: (context, index) {
-          final category = filteredCategories[index];
+          final category = expenseCategories[index];
           final isSelected = widget.selectedCategory != null ? category.categoryName == widget.selectedCategory : selectedIndex == index;
 
           return Padding(
@@ -63,20 +63,11 @@ class _CategoriesExpenseState extends State<CategoriesExpense> {
                 // Reduce opacity for non-selected categories
                 opacity: widget.selectedCategory != null ? (isSelected ? 1.0 : 0.5) : (selectedIndex == null || isSelected ? 1.0 : 0.5),
                 child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: CustomPadding.categoryWidthSpace,
-                    vertical: CustomPadding.categoryHeightSpace,
-                  ),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(7),
-                    color: category.color,
-                  ),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: CustomPadding.categoryWidthSpace, vertical: CustomPadding.categoryHeightSpace),
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(Constants.categoryBorderRadius), color: category.color),
                   child: Row(
-                    children: [
-                      category.icon,
-                      const Gap(CustomPadding.smallSpace),
-                      Text(category.categoryName),
-                    ],
+                    children: [category.icon, const Gap(CustomPadding.smallSpace), Text(category.categoryName)],
                   ),
                 ),
               ),

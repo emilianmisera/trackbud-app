@@ -6,6 +6,8 @@ import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfields/textfield_amount_of_money.dart';
 
+/// This Screen represents the Edit Bank Account Screen
+/// here the User can update his own Bank Account
 class ChangeBankaccountScreen extends StatefulWidget {
   const ChangeBankaccountScreen({super.key});
 
@@ -81,27 +83,17 @@ class _ChangeBankaccountScreenState extends State<ChangeBankaccountScreen> {
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.only(
-            top: MediaQuery.of(context).size.height * CustomPadding.topSpace - Constants.defaultAppBarHeight,
-            left: CustomPadding.defaultSpace,
-            right: CustomPadding.defaultSpace,
-          ),
+              top: MediaQuery.of(context).size.height * CustomPadding.topSpace - Constants.defaultAppBarHeight,
+              left: CustomPadding.defaultSpace,
+              right: CustomPadding.defaultSpace),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                AppTexts.changeBankAccHeading,
-                style: TextStyles.headingStyle.copyWith(color: defaultColorScheme.primary),
-              ),
+              Text(AppTexts.changeBankAccHeading, style: TextStyles.headingStyle.copyWith(color: defaultColorScheme.primary)),
               const Gap(CustomPadding.mediumSpace),
-              Text(
-                AppTexts.changeBankAccDescribtion,
-                style: TextStyles.hintStyleDefault,
-              ),
+              Text(AppTexts.changeBankAccDescribtion, style: TextStyles.hintStyleDefault),
               const Gap(CustomPadding.bigSpace),
-              TextFieldAmountOfMoney(
-                controller: _moneyController,
-                hintText: AppTexts.lines,
-              ),
+              TextFieldAmountOfMoney(controller: _moneyController, hintText: AppTexts.lines),
             ],
           ),
         ),
@@ -110,15 +102,12 @@ class _ChangeBankaccountScreenState extends State<ChangeBankaccountScreen> {
         color: defaultColorScheme.onSurface,
         child: Container(
           margin: EdgeInsets.only(
-            bottom: MediaQuery.of(context).size.height * CustomPadding.bottomSpace,
-            left: CustomPadding.defaultSpace,
-            right: CustomPadding.defaultSpace,
-          ),
+              bottom: MediaQuery.of(context).size.height * CustomPadding.bottomSpace,
+              left: CustomPadding.defaultSpace,
+              right: CustomPadding.defaultSpace),
           width: MediaQuery.of(context).size.width,
-          child: ElevatedButton(
-            onPressed: _saveBankAccountInfo,
-            child: Text(AppTexts.save),
-          ),
+          // save Button
+          child: ElevatedButton(onPressed: _saveBankAccountInfo, child: Text(AppTexts.save)),
         ),
       ),
     );

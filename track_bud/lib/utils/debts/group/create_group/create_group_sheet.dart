@@ -13,6 +13,8 @@ import 'package:track_bud/utils/debts/group/create_group/grouptile.dart';
 import 'package:track_bud/utils/strings.dart';
 import 'package:uuid/uuid.dart';
 
+/// This Widget is used, when the User wants to create a new Group
+/// after pressed Button, the sheet comes up
 class CreateGroupSheet extends StatefulWidget {
   const CreateGroupSheet({super.key});
 
@@ -32,14 +34,15 @@ class _CreateGroupSheetState extends State<CreateGroupSheet> {
     super.initState();
   }
 
+  // create a new group
   void _createGroup(BuildContext context) async {
     final defaultColorScheme = Theme.of(context).colorScheme;
+
+    // checking if Groupname and Friends added
     if (_groupNameController.text.isEmpty || _selectedFriends.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-            content: Text('Bitte Gruppennamen eingeben und mindestens einen Freund auswählen',
-                style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary))),
-      );
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Bitte Gruppennamen eingeben und mindestens einen Freund auswählen',
+              style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary))));
       return;
     }
 
@@ -83,6 +86,7 @@ class _CreateGroupSheetState extends State<CreateGroupSheet> {
     return File(result!.path);
   }
 
+  // the button only gets active when there is a groupname and the user selected at least one friend
   void _validateForm() {
     setState(() {
       _isFormValid = _groupNameController.text.isNotEmpty && _selectedFriends.isNotEmpty;
@@ -100,9 +104,8 @@ class _CreateGroupSheetState extends State<CreateGroupSheet> {
       builder: (context, scrollController) {
         return Container(
           decoration: BoxDecoration(
-            color: defaultColorScheme.onSurface,
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(Constants.contentBorderRadius)),
-          ),
+              color: defaultColorScheme.onSurface,
+              borderRadius: const BorderRadius.vertical(top: Radius.circular(Constants.contentBorderRadius))),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -113,15 +116,11 @@ class _CreateGroupSheetState extends State<CreateGroupSheet> {
                   width: 36,
                   height: 5,
                   decoration: const BoxDecoration(
-                    color: CustomColor.grabberColor,
-                    borderRadius: BorderRadius.all(Radius.circular(100)),
-                  ),
+                      color: CustomColor.grabberColor, borderRadius: BorderRadius.all(Radius.circular(Constants.roundedCorners))),
                 ),
               ),
               const Gap(CustomPadding.defaultSpace),
-              Center(
-                child: Text(AppTexts.createGroup, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
-              ),
+              Center(child: Text(AppTexts.createGroup, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary))),
               Expanded(
                 child: ListView(
                   controller: scrollController,
@@ -158,10 +157,10 @@ class _CreateGroupSheetState extends State<CreateGroupSheet> {
                               side: BorderSide(color: defaultColorScheme.secondary, width: 1.5),
                               title: Text(friend.name, style: TextStyle(color: defaultColorScheme.primary)),
                               secondary: ClipRRect(
-                                borderRadius: BorderRadius.circular(100.0),
+                                borderRadius: BorderRadius.circular(Constants.roundedCorners),
                                 child: SizedBox(
-                                  width: 40,
-                                  height: 40,
+                                  width: Constants.addGroupPPSize,
+                                  height: Constants.addGroupPPSize,
                                   child: friend.profilePictureUrl != ""
                                       ? Image.network(friend.profilePictureUrl, fit: BoxFit.cover)
                                       : const Icon(Icons.person, color: Colors.grey),
@@ -193,10 +192,7 @@ class _CreateGroupSheetState extends State<CreateGroupSheet> {
                     bottom: MediaQuery.sizeOf(context).height * CustomPadding.bottomSpace),
                 child: SizedBox(
                   width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: _isFormValid ? () => _createGroup(context) : null,
-                    child: Text(AppTexts.createGroup),
-                  ),
+                  child: ElevatedButton(onPressed: _isFormValid ? () => _createGroup(context) : null, child: Text(AppTexts.createGroup)),
                 ),
               ),
             ],

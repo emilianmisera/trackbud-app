@@ -12,9 +12,8 @@ import 'package:track_bud/utils/date_picker.dart';
 import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfields/textfield.dart';
 import 'package:track_bud/utils/textinput_formatters.dart';
-//___________________________________________________________________________________________________________________
 
-// Widget for adding a new transaction
+/// Widget for adding a new transaction
 class AddTransaction extends StatefulWidget {
   const AddTransaction({super.key});
 
@@ -30,7 +29,7 @@ class _AddTransactionState extends State<AddTransaction> {
   String? _selectedCategory;
   final String _selectedRecurrence = 'einmalig';
   DateTime _selectedDateTime = DateTime.now();
-  bool _isFormValid = false; // Track form validity
+  bool _isFormValid = false;
   final _focusNodeTitle = FocusNode();
   final _focusNodeAmount = FocusNode();
   final _focusNodeNote = FocusNode();
@@ -56,7 +55,7 @@ class _AddTransactionState extends State<AddTransaction> {
         _currentSegment == 0 ? 'expense' : 'income',
         double.tryParse(_amountController.text.replaceAll(',', '.')) ?? 0.0,
         {
-          'title': transactionTitle, // Use the determined title
+          'title': transactionTitle,
           'category': _selectedCategory,
           'recurrence': _selectedRecurrence,
           'note': _noteController.text,
@@ -96,6 +95,7 @@ class _AddTransactionState extends State<AddTransaction> {
     });
   }
 
+  // change selected Category
   void _onCategorySelected(String category) {
     setState(() {
       _selectedCategory = category;
@@ -173,9 +173,7 @@ class _AddTransactionState extends State<AddTransaction> {
                   const Gap(CustomPadding.defaultSpace),
                   // Date
                   DatePicker(
-                    onDateTimeChanged: (dateTime) => setState(() => _selectedDateTime = dateTime),
-                    initialDateTime: DateTime.now(),
-                  ),
+                      onDateTimeChanged: (dateTime) => setState(() => _selectedDateTime = dateTime), initialDateTime: DateTime.now()),
                 ],
               ),
               const Gap(CustomPadding.defaultSpace),
@@ -187,7 +185,7 @@ class _AddTransactionState extends State<AddTransaction> {
                   ? CategoriesExpense(onCategorySelected: _onCategorySelected)
                   : CategoriesIncome(onCategorySelected: _onCategorySelected),
               const Gap(CustomPadding.defaultSpace),
-
+              // TODO: Remove
               /*Text(AppTexts.recurrency,
                   style: TextStyles.regularStyleMedium
                       .copyWith(color: defaultColorScheme.primary)),

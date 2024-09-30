@@ -4,19 +4,14 @@ import 'package:track_bud/models/user_model.dart';
 import 'package:track_bud/utils/plus_button/split/split_methods/friend_splits/percent/percent_tile.dart';
 import 'package:track_bud/utils/constants.dart';
 
+/// This widget is part of the "Split" feature, which allows to split the amount by percentage with a Slider
 class PercentalSplitWidget extends StatefulWidget {
   final double amount;
   final List<UserModel> users;
   final ValueChanged<List<double>> onAmountsChanged;
   final bool? isGroup;
 
-  const PercentalSplitWidget({
-    super.key,
-    required this.amount,
-    required this.users,
-    required this.onAmountsChanged,
-    this.isGroup = false,
-  });
+  const PercentalSplitWidget({super.key, required this.amount, required this.users, required this.onAmountsChanged, this.isGroup = false});
 
   @override
   State<PercentalSplitWidget> createState() => _PercentalSplitWidgetState();
@@ -32,6 +27,8 @@ class _PercentalSplitWidgetState extends State<PercentalSplitWidget> {
     _updateAmounts();
   }
 
+  // updates SLider
+  // source: ClaudeAI
   void updateSlider(int index, double value) {
     setState(() {
       double totalOthers = _sliderValues.reduce((a, b) => a + b) - _sliderValues[index];
@@ -44,7 +41,6 @@ class _PercentalSplitWidgetState extends State<PercentalSplitWidget> {
           _sliderValues[i] = totalOthers > 0 ? (_sliderValues[i] / totalOthers) * remaining : remaining / (widget.users.length - 1);
         }
       }
-
       _updateAmounts();
     });
   }

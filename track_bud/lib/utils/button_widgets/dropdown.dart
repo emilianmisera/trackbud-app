@@ -3,12 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/shadow.dart';
 
+/// This Widget is a reusable DropDown Button
+/// It is used in AddFriendSplit, AddGroupSplit and Analysis Screen
 class CustomDropDown extends StatefulWidget {
+  // List of possible choices
   final List<String> list;
   final double? width;
   final double? height;
   final EdgeInsets? padding;
-  final String? value; // Initial value
+  final String? value;
   final Function(String)? onChanged;
   final double? dropdownWidth;
 
@@ -18,7 +21,7 @@ class CustomDropDown extends StatefulWidget {
     this.width,
     this.height,
     this.padding,
-    this.value, // Accept the initial value
+    this.value,
     this.onChanged,
     this.dropdownWidth,
   });
@@ -35,6 +38,16 @@ class _CustomDropDownState extends State<CustomDropDown> {
     super.initState();
     // Set the initial value to the passed value or the first item in the list
     value = widget.value ?? (widget.list.isNotEmpty ? widget.list.first : null);
+  }
+
+  // builds menu item
+  DropdownMenuItem<String> buildMenuItem(String item) {
+    final defaultColorScheme = Theme.of(context).colorScheme;
+    return DropdownMenuItem(
+      value: item,
+      child: Text(item,
+          style: TextStyles.regularStyleDefault.copyWith(color: value == item ? CustomColor.bluePrimary : defaultColorScheme.primary)),
+    );
   }
 
   @override
@@ -79,19 +92,6 @@ class _CustomDropDownState extends State<CustomDropDown> {
             padding: widget.padding ?? const EdgeInsets.symmetric(horizontal: 16),
           ),
           isExpanded: true,
-        ),
-      ),
-    );
-  }
-
-  DropdownMenuItem<String> buildMenuItem(String item) {
-    final defaultColorScheme = Theme.of(context).colorScheme;
-    return DropdownMenuItem(
-      value: item,
-      child: Text(
-        item,
-        style: TextStyles.regularStyleDefault.copyWith(
-          color: value == item ? CustomColor.bluePrimary : defaultColorScheme.primary,
         ),
       ),
     );

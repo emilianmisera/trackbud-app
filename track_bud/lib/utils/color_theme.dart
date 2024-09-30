@@ -18,48 +18,34 @@ class ColorTheme {
     elevatedButtonTheme: ElevatedButtonThemeData(
       //style for elevated button
       style: ButtonStyle(
-        minimumSize: WidgetStateProperty.all(
-            const Size(double.infinity, Constants.height)),
-        backgroundColor: WidgetStateProperty.resolveWith<Color>((states) =>
-            states.contains(WidgetState.disabled)
-                ? CustomColor.bluePrimary.withOpacity(0.5)
-                : CustomColor.bluePrimary),
+        minimumSize: WidgetStateProperty.all(const Size(double.infinity, Constants.height)),
+        backgroundColor: WidgetStateProperty.resolveWith<Color>(
+            (states) => states.contains(WidgetState.disabled) ? CustomColor.bluePrimary.withOpacity(0.5) : CustomColor.bluePrimary),
         shape: WidgetStateProperty.all(RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
         )),
-        overlayColor: WidgetStateProperty.resolveWith<Color?>((states) =>
-            states.contains(WidgetState.pressed)
-                ? CustomColor.overlayColor
-                : null),
+        overlayColor:
+            WidgetStateProperty.resolveWith<Color?>((states) => states.contains(WidgetState.pressed) ? CustomColor.overlayColor : null),
         animationDuration: Constants.buttonAnimationDuration,
         textStyle: WidgetStateProperty.all(TextStyles.buttonTextStyle),
         foregroundColor: WidgetStateProperty.resolveWith<Color>(
-          (states) => states.contains(WidgetState.disabled)
-              ? CustomColor.white.withOpacity(0.5)
-              : CustomColor.white, // Default text color
+          (states) => states.contains(WidgetState.disabled) ? CustomColor.white.withOpacity(0.5) : CustomColor.white, // Default text color
         ),
       ),
     ),
     outlinedButtonTheme: OutlinedButtonThemeData(
       //style for outlinedButton
       style: ButtonStyle(
-        minimumSize: WidgetStateProperty.all(
-            const Size(double.infinity, Constants.height)),
+        minimumSize: WidgetStateProperty.all(const Size(double.infinity, Constants.height)),
         shape: WidgetStateProperty.all(RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
         )),
         foregroundColor: WidgetStateProperty.all(CustomColor.black),
-        side: WidgetStateProperty.all(const BorderSide(
-            color: CustomColor.hintColor,
-            width: 2.0,
-            style: BorderStyle.solid)),
-        backgroundColor: WidgetStateProperty.all(
-            CustomColor.backgroundPrimary), // when not pressing
+        side: WidgetStateProperty.all(const BorderSide(color: CustomColor.hintColor, width: 2.0, style: BorderStyle.solid)),
+        backgroundColor: WidgetStateProperty.all(CustomColor.backgroundPrimary), // when not pressing
         textStyle: WidgetStateProperty.all(TextStyles.regularStyleMedium),
-        overlayColor: WidgetStateProperty.resolveWith<Color?>((states) =>
-            states.contains(WidgetState.pressed)
-                ? CustomColor.overlayColor
-                : null),
+        overlayColor:
+            WidgetStateProperty.resolveWith<Color?>((states) => states.contains(WidgetState.pressed) ? CustomColor.overlayColor : null),
         animationDuration: Constants.buttonAnimationDuration,
       ),
     ),
@@ -71,12 +57,9 @@ class ColorTheme {
         shape: WidgetStateProperty.all(RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
         )),
-        minimumSize: WidgetStateProperty.all(
-            const Size(double.infinity, Constants.height)),
-        overlayColor: WidgetStateProperty.resolveWith<Color?>((states) =>
-            states.contains(WidgetState.pressed)
-                ? CustomColor.overlayColor
-                : null),
+        minimumSize: WidgetStateProperty.all(const Size(double.infinity, Constants.height)),
+        overlayColor:
+            WidgetStateProperty.resolveWith<Color?>((states) => states.contains(WidgetState.pressed) ? CustomColor.overlayColor : null),
         animationDuration: Constants.buttonAnimationDuration,
       ),
     ),
@@ -99,6 +82,10 @@ class ColorTheme {
     ),
   );
 
+
+
+
+  // dark theme
   static ThemeData darkTheme = ThemeData(
     colorScheme: const ColorScheme.dark(
       tertiary: CustomColor.darkModePastelBlue,
@@ -129,49 +116,34 @@ class ColorTheme {
     elevatedButtonTheme: ElevatedButtonThemeData(
       //style for elevated button
       style: ButtonStyle(
-        minimumSize: WidgetStateProperty.all(
-            const Size(double.infinity, Constants.height)),
-        backgroundColor: WidgetStateProperty.resolveWith<Color>((states) =>
-            states.contains(WidgetState.disabled)
-                ? CustomColor.bluePrimary.withOpacity(0.5)
-                : CustomColor.bluePrimary),
+        minimumSize: WidgetStateProperty.all(const Size(double.infinity, Constants.height)),
+        backgroundColor: WidgetStateProperty.resolveWith<Color>(
+            (states) => states.contains(WidgetState.disabled) ? CustomColor.bluePrimary.withOpacity(0.5) : CustomColor.bluePrimary),
         shape: WidgetStateProperty.all(RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
         )),
-        overlayColor: WidgetStateProperty.resolveWith<Color?>((states) =>
-            states.contains(WidgetState.pressed)
-                ? CustomColor.overlayColor
-                : null),
+        overlayColor:
+            WidgetStateProperty.resolveWith<Color?>((states) => states.contains(WidgetState.pressed) ? CustomColor.overlayColor : null),
         animationDuration: Constants.buttonAnimationDuration,
         textStyle: WidgetStateProperty.all(TextStyles.buttonTextStyle),
         foregroundColor: WidgetStateProperty.resolveWith<Color>(
-          (states) => states.contains(WidgetState.disabled)
-              ? CustomColor.white.withOpacity(0.5)
-              : CustomColor.white, // Default text color
+          (states) => states.contains(WidgetState.disabled) ? CustomColor.white.withOpacity(0.5) : CustomColor.white, // Default text color
         ),
       ),
     ),
     outlinedButtonTheme: OutlinedButtonThemeData(
       //style for outlinedButton
       style: ButtonStyle(
-        minimumSize: WidgetStateProperty.all(
-            const Size(double.infinity, Constants.height)),
+        minimumSize: WidgetStateProperty.all(const Size(double.infinity, Constants.height)),
         shape: WidgetStateProperty.all(RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
         )),
         foregroundColor: WidgetStateProperty.all(CustomColor.black),
-        side: WidgetStateProperty.all(const BorderSide(
-            color: CustomColor.darkModeHint,
-            width: 2.0,
-            style: BorderStyle.solid)),
-        backgroundColor: WidgetStateProperty.all(
-            CustomColor.darkModebackgroundPrimary), // when not pressing
-        textStyle: WidgetStateProperty.all(TextStyles.regularStyleMedium
-            .copyWith(color: CustomColor.darkModeWhite)),
-        overlayColor: WidgetStateProperty.resolveWith<Color?>((states) =>
-            states.contains(WidgetState.pressed)
-                ? CustomColor.overlayColor
-                : null),
+        side: WidgetStateProperty.all(const BorderSide(color: CustomColor.darkModeHint, width: 2.0, style: BorderStyle.solid)),
+        backgroundColor: WidgetStateProperty.all(CustomColor.darkModebackgroundPrimary), // when not pressing
+        textStyle: WidgetStateProperty.all(TextStyles.regularStyleMedium.copyWith(color: CustomColor.darkModeWhite)),
+        overlayColor:
+            WidgetStateProperty.resolveWith<Color?>((states) => states.contains(WidgetState.pressed) ? CustomColor.overlayColor : null),
         animationDuration: Constants.buttonAnimationDuration,
       ),
     ),
@@ -179,17 +151,13 @@ class ColorTheme {
       style: ButtonStyle(
         backgroundColor: WidgetStateProperty.all(CustomColor.darkModeBlack),
         foregroundColor: WidgetStateProperty.all(CustomColor.darkModeWhite),
-        textStyle: WidgetStateProperty.all(TextStyles.regularStyleMedium
-            .copyWith(color: CustomColor.darkModeWhite)),
+        textStyle: WidgetStateProperty.all(TextStyles.regularStyleMedium.copyWith(color: CustomColor.darkModeWhite)),
         shape: WidgetStateProperty.all(RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
         )),
-        minimumSize: WidgetStateProperty.all(
-            const Size(double.infinity, Constants.height)),
-        overlayColor: WidgetStateProperty.resolveWith<Color?>((states) =>
-            states.contains(WidgetState.pressed)
-                ? CustomColor.overlayColor
-                : null),
+        minimumSize: WidgetStateProperty.all(const Size(double.infinity, Constants.height)),
+        overlayColor:
+            WidgetStateProperty.resolveWith<Color?>((states) => states.contains(WidgetState.pressed) ? CustomColor.overlayColor : null),
         animationDuration: Constants.buttonAnimationDuration,
       ),
     ),

@@ -13,6 +13,7 @@ import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfields/textfield.dart';
 import 'package:track_bud/utils/textinput_formatters.dart';
 
+/// In this Screen the User can Edit his already added Transaction
 class EditTransactionScreen extends StatefulWidget {
   final String transactionId;
   const EditTransactionScreen({super.key, required this.transactionId});
@@ -90,9 +91,8 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
     final defaultColorScheme = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppTexts.editTransaction, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
-        centerTitle: true,
-      ),
+          title: Text(AppTexts.editTransaction, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
+          centerTitle: true),
       body: FutureBuilder<DocumentSnapshot>(
         future: _transactionFuture,
         builder: (context, snapshot) {
@@ -151,6 +151,7 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
                           selectedCategory: _selectedCategory,
                         )
                       : CategoriesIncome(onCategorySelected: _onCategorySelected, selectedCategory: _selectedCategory),
+                  //TODO: Remove
                   /*const Gap(CustomPadding.defaultSpace),
                   Text(AppTexts.recurrency, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
                   const Gap(CustomPadding.mediumSpace),

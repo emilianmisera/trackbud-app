@@ -12,6 +12,11 @@ import 'package:track_bud/views/subpages/about_trackbud_screen.dart';
 import 'package:track_bud/views/subpages/account_settings_screen.dart';
 import 'package:track_bud/views/subpages/profile_settings_screen.dart';
 
+/// This is the Settings Screen
+/// It is one of the Naviagtion Pages
+/// It displays the Profile Picture and the User can choose
+/// between Profile Settings, Account Settings, See Something about the TrackBud Team
+/// or Logout
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
 
@@ -34,6 +39,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     _loadUserData();
   }
 
+//TODO: Remove
 /* // DELETE USER ACCOUNT (dont delete from firestore DB yet, so friends still see shared costs etc)
   Future<void> _handleAccountDeletion(BuildContext context) async {
     final defaultColorScheme = Theme.of(context).colorScheme;
@@ -130,11 +136,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
       await firebaseService.signOut();
       debugPrint('logout: Benutzer erfolgreich abgemeldet');
       if (mounted) {
-        // Navigieren Sie zur Login-Seite und entfernen Sie alle vorherigen Routen
-        Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (context) => const OnboardingScreen()),
-          (Route<dynamic> route) => false,
-        );
+        // Navigate to OnboardingScreen after Logout
+        Navigator.of(context)
+            .pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const OnboardingScreen()), (Route<dynamic> route) => false);
       }
     } catch (e) {
       debugPrint('logout: Fehler beim Abmelden des Benutzers: ${e.toString()}');
@@ -153,7 +157,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
     final defaultColorScheme = Theme.of(context).colorScheme;
     return SingleChildScrollView(
       child: Padding(
-          // spacing between content and screen
           padding: EdgeInsets.only(
               top: MediaQuery.sizeOf(context).height * CustomPadding.topSpaceSettingsScreen,
               left: CustomPadding.defaultSpace,
@@ -163,7 +166,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             children: [
               Center(
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(100.0),
+                  borderRadius: BorderRadius.circular(Constants.roundedCorners),
                   child: SizedBox(
                     width: Constants.profilePictureSettingPage,
                     height: Constants.profilePictureSettingPage,
@@ -180,13 +183,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
               ),
               const Gap(CustomPadding.mediumSpace),
-              Center(
-                  // Username
-                  child: Text(currentUserName, style: TextStyles.titleStyleMedium.copyWith(color: defaultColorScheme.primary))),
+              // Username
+              Center(child: Text(currentUserName, style: TextStyles.titleStyleMedium.copyWith(color: defaultColorScheme.primary))),
               const Gap(CustomPadding.smallSpace),
-              Center(
-                  //email
-                  child: Text(currentUserEmail, style: TextStyles.hintStyleDefault.copyWith(color: defaultColorScheme.secondary))),
+              //email
+              Center(child: Text(currentUserEmail, style: TextStyles.hintStyleDefault.copyWith(color: defaultColorScheme.secondary))),
               const Gap(CustomPadding.bigbigSpace),
               Text(AppTexts.preferences, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
               const Gap(CustomPadding.defaultSpace),
@@ -227,6 +228,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
               ),
               const Gap(CustomPadding.mediumSpace),
+              //TODO: Remove
               /*
               CustomShadow(
                 // notification button
@@ -269,6 +271,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   style: const ButtonStyle(alignment: Alignment.centerLeft),
                 ),
               ),
+              //TODO: Remove
               /* const Gap(CustomPadding.mediumSpace),
               CustomShadow(
                 // delete Account Button

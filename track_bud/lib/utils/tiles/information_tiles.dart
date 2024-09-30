@@ -3,20 +3,14 @@ import 'package:gap/gap.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/shadow.dart';
 
-// Widget for displaying amount and title information
+/// Widget for displaying amount and title information
 class InfoTile extends StatelessWidget {
-  final String title; // The title of the info tile
-  final String amount; // The amount to be displayed
-  final Color color; // The color of the amount text
-  final double? width; // Optional width of the tile
+  final String title;
+  final String amount;
+  final Color color;
+  final double? width;
 
-  const InfoTile({
-    super.key,
-    required this.title,
-    required this.amount,
-    required this.color,
-    this.width,
-  });
+  const InfoTile({super.key, required this.title, required this.amount, required this.color, this.width});
 
   @override
   Widget build(BuildContext context) {

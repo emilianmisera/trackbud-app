@@ -4,16 +4,15 @@ import 'package:gap/gap.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/shadow.dart';
+import 'package:track_bud/utils/strings.dart';
 
+/// Widget for the Date Picker
+/// User can select Date and Time
 class DatePicker extends StatefulWidget {
   final Function(DateTime) onDateTimeChanged;
   final DateTime initialDateTime;
 
-  const DatePicker({
-    super.key,
-    required this.onDateTimeChanged,
-    required this.initialDateTime,
-  });
+  const DatePicker({super.key, required this.onDateTimeChanged, required this.initialDateTime});
 
   @override
   State<DatePicker> createState() => _DatePickerState();
@@ -21,6 +20,7 @@ class DatePicker extends StatefulWidget {
 
 class _DatePickerState extends State<DatePicker> {
   late DateTime _dateTime;
+  // current date + time
   DateTime now = DateTime.now();
 
   @override
@@ -59,40 +59,20 @@ class _DatePickerState extends State<DatePicker> {
                   });
                   Navigator.pop(context);
                 },
+                // styling
                 calendarStyle: CalendarStyle(
-                  todayDecoration: BoxDecoration(
-                    color: colorScheme.secondary,
-                    shape: BoxShape.circle,
-                  ),
-                  selectedDecoration: const BoxDecoration(
-                    color: CustomColor.bluePrimary,
-                    shape: BoxShape.circle,
-                  ),
-
-                  weekendTextStyle: TextStyle(
-                    color: colorScheme.primary,
-                  ),
-
+                  todayDecoration: BoxDecoration(color: colorScheme.secondary, shape: BoxShape.circle),
+                  selectedDecoration: const BoxDecoration(color: CustomColor.bluePrimary, shape: BoxShape.circle),
+                  weekendTextStyle: TextStyle(color: colorScheme.primary),
                   // Change the text color of past dates to green
-                  defaultTextStyle: TextStyle(
-                    color: colorScheme.primary, // Default text color for future dates
-                  ),
+                  defaultTextStyle: TextStyle(color: colorScheme.primary),
                   // Override the text color for past dates
-                  disabledTextStyle: TextStyle(color: colorScheme.outline // Text color for past dates
-                      ),
+                  disabledTextStyle: TextStyle(color: colorScheme.outline),
                 ),
-                headerStyle: HeaderStyle(
-                  formatButtonVisible: false,
-
-                  titleTextStyle: TextStyle(
-                    color: colorScheme.primary,
-                  ), // Change header text color
-                ),
+                headerStyle: HeaderStyle(formatButtonVisible: false, titleTextStyle: TextStyle(color: colorScheme.primary)),
 
                 daysOfWeekStyle: const DaysOfWeekStyle(
-                  weekdayStyle: TextStyle(
-                    color: CustomColor.bluePrimary, // Change to your desired color
-                  ),
+                  weekdayStyle: TextStyle(color: CustomColor.bluePrimary),
                   weekendStyle: TextStyle(color: CustomColor.bluePrimary),
                 ),
               ),
@@ -111,7 +91,7 @@ class _DatePickerState extends State<DatePicker> {
           width: MediaQuery.sizeOf(context).width,
           height: MediaQuery.sizeOf(context).height / 3,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
             color: Theme.of(context).colorScheme.surface,
           ),
           child: CupertinoDatePicker(
@@ -120,13 +100,7 @@ class _DatePickerState extends State<DatePicker> {
             use24hFormat: true,
             onDateTimeChanged: (DateTime newTime) {
               setState(() {
-                _dateTime = DateTime(
-                  _dateTime.year,
-                  _dateTime.month,
-                  _dateTime.day,
-                  newTime.hour,
-                  newTime.minute,
-                );
+                _dateTime = DateTime(_dateTime.year, _dateTime.month, _dateTime.day, newTime.hour, newTime.minute);
               });
               widget.onDateTimeChanged(_dateTime);
             },
@@ -143,56 +117,39 @@ class _DatePickerState extends State<DatePicker> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'Datum', // German for "Date"
-          style: TextStyles.regularStyleMedium.copyWith(color: colorScheme.primary),
-        ),
+        Text(AppTexts.date, style: TextStyles.regularStyleMedium.copyWith(color: colorScheme.primary)),
         const Gap(CustomPadding.mediumSpace),
         Row(
           children: [
+            // choose Date
             TextButton(
               onPressed: () => _selectDate(context),
-              style: TextButton.styleFrom(
-                padding: EdgeInsets.zero,
-                minimumSize: const Size(Constants.height, Constants.height),
-              ),
+              style: TextButton.styleFrom(padding: EdgeInsets.zero, minimumSize: const Size(Constants.height, Constants.height)),
               child: CustomShadow(
                 child: Container(
                   height: Constants.height,
                   padding: const EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace),
-                  decoration: BoxDecoration(
-                    color: colorScheme.surface,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
+                  decoration: BoxDecoration(color: colorScheme.surface, borderRadius: BorderRadius.circular(Constants.contentBorderRadius)),
                   child: Center(
-                    child: Text(
-                      '${_dateTime.day}.${_dateTime.month}.${_dateTime.year}',
-                      style: TextStyles.regularStyleDefault.copyWith(color: CustomColor.bluePrimary),
-                    ),
+                    child: Text('${_dateTime.day}.${_dateTime.month}.${_dateTime.year}',
+                        style: TextStyles.regularStyleDefault.copyWith(color: CustomColor.bluePrimary)),
                   ),
                 ),
               ),
             ),
             const Gap(CustomPadding.mediumSpace),
+            // choose Time
             TextButton(
               onPressed: () => _selectTime(context),
-              style: TextButton.styleFrom(
-                padding: EdgeInsets.zero,
-                minimumSize: const Size(Constants.height, Constants.height),
-              ),
+              style: TextButton.styleFrom(padding: EdgeInsets.zero, minimumSize: const Size(Constants.height, Constants.height)),
               child: CustomShadow(
                 child: Container(
                   height: Constants.height,
                   padding: const EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace),
-                  decoration: BoxDecoration(
-                    color: colorScheme.surface,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
+                  decoration: BoxDecoration(color: colorScheme.surface, borderRadius: BorderRadius.circular(Constants.contentBorderRadius)),
                   child: Center(
-                    child: Text(
-                      '${_dateTime.hour.toString().padLeft(2, '0')}:${_dateTime.minute.toString().padLeft(2, '0')}',
-                      style: TextStyles.regularStyleDefault.copyWith(color: CustomColor.bluePrimary),
-                    ),
+                    child: Text('${_dateTime.hour.toString().padLeft(2, '0')}:${_dateTime.minute.toString().padLeft(2, '0')}',
+                        style: TextStyles.regularStyleDefault.copyWith(color: CustomColor.bluePrimary)),
                   ),
                 ),
               ),

@@ -5,6 +5,7 @@ import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/strings.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+/// This Screen represents some Information and the Motivation of the TrackBud Team
 class AboutTrackbudScreen extends StatefulWidget {
   const AboutTrackbudScreen({super.key});
 
@@ -42,10 +43,12 @@ class _AboutTrackbudScreenState extends State<AboutTrackbudScreen> {
             Text(AppTexts.aboutTrackBudText,
                 style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary), textAlign: TextAlign.center),
             const Gap(CustomPadding.bigSpace),
+            // email of laurenz
             GestureDetector(
               onTap: () => _launchInBrowser(_emailLaurenz),
               child: Text(AppTexts.laurenzEmail, style: TextStyles.hintStyleDefault.copyWith(color: CustomColor.bluePrimary)),
             ),
+            // email of emilian
             GestureDetector(
               onTap: () => _launchInBrowser(_emailEmilian),
               child: Text(AppTexts.emilianEmail, style: TextStyles.hintStyleDefault.copyWith(color: CustomColor.bluePrimary)),
@@ -53,6 +56,7 @@ class _AboutTrackbudScreenState extends State<AboutTrackbudScreen> {
             const Gap(CustomPadding.bigSpace),
             Text(AppTexts.madeWithLove, style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary)),
             const Gap(CustomPadding.mediumSpace),
+            // Link to Paypal
             GestureDetector(
               onTap: () => _launchInBrowser(_url),
               child: Text(AppTexts.supportUs, style: TextStyles.regularStyleDefault.copyWith(color: CustomColor.bluePrimary)),

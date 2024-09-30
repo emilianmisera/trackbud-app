@@ -7,7 +7,7 @@ import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfields/textfield_amount_of_money.dart';
 
-// This is the main class for the screen, which represents a form for entering bank account information.
+/// This Screen represents a form for entering the Users Budget Goal
 class BudgetGoalScreen extends StatefulWidget {
   const BudgetGoalScreen({super.key});
 
@@ -16,9 +16,7 @@ class BudgetGoalScreen extends StatefulWidget {
 }
 
 class _BudgetGoalScreenState extends State<BudgetGoalScreen> {
-  // Controller to handle the input in the TextField for the amount of money.
   final TextEditingController _moneyController = TextEditingController();
-  // make button active or disabled
   bool _textInput = false;
 
   // Add or update user's bank account balance in Firestore
@@ -51,6 +49,7 @@ class _BudgetGoalScreenState extends State<BudgetGoalScreen> {
     return double.tryParse(normalizedValue);
   }
 
+  // checking if there was an input of the User
   void _validateForm() {
     setState(() {
       _textInput = _moneyController.text.isNotEmpty;
@@ -93,33 +92,25 @@ class _BudgetGoalScreenState extends State<BudgetGoalScreen> {
   Widget build(BuildContext context) {
     final defaultColorScheme = Theme.of(context).colorScheme;
     return Scaffold(
-      // The bottomSheet contains a button that is fixed at the bottom of the screen.
       bottomSheet: Container(
         color: defaultColorScheme.onSurface,
         child: Container(
-          // Margin is applied to the bottom of the button and the sides for proper spacing.
           margin: EdgeInsets.only(
-            bottom: MediaQuery.sizeOf(context).height * CustomPadding.bottomSpace,
-            left: CustomPadding.defaultSpace,
-            right: CustomPadding.defaultSpace,
-          ),
-          width: MediaQuery.of(context).size.width, // Set the button width to match the screen width
-          child: ElevatedButton(
-            onPressed: _textInput ? () => handleSubmission(context) : null,
-            child: Text(AppTexts.continueText),
-          ),
+              bottom: MediaQuery.sizeOf(context).height * CustomPadding.bottomSpace,
+              left: CustomPadding.defaultSpace,
+              right: CustomPadding.defaultSpace),
+          width: MediaQuery.of(context).size.width,
+          // Continue Button
+          child: ElevatedButton(onPressed: _textInput ? () => handleSubmission(context) : null, child: Text(AppTexts.continueText)),
         ),
       ),
       body: SingleChildScrollView(
         child: Padding(
-          // Padding adds spacing around the content inside the screen.
           padding: EdgeInsets.only(
-            top: MediaQuery.sizeOf(context).height * CustomPadding.topSpaceAuth,
-            left: CustomPadding.defaultSpace,
-            right: CustomPadding.defaultSpace,
-          ),
+              top: MediaQuery.sizeOf(context).height * CustomPadding.topSpaceAuth,
+              left: CustomPadding.defaultSpace,
+              right: CustomPadding.defaultSpace),
           child: Column(
-            // Column to organize the content vertically.
             children: [
               // The heading text
               Text(AppTexts.budgetGoalHeading, style: TextStyles.headingStyle.copyWith(color: defaultColorScheme.primary)),

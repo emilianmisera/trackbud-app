@@ -5,15 +5,13 @@ import 'package:image_picker/image_picker.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/textfields/textfield.dart';
 
+/// This Widget displays a created Group
 class GroupTile extends StatefulWidget {
-  const GroupTile({
-    super.key,
-    required TextEditingController createGroupController,
-    required this.onImageSelected, // Add this line to accept the callback
-  }) : _createGroupController = createGroupController;
+  const GroupTile({super.key, required TextEditingController createGroupController, required this.onImageSelected})
+      : _createGroupController = createGroupController;
 
   final TextEditingController _createGroupController;
-  final Function(File?) onImageSelected; // Define the callback
+  final Function(File?) onImageSelected;
 
   @override
   State<GroupTile> createState() => _GroupTileState();
@@ -29,7 +27,7 @@ class _GroupTileState extends State<GroupTile> {
     setState(() {
       if (pickedFile != null) {
         _image = File(pickedFile.path);
-        widget.onImageSelected(_image); // Pass the image back to parent widget
+        widget.onImageSelected(_image);
       } else {
         debugPrint('No image selected.');
       }
@@ -51,19 +49,12 @@ class _GroupTileState extends State<GroupTile> {
                   width: 60,
                   height: 60,
                   color: _image != null ? null : Colors.grey,
-                  child: _image != null
-                      ? Image.file(_image!, fit: BoxFit.cover)
-                      : const Icon(Icons.groups, color: Colors.white),
+                  child: _image != null ? Image.file(_image!, fit: BoxFit.cover) : const Icon(Icons.groups, color: Colors.white),
                 ),
               ),
             ),
             const Gap(CustomPadding.mediumSpace),
-            Expanded(
-              child: CustomTextfield(
-                hintText: 'Gruppenname eingeben',
-                controller: widget._createGroupController,
-              ),
-            ),
+            Expanded(child: CustomTextfield(hintText: 'Gruppenname eingeben', controller: widget._createGroupController)),
           ],
         ),
       ],

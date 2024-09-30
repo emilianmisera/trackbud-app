@@ -4,19 +4,14 @@ import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/shadow.dart';
 
 /// Displaying a Searchfield
+/// reusable
 class SearchTextfield extends StatelessWidget {
   final String hintText;
   final TextEditingController controller;
   final bool? autofocus;
   final void Function(String) onChanged;
 
-  const SearchTextfield({
-    super.key,
-    required this.hintText,
-    required this.controller,
-    this.autofocus,
-    required this.onChanged,
-  });
+  const SearchTextfield({super.key, required this.hintText, required this.controller, this.autofocus, required this.onChanged});
 
   @override
   Widget build(BuildContext context) {
@@ -31,25 +26,14 @@ class SearchTextfield extends StatelessWidget {
           autofocus: autofocus ?? false,
           style: TextStyle(color: defaultColorScheme.primary),
           decoration: InputDecoration(
-            prefixIcon: SvgPicture.asset(
-              AssetImport.search,
-              fit: BoxFit.scaleDown,
-            ),
+            prefixIcon: SvgPicture.asset(AssetImport.search, fit: BoxFit.scaleDown),
             hintText: hintText,
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: CustomPadding.defaultSpace,
-              vertical: CustomPadding.contentHeightSpace,
-            ),
-            hintStyle: TextStyles.hintStyleDefault
-                .copyWith(color: defaultColorScheme.secondary),
+            contentPadding: const EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace, vertical: CustomPadding.contentHeightSpace),
+            hintStyle: TextStyles.hintStyleDefault.copyWith(color: defaultColorScheme.secondary),
             floatingLabelBehavior: FloatingLabelBehavior.never,
             filled: true,
             fillColor: defaultColorScheme.surface,
-            border: OutlineInputBorder(
-              borderSide: BorderSide.none,
-              borderRadius:
-                  BorderRadius.circular(Constants.contentBorderRadius),
-            ),
+            border: OutlineInputBorder(borderSide: BorderSide.none, borderRadius: BorderRadius.circular(Constants.contentBorderRadius)),
           ),
           onChanged: onChanged,
         ),

@@ -6,18 +6,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:track_bud/utils/shadow.dart';
 
 // ignore: must_be_immutable
-// custom bottom navigation bar
+/// custom bottom navigation bar
 class CustomBottomNavigationBar extends StatefulWidget {
-  // Callback function when a tab is tapped
   final void Function(int) onTap;
   // Index of the currently selected tab
   final int currentIndex;
 
-  const CustomBottomNavigationBar({
-    required this.onTap,
-    required this.currentIndex,
-    super.key,
-  });
+  const CustomBottomNavigationBar({required this.onTap, required this.currentIndex, super.key});
 
   @override
   State<CustomBottomNavigationBar> createState() => _CustomBottomNavigationBarState();
@@ -32,7 +27,6 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> w
   @override
   void initState() {
     super.initState();
-    // Initialize the animation controller
     _animationController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 300),
@@ -40,18 +34,16 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> w
     // Create animations for each tab
     _animations = List.generate(
       5,
-      (index) => Tween<double>(begin: 1.0, end: 1.1).animate(
-        CurvedAnimation(
-          parent: _animationController,
-          curve: const Interval(0.0, 1.0, curve: Curves.easeInOut),
-        ),
-      ),
+      (index) => Tween<double>(begin: 1.0, end: 1.1).animate(CurvedAnimation(
+        parent: _animationController,
+        curve: const Interval(0.0, 1.0, curve: Curves.easeInOut),
+      )),
     );
   }
 
+  // Dispose of the animation controller when the widget is removed
   @override
   void dispose() {
-    // Dispose of the animation controller when the widget is removed
     _animationController.dispose();
     super.dispose();
   }
@@ -77,10 +69,8 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> w
               width: MediaQuery.of(context).size.width * CustomPadding.navbarButtonwidth,
               height: Constants.height,
               child: Center(
-                child: SvgPicture.asset(
-                  // Change icon based on whether this tab is selected
-                  widget.currentIndex == index ? active : inactive,
-                ),
+                // Change icon based on whether this tab is selected
+                child: SvgPicture.asset(widget.currentIndex == index ? active : inactive),
               ),
             ),
           ),
@@ -109,9 +99,8 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> w
             GestureDetector(
               onTap: () => showModalBottomSheet(context: context, builder: (context) => const AddTypeSelector()),
               child: SizedBox(
-                width: MediaQuery.of(context).size.width * CustomPadding.navbarButtonwidth,
-                child: SvgPicture.asset(AssetImport.addButton),
-              ),
+                  width: MediaQuery.of(context).size.width * CustomPadding.navbarButtonwidth,
+                  child: SvgPicture.asset(AssetImport.addButton)),
             ),
             // Analysis tab
             _buildNavItem(2, AssetImport.analysisActive, AssetImport.analysis),

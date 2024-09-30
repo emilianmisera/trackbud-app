@@ -4,18 +4,18 @@ import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/shadow.dart';
 import 'package:track_bud/utils/strings.dart';
 
+/// Widget for selecting a time unit
+/// day, week, month or year
 class SelectTimeUnit extends StatefulWidget {
-  final Function(int?) onValueChanged; // callback
-  const SelectTimeUnit({
-    super.key,
-    required this.onValueChanged,
-  });
+  final Function(int?) onValueChanged;
+  const SelectTimeUnit({super.key, required this.onValueChanged});
 
   @override
   State<SelectTimeUnit> createState() => _SelectTimeUnitState();
 }
 
 class _SelectTimeUnitState extends State<SelectTimeUnit> {
+  // default is set to month
   int? _sliding = 1;
 
   @override
@@ -23,12 +23,11 @@ class _SelectTimeUnitState extends State<SelectTimeUnit> {
     final defaultColorScheme = Theme.of(context).colorScheme;
     return CustomShadow(
       child: SizedBox(
-        width: double.infinity, // Ensures the control spans the full width
+        width: double.infinity,
         child: CupertinoSlidingSegmentedControl(
           children: {
             // Expense segment
             0: Container(
-              // Sets the height of the segment relative to screen height
               height: 28,
               alignment: Alignment.center,
               child: Text(AppTexts.day,
@@ -37,6 +36,7 @@ class _SelectTimeUnitState extends State<SelectTimeUnit> {
                       ? TextStyles.slidingTimeUnitStyleSelected.copyWith(color: defaultColorScheme.primary)
                       : TextStyles.slidingTimeUnitStyleDefault.copyWith(color: defaultColorScheme.secondary)),
             ),
+            //TODO: Remove
             /*
             1: Container(
               height: 28,
@@ -71,9 +71,9 @@ class _SelectTimeUnitState extends State<SelectTimeUnit> {
             setState(() {
               _sliding = newValue;
             });
-            widget.onValueChanged(newValue); // Call the callback
+            widget.onValueChanged(newValue);
           },
-          backgroundColor: defaultColorScheme.onSurface, // Background color of the control
+          backgroundColor: defaultColorScheme.onSurface,
         ),
       ),
     );

@@ -3,6 +3,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
 import 'package:track_bud/utils/constants.dart';
 
+/// This Widget is only used in AccountSettingsScreen
+/// the differnece between this and AccAdjustmentButton is that it isn't a Button.
+/// This Widget will be in use for upcoming features.
 class AccAdjustmentWidget extends StatefulWidget {
   final String icon;
   final String name;
@@ -32,10 +35,7 @@ class _AccAdjustmentWidgetState extends State<AccAdjustmentWidget> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              SvgPicture.asset(
-                widget.icon,
-                colorFilter: ColorFilter.mode(defaultColorScheme.primary, BlendMode.srcIn),
-              ),
+              SvgPicture.asset(widget.icon, colorFilter: ColorFilter.mode(defaultColorScheme.primary, BlendMode.srcIn)),
               const Gap(
                 8,
               ),

@@ -3,7 +3,8 @@ import 'package:gap/gap.dart';
 import 'package:track_bud/utils/categories/category_icon.dart';
 import 'package:track_bud/utils/constants.dart';
 
-// Widget that displays expense information for a single category
+/// Widget that displays expense information for a single category
+/// used in GroupTransactionOverview
 class CategoryInfo extends StatelessWidget {
   final String categoryName;
   final Image icon;

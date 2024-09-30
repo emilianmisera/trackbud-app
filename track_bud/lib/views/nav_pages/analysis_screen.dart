@@ -9,6 +9,10 @@ import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/tiles/information_tiles.dart';
 import 'package:track_bud/widgets/transaction_list.dart';
 
+/// This is the Analysis Screen
+/// It is one of the Naviagtion Pages
+/// It displays user transaction data with a chart
+/// and the User sees his Transaction History
 class AnalysisScreen extends StatefulWidget {
   const AnalysisScreen({super.key});
 
@@ -57,11 +61,10 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       InfoTile(
-                        title: infoTileTitle,
-                        amount: transactionProvider.totalAmount.toStringAsFixed(2),
-                        color: infoTileColor,
-                        width: MediaQuery.sizeOf(context).width / 2 - Constants.infoTileSpace,
-                      ),
+                          title: infoTileTitle,
+                          amount: transactionProvider.totalAmount.toStringAsFixed(2),
+                          color: infoTileColor,
+                          width: MediaQuery.sizeOf(context).width / 2 - Constants.infoTileSpace),
                       CustomDropDown(
                         list: const ['Ausgaben', 'Einnahmen'],
                         width: MediaQuery.sizeOf(context).width / 2 - Constants.infoTileSpace,
@@ -87,16 +90,12 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
                     },
                   ),
                   const Gap(CustomPadding.defaultSpace),
-                  Text(
-                    AppTexts.history,
-                    style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary),
-                  ),
+                  Text(AppTexts.history, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
                   const Gap(CustomPadding.mediumSpace),
                   TransactionHistoryList(
-                    // Pass the selected category here
-                    transactionType: _selectedOption == 'Ausgaben' ? 'expense' : 'income',
-                    selectedCategory: _selectedCategory,
-                  ),
+                      // Pass the selected category here
+                      transactionType: _selectedOption == 'Ausgaben' ? 'expense' : 'income',
+                      selectedCategory: _selectedCategory),
                 ],
               ),
             ),
