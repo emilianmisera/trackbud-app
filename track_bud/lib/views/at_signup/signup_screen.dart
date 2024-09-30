@@ -6,7 +6,7 @@ import 'package:track_bud/services/auth/firebase_service.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfields/textfield.dart';
-import 'package:track_bud/views/at_signup/bank_account_info_screen.dart';
+import 'package:track_bud/views/at_signup/set_bank_account_screen.dart';
 import 'package:track_bud/views/at_signup/login_screen.dart';
 
 class SignUpScreen extends StatefulWidget {

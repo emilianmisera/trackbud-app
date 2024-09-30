@@ -9,7 +9,7 @@ import 'package:track_bud/provider/user_provider.dart';
 import 'package:track_bud/services/firestore_service.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/debts/group/all_group_debts_screen.dart';
-import 'package:track_bud/utils/debts/group/chart/group_debts_chart.dart';
+import 'package:track_bud/utils/debts/group/chart/group_transaction_overview.dart';
 import 'package:track_bud/utils/debts/group/group_debts_overview.dart';
 import 'package:track_bud/utils/enum/categories.dart';
 import 'package:track_bud/utils/plus_button/split/add_group_split.dart';

@@ -49,7 +49,7 @@ class _ChangeBankaccountScreenState extends State<ChangeBankaccountScreen> {
     }
 
     try {
-      await userProvider.setBankAccountBalance(amount);
+      await userProvider.updateBankAccountBalance(amount);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
