@@ -4,7 +4,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:track_bud/models/user_model.dart';
 import 'package:track_bud/trackbud.dart';
 import 'package:track_bud/utils/constants.dart';
-import 'package:track_bud/views/at_signup/bank_account_info_screen.dart';
+import 'package:track_bud/views/at_signup/set_bank_account_screen.dart';
 import 'package:track_bud/services/firestore_service.dart';
 
 class FirebaseService {
@@ -80,25 +80,40 @@ class FirebaseService {
   }
 
   // Re-authenticate user
-  Future<void> _reauthenticateUser(User user, String password) async {
-    try {
-      AuthCredential credential = EmailAuthProvider.credential(email: user.email!, password: password);
-      await user.reauthenticateWithCredential(credential);
-    } catch (error) {
-      debugPrint('Error during re-authentication: $error');
-      rethrow;
+  /*Future<void> reauthenticateUser(String password) async {
+    User? user = _firebaseAuth.currentUser;
+    if (user != null) {
+      try {
+        final credential = EmailAuthProvider.credential(email: user.email!, password: password);
+        await user.reauthenticateWithCredential(credential);
+      } catch (error) {
+        debugPrint('Error during re-authentication: $error');
+        rethrow;
+      }
+    } else {
+      throw Exception('No user signed in');
     }
   }
 
-  // Delete user from Firebase Authentication
-  Future<void> _deleteUserFromAuth(User user) async {
-    try {
-      await user.delete();
-    } catch (error) {
-      debugPrint('Error deleting user: $error');
-      rethrow;
+   Future<void> deleteUserAccount() async {
+    User? user = _firebaseAuth.currentUser;
+    if (user != null) {
+      try {
+        // Delete user data from Firestore
+        await firestoreService.deleteUserData(user.uid);
+        
+        // Delete user from Firebase Authentication
+        await user.delete();
+        
+        debugPrint('User account deleted successfully.');
+      } catch (error) {
+        debugPrint('Error deleting user account: $error');
+        rethrow;
+      }
+    } else {
+      throw Exception('No user signed in');
     }
-  }
+  } */
 
   // Handle post-login actions
   Future<void> handlePostLogin(BuildContext context, UserCredential userCredential) async {
@@ -128,7 +143,7 @@ class FirebaseService {
     }
   }
 
-  // Check if email is verified
+  /* // Check if email is verified
   Future<void> _checkEmailVerification(UserCredential userCredential) async {
     if (userCredential.user?.emailVerified ?? false) {
       return;
@@ -217,7 +232,7 @@ class FirebaseService {
     } else {
       debugPrint('User has not verified their email.');
     }
-  }
+  } */
 
   // Create user record in Firestore
   Future<void> _createUserRecord(UserCredential userCredential, String name) async {
@@ -239,24 +254,6 @@ class FirebaseService {
     return await firestoreService.checkUserExists(userId);
   }
 
-  // Handle new Google user
-  Future<void> _handleNewGoogleUser(UserCredential userCredential) async {
-    if (userCredential.additionalUserInfo?.isNewUser ?? false) {
-      UserModel newUser = UserModel(
-        userId: userCredential.user!.uid,
-        email: userCredential.user!.email!,
-        name: userCredential.user!.displayName ?? '',
-        profilePictureUrl: userCredential.user!.photoURL ?? '',
-        bankAccountBalance: -1,
-        monthlySpendingGoal: -1,
-        settings: {}, // Default settings
-        friends: [],
-      );
-
-      await firestoreService.addUserIfNotExists(newUser);
-    }
-  }
-
   // Show error snackbar
   void _showErrorSnackBar(BuildContext context, String message) {
     final defaultColorScheme = Theme.of(context).colorScheme;
@@ -267,27 +264,12 @@ class FirebaseService {
     );
   }
 
-  // Send password reset email
+  /* // Send password reset email
   Future<void> sendPasswordResetEmail(String email) async {
     try {
       await _firebaseAuth.sendPasswordResetEmail(email: email);
     } on FirebaseAuthException {
       rethrow;
     }
-  }
-
-  // Delete user account
-  Future<void> deleteUserAccount(String password) async {
-    User? user = _firebaseAuth.currentUser;
-    if (user != null) {
-      try {
-        await _reauthenticateUser(user, password);
-        await _deleteUserFromAuth(user);
-        debugPrint('User account deleted successfully.');
-      } catch (error) {
-        debugPrint('Error deleting user account: $error');
-        rethrow;
-      }
-    }
-  }
+  } */
 }
