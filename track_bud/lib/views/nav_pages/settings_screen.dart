@@ -5,7 +5,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
 import 'package:track_bud/services/auth/firebase_service.dart';
 import 'package:track_bud/utils/constants.dart';
-import 'package:track_bud/utils/settings/delete_account_pop_up.dart';
 import 'package:track_bud/utils/shadow.dart';
 import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/views/at_signup/onboarding_screen.dart';
@@ -24,7 +23,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
   final TextEditingController _passwordController = TextEditingController();
   // State variables to hold user info
   final User? user = FirebaseAuth.instance.currentUser;
-  final FirebaseService _firebaseService = FirebaseService();
   String currentUserName = '';
   String currentUserEmail = '';
   String? _profileImageUrl;
@@ -36,7 +34,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     _loadUserData();
   }
 
-// DELETE USER ACCOUNT (dont delete from firestore DB yet, so friends still see shared costs etc)
+/* // DELETE USER ACCOUNT (dont delete from firestore DB yet, so friends still see shared costs etc)
   Future<void> _handleAccountDeletion(BuildContext context) async {
     final defaultColorScheme = Theme.of(context).colorScheme;
     try {
@@ -63,12 +61,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
       submit();
       // Show error message if something goes wrong
       if (context.mounted) {
+        debugPrint('Fehler beim Löschen des Kontos: $e');
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text('Fehler beim Löschen des Kontos: $e',
                 style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary))));
       }
     }
-  }
+  } */
 
   void submit() {
     // hide allert dialog when button is pressed
@@ -270,7 +269,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   style: const ButtonStyle(alignment: Alignment.centerLeft),
                 ),
               ),
-              const Gap(CustomPadding.mediumSpace),
+              /* const Gap(CustomPadding.mediumSpace),
               CustomShadow(
                 // delete Account Button
                 child: TextButton.icon(
@@ -294,7 +293,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     alignment: Alignment.centerLeft,
                   ),
                 ),
-              ),
+              ), */
             ],
           )),
     );

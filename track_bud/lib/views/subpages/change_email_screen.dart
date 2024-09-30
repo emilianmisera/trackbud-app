@@ -1,4 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
+//currently not working
+
+/* import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:track_bud/services/auth/firebase_service.dart';
@@ -220,3 +222,4 @@ class _ChangeEmailScreenState extends State<ChangeEmailScreen> {
     );
   }
 }
+ */
