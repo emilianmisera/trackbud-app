@@ -32,6 +32,7 @@ class _TrackBudState extends State<TrackBud> {
   }
 
   Future<void> _retrieveDynamicLink() async {
+    // ignore: deprecated_member_use
     FirebaseDynamicLinks.instance.onLink.listen((PendingDynamicLinkData dynamicLinkData) {
       final Uri deepLink = dynamicLinkData.link;
 
