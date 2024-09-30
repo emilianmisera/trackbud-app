@@ -15,6 +15,7 @@ import 'package:track_bud/utils/categories/category_expenses.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfields/textfield.dart';
+import 'package:track_bud/utils/textinput_formatters.dart';
 import 'package:uuid/uuid.dart';
 
 // Widget for adding a group split in an expense tracking application
@@ -186,7 +187,8 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
       children: [
         CustomTextfield(
           name: AppTexts.amount,
-          hintText: '00.00',
+          hintText: '0.00',
+          keyboardType: TextInputType.number,
           controller: _amountController,
           width: MediaQuery.of(context).size.width / 3,
           prefix: Text(
@@ -200,6 +202,7 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
             FilteringTextInputFormatter.allow(
               RegExp(r'^\d+([.,]\d{0,2})?'),
             ),
+            MaxValueInputFormatter(maxValue: 999999),
           ],
           focusNode: _focusNodeAmount,
         ),

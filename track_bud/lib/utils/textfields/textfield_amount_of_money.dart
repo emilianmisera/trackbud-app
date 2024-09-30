@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/shadow.dart';
 import 'package:track_bud/utils/strings.dart';
+import 'package:track_bud/utils/textinput_formatters.dart';
 
 /// Custom Textfield for BankAccountInfo Page & BudgetGoalPage
 class TextFieldAmountOfMoney extends StatelessWidget {
@@ -23,29 +24,25 @@ class TextFieldAmountOfMoney extends StatelessWidget {
     return CustomShadow(
       child: TextFormField(
         controller: controller,
-        style:
-            TextStyles.headingStyle.copyWith(color: defaultColorScheme.primary),
-        keyboardType: const TextInputType.numberWithOptions(decimal: true),
-        textAlign: TextAlign.center,
+        style: TextStyles.headingStyle.copyWith(color: defaultColorScheme.primary),
+        keyboardType: TextInputType.number, textAlign: TextAlign.center,
         // only numbers with max two decimal places
         inputFormatters: [
           FilteringTextInputFormatter.allow(RegExp(r'^\d+([.,]\d{0,2})?')),
+          MaxValueInputFormatter(maxValue: 999999),
         ],
         decoration: InputDecoration(
           hintText: hintText ?? AppTexts.lines,
           suffix: Text(
             "€",
-            style: suffixStyle ??
-                TextStyles.headingStyle
-                    .copyWith(color: defaultColorScheme.primary),
+            style: suffixStyle ?? TextStyles.headingStyle.copyWith(color: defaultColorScheme.primary),
           ),
           contentPadding: const EdgeInsets.only(
               left: CustomPadding.defaultSpace,
               right: CustomPadding.defaultSpace,
               top: CustomPadding.contentHeightSpace,
               bottom: CustomPadding.contentHeightSpace),
-          hintStyle: TextStyles.hintStyleHeading
-              .copyWith(color: defaultColorScheme.secondary),
+          hintStyle: TextStyles.hintStyleHeading.copyWith(color: defaultColorScheme.secondary),
           floatingLabelBehavior: FloatingLabelBehavior.never,
           filled: true,
           fillColor: defaultColorScheme.surface,

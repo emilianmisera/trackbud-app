@@ -7,6 +7,7 @@ import 'package:track_bud/utils/analysis/chart/category_tile.dart';
 import 'package:track_bud/utils/analysis/chart/chart_section_data.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/enum/categories.dart';
+import 'package:track_bud/utils/strings.dart';
 
 class DonutChart extends StatefulWidget {
   final String selectedOption;
@@ -111,6 +112,7 @@ class _DonutChartState extends State<DonutChart> {
 
   @override
   Widget build(BuildContext context) {
+    final defaultColorScheme = Theme.of(context).colorScheme;
     final showingSectionsMap = showingSections();
 
     fetchTransactionData();
@@ -146,8 +148,18 @@ class _DonutChartState extends State<DonutChart> {
             ),
           ),
         ),
-        const Gap(CustomPadding.defaultSpace),
-        Column(children: _buildCategoryTiles()),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Gap(CustomPadding.defaultSpace),
+            Text(
+              AppTexts.categories, // Title for transaction history
+              style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary),
+            ),
+            const Gap(CustomPadding.mediumSpace),
+            Column(children: _buildCategoryTiles()),
+          ],
+        ),
       ],
     );
   }

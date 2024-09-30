@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:track_bud/utils/constants.dart';
+import 'package:track_bud/utils/textinput_formatters.dart';
 
 /// Custom Textfield for Split ByAmount option in MethodSplitSelector (AddSplit)
 class TextFieldByAmount extends StatelessWidget {
@@ -25,14 +26,15 @@ class TextFieldByAmount extends StatelessWidget {
     return TextFormField(
       controller: controller,
       style: inputStyle ?? TextStyles.headingStyle.copyWith(color: defaultColorScheme.primary),
-      keyboardType: const TextInputType.numberWithOptions(decimal: true),
+      keyboardType: TextInputType.number,
       textAlign: TextAlign.center,
       focusNode: focusNode,
       inputFormatters: [
         FilteringTextInputFormatter.allow(RegExp(r'^\d+([.,]\d{0,2})?')),
+        MaxValueInputFormatter(maxValue: 999999),
       ],
       decoration: InputDecoration(
-        hintText: hintText ?? '0',
+        hintText: hintText ?? '0.00',
         suffix: Text(
           "€",
           style: suffixStyle ?? TextStyles.headingStyle.copyWith(color: defaultColorScheme.primary),

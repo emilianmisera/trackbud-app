@@ -11,6 +11,7 @@ import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/date_picker.dart';
 import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfields/textfield.dart';
+import 'package:track_bud/utils/textinput_formatters.dart';
 //___________________________________________________________________________________________________________________
 
 // Widget for adding a new transaction
@@ -141,7 +142,12 @@ class _AddTransactionState extends State<AddTransaction> {
               ),
               const Gap(CustomPadding.bigSpace),
               // Text field for transaction title
-              CustomTextfield(name: AppTexts.title, hintText: AppTexts.hintTitle, controller: _titleController, focusNode: _focusNodeTitle),
+              CustomTextfield(
+                name: AppTexts.title,
+                hintText: AppTexts.hintTitle,
+                controller: _titleController,
+                focusNode: _focusNodeTitle,
+              ),
               const Gap(CustomPadding.defaultSpace),
               // Row containing amount and date fields
               Row(
@@ -149,8 +155,9 @@ class _AddTransactionState extends State<AddTransaction> {
                   // Amount text field
                   CustomTextfield(
                     name: AppTexts.amount,
-                    hintText: '00.00',
+                    hintText: '0.00',
                     controller: _amountController,
+                    keyboardType: TextInputType.number,
                     width: MediaQuery.sizeOf(context).width / 3,
                     prefix: Text(_currentSegment == 0 ? '–' : '+',
                         style: TextStyles.titleStyleMedium
@@ -158,10 +165,8 @@ class _AddTransactionState extends State<AddTransaction> {
                     suffix: Text('€', style: TextStyle(color: defaultColorScheme.primary)),
                     type: const TextInputType.numberWithOptions(decimal: true),
                     inputFormatters: [
-                      // Erlaubt Zahlen und Punkt oder Komma als Dezimaltrennzeichen
-                      FilteringTextInputFormatter.allow(
-                        RegExp(r'^\d+([.,]\d{0,2})?'),
-                      ),
+                      // Allow numbers and '.' or ',' as decimal separators and limit to 1,000,000
+                      FilteringTextInputFormatter.allow(RegExp(r'^\d+([.,]\d{0,2})?')), MaxValueInputFormatter(maxValue: 999999),
                     ],
                     focusNode: _focusNodeAmount,
                   ),
@@ -207,6 +212,7 @@ class _AddTransactionState extends State<AddTransaction> {
               // Note text field
               CustomTextfield(
                   name: AppTexts.note,
+                  maxLength: 150,
                   hintText: AppTexts.noteHint,
                   controller: _noteController,
                   isMultiline: true,

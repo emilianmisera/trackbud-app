@@ -57,7 +57,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
             const OverviewDebtsTile(), // Tile for overview of debts
             const Gap(CustomPadding.defaultSpace),
             Text(
-              AppTexts.history, // Title for transaction history
+              AppTexts.yourExpenses, // Title for transaction history
               style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary),
             ),
             const Gap(CustomPadding.mediumSpace),

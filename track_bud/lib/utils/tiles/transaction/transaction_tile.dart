@@ -101,7 +101,7 @@ class _TransactionTileState extends State<TransactionTile> {
           ),
           // Transaction amount
           trailing: Text(
-            '${widget.amount.toStringAsFixed(2)}€',
+            widget.type == 'expense' ? '-${widget.amount.toStringAsFixed(2)}€' : '+${widget.amount.toStringAsFixed(2)}€',
             style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary),
           ),
           minVerticalPadding: CustomPadding.defaultSpace,

@@ -20,8 +20,8 @@ class AppTexts {
   static String signInWithApple = 'mit Apple fortfahren';
   static String newHere = 'neu Hier? ';
   static String notNew = 'bereits einen Account? ';
-  static String firstName = 'Vorname';
-  static String hintFirstName = 'Vorname eingeben';
+  static String firstName = 'Name';
+  static String hintFirstName = 'Name eingeben';
   static String confirmPassword = "Passwort bestätigen";
   static String forgotPassword = "Passwort vergessen?";
   static String resetPassword = "Passwort zurücksetzen";
@@ -57,6 +57,7 @@ class AppTexts {
   static String deleteAccDescribtion = "Gib dein Passwort ein um dein Konto zu löschen.";
   //analysis page
   static String balance = 'Kontostand';
+  static String categories = 'Kategorien';
   static String history = 'Verlauf';
   static String workIncome = 'Gehalt';
   static String day = 'Tag';
@@ -71,6 +72,7 @@ class AppTexts {
   static String groups = 'Gruppen';
   //overview screen
   static String remainingText = 'verbleiben diesen Monat';
+  static String yourExpenses = 'deine Ausgaben';
   static String aboveMonthlyGoal = 'über monatlichem Limit';
   static String inTotal = 'Gesamt:';
   static String toOthers = 'An Andere:';
@@ -159,7 +161,7 @@ class AppTexts {
   static String sameGroups = 'Gemeinsame Gruppen';
   static String payOffDebts = 'Schulden begleichen';
   // split group overview
-  static String overall = 'Insgesamt';
+  static String overallExpenses = 'alle Ausgaben';
   static String debtsOverview = 'Schuldenübersicht';
   static String allGroupDebts = 'Alle Gruppenschulden';
   static String groupDebtsAreSettled = 'Alle Schulden sind beglichen.';
