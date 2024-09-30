@@ -6,14 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
-import 'package:track_bud/utils/button_widgets/acc_adjustment_button.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/settings/locked_email_textfield.dart';
 import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfields/textfield.dart';
 import 'package:track_bud/services/firestore_service.dart';
-import 'package:track_bud/views/subpages/change_email_screen.dart';
-import 'package:track_bud/views/subpages/change_password_screen.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'dart:math' show min;
@@ -312,7 +309,7 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                 const Gap(CustomPadding.defaultSpace),
                 // Email text field (locked)
                 LockedEmailTextfield(email: currentUserEmail),
-                const Gap(CustomPadding.defaultSpace),
+                /*const Gap(CustomPadding.defaultSpace),
                 // Change Email button
                 AccAdjustmentButton(
                   icon: AssetImport.email,
@@ -321,7 +318,7 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                   padding: const EdgeInsets.symmetric(horizontal: CustomPadding.mediumSpace),
                 ),
                 // Change Password button
-                AccAdjustmentButton(
+                 AccAdjustmentButton(
                   icon: AssetImport.userEdit,
                   name: AppTexts.changePassword,
                   onPressed: () {
@@ -333,7 +330,7 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                     );
                   },
                   padding: const EdgeInsets.symmetric(horizontal: CustomPadding.mediumSpace),
-                ),
+                ), */
               ],
             ),
           ),

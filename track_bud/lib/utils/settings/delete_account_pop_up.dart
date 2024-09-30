@@ -1,11 +1,13 @@
-import 'package:flutter/material.dart';
+//currently unused
+
+/* import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfields/textfield.dart';
 
 class DeleteAccountPopUp extends StatelessWidget {
-  final void Function() onPressed;
+  final void Function(String) onPressed;
   const DeleteAccountPopUp({super.key, required this.onPressed});
 
   @override
@@ -34,7 +36,7 @@ class DeleteAccountPopUp extends StatelessWidget {
             ),
             const Gap(CustomPadding.defaultSpace),
             ElevatedButton(
-              onPressed: onPressed,
+              onPressed: () => onPressed(passwordController.text),
               style: ElevatedButton.styleFrom(backgroundColor: CustomColor.red),
               child: Text(AppTexts.deleteAcc),
             )
@@ -52,3 +54,4 @@ class DeleteAccountPopUp extends StatelessWidget {
     );
   }
 }
+ */

@@ -48,7 +48,7 @@ class _ChangeBudgetGoalScreenState extends State<ChangeBudgetGoalScreen> {
     }
 
     try {
-      await userProvider.setMonthlyBudgetGoal(amount);
+      await userProvider.updateMonthlyBudgetGoal(amount);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(

@@ -8,7 +8,6 @@ import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/shadow.dart';
 import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfields/textfield.dart';
-import 'package:track_bud/views/at_signup/forgot_password_screen.dart';
 import 'package:track_bud/views/at_signup/signup_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -141,8 +140,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 hintText: AppTexts.hintPassword,
                 obscureText: true,
               ), // Password input field
-              const Gap(CustomPadding.mediumSpace), // Space between elements
-              Align(
+              const Gap(CustomPadding.bigSpace), // Space between elements
+              // password forgotton currently not working
+              /* Align(
                 alignment: Alignment.centerRight,
                 child: GestureDetector(
                   onTap: () {
@@ -153,7 +153,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       style: TextStyles.hintStyleMedium.copyWith(color: defaultColorScheme.secondary)), // Forgot password text
                 ),
               ),
-              const Gap(CustomPadding.bigSpace), // Space between elements
+              const Gap(CustomPadding.bigSpace), // Space between elements */
               ElevatedButton(
                 onPressed: () => _loginUser(), // Trigger login process
                 child: Text(AppTexts.signIn), // Sign in button text

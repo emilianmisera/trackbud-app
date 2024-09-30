@@ -115,9 +115,22 @@ class FirestoreService {
     }
   }
 
+   // Delete user data from Firestore
+  /*Future<void> deleteUserData(String userId) async {
+    try {
+      // Delete user document
+      await _db.collection('users').doc(userId).delete();
+
+      debugPrint('User data deleted successfully from Firestore.');
+    } catch (e) {
+      debugPrint('Error deleting user data from Firestore: $e');
+      rethrow;
+    }
+  } */
+
   /*
   ----------------------------------- CHANGE EMAIL -----------------------------------
-  */
+  
 
   Future<void> updateEmailInFirestore(String userId, String newEmail) async {
     try {
@@ -149,7 +162,7 @@ class FirestoreService {
     });
   }
 
-  /*
+  
   --------------------------- FRIENDS -----------------------------------------
   */
 
