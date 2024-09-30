@@ -60,9 +60,10 @@ class GroupSplitTile extends StatelessWidget {
                 shape: BoxShape.circle,
                 border: Border.all(color: colorScheme.surface, width: 1),
               ),
-              child: const CircleAvatar(
+              child: CircleAvatar(
                 radius: 14,
-                child: Icon(Icons.person, size: 20), // Placeholder icon
+                backgroundColor: colorScheme.outline,
+                child: Icon(Icons.person, size: 20, color: colorScheme.secondary), // Placeholder icon
               ),
             ),
           ),
