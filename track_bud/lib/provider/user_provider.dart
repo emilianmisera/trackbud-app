@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:track_bud/models/user_model.dart';
@@ -8,6 +9,7 @@ class UserProvider extends ChangeNotifier {
   UserModel? _currentUser; // Holds the current user data.
   List<UserModel> _friends = []; // List of the user's friends.
   final FirestoreService _firestoreService = FirestoreService(); // Service for Firestore interactions.
+  final FirebaseFirestore _db = FirebaseFirestore.instance;
   bool _isLoading = false; // Flag to indicate loading state.
 
   // Getter for the current user.
@@ -79,7 +81,7 @@ class UserProvider extends ChangeNotifier {
   }
 
   // Sets a new monthly budget goal for the current user and updates Firestore.
-  Future<void> setMonthlyBudgetGoal(double goal) async {
+  Future<void> updateMonthlyBudgetGoal(double goal) async {
     if (_currentUser != null) {
       _currentUser!.monthlySpendingGoal = goal; // Update the spending goal.
       await _firestoreService.updateUser(_currentUser!); // Update the user data in Firestore.
@@ -87,11 +89,32 @@ class UserProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> setBankAccountBalance(double balance) async {
+  Future<void> updateBankAccountBalance(double balance) async {
     if (_currentUser != null) {
       _currentUser!.bankAccountBalance = balance;
       await _firestoreService.updateUser(_currentUser!);
       notifyListeners();
+    }
+  }
+  
+
+  Future<void> setBankAccountBalance(String userId, double amount) async {
+    try {
+      await _db.collection('users').doc(userId).update({
+        'bankAccountBalance': amount,
+      });
+    } catch (e) {
+      throw Exception("Fehler beim Aktualisieren des Bankkontos: $e");
+    }
+  }
+
+  Future<void> setBudgetGoal(String userId, double amount) async {
+    try {
+      await _db.collection('users').doc(userId).update({
+        'monthlySpendingGoal': amount,
+      });
+    } catch (e) {
+      throw Exception("Fehler beim Aktualisieren des Budgets: $e");
     }
   }
 }
