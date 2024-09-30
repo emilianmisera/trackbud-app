@@ -17,7 +17,7 @@ dependencies:
   firebase_auth: ^5.1.4
   cloud_firestore: ^5.2.1
   google_sign_in: ^6.2.1
-  flutter_launcher_icons: ^0.13.1
+  flutter_launcher_icons: ^0.14.1
   sqflite: ^2.3.3+1
   fl_chart: ^0.69.0
   dropdown_button2: ^2.3.9
@@ -41,7 +41,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^4.0.0
+  flutter_lints: ^5.0.0
 
 flutter_icons:
   ios: true

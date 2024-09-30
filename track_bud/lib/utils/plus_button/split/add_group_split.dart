@@ -188,7 +188,7 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
         CustomTextfield(
           name: AppTexts.amount,
           hintText: '0.00',
-          keyboardType: TextInputType.number,
+          keyboardType: const TextInputType.numberWithOptions(decimal: true),
           controller: _amountController,
           width: MediaQuery.of(context).size.width / 3,
           prefix: Text(
@@ -301,17 +301,89 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildHeader(defaultColorScheme),
+              Center(
+                child: Column(
+                  children: [
+                    Text(AppTexts.newGroupSplit, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
+                    Text(widget.selectedGroup.name, style: TextStyles.titleStyleMedium.copyWith(color: defaultColorScheme.primary)),
+                  ],
+                ),
+              ),
               const Gap(CustomPadding.defaultSpace),
-              _buildTitleInput(),
+              CustomTextfield(
+                name: AppTexts.title,
+                hintText: AppTexts.hintTitle,
+                controller: _titleController,
+                focusNode: _focusNodeTitle,
+              ),
               const Gap(CustomPadding.defaultSpace),
-              _buildAmountInput(defaultColorScheme),
+              Row(
+                children: [
+                  CustomTextfield(
+                    name: AppTexts.amount,
+                    hintText: '0.00',
+                    keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                    controller: _amountController,
+                    width: MediaQuery.of(context).size.width / 3,
+                    prefix: Text(
+                      '-',
+                      style:
+                          TextStyles.titleStyleMedium.copyWith(fontWeight: TextStyles.fontWeightDefault, color: defaultColorScheme.primary),
+                    ),
+                    suffix: Text('€', style: TextStyle(color: defaultColorScheme.primary)),
+                    type: const TextInputType.numberWithOptions(decimal: true),
+                    inputFormatters: [
+                      // Allow digits and dot or comma as decimal separator
+                      FilteringTextInputFormatter.allow(
+                        RegExp(r'^\d+([.,]\d{0,2})?'),
+                      ),
+                      MaxValueInputFormatter(maxValue: 999999),
+                    ],
+                    focusNode: _focusNodeAmount,
+                  ),
+                  const Gap(CustomPadding.defaultSpace), // Added Gap for spacing
+                  // Date Picker
+                  Expanded(
+                    child: DatePicker(
+                      onDateTimeChanged: (dateTime) => setState(() => _selectedDateTime = dateTime),
+                      initialDateTime: DateTime.now(),
+                    ),
+                  ),
+                ],
+              ),
               const Gap(CustomPadding.defaultSpace),
-              _buildCategorySelection(defaultColorScheme),
+              Text(AppTexts.categorie, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
+              const Gap(CustomPadding.mediumSpace),
+              CategoriesExpense(onCategorySelected: _onCategorySelected),
               const Gap(CustomPadding.defaultSpace),
-              _buildPayingMemberSelection(defaultColorScheme),
+              Text(AppTexts.payedBy, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
+              const Gap(CustomPadding.mediumSpace),
+              CustomDropDown(
+                list: widget.memberNames,
+                value: widget.memberNames.firstWhere(
+                  (name) => _memberNameToId[name] == widget.currentUserId,
+                  orElse: () => widget.memberNames.first,
+                ), // Default to current user's name
+                dropdownWidth: MediaQuery.of(context).size.width - 32,
+                onChanged: (String? value) {
+                  setState(() {
+                    _paidByUserId = _memberNameToId[value] ?? ''; // Update the payer ID
+                  });
+                },
+              ),
               const Gap(CustomPadding.defaultSpace),
-              _buildMembersSelection(defaultColorScheme),
+              Text('Verteilung', style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
+              const Gap(CustomPadding.mediumSpace),
+              EqualGroupSplitWidget(
+                amount: _inputNumber,
+                members: widget.selectedGroup.members,
+                onMembersSelected: (selectedMembers) {
+                  setState(() {
+                    _selectedMembers = selectedMembers; // Update selected members list
+                    _validateForm(); // Re-validate form
+                  });
+                },
+              ),
             ],
           ),
         ),

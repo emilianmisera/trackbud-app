@@ -120,7 +120,7 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
                         name: AppTexts.amount,
                         hintText: '0.00',
                         controller: _amountController,
-                        keyboardType: TextInputType.number,
+                        keyboardType: const TextInputType.numberWithOptions(decimal: true),
                         width: MediaQuery.sizeOf(context).width / 3,
                         prefix: Text(
                           _currentSegment == 0 ? '–' : '+',

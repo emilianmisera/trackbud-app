@@ -235,7 +235,7 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
                   CustomTextfield(
                     name: AppTexts.amount,
                     hintText: '0.00',
-                    keyboardType: TextInputType.number,
+                    keyboardType: const TextInputType.numberWithOptions(decimal: true),
                     controller: _amountController,
                     width: MediaQuery.sizeOf(context).width / 3,
                     prefix: Text('-',

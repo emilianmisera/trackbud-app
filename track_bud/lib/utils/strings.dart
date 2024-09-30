@@ -72,7 +72,7 @@ class AppTexts {
   static String groups = 'Gruppen';
   //overview screen
   static String remainingText = 'verbleiben diesen Monat';
-  static String yourExpenses = 'deine Ausgaben';
+  static String yourExpenses = 'Deine Ausgaben';
   static String aboveMonthlyGoal = 'über monatlichem Limit';
   static String inTotal = 'Gesamt:';
   static String toOthers = 'An Andere:';

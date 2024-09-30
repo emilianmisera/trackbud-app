@@ -144,7 +144,7 @@ class _FriendProfileScreenState extends State<FriendProfileScreen> {
                   ? () async {
                       try {
                         await _firestoreService.payOffFriendSplits(currentUserId, widget.friend.userId);
-                        if (mounted) {
+                        if (context.mounted) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
                                 content: Text('Schulden mit ${widget.friend.name} wurden beglichen.',

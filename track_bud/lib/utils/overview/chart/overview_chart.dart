@@ -5,7 +5,7 @@ import 'package:track_bud/provider/user_provider.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/debts/group/chart/category_bar.dart';
 import 'package:track_bud/utils/enum/categories.dart';
-import 'package:track_bud/utils/overview/chart/expenses_charts.dart';
+import 'package:track_bud/utils/overview/chart/expenes%20chart/expenses_charts.dart';
 import 'package:track_bud/utils/shadow.dart';
 import 'package:track_bud/utils/tiles/time_unit_selection.dart';
 import 'package:track_bud/provider/transaction_provider.dart';
@@ -18,12 +18,10 @@ class ExpensesOverviewTile extends StatefulWidget {
 }
 
 class _ExpensesOverviewTileState extends State<ExpensesOverviewTile> {
-  int _currentTimeUnit = 2; // Default time unit set to "This Month"
+  int _currentTimeUnit = 1; // Default time unit set to "This Month"
 
   // A map of category names to their respective colors
-  final categoryColors = {
-    for (var category in Categories.values) category.categoryName: category.color,
-  };
+  final categoryColors = {for (var category in Categories.values) category.categoryName: category.color};
 
   @override
   void initState() {
@@ -40,11 +38,13 @@ class _ExpensesOverviewTileState extends State<ExpensesOverviewTile> {
     switch (_currentTimeUnit) {
       case 0:
         return 'Heute'; // Today
+      /*
       case 1:
         return 'Die letzten 7 Tage'; // Last 7 Days
-      case 2:
+      */
+      case 1:
         return 'Dieser Monat'; // This Month
-      case 3:
+      case 2:
         return 'Dieses Jahr'; // This Year
       default:
         return 'Dieser Monat'; // Default to This Month
@@ -86,17 +86,13 @@ class _ExpensesOverviewTileState extends State<ExpensesOverviewTile> {
                   },
                 ),
                 const Gap(CustomPadding.defaultSpace), // Gap for spacing
-                Text(
-                  _getTimeUnitText(),
-                  style: TextStyles.hintStyleDefault.copyWith(color: defaultColorScheme.secondary),
-                ),
+                Text(_getTimeUnitText(), style: TextStyles.hintStyleDefault.copyWith(color: defaultColorScheme.secondary)),
                 // Display total expense for the selected time unit
                 Consumer<TransactionProvider>(
                   builder: (context, transactionProvider, child) {
                     return Text(
-                      '${transactionProvider.totalExpenseForTimeUnit.toStringAsFixed(2)}€', // Total expense formatted to two decimal places
-                      style: TextStyles.headingStyle.copyWith(color: defaultColorScheme.primary),
-                    );
+                        '${transactionProvider.totalExpenseForTimeUnit.toStringAsFixed(2)}€', // Total expense formatted to two decimal places
+                        style: TextStyles.headingStyle.copyWith(color: defaultColorScheme.primary));
                   },
                 ),
                 const Gap(CustomPadding.mediumSpace), // Gap for spacing

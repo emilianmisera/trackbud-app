@@ -27,21 +27,16 @@ class TransactionProvider extends ChangeNotifier {
     if (user == null) return;
 
     try {
-      DocumentSnapshot userDoc = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(user.uid)
-          .get();
+      DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
 
-      _currentBalance =
-          (userDoc.data() as Map<String, dynamic>)['bankAccountBalance'] ?? 0.0;
+      _currentBalance = (userDoc.data() as Map<String, dynamic>)['bankAccountBalance'] ?? 0.0;
       notifyListeners();
     } catch (e) {
       debugPrint('Error initializing balance: $e');
     }
   }
 
-  Future<void> addTransaction(
-      String type, double amount, Map<String, dynamic> transactionData) async {
+  Future<void> addTransaction(String type, double amount, Map<String, dynamic> transactionData) async {
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) return;
 
@@ -52,9 +47,7 @@ class TransactionProvider extends ChangeNotifier {
         'userId': user.uid,
         'type': type,
         'amount': amount,
-        'date': transactionData['date'] != null
-            ? Timestamp.fromDate(transactionData['date'] as DateTime)
-            : FieldValue.serverTimestamp(),
+        'date': transactionData['date'] != null ? Timestamp.fromDate(transactionData['date'] as DateTime) : FieldValue.serverTimestamp(),
       });
 
       // Update current balance
@@ -65,10 +58,7 @@ class TransactionProvider extends ChangeNotifier {
       }
 
       // Update user's bank account balance in Firestore
-      await FirebaseFirestore.instance
-          .collection('users')
-          .doc(user.uid)
-          .update({'bankAccountBalance': _currentBalance});
+      await FirebaseFirestore.instance.collection('users').doc(user.uid).update({'bankAccountBalance': _currentBalance});
 
       _shouldReloadChart = true;
 
@@ -84,26 +74,18 @@ class TransactionProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> updateTransaction(
-      String transactionId, Map<String, dynamic> updatedData) async {
+  Future<void> updateTransaction(String transactionId, Map<String, dynamic> updatedData) async {
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) return;
 
     try {
       // Get the old transaction data
-      DocumentSnapshot oldTransactionDoc = await FirebaseFirestore.instance
-          .collection('transactions')
-          .doc(transactionId)
-          .get();
+      DocumentSnapshot oldTransactionDoc = await FirebaseFirestore.instance.collection('transactions').doc(transactionId).get();
 
-      Map<String, dynamic> oldData =
-          oldTransactionDoc.data() as Map<String, dynamic>;
+      Map<String, dynamic> oldData = oldTransactionDoc.data() as Map<String, dynamic>;
 
       // Update the transaction in Firestore
-      await FirebaseFirestore.instance
-          .collection('transactions')
-          .doc(transactionId)
-          .update(updatedData);
+      await FirebaseFirestore.instance.collection('transactions').doc(transactionId).update(updatedData);
 
       // Adjust the current balance
       double oldAmount = oldData['amount'];
@@ -124,10 +106,7 @@ class TransactionProvider extends ChangeNotifier {
       }
 
       // Update user's bank account balance in Firestore
-      await FirebaseFirestore.instance
-          .collection('users')
-          .doc(user.uid)
-          .update({'bankAccountBalance': _currentBalance});
+      await FirebaseFirestore.instance.collection('users').doc(user.uid).update({'bankAccountBalance': _currentBalance});
 
       _shouldReloadChart = true;
 
@@ -147,18 +126,12 @@ class TransactionProvider extends ChangeNotifier {
 
     try {
       // Get the transaction data before deleting
-      DocumentSnapshot transactionDoc = await FirebaseFirestore.instance
-          .collection('transactions')
-          .doc(transactionId)
-          .get();
+      DocumentSnapshot transactionDoc = await FirebaseFirestore.instance.collection('transactions').doc(transactionId).get();
 
       Map<String, dynamic> data = transactionDoc.data() as Map<String, dynamic>;
 
       // Delete the transaction from Firestore
-      await FirebaseFirestore.instance
-          .collection('transactions')
-          .doc(transactionId)
-          .delete();
+      await FirebaseFirestore.instance.collection('transactions').doc(transactionId).delete();
 
       // Adjust the current balance
       double amount = data['amount'];
@@ -171,10 +144,7 @@ class TransactionProvider extends ChangeNotifier {
       }
 
       // Update user's bank account balance in Firestore
-      await FirebaseFirestore.instance
-          .collection('users')
-          .doc(user.uid)
-          .update({'bankAccountBalance': _currentBalance});
+      await FirebaseFirestore.instance.collection('users').doc(user.uid).update({'bankAccountBalance': _currentBalance});
 
       _shouldReloadChart = true;
 
@@ -272,14 +242,16 @@ class TransactionProvider extends ChangeNotifier {
         case 0: // Day
           startDate = DateTime(endDate.year, endDate.month, endDate.day);
           break;
+        /*
         case 1: // Week - Focus on the LAST 7 DAYS, not the week of the month
           startDate =
               endDate.subtract(const Duration(days: 6)); // Always 7 days back
           break;
-        case 2: // Month
+          */
+        case 1: // Month
           startDate = DateTime(endDate.year, endDate.month, 1);
           break;
-        case 3: // Year
+        case 2: // Year
           startDate = DateTime(endDate.year, 1, 1);
           break;
         default:
@@ -313,6 +285,7 @@ class TransactionProvider extends ChangeNotifier {
           case 0: // Day
             _expensesForTimeUnit.add(amount);
             break;
+          /*
           case 1: // Week
             while (_expensesForTimeUnit.length <
                 date.difference(startDate).inDays + 1) {
@@ -320,13 +293,14 @@ class TransactionProvider extends ChangeNotifier {
             }
             _expensesForTimeUnit[date.difference(startDate).inDays] += amount;
             break;
-          case 2: // Month
+          */
+          case 1: // Month
             while (_expensesForTimeUnit.length < date.day) {
               _expensesForTimeUnit.add(0);
             }
             _expensesForTimeUnit[date.day - 1] += amount;
             break;
-          case 3: // Year
+          case 2: // Year
             while (_expensesForTimeUnit.length < date.month) {
               _expensesForTimeUnit.add(0);
             }
