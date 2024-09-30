@@ -54,7 +54,7 @@ class _DebtsScreenState extends State<DebtsScreen> {
           slivers: [
             SliverPadding(
               padding: EdgeInsets.only(
-                top: MediaQuery.of(context).padding.top + CustomPadding.defaultSpace,
+                top: MediaQuery.of(context).size.height * CustomPadding.topSpace,
                 left: CustomPadding.defaultSpace,
                 right: CustomPadding.defaultSpace,
               ),
