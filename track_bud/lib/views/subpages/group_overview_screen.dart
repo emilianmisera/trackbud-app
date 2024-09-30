@@ -115,6 +115,8 @@ class _GroupOverviewScreenState extends State<GroupOverviewScreen> {
                 double expensesPerPerson =
                     currentGroup.members.isNotEmpty ? totalGroupExpense / currentGroup.members.length : 0; // Calculate expenses per member
 
+                Map<Categories, double> categoryAmounts = groupProvider.getCategoryAmounts(widget.groupId);
+
                 return SingleChildScrollView(
                   child: Padding(
                     padding: const EdgeInsets.all(CustomPadding.defaultSpace),
@@ -213,18 +215,8 @@ class _GroupOverviewScreenState extends State<GroupOverviewScreen> {
                         ),
                         const Gap(CustomPadding.mediumSpace),
                         // Display transaction overview with hardcoded category amounts
-                        const TransactionOverview(
-                          categoryAmounts: {
-                            Categories.lebensmittel: 3.0,
-                            Categories.drogerie: 2.0,
-                            Categories.restaurant: 1.00,
-                            Categories.mobility: 0.0,
-                            Categories.shopping: 0.0,
-                            Categories.unterkunft: 0.0,
-                            Categories.entertainment: 0.0,
-                            Categories.geschenk: 0.0,
-                            Categories.sonstiges: 0.0,
-                          },
+                         TransactionOverview(
+                          categoryAmounts: categoryAmounts,
                         ),
                         const Gap(CustomPadding.defaultSpace),
                         // Section header for history of splits
