@@ -21,11 +21,11 @@ Die folgende Checkliste soll euch dabei helfen, selbstständig zu überprüfen, 
 - [x] Code ist modular aufgebaut
   - [x] Einzelne Klassen sind in einzelne Dart-Dateien aufgeteilt
   - [x] Zur besseren Übersicht sind die Dart-Dateien im `lib`-Ordner in Unterordner sortiert (z.B. `widgets`, `screens`, etc.) (siehe Vorlesung 12, Folie 7)
-- [-] Im Code finden sich keine Magic Numbers mehr. Stattdessen stehen diese als Konstanten im Code. Es bietet sich an, Konstanten in gesonderte Dateien auszulagern (siehe Vorlesung 12, Folie 9).
+- [x] Im Code finden sich keine Magic Numbers mehr. Stattdessen stehen diese als Konstanten im Code. Es bietet sich an, Konstanten in gesonderte Dateien auszulagern (siehe Vorlesung 12, Folie 9).
 - [x] Widget Trees sind nicht zu unübersichtlich. Komplexere Programmlogik innerhalb eines Widget Trees ist in eigene Methoden ausgelagert
 - [x] Die bekannten Konventionen zur Benennung von Dateien, Klassen, Methoden, Variablen, Konstanten, etc. wurden eingehalten
-- [ ] Der Code ist sinnvoll und in ausreichendem Umfang kommentiert (Kommentare erklären den Zweck des Codes und helfen beim besseren Verständnis). Kommentare sind einheitlich auf englisch (oder deutsch) verfasst.
-- [ ] Toter Code und Unused Imports wurden aus allen Dateien entfernt
+- [x] Der Code ist sinnvoll und in ausreichendem Umfang kommentiert (Kommentare erklären den Zweck des Codes und helfen beim besseren Verständnis). Kommentare sind einheitlich auf englisch (oder deutsch) verfasst.
+- [-] Toter Code und Unused Imports wurden aus allen Dateien entfernt
 - [x] Warnungen im Code (unterringelte Stellen in VS Code) wurden vor der finalen Abgabe vollständig behoben
 
 ## Permissions
@@ -65,14 +65,14 @@ Die folgende Checkliste soll euch dabei helfen, selbstständig zu überprüfen, 
 
 ## Quellenangaben
 
-- [ ] Alle aus fremden Quellen übernommene Codeausschnitte sind klar gekennzeichnet (siehe im Kurs besprochene Regeln, insbesondere für Tools wie `ChatGPT`).
+- [x] Alle aus fremden Quellen übernommene Codeausschnitte sind klar gekennzeichnet (siehe im Kurs besprochene Regeln, insbesondere für Tools wie `ChatGPT`).
 - [x] Quellenangeben für nicht selbst erstellte Assets (Bilder, Audio, etc.) sind an passender Stelle (z.B. in der Readme im Repository oder auf eigenem Impressum-Screen in der App) angegeben
 
 ## Git & GitHub
 
 - [x] Die finale Version der App befindet sich auf dem main-Branch im Repository
 - [ ] Die APK-Datei ist im Remote-Repository auf GitHub zu finden (bestenfalls im Parent-Ordner, dort wo auch die Readme Datei liegt) und spiegelt die finale Version des Codes wider
-- [ ] Auf dem main-Branch finden sich keine weiteren Testprojekte oder sonstiger Code, der nicht direkt zum Abschlussprojekt gehört
+- [x] Auf dem main-Branch finden sich keine weiteren Testprojekte oder sonstiger Code, der nicht direkt zum Abschlussprojekt gehört
 - [x] Die Programmierarbeit aller Projektmitglieder wurde durch regelmäßige Commits mit aussagekräftigen Commit-Messages dokumentiert
 - [x] Features wurden stets auf eigenen Branches implementiert
 - [x] Pull Requests wurden korrekt gestellt und von den eigenen Teammitgliedern bearbeitet
