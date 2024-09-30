@@ -133,6 +133,7 @@ class _DonutChartState extends State<DonutChart> {
     fetchTransactionData();
 
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // Chart Display
         AspectRatio(
