@@ -16,8 +16,7 @@ class SelectTimeUnit extends StatefulWidget {
 }
 
 class _SelectTimeUnitState extends State<SelectTimeUnit> {
-  // _sliding: Tracks the currently selected segment (0 for expense, 1 for income)
-  int? _sliding = 2;
+  int? _sliding = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -35,12 +34,10 @@ class _SelectTimeUnitState extends State<SelectTimeUnit> {
               child: Text(AppTexts.day,
                   // Applies different styles based on selection state
                   style: _sliding == 0
-                      ? TextStyles.slidingTimeUnitStyleSelected
-                          .copyWith(color: defaultColorScheme.primary)
-                      : TextStyles.slidingTimeUnitStyleDefault
-                          .copyWith(color: defaultColorScheme.secondary)),
+                      ? TextStyles.slidingTimeUnitStyleSelected.copyWith(color: defaultColorScheme.primary)
+                      : TextStyles.slidingTimeUnitStyleDefault.copyWith(color: defaultColorScheme.secondary)),
             ),
-            // Income segment
+            /*
             1: Container(
               height: 28,
               alignment: Alignment.center,
@@ -51,23 +48,21 @@ class _SelectTimeUnitState extends State<SelectTimeUnit> {
                       : TextStyles.slidingTimeUnitStyleDefault
                           .copyWith(color: defaultColorScheme.secondary)),
             ),
-            2: Container(
+            */
+            1: Container(
               height: 28,
               alignment: Alignment.center,
               child: Text(AppTexts.month,
-                  style: _sliding == 2
-                      ? TextStyles.slidingTimeUnitStyleSelected
-                          .copyWith(color: defaultColorScheme.primary)
-                      : TextStyles.slidingTimeUnitStyleDefault
-                          .copyWith(color: defaultColorScheme.secondary)),
+                  style: _sliding == 1
+                      ? TextStyles.slidingTimeUnitStyleSelected.copyWith(color: defaultColorScheme.primary)
+                      : TextStyles.slidingTimeUnitStyleDefault.copyWith(color: defaultColorScheme.secondary)),
             ),
-            3: Container(
+            2: Container(
               height: 28,
               alignment: Alignment.center,
               child: Text(AppTexts.year,
-                  style: _sliding == 3
-                      ? TextStyles.slidingTimeUnitStyleSelected
-                          .copyWith(color: defaultColorScheme.primary)
+                  style: _sliding == 2
+                      ? TextStyles.slidingTimeUnitStyleSelected.copyWith(color: defaultColorScheme.primary)
                       : TextStyles.slidingTimeUnitStyleDefault),
             ),
           },
@@ -78,8 +73,7 @@ class _SelectTimeUnitState extends State<SelectTimeUnit> {
             });
             widget.onValueChanged(newValue); // Call the callback
           },
-          backgroundColor:
-              defaultColorScheme.onSurface, // Background color of the control
+          backgroundColor: defaultColorScheme.onSurface, // Background color of the control
         ),
       ),
     );
