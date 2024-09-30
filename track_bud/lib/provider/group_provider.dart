@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:track_bud/models/group_model.dart';
 import 'package:track_bud/models/user_model.dart';
 import 'package:track_bud/services/firestore_service.dart';
+import 'package:track_bud/utils/enum/categories.dart';
 
 class GroupProvider with ChangeNotifier {
   final List<GroupModel> _groups = [];
@@ -18,6 +19,8 @@ class GroupProvider with ChangeNotifier {
   final Map<String, double> _netBalances = {};
   final FirestoreService _firestoreService = FirestoreService();
   final Map<String, Future<List<Map<String, dynamic>>>> _debtsOverviewCache = {};
+  final Map<String, Map<Categories, double>> _groupCategoryAmounts = {};
+  Map<Categories, double> getCategoryAmounts(String groupId) => _groupCategoryAmounts[groupId] ?? {};
 
   // Exposes the list of groups
   List<GroupModel> get groups => _groups;
@@ -121,13 +124,31 @@ class GroupProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  // Refreshes data for a specific group
-  Future<void> refreshGroupData(String groupId) async {
-    await _calculateGroupData(groupId);
+  // Calculates the amount for every category
+  Future<void> calculateGroupCategoryAmounts(String groupId) async {
+    var splits = await _firestoreService.getGroupSplits(groupId);
+    Map<Categories, double> categoryAmounts = {};
+
+    for (var split in splits) {
+      Categories category = Categories.values.firstWhere(
+        (c) => c.categoryName == split.category,
+        orElse: () => Categories.sonstiges,
+      );
+      categoryAmounts[category] = (categoryAmounts[category] ?? 0) + split.totalAmount;
+    }
+
+    _groupCategoryAmounts[groupId] = categoryAmounts;
     notifyListeners();
   }
 
-  // Retrieves user information by their ID
+  // Refreshes data for a specific group
+  Future<void> refreshGroupData(String groupId) async {
+    await _calculateGroupData(groupId);
+    await calculateGroupCategoryAmounts(groupId);
+    notifyListeners();
+  }
+
+  // Retrieves group member information by their ID
   Future<UserModel?> getUserById(String userId) async {
     try {
       return await _firestoreService.getUser(userId);
@@ -209,7 +230,7 @@ class GroupProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  // Suggests payments to settle all debts within a specified group
+  // Suggests payments to settle all debts within a specified group (help from ChatGPT)
   List<Map<String, dynamic>> suggestPayments(String groupId) {
     List<Map<String, dynamic>> suggestedPayments = [];
 
@@ -254,20 +275,20 @@ class GroupProvider with ChangeNotifier {
   // Creates a new group and uploads an optional image to Firebase Storage
   Future<void> createGroup(GroupModel group, File? imageFile) async {
     try {
-      // 1. Create the group in Firestore
+      // Create the group in Firestore
       await _firestoreService.createGroup(group);
 
-      // 2. If an image file is provided, upload it to Firebase Storage and retrieve the URL
+      // If an image file is provided, upload it to Firebase Storage and retrieve the URL
       if (imageFile != null) {
         String? imageUrl = await uploadGroupImage(imageFile, group.groupId);
 
-        // 3. If the image was uploaded successfully, update the group document with the image URL
+        // If the image was uploaded successfully, update the group document with the image URL
         if (imageUrl != null) {
           await FirebaseFirestore.instance.collection('groups').doc(group.groupId).update({'profilePictureUrl': imageUrl});
         }
       }
 
-      // 4. Add the newly created group to the local list and notify listeners
+      // Add the newly created group to the local list and notify listeners
       _groups.add(group);
       notifyListeners();
     } catch (e) {

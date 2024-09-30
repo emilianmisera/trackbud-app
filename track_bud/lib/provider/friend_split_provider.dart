@@ -11,7 +11,7 @@ class FriendSplitProvider with ChangeNotifier {
 
   bool get isLoading => _isLoading;
 
-  /// Loads the splits for each friend and calculates their balances.
+  // Loads the splits for each friend and calculates their balances.
   Future<void> loadFriendSplits(String currentUserId, List<UserModel> friends) async {
     _setLoadingState(true);
     try {
@@ -27,13 +27,13 @@ class FriendSplitProvider with ChangeNotifier {
     }
   }
 
-  /// Sets the loading state and notifies listeners.
+  // Sets the loading state and notifies listeners.
   void _setLoadingState(bool isLoading) {
     _isLoading = isLoading;
     notifyListeners();
   }
 
-  /// Calculates the balance for a given friend based on their splits.
+  // Calculates the balance for a given friend based on their splits.
   void _calculateFriendBalance(String currentUserId, String friendId) {
     double balance = 0;
 
@@ -47,22 +47,17 @@ class FriendSplitProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  /// Gets the balance of a specified friend.
+  // Gets the balance of a specified friend.
   double getFriendBalance(String friendId) {
     return _friendBalances[friendId] ?? 0.0;
   }
 
-  /// Retrieves the splits for a specified friend.
-  List<FriendSplitModel> getFriendSplits(String friendId) {
-    return _friendSplits[friendId] ?? [];
-  }
-
-  /// Calculates the total debts across all friends.
+  // Calculates the total debts across all friends.
   double getTotalFriendDebts() {
     return _friendBalances.values.where((balance) => balance < 0).fold(0, (sum, balance) => sum + balance.abs());
   }
 
-  /// Calculates the total credits across all friends.
+  // Calculates the total credits across all friends.
   double getTotalFriendCredits() {
     return _friendBalances.values.where((balance) => balance > 0).fold(0, (sum, balance) => sum + balance);
   }

@@ -1,20 +1,21 @@
+import 'package:cached_network_image/cached_network_image.dart'; // For loading network images efficiently with caching
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
-import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
-import 'package:track_bud/models/group_model.dart';
-import 'package:track_bud/models/user_model.dart';
-import 'package:track_bud/provider/group_provider.dart';
-import 'package:track_bud/services/firestore_service.dart';
-import 'package:track_bud/utils/constants.dart';
-import 'package:track_bud/utils/debts/balance_state.dart';
-import 'package:track_bud/utils/enum/debts_box.dart';
-import 'package:track_bud/utils/shadow.dart';
-import 'package:track_bud/views/subpages/group_overview_screen.dart';
+import 'package:gap/gap.dart'; // A package to provide spacing between widgets
+import 'package:intl/intl.dart'; // Used for formatting dates
+import 'package:provider/provider.dart'; // For state management (Provider pattern)
+import 'package:track_bud/models/group_model.dart'; // GroupModel to represent group data
+import 'package:track_bud/models/user_model.dart'; // UserModel to represent user data
+import 'package:track_bud/provider/group_provider.dart'; // GroupProvider for managing group-related state
+import 'package:track_bud/services/firestore_service.dart'; // FirestoreService to handle Firebase Firestore interactions
+import 'package:track_bud/utils/constants.dart'; // Constants used throughout the app
+import 'package:track_bud/utils/debts/balance_state.dart'; // UI component for displaying balance state
+import 'package:track_bud/utils/enum/debts_box.dart'; // Enum for defining debt color schemes
+import 'package:track_bud/utils/shadow.dart'; // CustomShadow for shadow effects on widgets
+import 'package:track_bud/views/subpages/group_overview_screen.dart'; // GroupOverviewScreen for detailed group view
 
-// This widget represents a single group in the DebtsScreen or YourGroupScreen.
+// A stateless widget to represent a card for a specific group
 class GroupCard extends StatelessWidget {
-  final GroupModel group; // The GroupModel instance passed to this widget.
+  final GroupModel group;
 
   const GroupCard({
     super.key,
@@ -23,31 +24,31 @@ class GroupCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final defaultColorScheme = Theme.of(context).colorScheme; // Get the default color scheme from the theme.
-    final firestoreService = FirestoreService(); // Create an instance of FirestoreService to interact with Firestore.
+    final defaultColorScheme = Theme.of(context).colorScheme; // Fetches current theme's color scheme
+    final firestoreService = FirestoreService(); // Instance of FirestoreService to retrieve user info
 
-    // Parse the group's creation date and format it.
+    // Parsing the group's creation date and formatting it to 'dd/MM/yyyy' format in German locale
     DateTime createdAt = DateTime.parse(group.createdAt);
     String formattedDate = DateFormat.yMd('de_DE').format(createdAt);
 
-    // Access the GroupProvider to retrieve expenses and user credits.
+    // Fetching group data from GroupProvider (such as total expenses and user credits)
     final groupProvider = Provider.of<GroupProvider>(context);
     final totalExpense = groupProvider.getGroupExpense(group.groupId);
     final userCredit = groupProvider.getUserCredit(group.groupId);
 
-    // Determine the color scheme for displaying user balance based on credit.
+    // Selecting the color scheme based on the user's credit in the group
     DebtsColorScheme colorScheme;
     if (userCredit > 0) {
-      colorScheme = DebtsColorScheme.green; // User is owed money.
+      colorScheme = DebtsColorScheme.green; // Positive credit (user is owed money)
     } else if (userCredit < 0) {
-      colorScheme = DebtsColorScheme.red; // User owes money.
+      colorScheme = DebtsColorScheme.red; // Negative credit (user owes money)
     } else {
-      colorScheme = DebtsColorScheme.blue; // User's balance is zero.
+      colorScheme = DebtsColorScheme.blue; // Neutral credit (balanced)
     }
 
     return GestureDetector(
+      // Navigates to the GroupOverviewScreen when the card is tapped
       onTap: () {
-        // Navigate to the GroupOverviewScreen when the group card is tapped.
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -58,88 +59,99 @@ class GroupCard extends StatelessWidget {
           ),
         );
       },
+      // Applies a custom shadow effect to the card
       child: CustomShadow(
         child: Container(
-          width: MediaQuery.sizeOf(context).width, // Set the width of the container to the screen width.
-          padding: const EdgeInsets.all(CustomPadding.defaultSpace), // Add default padding around the container.
+          width: MediaQuery.sizeOf(context).width, // Full width of the screen
+          padding: const EdgeInsets.all(CustomPadding.defaultSpace), // Uniform padding
           decoration: BoxDecoration(
-            color: defaultColorScheme.surface, // Set the background color of the container.
-            borderRadius: BorderRadius.circular(Constants.contentBorderRadius), // Round the corners of the container.
+            color: defaultColorScheme.surface, // Background color of the card
+            borderRadius: BorderRadius.circular(Constants.contentBorderRadius), // Rounded corners
           ),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start, // Align children to the start of the column.
+            crossAxisAlignment: CrossAxisAlignment.start, // Aligns children to the left
             children: [
               ListTile(
                 leading: ClipRRect(
-                  borderRadius: BorderRadius.circular(100.0), // Create a circular profile picture.
+                  borderRadius: BorderRadius.circular(100.0), // Circular image for the group
                   child: SizedBox(
                     width: 40,
                     height: 40,
                     child: group.profilePictureUrl.isNotEmpty
-                        ? Image.network(group.profilePictureUrl, fit: BoxFit.cover) // Load group profile picture from URL.
-                        : const Icon(Icons.group, color: Colors.grey), // Default icon if no profile picture is available.
+                        ? CachedNetworkImage(
+                            imageUrl: group.profilePictureUrl, // Loads group image
+                            fit: BoxFit.cover,
+                            placeholder: (context, url) => const CircularProgressIndicator(), // Loading indicator
+                            errorWidget: (context, url, error) => const Icon(Icons.group, color: Colors.grey), // Error widget
+                          )
+                        : const Icon(Icons.group, color: Colors.grey), // Default icon if no image URL
                   ),
                 ),
                 title: Text(
-                  group.name,
-                  style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary), // Display group name with styling.
+                  group.name, // Displays the group name
+                  style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary),
                 ),
                 subtitle: Text(
-                  'Erstellt am: $formattedDate', // Show the formatted creation date.
+                  'Erstellt am: $formattedDate', // Shows the formatted creation date
                   style: TextStyles.hintStyleDefault.copyWith(
                     fontSize: TextStyles.fontSizeHint,
-                    color: defaultColorScheme.secondary, // Style for the subtitle.
+                    color: defaultColorScheme.secondary,
                   ),
                 ),
                 trailing: Text(
-                  '${totalExpense.toStringAsFixed(2)}€', // Display total expenses formatted as currency.
-                  style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary), // Style for the trailing text.
+                  '${totalExpense.toStringAsFixed(2)}€', // Displays the total expense in the group
+                  style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary),
                 ),
-                minVerticalPadding: 0, // Set minimum vertical padding to zero.
-                contentPadding: EdgeInsets.zero, // Remove content padding.
+                minVerticalPadding: 0,
+                contentPadding: EdgeInsets.zero, // Removes default padding
               ),
-              Divider(color: defaultColorScheme.outline), // Add a divider below the ListTile.
-              const Gap(CustomPadding.mediumSpace), // Add medium space between elements.
+              Divider(color: defaultColorScheme.outline), // Divider between sections
+              const Gap(CustomPadding.mediumSpace), // Adds space between elements
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween, // Space elements evenly within the row.
+                mainAxisAlignment: MainAxisAlignment.spaceBetween, // Aligns the content between edges
                 children: [
                   Expanded(
                     child: SizedBox(
-                      height: 44, // Set the height of the members' stack.
+                      height: 44,
                       width: 300,
                       child: Stack(
+                        // Generates avatars for all group members
                         children: List.generate(group.members.length, (index) {
-                          final reverseIndex = group.members.length - 1 - index; // Calculate the reversed index for stacking members.
+                          final reverseIndex = group.members.length - 1 - index;
                           return FutureBuilder<UserModel?>(
-                            future: firestoreService.getUser(group.members[reverseIndex]), // Fetch user data for each member.
+                            future: firestoreService.getUser(group.members[reverseIndex]), // Retrieves user data from Firestore
                             builder: (context, snapshot) {
-                              if (snapshot.connectionState == ConnectionState.waiting) {
-                                return const SizedBox.shrink(); // Placeholder while user data is loading.
-                              }
-                              if (snapshot.hasError || snapshot.data == null) {
-                                return const Icon(Icons.person, color: Colors.grey); // Display default icon on error or if user not found.
-                              }
-                              final member = snapshot.data!; // Get the member data from snapshot.
                               return Positioned(
-                                left: index * 30, // Position members with some overlap based on their index.
+                                left: index * 30, // Staggered avatar placement with overlapping
                                 child: Container(
                                   decoration: BoxDecoration(
                                     border: Border.all(
-                                      color: defaultColorScheme.surface, // Set border color around the profile picture.
-                                      width: 1.0, // Set border width.
+                                      color: defaultColorScheme.surface,
+                                      width: 1.0,
                                     ),
-                                    borderRadius: BorderRadius.circular(100.0), // Make the picture circular.
+                                    borderRadius: BorderRadius.circular(100.0), // Circular avatar
                                   ),
                                   child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(100.0), // Round the corners of the profile picture.
+                                    borderRadius: BorderRadius.circular(100.0),
                                     child: SizedBox(
                                       width: 40,
                                       height: 40,
-                                      child: member.profilePictureUrl.isNotEmpty
-                                          ? Image.network(member.profilePictureUrl,
-                                              fit: BoxFit.cover) // Load member profile picture from URL.
-                                          : const Icon(Icons.person,
-                                              color: Colors.grey), // Default icon if no profile picture is available.
+                                      child: snapshot.hasError || snapshot.data == null
+                                          ? CircleAvatar(
+                                              // Use CircleAvatar here
+                                              radius: 20,
+                                              backgroundColor: defaultColorScheme.outline, // Set your desired background color
+                                              child: Icon(Icons.person,
+                                                  size: 30,
+                                                  color: defaultColorScheme
+                                                      .secondary), // You can also adjust the icon color for better contrast
+                                            )
+                                          : CachedNetworkImage(
+                                              imageUrl: snapshot.data!.profilePictureUrl, // Displays user profile picture
+                                              fit: BoxFit.cover,
+                                              placeholder: (context, url) => const CircularProgressIndicator(), // Loading indicator
+                                              errorWidget: (context, url, error) => const Icon(Icons.person, size: 30), // Error icon
+                                            ),
                                     ),
                                   ),
                                 ),
@@ -151,10 +163,8 @@ class GroupCard extends StatelessWidget {
                     ),
                   ),
                   BalanceState(
-                    colorScheme: colorScheme, // Pass the determined color scheme for balance.
-                    amount: userCredit == 0
-                        ? null // Set amount to null for 'quitt' to trigger the default state in BalanceState.
-                        : '${userCredit.abs().toStringAsFixed(2)}€', // Display user credit formatted as currency.
+                    colorScheme: colorScheme, // Displays balance state (credit or debit)
+                    amount: userCredit == 0 ? null : '${userCredit.abs().toStringAsFixed(2)}€', // Shows the amount only if non-zero
                   ),
                 ],
               ),

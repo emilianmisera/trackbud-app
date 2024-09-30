@@ -160,7 +160,7 @@ class _DebtsScreenState extends State<DebtsScreen> {
                 ]),
               ),
             ),
-            // Consumer widget to listen to group provider changes
+            // Consumer widget to listen to group provider changes (hilfe von ChatGPT um Gruppen nach neuer Transaktion direkt zu aktualisieren.)
             Consumer<GroupProvider>(
               builder: (context, groupProvider, child) {
                 // Conditional rendering based on loading state

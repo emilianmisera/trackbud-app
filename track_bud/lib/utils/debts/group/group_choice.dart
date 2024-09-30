@@ -51,38 +51,51 @@ class GroupChoice extends StatelessWidget {
                 const Gap(CustomPadding.mediumSpace),
                 Expanded(child: Text(group.name, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary))),
                 SizedBox(
-                  width: 65,
+                  width: 150,
                   height: 30,
                   child: Stack(
                     children: List.generate(group.members.length, (index) {
+                      final reverseIndex = group.members.length - 1 - index;
                       return FutureBuilder<UserModel?>(
-                        future: _firestoreService.getUser(group.members[index]),
+                        future: _firestoreService.getUser(group.members[reverseIndex]),
                         builder: (context, snapshot) {
-                          if (snapshot.connectionState == ConnectionState.waiting) {
-                            return const SizedBox.shrink();
-                          }
-                          if (snapshot.hasError || snapshot.data == null) {
-                            return const Icon(Icons.person, color: Colors.grey);
-                          }
-                          final member = snapshot.data!;
                           return Positioned(
-                            left: index * 18,
+                            right: index * 18,
                             child: Container(
                               decoration: BoxDecoration(
                                 border: Border.all(
-                                  color: defaultColorScheme.surface, // Weißer Rahmen um das Profilbild
-                                  width: 1.0, // Rahmenbreite anpassen
+                                  color: defaultColorScheme.surface,
+                                  width: 1.0,
                                 ),
-                                borderRadius: BorderRadius.circular(100.0), // Rundes Bild
+                                borderRadius: BorderRadius.circular(100.0),
                               ),
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(100.0),
                                 child: SizedBox(
                                   width: 30,
                                   height: 30,
-                                  child: member.profilePictureUrl.isNotEmpty
-                                      ? Image.network(member.profilePictureUrl, fit: BoxFit.cover)
-                                      : const Icon(Icons.person, color: Colors.grey),
+                                  child: snapshot.hasError || snapshot.data == null
+                                      ? CircleAvatar(
+                                          radius: 15,
+                                          backgroundColor: defaultColorScheme.outline,
+                                          child: Icon(
+                                            Icons.person,
+                                            size: 20,
+                                            color: defaultColorScheme.secondary,
+                                          ),
+                                        )
+                                      : snapshot.data!.profilePictureUrl.isNotEmpty
+                                          ? Image.network(snapshot.data!.profilePictureUrl, fit: BoxFit.cover)
+                                          : CircleAvatar(
+                                              // Default avatar if no image URL
+                                              radius: 15,
+                                              backgroundColor: defaultColorScheme.outline,
+                                              child: Icon(
+                                                Icons.person,
+                                                size: 20,
+                                                color: defaultColorScheme.secondary,
+                                              ),
+                                            ),
                                 ),
                               ),
                             ),

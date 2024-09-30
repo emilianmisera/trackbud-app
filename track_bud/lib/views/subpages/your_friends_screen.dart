@@ -4,7 +4,7 @@ import 'package:gap/gap.dart';
 import 'package:track_bud/models/user_model.dart';
 import 'package:track_bud/provider/friend_split_provider.dart';
 import 'package:track_bud/provider/user_provider.dart';
-import 'package:track_bud/services/invite_services.dart';
+import 'package:track_bud/services/invite_service.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/debts/friend/friend_card.dart';
 import 'package:track_bud/utils/strings.dart';

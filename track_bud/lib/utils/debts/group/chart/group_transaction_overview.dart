@@ -36,7 +36,7 @@ class TransactionOverview extends StatelessWidget {
                 children: [
                   buildCategoryBar(),
                   const Gap(CustomPadding.bigSpace),
-                  buildCategoryList(),
+                  buildCategoryList(defaultColorScheme),
                 ],
               ),
             ),
@@ -61,7 +61,7 @@ class TransactionOverview extends StatelessWidget {
   }
 
   // Build the list of category information widgets
-  Widget buildCategoryList() {
+  Widget buildCategoryList(ColorScheme defaultColorScheme) {
     // Filter out categories with null or zero values, sort by amount in descending order
     List<MapEntry<Categories, double>> validCategories = categoryAmounts.entries
         .where((e) => e.value != null && e.value! > 0)
@@ -69,6 +69,63 @@ class TransactionOverview extends StatelessWidget {
         .toList()
       ..sort((a, b) => b.value.compareTo(a.value));
 
+    // Determine if we need two columns based on the number of categories
+    bool useTwoColumns = validCategories.length > 5;
+
+    return useTwoColumns ? buildTwoColumnList(validCategories, defaultColorScheme) : buildSingleColumnList(validCategories);
+  }
+
+  // Build the category list with a left-to-right sorting
+  Widget buildTwoColumnList(List<MapEntry<Categories, double>> validCategories, ColorScheme defaultColorScheme) {
+    // Initialize the left and right columns (help from ChatGPT to sort them from left to right)
+    List<MapEntry<Categories, double>> leftColumn = [];
+    List<MapEntry<Categories, double>> rightColumn = [];
+
+    // Distribute categories left to right (alternating between the columns)
+    for (int i = 0; i < validCategories.length; i++) {
+      if (i % 2 == 0) {
+        leftColumn.add(validCategories[i]); // Even index -> Left column
+      } else {
+        rightColumn.add(validCategories[i]); // Odd index -> Right column
+      }
+    }
+
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Expanded(
+          child: buildCategoryColumn(leftColumn), // Left column
+        ),
+        VerticalDivider(
+          thickness: 3,
+          color: defaultColorScheme.outline,
+        ),
+        Expanded(
+          child: buildCategoryColumn(rightColumn), // Right column
+        ),
+      ],
+    );
+  }
+
+  // Build a single column of categories
+  Widget buildCategoryColumn(List<MapEntry<Categories, double>> categories) {
+    return Column(
+      children: categories
+          .map((entry) => Padding(
+                padding: const EdgeInsets.only(bottom: CustomPadding.mediumSpace),
+                child: CategoryInfo(
+                  categoryName: entry.key.categoryName,
+                  icon: entry.key.icon,
+                  iconColor: entry.key.color,
+                  amount: entry.value,
+                ),
+              ))
+          .toList(),
+    );
+  }
+
+  // Build the category list in a single column
+  Widget buildSingleColumnList(List<MapEntry<Categories, double>> validCategories) {
     return Column(
       children: validCategories
           .map((entry) => Padding(
