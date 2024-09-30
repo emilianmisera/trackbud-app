@@ -8,11 +8,11 @@ import 'package:track_bud/views/at_signup/set_bank_account_screen.dart';
 import 'package:track_bud/services/firestore_service.dart';
 
 class FirebaseService {
-  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  final FirestoreService firestoreService = FirestoreService();
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance; // Firebase authentication instance.
+  final FirestoreService firestoreService = FirestoreService(); // Firestore service for database operations.
+  final GoogleSignIn _googleSignIn = GoogleSignIn(); // Google Sign-In instance.
 
-  //sign in
+  // Sign in using email and password
   Future<UserCredential> signInWithEmailAndPassword(String email, String password) async {
     try {
       debugPrint('firebase_service: signing in...');
@@ -21,38 +21,39 @@ class FirebaseService {
       return userCredential;
     } on FirebaseAuthException catch (e) {
       debugPrint('firebase_service: signInWithEmailAndPassword sign in failed');
-      throw Exception(e.code);
+      throw Exception(e.code); // Throw an exception with error code in case of failure.
     }
   }
 
-  // sign up
+  // Sign up using email and password
   Future<UserCredential> signUpWithEmailAndPassword(String email, String password, String name) async {
     try {
       debugPrint('firebase_service: try to sign up');
       UserCredential userCredential = await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
-      debugPrint('firebase_service: successful sign Up');
+      debugPrint('firebase_service: successful sign up');
 
-      // Erstellen Sie den Firestore-Datensatz für den neuen Benutzer
+      // Create a Firestore record for the newly signed-up user.
       await _createUserRecord(userCredential, name);
 
       return userCredential;
     } on FirebaseAuthException catch (e) {
       debugPrint('firebase_service: signUpWithEmailAndPassword sign up failed');
-      throw Exception(e.code);
+      throw Exception(e.code); // Throw an exception with error code in case of failure.
     }
   }
 
-  // sign out
+  // Sign out from Firebase authentication.
   Future<void> signOut() async {
     debugPrint('firebase_service: signOut');
     return await _firebaseAuth.signOut();
   }
 
-  // Handle sign in with Google
+  // Handle Google Sign-In.
   Future<void> signInWithGoogle(BuildContext context) async {
     try {
-      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn(); // Trigger Google Sign-In.
       if (googleUser == null) {
+        // If the user cancels the Google sign-in process, throw an error.
         throw FirebaseAuthException(
           code: 'ERROR_ABORTED_BY_USER',
           message: 'Sign in aborted by user',
@@ -65,17 +66,19 @@ class FirebaseService {
         idToken: googleAuth.idToken,
       );
 
+      // Sign in to Firebase using Google credentials.
       UserCredential userCredential = await _firebaseAuth.signInWithCredential(credential);
 
-      // Überprüfen Sie, ob der Benutzer neu ist und erstellen Sie gegebenenfalls einen Firestore-Datensatz
+      // If the user is new, create a Firestore record for them.
       if (userCredential.additionalUserInfo?.isNewUser ?? false) {
         await _createUserRecord(userCredential, userCredential.user?.displayName ?? '');
       }
 
+      // Handle actions that should occur after logging in.
       if (context.mounted) await handlePostLogin(context, userCredential);
     } catch (error) {
       debugPrint('Error during Google sign in: $error');
-      if (context.mounted) _showErrorSnackBar(context, error.toString());
+      if (context.mounted) _showErrorSnackBar(context, error.toString()); // Display error message if sign-in fails.
     }
   }
 
@@ -115,28 +118,34 @@ class FirebaseService {
     }
   } */
 
-  // Handle post-login actions
+  // Handle actions to take after the user successfully logs in.
   Future<void> handlePostLogin(BuildContext context, UserCredential userCredential) async {
     String userId = userCredential.user!.uid;
 
+    // Check if the user already exists in Firestore.
     bool userExists = await checkUserExists(userId);
     if (!userExists) {
+      // If user does not exist, create a Firestore record for the user.
       await _createUserRecord(userCredential, userCredential.user?.displayName ?? '');
     }
 
+    // Fetch user data from Firestore.
     UserModel? userData = await firestoreService.getUserData(userId);
 
     if (userData != null) {
+      // If the user has not set a bank account balance or spending goal, redirect to bank account setup screen.
       if (userData.bankAccountBalance == -1 || userData.monthlySpendingGoal == -1) {
         if (context.mounted) {
           Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const BankAccountInfoScreen()));
         }
       } else {
+        // Otherwise, proceed to the main application screen.
         if (context.mounted) {
           Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const TrackBud()));
         }
       }
     } else {
+      // If user data cannot be retrieved, show an error.
       if (context.mounted) {
         _showErrorSnackBar(context, "Benutzerinformationen konnten nicht abgerufen werden.");
       }
@@ -234,27 +243,29 @@ class FirebaseService {
     }
   } */
 
-  // Create user record in Firestore
+  // Create a new Firestore record for the user.
   Future<void> _createUserRecord(UserCredential userCredential, String name) async {
     UserModel newUser = UserModel(
       userId: userCredential.user!.uid,
       email: userCredential.user!.email!,
       name: name,
       profilePictureUrl: userCredential.user!.photoURL ?? '',
-      bankAccountBalance: -1,
-      monthlySpendingGoal: -1,
-      settings: {}, // Default settings oder vom Benutzer eingeben lassen
+      bankAccountBalance: -1, // Default value indicating the balance is not yet set.
+      monthlySpendingGoal: -1, // Default value indicating the spending goal is not yet set.
+      settings: {}, // Placeholder for future user settings.
       friends: [],
     );
 
+    // Add the new user to Firestore if they don't already exist.
     await firestoreService.addUserIfNotExists(newUser);
   }
 
+  // Check if the user exists in Firestore.
   Future<bool> checkUserExists(String userId) async {
     return await firestoreService.checkUserExists(userId);
   }
 
-  // Show error snackbar
+  // Display a snack bar with an error message.
   void _showErrorSnackBar(BuildContext context, String message) {
     final defaultColorScheme = Theme.of(context).colorScheme;
     ScaffoldMessenger.of(context).showSnackBar(
