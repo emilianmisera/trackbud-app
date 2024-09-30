@@ -16,10 +16,10 @@
 - Statistiken über eigenes Ausgabeverhalten
   - Wie viel Geld fließt in welche Kategorien?
   - Diagramme
-- Benachrichtigungen
+- Optional: Benachrichtigungen (mit Vitus nachträglich abgesprochen)
   - User fügen Schulden hinzu
   - Man ist nah am eigenen Limit
-- Fixkosten, monatliche Kosten
+- Optional: Fixkosten, monatliche Kosten (mit Vitus nachträglich abgesprochen)
 - Profileinstellungen 
   - Profil löschen x
   - Name ändern
