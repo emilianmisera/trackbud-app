@@ -60,9 +60,6 @@ class FriendProfileDetails extends StatelessWidget {
               } else if (snapshot.hasError) {
                 return Text('Error: ${snapshot.error}',
                     style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.secondary)); // Display error message
-              } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                return Text('Keine gemeinsame Gruppen.',
-                    style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.secondary)); // No shared groups found
               } else {
                 return SizedBox(
                   height: Constants.sameGroupImages,
