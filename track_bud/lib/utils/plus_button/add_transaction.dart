@@ -185,28 +185,6 @@ class _AddTransactionState extends State<AddTransaction> {
                   ? CategoriesExpense(onCategorySelected: _onCategorySelected)
                   : CategoriesIncome(onCategorySelected: _onCategorySelected),
               const Gap(CustomPadding.defaultSpace),
-              // TODO: Remove
-              /*Text(AppTexts.recurrency,
-                  style: TextStyles.regularStyleMedium
-                      .copyWith(color: defaultColorScheme.primary)),
-              const Gap(CustomPadding.mediumSpace),
-              // Dropdown for selecting recurrence frequency
-              CustomDropDown(
-                  list: const [
-                    'einmalig',
-                    'täglich',
-                    'wöchentlich',
-                    'zweiwöchentlich',
-                    'halb-monatlich',
-                    'monatlich',
-                    'vierteljährlich',
-                    'halb-jährlich',
-                    'jährlich'
-                  ],
-                  dropdownWidth: MediaQuery.sizeOf(context).width - 32,
-                  onChanged: (value) =>
-                      setState(() => _selectedRecurrence = value)),
-              const Gap(CustomPadding.defaultSpace),*/
               // Note text field
               CustomTextfield(
                   name: AppTexts.note,

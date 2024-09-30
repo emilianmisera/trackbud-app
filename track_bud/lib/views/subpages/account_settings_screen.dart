@@ -46,16 +46,6 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                   icon: AssetImport.target,
                   name: AppTexts.changeBudgetGoal,
                   onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const ChangeBudgetGoalScreen()))),
-              //TODO: Remove
-              /*
-              const Gap(CustomPadding.mediumSpace),
-              AccAdjustmentWidget(
-                // Currency
-                icon: AssetImport.settings,
-                name: AppTexts.changeCurrency,
-                widget: const CurrencyDropdown(), // Dropdown for changing currency
-              ),
-              */
               const Gap(CustomPadding.defaultSpace),
               Text(AppTexts.sonstiges, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
               const Gap(CustomPadding.mediumSpace),

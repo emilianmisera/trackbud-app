@@ -36,19 +36,6 @@ class _SelectTimeUnitState extends State<SelectTimeUnit> {
                       ? TextStyles.slidingTimeUnitStyleSelected.copyWith(color: defaultColorScheme.primary)
                       : TextStyles.slidingTimeUnitStyleDefault.copyWith(color: defaultColorScheme.secondary)),
             ),
-            //TODO: Remove
-            /*
-            1: Container(
-              height: 28,
-              alignment: Alignment.center,
-              child: Text(AppTexts.week,
-                  style: _sliding == 1
-                      ? TextStyles.slidingTimeUnitStyleSelected
-                          .copyWith(color: defaultColorScheme.primary)
-                      : TextStyles.slidingTimeUnitStyleDefault
-                          .copyWith(color: defaultColorScheme.secondary)),
-            ),
-            */
             1: Container(
               height: 28,
               alignment: Alignment.center,

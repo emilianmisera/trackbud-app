@@ -39,42 +39,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
     _loadUserData();
   }
 
-//TODO: Remove
-/* // DELETE USER ACCOUNT (dont delete from firestore DB yet, so friends still see shared costs etc)
-  Future<void> _handleAccountDeletion(BuildContext context) async {
-    final defaultColorScheme = Theme.of(context).colorScheme;
-    try {
-      // Get the password entered by the user
-      String password = _passwordController.text;
-
-      // Attempt to delete the user account
-      await _firebaseService.deleteUserAccount(password);
-
-      submit();
-
-      // Show success message and navigate away or logout the user
-      if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content:
-                Text('Konto erfolgreich gelöscht.', style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary))));
-      }
-
-      // navigate the user to a login or home screen after deletion
-      if (context.mounted) {
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const OnboardingScreen()));
-      }
-    } catch (e) {
-      submit();
-      // Show error message if something goes wrong
-      if (context.mounted) {
-        debugPrint('Fehler beim Löschen des Kontos: $e');
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text('Fehler beim Löschen des Kontos: $e',
-                style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.primary))));
-      }
-    }
-  } */
-
   void submit() {
     // hide allert dialog when button is pressed
     _passwordController.clear();
@@ -228,24 +192,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
               ),
               const Gap(CustomPadding.mediumSpace),
-              //TODO: Remove
-              /*
-              CustomShadow(
-                // notification button
-                child: TextButton.icon(
-                  onPressed: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              const NotificationsSettingsScreen())),
-                  label: Text(AppTexts.notifications,
-                      style: TextStyles.regularStyleDefault),
-                  icon: SvgPicture.asset(AssetImport.bell),
-                  style: const ButtonStyle(alignment: Alignment.centerLeft),
-                ),
-              ),
-              const Gap(CustomPadding.mediumSpace),
-              */
               CustomShadow(
                 // aboutTrackbut button
                 child: TextButton.icon(
@@ -271,32 +217,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   style: const ButtonStyle(alignment: Alignment.centerLeft),
                 ),
               ),
-              //TODO: Remove
-              /* const Gap(CustomPadding.mediumSpace),
-              CustomShadow(
-                // delete Account Button
-                child: TextButton.icon(
-                  onPressed: () => showDialog(
-                      context: context,
-                      builder: (context) => DeleteAccountPopUp(onPressed: () => _handleAccountDeletion(context))), //_handleAccountDeletion,
-                  label: Text(
-                    AppTexts.deleteAcc,
-                    style: const TextStyle(
-                      fontFamily: TextStyles.fontFamily,
-                      fontSize: TextStyles.fontSizeDefault,
-                      fontWeight: TextStyles.fontWeightDefault,
-                      color: CustomColor.red,
-                    ),
-                  ),
-                  icon: SvgPicture.asset(
-                    AssetImport.trash,
-                    colorFilter: const ColorFilter.mode(CustomColor.red, BlendMode.srcIn),
-                  ),
-                  style: const ButtonStyle(
-                    alignment: Alignment.centerLeft,
-                  ),
-                ),
-              ), */
             ],
           )),
     );

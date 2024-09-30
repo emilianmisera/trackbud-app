@@ -295,29 +295,6 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                 const Gap(CustomPadding.defaultSpace),
                 // Email text field (locked)
                 LockedEmailTextfield(email: currentUserEmail),
-                //TODO: Remove
-                /*const Gap(CustomPadding.defaultSpace),
-                // Change Email button
-                AccAdjustmentButton(
-                  icon: AssetImport.email,
-                  name: AppTexts.changeEmail,
-                  onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const ChangeEmailScreen())),
-                  padding: const EdgeInsets.symmetric(horizontal: CustomPadding.mediumSpace),
-                ),
-                // Change Password button
-                 AccAdjustmentButton(
-                  icon: AssetImport.userEdit,
-                  name: AppTexts.changePassword,
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const ChangePasswordScreen(),
-                      ),
-                    );
-                  },
-                  padding: const EdgeInsets.symmetric(horizontal: CustomPadding.mediumSpace),
-                ), */
               ],
             ),
           ),

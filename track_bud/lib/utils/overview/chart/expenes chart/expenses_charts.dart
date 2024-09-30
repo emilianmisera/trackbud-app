@@ -15,11 +15,6 @@ class ExpensesCharts extends StatelessWidget {
     switch (currentTimeUnit) {
       case 0:
         return const SizedBox(); // Day view, show nothing
-      // TODO: Remove
-      /*
-      case 1:
-        return WeekChart(expenses: expenses, monthlyBudgetGoal: monthlyBudgetGoal);
-      */
       case 1:
         return MonthChart(expenses: expenses, monthlyBudgetGoal: monthlyBudgetGoal);
       case 2:

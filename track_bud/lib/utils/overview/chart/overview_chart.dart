@@ -39,11 +39,6 @@ class _ExpensesOverviewTileState extends State<ExpensesOverviewTile> {
     switch (_currentTimeUnit) {
       case 0:
         return 'Heute';
-      //TODO: Remove
-      /*
-      case 1:
-        return 'Die letzten 7 Tage'; // Last 7 Days
-      */
       case 1:
         return 'Dieser Monat';
       case 2:
