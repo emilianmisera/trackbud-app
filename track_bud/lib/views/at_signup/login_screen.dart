@@ -135,19 +135,6 @@ class _LoginScreenState extends State<LoginScreen> {
               // Password input field
               CustomTextfield(controller: _password, name: AppTexts.password, hintText: AppTexts.hintPassword, obscureText: true),
               const Gap(CustomPadding.bigSpace),
-              //TODO: Remove
-              /* Align(
-                alignment: Alignment.centerRight,
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.of(context)
-                        .push(MaterialPageRoute(builder: (context) => const ForgotPasswordScreen())); // Navigate to forgot password screen
-                  },
-                  child: Text(AppTexts.forgotPassword,
-                      style: TextStyles.hintStyleMedium.copyWith(color: defaultColorScheme.secondary)), // Forgot password text
-                ),
-              ),
-              const Gap(CustomPadding.bigSpace), // Space between elements */
               // Sign in button
               ElevatedButton(onPressed: () => _loginUser(), child: Text(AppTexts.signIn)),
               const Gap(CustomPadding.bigSpace), // Space between elements
@@ -173,25 +160,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     icon: SvgPicture.asset(AssetImport.googleLogo)),
               ),
               const Gap(CustomPadding.defaultSpace),
-              //TODO: Remove
-              /*
-              CustomShadow(
-                // Apple Sign In (currently commented out)
-                child: TextButton.icon(
-                  onPressed: () {},
-                  label: Text(AppTexts.signInWithApple),
-                  icon: SvgPicture.asset(AssetImport.appleLogo),
-                  style: ButtonStyle(
-                    backgroundColor: WidgetStateProperty.resolveWith<Color>(
-                      (states) => CustomColor.black,
-                    ),
-                    foregroundColor: WidgetStateProperty.resolveWith<Color>(
-                      (states) => CustomColor.white,
-                    ),
-                  ),
-                ),
-              ),
-              */
               const Gap(CustomPadding.bigSpace),
               // New User Sign Up Text
               Row(

@@ -151,30 +151,6 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
                           selectedCategory: _selectedCategory,
                         )
                       : CategoriesIncome(onCategorySelected: _onCategorySelected, selectedCategory: _selectedCategory),
-                  //TODO: Remove
-                  /*const Gap(CustomPadding.defaultSpace),
-                  Text(AppTexts.recurrency, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
-                  const Gap(CustomPadding.mediumSpace),
-                  CustomDropDown(
-                    list: const [
-                      'einmalig',
-                      'täglich',
-                      'wöchentlich',
-                      'zweiwöchentlich',
-                      'halb-monatlich',
-                      'monatlich',
-                      'vierteljährlich',
-                      'halb-jährlich',
-                      'jährlich'
-                    ],
-                    dropdownWidth: MediaQuery.sizeOf(context).width - 32,
-                    value: _selectedRecurrence,
-                    onChanged: (value) {
-                      setState(() {
-                        _selectedRecurrence = value;
-                      });
-                    },
-                  ),*/
                   const Gap(CustomPadding.defaultSpace),
                   CustomTextfield(
                     name: AppTexts.note,
