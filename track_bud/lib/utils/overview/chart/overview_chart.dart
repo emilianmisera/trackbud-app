@@ -18,7 +18,7 @@ class ExpensesOverviewTile extends StatefulWidget {
 }
 
 class _ExpensesOverviewTileState extends State<ExpensesOverviewTile> {
-  int _currentTimeUnit = 2; // Default time unit set to "This Month"
+  int _currentTimeUnit = 1; // Default time unit set to "This Month"
 
   // A map of category names to their respective colors
   final categoryColors = {for (var category in Categories.values) category.categoryName: category.color};

@@ -157,7 +157,7 @@ class _AddTransactionState extends State<AddTransaction> {
                     name: AppTexts.amount,
                     hintText: '0.00',
                     controller: _amountController,
-                    keyboardType: TextInputType.number,
+                    keyboardType: const TextInputType.numberWithOptions(decimal: true),
                     width: MediaQuery.sizeOf(context).width / 3,
                     prefix: Text(_currentSegment == 0 ? '–' : '+',
                         style: TextStyles.titleStyleMedium

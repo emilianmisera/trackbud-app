@@ -188,7 +188,7 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
         CustomTextfield(
           name: AppTexts.amount,
           hintText: '0.00',
-          keyboardType: TextInputType.number,
+          keyboardType: const TextInputType.numberWithOptions(decimal: true),
           controller: _amountController,
           width: MediaQuery.of(context).size.width / 3,
           prefix: Text(

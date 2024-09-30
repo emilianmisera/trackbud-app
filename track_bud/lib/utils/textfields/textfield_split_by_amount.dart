@@ -26,7 +26,7 @@ class TextFieldByAmount extends StatelessWidget {
     return TextFormField(
       controller: controller,
       style: inputStyle ?? TextStyles.headingStyle.copyWith(color: defaultColorScheme.primary),
-      keyboardType: TextInputType.number,
+      keyboardType: const TextInputType.numberWithOptions(decimal: true),
       textAlign: TextAlign.center,
       focusNode: focusNode,
       inputFormatters: [

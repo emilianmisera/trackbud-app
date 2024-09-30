@@ -25,7 +25,7 @@ class TextFieldAmountOfMoney extends StatelessWidget {
       child: TextFormField(
         controller: controller,
         style: TextStyles.headingStyle.copyWith(color: defaultColorScheme.primary),
-        keyboardType: TextInputType.number, textAlign: TextAlign.center,
+        keyboardType: const TextInputType.numberWithOptions(decimal: true), textAlign: TextAlign.center,
         // only numbers with max two decimal places
         inputFormatters: [
           FilteringTextInputFormatter.allow(RegExp(r'^\d+([.,]\d{0,2})?')),
