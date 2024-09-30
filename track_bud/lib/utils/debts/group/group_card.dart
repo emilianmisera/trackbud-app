@@ -115,12 +115,13 @@ class GroupCard extends StatelessWidget {
                                               radius: 20,
                                               backgroundColor: defaultColorScheme.outline,
                                               child: Icon(Icons.person, size: 30, color: defaultColorScheme.secondary))
-                                          : CachedNetworkImage(
-                                              imageUrl: snapshot.data!.profilePictureUrl,
-                                              fit: BoxFit.cover,
-                                              placeholder: (context, url) => const CircularProgressIndicator(),
-                                              errorWidget: (context, url, error) => const Icon(Icons.person, size: 30),
-                                            ),
+                                          : snapshot.data!.profilePictureUrl.isNotEmpty
+                                              ? Image.network(snapshot.data!.profilePictureUrl, fit: BoxFit.cover)
+                                              : CircleAvatar(
+                                                  radius: 20,
+                                                  backgroundColor: defaultColorScheme.outline,
+                                                  child: Icon(Icons.person, size: 30, color: defaultColorScheme.secondary),
+                                                ),
                                     ),
                                   ),
                                 ),
