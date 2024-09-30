@@ -14,42 +14,42 @@ Die folgende Checkliste soll euch dabei helfen, selbstständig zu überprüfen, 
 
 ## Umsetzung der besprochenen Anforderungen
 
-- [ ] Alle in `anforderungen.md` besprochenen Anforderungen wurden umgesetzt. Mögliche Änderungen an den Anforderungen wurden mit Vitus besprochen und finden sich im Dokument wider.
+- [x] Alle in `anforderungen.md` besprochenen Anforderungen wurden umgesetzt. Mögliche Änderungen an den Anforderungen wurden mit Vitus besprochen und finden sich im Dokument wider.
 
 ## Codequalität und Struktur
 
 - [x] Code ist modular aufgebaut
   - [x] Einzelne Klassen sind in einzelne Dart-Dateien aufgeteilt
   - [x] Zur besseren Übersicht sind die Dart-Dateien im `lib`-Ordner in Unterordner sortiert (z.B. `widgets`, `screens`, etc.) (siehe Vorlesung 12, Folie 7)
-- [ ] Im Code finden sich keine Magic Numbers mehr. Stattdessen stehen diese als Konstanten im Code. Es bietet sich an, Konstanten in gesonderte Dateien auszulagern (siehe Vorlesung 12, Folie 9).
+- [-] Im Code finden sich keine Magic Numbers mehr. Stattdessen stehen diese als Konstanten im Code. Es bietet sich an, Konstanten in gesonderte Dateien auszulagern (siehe Vorlesung 12, Folie 9).
 - [x] Widget Trees sind nicht zu unübersichtlich. Komplexere Programmlogik innerhalb eines Widget Trees ist in eigene Methoden ausgelagert
 - [x] Die bekannten Konventionen zur Benennung von Dateien, Klassen, Methoden, Variablen, Konstanten, etc. wurden eingehalten
 - [ ] Der Code ist sinnvoll und in ausreichendem Umfang kommentiert (Kommentare erklären den Zweck des Codes und helfen beim besseren Verständnis). Kommentare sind einheitlich auf englisch (oder deutsch) verfasst.
 - [ ] Toter Code und Unused Imports wurden aus allen Dateien entfernt
-- [ ] Warnungen im Code (unterringelte Stellen in VS Code) wurden vor der finalen Abgabe vollständig behoben
+- [x] Warnungen im Code (unterringelte Stellen in VS Code) wurden vor der finalen Abgabe vollständig behoben
 
 ## Permissions
 
-- [ ] Nötige Permissions werden korrekt abgefragt
-- [ ] Die App frägt nur Permissions für Funktionalitäten ab, die auch wirklich benötigt werden
-- [ ] Bei fehlenden Permissions funktioniert die App entweder trotzdem, oder der User wird darauf hingewiesen, dass eine Nutzung nur möglich ist, wenn die entsprechende Permission gewährt wird
+- [x] Nötige Permissions werden korrekt abgefragt
+- [x] Die App frägt nur Permissions für Funktionalitäten ab, die auch wirklich benötigt werden
+- [x] Bei fehlenden Permissions funktioniert die App entweder trotzdem, oder der User wird darauf hingewiesen, dass eine Nutzung nur möglich ist, wenn die entsprechende Permission gewährt wird
 
 ## Error Handling
 
-- [ ] Mögliche Fehler werden mit try-catch-Blöcken abgefangen
-- [ ] Dem User werden klar und leicht verständliche Fehlermeldungen angezeigt (also z.B. "Es konnte keine Verbindung zum Internet hergestellt werden" statt "Network Error")
+- [x] Mögliche Fehler werden mit try-catch-Blöcken abgefangen
+- [x] Dem User werden klar und leicht verständliche Fehlermeldungen angezeigt (also z.B. "Es konnte keine Verbindung zum Internet hergestellt werden" statt "Network Error")
 - [x] Die App lässt sich ohne Probleme auf einem Android-Emulator oder einem physischen Android-Smartphone starten (Das ist für die Bewertung wichtig. Bei Fragen bitte an Vitus wenden)
 - [x] Die App stürzt zu keinem Zeitpunkt während der Nutzung ab oder friert ein
-- [ ] Bei fehlender Internetverbindung (kann durch Einschalten des Flugmodus getestet werden) funktioniert die App weiterhin, oder der User wird auf das Problem hingewiesen
-- [ ] Texteingabefelder wurden auf unerwartete Eingaben getestet
-  - [ ] Es gibt kein unerwartetes Verhalten, wenn eine TextField leer gelassen wird
-  - [ ] Es gibt kein unerwartetes Verhalten, wenn ein super langer Text, Emojis oder andere unerwartete Zeichen eingefügt werden
-- [ ] async und await finden sich an nötigen Stellen im Code (v.a. bei allen Operationen, die nicht immer und ausnahmslos in Sekundenbruchteilen abgeschlossen sind; GET Requests, Datenbank Operationen, …)
+- [x] Bei fehlender Internetverbindung (kann durch Einschalten des Flugmodus getestet werden) funktioniert die App weiterhin, oder der User wird auf das Problem hingewiesen
+- [x] Texteingabefelder wurden auf unerwartete Eingaben getestet
+  - [x] Es gibt kein unerwartetes Verhalten, wenn eine TextField leer gelassen wird
+  - [x] Es gibt kein unerwartetes Verhalten, wenn ein super langer Text, Emojis oder andere unerwartete Zeichen eingefügt werden
+- [x] async und await finden sich an nötigen Stellen im Code (v.a. bei allen Operationen, die nicht immer und ausnahmslos in Sekundenbruchteilen abgeschlossen sind; GET Requests, Datenbank Operationen, …)
 
 ## User Interface und User Experience
 
 - [x] Falls Daten im UI nicht sofort verfügbar sind (z.B. wenn diese erst aus dem Internet abgerufen werden müssen), wird im UI ein Ladeindikator (z.B. ein `CircularProgressIndicator`) angezeigt
-- [ ] Die App enthält keine UI-Elemente, die nicht funktionieren (z.B. keine Buttons, die nichts tun).
+- [x] Die App enthält keine UI-Elemente, die nicht funktionieren (z.B. keine Buttons, die nichts tun).
 - [x] Alle in der App angezeigten Widgets und Screens sind ansprechend formatiert. Keine groben Design-Schnitzer (z.B: Text "klebt" nicht am Rand, Text viel zu klein, Kontrast zwischen Text und Hintergrund zu gering)
 - [x] Navigation innerhalb der App sinnvoll gestaltet, z.B.:
   - [x] Buttons machen das, was man von ihnen erwartet
@@ -66,15 +66,15 @@ Die folgende Checkliste soll euch dabei helfen, selbstständig zu überprüfen, 
 ## Quellenangaben
 
 - [ ] Alle aus fremden Quellen übernommene Codeausschnitte sind klar gekennzeichnet (siehe im Kurs besprochene Regeln, insbesondere für Tools wie `ChatGPT`).
-- [ ] Quellenangeben für nicht selbst erstellte Assets (Bilder, Audio, etc.) sind an passender Stelle (z.B. in der Readme im Repository oder auf eigenem Impressum-Screen in der App) angegeben
+- [x] Quellenangeben für nicht selbst erstellte Assets (Bilder, Audio, etc.) sind an passender Stelle (z.B. in der Readme im Repository oder auf eigenem Impressum-Screen in der App) angegeben
 
 ## Git & GitHub
 
-- [ ] Die finale Version der App befindet sich auf dem main-Branch im Repository
+- [x] Die finale Version der App befindet sich auf dem main-Branch im Repository
 - [ ] Die APK-Datei ist im Remote-Repository auf GitHub zu finden (bestenfalls im Parent-Ordner, dort wo auch die Readme Datei liegt) und spiegelt die finale Version des Codes wider
 - [ ] Auf dem main-Branch finden sich keine weiteren Testprojekte oder sonstiger Code, der nicht direkt zum Abschlussprojekt gehört
 - [x] Die Programmierarbeit aller Projektmitglieder wurde durch regelmäßige Commits mit aussagekräftigen Commit-Messages dokumentiert
-- [ ] Features wurden stets auf eigenen Branches implementiert
+- [x] Features wurden stets auf eigenen Branches implementiert
 - [x] Pull Requests wurden korrekt gestellt und von den eigenen Teammitgliedern bearbeitet
 - [x] Die Aufgabenverteilung im Team war fair. Alle Teammitglieder haben in etwa gleich viel zum Endergebnis beigetragen
 
