@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:track_bud/utils/overview/chart/expenes%20chart/build_bar.dart';
 
+/// This Widget displays a MonthChart in OverviewScreen
 class MonthChart extends StatelessWidget {
   final List<double> expenses;
   final double monthlyBudgetGoal;
 
-  const MonthChart({
-    super.key,
-    required this.expenses,
-    required this.monthlyBudgetGoal,
-  });
+  const MonthChart({super.key, required this.expenses, required this.monthlyBudgetGoal});
 
   @override
   Widget build(BuildContext context) {
@@ -33,8 +30,8 @@ class MonthChart extends StatelessWidget {
       children: List.generate(daysInMonth, (index) {
         double cumulativeExpense = cumulativeExpenses[index];
         // Calculate fillPercentage only if the day is before or equal to today
-        double fillPercentage =
-            index < currentDay ? (cumulativeExpense / monthlyBudgetGoal).clamp(0.0, 1.0) : 0.0; // Set to 0 for future days
+        // Set to 0 for future days
+        double fillPercentage = index < currentDay ? (cumulativeExpense / monthlyBudgetGoal).clamp(0.0, 1.0) : 0.0;
         bool isOverBudget = cumulativeExpense > monthlyBudgetGoal;
         bool isCurrentDay = index == currentDay - 1;
 

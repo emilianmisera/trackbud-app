@@ -1,9 +1,9 @@
-// ignore: unused_import
-import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:track_bud/utils/constants.dart';
 
+/// This Button is only used AccountSettingsScreen
+/// it shows an icon, the title and an arrow to the right
 class AccAdjustmentButton extends StatelessWidget {
   final String icon;
   final String name;
@@ -16,10 +16,7 @@ class AccAdjustmentButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final defaultColorScheme = Theme.of(context).colorScheme;
     return ElevatedButton.icon(
-      icon: SvgPicture.asset(
-        icon,
-        colorFilter: ColorFilter.mode(defaultColorScheme.primary, BlendMode.srcIn),
-      ),
+      icon: SvgPicture.asset(icon, colorFilter: ColorFilter.mode(defaultColorScheme.primary, BlendMode.srcIn)),
       label: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

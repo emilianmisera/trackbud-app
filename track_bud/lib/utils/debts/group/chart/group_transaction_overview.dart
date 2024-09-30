@@ -6,44 +6,15 @@ import 'package:track_bud/utils/debts/group/chart/category_expense_info.dart';
 import 'package:track_bud/utils/enum/categories.dart';
 import 'package:track_bud/utils/shadow.dart';
 
-// Widget that displays an overview of transactions categorized by expense type
+/// Widget that displays an overview of transactions categorized by expense type
 class TransactionOverview extends StatelessWidget {
   // Map of categories to their corresponding amounts
   final Map<Categories, double?> categoryAmounts;
   final bool isOverview;
 
-  const TransactionOverview({
-    super.key,
-    required this.categoryAmounts,
-    this.isOverview = false,
-  });
+  const TransactionOverview({super.key, required this.categoryAmounts, this.isOverview = false});
 
-  @override
-  Widget build(BuildContext context) {
-    final defaultColorScheme = Theme.of(context).colorScheme;
-    // Render the category bar differently based on the isOverview flag
-    return isOverview
-        ? buildCategoryBar(height: 7.0)
-        : CustomShadow(
-            child: Container(
-              width: MediaQuery.sizeOf(context).width,
-              padding: const EdgeInsets.all(CustomPadding.defaultSpace),
-              decoration: BoxDecoration(
-                color: defaultColorScheme.surface,
-                borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
-              ),
-              child: Column(
-                children: [
-                  buildCategoryBar(),
-                  const Gap(CustomPadding.bigSpace),
-                  buildCategoryList(defaultColorScheme),
-                ],
-              ),
-            ),
-          );
-  }
-
-  // Build the category bar chart
+  // Build the category bar chart, source: ClaudeAI
   Widget buildCategoryBar({double height = 20.0}) {
     return CategoryBar(
       // Map category names to their corresponding amounts
@@ -62,7 +33,7 @@ class TransactionOverview extends StatelessWidget {
 
   // Build the list of category information widgets
   Widget buildCategoryList(ColorScheme defaultColorScheme) {
-    // Filter out categories with null or zero values, sort by amount in descending order
+    // Filter out categories with null or zero values, sort by amount in descending order, source: ClaudeAI
     List<MapEntry<Categories, double>> validCategories = categoryAmounts.entries
         .where((e) => e.value != null && e.value! > 0)
         .map((e) => MapEntry(e.key, e.value!)) // Cast to double instead of double?
@@ -93,16 +64,9 @@ class TransactionOverview extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Expanded(
-          child: buildCategoryColumn(leftColumn), // Left column
-        ),
-        VerticalDivider(
-          thickness: 3,
-          color: defaultColorScheme.outline,
-        ),
-        Expanded(
-          child: buildCategoryColumn(rightColumn), // Right column
-        ),
+        Expanded(child: buildCategoryColumn(leftColumn)),
+        VerticalDivider(thickness: 3, color: defaultColorScheme.outline),
+        Expanded(child: buildCategoryColumn(rightColumn))
       ],
     );
   }
@@ -139,5 +103,24 @@ class TransactionOverview extends StatelessWidget {
               ))
           .toList(),
     );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final defaultColorScheme = Theme.of(context).colorScheme;
+    // Render the category bar differently based on the isOverview flag
+    return isOverview
+        ? buildCategoryBar(height: 7.0)
+        : CustomShadow(
+            child: Container(
+              width: MediaQuery.sizeOf(context).width,
+              padding: const EdgeInsets.all(CustomPadding.defaultSpace),
+              decoration:
+                  BoxDecoration(color: defaultColorScheme.surface, borderRadius: BorderRadius.circular(Constants.contentBorderRadius)),
+              child: Column(
+                children: [buildCategoryBar(), const Gap(CustomPadding.bigSpace), buildCategoryList(defaultColorScheme)],
+              ),
+            ),
+          );
   }
 }

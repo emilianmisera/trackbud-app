@@ -4,24 +4,14 @@ import 'package:gap/gap.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/shadow.dart';
 
-// Widget for a single split button
+/// Widget for a single split button
 class SplitButton extends StatefulWidget {
-  // The icon to display on the button
   final String icon;
-  // The text to display on the button
   final String text;
-  // Function to call when the button is pressed
   final void Function() onPressed;
-  // Whether this button is currently selected
   final bool isSelected;
 
-  const SplitButton({
-    super.key,
-    required this.icon,
-    required this.text,
-    required this.onPressed,
-    required this.isSelected,
-  });
+  const SplitButton({super.key, required this.icon, required this.text, required this.onPressed, required this.isSelected});
 
   @override
   State<SplitButton> createState() => _SplitButtonState();

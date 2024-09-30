@@ -3,7 +3,7 @@ import 'package:gap/gap.dart';
 import 'package:track_bud/utils/categories/category_icon.dart';
 import 'package:track_bud/utils/constants.dart';
 
-// Widget that displays information about each category in the chart
+/// Widget that displays information about each category in the chart
 class CategoryTile extends StatelessWidget {
   final Color color;
   final String title;
@@ -41,11 +41,11 @@ class CategoryTile extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  // title
                   Text(title, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
-                  Text(
-                    '${((amount / totalAmount) * 100).toStringAsFixed(1)}%',
-                    style: TextStyles.hintStyleDefault.copyWith(fontSize: TextStyles.fontSizeHint, color: defaultColorScheme.secondary),
-                  ),
+                  // percentage
+                  Text('${((amount / totalAmount) * 100).toStringAsFixed(1)}%',
+                      style: TextStyles.hintStyleDefault.copyWith(fontSize: TextStyles.fontSizeHint, color: defaultColorScheme.secondary)),
                 ],
               ),
             ),
@@ -53,12 +53,12 @@ class CategoryTile extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
+                // total expense amount of category
                 Text('${amount.toStringAsFixed(2)}€', style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
                 const Gap(CustomPadding.mediumSpace),
-                Text(
-                  '$transactionCount Transaktionen',
-                  style: TextStyles.hintStyleDefault.copyWith(fontSize: TextStyles.fontSizeHint, color: defaultColorScheme.secondary),
-                ),
+                // transaction count
+                Text('$transactionCount Transaktionen',
+                    style: TextStyles.hintStyleDefault.copyWith(fontSize: TextStyles.fontSizeHint, color: defaultColorScheme.secondary)),
               ],
             )
           ],

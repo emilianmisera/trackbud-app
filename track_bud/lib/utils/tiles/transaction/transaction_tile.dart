@@ -6,7 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:track_bud/utils/shadow.dart';
 import 'package:track_bud/utils/tiles/transaction/transaction_detail.dart';
 
-// Widget for displaying individual transactions
+/// Widget for displaying individual transactions
 class TransactionTile extends StatefulWidget {
   final String title;
   final double amount;
@@ -90,20 +90,13 @@ class _TransactionTileState extends State<TransactionTile> {
                 .icon,
           ),
           // Transaction title
-          title: Text(
-            widget.title,
-            style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary),
-          ),
+          title: Text(widget.title, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
           // Transaction timestamp
-          subtitle: Text(
-            DateFormat('dd.MM.yyyy, HH:mm').format(widget.date),
-            style: TextStyles.hintStyleDefault.copyWith(fontSize: TextStyles.fontSizeHint, color: defaultColorScheme.secondary),
-          ),
+          subtitle: Text(DateFormat('dd.MM.yyyy, HH:mm').format(widget.date),
+              style: TextStyles.hintStyleDefault.copyWith(fontSize: TextStyles.fontSizeHint, color: defaultColorScheme.secondary)),
           // Transaction amount
-          trailing: Text(
-            widget.type == 'expense' ? '-${widget.amount.toStringAsFixed(2)}€' : '+${widget.amount.toStringAsFixed(2)}€',
-            style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary),
-          ),
+          trailing: Text(widget.type == 'expense' ? '-${widget.amount.toStringAsFixed(2)}€' : '+${widget.amount.toStringAsFixed(2)}€',
+              style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
           minVerticalPadding: CustomPadding.defaultSpace,
           onTap: _openTransaction,
         ),

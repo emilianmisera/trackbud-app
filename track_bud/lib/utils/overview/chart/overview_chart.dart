@@ -10,6 +10,7 @@ import 'package:track_bud/utils/shadow.dart';
 import 'package:track_bud/utils/tiles/time_unit_selection.dart';
 import 'package:track_bud/provider/transaction_provider.dart';
 
+/// This Widget displays in OverviewScreen the Overview of current Expenses of the Day/Month/Year
 class ExpensesOverviewTile extends StatefulWidget {
   const ExpensesOverviewTile({super.key});
 
@@ -37,15 +38,16 @@ class _ExpensesOverviewTileState extends State<ExpensesOverviewTile> {
   String _getTimeUnitText() {
     switch (_currentTimeUnit) {
       case 0:
-        return 'Heute'; // Today
+        return 'Heute';
+      //TODO: Remove
       /*
       case 1:
         return 'Die letzten 7 Tage'; // Last 7 Days
       */
       case 1:
-        return 'Dieser Monat'; // This Month
+        return 'Dieser Monat';
       case 2:
-        return 'Dieses Jahr'; // This Year
+        return 'Dieses Jahr';
       default:
         return 'Dieser Monat'; // Default to This Month
     }
@@ -70,8 +72,8 @@ class _ExpensesOverviewTileState extends State<ExpensesOverviewTile> {
           child: Container(
             padding: const EdgeInsets.all(CustomPadding.defaultSpace),
             decoration: BoxDecoration(
-              color: defaultColorScheme.surface, // Background color of the tile
-              borderRadius: BorderRadius.circular(Constants.contentBorderRadius), // Rounded corners
+              color: defaultColorScheme.surface,
+              borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -85,33 +87,29 @@ class _ExpensesOverviewTileState extends State<ExpensesOverviewTile> {
                     context.read<TransactionProvider>().calculateTotalExpenseForTimeUnit(_currentTimeUnit);
                   },
                 ),
-                const Gap(CustomPadding.defaultSpace), // Gap for spacing
+                const Gap(CustomPadding.defaultSpace),
                 Text(_getTimeUnitText(), style: TextStyles.hintStyleDefault.copyWith(color: defaultColorScheme.secondary)),
                 // Display total expense for the selected time unit
                 Consumer<TransactionProvider>(
                   builder: (context, transactionProvider, child) {
-                    return Text(
-                        '${transactionProvider.totalExpenseForTimeUnit.toStringAsFixed(2)}€', // Total expense formatted to two decimal places
+                    // total expenses
+                    return Text('${transactionProvider.totalExpenseForTimeUnit.toStringAsFixed(2)}€',
                         style: TextStyles.headingStyle.copyWith(color: defaultColorScheme.primary));
                   },
                 ),
-                const Gap(CustomPadding.mediumSpace), // Gap for spacing
+                const Gap(CustomPadding.mediumSpace),
 
                 // Display category expenses in a bar chart format
-                CategoryBar(
-                  categoryExpenses: transactionProvider.categoryAmounts, // Pass category amounts
-                  categoryColors: categoryColors, // Pass category colors
-                  height: 8, // Set the height of the category bar
-                ),
-                const Gap(CustomPadding.defaultSpace), // Gap for spacing
+                CategoryBar(categoryExpenses: transactionProvider.categoryAmounts, categoryColors: categoryColors, height: 8),
+                const Gap(CustomPadding.defaultSpace),
 
                 // Display detailed expenses charts
                 Consumer<TransactionProvider>(
                   builder: (context, transactionProvider, child) {
                     return ExpensesCharts(
                       currentTimeUnit: _currentTimeUnit,
-                      expenses: transactionProvider.expensesForTimeUnit, // Pass the expenses for the selected time unit
-                      monthlyBudgetGoal: userProvider.currentUser?.monthlySpendingGoal ?? 0.0, // Pass the user's monthly spending goal
+                      expenses: transactionProvider.expensesForTimeUnit,
+                      monthlyBudgetGoal: userProvider.currentUser?.monthlySpendingGoal ?? 0.0,
                     );
                   },
                 ),

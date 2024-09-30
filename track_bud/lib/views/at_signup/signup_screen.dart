@@ -9,6 +9,9 @@ import 'package:track_bud/utils/textfields/textfield.dart';
 import 'package:track_bud/views/at_signup/set_bank_account_screen.dart';
 import 'package:track_bud/views/at_signup/login_screen.dart';
 
+/// This Screen represents the SignUp Screen
+/// When there is a new User the User has to create a new Account
+/// for using our App
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
 
@@ -84,10 +87,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   // Add user details to Firestore
   Future<void> addUserDetails(String uid, String name, String email) async {
     // Create a new document in the "users" collection with the user's UID as the document ID
-    await FirebaseFirestore.instance.collection("users").doc(uid).set({
-      'name': name,
-      'email': email,
-    });
+    await FirebaseFirestore.instance.collection("users").doc(uid).set({'name': name, 'email': email});
   }
 
   @override
@@ -96,56 +96,40 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
-          // spacing between content and screen
           padding: EdgeInsets.only(
               top: MediaQuery.sizeOf(context).height * CustomPadding.topSpaceAuth,
               left: CustomPadding.defaultSpace,
               right: CustomPadding.defaultSpace),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start, //alignment to left
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(AppTexts.signUp, style: TextStyles.headingStyle.copyWith(color: defaultColorScheme.primary)),
               const Gap(CustomPadding.mediumSpace),
               Text(AppTexts.signUpDescription, style: TextStyles.hintStyleDefault.copyWith(color: defaultColorScheme.secondary)),
               const Gap(CustomPadding.defaultSpace),
               //first name
-              CustomTextfield(
-                controller: _name,
-                name: AppTexts.firstName,
-                hintText: AppTexts.hintFirstName,
-                obscureText: false,
-              ),
+              CustomTextfield(controller: _name, name: AppTexts.firstName, hintText: AppTexts.hintFirstName, obscureText: false),
               const Gap(CustomPadding.defaultSpace),
               //email
               CustomTextfield(
-                controller: _email,
-                name: AppTexts.email,
-                hintText: AppTexts.hintEmail,
-                obscureText: false,
-                keyboardType: TextInputType.emailAddress,
-              ),
+                  controller: _email,
+                  name: AppTexts.email,
+                  hintText: AppTexts.hintEmail,
+                  obscureText: false,
+                  keyboardType: TextInputType.emailAddress),
               const Gap(CustomPadding.defaultSpace),
               //password
-              CustomTextfield(
-                controller: _password,
-                name: AppTexts.password,
-                hintText: AppTexts.hintPassword,
-                obscureText: true,
-              ),
+              CustomTextfield(controller: _password, name: AppTexts.password, hintText: AppTexts.hintPassword, obscureText: true),
               const Gap(CustomPadding.defaultSpace),
               //confirm Password
               CustomTextfield(
-                controller: _confirmPassword,
-                name: AppTexts.confirmPassword,
-                hintText: AppTexts.confirmPassword,
-                obscureText: true,
-              ), //password
+                  controller: _confirmPassword,
+                  name: AppTexts.confirmPassword,
+                  hintText: AppTexts.confirmPassword,
+                  obscureText: true), //password
               const Gap(CustomPadding.bigSpace),
               //sign up button
-              ElevatedButton(
-                onPressed: () => signUp(),
-                child: Text(AppTexts.signUp),
-              ),
+              ElevatedButton(onPressed: () => signUp(), child: Text(AppTexts.signUp)),
               const Gap(CustomPadding.bigSpace),
               Row(
                 // Redirection to sign in page if user does have an account

@@ -3,35 +3,26 @@ import 'package:track_bud/models/user_model.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/shadow.dart';
 
+/// This Widget displays a single Equal Tile for the EqualFirendSPlitWidget
 class EqualFriendTile extends StatelessWidget {
   final UserModel user;
   final double splitAmount;
 
-  const EqualFriendTile({
-    super.key,
-    required this.user,
-    required this.splitAmount,
-  });
+  const EqualFriendTile({super.key, required this.user, required this.splitAmount});
 
   @override
   Widget build(BuildContext context) {
     final defaultColorScheme = Theme.of(context).colorScheme;
     return CustomShadow(
       child: Container(
-        decoration: BoxDecoration(
-          color: defaultColorScheme.surface,
-          borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
-        ),
+        decoration: BoxDecoration(color: defaultColorScheme.surface, borderRadius: BorderRadius.circular(Constants.contentBorderRadius)),
         child: ListTile(
-          contentPadding: const EdgeInsets.symmetric(
-            horizontal: CustomPadding.defaultSpace,
-            vertical: CustomPadding.defaultSpace,
-          ),
+          contentPadding: const EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace, vertical: CustomPadding.defaultSpace),
           leading: ClipRRect(
-            borderRadius: BorderRadius.circular(100.0),
+            borderRadius: BorderRadius.circular(Constants.roundedCorners),
             child: SizedBox(
-              width: 40,
-              height: 40,
+              width: Constants.addGroupPPSize,
+              height: Constants.addGroupPPSize,
               child: user.profilePictureUrl.isNotEmpty
                   ? Image.network(user.profilePictureUrl, fit: BoxFit.cover)
                   : const Icon(Icons.person, size: 30),

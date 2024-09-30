@@ -8,6 +8,9 @@ import 'package:track_bud/utils/debts/group/group_card.dart';
 import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfields/searchfield.dart';
 
+/// In this Screen the User sees all his groups
+/// you can search groups with the searchbar
+/// and you can add a new group
 class YourGroupsScreen extends StatefulWidget {
   const YourGroupsScreen({super.key});
 

@@ -11,6 +11,9 @@ import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfields/searchfield.dart';
 import 'package:share_plus/share_plus.dart';
 
+/// In this Screen the User sees all his friends
+/// you can search friends with the searchbar
+/// and you can add a new friend via link
 class YourFriendsScreen extends StatefulWidget {
   const YourFriendsScreen({super.key});
 
@@ -57,10 +60,7 @@ class _YourFriendsScreenState extends State<YourFriendsScreen> {
         centerTitle: true,
         actions: [
           // Icon button to share the invite link
-          IconButton(
-            onPressed: _shareInviteLink,
-            icon: const Icon(Icons.person_add_alt_outlined, color: CustomColor.bluePrimary, size: 30),
-          )
+          IconButton(onPressed: _shareInviteLink, icon: const Icon(Icons.person_add_alt_outlined, color: CustomColor.bluePrimary, size: 30))
         ],
       ),
       body: Consumer<UserProvider>(
@@ -79,10 +79,7 @@ class _YourFriendsScreenState extends State<YourFriendsScreen> {
           return SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.only(
-                top: CustomPadding.defaultSpace,
-                left: CustomPadding.defaultSpace,
-                right: CustomPadding.defaultSpace,
-              ),
+                  top: CustomPadding.defaultSpace, left: CustomPadding.defaultSpace, right: CustomPadding.defaultSpace),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

@@ -3,22 +3,16 @@ import 'package:track_bud/models/user_model.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/shadow.dart';
 
+/// This Widget displays a single Percent Tile for the PercentalSplitWidget
 class PercentTile extends StatefulWidget {
-  // Make it stateful
   final double amount;
   final UserModel user;
   final double sliderValue;
   final Function(double) onChanged;
   final bool isGroup;
 
-  const PercentTile({
-    super.key,
-    required this.amount,
-    required this.user,
-    required this.sliderValue,
-    required this.onChanged,
-    required this.isGroup,
-  });
+  const PercentTile(
+      {super.key, required this.amount, required this.user, required this.sliderValue, required this.onChanged, required this.isGroup});
 
   @override
   State<PercentTile> createState() => _PercentTileState();
@@ -43,10 +37,10 @@ class _PercentTileState extends State<PercentTile> {
             ListTile(
               contentPadding: const EdgeInsets.only(left: CustomPadding.defaultSpace),
               leading: ClipRRect(
-                borderRadius: BorderRadius.circular(100.0),
+                borderRadius: BorderRadius.circular(Constants.roundedCorners),
                 child: SizedBox(
-                  width: 40,
-                  height: 40,
+                  width: Constants.addGroupPPSize,
+                  height: Constants.addGroupPPSize,
                   child: widget.user.profilePictureUrl.isNotEmpty
                       ? Image.network(widget.user.profilePictureUrl, fit: BoxFit.cover)
                       : const Icon(Icons.person, color: Colors.grey),

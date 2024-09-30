@@ -20,15 +20,12 @@ import 'package:track_bud/utils/textfields/textfield.dart';
 import 'package:track_bud/utils/textinput_formatters.dart';
 import 'package:uuid/uuid.dart';
 
+/// This Widget is the Sheet, when you want to add a new Friend Split
 class AddFriendSplit extends StatefulWidget {
   final UserModel selectedFriend;
   final UserModel currentUser;
 
-  const AddFriendSplit({
-    required this.selectedFriend,
-    required this.currentUser,
-    super.key,
-  });
+  const AddFriendSplit({required this.selectedFriend, required this.currentUser, super.key});
 
   @override
   State<AddFriendSplit> createState() => _AddFriendSplitState();
@@ -46,9 +43,7 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
   List<double> _splitAmounts = [0.0, 0.0];
   final _focusNodeTitle = FocusNode();
   final _focusNodeAmount = FocusNode();
-  // Message to indicate any validation issues with the split amounts
   String _splitSumValidationMessage = '';
-  // List to manage focus nodes for the amount input fields
   List<FocusNode> _byAmountFocusNodes = [];
   DateTime _selectedDateTime = DateTime.now();
 
@@ -59,7 +54,6 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
     _titleController.addListener(_validateForm);
     _amountController.addListener(_onInputChanged);
     _payedBy = widget.currentUser.name;
-
     // Create focus nodes for amount input fields
     _byAmountFocusNodes = List.generate(2, (_) => FocusNode());
   }
@@ -88,7 +82,6 @@ class _AddFriendSplitState extends State<AddFriendSplit> {
 
       if (_selectedSplitMethod == SplitMethod.amount) {
         // For "by amount" splits, check that the sum of split amounts equals the total
-
         _isFormValid = _amountController.text.isNotEmpty &&
             _selectedCategory.isNotEmpty &&
             totalAmount == sumOfAmounts &&

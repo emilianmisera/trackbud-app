@@ -7,6 +7,8 @@ import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/views/subpages/change_bankaccount_screen.dart';
 import 'package:track_bud/views/subpages/change_budgetgoal_screen.dart';
 
+/// This Screen represents the Account Settings Screen
+/// here the User can edit his Account Balance and his Budget Goal
 class AccountSettingsScreen extends StatefulWidget {
   const AccountSettingsScreen({super.key});
 
@@ -20,9 +22,8 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
     final defaultColorScheme = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppTexts.accAdjustments, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
-        centerTitle: true,
-      ),
+          title: Text(AppTexts.accAdjustments, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
+          centerTitle: true),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.only(
@@ -32,36 +33,20 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                AppTexts.budget,
-                style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary),
-              ),
+              Text(AppTexts.budget, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
               const Gap(CustomPadding.mediumSpace),
+              //BankAccount
               AccAdjustmentButton(
-                  //BankAccount
                   icon: AssetImport.changeAmount,
                   name: AppTexts.changeBankAcc,
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const ChangeBankaccountScreen(),
-                      ),
-                    );
-                  }),
+                  onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const ChangeBankaccountScreen()))),
               const Gap(CustomPadding.mediumSpace),
+              // Budget Goal
               AccAdjustmentButton(
-                  // Budget Goal
                   icon: AssetImport.target,
                   name: AppTexts.changeBudgetGoal,
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const ChangeBudgetGoalScreen(),
-                      ),
-                    );
-                  }),
+                  onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const ChangeBudgetGoalScreen()))),
+              //TODO: Remove
               /*
               const Gap(CustomPadding.mediumSpace),
               AccAdjustmentWidget(
@@ -74,6 +59,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
               const Gap(CustomPadding.defaultSpace),
               Text(AppTexts.sonstiges, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
               const Gap(CustomPadding.mediumSpace),
+              // Color Scheme
               AccAdjustmentWidget(
                   color: defaultColorScheme.onSurface,
                   icon: AssetImport.mode,

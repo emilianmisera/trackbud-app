@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
 import 'package:track_bud/provider/group_provider.dart';
 import 'package:track_bud/provider/user_provider.dart';
@@ -11,6 +12,10 @@ import 'package:track_bud/utils/tiles/information_tiles.dart';
 import 'package:track_bud/views/subpages/your_friends_screen.dart';
 import 'package:track_bud/views/subpages/your_groups_screen.dart';
 
+/// This is the Debts Screen
+/// It is one of the Naviagtion Pages
+/// It displays Friends and Groups of the User
+/// and his debts or credits between him and his friends
 class DebtsScreen extends StatefulWidget {
   const DebtsScreen({super.key});
 
@@ -54,10 +59,9 @@ class _DebtsScreenState extends State<DebtsScreen> {
           slivers: [
             SliverPadding(
               padding: EdgeInsets.only(
-                top: MediaQuery.of(context).size.height * CustomPadding.topSpace,
-                left: CustomPadding.defaultSpace,
-                right: CustomPadding.defaultSpace,
-              ),
+                  top: MediaQuery.of(context).size.height * CustomPadding.topSpace,
+                  left: CustomPadding.defaultSpace,
+                  right: CustomPadding.defaultSpace),
               sliver: SliverList(
                 delegate: SliverChildListDelegate([
                   // Row for displaying total debts and credits
@@ -78,31 +82,20 @@ class _DebtsScreenState extends State<DebtsScreen> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: CustomPadding.defaultSpace),
+                  const Gap(CustomPadding.defaultSpace),
                   // Row for friends section header
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        AppTexts.friends,
-                        style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary),
-                      ),
+                      Text(AppTexts.friends, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
                       GestureDetector(
-                        onTap: () {
-                          // Navigate to friends screen
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => const YourFriendsScreen()),
-                          );
-                        },
-                        child: Text(
-                          AppTexts.showAll,
-                          style: TextStyles.regularStyleMedium.copyWith(color: CustomColor.bluePrimary),
-                        ),
+                        // Navigate to friends screen
+                        onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const YourFriendsScreen())),
+                        child: Text(AppTexts.showAll, style: TextStyles.regularStyleMedium.copyWith(color: CustomColor.bluePrimary)),
                       ),
                     ],
                   ),
-                  const SizedBox(height: CustomPadding.mediumSpace),
+                  const Gap(CustomPadding.mediumSpace),
                   // Display a list of friends with their debts
                   if (friendSplitProvider.isLoading && userProvider.friends.isNotEmpty)
                     Column(
@@ -110,15 +103,14 @@ class _DebtsScreenState extends State<DebtsScreen> {
                           .take(5)
                           .map((friend) => Padding(
                                 padding: const EdgeInsets.symmetric(vertical: CustomPadding.smallSpace),
-                                child: FriendCard(
-                                  friend: friend,
-                                  debtAmount: friendSplitProvider.getFriendBalance(friend.userId),
-                                ),
+                                child: FriendCard(friend: friend, debtAmount: friendSplitProvider.getFriendBalance(friend.userId)),
                               ))
                           .toList(),
                     )
                   else if (friendSplitProvider.isLoading && userProvider.friends.isEmpty)
-                    const Center(child: Text("Keine Freunde gefunden."))
+                    Center(
+                        child: Text("Keine Freunde gefunden.",
+                            style: TextStyles.regularStyleDefault.copyWith(color: defaultColorScheme.secondary)))
                   else
                     Column(
                       children: userProvider.friends
@@ -132,34 +124,24 @@ class _DebtsScreenState extends State<DebtsScreen> {
                               ))
                           .toList(),
                     ),
-                  const SizedBox(height: CustomPadding.defaultSpace),
+                  const Gap(CustomPadding.defaultSpace),
                   // Row for groups section header
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        AppTexts.groups,
-                        style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary),
-                      ),
+                      Text(AppTexts.groups, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
                       GestureDetector(
-                        onTap: () {
-                          // Navigate to groups screen
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => const YourGroupsScreen()),
-                          );
-                        },
-                        child: Text(
-                          AppTexts.showAll,
-                          style: TextStyles.regularStyleMedium.copyWith(color: CustomColor.bluePrimary),
-                        ),
+                        // Navigate to groups screen
+                        onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const YourGroupsScreen())),
+                        child: Text(AppTexts.showAll, style: TextStyles.regularStyleMedium.copyWith(color: CustomColor.bluePrimary)),
                       ),
                     ],
                   ),
-                  const SizedBox(height: CustomPadding.mediumSpace),
+                  const Gap(CustomPadding.mediumSpace),
                 ]),
               ),
             ),
+            
             // Consumer widget to listen to group provider changes (hilfe von ChatGPT um Gruppen nach neuer Transaktion direkt zu aktualisieren.)
             Consumer<GroupProvider>(
               builder: (context, groupProvider, child) {

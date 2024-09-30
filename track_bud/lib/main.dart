@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:track_bud/firebase_options.dart';
+import 'package:track_bud/offline_notification.dart';
 import 'package:track_bud/provider/friend_split_provider.dart';
 import 'package:track_bud/provider/group_provider.dart';
 import 'package:track_bud/provider/transaction_provider.dart';
@@ -19,9 +20,10 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  //TODO: Remove
   //await FirebaseApi().initNotifications();
   FirebaseFirestore.instance.settings = const Settings(persistenceEnabled: true); // Offline-Persistence
-
+  //TODO: Remove
   /*SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: CustomColor.backgroundPrimary, // StatusBar (android)
     statusBarIconBrightness: Brightness.dark, //shows dark icons in status bar (Allways) -> change for dark mode (android)
@@ -64,38 +66,9 @@ class MainApp extends StatelessWidget {
       // Show Login screen if we aren't logged in, otherwise go to main app.
       home: OfflineNotificationWrapper(
         child: StreamBuilder(
-          stream: FirebaseAuth.instance.authStateChanges(),
-          builder: (context, snapshot) => snapshot.hasData ? const TrackBud() : const OnboardingScreen(),
-        ),
+            stream: FirebaseAuth.instance.authStateChanges(),
+            builder: (context, snapshot) => snapshot.hasData ? const TrackBud() : const OnboardingScreen()),
       ),
-    );
-  }
-}
-
-// Widget that listens for offline status and shows a snackbar
-class OfflineNotificationWrapper extends StatelessWidget {
-  final Widget child;
-
-  const OfflineNotificationWrapper({super.key, required this.child});
-
-  @override
-  Widget build(BuildContext context) {
-    return Consumer<ConnectivityService>(
-      builder: (context, connectivityService, childWidget) {
-        if (!connectivityService.isOnline) {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Du bist offline! Bitte überprüfe deine Internetverbindung.'),
-                duration: Duration(seconds: 10),
-                backgroundColor: Colors.red,
-              ),
-            );
-          });
-        }
-        return childWidget!;
-      },
-      child: child,
     );
   }
 }

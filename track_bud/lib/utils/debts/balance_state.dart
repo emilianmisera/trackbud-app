@@ -2,38 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/enum/debts_box.dart';
 
+/// This Widgets shows the Balance State between him and his friend
+/// blue = even
+/// green = friend owes you
+/// red = you owe friend
 class BalanceState extends StatelessWidget {
-  // Color scheme for the balance display, based on DebtsColorScheme
   final DebtsColorScheme colorScheme;
 
-  // The amount to be displayed; can be null
+  // The amount to be displayed
   final String? amount;
 
-  const BalanceState({
-    super.key,
-    required this.colorScheme, // Required parameter for color scheme
-    this.amount, // Optional parameter for the amount
-  });
+  const BalanceState({super.key, required this.colorScheme, this.amount});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      // Padding around the balance display
-      padding: const EdgeInsets.symmetric(
-        horizontal: CustomPadding.mediumSpace, // Horizontal padding
-        vertical: CustomPadding.smallSpace, // Vertical padding
-      ),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(5), // Rounded corners for the container
-        color: colorScheme.getColor(context), // Background color based on the provided color scheme
-      ),
-      // Display the amount or a default text if amount is null
-      child: Text(
-        amount ?? 'quitt', // Default text if no amount is provided
-        style: TextStyles.regularStyleMedium.copyWith(
-          color: colorScheme.textColor, // Text color based on the provided color scheme
-        ),
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: CustomPadding.mediumSpace, vertical: CustomPadding.smallSpace),
+      decoration:
+          BoxDecoration(borderRadius: BorderRadius.circular(Constants.balanceStateBoxCorners), color: colorScheme.getColor(context)),
+      // Display the amount
+      child: Text(amount ?? 'quitt', style: TextStyles.regularStyleMedium.copyWith(color: colorScheme.textColor)),
     );
   }
 }

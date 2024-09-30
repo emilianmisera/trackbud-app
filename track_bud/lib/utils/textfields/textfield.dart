@@ -4,6 +4,7 @@ import 'package:gap/gap.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/shadow.dart';
 
+/// reusbale TextField
 class CustomTextfield extends StatelessWidget {
   final String? name;
   final String hintText;
@@ -36,7 +37,7 @@ class CustomTextfield extends StatelessWidget {
     this.isMultiline = false,
     this.type,
     this.inputFormatters,
-    this.focusNode, // default false
+    this.focusNode,
     this.keyboardType,
     this.errorText,
     this.borderColor,
@@ -79,27 +80,22 @@ class CustomTextfield extends StatelessWidget {
                   child: suffix,
                 ),
                 hintText: hintText,
-                contentPadding: const EdgeInsets.symmetric(
-                  horizontal: CustomPadding.defaultSpace,
-                  vertical: CustomPadding.contentHeightSpace,
-                ),
+                contentPadding:
+                    const EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace, vertical: CustomPadding.contentHeightSpace),
                 hintStyle: TextStyles.hintStyleDefault.copyWith(color: defaultColorScheme.secondary),
                 floatingLabelBehavior: FloatingLabelBehavior.never,
                 filled: true,
                 fillColor: defaultColorScheme.surface,
                 border: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: borderColor ?? defaultColorScheme.outline,
-                    width: 1.0,
-                  ),
+                  borderSide: BorderSide(color: borderColor ?? defaultColorScheme.outline, width: 1.0),
                   borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
                 ),
                 errorBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(color: CustomColor.red, width: 1.0), // Hier wird der Fehler-Rand definiert
+                  borderSide: const BorderSide(color: CustomColor.red, width: 1.0),
                   borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
                 ),
                 focusedErrorBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(color: CustomColor.red, width: 1.0), // Hier wird der Fokus-Fehler-Rand definiert
+                  borderSide: const BorderSide(color: CustomColor.red, width: 1.0),
                   borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
                 ),
                 errorText: errorText,

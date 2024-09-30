@@ -24,7 +24,6 @@ class _TrackBudState extends State<TrackBud> {
   // Current index to keep track of the selected page
   int _currentIndex = 0;
 
-
   @override
   void initState() {
     super.initState();
@@ -39,7 +38,6 @@ class _TrackBudState extends State<TrackBud> {
       _handleDynamicLink(deepLink);
     }).onError((error) {
       debugPrint('Fehler beim Empfangen des dynamischen Links: $error');
-
     });
   }
 
@@ -87,12 +85,7 @@ class _TrackBudState extends State<TrackBud> {
           // Update current index when page changes
           setState(() => _currentIndex = index);
         },
-        children: const [
-          OverviewScreen(),
-          DebtsScreen(),
-          AnalysisScreen(),
-          SettingsScreen(),
-        ],
+        children: const [OverviewScreen(), DebtsScreen(), AnalysisScreen(), SettingsScreen()],
       ),
     );
   }

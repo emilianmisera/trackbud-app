@@ -11,6 +11,8 @@ import 'package:track_bud/utils/plus_button/split/add_friend_split.dart';
 import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/tiles/split/friend_split_tile.dart';
 
+/// This Screen represents the Friend Profile
+/// here the User sees the current balance state, shared groups and the Split history
 class FriendProfileScreen extends StatefulWidget {
   final UserModel friend; // The friend whose profile is displayed
 
@@ -46,7 +48,7 @@ class _FriendProfileScreenState extends State<FriendProfileScreen> {
   Widget _buildProfileHeader() {
     return Center(
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(100.0),
+        borderRadius: BorderRadius.circular(Constants.roundedCorners),
         child: SizedBox(
           width: Constants.profilePictureAccountEdit,
           height: Constants.profilePictureAccountEdit,
@@ -92,6 +94,7 @@ class _FriendProfileScreenState extends State<FriendProfileScreen> {
           return Text('Keine Splits gefunden.', style: TextStyle(color: defaultColorScheme.primary));
         } else {
           // Sort the list: pending splits first, then by date in descending order
+          // source: ClaudeAI
           snapshot.data!.sort((a, b) {
             if (a.status == 'pending' && b.status != 'pending') {
               return -1; // a comes first
@@ -102,7 +105,7 @@ class _FriendProfileScreenState extends State<FriendProfileScreen> {
               return b.date.compareTo(a.date);
             }
           });
-
+          // ListView for Split history
           return ListView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
@@ -110,11 +113,7 @@ class _FriendProfileScreenState extends State<FriendProfileScreen> {
             itemBuilder: (context, index) {
               return Padding(
                 padding: const EdgeInsets.only(bottom: CustomPadding.mediumSpace),
-                child: FriendSplitTile(
-                  split: snapshot.data![index],
-                  currentUserId: currentUserId,
-                  friendName: widget.friend.name,
-                ),
+                child: FriendSplitTile(split: snapshot.data![index], currentUserId: currentUserId, friendName: widget.friend.name),
               );
             },
           );
@@ -145,11 +144,9 @@ class _FriendProfileScreenState extends State<FriendProfileScreen> {
                       try {
                         await _firestoreService.payOffFriendSplits(currentUserId, widget.friend.userId);
                         if (context.mounted) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                                content: Text('Schulden mit ${widget.friend.name} wurden beglichen.',
-                                    style: TextStyle(color: defaultColorScheme.primary))),
-                          );
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text('Schulden mit ${widget.friend.name} wurden beglichen.',
+                                  style: TextStyle(color: defaultColorScheme.primary))));
                         }
                         setState(() {});
                       } catch (e) {
@@ -158,9 +155,7 @@ class _FriendProfileScreenState extends State<FriendProfileScreen> {
                     }
                   : null, // onPressed is null when disabled
               style: ElevatedButton.styleFrom(
-                disabledBackgroundColor: CustomColor.bluePrimary.withOpacity(0.5),
-                backgroundColor: CustomColor.bluePrimary,
-              ),
+                  disabledBackgroundColor: CustomColor.bluePrimary.withOpacity(0.5), backgroundColor: CustomColor.bluePrimary),
               child: Text(AppTexts.payOffDebts),
             ),
           );
@@ -209,10 +204,7 @@ class _FriendProfileScreenState extends State<FriendProfileScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          widget.friend.name,
-          style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary),
-        ),
+        title: Text(widget.friend.name, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
         centerTitle: true,
       ),
       body: Column(
@@ -222,10 +214,7 @@ class _FriendProfileScreenState extends State<FriendProfileScreen> {
             child: SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.only(
-                  top: CustomPadding.defaultSpace,
-                  left: CustomPadding.defaultSpace,
-                  right: CustomPadding.defaultSpace,
-                ),
+                    top: CustomPadding.defaultSpace, left: CustomPadding.defaultSpace, right: CustomPadding.defaultSpace),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -236,10 +225,7 @@ class _FriendProfileScreenState extends State<FriendProfileScreen> {
                     const Gap(CustomPadding.defaultSpace),
                     _buildPayOffDebtsButton(currentUserId), // Build pay-off debts button
                     const Gap(CustomPadding.bigSpace),
-                    Text(
-                      AppTexts.history,
-                      style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary),
-                    ),
+                    Text(AppTexts.history, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
                     const Gap(CustomPadding.mediumSpace),
                     _buildHistorySection(currentUserId), // Build history section
                   ],

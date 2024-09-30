@@ -11,7 +11,7 @@ import 'package:track_bud/utils/shadow.dart';
 import 'package:track_bud/utils/strings.dart';
 import 'package:intl/intl.dart';
 
-// Widget for displaying detailed transaction information
+/// Widget for displaying detailed transaction information
 class TransactionDetail extends StatefulWidget {
   final String title;
   final double amount;
@@ -41,6 +41,7 @@ class TransactionDetail extends StatefulWidget {
 }
 
 class _TransactionDetailState extends State<TransactionDetail> {
+  // options for DropDown Menu
   final List<String> options = ['Bearbeiten', 'Löschen'];
 
   @override
@@ -57,28 +58,19 @@ class _TransactionDetailState extends State<TransactionDetail> {
               // Dropdown menu for edit and delete options
               DropdownButtonHideUnderline(
                 child: DropdownButton2(
-                  customButton: Icon(
-                    Icons.more_vert_rounded,
-                    size: 25,
-                    color: defaultColorScheme.primary,
-                  ),
+                  customButton: Icon(Icons.more_vert_rounded, size: 25, color: defaultColorScheme.primary),
                   items: options.map((String option) {
                     return DropdownMenuItem<String>(
                       value: option,
                       child: Row(
                         children: [
-                          SvgPicture.asset(
-                            option == 'Bearbeiten' ? AssetImport.edit : AssetImport.trash,
-                            colorFilter:
-                                ColorFilter.mode(option == 'Bearbeiten' ? defaultColorScheme.primary : CustomColor.red, BlendMode.srcIn),
-                          ),
+                          SvgPicture.asset(option == 'Bearbeiten' ? AssetImport.edit : AssetImport.trash,
+                              colorFilter:
+                                  ColorFilter.mode(option == 'Bearbeiten' ? defaultColorScheme.primary : CustomColor.red, BlendMode.srcIn)),
                           const Gap(CustomPadding.mediumSpace),
-                          Text(
-                            option,
-                            style: TextStyles.regularStyleDefault.copyWith(
-                              color: option == 'Bearbeiten' ? defaultColorScheme.primary : CustomColor.red,
-                            ),
-                          ),
+                          Text(option,
+                              style: TextStyles.regularStyleDefault
+                                  .copyWith(color: option == 'Bearbeiten' ? defaultColorScheme.primary : CustomColor.red))
                         ],
                       ),
                     );
@@ -96,31 +88,23 @@ class _TransactionDetailState extends State<TransactionDetail> {
                     width: 160,
                     padding: const EdgeInsets.symmetric(vertical: 6),
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
-                      color: defaultColorScheme.surface,
-                    ),
+                        borderRadius: BorderRadius.circular(Constants.contentBorderRadius), color: defaultColorScheme.surface),
                   ),
-                  menuItemStyleData: const MenuItemStyleData(
-                    height: 48,
-                    padding: EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace),
-                  ),
+                  menuItemStyleData:
+                      const MenuItemStyleData(height: 48, padding: EdgeInsets.symmetric(horizontal: CustomPadding.defaultSpace)),
                 ),
               ),
               Expanded(
                 child: Center(
-                  child: Text(
-                    AppTexts.expense,
-                    style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary),
-                  ),
+                  child: Text(AppTexts.expense, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
                 ),
               ),
               // Close button
               IconButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                icon: Icon(Icons.close_rounded, color: defaultColorScheme.primary),
-              ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  icon: Icon(Icons.close_rounded, color: defaultColorScheme.primary)),
             ],
           ),
           const Gap(CustomPadding.defaultSpace),
@@ -145,11 +129,8 @@ class _TransactionDetailState extends State<TransactionDetail> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    widget.title,
-                    overflow: TextOverflow.visible, // Allow text to wrap to the next line
-                    style: TextStyles.titleStyleMedium.copyWith(color: defaultColorScheme.primary),
-                  ),
+                  Text(widget.title,
+                      overflow: TextOverflow.visible, style: TextStyles.titleStyleMedium.copyWith(color: defaultColorScheme.primary)),
                   const Gap(CustomPadding.smallSpace),
                   Text(DateFormat('dd.MM.yyyy, HH:mm').format(widget.date),
                       style: TextStyles.hintStyleDefault.copyWith(color: defaultColorScheme.secondary)),

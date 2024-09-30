@@ -1,5 +1,3 @@
-// Source: ChatGPT
-
 import 'package:flutter/services.dart';
 
 class MaxValueInputFormatter extends TextInputFormatter {

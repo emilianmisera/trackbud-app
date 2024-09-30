@@ -10,6 +10,7 @@ import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/textfields/textfield.dart';
 import 'package:track_bud/views/at_signup/signup_screen.dart';
 
+/// Screen for User Login
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -47,8 +48,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   // Handles user login with email and password
   void _loginUser() async {
-    final defaultColorScheme = Theme.of(context).colorScheme; // Get the current theme's color scheme
-    final FirebaseService authService = FirebaseService(); // Create instance of Firebase service
+    final defaultColorScheme = Theme.of(context).colorScheme;
+    final FirebaseService authService = FirebaseService();
     String email = _email.text.trim(); // Trimmed email input
     String password = _password.text.trim(); // Trimmed password input
 
@@ -68,9 +69,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
       debugPrint('login_screen: _loginUser -> success! -> redirecting to Overview');
       if (mounted) {
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => const TrackBud()), // Navigate to the main app screen upon successful login
-        );
+        // Navigate to the main app screen upon successful login
+        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const TrackBud()));
       }
     } catch (e) {
       debugPrint('login_screen: _loginUser -> user login failed');
@@ -80,10 +80,8 @@ class _LoginScreenState extends State<LoginScreen> {
         showDialog(
           context: context,
           builder: (context) => AlertDialog(
-            title: Text(
-              _getErrorMessage(e), // Get the appropriate error message
-              style: TextStyle(color: defaultColorScheme.primary),
-            ),
+            // Get the appropriate error message
+            title: Text(_getErrorMessage(e), style: TextStyle(color: defaultColorScheme.primary)),
           ),
         );
       }
@@ -95,13 +93,13 @@ class _LoginScreenState extends State<LoginScreen> {
     if (e is FirebaseAuthException) {
       switch (e.code) {
         case 'user-not-found':
-          return 'Benutzer nicht gefunden.'; // User not found message
+          return 'Benutzer nicht gefunden.';
         case 'wrong-password':
-          return 'Falsches Passwort.'; // Wrong password message
+          return 'Falsches Passwort.';
         case 'invalid-email':
-          return 'Ungültige E-Mail Adresse.'; // Invalid email message
+          return 'Ungültige E-Mail Adresse.';
         default:
-          return 'Fehlerhafte Anmeldung!'; // Generic login error message
+          return 'Fehlerhafte Anmeldung!';
       }
     }
     return 'Fehlerhafte Anmeldung!'; // Default error message
@@ -109,39 +107,35 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final defaultColorScheme = Theme.of(context).colorScheme; // Get the current theme's color scheme
+    final defaultColorScheme = Theme.of(context).colorScheme;
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.only(
-            top: MediaQuery.sizeOf(context).height * CustomPadding.topSpaceAuth, // Padding from the top
-            left: CustomPadding.defaultSpace, // Left padding
-            right: CustomPadding.defaultSpace, // Right padding
-          ),
+              top: MediaQuery.sizeOf(context).height * CustomPadding.topSpaceAuth,
+              left: CustomPadding.defaultSpace,
+              right: CustomPadding.defaultSpace),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start, // Align content to the left
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(AppTexts.signIn, style: TextStyles.headingStyle.copyWith(color: defaultColorScheme.primary)), // Main title
-              const Gap(CustomPadding.mediumSpace), // Space between elements
-              Text(AppTexts.signInDescription,
-                  style: TextStyles.hintStyleDefault.copyWith(color: defaultColorScheme.secondary)), // Description
-              const Gap(CustomPadding.defaultSpace), // Space between elements
+              // Main title
+              Text(AppTexts.signIn, style: TextStyles.headingStyle.copyWith(color: defaultColorScheme.primary)),
+              const Gap(CustomPadding.mediumSpace),
+              // Description
+              Text(AppTexts.signInDescription, style: TextStyles.hintStyleDefault.copyWith(color: defaultColorScheme.secondary)),
+              const Gap(CustomPadding.defaultSpace),
+              // Email input field
               CustomTextfield(
-                controller: _email,
-                name: AppTexts.email,
-                hintText: AppTexts.hintEmail,
-                obscureText: false,
-                keyboardType: TextInputType.emailAddress,
-              ), // Email input field
-              const Gap(CustomPadding.defaultSpace), // Space between elements
-              CustomTextfield(
-                controller: _password,
-                name: AppTexts.password,
-                hintText: AppTexts.hintPassword,
-                obscureText: true,
-              ), // Password input field
-              const Gap(CustomPadding.bigSpace), // Space between elements
-              // password forgotton currently not working
+                  controller: _email,
+                  name: AppTexts.email,
+                  hintText: AppTexts.hintEmail,
+                  obscureText: false,
+                  keyboardType: TextInputType.emailAddress),
+              const Gap(CustomPadding.defaultSpace),
+              // Password input field
+              CustomTextfield(controller: _password, name: AppTexts.password, hintText: AppTexts.hintPassword, obscureText: true),
+              const Gap(CustomPadding.bigSpace),
+              //TODO: Remove
               /* Align(
                 alignment: Alignment.centerRight,
                 child: GestureDetector(
@@ -154,37 +148,32 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               const Gap(CustomPadding.bigSpace), // Space between elements */
-              ElevatedButton(
-                onPressed: () => _loginUser(), // Trigger login process
-                child: Text(AppTexts.signIn), // Sign in button text
-              ),
+              // Sign in button
+              ElevatedButton(onPressed: () => _loginUser(), child: Text(AppTexts.signIn)),
               const Gap(CustomPadding.bigSpace), // Space between elements
               Row(
                 children: [
                   Expanded(
                     child: Container(
-                      margin: const EdgeInsets.only(right: CustomPadding.mediumSpace),
-                      child: Divider(color: defaultColorScheme.outline), // Divider line
-                    ),
+                        margin: const EdgeInsets.only(right: CustomPadding.mediumSpace), child: Divider(color: defaultColorScheme.outline)),
                   ),
-                  Text(AppTexts.or, style: TextStyles.hintStyleMedium.copyWith(color: defaultColorScheme.secondary)), // 'or' text
+                  Text(AppTexts.or, style: TextStyles.hintStyleMedium.copyWith(color: defaultColorScheme.secondary)),
                   Expanded(
                     child: Container(
-                      margin: const EdgeInsets.only(left: CustomPadding.mediumSpace),
-                      child: Divider(color: defaultColorScheme.outline), // Divider line
-                    ),
+                        margin: const EdgeInsets.only(left: CustomPadding.mediumSpace), child: Divider(color: defaultColorScheme.outline)),
                   ),
                 ],
               ),
-              const Gap(CustomPadding.bigSpace), // Space between elements
+              const Gap(CustomPadding.bigSpace),
+              // Google Login
               CustomShadow(
                 child: TextButton.icon(
-                  onPressed: () => _handleGoogleSignIn(), // Trigger Google sign-in process
-                  label: Text(AppTexts.signInWithGoogle), // Google sign-in button text
-                  icon: SvgPicture.asset(AssetImport.googleLogo), // Google logo
-                ),
+                    onPressed: () => _handleGoogleSignIn(),
+                    label: Text(AppTexts.signInWithGoogle),
+                    icon: SvgPicture.asset(AssetImport.googleLogo)),
               ),
-              const Gap(CustomPadding.defaultSpace), // Space between elements
+              const Gap(CustomPadding.defaultSpace),
+              //TODO: Remove
               /*
               CustomShadow(
                 // Apple Sign In (currently commented out)
@@ -203,16 +192,16 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               */
-              const Gap(CustomPadding.bigSpace), // Space between elements
+              const Gap(CustomPadding.bigSpace),
+              // New User Sign Up Text
               Row(
-                mainAxisAlignment: MainAxisAlignment.center, // Center alignment for the row
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(AppTexts.newHere, style: TextStyles.hintStyleMedium.copyWith(color: defaultColorScheme.secondary)), // New user text
-                  const Gap(CustomPadding.smallSpace), // Space between elements
+                  Text(AppTexts.newHere, style: TextStyles.hintStyleMedium.copyWith(color: defaultColorScheme.secondary)),
+                  const Gap(CustomPadding.smallSpace),
                   GestureDetector(
                     onTap: () {
-                      Navigator.of(context)
-                          .pushReplacement(MaterialPageRoute(builder: (context) => const SignUpScreen())); // Navigate to sign-up screen
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const SignUpScreen()));
                     },
                     child: Text(
                       AppTexts.signUp,

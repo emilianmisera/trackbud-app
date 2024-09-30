@@ -3,6 +3,7 @@ import 'package:gap/gap.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/enum/categories.dart';
 
+/// This Widget displays a horizontal list of income categories
 class CategoriesIncome extends StatefulWidget {
   final Function(String) onCategorySelected;
   final String? selectedCategory;
@@ -15,7 +16,8 @@ class CategoriesIncome extends StatefulWidget {
 class _CategoriesIncomeState extends State<CategoriesIncome> {
   // Index of the currently selected category
   int? selectedIndex;
-  final List<Categories> filteredCategories = [
+  // List of all income categories
+  final List<Categories> incomeCategories = [
     Categories.gehalt,
     Categories.geschenk,
     Categories.sonstiges,
@@ -26,20 +28,19 @@ class _CategoriesIncomeState extends State<CategoriesIncome> {
   void initState() {
     super.initState();
     if (widget.selectedCategory != null) {
-      selectedIndex = filteredCategories.indexWhere((category) => category.categoryName == widget.selectedCategory);
+      selectedIndex = incomeCategories.indexWhere((category) => category.categoryName == widget.selectedCategory);
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      // Set the height of the category list to a fraction of the screen height
       height: MediaQuery.sizeOf(context).height * Constants.categoryHeight,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        itemCount: filteredCategories.length,
+        itemCount: incomeCategories.length,
         itemBuilder: (context, index) {
-          final category = filteredCategories[index];
+          final category = incomeCategories[index];
           final isSelected = widget.selectedCategory != null ? category.categoryName == widget.selectedCategory : selectedIndex == index;
 
           return Padding(
@@ -61,15 +62,11 @@ class _CategoriesIncomeState extends State<CategoriesIncome> {
                     vertical: CustomPadding.categoryHeightSpace,
                   ),
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(7),
+                    borderRadius: BorderRadius.circular(Constants.categoryBorderRadius),
                     color: category.color,
                   ),
                   child: Row(
-                    children: [
-                      category.icon,
-                      const Gap(CustomPadding.smallSpace),
-                      Text(category.categoryName),
-                    ],
+                    children: [category.icon, const Gap(CustomPadding.smallSpace), Text(category.categoryName)],
                   ),
                 ),
               ),

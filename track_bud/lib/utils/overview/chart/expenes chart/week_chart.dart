@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:track_bud/utils/overview/chart/expenes%20chart/build_bar.dart';
 
+//TODO: Remove
+/// This Widget displays a WeekChart in OverviewScreen
 class WeekChart extends StatelessWidget {
   final List<double> expenses;
   final double monthlyBudgetGoal;

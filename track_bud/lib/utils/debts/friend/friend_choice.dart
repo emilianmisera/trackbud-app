@@ -4,29 +4,23 @@ import 'package:track_bud/models/user_model.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/shadow.dart';
 
+/// This Widget is displayed when you want to add a new Split between a friend
 class FriendChoice extends StatelessWidget {
   final UserModel friend;
   final void Function() onTap;
 
-  const FriendChoice({
-    super.key,
-    required this.friend,
-    required this.onTap,
-  });
+  const FriendChoice({super.key, required this.friend, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
     final defaultColorScheme = Theme.of(context).colorScheme;
     return CustomShadow(
-      // Apply shadow for consistency with GroupChoice
       child: GestureDetector(
         onTap: onTap,
         child: CustomShadow(
           child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
-              color: defaultColorScheme.surface,
-            ),
+            decoration:
+                BoxDecoration(borderRadius: BorderRadius.circular(Constants.contentBorderRadius), color: defaultColorScheme.surface),
             padding: const EdgeInsets.all(CustomPadding.mediumSpace),
             child: Row(
               children: [
@@ -43,9 +37,7 @@ class FriendChoice extends StatelessWidget {
                 ),
                 const Gap(CustomPadding.mediumSpace),
                 // Friend's name
-                Expanded(
-                  child: Text(friend.name, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
-                ),
+                Expanded(child: Text(friend.name, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary))),
               ],
             ),
           ),

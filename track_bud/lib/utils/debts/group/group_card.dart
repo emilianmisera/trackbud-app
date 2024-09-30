@@ -1,31 +1,28 @@
-import 'package:cached_network_image/cached_network_image.dart'; // For loading network images efficiently with caching
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart'; // A package to provide spacing between widgets
-import 'package:intl/intl.dart'; // Used for formatting dates
-import 'package:provider/provider.dart'; // For state management (Provider pattern)
-import 'package:track_bud/models/group_model.dart'; // GroupModel to represent group data
-import 'package:track_bud/models/user_model.dart'; // UserModel to represent user data
-import 'package:track_bud/provider/group_provider.dart'; // GroupProvider for managing group-related state
-import 'package:track_bud/services/firestore_service.dart'; // FirestoreService to handle Firebase Firestore interactions
-import 'package:track_bud/utils/constants.dart'; // Constants used throughout the app
-import 'package:track_bud/utils/debts/balance_state.dart'; // UI component for displaying balance state
-import 'package:track_bud/utils/enum/debts_box.dart'; // Enum for defining debt color schemes
-import 'package:track_bud/utils/shadow.dart'; // CustomShadow for shadow effects on widgets
-import 'package:track_bud/views/subpages/group_overview_screen.dart'; // GroupOverviewScreen for detailed group view
+import 'package:gap/gap.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:track_bud/models/group_model.dart';
+import 'package:track_bud/models/user_model.dart';
+import 'package:track_bud/provider/group_provider.dart';
+import 'package:track_bud/services/firestore_service.dart';
+import 'package:track_bud/utils/constants.dart';
+import 'package:track_bud/utils/debts/balance_state.dart';
+import 'package:track_bud/utils/enum/debts_box.dart';
+import 'package:track_bud/utils/shadow.dart';
+import 'package:track_bud/views/subpages/group_overview_screen.dart';
 
-// A stateless widget to represent a card for a specific group
+/// A stateless widget to represent a card for a specific group
 class GroupCard extends StatelessWidget {
   final GroupModel group;
 
-  const GroupCard({
-    super.key,
-    required this.group,
-  });
+  const GroupCard({super.key, required this.group});
 
   @override
   Widget build(BuildContext context) {
-    final defaultColorScheme = Theme.of(context).colorScheme; // Fetches current theme's color scheme
-    final firestoreService = FirestoreService(); // Instance of FirestoreService to retrieve user info
+    final defaultColorScheme = Theme.of(context).colorScheme;
+    final firestoreService = FirestoreService();
 
     // Parsing the group's creation date and formatting it to 'dd/MM/yyyy' format in German locale
     DateTime createdAt = DateTime.parse(group.createdAt);
@@ -47,79 +44,56 @@ class GroupCard extends StatelessWidget {
     }
 
     return GestureDetector(
-      // Navigates to the GroupOverviewScreen when the card is tapped
       onTap: () {
         Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => GroupOverviewScreen(
-              groupName: group.name,
-              groupId: group.groupId,
-            ),
-          ),
-        );
+            context, MaterialPageRoute(builder: (context) => GroupOverviewScreen(groupName: group.name, groupId: group.groupId)));
       },
-      // Applies a custom shadow effect to the card
       child: CustomShadow(
         child: Container(
-          width: MediaQuery.sizeOf(context).width, // Full width of the screen
-          padding: const EdgeInsets.all(CustomPadding.defaultSpace), // Uniform padding
-          decoration: BoxDecoration(
-            color: defaultColorScheme.surface, // Background color of the card
-            borderRadius: BorderRadius.circular(Constants.contentBorderRadius), // Rounded corners
-          ),
+          width: MediaQuery.sizeOf(context).width,
+          padding: const EdgeInsets.all(CustomPadding.defaultSpace),
+          decoration: BoxDecoration(color: defaultColorScheme.surface, borderRadius: BorderRadius.circular(Constants.contentBorderRadius)),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start, // Aligns children to the left
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ListTile(
                 leading: ClipRRect(
-                  borderRadius: BorderRadius.circular(100.0), // Circular image for the group
+                  borderRadius: BorderRadius.circular(Constants.roundedCorners),
                   child: SizedBox(
-                    width: 40,
-                    height: 40,
+                    width: Constants.addGroupPPSize,
+                    height: Constants.addGroupPPSize,
                     child: group.profilePictureUrl.isNotEmpty
                         ? CachedNetworkImage(
-                            imageUrl: group.profilePictureUrl, // Loads group image
+                            imageUrl: group.profilePictureUrl,
                             fit: BoxFit.cover,
-                            placeholder: (context, url) => const CircularProgressIndicator(), // Loading indicator
-                            errorWidget: (context, url, error) => const Icon(Icons.group, color: Colors.grey), // Error widget
-                          )
-                        : const Icon(Icons.group, color: Colors.grey), // Default icon if no image URL
+                            placeholder: (context, url) => const CircularProgressIndicator(),
+                            errorWidget: (context, url, error) => const Icon(Icons.group, color: Colors.grey))
+                        : const Icon(Icons.group, color: Colors.grey),
                   ),
                 ),
-                title: Text(
-                  group.name, // Displays the group name
-                  style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary),
-                ),
-                subtitle: Text(
-                  'Erstellt am: $formattedDate', // Shows the formatted creation date
-                  style: TextStyles.hintStyleDefault.copyWith(
-                    fontSize: TextStyles.fontSizeHint,
-                    color: defaultColorScheme.secondary,
-                  ),
-                ),
-                trailing: Text(
-                  '${totalExpense.toStringAsFixed(2)}€', // Displays the total expense in the group
-                  style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary),
-                ),
+                title: Text(group.name, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
+                subtitle: Text('Erstellt am: $formattedDate',
+                    style: TextStyles.hintStyleDefault.copyWith(fontSize: TextStyles.fontSizeHint, color: defaultColorScheme.secondary)),
+                // Displays the total expense in the group
+                trailing: Text('${totalExpense.toStringAsFixed(2)}€',
+                    style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
                 minVerticalPadding: 0,
                 contentPadding: EdgeInsets.zero, // Removes default padding
               ),
-              Divider(color: defaultColorScheme.outline), // Divider between sections
-              const Gap(CustomPadding.mediumSpace), // Adds space between elements
+              Divider(color: defaultColorScheme.outline),
+              const Gap(CustomPadding.mediumSpace),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween, // Aligns the content between edges
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Expanded(
                     child: SizedBox(
                       height: 44,
                       width: 300,
                       child: Stack(
-                        // Generates avatars for all group members
                         children: List.generate(group.members.length, (index) {
                           final reverseIndex = group.members.length - 1 - index;
                           return FutureBuilder<UserModel?>(
-                            future: firestoreService.getUser(group.members[reverseIndex]), // Retrieves user data from Firestore
+                            future: firestoreService.getUser(group.members[reverseIndex]),
                             builder: (context, snapshot) {
                               return Positioned(
                                 left: index * 30, // Staggered avatar placement with overlapping
@@ -129,28 +103,23 @@ class GroupCard extends StatelessWidget {
                                       color: defaultColorScheme.surface,
                                       width: 1.0,
                                     ),
-                                    borderRadius: BorderRadius.circular(100.0), // Circular avatar
+                                    borderRadius: BorderRadius.circular(Constants.roundedCorners),
                                   ),
                                   child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(100.0),
+                                    borderRadius: BorderRadius.circular(Constants.roundedCorners),
                                     child: SizedBox(
-                                      width: 40,
-                                      height: 40,
+                                      width: Constants.addGroupPPSize,
+                                      height: Constants.addGroupPPSize,
                                       child: snapshot.hasError || snapshot.data == null
                                           ? CircleAvatar(
-                                              // Use CircleAvatar here
                                               radius: 20,
-                                              backgroundColor: defaultColorScheme.outline, // Set your desired background color
-                                              child: Icon(Icons.person,
-                                                  size: 30,
-                                                  color: defaultColorScheme
-                                                      .secondary), // You can also adjust the icon color for better contrast
-                                            )
+                                              backgroundColor: defaultColorScheme.outline,
+                                              child: Icon(Icons.person, size: 30, color: defaultColorScheme.secondary))
                                           : CachedNetworkImage(
-                                              imageUrl: snapshot.data!.profilePictureUrl, // Displays user profile picture
+                                              imageUrl: snapshot.data!.profilePictureUrl,
                                               fit: BoxFit.cover,
-                                              placeholder: (context, url) => const CircularProgressIndicator(), // Loading indicator
-                                              errorWidget: (context, url, error) => const Icon(Icons.person, size: 30), // Error icon
+                                              placeholder: (context, url) => const CircularProgressIndicator(),
+                                              errorWidget: (context, url, error) => const Icon(Icons.person, size: 30),
                                             ),
                                     ),
                                   ),
@@ -162,10 +131,8 @@ class GroupCard extends StatelessWidget {
                       ),
                     ),
                   ),
-                  BalanceState(
-                    colorScheme: colorScheme, // Displays balance state (credit or debit)
-                    amount: userCredit == 0 ? null : '${userCredit.abs().toStringAsFixed(2)}€', // Shows the amount only if non-zero
-                  ),
+                  // Displays balance state (credit or debit)
+                  BalanceState(colorScheme: colorScheme, amount: userCredit == 0 ? null : '${userCredit.abs().toStringAsFixed(2)}€'),
                 ],
               ),
             ],

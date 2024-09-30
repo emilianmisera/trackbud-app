@@ -2,39 +2,38 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:track_bud/models/user_model.dart';
 import 'package:track_bud/provider/group_provider.dart';
-import 'package:track_bud/services/firestore_service.dart'; // Import Firestore service for database interactions
+import 'package:track_bud/services/firestore_service.dart';
 import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/shadow.dart';
 import 'package:track_bud/utils/strings.dart';
 
+/// This Screen shows all debts in the Group
 class AllDebtsScreen extends StatelessWidget {
   final String groupId; // Identifier for the group
 
-  const AllDebtsScreen({super.key, required this.groupId}); // Constructor
+  const AllDebtsScreen({super.key, required this.groupId});
 
   @override
   Widget build(BuildContext context) {
     // Access group provider to retrieve group-related data
     final groupProvider = Provider.of<GroupProvider>(context, listen: false);
-    final defaultColorScheme = Theme.of(context).colorScheme; // Get current theme's color scheme
-    final firestoreService = FirestoreService(); // Initialize Firestore service
+    final defaultColorScheme = Theme.of(context).colorScheme;
+    final firestoreService = FirestoreService();
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppTexts.allGroupDebts, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
-        centerTitle: true, // Center the title
-      ),
+          title: Text(AppTexts.allGroupDebts, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
+          centerTitle: true),
       body: FutureBuilder<List<Map<String, dynamic>>>(
         future: groupProvider.getGroupDebtsOverview(groupId), // Fetch debts overview for the group
         builder: (context, snapshot) {
           // Handle loading state
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator()); // Show loading indicator
+            return const Center(child: CircularProgressIndicator());
           }
           // Handle errors
           if (snapshot.hasError) {
-            return Center(
-                child: Text('Error: ${snapshot.error}', style: TextStyle(color: defaultColorScheme.primary))); // Show error message
+            return Center(child: Text('Error: ${snapshot.error}', style: TextStyle(color: defaultColorScheme.primary)));
           }
 
           List<Map<String, dynamic>> payments = snapshot.data ?? []; // Get payments data
@@ -54,17 +53,12 @@ class AllDebtsScreen extends StatelessWidget {
               var payment = payments[index]; // Current payment
 
               return Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 4,
-                  horizontal: CustomPadding.mediumSpace,
-                ),
+                padding: const EdgeInsets.symmetric(vertical: CustomPadding.smallSpace, horizontal: CustomPadding.mediumSpace),
                 child: CustomShadow(
                   child: Container(
-                    padding: const EdgeInsets.all(CustomPadding.smallSpace), // Padding within the container
+                    padding: const EdgeInsets.all(CustomPadding.smallSpace),
                     decoration: BoxDecoration(
-                      color: defaultColorScheme.surface, // Set background color
-                      borderRadius: BorderRadius.circular(Constants.contentBorderRadius), // Rounded corners
-                    ),
+                        color: defaultColorScheme.surface, borderRadius: BorderRadius.circular(Constants.contentBorderRadius)),
                     child: FutureBuilder<UserModel?>(
                       future: firestoreService.getUser(payment['from']), // Fetch debtor's user model
                       builder: (context, debtorSnapshot) {
@@ -74,14 +68,13 @@ class AllDebtsScreen extends StatelessWidget {
                             // Handle loading state for user data
                             if (debtorSnapshot.connectionState == ConnectionState.waiting ||
                                 creditorSnapshot.connectionState == ConnectionState.waiting) {
-                              return const CircularProgressIndicator(); // Show loading indicator
+                              return const CircularProgressIndicator();
                             }
 
-                            // Create widget for debtor's profile
                             Widget debtorProfileWidget;
                             if (debtorSnapshot.hasData && debtorSnapshot.data!.profilePictureUrl.isNotEmpty) {
                               debtorProfileWidget = ClipRRect(
-                                borderRadius: BorderRadius.circular(100.0), // Circular clipping for profile picture
+                                borderRadius: BorderRadius.circular(Constants.roundedCorners),
                                 child: Image.network(
                                   debtorSnapshot.data!.profilePictureUrl, // Load debtor's profile picture from network
                                   width: 30,
@@ -91,49 +84,39 @@ class AllDebtsScreen extends StatelessWidget {
                               );
                             } else {
                               // Default avatar if no profile picture is available
-                              debtorProfileWidget = const CircleAvatar(
-                                radius: 20,
-                                child: Icon(Icons.person),
-                              );
+                              debtorProfileWidget = const CircleAvatar(radius: 20, child: Icon(Icons.person));
                             }
 
                             // Create widget for creditor's profile
                             Widget creditorProfileWidget;
                             if (creditorSnapshot.hasData && creditorSnapshot.data!.profilePictureUrl.isNotEmpty) {
                               creditorProfileWidget = ClipRRect(
-                                borderRadius: BorderRadius.circular(100.0), // Circular clipping for profile picture
-                                child: Image.network(
-                                  creditorSnapshot.data!.profilePictureUrl, // Load creditor's profile picture from network
-                                  width: 30,
-                                  height: 30,
-                                  fit: BoxFit.cover,
-                                ),
+                                borderRadius: BorderRadius.circular(Constants.roundedCorners),
+                                // Load creditor's profile picture from network
+                                child: Image.network(creditorSnapshot.data!.profilePictureUrl, width: 30, height: 30, fit: BoxFit.cover),
                               );
                             } else {
                               // Default avatar if no profile picture is available
-                              creditorProfileWidget = const CircleAvatar(
-                                radius: 20,
-                                child: Icon(Icons.person),
-                              );
+                              creditorProfileWidget = const CircleAvatar(radius: 20, child: Icon(Icons.person));
                             }
 
                             // Create a list tile for the payment
                             return ListTile(
                               title: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween, // Space between debtor and creditor sections
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  // Debtor Column
                                   Expanded(
                                     child: Column(
                                       children: [
-                                        debtorProfileWidget, // Display debtor's profile widget
+                                        // Display debtor's profile widget
+                                        debtorProfileWidget,
                                         Text(
                                           payment['fromName'], // Display debtor's name
                                           style: const TextStyle(
                                             color: CustomColor.red, // Red color for debtor's name
-                                            fontSize: 14,
+                                            fontSize: TextStyles.fontSizeHint,
                                           ),
-                                          maxLines: 2, // Allow name to wrap into two lines
+                                          maxLines: 2,
                                           softWrap: true,
                                           overflow: TextOverflow.ellipsis, // Prevent overflow beyond two lines
                                           textAlign: TextAlign.center, // Center the text
@@ -145,13 +128,8 @@ class AllDebtsScreen extends StatelessWidget {
                                   // Centered Amount
                                   Padding(
                                     padding: const EdgeInsets.symmetric(horizontal: 60.0), // Padding around amount text
-                                    child: Text(
-                                      '${payment['amount'].toStringAsFixed(2)}€', // Display amount formatted to two decimal places
-                                      style: TextStyle(
-                                        color: defaultColorScheme.primary, // Color for amount text
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
+                                    child: Text('${payment['amount'].toStringAsFixed(2)}€',
+                                        style: TextStyle(color: defaultColorScheme.primary, fontWeight: FontWeight.bold)),
                                   ),
 
                                   // Creditor Column
@@ -161,14 +139,11 @@ class AllDebtsScreen extends StatelessWidget {
                                         creditorProfileWidget, // Display creditor's profile widget
                                         Text(
                                           payment['toName'], // Display creditor's name
-                                          style: const TextStyle(
-                                            color: CustomColor.green, // Green color for creditor's name
-                                            fontSize: 14,
-                                          ),
-                                          maxLines: 2, // Allow name to wrap into two lines
+                                          style: const TextStyle(color: CustomColor.green, fontSize: TextStyles.fontSizeHint),
+                                          maxLines: 2,
                                           softWrap: true,
-                                          overflow: TextOverflow.ellipsis, // Prevent overflow beyond two lines
-                                          textAlign: TextAlign.center, // Center the text
+                                          overflow: TextOverflow.ellipsis,
+                                          textAlign: TextAlign.center,
                                         ),
                                       ],
                                     ),

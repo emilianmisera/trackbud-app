@@ -13,6 +13,7 @@ import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/provider/user_provider.dart';
 import 'package:track_bud/models/user_model.dart';
 
+/// This is the bottom Sheet after pressing on the plus button to add a new transaction or split
 class AddTypeSelector extends StatefulWidget {
   const AddTypeSelector({super.key});
 
@@ -39,9 +40,10 @@ class _AddTypeSelectorState extends State<AddTypeSelector> {
 
   Future<void> _loadGroups() async {
     final groupProvider = Provider.of<GroupProvider>(context, listen: false);
-    await groupProvider.loadGroups(); // Assume this method exists to load groups
+    await groupProvider.loadGroups();
   }
 
+  /// Choose a friend for a split
   void _showFriendSelectionDialog(BuildContext context) {
     final defaultColorScheme = Theme.of(context).colorScheme;
     showDialog(
@@ -70,14 +72,13 @@ class _AddTypeSelectorState extends State<AddTypeSelector> {
                   } else {
                     final friends = snapshot.data!;
                     if (friends.isEmpty) {
-                      // Display "Keine Freunde gefunden" message
                       return Center(child: Text("Keine Freunde gefunden.", style: TextStyle(color: defaultColorScheme.primary)));
                     }
                     return ListView.builder(
                       itemCount: friends.length,
                       itemBuilder: (context, index) {
                         return Padding(
-                          padding: const EdgeInsets.only(bottom: 8.0),
+                          padding: const EdgeInsets.only(bottom: CustomPadding.mediumSpace),
                           child: FriendChoice(
                             friend: friends[index],
                             onTap: () {
@@ -113,16 +114,14 @@ class _AddTypeSelectorState extends State<AddTypeSelector> {
     );
   }
 
+  /// Choose a Group for a Split
   void _showGroupSelectionDialog(BuildContext context) {
     final defaultColorScheme = Theme.of(context).colorScheme;
-    final userProvider = Provider.of<UserProvider>(context, listen: false); // Get the user provider
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text(
-          'Gruppe auswählen',
-          style: TextStyles.titleStyleMedium.copyWith(color: defaultColorScheme.primary),
-        ),
+        title: Text('Gruppe auswählen', style: TextStyles.titleStyleMedium.copyWith(color: defaultColorScheme.primary)),
         content: SizedBox(
           width: double.maxFinite,
           height: 235,
@@ -149,7 +148,7 @@ class _AddTypeSelectorState extends State<AddTypeSelector> {
                             builder: (context) => AddGroupSplit(
                               selectedGroup: selectedGroup,
                               memberNames: memberNames,
-                              currentUserId: userProvider.currentUser!.userId, // Pass the userId here
+                              currentUserId: userProvider.currentUser!.userId,
                             ),
                           );
                         },
@@ -184,13 +183,10 @@ class _AddTypeSelectorState extends State<AddTypeSelector> {
         borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
       ),
       child: Padding(
-        padding: const EdgeInsets.only(
-          left: CustomPadding.defaultSpace,
-          right: CustomPadding.defaultSpace,
-          bottom: 50,
-        ),
+        padding: const EdgeInsets.only(left: CustomPadding.defaultSpace, right: CustomPadding.defaultSpace, bottom: 50),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          // Choice between Transaction, Frend SPlit and GroupSplit
           children: [
             const Gap(CustomPadding.mediumSpace),
             Center(
@@ -199,30 +195,24 @@ class _AddTypeSelectorState extends State<AddTypeSelector> {
                 height: 5,
                 decoration: const BoxDecoration(
                   color: CustomColor.grabberColor,
-                  borderRadius: BorderRadius.all(Radius.circular(100)),
+                  borderRadius: BorderRadius.all(Radius.circular(Constants.roundedCorners)),
                 ),
               ),
             ),
             const Gap(CustomPadding.defaultSpace),
+            // Transaction
             ElevatedButton(
               onPressed: () {
                 Navigator.pop(context);
-                showModalBottomSheet(
-                  context: context,
-                  isScrollControlled: true,
-                  builder: (context) => const AddTransaction(),
-                );
+                showModalBottomSheet(context: context, isScrollControlled: true, builder: (context) => const AddTransaction());
               },
               child: Row(
                 mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Icon(Icons.person),
-                  const SizedBox(width: 8),
-                  Text(AppTexts.addNewTransaction),
-                ],
+                children: [const Icon(Icons.person), const SizedBox(width: 8), Text(AppTexts.addNewTransaction)],
               ),
             ),
             const Gap(CustomPadding.mediumSpace),
+            // Friend Split
             ElevatedButton(
               onPressed: () {
                 Navigator.pop(context);
@@ -230,14 +220,11 @@ class _AddTypeSelectorState extends State<AddTypeSelector> {
               },
               child: Row(
                 mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Icon(Icons.people),
-                  const SizedBox(width: CustomPadding.mediumSpace),
-                  Text(AppTexts.addNewFriendSplit),
-                ],
+                children: [const Icon(Icons.people), const SizedBox(width: CustomPadding.mediumSpace), Text(AppTexts.addNewFriendSplit)],
               ),
             ),
             const Gap(CustomPadding.mediumSpace),
+            // GroupSplit
             ElevatedButton(
               onPressed: () {
                 Navigator.pop(context);
@@ -245,11 +232,7 @@ class _AddTypeSelectorState extends State<AddTypeSelector> {
               },
               child: Row(
                 mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Icon(Icons.groups),
-                  const SizedBox(width: CustomPadding.mediumSpace),
-                  Text(AppTexts.addNewGroupSplit),
-                ],
+                children: [const Icon(Icons.groups), const SizedBox(width: CustomPadding.mediumSpace), Text(AppTexts.addNewGroupSplit)],
               ),
             ),
           ],

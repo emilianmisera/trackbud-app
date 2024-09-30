@@ -17,6 +17,10 @@ import 'package:track_bud/utils/tiles/information_tiles.dart';
 import 'package:track_bud/utils/strings.dart';
 import 'package:track_bud/utils/tiles/split/group_split_tile.dart';
 
+/// This Screen represents the Overview Screen of a Group
+/// here the User sees all expenses and splits of the Group,
+/// the expense categories
+/// and the debts or credits
 class GroupOverviewScreen extends StatefulWidget {
   final String groupId; // Identifier for the group
   final String groupName; // Name of the group
@@ -32,8 +36,8 @@ class GroupOverviewScreen extends StatefulWidget {
 }
 
 class _GroupOverviewScreenState extends State<GroupOverviewScreen> {
-  final FirestoreService _firestoreService = FirestoreService(); // Service to interact with Firestore
-  late Future<GroupModel> _groupFuture; // Future to hold the fetched group data
+  final FirestoreService _firestoreService = FirestoreService();
+  late Future<GroupModel> _groupFuture;
 
   @override
   void initState() {
@@ -55,38 +59,29 @@ class _GroupOverviewScreenState extends State<GroupOverviewScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final defaultColorScheme = Theme.of(context).colorScheme; // Get the current theme's color scheme
+    final defaultColorScheme = Theme.of(context).colorScheme;
     final currentUserId = Provider.of<UserProvider>(context, listen: false).currentUser?.userId ?? ''; // Get current user ID
     final groupProvider = Provider.of<GroupProvider>(context); // Access group provider
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          widget.groupName,
-          style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary),
-        ),
-        centerTitle: true, // Center the title
-      ),
+          title: Text(widget.groupName, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
+          centerTitle: true),
       body: FutureBuilder<GroupModel>(
-        future: _groupFuture, // Await group data
+        future: _groupFuture,
         builder: (context, snapshot) {
           // Handle different states of the future
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator()); // Show loading indicator
+            return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
             return Center(
-              child: Text(
-                'Error: ${snapshot.error}',
-                style: TextStyle(color: defaultColorScheme.primary),
-              ),
+              child: Text('Error: ${snapshot.error}', style: TextStyle(color: defaultColorScheme.primary)),
             ); // Show error message
           } else if (!snapshot.hasData) {
+            // Show message if no data
             return Center(
-              child: Text(
-                'No group data available',
-                style: TextStyle(color: defaultColorScheme.primary),
-              ),
-            ); // Show message if no data
+              child: Text('No group data available', style: TextStyle(color: defaultColorScheme.primary)),
+            );
           }
 
           final currentGroup = snapshot.data!; // Get the fetched group data
@@ -96,13 +91,10 @@ class _GroupOverviewScreenState extends State<GroupOverviewScreen> {
             builder: (context, snapshot) {
               // Handle different states of the stream
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator()); // Show loading indicator
+                return const Center(child: CircularProgressIndicator());
               } else if (snapshot.hasError) {
                 return Center(
-                  child: Text(
-                    'Error: ${snapshot.error}',
-                    style: TextStyle(color: defaultColorScheme.primary),
-                  ),
+                  child: Text('Error: ${snapshot.error}', style: TextStyle(color: defaultColorScheme.primary)),
                 ); // Show error message
               } else {
                 // Convert snapshot data into a list of GroupSplitModel
@@ -125,32 +117,29 @@ class _GroupOverviewScreenState extends State<GroupOverviewScreen> {
                       children: [
                         // Display overall group expense
                         InfoTile(
-                          title: '${AppTexts.overallExpenses} (${expensesPerPerson.toStringAsFixed(2)}€/Person)',
-                          amount: totalGroupExpense.toStringAsFixed(2),
-                          color: defaultColorScheme.primary,
-                        ),
+                            title: '${AppTexts.overallExpenses} (${expensesPerPerson.toStringAsFixed(2)}€/Person)',
+                            amount: totalGroupExpense.toStringAsFixed(2),
+                            color: defaultColorScheme.primary),
                         const Gap(CustomPadding.mediumSpace),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             // Display current user's expenses
                             InfoTile(
-                              title: AppTexts.myExpenses,
-                              amount: currentUserExpenses.toStringAsFixed(2),
-                              color: CustomColor.bluePrimary,
-                              width: MediaQuery.of(context).size.width / 2 - Constants.infoTileSpace,
-                            ),
+                                title: AppTexts.myExpenses,
+                                amount: currentUserExpenses.toStringAsFixed(2),
+                                color: CustomColor.bluePrimary,
+                                width: MediaQuery.of(context).size.width / 2 - Constants.infoTileSpace),
                             // Display current user's credits or debts
                             InfoTile(
-                              title: currentUserCredit >= 0 ? AppTexts.credits : AppTexts.debts,
-                              amount: currentUserCredit.abs().toStringAsFixed(2),
-                              color: currentUserCredit > 0
-                                  ? CustomColor.green
-                                  : currentUserCredit < 0
-                                      ? CustomColor.red
-                                      : defaultColorScheme.secondary,
-                              width: MediaQuery.of(context).size.width / 2 - Constants.infoTileSpace,
-                            ),
+                                title: currentUserCredit >= 0 ? AppTexts.credits : AppTexts.debts,
+                                amount: currentUserCredit.abs().toStringAsFixed(2),
+                                color: currentUserCredit > 0
+                                    ? CustomColor.green
+                                    : currentUserCredit < 0
+                                        ? CustomColor.red
+                                        : defaultColorScheme.secondary,
+                                width: MediaQuery.of(context).size.width / 2 - Constants.infoTileSpace),
                           ],
                         ),
                         const Gap(CustomPadding.defaultSpace),
@@ -158,25 +147,12 @@ class _GroupOverviewScreenState extends State<GroupOverviewScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             // Section header for debts overview
-                            Text(
-                              AppTexts.debtsOverview,
-                              style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary),
-                            ),
+                            Text(AppTexts.debtsOverview, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
                             // Button to navigate to all debts screen
                             GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => AllDebtsScreen(
-                                            groupId: widget.groupId,
-                                          )),
-                                );
-                              },
-                              child: Text(
-                                AppTexts.showAll,
-                                style: TextStyles.regularStyleMedium.copyWith(color: CustomColor.bluePrimary),
-                              ),
+                              onTap: () =>
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => AllDebtsScreen(groupId: widget.groupId))),
+                              child: Text(AppTexts.showAll, style: TextStyles.regularStyleMedium.copyWith(color: CustomColor.bluePrimary)),
                             ),
                           ],
                         ),
@@ -189,41 +165,30 @@ class _GroupOverviewScreenState extends State<GroupOverviewScreen> {
                               builder: (context, snapshot) {
                                 // Handle different states of the future
                                 if (snapshot.connectionState == ConnectionState.waiting) {
-                                  return const CircularProgressIndicator(); // Show loading indicator
+                                  return const CircularProgressIndicator();
                                 } else if (snapshot.hasError) {
-                                  return Text(
-                                    'Error: ${snapshot.error}',
-                                    style: TextStyle(color: defaultColorScheme.primary),
-                                  ); // Show error message
+                                  // Show error message
+                                  return Text('Error: ${snapshot.error}', style: TextStyle(color: defaultColorScheme.primary));
                                 } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                                  return Text(
-                                    'No debts to display',
-                                    style: TextStyle(color: defaultColorScheme.primary),
-                                  ); // Show message if no debts
+                                  // Show message if no debts
+                                  return Text('No debts to display', style: TextStyle(color: defaultColorScheme.primary));
                                 }
-
-                                return DebtsOverview(groupId: widget.groupId); // Display debts overview
+                                // Display debts overview
+                                return DebtsOverview(groupId: widget.groupId);
                               },
                             );
                           },
                         ),
                         const Gap(CustomPadding.defaultSpace),
                         // Section header for transaction overview
-                        Text(
-                          AppTexts.transactionOverview,
-                          style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary),
-                        ),
+                        Text(AppTexts.transactionOverview,
+                            style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
                         const Gap(CustomPadding.mediumSpace),
                         // Display transaction overview with hardcoded category amounts
-                         TransactionOverview(
-                          categoryAmounts: categoryAmounts,
-                        ),
+                        TransactionOverview(categoryAmounts: categoryAmounts),
                         const Gap(CustomPadding.defaultSpace),
                         // Section header for history of splits
-                        Text(
-                          AppTexts.history,
-                          style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary),
-                        ),
+                        Text(AppTexts.history, style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
                         const Gap(CustomPadding.mediumSpace),
                         // Display a list of group splits
                         ListView.builder(
@@ -241,9 +206,7 @@ class _GroupOverviewScreenState extends State<GroupOverviewScreen> {
                           },
                         ),
                         // Add space at the bottom of the screen
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * CustomPadding.bottomSpace + CustomPadding.bigbigSpace,
-                        )
+                        SizedBox(height: MediaQuery.of(context).size.height * CustomPadding.bottomSpace + CustomPadding.bigbigSpace)
                       ],
                     ),
                   ),
@@ -260,13 +223,12 @@ class _GroupOverviewScreenState extends State<GroupOverviewScreen> {
           final currentGroup = snapshot.data!; // Get the current group data
 
           return Container(
-            color: defaultColorScheme.onSurface, // Set background color for bottom sheet
+            color: defaultColorScheme.onSurface,
             child: Container(
               margin: EdgeInsets.only(
-                bottom: MediaQuery.of(context).size.height * CustomPadding.bottomSpace,
-                left: CustomPadding.defaultSpace,
-                right: CustomPadding.defaultSpace,
-              ),
+                  bottom: MediaQuery.of(context).size.height * CustomPadding.bottomSpace,
+                  left: CustomPadding.defaultSpace,
+                  right: CustomPadding.defaultSpace),
               child: ElevatedButton(
                 onPressed: () async {
                   // Fetch member names for the modal dialog
@@ -282,16 +244,14 @@ class _GroupOverviewScreenState extends State<GroupOverviewScreen> {
                       context: context,
                       isScrollControlled: true,
                       builder: (context) => AddGroupSplit(
-                        selectedGroup: currentGroup, // Pass the current group to the modal
-                        memberNames: memberNames, // Pass member names to the modal
-                        currentUserId: currentUserId, // Pass current user ID
+                        selectedGroup: currentGroup,
+                        memberNames: memberNames,
+                        currentUserId: currentUserId,
                       ),
                     );
                   }
                 },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: CustomColor.bluePrimary, // Set button color
-                ),
+                style: ElevatedButton.styleFrom(backgroundColor: CustomColor.bluePrimary),
                 child: Text(AppTexts.addDebt), // Button text
               ),
             ),

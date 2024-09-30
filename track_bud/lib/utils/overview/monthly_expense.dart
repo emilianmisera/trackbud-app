@@ -8,9 +8,11 @@ import 'package:track_bud/utils/constants.dart';
 import 'package:track_bud/utils/shadow.dart';
 import 'package:track_bud/utils/strings.dart';
 
+/// This Widget displays in OverviewScreen the Overview how much money the User has left to his Budget Goal
 class MonthlyExpenseTile extends StatelessWidget {
   const MonthlyExpenseTile({super.key});
 
+  // Color of bar changes to red when getting closer to the Budget Goal
   Color getProgressColor(double percentage) {
     if (percentage < 0.5) return CustomColor.green;
     if (percentage < 0.75) return CustomColor.unterkunft;
@@ -33,10 +35,8 @@ class MonthlyExpenseTile extends StatelessWidget {
         return CustomShadow(
           child: Container(
             padding: const EdgeInsets.all(CustomPadding.defaultSpace),
-            decoration: BoxDecoration(
-              color: defaultColorScheme.surface,
-              borderRadius: BorderRadius.circular(Constants.contentBorderRadius),
-            ),
+            decoration:
+                BoxDecoration(color: defaultColorScheme.surface, borderRadius: BorderRadius.circular(Constants.contentBorderRadius)),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -44,8 +44,10 @@ class MonthlyExpenseTile extends StatelessWidget {
                   remainingAmount >= 0 ? '${remainingAmount.toStringAsFixed(2)}€' : '${remainingAmount.abs().toStringAsFixed(2)}€',
                   style: TextStyles.headingStyle.copyWith(color: remainingAmount >= 0 ? defaultColorScheme.primary : CustomColor.darkRed),
                 ),
-                Text(remainingAmount >= 0 ? AppTexts.remainingText : AppTexts.aboveMonthlyGoal,
-                    style: TextStyles.hintStyleDefault.copyWith(color: defaultColorScheme.secondary)),
+                Text(
+                  remainingAmount >= 0 ? AppTexts.remainingText : AppTexts.aboveMonthlyGoal,
+                  style: TextStyles.hintStyleDefault.copyWith(color: defaultColorScheme.secondary),
+                ),
                 const Gap(CustomPadding.smallSpace),
                 LinearPercentIndicator(
                   padding: EdgeInsets.zero,
@@ -60,14 +62,16 @@ class MonthlyExpenseTile extends StatelessWidget {
                 const Gap(CustomPadding.smallSpace),
                 Row(
                   children: [
+                    // Total spend this month
                     Text('${totalSpent.toStringAsFixed(2)}€',
                         style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
-                    const Gap(3),
+                    const Gap(CustomPadding.spaceBetweenWords),
                     Text(AppTexts.of, style: TextStyles.hintStyleDefault),
-                    const Gap(3),
+                    const Gap(CustomPadding.spaceBetweenWords),
+                    // Budget Goal amount
                     Text('${monthlyGoal.toStringAsFixed(2)}€',
                         style: TextStyles.regularStyleMedium.copyWith(color: defaultColorScheme.primary)),
-                    const Gap(3),
+                    const Gap(CustomPadding.spaceBetweenWords),
                     Text(AppTexts.spent, style: TextStyles.hintStyleDefault),
                   ],
                 )

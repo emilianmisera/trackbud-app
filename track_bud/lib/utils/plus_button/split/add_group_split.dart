@@ -18,25 +18,19 @@ import 'package:track_bud/utils/textfields/textfield.dart';
 import 'package:track_bud/utils/textinput_formatters.dart';
 import 'package:uuid/uuid.dart';
 
-// Widget for adding a group split in an expense tracking application
+/// Widget for adding a group split in an expense tracking application
 class AddGroupSplit extends StatefulWidget {
-  final GroupModel selectedGroup; // Group selected for the split
-  final List<String> memberNames; // List of member names in the group
-  final String currentUserId; // ID of the current user
+  final GroupModel selectedGroup;
+  final List<String> memberNames;
+  final String currentUserId;
 
-  const AddGroupSplit({
-    super.key,
-    required this.selectedGroup,
-    required this.memberNames,
-    required this.currentUserId,
-  });
+  const AddGroupSplit({super.key, required this.selectedGroup, required this.memberNames, required this.currentUserId});
 
   @override
   State<AddGroupSplit> createState() => _AddGroupSplitState();
 }
 
 class _AddGroupSplitState extends State<AddGroupSplit> {
-  // Controllers for text fields
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _amountController = TextEditingController();
   final FirestoreService _firestoreService = FirestoreService();
@@ -79,17 +73,15 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
   // Validates the form inputs based on current state
   void _validateForm() {
     setState(() {
-      _isFormValid = _amountController.text.isNotEmpty &&
-          _selectedCategory.isNotEmpty &&
-          _selectedMembers.isNotEmpty; // Must select at least one member
+      _isFormValid = _amountController.text.isNotEmpty && _selectedCategory.isNotEmpty && _selectedMembers.isNotEmpty;
     });
   }
 
   // Updates the input number and validates the form when the amount changes
   void _onInputChanged() {
     setState(() {
-      _inputNumber = _parseAmount(); // Update the input number
-      _validateForm(); // Validate the form after input change
+      _inputNumber = _parseAmount();
+      _validateForm();
     });
   }
 
@@ -102,8 +94,8 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
   // Handles category selection and updates the state
   void _onCategorySelected(String category) {
     setState(() {
-      _selectedCategory = category; // Update the selected category
-      _validateForm(); // Re-validate the form
+      _selectedCategory = category;
+      _validateForm();
     });
   }
 
@@ -125,7 +117,7 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
 
     // Create a new GroupSplitModel instance
     GroupSplitModel newSplit = GroupSplitModel(
-      groupSplitId: const Uuid().v4(), // Generate a unique ID
+      groupSplitId: const Uuid().v4(),
       groupId: widget.selectedGroup.groupId,
       totalAmount: totalAmount,
       title: transactionTitle,
@@ -133,7 +125,7 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
       type: 'expense',
       date: Timestamp.fromDate(_selectedDateTime),
       paidBy: _paidByUserId,
-      splitShares: splitShares, // Share details
+      splitShares: splitShares,
     );
 
     try {
@@ -167,7 +159,7 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
 
   @override
   Widget build(BuildContext context) {
-    final defaultColorScheme = Theme.of(context).colorScheme; // Get current color scheme
+    final defaultColorScheme = Theme.of(context).colorScheme;
 
     return GestureDetector(
       onTap: _unfocusAll,
@@ -175,10 +167,10 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
         buttonText: AppTexts.addSplit,
         initialChildSize: 0.76,
         maxChildSize: 0.95,
-        isButtonEnabled: _isFormValid, // Enable button based on form validity
+        isButtonEnabled: _isFormValid,
         onButtonPressed: () async {
           await _saveNewGroupSplit(); // Attempt to save the group split
-          if (context.mounted) Navigator.pop(context); // Close the modal
+          if (context.mounted) Navigator.pop(context);
         },
         child: Padding(
           padding: CustomPadding.screenWidth,
@@ -225,13 +217,11 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
                     ],
                     focusNode: _focusNodeAmount,
                   ),
-                  const Gap(CustomPadding.defaultSpace), // Added Gap for spacing
+                  const Gap(CustomPadding.defaultSpace),
                   // Date Picker
                   Expanded(
                     child: DatePicker(
-                      onDateTimeChanged: (dateTime) => setState(() => _selectedDateTime = dateTime),
-                      initialDateTime: DateTime.now(),
-                    ),
+                        onDateTimeChanged: (dateTime) => setState(() => _selectedDateTime = dateTime), initialDateTime: DateTime.now()),
                   ),
                 ],
               ),
@@ -247,11 +237,11 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
                 value: widget.memberNames.firstWhere(
                   (name) => _memberNameToId[name] == widget.currentUserId,
                   orElse: () => widget.memberNames.first,
-                ), // Default to current user's name
+                ),
                 dropdownWidth: MediaQuery.of(context).size.width - 32,
                 onChanged: (String? value) {
                   setState(() {
-                    _paidByUserId = _memberNameToId[value] ?? ''; // Update the payer ID
+                    _paidByUserId = _memberNameToId[value] ?? '';
                   });
                 },
               ),
@@ -263,8 +253,8 @@ class _AddGroupSplitState extends State<AddGroupSplit> {
                 members: widget.selectedGroup.members,
                 onMembersSelected: (selectedMembers) {
                   setState(() {
-                    _selectedMembers = selectedMembers; // Update selected members list
-                    _validateForm(); // Re-validate form
+                    _selectedMembers = selectedMembers;
+                    _validateForm();
                   });
                 },
               ),
