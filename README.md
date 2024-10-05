@@ -2,8 +2,11 @@
 # TrackBud
 
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/Q_AsCGAw)
-
-
+## Unsere Motivation
+Als Studierende haben wir festgestellt, dass es schwierig ist, unsere Finanzen kontinuierlich im Blick zu behalten, ohne dabei auf Premium-Apps zurückzugreifen. Viele Apps bieten zwar hilfreiche Funktionen, verlangen jedoch für erweiterte Features Geld. Unsere Motivation war es, eine kostenlose, dennoch funktionale App zu entwickeln, die uns ermöglicht, Einnahmen und Ausgaben effizient zu tracken und Schulden mit Freunden übersichtlich zu verwalten. So können wir uns finanziell besser organisieren, ohne zusätzliche Kosten.
+## App Beschreibung
+Unsere App ist eine Finanzübersichts-App, die es Nutzern ermöglicht, ihre Finanzen effizient zu verwalten und dabei den Überblick über ihre Ausgaben und Einnahmen zu behalten. Sie bietet Funktionen wie die Eingabe des aktuellen Kontostands und eines monatlichen Budgetziels, um persönliche Finanzen gezielt zu planen. Einnahmen und Ausgaben können leicht getrackt und nach Kategorien sortiert werden. Die App stellt übersichtliche Diagramme zur Verfügung, um Ausgabentrends über verschiedene Zeiträume hinweg anzuzeigen, sowie eine Anzeige, wie viel Geld noch im Rahmen des monatlichen Budgets übrig ist. Darüber hinaus können Freunde hinzugefügt und Schuldengruppen erstellt werden, was es ermöglicht, geteilte Finanzen – etwa in Urlauben oder bei gemeinsamen Ausgaben – im Freundeskreis zu verwalten. Eine detaillierte Schuldenübersicht zeigt auf, welche Schulden gegenüber Freunden oder in Gruppen bestehen, sodass offene Beträge stets im Blick bleiben.
+## App-Screens
 ![Screenshot_20241003-211058](https://github.com/user-attachments/assets/d5e67feb-9f37-4c0d-b9b3-dae1ba2b18cb)
 ![Screenshot_20241003-211106](https://github.com/user-attachments/assets/dd38c5a0-4b4c-4a8d-a9de-e6d7db8f2036)
 ![Screenshot_20241003-211114](https://github.com/user-attachments/assets/5c2d19e1-71f0-4b65-ad63-7659395d7724)
@@ -118,3 +121,61 @@ Nach erfolgreicher Registrierung landet der Nutzer hier, wo er einen Kontostand 
 
 ![Screenshot_20241003-212415](https://github.com/user-attachments/assets/69a23203-9264-441e-a35b-d260414ca71a)
 Nachdem der Kontostand angegeben wird, fehlt nur noch das gesetzte monatliche Limit, welches hier eingestellt werden kann, um dann endlich auf den Overview Screen weitergeleitet zu werden.
+## Aufgabenverteilung
+### Emilian
++ 
++
++
++
+### Laurenz
++
++
++
++
+## Quellen
+### Figma-Prototype File
++ https://www.figma.com/design/riHdIMmHWzVG9sGFuLZN0s/TrackBud?node-id=273-325&t=sIjDBSLw7slylOxt-1
+### Font-Familie
++ https://fonts.google.com/specimen/Outfit?query=outfit
+### Icons
++ https://iconify.design
+### Kategorien
++ https://br.pinterest.com/pin/962011170383210062/
++ https://www.pinterest.de/pin/nail-polish-emoji--956592777086297752/
++ https://www.pinterest.de/pin/fork-and-knife-with-plate-emoji--931048922951409663/
++ https://in.pinterest.com/pin/oncoming-automobile-emoji--956592777086066993/
++ https://www.pinterest.de/pin/house-emoji--752593787752689679/
++ https://www.pinterest.de/pin/popcorn-emoji--371054456813807980/
++ https://www.pinterest.de/pin/wrapped-gift-emoji--739223726359071927/
++ https://www.pinterest.de/pin/card-file-box-emoji--742249582363035922/
++ https://ca.pinterest.com/pin/money-bag-emoji--337207090845741968/
+### Packages
++ https://pub.dev/packages/firebase_core
++ https://pub.dev/packages/firebase_auth
++ https://pub.dev/packages/cloud_firestore
++ https://pub.dev/packages/google_sign_in
++ https://pub.dev/packages/flutter_svg
++ https://pub.dev/packages/simple_shadow
++ https://pub.dev/packages/flutter_launcher_icons
++ https://pub.dev/packages/fl_chart
++ https://pub.dev/packages/dropdown_button2
++ https://pub.dev/packages/connectivity_plus
++ https://pub.dev/packages/uuid
++ https://pub.dev/packages/sqflite
++ https://pub.dev/packages/image_picker
++ https://pub.dev/packages/firebase_storage
++ https://pub.dev/packages/firebase_dynamic_links
++ https://pub.dev/packages/percent_indicator
++ https://pub.dev/packages/gap
++ https://pub.dev/packages/intl
++ https://pub.dev/packages/share_plus
++ https://pub.dev/packages/email_validator
++ https://pub.dev/packages/provider
++ https://pub.dev/packages/flutter_image_compress
++ https://pub.dev/packages/path
++ https://pub.dev/packages/firebase_messaging
++ https://pub.dev/packages/flutter_local_notifications
++ https://pub.dev/packages/url_launcher
++ https://pub.dev/packages/table_calendar
++ https://pub.dev/packages/cached_network_image
++ https://pub.dev/packages/flutter_icons
