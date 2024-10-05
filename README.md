@@ -25,27 +25,39 @@ Im Tile darunter wird dem Nutzer in Worten sowie im Balken angezeigt wie viel Ge
 Das 3. Tile auf dieser Seite zeigt die generelle Bilanz der Split-Schulden vom Debt-Screen (2. Nav-Page), wobei die Beträge, die man schuldet und die andere einem schulden miteinander verrechnet werden und einem eine Gesamtbilanz angezeigt wird.
 Der letzte Bereich des Overview-Screen ist der Transaktions-Verlauf, welcher einem die eigenen Ausgaben als sortierte Liste anzeigt. Diese Liste findet sich auch auf dem Analysis-Screen (3. Nav-Page) wieder. Auf Besonderheiten dieser Liste gehe ich später noch ein.
 <hr style="width: 50%; margin: 20px auto;">
+<div>
 <img src="https://github.com/user-attachments/assets/fa90dc34-5261-44ec-9383-e70590466c2d" width="30%">
+</div>
 Dies ist der Debt-Screen. Auf dieser Seite bekommt der Nutzer genauere Informationen über seine Schulden/Guthaben bei Freunden und in Gruppen. 
 Ganz oben findet man die zusammengerechneten Werte aller Freunde und Gruppen wieder, also wieviel man zahlen muss und wieviel man von anderen bekommt um wieder mit alles quitt zu sein.
 Darunter befindet sich die Liste einiger Freunde mit Name, Profilbild und Schuldenbetrag, jedes dieser Elemente führt durch einen Klick zum Freunde-Profil. Oben rechts kann sich der Nutzer alle Freunde anzeigen lassen.
 Darunter befindet sich äquivalent dazu die Liste einiger Gruppen mit dem gleichen Aufbau und der gleichen Funktionalität wie in der Freundesliste. Zusätzlich werden hier das Gruppenprofilbild, die Mitglieder-Bilder, das Erstelldatum und die Gesamtausgaben der Gruppe angezeigt.
 <hr style="width: 50%; margin: 20px auto;">
+<div>
 <img src="https://github.com/user-attachments/assets/26b4fcb3-06ef-4eb3-9045-c345addf2831" width="30%">
+</div>
 Hier sind wir nun auf der "Deine Freunde" Seite, welche alle Freunde des Nutzers anzeigt und die sich dazu noch durchsuchen lässt. Hier sieht man die gleichen Informationen über die Freunde wie auch schon auf der vorherigen Seite. Oben rechts befindet sich der Knopf mit dem sich neue Freundschaften schließen lassen.
 <hr style="width: 50%; margin: 20px auto;">
+<div>
 <img src="https://github.com/user-attachments/assets/df2a77e9-06fd-41f0-93bf-ec5042360227" width="30%">
+</div>
 Mit dem Klick auf den Knopf öffnet sich ein ModalBottomSheet (je nach Betriebssystem) über welches sich ein Link in unterschiedlichen Apps teilen lässt. Drückt ein anderer Nutzer, der ebenfalls die App besitzt auf diesen geteilten Link, öffnet sich die App bei ihm und die beiden Nutzer werden mittels userId gefunden und als Freunde geaddet. (für eine bessere Implementierung von Freundschaften (Einladungen, etc.) hatten wir leider nicht genug Zeit)
 <hr style="width: 50%; margin: 20px auto;">
+<div>
 <img src="https://github.com/user-attachments/assets/df2a492f-a4fe-4cd7-8388-5684e7251414" width="30%">
+</div>
 Hier sieht man das Freundeprofil, auf welches man kommt wenn man einen Freund aus der Liste anklickt. Auf dieser Seite sieht man den Namen & das Profilbilde des Freundes, den aktuellen Schuldenstand, gemeinsame Gruppen, in denen beide Nutzer sind, einen Knopf zum Schulden begleichen, den Split-Verlauf dieser beiden Nutzer und einen Knopf um einen neuen Split mit diesem Nutzer zu erstellen.
 Der Split-Verlauf besteht auch hier wieder aus einzelnen Tiles, welche Kategorie, Name des Zahlenden, Titel, Datum, Gesamtbetrag und persönlichen Betrag des momentanen Nutzers anzeigen. Dabei soll grün zeigen, dass der aktuelle Nutzer durch diesen Split Geld bei seinem Freund gut gemacht hat, wobei rot für das Gegenteil steht. 
 Sobald die Nutzer den jeweiligen Schuldenbetrag zu einem beliebigen Zeitpunkt überwiesen haben und somit wieder quitt sind, kann einer der Nutzer den Button 'Schulden begleichen' drücken. Dadurch werden alle bisherigen Splits als 'bezahlt' betrachtet und die Teilsummen druchgestrichen. Die Nutzer sind wieder quitt.
 <hr style="width: 50%; margin: 20px auto;">
+<div>
 <img src="https://github.com/user-attachments/assets/3b37781b-7435-4739-90df-447855be7aae" width="30%">
+</div>
 Äquivalent zum 'Deine Freunde' Screen sehen wir hier den 'Deine Gruppen' Screen, welcher den gleichen Zweck für Gruppen erfüllt. Der Button oben rechnts kann hier ebenfalls gedrückt werden, und leitet zum nächsten 'Bildschirm' weiter.
 <hr style="width: 50%; margin: 20px auto;">
+<div>
 <img src="https://github.com/user-attachments/assets/9b642010-6101-4a31-bd43-3f266c055661" width="30%">
+</div>
 Hier kann der Nutzer eine neue Gruppe erstellen. Leider kann man Gruppen momentan nur einmalig bei der Erstellung bearbeiten. Also kann man noch nicht nachträglich Nutzer hinzufügen oder andere Änderungen vornehmen. 
 Das ModalBottomSheet erlaubt es dem Nutzer hier einen Gruppennamen festzulegen, ein Gruppenprofilbild aus der eigenen Gallerie auszuwählen und die eigenen Freunde zur Gruppe hinzuzufügen. Nach der Erstellung muss leider noch die Seite neu geladen werden um die neue Gruppe anzuzeigen.
 <hr style="width: 50%; margin: 20px auto;">
@@ -58,17 +70,25 @@ Alle Werte errechnen sich aus den Werten des Gruppensplit-Verlaufs. Die oberen d
 Der Split-Verlauf ist hier ähnlich zum Freunde Split, mit dem Unterschied, dass hier zudem die beteiligten Nutzer durch das Profilbild angezeigt werden. Basierend auf der Anzahl der Teilnehmer an einem Split wird auch hier wieder angezeigt welchen Einfluss die Ausgabe für das Schuldenverhältnis des Nutzers hat.
 Um detailliertere Informationen über die Rückzahlungen zu bekommen kann der Nutzer bei der Schuldenübersicht auf 'Alle Anzeigen' klicken, was ihn zur folgenden Seite führt.
 <hr style="width: 50%; margin: 20px auto;">
+<div>
 <img src="https://github.com/user-attachments/assets/7f524fbd-5458-4d03-b2e9-a7aa6cb7e675" width="30%">
+</div>
 Hier sieht der Nutzer nicht nur die vorgeschlagenen Zahlungen von sich selbst, sondern auch von allen anderen Mitgliedern der Gruppe. Dabei steht der Schuldner immer links, der Betrag in der Mitte und der Gläubiger auf der linken Seite.
 <hr style="width: 50%; margin: 20px auto;">
+<div>
 <img src="https://github.com/user-attachments/assets/e351eb47-2522-4062-87cf-5314e28d060e" width="30%">
+</div>
 Dies ist die Ansicht, sobald der Nutzer auf den 'Plus' Button klickt. Hier kann man neue Transaktionen (Ausgaben/Einnahmen alleine) Freundesplits oder Gruppensplits hinzufügen. Je nach Auswahl wird man auf einen der folgenden Bildschirme weitergeleitet.
 <hr style="width: 50%; margin: 20px auto;">
+<div>
 <img src="https://github.com/user-attachments/assets/f7112766-2be1-4b1d-97d8-2435c3db0b97" width="30%">
+</div>
 Im Falle einer neuen Transaktion sieht der Nutzer diesen Bildschirm, wo er zuerst zwischen Einkommen und Ausgabe wählen kann, dann einen Titel eingeben kann, als nächstes einen Betrag eingeben muss, zudem das Datum und die Uhrzeit ändern kann, eine Kategorie auswählen muss und zum Schluss noch eine Notiz eintragen kann.
 Erst wenn Betrag und Kategorie festgelegt wurden kann der Nutzer die Transaktion erstellen.
 <hr style="width: 50%; margin: 20px auto;">
+<div>
 <img src="https://github.com/user-attachments/assets/9b6892ac-0e56-49f4-83f7-67740cc3cb8c" width="30%">
+</div>
 Wenn der Nutzer einen Freundesplit über das + hinzufügen will so landet er hier, wo er zuerste einen seiner Freunde aus der Liste auswählen muss um weiter zu machen.
 <hr style="width: 50%; margin: 20px auto;">
 <div style="display: flex; justify-content: space-between;">
@@ -82,10 +102,14 @@ Nach der Auswahl des Freundes landet der Nutzer hier. Der Großteil der Möglich
 + Der Nutzer kann auswählen wer den Split bezahlt hat.
 + Der Nutzer kann zwischen drei Split-Methoden wählen: gleichmäßig, prozentual oder nach Betrag.
 <hr style="width: 50%; margin: 20px auto;">
+<div>
 <img src="https://github.com/user-attachments/assets/5313e30a-d39c-47df-ad44-89764e2832e1" width="30%">
+</div>
 Dies ist die Auswahl der Gruppen wenn der Nutzer eine Gruppensplit hinzufügen wollte.
 <hr style="width: 50%; margin: 20px auto;">
+<div>
 <img src="https://github.com/user-attachments/assets/48f3c1d9-c971-4eb5-9a66-ad7231810736" width="30%">
+</div>
 Hier landet der Nutzer nach einer Auswahl der Gruppe oder wenn der über den Gruppenscreen einen Split hinzufügen will. Die Eingabemöglichkeiten sind hier wieder ähnlich zum Freunde-Split. Jedoch kann der Nutzer hier natrülich aus allen Gruppenmigliedern den Zahlenden auswählen und danach alle Mitglieder die am Split beteiligt sind. Anders als beim Freundesplit gibt es hier bis jetzt leider nur den gleichmäßigen Split, welcher den Gesamtbetrag auf alle beteiligten gleichmäßig verteilt.
 <hr style="width: 50%; margin: 20px auto;">
 <div style="display: flex; justify-content: space-between;">
@@ -101,97 +125,137 @@ Hier sehen wir den Analysis Screen, welcher ganz oben den aktuellen Kontostand a
 </div>
 Dies ist die Ansicht wenn man auf eine Transatktion in der Liste drückt (Auch bei der Transaktionsliste auf dem Overview Screen). Hier werden noch einmal die Details der Transaktion hervorgehoben und die Notiz angezeigt. Zudem kann man mit einem Klick auf das 3 Punkte Menü oben links die Transaktion löschen oder bearbeiten.
 <hr style="width: 50%; margin: 20px auto;">
+<div>
 <img src="https://github.com/user-attachments/assets/76815150-800a-4f46-b032-4c5e44bb7f90" width="30%">
+</div>
 Wenn der Nutzer auf bearbeiten klickt, landet er hier. Hier werden die Details der Transaktion angezeigt und können (bis auf den Typ: Einnahme/Ausgabe) verändert und abgespeichert werden.
 <hr style="width: 50%; margin: 20px auto;">
+<div>
 <img src="https://github.com/user-attachments/assets/8436ed9d-32f6-4c5d-9925-4a0ccfaa3e38" width="30%">
+</div>
 Hier sieht man den letzten Reiter im Nav-Menü, die Einstellungen. Hier sieht der Nutzer seinen Anzeige-Namen, seine E-Mail und sein Profilbild. Zudem kann er zu 3 Seiten weiter navigieren oder sich ausloggen.
 <hr style="width: 50%; margin: 20px auto;">
+<div>
 <img src="https://github.com/user-attachments/assets/4fa5625b-3d3a-4fbe-af05-5ba7eeebb7ef" width="30%">
+</div>
 Wenn der Nutzer auf 'Profil bearbeiten' klickt, landet er hier. Hier kann er sein Pfofilbild ändern indem er auf das Bild klickt, oder seinen Anzeige Namen abändern. Zudem sieht man noch einmal die Account E-Mail, welche man auf diesem Bildschirm auch noch ändern sollte, wozu wir leider nicht mehr gekommen sind.
 <hr style="width: 50%; margin: 20px auto;">
+<div>
 <img src="https://github.com/user-attachments/assets/4d49b459-5572-4d51-a4d6-07fb8394b9d7" width="30%">
+</div>
 Klickt der Nutzer auf 'Konto Anpassungen' so landet er hier. Hier soll man später das Erscheinungsbild ändern können, welches sich momentan nur automatisch ans Systemdesign anpasst. Zudem kann man hier weitergeleitet werden, um seinen Kontostand oder sein Budgetziel zu ändern.
 <hr style="width: 50%; margin: 20px auto;">
+<div>
 <img src="https://github.com/user-attachments/assets/69171c98-bb10-4c5f-a1be-cc2ec0e533c2" width="30%">
+</div>
 Hier kann man seinen Kontostand anpassen, falls er nicht mehr mit dem angezeigten übereinstimmt und man keine Transaktion hinzufügen möchte, die im Verlauf auftaucht.
 <hr style="width: 50%; margin: 20px auto;">
+<div>
 <img src="https://github.com/user-attachments/assets/dce80099-df12-4035-8fbb-f393e765d290" width="30%">
+</div>
 Hier kann man sein Budgetziel nach unten oder nach oben korrigieren, falls man mit dem aktuellen Ziel nicht mehr zufrieden ist. Dieses Ziel beeinflusst die ersten beiden Tiles auf dem Overview Screen.
 <hr style="width: 50%; margin: 20px auto;">
+<div>
 <img src="https://github.com/user-attachments/assets/1372880b-37b0-4e76-bd5b-fa0fe7c12181" width="30%">
+</div>
 Hier erfährt der Nutzer mehr über die Entstehung unserer App und kann sich mit Feature-Wünschen oder Bugs per Mail an uns richten.
 <hr style="width: 50%; margin: 20px auto;">
+<div>
 <img src="https://github.com/user-attachments/assets/210b0fb7-642f-4e4b-9ab9-88da2393d596" width="30%">
+</div>
 Das ist der Screen, der einen Nutzer bei der ersten Öffnung begrüßt, oder wenn sich der Nutzer ausgeloggt hat.
 Mit dem Klick auf den Button wird er zum Login Screen weitergeleitet.
 <hr style="width: 50%; margin: 20px auto;">
+<div>
 <img src="https://github.com/user-attachments/assets/4a241978-3a66-44e9-aac8-0aec16ddaab4" width="30%">
+</div>
 Das ist der Login Screen. Hier meldet sich ein bereits registrierter Nutzer mit Email und Passwort an. Zudem kann man sich mit einem Google Account einloggen, oder zur Registrierungs Page wechseln, wenn man noch keinen Account hat.
 <hr style="width: 50%; margin: 20px auto;">
+<div>
 <img src="https://github.com/user-attachments/assets/e2f012e9-8e78-4a8e-8d13-4034e45da6c6" width="30%">
+</div>
 Hier ist der Registrierungs Screen, wo Nutzer mit Name, Email und einem Passwort (2x angeben) einen neuen Account anlegen können, oder wieder zum Anmelde Screen zurückkehren können.
 <hr style="width: 50%; margin: 20px auto;">
+<div>
 <img src="https://github.com/user-attachments/assets/f79119e9-ee01-45d7-898b-97d78b876b43" width="30%">
+</div>
 Nach erfolgreicher Registrierung landet der Nutzer hier, wo er einen Kontostand angeben muss, mit welchem die App in Zukunft arbeiten wird.
 <hr style="width: 50%; margin: 20px auto;">
+<div>
 <img src="https://github.com/user-attachments/assets/69a23203-9264-441e-a35b-d260414ca71a" width="30%">
+</div>
 Nachdem der Kontostand angegeben wird, fehlt nur noch das gesetzte monatliche Limit, welches hier eingestellt werden kann, um dann endlich auf den Overview Screen weitergeleitet zu werden.
+
 ## Aufgabenverteilung
+
 ### Emilian
-+ 
-+
-+
-+
+
+-
+-
+-
+-
+
 ### Laurenz
-+
-+
-+
-+
+
+-
+-
+-
+-
+
 ## Quellen
+
 ### Figma-Prototype File
-+ https://www.figma.com/design/riHdIMmHWzVG9sGFuLZN0s/TrackBud?node-id=273-325&t=sIjDBSLw7slylOxt-1
+
+- https://www.figma.com/design/riHdIMmHWzVG9sGFuLZN0s/TrackBud?node-id=273-325&t=sIjDBSLw7slylOxt-1
+
 ### Font-Familie
-+ https://fonts.google.com/specimen/Outfit?query=outfit
+
+- https://fonts.google.com/specimen/Outfit?query=outfit
+
 ### Icons
-+ https://iconify.design
+
+- https://iconify.design
+
 ### Kategorien
-+ https://br.pinterest.com/pin/962011170383210062/
-+ https://www.pinterest.de/pin/nail-polish-emoji--956592777086297752/
-+ https://www.pinterest.de/pin/fork-and-knife-with-plate-emoji--931048922951409663/
-+ https://in.pinterest.com/pin/oncoming-automobile-emoji--956592777086066993/
-+ https://www.pinterest.de/pin/house-emoji--752593787752689679/
-+ https://www.pinterest.de/pin/popcorn-emoji--371054456813807980/
-+ https://www.pinterest.de/pin/wrapped-gift-emoji--739223726359071927/
-+ https://www.pinterest.de/pin/card-file-box-emoji--742249582363035922/
-+ https://ca.pinterest.com/pin/money-bag-emoji--337207090845741968/
+
+- https://br.pinterest.com/pin/962011170383210062/
+- https://www.pinterest.de/pin/nail-polish-emoji--956592777086297752/
+- https://www.pinterest.de/pin/fork-and-knife-with-plate-emoji--931048922951409663/
+- https://in.pinterest.com/pin/oncoming-automobile-emoji--956592777086066993/
+- https://www.pinterest.de/pin/house-emoji--752593787752689679/
+- https://www.pinterest.de/pin/popcorn-emoji--371054456813807980/
+- https://www.pinterest.de/pin/wrapped-gift-emoji--739223726359071927/
+- https://www.pinterest.de/pin/card-file-box-emoji--742249582363035922/
+- https://ca.pinterest.com/pin/money-bag-emoji--337207090845741968/
+
 ### Packages
-+ https://pub.dev/packages/firebase_core
-+ https://pub.dev/packages/firebase_auth
-+ https://pub.dev/packages/cloud_firestore
-+ https://pub.dev/packages/google_sign_in
-+ https://pub.dev/packages/flutter_svg
-+ https://pub.dev/packages/simple_shadow
-+ https://pub.dev/packages/flutter_launcher_icons
-+ https://pub.dev/packages/fl_chart
-+ https://pub.dev/packages/dropdown_button2
-+ https://pub.dev/packages/connectivity_plus
-+ https://pub.dev/packages/uuid
-+ https://pub.dev/packages/sqflite
-+ https://pub.dev/packages/image_picker
-+ https://pub.dev/packages/firebase_storage
-+ https://pub.dev/packages/firebase_dynamic_links
-+ https://pub.dev/packages/percent_indicator
-+ https://pub.dev/packages/gap
-+ https://pub.dev/packages/intl
-+ https://pub.dev/packages/share_plus
-+ https://pub.dev/packages/email_validator
-+ https://pub.dev/packages/provider
-+ https://pub.dev/packages/flutter_image_compress
-+ https://pub.dev/packages/path
-+ https://pub.dev/packages/firebase_messaging
-+ https://pub.dev/packages/flutter_local_notifications
-+ https://pub.dev/packages/url_launcher
-+ https://pub.dev/packages/table_calendar
-+ https://pub.dev/packages/cached_network_image
-+ https://pub.dev/packages/flutter_icons
+
+- https://pub.dev/packages/firebase_core
+- https://pub.dev/packages/firebase_auth
+- https://pub.dev/packages/cloud_firestore
+- https://pub.dev/packages/google_sign_in
+- https://pub.dev/packages/flutter_svg
+- https://pub.dev/packages/simple_shadow
+- https://pub.dev/packages/flutter_launcher_icons
+- https://pub.dev/packages/fl_chart
+- https://pub.dev/packages/dropdown_button2
+- https://pub.dev/packages/connectivity_plus
+- https://pub.dev/packages/uuid
+- https://pub.dev/packages/sqflite
+- https://pub.dev/packages/image_picker
+- https://pub.dev/packages/firebase_storage
+- https://pub.dev/packages/firebase_dynamic_links
+- https://pub.dev/packages/percent_indicator
+- https://pub.dev/packages/gap
+- https://pub.dev/packages/intl
+- https://pub.dev/packages/share_plus
+- https://pub.dev/packages/email_validator
+- https://pub.dev/packages/provider
+- https://pub.dev/packages/flutter_image_compress
+- https://pub.dev/packages/path
+- https://pub.dev/packages/firebase_messaging
+- https://pub.dev/packages/flutter_local_notifications
+- https://pub.dev/packages/url_launcher
+- https://pub.dev/packages/table_calendar
+- https://pub.dev/packages/cached_network_image
+- https://pub.dev/packages/flutter_icons
