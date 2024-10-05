@@ -74,33 +74,47 @@ Dies ist die Auswahl der Gruppen wenn der Nutzer eine Gruppensplit hinzufügen w
 Hier landet der Nutzer nach einer Auswahl der Gruppe oder wenn der über den Gruppenscreen einen Split hinzufügen will. Die Eingabemöglichkeiten sind hier wieder ähnlich zum Freunde-Split. Jedoch kann der Nutzer hier natrülich aus allen Gruppenmigliedern den Zahlenden auswählen und danach alle Mitglieder die am Split beteiligt sind. Anders als beim Freundesplit gibt es hier bis jetzt leider nur den gleichmäßigen Split, welcher den Gesamtbetrag auf alle beteiligten gleichmäßig verteilt.
 
 ![Screenshot_20241003-212232](https://github.com/user-attachments/assets/6a89d673-9024-46de-ab3d-3c5be3d49df7)
-
-
 ![Screenshot_20241003-212236](https://github.com/user-attachments/assets/eaca3dd6-ade1-476e-a018-3907a125b7d3)
-
 ![Screenshot_20241003-212245](https://github.com/user-attachments/assets/068ecebc-2416-4ba6-9f36-d0f3ee42cc65)
+Hier sehen wir den Analysis Screen, welcher ganz oben den aktuellen Kontostand anzeigt. Darunter befindet sich ein Dropdown-Menü, mit welchem man zwischen Einnahmen und Ausgaben wechseln kann, und ein Tile, welches die bisherigen Einnahmen/Ausgaben. Mittig befindet sich ein DonutChart, welches die Ausgaben nach Kategorien gliedert, diese Kategorien werden in der Liste darunter noch einmal dargestellt und mit weiteren Informationen versehen. Durch den Klick auf eine Kategorie im Chart oder in der Liste wird der Transaktions Verlauf darunter nach der jeweiligen Kategorie durchsucht und nur Transaktionen der ausgewählten Kategorie angezeigt.
 
 ![Screenshot_20241003-212250](https://github.com/user-attachments/assets/3974837e-0b03-4294-b747-e54987944e57)
-
 ![Screenshot_20241003-212253](https://github.com/user-attachments/assets/b75c4699-7b03-45f4-9e7a-6f1ca757bed2)
+Dies ist die Ansicht wenn man auf eine Transatktion in der Liste drückt (Auch bei der Transaktionsliste auf dem Overview Screen). Hier werden noch einmal die Details der Transaktion hervorgehoben und die Notiz angezeigt. Zudem kann man mit einem Klick auf das 3 Punkte Menü oben links die Transaktion löschen oder bearbeiten.
 
 ![Screenshot_20241003-212257](https://github.com/user-attachments/assets/76815150-800a-4f46-b032-4c5e44bb7f90)
+Wenn der Nutzer auf bearbeiten klickt, landet er hier. Hier werden die Details der Transaktion angezeigt und können (bis auf den Typ: Einnahme/Ausgabe) verändert und abgespeichert werden. 
 
 ![Screenshot_20241003-212307](https://github.com/user-attachments/assets/8436ed9d-32f6-4c5d-9925-4a0ccfaa3e38)
+Hier sieht man den letzten Reiter im Nav-Menü, die Einstellungen. Hier sieht der Nutzer seinen Anzeige-Namen, seine E-Mail und sein Profilbild. Zudem kann er zu 3 Seiten weiter navigieren oder sich ausloggen.
 
 ![Screenshot_20241003-212311](https://github.com/user-attachments/assets/4fa5625b-3d3a-4fbe-af05-5ba7eeebb7ef)
+Wenn der Nutzer auf 'Profil bearbeiten' klickt, landet er hier. Hier kann er sein Pfofilbild ändern indem er auf das Bild klickt, oder seinen Anzeige Namen abändern. Zudem sieht man noch einmal die Account E-Mail, welche man auf diesem Bildschirm auch noch ändern sollte, wozu wir leider nicht mehr gekommen sind.
 
 ![Screenshot_20241003-212314](https://github.com/user-attachments/assets/4d49b459-5572-4d51-a4d6-07fb8394b9d7)
+Klickt der Nutzer auf 'Konto Anpassungen' so landet er hier. Hier soll man später das Erscheinungsbild ändern können, welches sich momentan nur automatisch ans Systemdesign anpasst. Zudem kann man hier weitergeleitet werden, um seinen Kontostand oder sein Budgetziel zu ändern.
 
 ![Screenshot_20241003-212317](https://github.com/user-attachments/assets/69171c98-bb10-4c5f-a1be-cc2ec0e533c2)
+Hier kann man seinen Kontostand anpassen, falls er nicht mehr mit dem angezeigten übereinstimmt und man keine Transaktion hinzufügen möchte, die im Verlauf auftaucht.
 
 ![Screenshot_20241003-212320](https://github.com/user-attachments/assets/dce80099-df12-4035-8fbb-f393e765d290)
+Hier kann man sein Budgetziel nach unten oder nach oben korrigieren, falls man mit dem aktuellen Ziel nicht mehr zufrieden ist. Dieses Ziel beeinflusst die ersten beiden Tiles auf dem Overview Screen.
 
 ![Screenshot_20241003-212324](https://github.com/user-attachments/assets/1372880b-37b0-4e76-bd5b-fa0fe7c12181)
+Hier erfährt der Nutzer mehr über die Entstehung unserer App und kann sich mit Feature-Wünschen oder Bugs per Mail an uns richten.
 
 ![Screenshot_20241003-212330](https://github.com/user-attachments/assets/210b0fb7-642f-4e4b-9ab9-88da2393d596)
+Das ist der Screen, der einen Nutzer bei der ersten Öffnung begrüßt, oder wenn sich der Nutzer ausgeloggt hat.
+Mit dem Klick auf den Button wird er zum Login Screen weitergeleitet.
 
 ![Screenshot_20241003-212334](https://github.com/user-attachments/assets/4a241978-3a66-44e9-aac8-0aec16ddaab4)
+Das ist der Login Screen. Hier meldet sich ein bereits registrierter Nutzer mit Email und Passwort an. Zudem kann man sich mit einem Google Account einloggen, oder zur Registrierungs Page wechseln, wenn man noch keinen Account hat.
+
 ![Screenshot_20241003-212338](https://github.com/user-attachments/assets/e2f012e9-8e78-4a8e-8d13-4034e45da6c6)
+Hier ist der Registrierungs Screen, wo Nutzer mit Name, Email und einem Passwort (2x angeben) einen neuen Account anlegen können, oder wieder zum Anmelde Screen zurückkehren können.
+
 ![Screenshot_20241003-212410](https://github.com/user-attachments/assets/f79119e9-ee01-45d7-898b-97d78b876b43)
+Nach erfolgreicher Registrierung landet der Nutzer hier, wo er einen Kontostand angeben muss, mit welchem die App in Zukunft arbeiten wird.
+
 ![Screenshot_20241003-212415](https://github.com/user-attachments/assets/69a23203-9264-441e-a35b-d260414ca71a)
+Nachdem der Kontostand angegeben wird, fehlt nur noch das gesetzte monatliche Limit, welches hier eingestellt werden kann, um dann endlich auf den Overview Screen weitergeleitet zu werden.
