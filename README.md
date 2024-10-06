@@ -190,17 +190,28 @@ Nachdem der Kontostand angegeben wird, fehlt nur noch das gesetzte monatliche Li
 
 ### Emilian
 
--
--
--
--
+- eigenes App Logo
+- komplettes UI Design + Prototyping (Figma File bei Quellen)
+- lib/utils, lib/views: verantwortlich am gesamten Frontend, sprich alles was der User in der App sieht und Benutzerinteraktion
+  - Alle Screens 
+  - Navigation Bar
+  - Alle Tiles und Widgets
+  - Dark Mode, alle Charts, Transaktion hinzufügen, Such-Funktion, Split-Methoden, Deaktivierte Buttons, Animationen, etc.
+
+- Video
 
 ### Laurenz
 
--
--
--
--
+- Projekt-Pitch Folie
+- Firebase Authentication (Email & Passwort Login)
+- Firestore Struktur
+- Firebase Storage für Profil- und Gruppenbilder
+- Dynamic Links um Freunde hinzuzufügen
+- Großteil in lib/models, lib/provider, lib/services
+- Funktionen und Logik in den Screens zum anbinden an das Backend
+  - Abspeichern der Transaktionen, Splits und Sonstigen Werte & Anzeigen dieser Daten in den Diagrammen, Verläufen und Profilbildern & Berechnung der Schulden-Verteilungen
+
+- Beschreibung der Screenshots
 
 ## Quellen
 
