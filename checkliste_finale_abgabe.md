@@ -71,7 +71,7 @@ Die folgende Checkliste soll euch dabei helfen, selbstständig zu überprüfen, 
 ## Git & GitHub
 
 - [x] Die finale Version der App befindet sich auf dem main-Branch im Repository
-- [ ] Die APK-Datei ist im Remote-Repository auf GitHub zu finden (bestenfalls im Parent-Ordner, dort wo auch die Readme Datei liegt) und spiegelt die finale Version des Codes wider
+- [x] Die APK-Datei ist im Remote-Repository auf GitHub zu finden (bestenfalls im Parent-Ordner, dort wo auch die Readme Datei liegt) und spiegelt die finale Version des Codes wider
 - [x] Auf dem main-Branch finden sich keine weiteren Testprojekte oder sonstiger Code, der nicht direkt zum Abschlussprojekt gehört
 - [x] Die Programmierarbeit aller Projektmitglieder wurde durch regelmäßige Commits mit aussagekräftigen Commit-Messages dokumentiert
 - [x] Features wurden stets auf eigenen Branches implementiert
@@ -80,13 +80,13 @@ Die folgende Checkliste soll euch dabei helfen, selbstständig zu überprüfen, 
 
 ## Projektdokumentation und Readme
 
-- [ ] Im Repository auf GitHub findet sich eine Readme-Datei (siehe Vorlesung 13, Folie 29f). Diese enthält:
+- [x] Im Repository auf GitHub findet sich eine Readme-Datei (siehe Vorlesung 13, Folie 29f). Diese enthält:
   - [x] Name der App
-  - [ ] Motivation
-  - [ ] Beschreibung der App
-  - [ ] Screenshots aller Screens in der App (Screenshots werden auch in der gerenderten Version der Datei auf GitHub korrekt angezeigt)
-  - [ ] Kurze Beschreibung jedes Screens
-  - [ ] Aufgabenverteilung im Team (Wer hat an welchen Features mitgearbeitet? Wer war für was haupt-/mitverantwortlich, …)
+  - [x] Motivation
+  - [x] Beschreibung der App
+  - [x] Screenshots aller Screens in der App (Screenshots werden auch in der gerenderten Version der Datei auf GitHub korrekt angezeigt)
+  - [x] Kurze Beschreibung jedes Screens
+  - [x] Aufgabenverteilung im Team (Wer hat an welchen Features mitgearbeitet? Wer war für was haupt-/mitverantwortlich, …)
   - [ ] Optional (da ich vergessen habe das in der Vorlesung zu erwähnen), aber sinnvoll:
     - [ ] Bei Nutzung von Diensten wie Firebase: Kurze Beschreibung, welche Features genutzt wurden, Überblick über die Struktur der Datenbank; Security Rules mit in der Readme Datei dokumentieren
     - [ ] Übersicht über verwendete APIs, Sensoren, Datenbanken, etc.
@@ -97,6 +97,6 @@ Die folgende Checkliste soll euch dabei helfen, selbstständig zu überprüfen, 
 
 Das Video soll Lust darauf machen, die App ausprobieren zu wollen. Qualität der Produktion, etc. fließen jedoch natürlich nicht in die Bewertung mit ein.
 
-- [ ] Im Repository auf GitHub findet sich ein kurzes Projektvideo (Richtwert ca. 1 - 3 Minuten) eurer App (siehe Vorlesung 13, Folie 32f)
-- [ ] Das Video präsentiert kurz alle Features und Screens der App
-- [ ] Das Video ist vertont mit Voiceover oder enthält Untertitel. Das Gezeigte wird dadurch anschaulich beschrieben
+- [x] Im Repository auf GitHub findet sich ein kurzes Projektvideo (Richtwert ca. 1 - 3 Minuten) eurer App (siehe Vorlesung 13, Folie 32f)
+- [x] Das Video präsentiert kurz alle Features und Screens der App
+- [x] Das Video ist vertont mit Voiceover oder enthält Untertitel. Das Gezeigte wird dadurch anschaulich beschrieben
