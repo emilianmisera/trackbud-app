@@ -215,6 +215,43 @@ Nachdem der Kontostand angegeben wird, fehlt nur noch das gesetzte monatliche Li
 
 ## Quellen
 
+### Firebase-Funktionen
+In Firebase nutzen wir folgende Funktionen für unsere App: 
+- Authentication, zur Erstellung und Verwaltung der Nutzer Accounts
+- Firestore Database, zur Verwaltung von Nutzern und deren Eingaben, Freunden und Gruppen
+- Storage, zur Speicherung und Abrufen der Profilbilder von Nutzern und Gruppen
+- Dynamic Links, zur Linkerstellung für Freundeseinladungen
+
+#### Firestore-Aufbau
+Folgende Struktur nutzen wir zum Abspeichern unserer Daten: 
+<div>
+Nutzerdaten: 
+<img width="401" alt="image" src="https://github.com/user-attachments/assets/6907eb51-e3ba-4148-ada7-e389536d6bd4" width="30%">
+</div>
+<hr style="width: 50%; margin: 20px auto;">
+<div>
+Transaktionsdaten:
+<img width="303" alt="image" src="https://github.com/user-attachments/assets/b46409b1-6171-444f-ac17-db34b9d38166" width="30%">
+</div>
+<hr style="width: 50%; margin: 20px auto;">
+<div>
+Gruppendaten:
+<img width="387" alt="image" src="https://github.com/user-attachments/assets/182b8bb5-8ab2-4054-b7a0-a38840a941ee" width="30%">
+</div>
+<hr style="width: 50%; margin: 20px auto;">
+<div>
+Freunde-Split-Daten:
+<img width="334" alt="image" src="https://github.com/user-attachments/assets/3555d1e4-f607-4c78-8aae-9275c57fe91c" width="30%">
+</div>
+<hr style="width: 50%; margin: 20px auto;">
+<div>
+Gruppen-Split-Daten:
+<img width="360" alt="image" src="https://github.com/user-attachments/assets/80c6b9d5-628f-4399-975b-793ede91ee23" width="30%">
+</div>
+<hr style="width: 50%; margin: 20px auto;">
+
+
+
 ### Figma-Prototype File
 
 - https://www.figma.com/design/riHdIMmHWzVG9sGFuLZN0s/TrackBud?node-id=273-325&t=sIjDBSLw7slylOxt-1
